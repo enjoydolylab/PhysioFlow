@@ -1,6 +1,6 @@
 # Runtime reliability follow-up — 2026-09-05
 
-Status: implemented in the working tree; not included in the published beta.3 installer. Version numbers and release tags have not changed.
+Status: fixes committed in c8e4057; a local 0.6.0-beta.4 Windows x64 NSIS candidate has been built. It is not published and is not included in the published beta.3 installer. See [candidate notes and manual acceptance checklist](../RELEASE_NOTES_beta.4.md).
 
 ## Corrected behavior
 
@@ -39,4 +39,4 @@ The setup preview is explicitly a nominal first pass in displayed node order. It
 - Multiple session files are not a single transaction. Windows replacement tests do not prove power-loss durability on every filesystem or network drive.
 - Native media pause/resume is controlled; YouTube uses iframe commands and still depends on the external player and its reported state. No hardware-verified playback synchronization is claimed.
 - Multiple connector support is implemented, but simultaneous physical devices, disconnect/reconnect races and long recordings need lab tests. Permission-dialog cancellation should also be included in operator testing.
-- No new installer, tag or GitHub Release was produced by this follow-up. The published beta.3 remains the audited build, not this repaired source.
+- A local beta.4 NSIS installer was built successfully; executable version is 0.6.0-beta.4 and the package is unsigned. No tag or GitHub Release was created. Installation/UI acceptance and real hardware tests remain pending; published beta.3 is unchanged.

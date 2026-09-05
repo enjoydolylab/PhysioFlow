@@ -15,7 +15,9 @@ The desktop app stores data directly in `~/Documents/PhysioFlow Data` (macOS) or
 
 > **Why the desktop app?** It handles file storage natively — no browser permissions needed. Data stays in a folder you control, ready to back up or move.
 
-## Unreleased runtime reliability fixes
+## v0.6.0-beta.4 — local research-test build (not published)
+
+A Windows x64 NSIS candidate has been built locally. See [candidate notes and the operator acceptance checklist](docs/RELEASE_NOTES_beta.4.md). Installed-app and physical-device acceptance tests remain pending.
 
 The current source includes additional fixes for consecutive questionnaires, Retry/Pause/Resume, stale callbacks, restored device sessions, final-save retry, shared-pool consumption and binary media verification. These fixes are **not included in the beta.3 download above**. See [the reliability follow-up](docs/refactor/RUNTIME_RELIABILITY_AUDIT_2026-09-05.md) for behavior, verification and remaining limits.
 

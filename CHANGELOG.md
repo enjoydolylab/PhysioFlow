@@ -2,7 +2,7 @@
 
 All notable changes to PhysioFlow are documented in this file.
 
-## [Unreleased] — 2026-09-05
+## [0.6.0-beta.4] — 2026-09-05 (local research-test build; not published)
 
 - Isolate participant state by node and attempt; reject stale callbacks and cancel response feedback on transition.
 - Preserve paused timer remainders, reset Retry timers, gate restored execution on media/device readiness, and save fixed-node timing checkpoints.
