@@ -1,5 +1,7 @@
 # Refactor Implementation Status
 
+> 2026-09-05: runtime audit fixes are implemented but unreleased. Current verification: 335 JavaScript tests (334 passed, 1 skipped), 2 Rust tests, lint/build and expanded browser scenarios. Published beta.3 does not contain these fixes. See [the follow-up report](RUNTIME_RELIABILITY_AUDIT_2026-09-05.md). The dated beta.3 statement below is historical.
+
 The planned MVP refactor phases 0–6 are implemented on the `demo` branch.
 
 > 2026-09-04 · **v0.6.0-beta.3 已发布**（research-test；`demo`、tag 与 GitHub prerelease 同步，包含 NSIS、SHA256SUMS 与日语发布说明）。当前 `npm test` = **332 项合计 / 331 通过 / 1 跳过**（win32 symlink 助手）、lint 0 警告、build、Rust 测试与浏览器 E2E 通过。

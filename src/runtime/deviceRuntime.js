@@ -25,7 +25,7 @@ export function createDeviceSampler({ session, channels, sampleRateHz = 10, onEr
   let running = false;
   const tick = async () => {
     const started = performance.now();
-    await Promise.all(channels.map(channel => session.read(channel.id).catch(error => onError?.(channel.id, error))));
+    await Promise.all(channels.map(channel => session.read(channel.id).catch(error => { running = false; onError?.(channel.id, error); })));
     if (!running) return;
     const elapsed = performance.now() - started;
     timer = setTimeout(tick, Math.max(0, periodMs - elapsed));

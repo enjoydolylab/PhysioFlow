@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { verifyRuntimeScenarios } from './browser-runtime-scenarios.mjs';
 import { spawn } from 'node:child_process';
 import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { createServer } from 'node:http';
@@ -128,6 +129,7 @@ try {
   const session = [...service.sessions.values()][0];
   assert.equal(session.status, 'completed');
   assert.ok(session.eventCount >= 4);
+  await verifyRuntimeScenarios(evaluate, waitFor, clickText);
   console.log(JSON.stringify({ status: 'passed', publicParticipantEntry: true, bootstrapVerified: true, refreshRecovery: true, hostedRuntimeSync: true }, null, 2));
 } finally {
   socket.close();

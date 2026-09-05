@@ -36,7 +36,9 @@ export function stimulusPoolOf(node, protocol) {
  *
  * @param protocol          frozen/draft protocol graph
  * @param randomSeed        session seed (protocolId:version:sessionId)
- * @param priorPresentations per-node count of already-completed forward presentations.
+ * @param priorPresentations Array of completed/skipped node IDs for global pool
+ *   consumption. Passing a count object retains the legacy stride policy for old
+ *   checkpoints and nominal editor previews. New runtime runs pass an array.
  *   A node's draw is keyed to its *presentation ordinal* (prior + 1), NOT to raw entry
  *   attempts: an operator retry re-presents the same un-completed occurrence (prior
  *   count unchanged) so it keeps the same stimulus, while a loop re-entry follows a
@@ -57,9 +59,12 @@ export function resolveStimulusAssignments(protocol, randomSeed, priorPresentati
   const assignments = new Map();
   for (const [group, entries] of groups) {
     const assetIds = shuffle(entries[0].pool.assetIds, `${randomSeed}:${group}`);
+    const history = Array.isArray(priorPresentations) ? priorPresentations : null;
+    const memberIds = new Set(entries.map(entry => entry.node.id));
+    const consumed = history ? history.filter(id => memberIds.has(id)).length : null;
     entries.forEach(({ node }, index) => {
-      const ordinal = (Number(priorPresentations[node.id] || 0)) + 1;
-      const drawIndex = index + (ordinal - 1) * entries.length;
+      const ordinal = history ? history.filter(id => id === node.id).length + 1 : (Number(priorPresentations[node.id] || 0)) + 1;
+      const drawIndex = consumed ?? index + (ordinal - 1) * entries.length;
       const assetId = assetIds[drawIndex % assetIds.length];
       const asset = assets.get(assetId);
       if (!asset) return;

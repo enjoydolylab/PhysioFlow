@@ -29,7 +29,7 @@ import { buildGraphBidsBundle, buildGraphSessionFiles } from './data/index.js';
 import { downloadBundle } from './exporter.js';
 import { createProjectComponentRegistry } from './sdk/index.js';
 import { HostedRuntimeSync } from './hosted/index.js';
-import { graphProtocolAssetReferences, loadAsset } from './assetStore.js';
+import { graphProtocolAssetReferences, loadAsset, verifyAssetContent } from './assetStore.js';
 
 function runtimeServices() {
   return {
@@ -68,7 +68,8 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   const [deviceStatus, setDeviceStatus] = useState(null);
   const deviceSessionRef = useRef(null);
   const samplerRef = useRef(null);
-  const [started, setStarted] = useState(Boolean(data.restore?.runtime?.status && data.restore.runtime.status !== 'ready'));
+  const connectionsRef = useRef([]);
+  const [started, setStarted] = useState(Boolean(data.restore?.runtime?.status && data.restore.runtime.status !== 'ready' && !protocol.graph.nodes.some(node => node.config?.deviceConnectorId)));
   const [starting, setStarting] = useState(false);
   const [startError, setStartError] = useState('');
   const [saved, setSaved] = useState(false);
@@ -81,30 +82,34 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   if (data.hosted && !hostedSyncRef.current) hostedSyncRef.current = new HostedRuntimeSync(data.hosted);
   const [hostedStatus, setHostedStatus] = useState(() => hostedSyncRef.current?.status() || null);
   const finishing = useRef(false);
+  const [saveAttempt, setSaveAttempt] = useState(0);
+  const durationRef = useRef(data.restore?.recovery_timing || { key: null, remaining: 0 });
+  const [checkpointTick, setCheckpointTick] = useState(0);
+  const captureTiming = () => ({ key: durationRef.current.key, remaining: Math.max(0, durationRef.current.remaining - (durationRef.current.runningAt == null ? 0 : performance.now() - durationRef.current.runningAt)) });
   const runtimeRef = useRef(initialState);
   const nodeEnteredAt = useRef(performance.now());
+  const nodePausedAt = useRef(null);
   const nodes = useMemo(() => new Map(protocol.graph.nodes.map(node => [node.id, node])), [protocol]);
   const currentNode = runtime.currentNodeId ? nodes.get(runtime.currentNodeId) : null;
-  // A node's draw is keyed to how many of its occurrences already completed (a retry does
-  // not complete the node, so it re-presents the same stimulus; a loop re-entry follows a
-  // completion and advances to the next item).
-  const priorPresentations = useMemo(() => {
-    const counts = {};
-    for (const nodeId of runtime.completedNodeIds || []) counts[nodeId] = (counts[nodeId] || 0) + 1;
-    return counts;
-  }, [runtime.completedNodeIds]);
-  const stimulusAssignments = useMemo(() => resolveStimulusAssignments(protocol, runtime.randomSeed, priorPresentations), [protocol, runtime.randomSeed, priorPresentations]);
+  const attemptKey = `${runtime.currentNodeId}:${runtime.attempts?.[runtime.currentNodeId] || 0}`;
+  // Completed/skipped presentations consume a draw; Retry retains it. Preserve the
+  // previous policy for checkpoints created before this execution-history policy.
+  const legacyStimulusOrder = Boolean(data.restore && data.restore.stimulus_assignment_policy !== 'global-completion-v1');
+  const stimulusAssignments = useMemo(() => {
+    const history = legacyStimulusOrder ? (runtime.completedNodeIds || []).reduce((counts, id) => ({ ...counts, [id]: (counts[id] || 0) + 1 }), {}) : [...runtime.completedNodeIds, ...runtime.skippedNodeIds];
+    return resolveStimulusAssignments(protocol, runtime.randomSeed, history);
+  }, [protocol, runtime.randomSeed, runtime.completedNodeIds, runtime.skippedNodeIds, legacyStimulusOrder]);
   const currentStimulusAssignment = currentNode ? stimulusAssignments.get(currentNode.id) : null;
   const presentedNode = currentNode ? withStimulusAssignment(currentNode, currentStimulusAssignment) : null;
   const currentDefinition = currentNode ? registry.get(currentNode.component.type, currentNode.component.version) : null;
   const currentPermissions = currentNode ? packagePermissions(protocol, currentNode) : null;
   const executableCount = protocol.graph.nodes.filter(node => registry.get(node.component.type, node.component.version)?.runtime?.kind === 'participant').length;
   const progress = { current: runtime.completedNodeIds.length, total: executableCount, percent: executableCount ? Math.round((runtime.completedNodeIds.length / executableCount) * 100) : 100 };
-  const exportFiles = runtime.status === 'completed' ? { ...buildGraphSessionFiles({ ...data.session, status: 'completed', runtime_snapshot: runtime, events, responses, device_events: deviceEventsRef.current }, protocol, events, responses), ...buildGraphBidsBundle({ ...data.session, status: 'completed' }, protocol, events, responses) } : null;
+  const exportFiles = ['completed', 'failed'].includes(runtime.status) ? { ...buildGraphSessionFiles({ ...data.session, status: runtime.status, runtime_snapshot: runtime, events, responses, device_events: deviceEventsRef.current }, protocol, events, responses), ...buildGraphBidsBundle({ ...data.session, status: runtime.status }, protocol, events, responses) } : null;
   const participantResources = data.hosted?.resources || localResources;
   const assignmentLoggedRef = useRef(new Set((data.restore?.events || []).filter(event => event.eventType === 'stimulus_assigned').map(event => `${event.nodeId}:${event.payload?.attempt || 1}`)));
   const deviceNode = protocol.graph?.nodes?.find(node => node.config?.deviceConnectorId);
-  const deviceRequired = Boolean(deviceNode && deviceNode.config?.deviceRequired !== false);
+  const deviceRequired = protocol.graph.nodes.some(node => node.config?.deviceConnectorId && node.config.deviceRequired !== false);
 
   const apply = result => {
     runtimeRef.current = result.state;
@@ -116,8 +121,16 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
     if (starting || resourceLoad.status !== 'ready') return;
     setStarting(true);
     setStartError('');
+    for (const connection of connectionsRef.current) { connection.sampler?.stop(); await connection.session.disconnect('reconnect').catch(() => {}); }
+    connectionsRef.current = [];
+    const deviceNodes = protocol.graph.nodes.filter(node => node.config?.deviceConnectorId);
+    const uniqueDevices = [...new Map(deviceNodes.map(node => [`${node.config.deviceConnectorId}:${node.config.deviceConnectorVersion || ''}`, node])).values()];
+    let required = deviceRequired;
     try {
-      if (deviceNode) {
+      for (const deviceNode of uniqueDevices) {
+        required = deviceNodes.some(node => node.config.deviceConnectorId === deviceNode.config.deviceConnectorId && node.config.deviceRequired !== false);
+        const connectionRequired = required;
+        try {
         const resolved = resolveDeviceConnector(protocol, deviceNode);
         const adapter = resolved ? createDeviceAdapter(resolved.connector) : null;
         if (!resolved?.connector) throw new Error(`Device connector ${deviceNode.config.deviceConnectorId} is unavailable`);
@@ -134,29 +147,39 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
           session: deviceSessionRef.current,
           channels: resolved.connector.channels.filter(channel => channel.direction === 'input'),
           sampleRateHz: maxInputSampleRateHz(resolved.connector),
-          onError: error => setDeviceStatus({ connected: false, error: `Sampling stopped: ${error.message || String(error)}` }),
+          onError: (channelId, error) => {
+            setDeviceStatus({ connected: false, error: `${channelId}: ${error.message || String(error)}` });
+            if (connectionRequired && runtimeRef.current.status === 'waiting') apply(pauseRuntime(runtimeRef.current, protocol, services.current, 'Required device sampling failed'));
+          },
         });
+        connectionsRef.current.push({ session: deviceSessionRef.current, sampler: samplerRef.current });
         samplerRef.current.start();
         setDeviceStatus({ connected: true });
+        } catch (error) {
+          if (required) throw error;
+          setDeviceStatus({ connected: false, error: `${deviceNode.config.deviceConnectorId}: ${error.message || String(error)}` });
+        }
       }
     } catch (error) {
       const message = error.message || String(error);
       setDeviceStatus({ connected: false, error: message });
-      if (deviceRequired) {
+      if (required) {
+        for (const connection of connectionsRef.current) { connection.sampler.stop(); await connection.session.disconnect('preflight failed').catch(() => {}); }
+        connectionsRef.current = [];
         setStartError(`Required device is not ready: ${message}`);
         setStarting(false);
         return;
       }
     }
     setStarted(true);
-    apply(startRuntime(runtimeRef.current, protocol, registry, services.current));
+    if (runtimeRef.current.status === 'ready') apply(startRuntime(runtimeRef.current, protocol, registry, services.current));
     setStarting(false);
   };
 
   const complete = result => {
     const activeRuntime = runtimeRef.current;
     const activeNode = activeRuntime.currentNodeId ? nodes.get(activeRuntime.currentNodeId) : null;
-    if (!activeNode || activeRuntime.status !== 'waiting') return;
+    if (!activeNode || activeRuntime.status !== 'waiting' || `${activeRuntime.currentNodeId}:${activeRuntime.attempts?.[activeRuntime.currentNodeId] || 0}` !== attemptKey || !started || resourceLoad.status !== 'ready') return;
     const values = result?.values || {};
     const rows = Object.entries(values).map(([name, value]) => ({
       responseId: `response_${crypto.randomUUID()}`,
@@ -184,11 +207,13 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
       if (declared.has('last_response')) performanceValues.last_response = rows[0].value;
     }
     const requestedVariables = { ...(result?.variables || values), ...performanceValues };
-    const completed = completeCurrentNode(submitted.state, protocol, registry, services.current, { outputs: result?.outputs || values, variables: currentPermissions && !currentPermissions.has('session.variables.write') ? {} : requestedVariables });
+    const completed = completeCurrentNode(submitted.state, protocol, registry, services.current, { outputs: result?.outputs || values, metadata: result?.metadata || {}, variables: currentPermissions && !currentPermissions.has('session.variables.write') ? {} : requestedVariables });
     apply({ state: completed.state, events: [...submitted.events, ...completed.events] });
   };
 
   const record = (eventType, payload) => {
+    const active = runtimeRef.current;
+    if (!started || resourceLoad.status !== 'ready' || active.status !== 'waiting' || `${active.currentNodeId}:${active.attempts?.[active.currentNodeId] || 0}` !== attemptKey) return;
     if (currentPermissions && eventType === 'ui_action' && !currentPermissions.has('events.emit')) return;
     apply(recordRuntimeEvent(runtimeRef.current, protocol, services.current, eventType, { payload }));
   };
@@ -201,8 +226,13 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   }, [events, runtime]);
 
   useEffect(() => {
-    if (currentNode?.id) nodeEnteredAt.current = performance.now();
-  }, [currentNode?.id]);
+    if (currentNode?.id && started && resourceLoad.status === 'ready') { nodeEnteredAt.current = performance.now(); nodePausedAt.current = null; }
+  }, [currentNode?.id, attemptKey, started, resourceLoad.status]);
+
+  useEffect(() => {
+    if (runtime.status === 'paused') nodePausedAt.current = performance.now();
+    else if (nodePausedAt.current != null) { nodeEnteredAt.current += performance.now() - nodePausedAt.current; nodePausedAt.current = null; }
+  }, [runtime.status]);
 
   useEffect(() => {
     if (data.hosted) { setResourceLoad({ status: 'ready', error: '' }); return undefined; }
@@ -217,7 +247,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
       const assetId = reference.asset_id;
       const stored = await loadAsset(assetId);
       if (!stored?.file) throw new Error(`Missing local asset ${asset.name || assetId}`);
-      if (asset.checksum && stored.checksum && asset.checksum !== stored.checksum) throw new Error(`Checksum mismatch for ${asset.name || assetId}`);
+      if (!(await verifyAssetContent(stored, asset.checksum || asset.hash))) throw new Error(`Checksum mismatch for ${asset.name || assetId}`);
       const url = URL.createObjectURL(stored.file);
       objectUrls.push(url);
       return { assetId, nodeId: null, name: asset.name || stored.name || assetId, mediaType: asset.mediaType || stored.type?.split('/')[0] || null, checksum: asset.checksum || stored.checksum || null, status: 'ready', delivery: { url } };
@@ -239,10 +269,13 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
 
   useEffect(() => {
     if (!started || !['completed', 'failed'].includes(runtime.status)) return undefined;
-    samplerRef.current?.stop();
-    deviceSessionRef.current?.disconnect('session end').catch(() => {});
+    for (const connection of connectionsRef.current) { connection.sampler.stop(); connection.session.disconnect('session end').catch(() => {}); }
     return undefined;
   }, [runtime.status, started]);
+
+  useEffect(() => () => {
+    for (const connection of connectionsRef.current) { connection.sampler.stop(); connection.session.disconnect('runner closed').catch(() => {}); }
+  }, []);
 
   useEffect(() => {
     if (!started || runtime.status !== 'waiting') return undefined;
@@ -253,23 +286,32 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   }, [runtime.status, started]);
 
   useEffect(() => {
-    if (!started || !currentNode || runtime.status !== 'waiting') return undefined;
+    if (!started || resourceLoad.status !== 'ready' || !currentNode || runtime.status !== 'waiting') return undefined;
     const duration = currentDefinition?.runtime?.completion === 'durationMs'
       ? currentNode.config?.durationMs
       : currentNode.config?.completion?.mode === 'fixed' ? currentNode.config.completion.durationMs : null;
     if (duration === null || duration === undefined) return undefined;
-    const timer = setTimeout(() => complete({}), Math.max(0, Number(duration)));
-    return () => clearTimeout(timer);
-  }, [currentNode?.id, runtime.status, started]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (durationRef.current.key !== attemptKey) durationRef.current = { key: attemptKey, remaining: Math.max(0, Number(duration)) };
+    const clockStart = performance.now();
+    durationRef.current.runningAt = clockStart;
+    const timer = setTimeout(() => complete({}), durationRef.current.remaining);
+    return () => { clearTimeout(timer); durationRef.current.remaining = Math.max(0, durationRef.current.remaining - (performance.now() - clockStart)); durationRef.current.runningAt = null; };
+  }, [attemptKey, runtime.status, started, resourceLoad.status]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!started || resourceLoad.status !== 'ready' || ['completed', 'failed'].includes(runtime.status)) return;
-    const snapshot = { session: data.session, protocol, runtime: snapshotRuntime(runtime), events, responses, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 };
+    const snapshot = structuredClone({ session: data.session, protocol, runtime: snapshotRuntime(runtime), stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1', recovery_timing: captureTiming(), events, responses, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 });
     setRecoverySave({ status: 'saving', error: '' });
     const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot));
     saveQueueRef.current = queued;
     queued.then(() => setRecoverySave({ status: 'saved', error: '' })).catch(error => setRecoverySave({ status: 'error', error: error.message || String(error) }));
-  }, [data.session, events, protocol, responses, resourceLoad.status, runtime, started]);
+  }, [data.session, events, protocol, responses, resourceLoad.status, runtime, started, checkpointTick, legacyStimulusOrder]);
+
+  useEffect(() => {
+    if (!started || ['completed', 'failed'].includes(runtime.status)) return undefined;
+    const timer = setInterval(() => setCheckpointTick(value => value + 1), 2000);
+    return () => clearInterval(timer);
+  }, [started, runtime.status]);
 
   useEffect(() => {
     if (!started || !hostedSyncRef.current) return;
@@ -277,7 +319,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   }, [started, syncHosted]);
 
   useEffect(() => {
-    if (runtime.status !== 'completed' || finishing.current) return;
+    if (!['completed', 'failed'].includes(runtime.status) || finishing.current) return;
     finishing.current = true;
     const finished = {
       ...data.session,
@@ -285,7 +327,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
       protocol_version: protocolVersionOf(protocol),
       protocol_name: protocolNameOf(protocol),
       run_mode: protocolStatusOf(protocol) === 'frozen' ? 'formal' : 'preview',
-      status: 'completed',
+      status: runtime.status,
       ended_at: new Date().toISOString(),
       event_count: events.length,
       protocol_snapshot: protocol,
@@ -294,9 +336,10 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
       responses,
       device_events: deviceEventsRef.current,
       data_contract_version: '2.0.0-alpha.1',
+      stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1',
     };
     saveQueueRef.current.catch(() => {}).then(() => saveSession(finished)).then(() => clearCurrentRun()).then(() => setSaved(true)).catch(error => setSaved(error.message || 'Save failed'));
-  }, [data.session, events, protocol, responses, runtime]);
+  }, [data.session, events, protocol, responses, runtime, saveAttempt, legacyStimulusOrder]);
 
   if (resourceLoad.status !== 'ready') return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">MEDIA PREFLIGHT</span><h1>{resourceLoad.status === 'loading' ? 'Preparing media…' : 'Media needs attention'}</h1><p>{resourceLoad.error || 'Loading referenced local files and checking their integrity.'}</p>{resourceLoad.status === 'error' && <button onClick={onDone}>Return to protocol</button>}</div></main>;
   if (!started) return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">RUNTIME V2 READY</span><h1>{protocolNameOf(protocol)}</h1><p>{data.session.participant_id} · {executableCount} participant components</p>{deviceNode && <p>{deviceRequired ? 'A device connection is required before this run can start.' : 'Device connection is optional for this run.'}</p>}{startError && <div className="setup-note error" role="alert">{startError}</div>}<button className="primary" disabled={starting} onClick={begin}>{starting ? 'Connecting…' : startError ? 'Retry device and begin' : 'Begin experiment'}</button></div></main>;
@@ -304,21 +347,22 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
     const hostedReady = !hostedSyncRef.current || hostedStatus?.completed;
     const deviceSampleCount = deviceEventsRef.current.length;
     return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">SESSION COMPLETE</span><h1>Thank you</h1><p>{events.length} events · {responses.length} responses · {deviceSampleCount} device samples · {Object.keys(exportFiles).length} export files</p><p>{saved === true ? 'Saved locally.' : typeof saved === 'string' ? saved : 'Saving…'}</p>{deviceStatus?.connected && <p>Device connected · {deviceSampleCount} samples collected</p>}{hostedSyncRef.current && <p>{hostedStatus?.completed ? `Hosted sync complete · revision ${hostedStatus.revision}` : hostedStatus?.error ? `Hosted sync failed: ${hostedStatus.error}` : 'Syncing hosted session…'}</p>}{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>Retry hosted sync</button>}
-      <button className="primary" onClick={() => downloadBundle(exportFiles, data.session.participant_id)}>Export complete data package</button><button disabled={saved !== true || !hostedReady} onClick={onDone}>Return to projects</button></div></main>;
+      <button className="primary" onClick={() => downloadBundle(exportFiles, data.session.participant_id)}>Export complete data package</button>{typeof saved === 'string' && <button onClick={() => { finishing.current = false; setSaved(false); setSaveAttempt(value => value + 1); }}>Retry local save</button>}<button disabled={saved !== true || !hostedReady} onClick={onDone}>Return to projects</button></div></main>;
   }
-  if (runtime.status === 'failed') return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">RUNTIME FAILED</span><h1>Experiment stopped</h1><p>{runtime.error}</p>{hostedSyncRef.current && <p>{hostedStatus?.completed ? `Hosted failure recorded · revision ${hostedStatus.revision}` : hostedStatus?.error ? `Hosted sync failed: ${hostedStatus.error}` : 'Recording hosted failure…'}</p>}{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>Retry hosted sync</button>}<button disabled={Boolean(hostedSyncRef.current && !hostedStatus?.completed)} onClick={onDone}>Return to projects</button></div></main>;
+  if (runtime.status === 'failed') return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">RUNTIME FAILED</span><h1>Experiment stopped</h1><p>{runtime.error}</p><p>{saved === true ? 'Saved locally.' : typeof saved === 'string' ? saved : 'Saving…'}</p><button onClick={() => downloadBundle(exportFiles, data.session.participant_id)}>Export failure data</button>{typeof saved === 'string' && <button onClick={() => { finishing.current = false; setSaved(false); setSaveAttempt(value => value + 1); }}>Retry local save</button>}{hostedSyncRef.current && <p>{hostedStatus?.completed ? `Hosted failure recorded · revision ${hostedStatus.revision}` : hostedStatus?.error ? `Hosted sync failed: ${hostedStatus.error}` : 'Recording hosted failure…'}</p>}{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>Retry hosted sync</button>}<button disabled={saved !== true || Boolean(hostedSyncRef.current && !hostedStatus?.completed)} onClick={onDone}>Return to projects</button></div></main>;
   if (!currentNode) return null;
 
   return <main className="graph-runner">
     <div className="graph-operator" role="toolbar"><div><b>{protocolNameOf(protocol)}</b><span>{currentNode.label} · {currentNode.component.type}</span>{deviceStatus && <span>{deviceStatus.connected ? `Device connected · ${deviceStatus.sampleCount || 0} samples` : `Device warning · ${deviceStatus.error}`}</span>}{recoverySave.status === 'error' && <span role="alert">Recovery save failed · {recoverySave.error}</span>}</div><div>{progress.current}/{progress.total} completed</div><div>
-      {recoverySave.status === 'error' && <button onClick={() => { const snapshot = { session: data.session, protocol, runtime: snapshotRuntime(runtimeRef.current), events, responses, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 }; setRecoverySave({ status: 'saving', error: '' }); const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot)); saveQueueRef.current = queued; queued.then(() => setRecoverySave({ status: 'saved', error: '' })).catch(error => setRecoverySave({ status: 'error', error: error.message || String(error) })); }}>Retry save</button>}
+      {recoverySave.status === 'error' && <button onClick={() => { const snapshot = { session: data.session, protocol, runtime: snapshotRuntime(runtimeRef.current), recovery_timing: captureTiming(), stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1', events, responses, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 }; setRecoverySave({ status: 'saving', error: '' }); const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot)); saveQueueRef.current = queued; queued.then(() => setRecoverySave({ status: 'saved', error: '' })).catch(error => setRecoverySave({ status: 'error', error: error.message || String(error) })); }}>Retry save</button>}
       <button className={inspectorOpen ? 'active' : ''} onClick={() => setInspectorOpen(open => !open)} title="Live variables, outputs and flow state">⌄ Inspect</button>
-      <button onClick={() => apply(runtime.status === 'paused' ? resumeRuntime(runtimeRef.current, protocol, services.current) : pauseRuntime(runtimeRef.current, protocol, services.current))}>{runtime.status === 'paused' ? 'Resume' : 'Pause'}</button>
+      {deviceStatus?.error && <button disabled={starting} onClick={begin}>Reconnect devices</button>}
+      <button disabled={runtime.status === 'paused' && deviceRequired && deviceStatus?.connected !== true} onClick={() => apply(runtime.status === 'paused' ? resumeRuntime(runtimeRef.current, protocol, services.current) : pauseRuntime(runtimeRef.current, protocol, services.current))}>{runtime.status === 'paused' ? 'Resume' : 'Pause'}</button>
       <button disabled={runtime.status !== 'waiting'} onClick={() => apply(retryCurrentNode(runtimeRef.current, protocol, services.current, 'operator retry'))}>Retry</button>
       <button disabled={runtime.status !== 'waiting'} onClick={() => apply(skipCurrentNode(runtimeRef.current, protocol, registry, services.current, 'operator skip'))}>Skip</button>
     </div></div>
     {inspectorOpen && <RuntimeInspector runtime={runtime} protocol={protocol} nodes={nodes} />}
-    <section className="graph-participant" aria-label="Participant view">
+    <section key={attemptKey} inert={runtime.status === 'paused'} className="graph-participant" aria-label="Participant view">
       {runtime.status === 'paused' && <div className="pause-overlay">Paused</div>}
       {currentNode.component.type === 'stimulus.attention-check'
         ? <AttentionCheckRunner config={currentNode.config} language={data.session.participant_language || 'en'} disabled={runtime.status === 'paused'} onSubmit={complete} />
@@ -329,7 +373,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
         : currentNode.component.type === 'experiment.cognitive-task'
         ? <CognitiveTaskRunner config={currentNode.config} disabled={runtime.status === 'paused'} onSubmit={complete} onTrialEvent={(eventType, payload) => record(eventType, payload)} />
         : currentNode.component.type === 'input.questionnaire' && currentNode.config?.questionnaire?.questions?.length
-        ? <QuestionnaireForm questionnaire={currentNode.config.questionnaire} language={data.session.participant_language || 'en'} randomSeed={runtime.randomSeed} onSubmit={(answers, metadata) => {
+        ? <QuestionnaireForm questionnaire={currentNode.config.questionnaire} language={data.session.participant_language || 'en'} randomSeed={runtime.randomSeed} disabled={runtime.status === 'paused'} onSubmit={(answers, metadata) => {
             const scoreValues = metadata?.score?.total > 0 ? {
               questionnaire_score_correct: metadata.score.correct,
               questionnaire_score_total: metadata.score.total,

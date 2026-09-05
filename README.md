@@ -15,6 +15,10 @@ The desktop app stores data directly in `~/Documents/PhysioFlow Data` (macOS) or
 
 > **Why the desktop app?** It handles file storage natively — no browser permissions needed. Data stays in a folder you control, ready to back up or move.
 
+## Unreleased runtime reliability fixes
+
+The current source includes additional fixes for consecutive questionnaires, Retry/Pause/Resume, stale callbacks, restored device sessions, final-save retry, shared-pool consumption and binary media verification. These fixes are **not included in the beta.3 download above**. See [the reliability follow-up](docs/refactor/RUNTIME_RELIABILITY_AUDIT_2026-09-05.md) for behavior, verification and remaining limits.
+
 ## What's new in v0.6.0-beta.3
 
 - **Pre-run media gate**: referenced local media and checksums are verified before a Graph session can start; missing files now produce an actionable error instead of a blank stimulus.
@@ -140,7 +144,7 @@ npm run desktop:dev  # Tauri hot-reload
 npm run desktop:build  # → src-tauri/target/release/bundle/
 
 # Tests & lint
-npm test             # 332 total (331 passed, 1 skipped on Windows: symlink helper)
+npm test             # 335 total (334 passed, 1 skipped on Windows: symlink helper)
 npm run lint         # ESLint
 npm run quality:release  # build + lint + all tests and browser gates
 ```

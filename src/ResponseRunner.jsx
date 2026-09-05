@@ -23,6 +23,13 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
   const [feedback, setFeedback] = useState(null); // { ok, value, key, rt } while feedback is shown
   const startAt = useRef(performance.now());
   const resolved = useRef(false);
+  const feedbackRemaining = useRef(1000);
+  const pausedAt = useRef(null);
+  const timeoutRemaining = useRef(null);
+  useEffect(() => {
+    if (disabled) pausedAt.current = performance.now();
+    else if (pausedAt.current != null) { startAt.current += performance.now() - pausedAt.current; pausedAt.current = null; }
+  }, [disabled]);
   const msg = value => value?.[language] || value?.en || value?.zh || '';
 
   const prompt = config.prompt || 'Respond when you see the target';
@@ -66,7 +73,7 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
   };
 
   const commitKey = key => {
-    if (resolved.current || disabled) return;
+    if (resolved.current || disabled || feedback || pressed) return;
     const rt = Math.max(0, Math.round(performance.now() - startAt.current));
     const option = optionFor(key);
     const value = option ? option.value : key;
@@ -74,7 +81,6 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
     const ok = correctValue ? String(value) === correctValue : null;
     if (feedbackMode !== 'none' && !(feedbackMode === 'correct_incorrect' && ok == null)) {
       setFeedback({ ok, value, key, rt });
-      window.setTimeout(() => submit(outcome), 1000);
     } else if (autoAdvance) {
       submit(outcome);
     } else {
@@ -83,9 +89,14 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
   };
 
   useEffect(() => {
+    if (!feedback || disabled) return undefined;
+    const since = performance.now();
+    const timer = setTimeout(() => submit(feedback), feedbackRemaining.current);
+    return () => { clearTimeout(timer); feedbackRemaining.current = Math.max(0, feedbackRemaining.current - (performance.now() - since)); };
+  }, [feedback, disabled]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     if (disabled) return undefined;
-    startAt.current = performance.now();
-    resolved.current = false;
     const keydown = event => {
       if (event.repeat || resolved.current) return;
       const key = normalizeKey(event);
@@ -99,11 +110,13 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
 
   useEffect(() => {
     if (disabled || timeoutMs <= 0) return undefined;
+    if (timeoutRemaining.current == null) timeoutRemaining.current = timeoutMs;
+    const since = performance.now();
     const timer = setTimeout(() => {
       if (resolved.current) return;
       submit({ key: null, value: null, rt: null, timedOut: true });
-    }, timeoutMs);
-    return () => clearTimeout(timer);
+    }, timeoutRemaining.current);
+    return () => { clearTimeout(timer); timeoutRemaining.current = Math.max(0, timeoutRemaining.current - (performance.now() - since)); };
   }, [disabled, timeoutMs]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (feedback) {

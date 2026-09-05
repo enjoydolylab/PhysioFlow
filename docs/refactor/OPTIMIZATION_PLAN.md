@@ -1,5 +1,7 @@
 # PhysioFlow 后续优化计划书（2026-09 更新）
 
+> 2026-09-05 更新：运行时审计修复已在源码实现，尚未发布。当前 335 项 JS 测试（334 通过、1 跳过），2 项 Rust 测试通过。详见 [运行时修复与验证报告](RUNTIME_RELIABILITY_AUDIT_2026-09-05.md)。下方 beta.3 状态快照保留为历史记录；§9 的刺激池 stride 限制已在新会话修复，旧快照恢复仍保留原语义。
+
 > 适用范围：排除「正式可用性研究（真人被试）」之外的工程化与产品化优化。
 > 目标分支：`demo` · 关联文档：`IMPLEMENTATION_STATUS.md`、`COMPOSER_V2_GAP_ANALYSIS.md`、`RELEASE_CHECKLIST.md`
 

@@ -2,6 +2,18 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createDeviceSampler, maxInputSampleRateHz, resolveDeviceConnector } from '../src/runtime/index.js';
 
+test('sampling failure reports channel and exception and stops further reads', async () => {
+  let reads = 0;
+  const error = new Error('Disconnected');
+  const failures = [];
+  const sampler = createDeviceSampler({ session: { read: async () => { reads++; throw error; } }, channels: [{ id: 'eeg' }], onError: (...args) => failures.push(args) });
+  sampler.start();
+  await new Promise(resolve => setTimeout(resolve, 20));
+  assert.equal(sampler.isRunning(), false);
+  assert.deepEqual(failures, [['eeg', error]]);
+  assert.equal(reads, 1);
+});
+
 test('resolveDeviceConnector finds an installed connector by node config', () => {
   const protocol = { deviceConnectors: [{ connectorId: 'org.example.sim', version: '1.0.0' }] };
   const node = { config: { deviceConnectorId: 'org.example.sim' } };

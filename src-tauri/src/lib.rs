@@ -82,15 +82,21 @@ fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), String> {
     }
     #[cfg(target_os = "windows")]
     {
-        let backup = path.with_file_name(format!(".{name}.{}.{}.bak", std::process::id(), sequence));
-        let had_original = path.exists();
-        if had_original { fs::rename(path, &backup).map_err(|err| { let _ = fs::remove_file(&temporary); err.to_string() })?; }
-        if let Err(error) = fs::rename(&temporary, path) {
-            if had_original { let _ = fs::rename(&backup, path); }
+        use std::os::windows::ffi::OsStrExt;
+        #[link(name = "kernel32")]
+        extern "system" {
+            fn MoveFileExW(existing: *const u16, destination: *const u16, flags: u32) -> i32;
+        }
+        let source: Vec<u16> = temporary.as_os_str().encode_wide().chain(Some(0)).collect();
+        let destination: Vec<u16> = path.as_os_str().encode_wide().chain(Some(0)).collect();
+        // Same-directory replacement: keep the old destination in place until the
+        // OS replaces it. Both null-terminated buffers live for the whole call.
+        let result = unsafe { MoveFileExW(source.as_ptr(), destination.as_ptr(), 0x1 | 0x8) };
+        if result == 0 {
+            let error = std::io::Error::last_os_error();
             let _ = fs::remove_file(&temporary);
             return Err(error.to_string());
         }
-        if had_original { let _ = fs::remove_file(backup); }
     }
     Ok(())
 }
@@ -241,6 +247,19 @@ mod tests {
         atomic_write(&path, b"first complete value").unwrap();
         atomic_write(&path, b"replacement").unwrap();
         assert_eq!(fs::read(&path).unwrap(), b"replacement");
+        fs::remove_file(path).unwrap();
+    }
+
+    #[cfg(target_os = "windows")]
+    #[test]
+    fn replacement_failure_preserves_original_file() {
+        use std::os::windows::fs::OpenOptionsExt;
+        let path = std::env::temp_dir().join(format!("physioflow-locked-write-{}.txt", std::process::id()));
+        atomic_write(&path, b"original").unwrap();
+        let lock = fs::OpenOptions::new().read(true).share_mode(1).open(&path).unwrap();
+        assert!(atomic_write(&path, b"new data").is_err());
+        assert_eq!(fs::read(&path).unwrap(), b"original");
+        drop(lock);
         fs::remove_file(path).unwrap();
     }
 }

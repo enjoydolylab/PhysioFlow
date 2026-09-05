@@ -106,6 +106,13 @@ export function graphProtocolAssetReferences(protocol) {
   });
 }
 
+export async function verifyAssetContent(asset, expectedChecksum) {
+  if (!expectedChecksum) return true;
+  const digest = await crypto.subtle.digest('SHA-256', await asset.file.arrayBuffer());
+  const checksum = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  return checksum === expectedChecksum.toLowerCase();
+}
+
 export async function verifyGraphProtocolAssets(protocol, loader = loadAsset) {
   const issues = [];
   for (const reference of graphProtocolAssetReferences(protocol)) {
@@ -120,7 +127,7 @@ export async function verifyGraphProtocolAssets(protocol, loader = loadAsset) {
         issues.push({ asset_id: reference.asset_id, type: 'missing', message: `Missing local asset ${reference.file_name || reference.asset_id}` });
         continue;
       }
-      if (reference.checksum && asset.checksum && asset.checksum !== reference.checksum) {
+      if (reference.checksum && ((asset.checksum && asset.checksum !== reference.checksum) || !(await verifyAssetContent(asset, reference.checksum)))) {
         issues.push({ asset_id: reference.asset_id, type: 'checksum_mismatch', message: `Checksum mismatch for ${reference.file_name || reference.asset_id}` });
       }
     } catch (err) {

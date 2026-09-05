@@ -14,6 +14,12 @@ export default function CognitiveTaskRunner({ config, disabled = false, onSubmit
   const resultsRef = useRef([]);
   const stimulusStartedAt = useRef(0);
   const resolved = useRef(false);
+  const phaseTiming = useRef({ key: null, remaining: 0 });
+  const pausedAt = useRef(null);
+  useEffect(() => {
+    if (disabled) pausedAt.current = performance.now();
+    else if (pausedAt.current != null) { stimulusStartedAt.current += performance.now() - pausedAt.current; pausedAt.current = null; }
+  }, [disabled]);
   const trial = trials[index] || null;
   const kind = config?.taskKind;
 
@@ -66,25 +72,29 @@ export default function CognitiveTaskRunner({ config, disabled = false, onSubmit
 
   useEffect(() => {
     if (!trial || disabled) return undefined;
+    const schedule = (callback, duration) => {
+      const key = `${index}:${phase}`;
+      if (phaseTiming.current.key !== key) phaseTiming.current = { key, remaining: duration };
+      const since = performance.now();
+      const timer = setTimeout(callback, phaseTiming.current.remaining);
+      return () => { clearTimeout(timer); phaseTiming.current.remaining = Math.max(0, phaseTiming.current.remaining - (performance.now() - since)); };
+    };
     if (phase === 'fixation') {
-      const timer = setTimeout(() => {
+      return schedule(() => {
         resolved.current = false;
         stimulusStartedAt.current = performance.now();
         onTrialEvent?.('trial_started', { trialId: trial.trialId, trialIndex: index, taskKind: kind, trialType: trial.trialType, congruent: trial.congruent });
         setPhase('stimulus');
       }, Math.max(0, Number(trial.fixationMs || 0)));
-      return () => clearTimeout(timer);
     }
     if (phase === 'stimulus') {
-      const timer = setTimeout(() => resolveTrial(null), Math.max(1, Number(trial.responseWindowMs || 1000)));
-      return () => clearTimeout(timer);
+      return schedule(() => resolveTrial(null), Math.max(1, Number(trial.responseWindowMs || 1000)));
     }
     if (phase === 'iti') {
-      const timer = setTimeout(() => {
+      return schedule(() => {
         if (index >= trials.length - 1) finishTask(resultsRef.current);
         else { setIndex(value => value + 1); setPhase('fixation'); }
       }, Math.max(0, Number(trial.itiMs || 0)));
-      return () => clearTimeout(timer);
     }
     return undefined;
   }, [disabled, index, phase]); // eslint-disable-line react-hooks/exhaustive-deps

@@ -2,6 +2,16 @@
 
 All notable changes to PhysioFlow are documented in this file.
 
+## [Unreleased] — 2026-09-05
+
+- Isolate participant state by node and attempt; reject stale callbacks and cancel response feedback on transition.
+- Preserve paused timer remainders, reset Retry timers, gate restored execution on media/device readiness, and save fixed-node timing checkpoints.
+- Stop failed samplers, handle channel/error callback arguments correctly, attempt all referenced devices, and expose reconnect controls.
+- Save failed runs and allow retrying final local saves.
+- Consume shared stimulus pools globally for new runs; preserve legacy policy when restoring older checkpoints. Setup preview is labelled nominal.
+- Recompute binary media hashes and replace Windows files without first removing the destination.
+- Add browser failure scenarios, focused regression tests and a [verification/limitations report](docs/refactor/RUNTIME_RELIABILITY_AUDIT_2026-09-05.md).
+
 ## [0.6.0-beta.3] — 2026-09-04
 
 ### Added

@@ -59,7 +59,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     }
     if (element.type === 'Media') {
       const source = boundProp(element, 'sourceUrl', context) || '';
-      return <ParticipantMedia key={element.id} source={source} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={props.autoPlay} alt={props.alt || ''} fit={props.fit || 'contain'} style={positioned} onMediaEvent={(eventType, payload) => onMediaEvent?.(eventType, { elementId: element.id, ...payload })} />;
+      return <ParticipantMedia key={element.id} source={source} disabled={disabled} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={props.autoPlay} alt={props.alt || ''} fit={props.fit || 'contain'} style={positioned} onMediaEvent={(eventType, payload) => onMediaEvent?.(eventType, { elementId: element.id, ...payload })} />;
     }
     if (element.type === 'Progress') {
       const value = Number(boundProp(element, 'value', context) ?? 0), max = Number(boundProp(element, 'max', context) ?? 100);

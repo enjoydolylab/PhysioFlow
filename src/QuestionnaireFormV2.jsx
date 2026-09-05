@@ -14,7 +14,7 @@ const TIME = { en: 'Time left', zh: '剩余时间', ja: '残り時間' };
 
 function isMissing(value) { return value === undefined || value === '' || (Array.isArray(value) && value.length === 0); }
 
-export default function QuestionnaireFormV2({ questionnaire, language = 'en', randomSeed = '', onSubmit }) {
+export default function QuestionnaireFormV2({ questionnaire, language = 'en', randomSeed = '', disabled = false, onSubmit }) {
   const questions = useMemo(() => questionnaire?.questions || [], [questionnaire?.questions]);
   const [answers, setAnswers] = useState({});
   const [current, setCurrent] = useState(0);
@@ -23,6 +23,7 @@ export default function QuestionnaireFormV2({ questionnaire, language = 'en', ra
   const [timedOut, setTimedOut] = useState([]);
   const [remaining, setRemaining] = useState(null);
   const deadlineRef = useRef(null);
+  const remainingRef = useRef({ id: null, ms: 0 });
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; }, [answers]);
   const msg = value => value?.[language] || value?.en || value?.zh || '';
@@ -56,6 +57,7 @@ export default function QuestionnaireFormV2({ questionnaire, language = 'en', ra
   };
 
   const finish = (nextAnswers = answersRef.current, timeoutIds = timedOut) => {
+    if (disabled) return;
     const visibleIds = new Set(ordered.map(question => question.question_id));
     const submittedAnswers = Object.fromEntries(Object.entries(nextAnswers).filter(([id]) => visibleIds.has(id)));
     const score = questionnaireScore(questionnaire, submittedAnswers);
@@ -83,10 +85,12 @@ export default function QuestionnaireFormV2({ questionnaire, language = 'en', ra
   };
 
   useEffect(() => {
+    if (disabled || submitted) return undefined;
     const limit = Number(currentQ?.time_limit_sec || 0);
     if (!limit) { deadlineRef.current = null; setRemaining(null); return undefined; }
-    deadlineRef.current = performance.now() + limit * 1000;
-    setRemaining(limit);
+    if (remainingRef.current.id !== currentQ.question_id) remainingRef.current = { id: currentQ.question_id, ms: limit * 1000 };
+    deadlineRef.current = performance.now() + remainingRef.current.ms;
+    setRemaining(remainingRef.current.ms / 1000);
     const timer = setInterval(() => {
       const left = Math.max(0, (deadlineRef.current - performance.now()) / 1000);
       setRemaining(left);
@@ -98,8 +102,8 @@ export default function QuestionnaireFormV2({ questionnaire, language = 'en', ra
       if (current >= ordered.length - 1) finish(answersRef.current, nextTimeouts);
       else setCurrent(index => index + 1);
     }, 100);
-    return () => clearInterval(timer);
-  }, [currentQ?.question_id]); // eslint-disable-line react-hooks/exhaustive-deps
+    return () => { clearInterval(timer); remainingRef.current.ms = Math.max(0, deadlineRef.current - performance.now()); };
+  }, [currentQ?.question_id, disabled, submitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const options = question => {
     const values = question.options_i18n?.[language] || question.options_i18n?.en || question.options_i18n?.zh || [];

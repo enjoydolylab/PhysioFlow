@@ -31,6 +31,20 @@ function fixture() {
   return protocol;
 }
 
+test('execution history consumes the complete pool with uneven sibling visits and stable retries', () => {
+  const protocol = fixture();
+  const history = [];
+  const seen = [];
+  for (const id of ['slot-1', 'slot-1', 'slot-2']) {
+    const first = resolveStimulusAssignments(protocol, 'session', history).get(id);
+    assert.deepEqual(resolveStimulusAssignments(protocol, 'session', history).get(id), first);
+    seen.push(first.assetId);
+    history.push(id);
+  }
+  assert.equal(new Set(seen).size, 3);
+  assert.equal(resolveStimulusAssignments(protocol, 'session', history).get('slot-3').assetId, seen[0]);
+});
+
 test('stimulus pools keep fixed slots and assign assets reproducibly without replacement', () => {
   const protocol = fixture();
   const first = resolveStimulusAssignments(protocol, 'session-seed');
