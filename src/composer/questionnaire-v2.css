@@ -242,6 +242,27 @@
 .node-editor-fullscreen .participant-ui-builder { flex: 1; overflow: auto; padding: 18px; border: 0; margin: 0; }
 .node-editor-fullscreen .ui-canvas-layout { min-height: calc(100vh - 120px); min-height: calc(100dvh - 120px); grid-template-columns: 180px minmax(0, 1fr) 280px; }
 .node-editor-fullscreen .ui-canvas-wrap { min-height: 420px; }
+
+/* Adapt to the editor's available space, including a narrow Inspector on a wide monitor. */
+.composer-v2 { display: flex; flex-direction: column; padding: 0; max-width: none; }
+.composer-v2 > .composer-header { flex: 0 0 auto; flex-direction: row; height: auto; min-height: 64px; flex-wrap: wrap; padding-block: 8px; box-sizing: border-box; }
+.composer-v2 > .composer-layout { flex: 1; min-height: 0; height: auto; }
+.composer-v2 .composer-header .header-tools { flex-wrap: wrap; min-width: 0; }
+@media (max-width: 1200px) {
+  .composer-v2 .composer-header .header-tools { flex-basis: 100%; margin-left: 0; }
+}
+.participant-ui-builder { container-type: inline-size; min-width: 0; }
+.ui-canvas-layout > * { min-width: 0; }
+@container (max-width: 760px) {
+  .ui-canvas-layout, .node-editor-fullscreen .ui-canvas-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(320px, auto) auto;
+  }
+  .ui-element-library, .ui-inspector,
+  .node-editor-fullscreen .ui-element-library, .node-editor-fullscreen .ui-inspector { max-height: 220px; overflow: auto; }
+  .ui-builder-toolbar { align-items: flex-start; }
+  .ui-device-switch { flex-wrap: wrap; }
+}
 .node-editor-preview { flex: 1; overflow: auto; padding: 40px; background: #eef1f5; display: grid; place-items: center; }
 
 .cognitive-generate { display: flex; flex-direction: column; gap: 5px; }

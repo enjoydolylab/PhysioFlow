@@ -78,9 +78,12 @@ const STROOP_COLORS = [
 export function generateStroopTrials({ trials = 16, seed = 1, jitter = 0, fixationMs = 500, responseWindowMs = 2000 } = {}) {
   const count = Math.max(4, Math.round(Number(trials) / 4) * 4);
   const generated = Array.from({ length: count }, (_, index) => {
-    const ink = STROOP_COLORS[index % STROOP_COLORS.length];
-    const congruent = index % 2 === 0;
-    const word = congruent ? ink : STROOP_COLORS[(index + 1 + Math.floor(index / 4)) % STROOP_COLORS.length];
+    const colorIndex = index % STROOP_COLORS.length;
+    const occurrence = Math.floor(index / STROOP_COLORS.length);
+    const ink = STROOP_COLORS[colorIndex];
+    // Balance congruent/incongruent trials independently for each ink color.
+    const congruent = (occurrence + colorIndex) % 2 === 0;
+    const word = congruent ? ink : STROOP_COLORS[(colorIndex + 1 + (occurrence % (STROOP_COLORS.length - 1))) % STROOP_COLORS.length];
     return {
       trialId: `stroop_${String(index + 1).padStart(3, '0')}`, word: word.name.toUpperCase(), ink: ink.name, inkColor: ink.color,
       expectedKey: ink.key, congruent, fixationMs, responseWindowMs,
@@ -88,7 +91,9 @@ export function generateStroopTrials({ trials = 16, seed = 1, jitter = 0, fixati
     };
   });
   const order = createBlockOrder({ items: generated.map(trial => trial.trialId), rule: 'random', seed: Number(seed), noImmediateRepeat: true }).order;
-  return constrainRuns(order.map(id => generated.find(trial => trial.trialId === id)), trial => trial.ink, 2);
+  // The order already randomizes unique trial IDs. Do not post-swap trials by ink:
+  // that can exchange congruent and incongruent trials while leaving the label stale.
+  return order.map(id => generated.find(trial => trial.trialId === id));
 }
 
 export function generateGonogoTrials({ trials = 40, goRatio = 70, seed = 1, jitter = 0, fixationMs = 500, responseWindowMs = 1000 } = {}) {

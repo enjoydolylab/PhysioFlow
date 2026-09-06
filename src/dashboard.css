@@ -433,6 +433,11 @@
 .dark-mode .empty { color: var(--muted); }
 
 /* ── Responsive ── */
+@media (max-width: 980px) {
+  .dashboard > header { height: auto; flex-wrap: wrap; gap: 12px; padding-block: 12px; }
+  .dashboard > header .header-tools { min-width: 0; flex-wrap: wrap; }
+}
+
 @media (max-width: 700px) {
   .dashboard-hero { display: block; padding-top: 12px; }
   .dashboard-actions { margin-top: 25px; }

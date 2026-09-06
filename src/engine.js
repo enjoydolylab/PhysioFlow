@@ -1,4 +1,5 @@
 import { compileTrialFlow } from './flowEngine.js';
+import { constrainedOrder } from './core/sequenceConstraints.js';
 
 export function resolveTrials(trials, rule = 'fixed', n = 0, manualOrder = [], constraints = {}) {
   const a = [...trials];
@@ -30,46 +31,7 @@ export function resolveTrials(trials, rule = 'fixed', n = 0, manualOrder = [], c
     // Simple shuffle if no constraints
     if (!noRepeat && !maxConsec) return shuffle(a);
 
-    // Constrained randomization: no immediate repeat of same condition,
-    // and/or max consecutive trials with the same condition
-    const ordered = [];
-    const remaining = [...a];
-
-    while (remaining.length > 0) {
-      if (remaining.length === 1) {
-        ordered.push(...remaining);
-        remaining.length = 0;
-        break;
-      }
-
-      let candidates = [...remaining];
-
-      // Filter out trials that would create an immediate repeat
-      if (noRepeat && ordered.length > 0) {
-        const lastCondition = ordered[ordered.length - 1].condition;
-        candidates = candidates.filter(t => t.condition !== lastCondition);
-      }
-
-      // Filter out trials that would exceed max consecutive same condition
-      if (maxConsec > 0 && ordered.length >= maxConsec) {
-        const recent = ordered.slice(-maxConsec);
-        const allSame = recent.every(t => t.condition === recent[0].condition);
-        if (allSame) {
-          candidates = candidates.filter(t => t.condition !== recent[0].condition);
-        }
-      }
-
-      // Fallback: if constraints eliminated all candidates, relax them
-      if (candidates.length === 0) {
-        candidates = [...remaining];
-      }
-
-      const pick = candidates[nextRandom() % candidates.length];
-      ordered.push(pick);
-      remaining.splice(remaining.indexOf(pick), 1);
-    }
-
-    return ordered;
+    return constrainedOrder(a, trial => trial.condition, noRepeat ? 1 : Math.max(1, Math.floor(maxConsec)), nextRandom);
   }
 
   if (rule === 'manual' && manualOrder.length) {

@@ -30,6 +30,15 @@ test('emotion template counterbalances five conditions with recovery and unique 
   assert.ok(validateProtocolGraphConfiguration(protocol, registry).errors.some(error => error.code === 'config.media_source_missing'));
 });
 
+test('Stroop labels match actual stimuli and both congruencies occur for every ink', () => {
+  const trials = generateStroopTrials({trials: 40, seed: 7});
+  for (const trial of trials) assert.equal(trial.congruent, trial.word.toLowerCase() === trial.ink);
+  for (const ink of new Set(trials.map(t=>t.ink))) {
+    const group = trials.filter(t=>t.ink===ink);
+    assert.ok(Math.abs(group.filter(t=>t.congruent).length - group.length / 2) <= 0.5);
+  }
+});
+
 test('stroop generator is deterministic, balanced, jittered, and encodes actual color-word trials', () => {
   const first = generateStroopTrials({ trials: 20, seed: 7, jitter: 250 });
   const second = generateStroopTrials({ trials: 20, seed: 7, jitter: 250 });

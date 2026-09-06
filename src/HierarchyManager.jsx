@@ -34,7 +34,7 @@ export default function HierarchyManager({ protocol, onChange, onClose, onSelect
     <div className="resource-library-backdrop">
       <section className="resource-library hierarchy-manager">
         <header><div><span>EXPERIMENT STRUCTURE</span><h2>Blocks and Trials</h2></div><button onClick={onClose}>Close</button></header>
-        <p>Arrange the experiment hierarchy here. The visual canvas remains responsible for the event flow inside each Trial.</p>
+        <p>Arrange Blocks in execution order. Order rules reorder Trials inside each Block; Trial repeats run consecutively. Latin square uses cyclic rows selected at session setup, not automatic participant allocation.</p>
         <div className="hierarchy-list">
           {protocol.blocks.map((block, blockIndex) => (
             <article key={block.block_id}>

@@ -1,5 +1,6 @@
 import { createLinearFlow, normalizeFlow, validateFlow } from './flowEngine.js';
 import { APP_VERSION, STEP_TYPES, ROLES, MEDIA_TYPES, STEP_DEFAULTS } from './constants.js';
+import { canCompleteSequence } from './core/sequenceConstraints.js';
 
 export { STEP_TYPES, ROLES };
 export const uid=p=>{const uuid=(()=>{try{if(crypto?.randomUUID)return crypto.randomUUID()}catch{}const a='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';return a.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:r&0x3|0x8).toString(16)})})();return`${p}_${uuid}`};
@@ -24,14 +25,18 @@ export function validateProtocol(p){
     const blockPath=`Block ${bi+1}`;add(b.block_id,blockPath);
     if(!b.name?.trim())errors.push(`${blockPath}: «Block name» is required — enter a name for this block`);
     if(!['fixed','random','latin_square','manual'].includes(b.order_rule))errors.push(`${blockPath}: invalid order rule`);
-    if(!Number.isFinite(Number(b.repeat_count))||Number(b.repeat_count)<1)errors.push(`${blockPath}: «Repeat» must be at least 1`);
-    if(b.no_immediate_repeat&&b.order_rule==='random'&&b.trials?.length<3)warnings.push(`${blockPath}: «No immediate repeat» is on but only ${b.trials?.length||0} trial(s) exist — need at least 3 for effective shuffling`);
-    if(Number(b.max_consecutive_same)>0&&b.order_rule==='random'&&b.trials?.length<4)warnings.push(`${blockPath}: «Max consecutive same» constraint needs at least 4 trials with multiple conditions`);
+    if(!Number.isInteger(Number(b.repeat_count))||Number(b.repeat_count)<1)errors.push(`${blockPath}: «Repeat» must be an integer of at least 1`);
+    if(b.order_rule==='random' && (b.no_immediate_repeat || Number(b.max_consecutive_same)>0)) {
+      const limit = b.no_immediate_repeat ? 1 : Math.floor(Number(b.max_consecutive_same));
+      if(!canCompleteSequence((b.trials||[]).map(t=>t.condition), limit)) errors.push(`${blockPath}: impossible consecutive-condition constraint — change condition counts or relax the limit`);
+      if((b.trials||[]).some(t=>Number(t.repeat_count)>1)) errors.push(`${blockPath}: constrained ordering requires Trial Repeat = 1; duplicate Trials instead so each occurrence can be ordered`);
+    }
+    if(b.order_rule==='random'&&(b.no_immediate_repeat||Number(b.max_consecutive_same)>0))warnings.push(`${blockPath}: condition constraints apply within each Block pass, not across Block boundaries`);
     if(!b.trials?.length)errors.push(`${blockPath} has no Trials — click "+ Add trial"`);
     b.trials?.forEach((t,ti)=>{
       const trialPath=`${blockPath} / Trial ${ti+1}`;add(t.trial_id,trialPath);
       if(!t.name?.trim())errors.push(`${trialPath}: «Trial name» is required`);
-      if(!Number.isFinite(Number(t.repeat_count))||Number(t.repeat_count)<1)errors.push(`${trialPath}: «Repeat» must be at least 1`);
+      if(!Number.isInteger(Number(t.repeat_count))||Number(t.repeat_count)<1)errors.push(`${trialPath}: «Repeat» must be an integer of at least 1`);
       const itiJitter = Number(t.iti_jitter_ms ?? 0);
       if(!Number.isFinite(itiJitter)||itiJitter<0)errors.push(`${trialPath}: «ITI jitter» must be a non-negative number`);
       if(!['uniform','normal','exponential','fixed'].includes(t.iti_jitter_distribution||'fixed'))errors.push(`${trialPath}: «Jitter distribution» must be uniform, normal, exponential, or fixed`);

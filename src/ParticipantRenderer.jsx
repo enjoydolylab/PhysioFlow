@@ -49,9 +49,14 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     const style = resolveUiStyle(element, theme, context);
     // Free-layout positioning: elements carrying x/y coordinates are absolutely
     // positioned inside a container that opted into free layout.
-    const positioned = (props.x != null && props.y != null) ? { position: 'absolute', left: props.x, top: props.y } : {};
-    if (element.type === 'Screen') return <div key={element.id} className="participant-ui-screen" style={{ ...style, ...(props.free ? { position: 'relative', minHeight: 'min(78vh, 620px)' } : {}) }}>{element.children.map(render)}</div>;
-    if (element.type === 'Layout') return <div key={element.id} className={`participant-ui-layout ${props.direction || 'column'}`} style={{ ...style, gap: style.gap ?? 16, ...(props.free ? { position: 'relative', minHeight: 'min(78vh, 620px)' } : {}) }}>{element.children.map(render)}</div>;
+    const positioned = {
+      ...((props.x != null && props.y != null) ? { position: 'absolute', left: props.x, top: props.y } : {}),
+      ...(Number.isFinite(props.width) && props.width > 0 ? { width: props.width, minWidth: 0, boxSizing: 'border-box' } : {}),
+      ...(Number.isFinite(props.height) && props.height > 0 ? { height: props.height, minHeight: 0, boxSizing: 'border-box' } : {}),
+    };
+    const freeLayout = props.free ? { position: 'relative', minHeight: 'min(78vh, 620px)', overflow: 'auto' } : {};
+    if (element.type === 'Screen') return <div key={element.id} className="participant-ui-screen" style={{ ...style, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
+    if (element.type === 'Layout') return <div key={element.id} className={`participant-ui-layout ${props.direction || 'column'}`} style={{ ...style, gap: style.gap ?? 16, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
     if (element.type === 'Text') {
       const text = boundProp(element, 'text', context) ?? '';
       const className = props.pulse ? 'participant-pulse' : undefined;
@@ -68,7 +73,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     if (element.type === 'Html') {
       const html = boundProp(element, 'html', context) || '';
       if (!html) return <div key={element.id} className="participant-ui-html missing" style={positioned}>No HTML content</div>;
-      return <iframe key={element.id} className="participant-ui-html" title="Custom HTML" srcDoc={html} style={positioned} sandbox="" />;
+      return <iframe key={element.id} className="participant-ui-html" title="Custom HTML" srcDoc={html} style={{ ...style, ...positioned }} sandbox="" />;
     }
     if (element.type === 'Divider') {
       const orientation = props.orientation || 'horizontal';

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { layoutAcceptance, pageControlsAcceptance } from './browser-layout-acceptance.mjs';
 import { spawn } from 'node:child_process';
 import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -172,6 +173,36 @@ try {
   await waitFor(`document.body.textContent.includes('Exported') && document.body.textContent.includes('collaboration operation')`, 'collaboration change-set export');
 
   console.log(JSON.stringify({ status: 'passed', composer: 'v2', nodes: 5, reusableSubflow: true, controlHandler: 'core.value-switch@1.0.0', collaborationChangeSet: true, portableDeployment: true, hostedService: true, hostedSandboxLifecycle: true, hostedPublicLaunch: true, participantBootstrap: true, hostedRuntimeSync: true, sdkComponent: 'example.reaction-button@1.0.0', deviceConnector: 'org.physioflow.simulated-sensor@1.0.0' }, null, 2));
+  await clickText('Code');
+  await waitFor(`!!document.querySelector('[aria-label="Protocol JSON"]')`, 'full JSON editor');
+  const originalJson = await evaluate(`document.querySelector('[aria-label="Protocol JSON"]').value`);
+  await field('Protocol JSON', '{');
+  await clickText('Apply changes');
+  await waitFor(`!!document.querySelector('.composer-code-error')`, 'invalid JSON rejected');
+  await field('Protocol JSON', originalJson);
+  await clickText('Apply changes');
+  await waitFor(`document.querySelector('.composer-code-error')?.textContent.includes('Required')`, 'semantic graph errors rejected');
+  const changedProtocol = await evaluate(`import('/src/core/index.js').then(core => core.createProtocolGraph({name:'JSON acceptance'}))`);
+  changedProtocol.metadata.name = 'JSON round-trip acceptance';
+  await field('Protocol JSON', JSON.stringify(changedProtocol));
+  await clickText('Apply changes');
+  await waitFor(`document.querySelector('[aria-label="Protocol name"]')?.value === 'JSON round-trip acceptance'`, 'valid JSON applied');
+  await clickText('Code');
+  assert.equal(JSON.parse(await evaluate(`document.querySelector('[aria-label="Protocol JSON"]').value`)).metadata.name, 'JSON round-trip acceptance');
+  await clickText('Close');
+  await layoutAcceptance({ send, evaluate, waitFor });
+  await clickText('Save');
+  await waitFor(`!document.querySelector('.unsaved-dot')`, 'JSON protocol saved');
+  await clickText('Projects');
+  await waitFor(`!!document.querySelector('.dashboard')`, 'dashboard acceptance');
+  await pageControlsAcceptance({send,evaluate},'.dashboard header button','Dashboard primary controls');
+  await clickText('Manage sessions');
+  await waitFor(`!!document.querySelector('.session-manager')`, 'session manager acceptance');
+  await pageControlsAcceptance({send,evaluate},'.session-manager-head button','Session manager primary controls');
+  await clickText('Close');
+  await clickText('Analytics');
+  await waitFor(`!!document.querySelector('.analytics-dashboard')`, 'analytics acceptance');
+  await pageControlsAcceptance({send,evaluate},'.analytics-dashboard header button','Analytics primary controls');
 } finally {
   socket.close();
   await cleanup();

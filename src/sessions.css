@@ -34,10 +34,10 @@
 @keyframes manager-in { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: none; } }
 
 .session-manager-head {
-  height: 70px; background: linear-gradient(135deg, var(--green-900), #0d4631);
+  min-height: 70px; height: auto; flex: 0 0 auto; flex-wrap: wrap; gap: 10px; background: linear-gradient(135deg, var(--green-900), #0d4631);
   color: #fff;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 22px;
+  padding: 10px 22px;
   box-shadow: 0 4px 18px #0c2f211f;
   position: relative;
   z-index: 2;

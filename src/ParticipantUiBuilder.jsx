@@ -61,7 +61,8 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
       <ThemeEditor schema={normalized} theme={theme} onChange={commit} />
     </div>
 
-    {preview ? <ParticipantPreview schema={normalized} />
+    {elements.some(item => item.element.props?.free) && <p className="ui-layout-notice" role="note">Free layout uses fixed pixel positions. Check Preview at the participant's actual window size; overflowing content scrolls and is not automatically scaled. Use a non-free Layout for responsive flow.</p>}
+    {preview ? <ParticipantPreview schema={normalized} width={deviceWidth} />
       : <div className="ui-canvas-layout">
         <div className="ui-element-library">
           <b className="ui-library-title">Elements</b>
