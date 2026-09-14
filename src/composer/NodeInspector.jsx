@@ -1,7 +1,7 @@
+import ResponseOptionsEditor from './ResponseOptionsEditor.jsx';
+import TrialGenerator from './TrialGenerator.jsx';
 import { useRef, useState } from 'react';
 import {
-  generateGonogoTrials,
-  generateStroopTrials,
   mapUiElement,
 } from '../core/index.js';
 import { parseResponseOptions, serializeResponseOptions } from '../core/responseOptions.js';
@@ -92,6 +92,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
   }
 
   const renderField = field => {
+    if (node.component.type === 'input.response' && field.path === 'options') return <ResponseOptionsEditor key={field.path} value={node.config.options} onChange={options => onUpdate({ config: { ...node.config, options } })} />;
     if (field.showWhen && getPath(node.config, field.showWhen.path) !== field.showWhen.equals) return null;
     // Type-aware Expected value for conditions: follow the bound input variable's type
     // (protocol variable or upstream node output).
@@ -142,11 +143,12 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
     <label>{t('Label')}<input value={node.label} onChange={event => onUpdate({ label: event.target.value })} /></label>
     <small>{node.component.type}@{node.component.version}</small>
     {emptyHint && <div className="node-empty-hint">▶ {emptyHint}</div>}
+    {node.component.type === 'logic.loop' && <div className="node-empty-hint"><b>{node.bindings?.until ? 'Conditional repetition' : 'Fixed repetition'}</b><p>{node.bindings?.until ? 'The condition can end repetition early. Maximum iterations is the upper limit.' : `The body runs ${node.config.maxIterations || 1} time(s) in total, including the first pass, then follows Exit.`}</p><small>Body starts the repeated sequence. Its last step returns to this Loop. Exit continues after repetition.</small></div>}
     {node.config?.ui && !['core.start', 'core.end', 'input.questionnaire', 'timing.wait'].includes(node.component.type) && <><div className="node-inline-preview"><ParticipantRenderer key={node.id} schema={schemaForNode(node, definition, resources || localResourceManifest(assets || []))} preview /></div><button type="button" className="edit-participant-ui" onClick={onEditParticipantUi}>Edit participant screen</button></>}
     {contentSpec && visibleContentFields.length > 0 && <div className="content-fields"><b>Content</b>{visibleContentFields.map(field => <ContentField key={field.key} field={field} value={node.config?.[field.key]} assets={assets} onChange={value => updateContentField(field.key, value)} invalid={field.key === 'sourceUrl' && Boolean(node.config?.sourceUrl) && !isValidMediaUrl(node.config.sourceUrl)} hint={field.key === 'sourceUrl' && Boolean(node.config?.sourceUrl) && !isValidMediaUrl(node.config.sourceUrl) ? 'Invalid URL — fix it or pick an asset instead.' : undefined} />)}</div>}
-    {node.component.type === 'display.media' && mode !== 'quick' && <div className="content-fields stimulus-pool-fields">
+    {node.component.type === 'display.media' && <div className="content-fields stimulus-pool-fields">
       <b>Stimulus randomization</b>
-      <label>Stimulus pool<select value={node.config?.stimulusPoolId || ''} onChange={event => { const pool = stimulusPools.find(item => item.id === event.target.value); onUpdate({ config: { ...node.config, stimulusPoolId: pool?.id || null, ...(pool?.mediaType ? { mediaType: pool.mediaType } : {}) } }); }}><option value="">— fixed stimulus —</option>{stimulusPools.map(pool => <option key={pool.id} value={pool.id}>{pool.name} ({pool.assetIds?.length || 0})</option>)}</select><small className="field-help">Choose a shared pool created in Design mode. Every session reshuffles its assets without changing the flow.</small></label>
+      <label>Stimulus pool<select value={node.config?.stimulusPoolId || ''} onChange={event => { const pool = stimulusPools.find(item => item.id === event.target.value); onUpdate({ config: { ...node.config, stimulusPoolId: pool?.id || null, ...(pool?.mediaType ? { mediaType: pool.mediaType } : {}) } }); }}><option value="">— fixed stimulus —</option>{stimulusPools.map(pool => <option key={pool.id} value={pool.id}>{pool.name} ({pool.assetIds?.length || 0})</option>)}</select><small className="field-help">Create a pool in the left panel, then choose it here. Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.</small></label>
     </div>}
     {fieldGroups.map(([group, fields], groupIndex) => <details key={group} className="field-group" open={group === 'General' || groupIndex === 0 || fieldGroups.length === 1}><summary>{group}</summary>{fields.map(renderField)}</details>)}
     {node.component.type === 'logic.condition' && <label>Input variable<select aria-label="Condition input variable" value={bindingValue(node.bindings?.value)} onChange={event => { const binding = parseBindingValue(event.target.value); onUpdate({ bindings: binding ? { ...node.bindings, value: binding } : Object.fromEntries(Object.entries(node.bindings || {}).filter(([key]) => key !== 'value')) }); }}>
@@ -165,15 +167,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
       {(dataOutputOptions || []).length > 0 && <optgroup label="Node outputs (upstream)">{renderOutputOptions()}</optgroup>}
     </select></label>}
     {node.component.type === 'input.questionnaire' && <><QuestionnaireEditor value={node.config.questionnaire} onChange={questionnaire => onUpdate({ config: { ...node.config, questionnaire } })} library={questionnaireLibrary} onLibraryChange={onLibraryChange} /><details className="questionnaire-live-preview"><summary>Live participant preview · {language.toUpperCase()}</summary><QuestionnaireForm key={`${node.id}:${language}:${JSON.stringify(node.config.questionnaire)}`} questionnaire={node.config.questionnaire} language={language} randomSeed="editor-preview" onSubmit={() => {}} /></details></>}
-    {node.component.type === 'experiment.cognitive-task' && <div className="cognitive-generate">
-      <button type="button" onClick={() => {
-        const kind = node.config?.taskKind === 'gonogo' ? 'gonogo' : 'stroop';
-        const generator = kind === 'gonogo' ? generateGonogoTrials : generateStroopTrials;
-        const trials = generator({ trials: kind === 'gonogo' ? 40 : 16, goRatio: Number(node.config?.goRatio ?? 70), seed: Number(node.config?.seed ?? 1), jitter: Number(node.config?.jitterMs ?? 0) });
-        onUpdate({ config: { ...node.config, trials } });
-      }}>Generate trials</button>
-      <small>{node.config?.trials?.length || 0} trial(s) · {node.config?.taskKind || 'stroop'}</small>
-    </div>}
+    {node.component.type === 'experiment.cognitive-task' && <TrialGenerator key={node.id + ':' + node.config.taskKind} config={node.config} onChange={config => onUpdate({ config })} />}
     {mode !== 'quick' && node.config && <details className="advanced-fields"><summary>Analysis & recovery</summary>
       <label>Analysis role<select aria-label="Analysis role" value={node.config.analysisRole || ''} onChange={event => onUpdate({ config: { ...node.config, analysisRole: event.target.value } })}><option value="">none</option>{['baseline', 'stimulus', 'recovery', 'task', 'exclude', 'custom'].map(role => <option key={role} value={role}>{role}</option>)}</select></label>
       <label>Analysis label<input aria-label="Analysis label" value={node.config.analysisLabel || ''} onChange={event => onUpdate({ config: { ...node.config, analysisLabel: event.target.value } })} /></label>

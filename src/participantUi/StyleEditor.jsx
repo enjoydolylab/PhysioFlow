@@ -34,8 +34,8 @@ export function StyleEditor({ element, theme, onSetStyle, forceOpen = false, onT
   useEffect(() => {
     if (forceOpen && detailsRef.current && !detailsRef.current.open) detailsRef.current.open = true;
   }, [forceOpen, element.id]);
-  return <details ref={detailsRef} className="ui-style-editor" open={activeKeys.length > 0} onToggle={event => { if (!event.currentTarget.open && onToggle) onToggle(false); }}>
-    <summary>Style ({activeKeys.length})</summary>
+  return <details ref={detailsRef} className="ui-style-editor" onToggle={event => { if (!event.currentTarget.open && onToggle) onToggle(false); }}>
+    <summary>Advanced appearance ({activeKeys.length})</summary>
     {activeKeys.map(key => <StyleField key={key} propKey={key} value={style[key]} theme={theme} tokenNames={tokenNames} onChange={value => setKey(key, value)} />)}
     {availableKeys.length > 0 && <label className="ui-style-add">Add style<select value="" onChange={event => event.target.value && setKey(event.target.value, '')}><option value="">— choose —</option>{availableKeys.map(key => <option key={key} value={key}>{key}</option>)}</select></label>}
     <small>Dynamic bindings (variables.*) win over static style for color and background.</small>

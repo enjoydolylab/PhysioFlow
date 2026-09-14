@@ -78,7 +78,7 @@ export const loadCurrentRunAsync = async () => {
   catch (err) { console.warn('Failed to load current run:', err); return null; }
 };
 
-export const clearCurrentRun = async () => {
+export const clearCurrentRun = async ({ strict = false } = {}) => {
   try { await _clearCurrentRun(); }
-  catch (err) { console.warn('Failed to clear current run:', err); }
+  catch (err) { console.warn('Failed to clear current run:', err); if (strict) throw err; }
 };

@@ -1,5 +1,7 @@
 # Local-first Collaboration Change Sets 1.0
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 Collaboration change sets let researchers exchange and review Protocol Graph edits without making a network service a prerequisite for experiment design or execution. They are the transport-neutral foundation for later real-time or cloud collaboration.
 
 ## Workflow

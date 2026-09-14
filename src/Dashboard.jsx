@@ -54,6 +54,8 @@ function formatDuration(ms) {
 
 export default function Dashboard({ protocols, sessions, onOpen, onNew, onTemplate, onImport, onRun, onNextVersion, onDuplicate, onArchive, onRenameProject, onMigrate, onAnalytics, storageInfo, onChooseDataDirectory, onOpenDataFolder, onGuide, onStroopTemplate, onGonogoTemplate }) {
   const input = useRef(null);
+  const [page, setPage] = useState('projects');
+  const [projectSearch, setProjectSearch] = useState('');
   const projects = groupProjects(protocols);
   const frozenCount = protocols.filter(item => protocolStatusOf(item) === 'frozen').length;
   const workspaceReadiness = useMemo(() => summarizeWorkspaceReadiness(protocols, sessions, storageInfo), [protocols, sessions, storageInfo]);
@@ -147,91 +149,41 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
     }
   };
 
-  return <main className="dashboard">
-    <header>
-      <div className="brand"><span>PF</span> PhysioFlow</div>
-      <div className="header-tools">
-        <div className="local">● Local-first</div>
-        <button className="hint" onClick={() => onGuide?.('workflow')}>Help</button>
-        {onAnalytics && <button className="hint" onClick={onAnalytics}>Analytics</button>}
-        <button className="hint" onClick={onChooseDataDirectory}>Data folder</button>
-        <button className="hint" onClick={() => setBioDBOpen(true)}>BioDB</button>
-        <button className="hint" onClick={() => setDataOpen(true)}>Data</button>
-        <DarkModeToggle /><LanguageToggle />
-      </div>
-    </header>
+  return <main className="dashboard dashboard-redesign">
+    <aside className="workspace-sidebar"><div className="workspace-wordmark"><span>pf.</span><b>PhysioFlow<small>RESEARCH WORKSPACE</small></b></div><nav aria-label="Workspace navigation">{[['projects', 'Projects', '01'], ['sessions', 'Sessions', '02'], ['tools', 'Data & settings', '03']].map(([id, label, number]) => <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => setPage(id)}><span>{number}</span>{label}{id === 'projects' && <small>{projects.length}</small>}</button>)}</nav><div className="sidebar-bottom"><span className="sidebar-dot" /> Local workspace<p>Your experiments.<br />Your research.</p><button onClick={() => onGuide?.('workflow')}>Help & documentation ↗</button></div></aside>
+    <div className="workspace-content">
+    <header className="workspace-topbar"><span>Workspace <span className="breadcrumb-divider">/</span> <b>{page === 'projects' ? 'Projects' : page === 'sessions' ? 'Sessions' : 'Data & settings'}</b></span><div className="header-tools"><DarkModeToggle /><LanguageToggle /></div></header>
     {bioDBOpen && <BioDBSettings settings={bioDBSettings || {}} onSave={handleBioDBSave} onClose={() => setBioDBOpen(false)} />}
     {dataOpen && <DataPanel settings={bioDBSettings} onClose={() => setDataOpen(false)} />}
 
-    <section className={`status-bar ${statusTone}`}>
-      <span className="status-dot" />
-      <div className="status-text">
-        <b>{storageInfo?.selected ? storageInfo.name : storageInfo?.supported ? 'Choose a local data folder' : 'Formal storage needs Chrome, Edge, or the desktop app'}</b>
-        <span>{workspaceReadiness.blocked ? `${workspaceReadiness.blocked} blocked · fix before formal collection` : storageInfo?.selected ? `${workspaceReadiness.ready} ready · ${sessions.length} sessions recorded` : 'Data files stay in a folder you can back up and move.'}</span>
-      </div>
-      <div className="status-actions">
-        {storageInfo?.selected && storageInfo?.data_dir && <button className="hint" onClick={onOpenDataFolder}>Open folder</button>}
-        {storageInfo?.supported && <button className="hint" onClick={onChooseDataDirectory}>{storageInfo?.selected ? 'Change folder' : 'Select folder'}</button>}
-        {!storageInfo?.supported && <button className="hint" onClick={() => onGuide?.('storage')}>Storage guide</button>}
-      </div>
-    </section>
-
-    <section className="dashboard-hero">
-      <div className="dashboard-copy">
-        <span className="eyebrow">EXPERIMENT WORKSPACE</span>
-        <h1>PhysioFlow <i>workspace</i></h1>
-        <p>Design, run, and review behavioral &amp; physiological experiments — one local-first workspace.</p>
-        <div className="dashboard-stats" aria-label="Workspace summary">
-          <span><b>{projects.length}</b> projects</span>
-          <span><b>{frozenCount}</b> frozen</span>
-          <span><b>{sessions.length}</b> sessions</span>
-        </div>
-      </div>
-      <div className="dashboard-actions">
-        <div className="dashboard-actions-head">
-          <b>Start building</b>
-          <span>Create a protocol from scratch or a curated template.</span>
-        </div>
-        <button className="primary big" onClick={onNew}>＋ New protocol</button>
-        <div className="dashboard-template-row">
-          <button onClick={onTemplate}>Emotion</button>
-          {onStroopTemplate && <TemplateButton label="Stroop" onCreate={onStroopTemplate} templateKey="stroop" />}
-          {onGonogoTemplate && <TemplateButton label="Go/No-Go" onCreate={onGonogoTemplate} templateKey="gonogo" />}
-          <button onClick={() => input.current.click()}>Import JSON</button>
-        </div>
-        <input ref={input} hidden type="file" accept="application/json" onChange={ev => { const file = ev.target.files?.[0]; if (file) importFile(file); ev.target.value = ''; }} />
-      </div>
-    </section>
-
+    {page === 'projects' && <>
+    <section className="workspace-intro"><div><span className="eyebrow">DESIGN · RUN · DISCOVER</span><h1>A space for<br /><i>your next experiment.</i></h1><p>Shape an idea into a study. Pick up where you left off.</p></div><div className="workspace-overview"><span><b>{projects.length}</b> projects</span><span><b>{frozenCount}</b> frozen versions</span><span><b>{sessions.length}</b> sessions</span></div></section>
+    <section className="workspace-create"><div className="create-symbol" aria-hidden="true">＋</div><div><h2>Build your next experiment</h2><p>Start with a blank flow, or make a template your own.</p></div><button className="primary" onClick={onNew}>New protocol <span aria-hidden="true">↗</span></button><button onClick={() => input.current.click()}>Import JSON</button><details className="workspace-templates"><summary>Start from a template</summary><div><button onClick={onTemplate}>Emotion</button>{onStroopTemplate && <TemplateButton label="Stroop" onCreate={onStroopTemplate} templateKey="stroop" />}{onGonogoTemplate && <TemplateButton label="Go/No-Go" onCreate={onGonogoTemplate} templateKey="gonogo" />}</div></details></section>
+    <input ref={input} hidden type="file" accept="application/json" onChange={ev => { const file = ev.target.files?.[0]; if (file) importFile(file); ev.target.value = ''; }} />
     <section>
       <div className="section-title">
-        <h2>Projects</h2>
-        <span>{projects.length} active · {frozenCount} frozen versions</span>
+        <h2>Your projects <small>{projects.length}</small></h2>
+        <input className="project-search" aria-label="Search projects" placeholder="Search projects…" value={projectSearch} onChange={event => setProjectSearch(event.target.value)} />
       </div>
       <div className="protocol-grid">
-        {projects.map(versions => <ProjectCard key={projectIdOf(versions[0])} versions={versions} sessions={sessions} storageInfo={storageInfo} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRenameProject={onRenameProject} onMigrate={onMigrate} />)}
-        {!projects.length && <div className="empty">
-          <div className="empty-icon">🧪</div>
-          <h3 className="empty-title">No projects yet</h3>
-          <p>Create a blank workflow or start from a template.</p>
-          <div className="empty-actions">
-            <button className="primary" onClick={onNew}>＋ New protocol</button>
-            <button onClick={onTemplate}>Emotion</button>
-            {onStroopTemplate && <button onClick={onStroopTemplate}>Stroop</button>}
-            {onGonogoTemplate && <button onClick={onGonogoTemplate}>Go/No-Go</button>}
-          </div>
+        {projects.filter(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())).map(versions => <ProjectCard key={projectIdOf(versions[0])} versions={versions} sessions={sessions} storageInfo={storageInfo} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRenameProject={onRenameProject} onMigrate={onMigrate} />)}
+        {projects.length > 0 && !projects.some(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())) && <p className="empty">No projects match your search.</p>}{!projects.length && <div className="empty">
+          <div className="empty-project-mark" aria-hidden="true">↗</div><h3 className="empty-title">Your first study starts here</h3><p>Use “New protocol” above to create your first experiment.</p>
         </div>}
       </div>
     </section>
 
-    <section>
+    </>}
+    {page === 'sessions' && <section className="workspace-sessions">
+      <div className="workspace-page-title"><span className="eyebrow">RESEARCH RECORDS</span><h1>Sessions</h1><p>Find a participant, review a run, and return to your data.</p></div>
+
       <div className="section-title">
         <h2>Sessions</h2>
         <span>{sessions.length} total</span>
       </div>
       <div style={{ position: 'relative' }}>
         <input className="session-search" placeholder="Search sessions..." value={sessionFilter} onChange={e => handleFilterChange(e.target.value)} />
-        {sessionFilter && <button onClick={() => setSessionFilter('')} style={{ position: 'absolute', right: 8, top: '50%', translate: '0 -50%', border: 0, background: 'transparent', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px', lineHeight: 1 }} title="Clear search">×</button>}
+        {sessionFilter && <button onClick={() => handleFilterChange('')} style={{ position: 'absolute', right: 8, top: '50%', translate: '0 -50%', border: 0, background: 'transparent', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px', lineHeight: 1 }} title="Clear search">×</button>}
       </div>
       <div className="session-table">
         {filteredSessions.length ? filteredSessions.slice(0, sessionFilter ? undefined : 20).map(item => (
@@ -246,7 +198,23 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
           </div>
         )) : sessionFilter ? <p className="empty">No sessions match "{sessionFilter}"</p> : <p className="empty">Completed and aborted sessions will appear here.</p>}
       </div>
+    </section>}
+    {page === 'tools' && <section className="workspace-tools"><div className="workspace-page-title"><span className="eyebrow">WORKSPACE TOOLS</span><h1>Data & settings</h1><p>Keep storage, analysis and integrations in one place.</p></div>    <section className={`status-bar ${statusTone}`}>
+      <span className="status-dot" />
+      <div className="status-text">
+        <b>{storageInfo?.selected ? storageInfo.name : storageInfo?.supported ? 'Choose a local data folder' : 'Formal storage needs Chrome, Edge, or the desktop app'}</b>
+        <span>{workspaceReadiness.blocked ? `${workspaceReadiness.blocked} blocked · fix before formal collection` : storageInfo?.selected ? `${workspaceReadiness.ready} ready · ${sessions.length} sessions recorded` : 'Data files stay in a folder you can back up and move.'}</span>
+      </div>
+      <div className="status-actions">
+        {storageInfo?.selected && storageInfo?.data_dir && <button className="hint" onClick={onOpenDataFolder}>Open folder</button>}
+        {storageInfo?.supported && <button className="hint" onClick={onChooseDataDirectory}>{storageInfo?.selected ? 'Change folder' : 'Select folder'}</button>}
+        {!storageInfo?.supported && <button className="hint" onClick={() => onGuide?.('storage')}>Storage guide</button>}
+      </div>
     </section>
+
+<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><button onClick={() => setBioDBOpen(true)}><span>03 / CONNECTION</span><b>BioDB settings ↗</b><p>Manage the database connection when you need it.</p></button></div></section>}
+    <footer className="workspace-footer"><span>PhysioFlow · Experiment workspace</span><button onClick={() => setPage('tools')}>{storageInfo?.selected ? storageInfo.name || 'Local folder connected' : 'Storage settings'} ↗</button></footer>
+    </div>
     {confirmState && <ConfirmDialog {...confirmState} />}
     {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}
   </main>;
@@ -270,7 +238,7 @@ function ProjectCard({ versions, sessions, storageInfo, onOpen, onRun, onNextVer
   return <article className="protocol-card project-card">
     <div className="protocol-card-top">
       <span className={`badge ${status}`}>{status}</span>
-      <span className={`readiness-pill ${readiness.status}`}>{readiness.score}% · {readiness.status}</span>
+      <span className={`readiness-pill ${readiness.status}`}>{readiness.status === 'ready' ? 'Ready to run' : readiness.status === 'blocked' ? 'Needs setup' : 'Review setup'}</span>
       <div className="card-menu-wrap">
         <button className="card-menu" onClick={() => setMenuOpen(value => !value)} aria-label="Project actions">⋯</button>
         {menuOpen && <div className="card-menu-pop">
@@ -285,7 +253,7 @@ function ProjectCard({ versions, sessions, storageInfo, onOpen, onRun, onNextVer
       <h3>{protocolNameOf(latest)}</h3>
       <p>{graphProtocol ? `${latest.graph.nodes.length} nodes · ${latest.graph.edges.length} connections` : `${latest.blocks.length} blocks · ${latest.blocks.reduce((total, b) => total + b.trials.length, 0)} trials`}</p>
       <div className="protocol-summary">
-        {[...stepTypes].slice(0, 5).map(t => <span key={t}>{t}</span>)}
+        {[...stepTypes].slice(0, 5).map(t => <span key={t}>{t.replace(/^[^.]+\./, '').replaceAll('-', ' ')}</span>)}
         {questionnaireCount > 0 && <span>☷ {questionnaireCount} Q</span>}
         {formatDuration(totalMs) && <span>⏱ {formatDuration(totalMs)}</span>}
         {missingMedia && <span style={{ background: '#ffe9e6', color: '#922b24' }}>⚠ missing media</span>}

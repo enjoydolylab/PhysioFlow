@@ -1,154 +1,51 @@
 # PhysioFlow
 
-Local-first visual experiment workflow system for behavioral and physiological research. Design protocols, run sessions, and export analysis-ready data — all from one desktop app or browser.
+本地优先的实验设计、参与者呈现、会话记录与数据导出工具。新建实验默认使用 Composer V2；旧 Block / Trial 协议仍可读取和运行。
 
-## 📥 Download (Recommended)
+## 下载
 
-Download the desktop app — no browser, no terminal, just double-click:
+当前发布版本：[v0.6.0-beta.4（研究测试版）](https://github.com/kyzzz22/physioflow-app/releases/tag/v0.6.0-beta.4)，2026-09-06 发布，源码提交 `68a3451`。
 
-| Platform | Download | Version |
-|----------|----------|---------|
-| **Windows** | [PhysioFlow-Setup.exe](https://github.com/kyzzz22/physioflow-app/releases/download/v0.6.0-beta.3/PhysioFlow_0.6.0-beta.3_x64-setup.exe) | v0.6.0-beta.3 |
-| **macOS** | [PhysioFlow.dmg](https://github.com/kyzzz22/physioflow-app/releases/latest) | v0.6.0-beta.3 *(macOS build pending)* |
+- [Windows x64 安装包](https://github.com/kyzzz22/physioflow-app/releases/download/v0.6.0-beta.4/PhysioFlow_0.6.0-beta.4_x64-setup.exe)
+- [SHA-256 校验文件](https://github.com/kyzzz22/physioflow-app/releases/download/v0.6.0-beta.4/SHA256SUMS.txt)
+- [发布说明](docs/RELEASE_NOTES_beta.4.md)
 
-The desktop app stores data directly in `~/Documents/PhysioFlow Data` (macOS) or `Documents\PhysioFlow Data` (Windows). Click **Open folder** on the dashboard to reveal it in Finder/File Explorer.
+安装包未签名，按当前 Windows 用户安装，支持英语、日语、简体中文安装界面。需要 WebView2；缺少运行环境时可能需要联网安装。当前没有已发布的 macOS / Linux 安装包。
 
-> **Why the desktop app?** It handles file storage natively — no browser permissions needed. Data stays in a folder you control, ready to back up or move.
+## 从哪里开始
 
-## v0.6.0-beta.4 — local research-test build (not published)
+| 你的任务 | 文档 |
+| --- | --- |
+| 理解系统如何组织实验 | [业务流程与能力边界](docs/BUSINESS_WORKFLOW.md) |
+| 创建、预览、运行和导出实验 | [研究人员使用指南](docs/USER_GUIDE.md) |
+| 确认版本和验证范围 | [当前实现状态](docs/refactor/IMPLEMENTATION_STATUS.md) |
+| 查看下一轮体验优化 | [优化路线图](docs/refactor/OPTIMIZATION_PLAN.md) |
+| 开发、构建和发布 | [开发指南](docs/DEVELOPMENT.md) |
+| 查阅全部文档 | [文档导航](docs/README.md) |
 
-A Windows x64 NSIS candidate has been built locally. See [candidate notes and the operator acceptance checklist](docs/RELEASE_NOTES_beta.4.md). Installed-app and physical-device acceptance tests remain pending.
+## 核心流程
 
-The current source includes additional fixes for consecutive questionnaires, Retry/Pause/Resume, stale callbacks, restored device sessions, final-save retry, shared-pool consumption and binary media verification. These fixes are **not included in the beta.3 download above**. See [the reliability follow-up](docs/refactor/RUNTIME_RELIABILITY_AUDIT_2026-09-05.md) for behavior, verification and remaining limits.
+设计协议 → 配置刺激与问卷 → 预览检查 → 冻结版本 → 运行会话 → 检查与导出数据。
 
-## What's new in v0.6.0-beta.3
+这是业务顺序，当前应用尚未实现六阶段向导。Composer 的 Quick / Design / Advanced 是同一 Graph 的配置视图；旧 Block / Trial 编辑器是另一条兼容路径。Graph 分组不等同于可执行 Block。
 
-- **Pre-run media gate**: referenced local media and checksums are verified before a Graph session can start; missing files now produce an actionable error instead of a blank stimulus.
-- **Visible recovery failures**: both runtimes serialize recovery writes and show a retry control when a checkpoint cannot be saved.
-- **Required-device preflight**: device-backed runs block on connection or adapter errors by default, with an explicit opt-out in the node inspector.
-- **Safer desktop writes and Custom HTML**: desktop files use replace-safe temporary writes, and legacy/V2 Custom HTML now share a script-disabled sandbox.
+beta.4 改善了暂停恢复、保存重试、刺激池随机分配、多尺寸编辑和自定义元素呈现，并修正了受约束的旧 Block 随机排序及新生成 Stroop 试次。完整改动见 [CHANGELOG](CHANGELOG.md)。
 
-### Included from v0.6.0-beta.2
+当前开发版进一步整理了首页、实验自定义和[画布编辑](docs/refactor/CANVAS_EDITING.md)，包括明确的自由/自动布局、多选拖动和分组属性面板。这些改动尚未包含在上述 beta.4 安装包中。
 
-- **Drag that stays tidy**: in the participant-screen editor, dragging an element auto-switches its container to a free layout and aligns the other elements to the 8px grid — no more elements jumping to (0,0) or scattering. An **Auto arrange** button re-tidies any screen in one click.
-- **Cleaner node inspector**: primary settings are open by default, dev telemetry stays out of Quick mode, and Questionnaire/Wait nodes open preview-only (their screens are generated at run time).
-- **Shared stimulus pools**: preserve protocol flow while assigning media in a reproducible random order without replacement
-- **Participant UI editing**: dedicated full-screen editor with synchronized node/runtime configuration
-- **Researcher-ready questionnaires**: graphical SAM choices and a live participant preview
-- **Safer protocol editing**: improved full JSON editor, complete pre-run validation, and clearer validation messages
-- **Local media workflow**: upload, preview, validate, and run image/audio/video assets without hosting them first
+## 数据与运行环境
 
-- **Questionnaire overhaul**: drag-and-drop reorder, conditional skip logic, 11 presets (SAM, Likert, NPS, VAS...), auto-scoring, VAS slider, random order, progress bar, CSV batch import
-- **Full-screen preview + inline editing**: double-click any node to preview as participant sees it; toggle ✎ Edit to modify content, questionnaire, media, timing directly
-- **Flow editor undo/redo**: Ctrl+Z / Ctrl+Shift+Z for all node operations
-- **Simplified export**: 5 files with clean human-readable columns (standard + BIDS formats)
-- **Stroop and Go/No-Go templates**: configurable trial count, go ratio, ITI jitter, practice block
-- **ITI jittering** with 4 distributions + randomization constraints
-- **Practice block** + **attention check** + **screen calibration** step types
-- **Performance-based branching**: runtime variables (accuracy, RT) usable in Condition nodes
-- **Visual angle calculator**: `pixelsPerDegree`, `calibrationReport`, etc.
-- **Flow snapshots** + **300+ zh/ja i18n entries**
+桌面端数据目录为当前用户的 `Documents/PhysioFlow Data`，可从首页打开。浏览器端存储与桌面端不同；正式运行前应确认所用存储方式并保存导出副本。Hosted 是可选的自托管服务，详见 [部署指南](docs/refactor/SELF_HOSTING.md)。
 
-See [CHANGELOG.md](./CHANGELOG.md) for the full history.
+外部媒体、外部问卷和设备服务可能发生网络通信；“本地优先”不代表所有配置都离线。Graph 与旧协议的导出结构不同，应以包内清单和数据字典为准。
 
-Roadmap & remaining work (incl. the human usability study gate): [docs/refactor/OPTIMIZATION_PLAN.md](./docs/refactor/OPTIMIZATION_PLAN.md) — §0 status snapshot + §9 follow-up list.
+## 开发启动
 
-## Operator workflow
-
-1. **Download & open** the desktop app, or run the web version.
-2. Create a protocol, import JSON, or start from a template (Emotion, Stroop, Go/No-Go).
-3. Use Blocks & Trials for hierarchy, randomization constraints, ITI jitter, and practice flags.
-4. Open the visual editor — add event nodes, connect ports, use Condition/Loop for branches.
-5. Attach media, configure questionnaires, add attention checks, mark analysis windows.
-6. Validate, freeze, select a local data folder, start a formal session.
-7. Export the session ZIP (standard or simplified format) and keep it with device recordings.
-
-## Step types
-
-| Type | Description |
-|------|-------------|
-| `instruction` | Participant-facing text before or between tasks |
-| `fixation` | Centered cross for baseline / gaze reset |
-| `timer` | Countdown without media or questionnaire |
-| `video` | Local, URL, or YouTube video stimulus |
-| `audio` | Sound stimulus with media lifecycle events |
-| `image` | Still image stimulus |
-| `questionnaire` | Built-in designer with presets, scoring, conditional logic |
-| `response` | Single quick button / keyboard response with RT |
-| `attention_check` | Catch trial with expected keypress and pass/fail feedback |
-| `manual_event` | Operator-confirmed external event |
-| `device_check` | Operator checklist for sensors and setup |
-| `rest` | Recovery period between trials or stimuli |
-| `screen_calibration` | Pre-experiment display calibration with visual angle reference |
-
-### Control nodes
-
-| Node | Description |
-|------|-------------|
-| `start` | Entry point for the trial flow |
-| `condition` | Branches on true/false using participant fields, answers, or performance variables |
-| `loop` | Repeats body path until rule fails or max iterations reached |
-| `end` | Stops current trial and advances to next unit |
-| `note` | Sticky note (visual only, ignored at runtime) |
-| `junction` | Wire routing node |
-
-### Performance variables (Condition nodes)
-
-| Variable | Description |
-|----------|-------------|
-| `last_accuracy` / `cumulative_accuracy` | Response accuracy (true/false, running ratio) |
-| `last_rt_ms` | Most recent reaction time in ms |
-| `last_attention_passed` | Whether last attention check passed |
-| `attention_fail_count` / `attention_total_count` | Attention check stats |
-
-## Task templates
-
-- **Emotion**: Five-condition (HVHA/LVHA/LVLA/HVLA/NVLA) with SAM questionnaire, video stimuli, analysis windows
-- **Stroop**: Color-word task, configurable trials/practice/jitter
-- **Go/No-Go**: Inhibition task, configurable go ratio (50-90%), trials, practice, jitter
-
-## Export formats
-
-Each session exports a ZIP. **Simplified** (default, 5 files) or **Complete** (10 files):
-
-| Simplified | Complete | Description |
-|-----------|----------|-------------|
-| `events.csv` (8 cols) | `events.csv` (23 cols) | Timeline of every step, marker, media event |
-| `responses.csv` (7 cols) | `responses.csv` (15 cols) | Questionnaire answers with scoring |
-| `analysis_windows.csv` (9 cols) | `analysis_windows.csv` (18 cols) | Derived physiology intervals |
-| `session.json` | `session.json` | Metadata + integrity summary |
-| `protocol.json` | `protocol.json` | Protocol configuration used |
-| — | `integrity_report.json` | Automated quality checks |
-| — | `data_dictionary.csv` | Field-level descriptions |
-
-**BIDS v1.8.0** format also available for neuroimaging pipeline compatibility.
-
-## Data & privacy
-
-- Desktop mode writes everything to `~/Documents/PhysioFlow Data`.
-- Web local-folder mode uses the browser File System Access API (Chrome/Edge).
-- No account, email, or personal data collected. Use anonymous participant IDs.
-- Each export is a self-contained ZIP — protocol, events, responses, analysis windows.
-
-## Developer setup
-
-```bash
-# Clone and install
-git clone https://github.com/kyzzz22/physioflow-app.git
-cd physioflow-app
-npm install
-
-# Web dev server
-npm run dev          # → http://localhost:5174
-
-# Desktop app
-npm run desktop:dev  # Tauri hot-reload
-npm run desktop:build  # → src-tauri/target/release/bundle/
-
-# Tests & lint
-npm test             # 335 total (334 passed, 1 skipped on Windows: symlink helper)
-npm run lint         # ESLint
-npm run quality:release  # build + lint + all tests and browser gates
+```sh
+npm ci
+npm run dev
 ```
 
-For a single-node hosted service with the public `/participant` application, atomic state persistence, and signed filesystem assets, see [Single-Node Self-Hosting](./docs/refactor/SELF_HOSTING.md).
+开发页面默认使用 5174 端口。桌面构建需要 Rust 和平台构建工具，运行 `npm run desktop:build`。验证命令与环境说明见 [开发指南](docs/DEVELOPMENT.md)。
+
+研究人员实测、Windows 系统缩放和真实设备同步仍待验收；当前版本为预发布版本。

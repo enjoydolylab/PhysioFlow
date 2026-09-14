@@ -1,5 +1,7 @@
 # Hosted Operations and Abuse Controls
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 The single-node adapter includes process-local request limiting and privacy-minimized operational metrics. These controls make a small trusted lab deployment safer and diagnosable without changing Hosted Service Contract 1.0.
 
 ## Request limiting

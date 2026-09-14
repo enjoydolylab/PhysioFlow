@@ -1,5 +1,7 @@
 # Hosted Deployment Data Export
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 Hosted Data Export 1.0 provides one permission-checked package for every record associated with a published deployment. It closes the gap between per-session inspection and a reproducible study-level handoff.
 
 `GET /v1/deployments/:id/data` requires `data.read` and returns:

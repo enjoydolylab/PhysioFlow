@@ -1,5 +1,7 @@
 # Refactor Completion Audit
 
+> 历史材料：保留原日期的目标、测试数和结论，用于追溯，不代表当前已实现或全部验收通过。当前业务与发布情况以[实现状态](IMPLEMENTATION_STATUS.md)为准；参见[文档导航](../README.md)。
+
 Date: 2026-08-23  
 Authority: `docs/SYSTEM_REFACTOR_PLAN.md`
 

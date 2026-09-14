@@ -1,5 +1,7 @@
 # Public Participant Application
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 The participant application is a dedicated execution surface at `/participant`. It does not initialize the project dashboard, protocol editor, operator controls, or analyst views.
 
 ## Launch URL

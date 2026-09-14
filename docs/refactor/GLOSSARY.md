@@ -1,38 +1,30 @@
-# PhysioFlow 重构术语表
+# 业务与技术术语
 
-本术语表是重构期间产品、设计、开发和测试的统一语言。旧模型术语仅用于迁移，不应继续扩展。
+更新：2026-09-06。定义以 beta.4 当前模型为范围；目标架构与未来计划见[路线图](OPTIMIZATION_PLAN.md)。
 
-| 术语 | 定义 | 不包含 |
+| 术语 | 当前含义 | 容易混淆的地方 |
 | --- | --- | --- |
-| Project | 一个研究项目的顶层容器，包含协议版本、资源、会话和项目组件 | 不直接参与运行 |
-| Protocol | 可保存、验证、冻结和执行的实验定义 | 不包含会话结果 |
-| Protocol Graph | Protocol 中唯一的可执行结构，由节点和边组成 | 不维护平行 Step 列表 |
-| Node | 图中的组件实例或控制节点，拥有稳定 ID、配置和布局信息 | 不是组件类型本身 |
-| Component Definition | 某类组件的版本化定义，声明配置、端口、事件和数据字段 | 不保存项目实例数据 |
-| Component Instance | Component Definition 在协议图中的一次使用，即可执行节点 | 不共享运行状态 |
-| Control Port | 表达执行顺序、条件出口或循环出口的端口 | 不承载业务值 |
-| Data Port | 表达变量生产和消费关系的类型化端口 | 不决定默认执行顺序 |
-| Edge | 两个兼容端口之间的连接，分为 control 和 data | 不保存组件配置 |
-| Container | 用于组织、重复、随机化或复用一组节点的语义节点 | 不只是视觉分组框 |
-| Subflow | 有明确输入输出的可复用协议片段 | 不是拖入后失去语义的节点复制 |
-| Variable | 有名称、类型、作用域、来源和默认值的数据值 | 不是任意全局字符串键 |
-| Expression | 使用类型化变量构造的条件或计算 | 默认不允许任意 JavaScript |
-| Screen | 参与者一次看到的界面根节点 | 不等同于 Trial |
-| UI Element | Screen 中声明式布局树的元素，如文字、媒体、输入和按钮 | 不直接执行实验控制流 |
-| Action | UI 事件触发的标准行为，如写变量、记录事件、完成组件 | 不允许绕过运行时修改协议 |
-| Session | 一次协议运行实例，绑定冻结的协议版本和参与者上下文 | 不改变冻结协议 |
-| Event | 运行中追加写入的事实记录，采用统一 envelope | 不应被后续操作覆盖 |
-| Data Contract | 组件声明的输入、输出、事件和导出字段集合 | 不等同于某个 CSV 文件 |
-| Snapshot | 可用于恢复的运行时状态快照 | 不是事件历史的替代品 |
-| Freeze | 将可运行配置、资源和组件版本固化并生成哈希 | 不是简单的 UI 锁定 |
-| Migration | 从旧 schema 复制转换为新 schema，并输出报告 | 不原地覆盖旧协议 |
-| Projection | 从原始事件确定性生成的响应表、窗口表等派生数据 | 不是原始事实来源 |
+| Project | 同一研究的协议与版本组织 | 不是 Session，也不自动具有 Hosted 账户权限 |
+| Protocol | 可保存、验证、冻结的实验定义 | 不含本次运行的全部结果 |
+| Protocol Graph | 新协议的 nodes/edges 执行结构 | 旧协议仍保留 blocks/trials/steps 兼容路径 |
+| Node / Component | 组件实例 / 版本化类型定义 | 同类型节点不共享一次运行的状态 |
+| Control Edge | 决定下一个执行节点 | 画布坐标与连线外观不决定业务顺序 |
+| Data Edge / Binding | 提供变量或上游输出 | 不替代控制连接 |
+| Group | 节点组织与编辑分组 | 不是通用的 Block/Trial 执行容器 |
+| Subflow | 可复用的节点片段及参数/端口映射 | 不自动提供跨被试平衡或旧 Trial 语义 |
+| Block / Trial / Step | 旧模型的区块、试次和内容步骤 | 新 Graph 没有与三者完全等价的通用层级 |
+| Cognitive task trial | Stroop/Go-No-Go 专用节点的内部试次 | 不等于任意 Graph 节点组合 |
+| Stimulus pool | 供节点共享分配的刺激集合 | 不随机化整个协议控制流 |
+| Screen / UI Element | 参与者画面根及其声明式元素 | 不等于 Trial |
+| Questionnaire | 专用题目配置、评分和表单运行 | 并非全部已迁移成通用 UI 元素 |
+| Action | UI 的标准提交或变量操作 | 不是任意 JavaScript |
+| Session | 一次协议运行及参与者上下文 | 预览会话不等于正式采集 |
+| Event / Response | 按序事实 / 参与者提交结果 | 数据派生表不能替代原始日志 |
+| Snapshot | 运行恢复状态 | 不保证恢复所有未提交输入 |
+| Freeze | 固化配置与版本并计算哈希 | 不代表资源文件已交付或真人验收完成 |
+| Migration | 复制旧协议、转换并生成审阅报告 | 不是保证实验等价的原地升级 |
+| Hosted sandbox | 本地参考托管生命周期 | 不代表云服务已部署 |
+| Deployment / Bootstrap | 托管发布定义 / 参与者启动材料 | 均不等于 GitHub Release |
+| GitHub Release | 应用安装包和源码标签的发布 | 与实验协议 Freeze 是不同业务 |
 
-## 旧术语处理
-
-- `Step`：迁移后变为 Component Instance；新代码不新增 Step 字段。
-- `Flow Event Node`：迁移后与对应 Step 合并为一个节点。
-- `Trial`：迁移后通常变为容器或 Subflow 实例。
-- `Block`：迁移后变为顺序、重复或随机化容器。
-- `Questionnaire`：迁移后变为 Screen、输入元素和提交动作的组合模板。
-- `Analysis Window`：迁移后由组件事件或显式窗口组件定义。
+详细规则见[业务流程](../BUSINESS_WORKFLOW.md)和[迁移指南](MIGRATION_GUIDE.md)。

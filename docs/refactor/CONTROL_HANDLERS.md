@@ -1,5 +1,7 @@
 # Trusted Control Handler Contract 1.0
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 Control handlers extend Runtime V2 with deterministic routing behavior while keeping executable code outside protocol and component package data. A protocol references a stable handler ID and semantic version; the host application decides which trusted implementations are registered.
 
 ## Safety boundary

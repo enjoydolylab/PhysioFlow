@@ -112,10 +112,10 @@ const field = async (ariaLabel, value, eventName = 'input') => {
 try {
   await send('Page.enable');
   await send('Runtime.enable');
-  await waitFor(`document.body.textContent.includes('PhysioFlow workspace')`, 'workspace');
+  await waitFor(`!!document.querySelector('nav[aria-label="Workspace navigation"]')`, 'workspace');
   await evaluate(`Promise.all(['physioflow-data-v1','physioflow-assets-v1','physioflow-workspace-v1'].map(name => new Promise(resolve => { const request = indexedDB.deleteDatabase(name); request.onsuccess = request.onerror = request.onblocked = () => resolve(); }))).then(() => { localStorage.clear(); localStorage.setItem('physioflow.guide-seen.v1','1'); location.reload(); })`);
-  await waitFor(`document.body.textContent.includes('No projects yet')`, 'clean dashboard');
-  await clickText('＋ New protocol');
+  await waitFor(`document.body.textContent.includes('Your first study starts here')`, 'clean dashboard');
+  await clickText('New protocol');
   await waitFor(`document.body.textContent.includes('Composer V2')`, 'Composer V2');
   await clickText('Freeze version');
   await waitFor(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Create editable version'))`, 'frozen protocol version');
@@ -133,7 +133,7 @@ try {
   await waitFor(`document.body.textContent.includes('SESSION COMPLETE') && document.body.textContent.includes('Hosted sync complete')`, 'completed hosted runtime sync');
   await waitFor(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Return to projects') && !button.disabled)`, 'saved hosted session');
   await clickText('Return to projects');
-  await waitFor(`document.body.textContent.includes('PhysioFlow workspace')`, 'workspace after hosted run');
+  await waitFor(`!!document.querySelector('nav[aria-label="Workspace navigation"]')`, 'workspace after hosted run');
   await clickText('New version');
   await waitFor(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Freeze version') && !button.disabled)`, 'editable protocol version');
   await clickText('Design');
@@ -200,6 +200,7 @@ try {
   await waitFor(`!!document.querySelector('.session-manager')`, 'session manager acceptance');
   await pageControlsAcceptance({send,evaluate},'.session-manager-head button','Session manager primary controls');
   await clickText('Close');
+  await clickText('Data & settings');
   await clickText('Analytics');
   await waitFor(`!!document.querySelector('.analytics-dashboard')`, 'analytics acceptance');
   await pageControlsAcceptance({send,evaluate},'.analytics-dashboard header button','Analytics primary controls');

@@ -290,6 +290,7 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
         <span className={`integrity-badge ${integrity.validity_status}`}>{integrity.validity_status || 'not checked'}</span>
         <h2>{detail.participant_id}</h2>
         <p>{detail.protocol_name} · Version {detail.protocol_version}</p>
+        <p>{detail.run_mode === 'hosted' ? 'Server session · local copy' : detail.run_mode === 'formal' ? 'Formal collection' : detail.run_mode === 'preview' ? 'Test run' : 'Run mode not recorded'} · Session: {detail.status} · Review: {detail.researcher_validity || 'unreviewed'}</p>
       </div>
       <button className="primary" onClick={onExportSimple}>Export simplified data</button>
       <button onClick={onExport}>Export complete (advanced)</button>
@@ -299,13 +300,15 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
     <div className="session-metrics">
       <div><b>{detail.events?.length || 0}</b><span>events</span></div>
       <div><b>{detail.responses?.length || 0}</b><span>responses</span></div>
-      <div><b>{graphSession ? detail.runtime_snapshot?.completedNodeIds?.length || 0 : detail.runtime_snapshot?.completed_steps?.length || 0}</b><span>completed Steps</span></div>
+      <div><b>{graphSession ? detail.runtime_snapshot?.completedNodeIds?.length || 0 : detail.runtime_snapshot?.completed_steps?.length || 0}</b><span>{graphSession ? 'completed node visits' : 'completed steps'}</span></div>
+      {graphSession && ['skipped', 'retries', 'pauses'].map(key => <div key={key}><b>{integrity.facts?.[key] ?? '—'}</b><span>{key}</span></div>)}
     </div>
     <div className="integrity-list">
       <h3>Automatic integrity check</h3>
       {integrity.errors?.map(m => <p className="integrity-error" key={m}>× {m}</p>)}
       {integrity.warnings?.map(m => <p className="integrity-warning" key={m}>△ {m}</p>)}
-      {!integrity.errors?.length && !integrity.warnings?.length && <p className="integrity-ok">✓ No integrity issue detected</p>}
+      {!integrity.validity_status ? <p>Integrity has not been checked. Review the session before using its data.</p> : !integrity.errors?.length && !integrity.warnings?.length && <p className="integrity-ok">✓ No integrity issue detected by automatic checks</p>}
+      <p>Automatic checks do not establish hardware timing accuracy or replace researcher review.</p>
     </div>
     <div className="session-export-note">
       <div>

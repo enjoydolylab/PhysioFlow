@@ -1,8 +1,10 @@
 # 组件体系与元素功能 · 验收审查报告
 
+> 历史材料：保留原日期的目标、测试数和结论，用于追溯，不代表当前已实现或全部验收通过。当前业务与发布情况以[实现状态](IMPLEMENTATION_STATUS.md)为准；参见[文档导航](../README.md)。
+
 Date: 2026-08-24
 Method: 遍历全部 22 个组件，逐项核对注册契约、参与者 UI、运行时执行、形式验证与控制流；由 `tests/component-acceptance.test.js`（6 项）系统化验收，叠加全量 222 项测试 + 三浏览器 E2E。
-Related: `EXPERIMENT_DESIGN_ANALYSIS.md`、`COMPOSER_V2_GAP_ANALYSIS.md`、`IMPLEMENTATION_STATUS.md`
+Current context: [业务流程](../BUSINESS_WORKFLOW.md)、[路线图](OPTIMIZATION_PLAN.md)、[当前状态](IMPLEMENTATION_STATUS.md)。旧业务/差距分析已合并，不再作为当前路线图。
 
 ## 1. 验收范围与方法
 

@@ -1,5 +1,61 @@
 /* dashboard.css — Dashboard and project cards (Design System v2) */
 
+/* Workspace redesign: a calm, editorial shell around the study list. */
+.dashboard-redesign { display:grid; grid-template-columns:236px minmax(0,1fr); max-width:1440px; margin:0 auto; padding:0; min-height:100vh; background:var(--surface); }
+.workspace-sidebar { padding:28px 18px 22px; border-right:1px solid var(--line); display:flex; flex-direction:column; background:var(--paper); }
+.workspace-wordmark { display:flex; align-items:center; gap:10px; padding:4px 10px 34px; color:var(--ink); }
+.workspace-wordmark > span { font:700 31px/1 Georgia,serif; color:var(--green-600); letter-spacing:-.08em; }
+.workspace-wordmark b { font-size:15px; letter-spacing:-.02em; }
+.workspace-wordmark small { display:block; margin-top:3px; color:var(--muted); font:700 8px/1.2 system-ui,sans-serif; letter-spacing:.12em; }
+.workspace-sidebar nav { display:grid; gap:4px; }
+.workspace-sidebar nav button { display:grid; grid-template-columns:28px 1fr auto; align-items:center; gap:8px; width:100%; padding:11px 10px; border:0; border-radius:8px; background:transparent; color:var(--muted-strong); text-align:left; font-size:13px; }
+.workspace-sidebar nav button:hover,.workspace-sidebar nav button[aria-current="page"] { background:var(--paper-soft); color:var(--green-700); }
+.workspace-sidebar nav button[aria-current="page"] { box-shadow:inset 3px 0 var(--green-600); font-weight:700; }
+.workspace-sidebar nav button > span { color:var(--muted); font:700 10px/1 monospace; }
+.workspace-sidebar nav button small { color:var(--muted); font-size:11px; }
+.sidebar-bottom { margin-top:auto; padding:16px 10px 0; border-top:1px solid var(--line); color:var(--muted-strong); font-size:12px; }
+.sidebar-dot { display:inline-block; width:7px; height:7px; margin-right:6px; border-radius:50%; background:var(--success); }
+.sidebar-bottom p { color:var(--muted); line-height:1.5; margin:12px 0 18px; }
+.sidebar-bottom button { border:0; padding:0; background:transparent; color:var(--green-600); font-size:11px; }
+.workspace-content { min-width:0; padding:0 48px 28px; }
+.workspace-topbar { height:72px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); color:var(--muted); font-size:12px; }
+.workspace-topbar b { color:var(--ink); font-weight:700; }
+.breadcrumb-divider { padding:0 7px; color:var(--line-strong); }
+.workspace-topbar .header-tools { display:flex; align-items:center; gap:8px; }
+.workspace-intro { display:flex; justify-content:space-between; gap:28px; padding:65px 0 38px; }
+.workspace-intro h1 { margin:12px 0 14px; color:var(--ink); font-size:clamp(2.5rem,5vw,4.8rem); line-height:.98; letter-spacing:-.055em; }
+.workspace-intro h1 i { color:var(--green-600); font-family:Georgia,serif; font-weight:400; }
+.workspace-intro p,.workspace-page-title p { color:var(--muted); font-size:14px; line-height:1.6; }
+.workspace-overview { display:flex; align-items:end; gap:20px; padding-bottom:8px; }
+.workspace-overview span { color:var(--muted); font-size:11px; }
+.workspace-overview b { display:block; color:var(--ink); font:500 26px/1 Georgia,serif; }
+.workspace-create { display:grid; grid-template-columns:auto 1fr auto auto; align-items:center; gap:16px; margin-bottom:48px; padding:17px 20px; border:1px solid var(--line); border-radius:12px; background:var(--paper); box-shadow:var(--shadow-sm); }
+.create-symbol { display:grid; place-items:center; width:40px; height:40px; border-radius:10px; background:var(--green-100); color:var(--green-700); font-size:25px; }
+.workspace-create h2 { margin:0 0 3px; font-size:14px; }
+.workspace-create p { margin:0; color:var(--muted); font-size:12px; }
+.workspace-create > button { white-space:nowrap; }
+.workspace-templates { grid-column:2/-1; border-top:1px solid var(--line); padding-top:10px; color:var(--muted); font-size:12px; }
+.workspace-templates summary { cursor:pointer; }
+.workspace-templates > div { display:flex; gap:6px; margin-top:9px; }
+.workspace-templates button { padding:6px 10px; font-size:11px; }
+.section-title h2 { display:flex; align-items:center; gap:8px; }
+.section-title h2 small { display:inline-grid; place-items:center; min-width:22px; height:22px; border-radius:50%; background:var(--paper-soft); color:var(--muted); font-size:11px; }
+.project-search { width:200px; padding:8px 11px; border:1px solid var(--line); border-radius:7px; background:var(--paper); color:var(--ink); font-size:12px; }
+.workspace-page-title { padding:62px 0 30px; }
+.workspace-page-title h1 { margin:10px 0 8px; font:500 clamp(2.4rem,5vw,4rem)/1 Georgia,serif; letter-spacing:-.04em; }
+.workspace-page-title p { margin:0; }
+.workspace-tools .status-bar { margin-bottom:24px; }
+.workspace-tool-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.workspace-tool-grid > button { display:grid; gap:8px; min-height:130px; padding:18px; border:1px solid var(--line); border-radius:10px; background:var(--paper); text-align:left; }
+.workspace-tool-grid > button:hover { border-color:var(--green-300); transform:translateY(-2px); }
+.workspace-tool-grid span { color:var(--muted); font:700 9px/1 monospace; letter-spacing:.1em; }
+.workspace-tool-grid b { color:var(--ink); font-size:16px; }
+.workspace-tool-grid p { margin:0; color:var(--muted); font-size:12px; line-height:1.5; }
+.workspace-footer { display:flex; justify-content:space-between; margin-top:70px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:11px; }
+.workspace-footer button { border:0; background:transparent; color:var(--green-600); font-size:11px; }
+@media (max-width:900px) { .dashboard-redesign { grid-template-columns:1fr; } .workspace-sidebar { position:sticky; top:0; z-index:30; padding:10px 16px; border-right:0; border-bottom:1px solid var(--line); flex-direction:row; align-items:center; gap:18px; } .workspace-wordmark { padding:0; } .workspace-sidebar nav { display:flex; flex:1; } .workspace-sidebar nav button { grid-template-columns:auto 1fr; padding:8px; } .workspace-sidebar nav button > span,.workspace-sidebar nav button small,.sidebar-bottom { display:none; } .workspace-content { padding:0 22px 24px; } .workspace-intro { padding-top:42px; } }
+@media (max-width:600px) { .workspace-intro { display:block; } .workspace-overview { margin-top:28px; } .workspace-create { grid-template-columns:auto 1fr; } .workspace-create > button { grid-column:2; } .workspace-templates { grid-column:1/-1; } .workspace-tool-grid { grid-template-columns:1fr; } .workspace-topbar { height:58px; } }
+
 /* ── Single compact status strip (storage + workspace readiness) ── */
 .status-bar {
   display: flex;

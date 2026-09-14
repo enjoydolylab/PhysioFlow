@@ -1,5 +1,7 @@
 # Single-Node Self-Hosting
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 PhysioFlow includes a dependency-free Node server for a small trusted deployment. It serves the built web application and `/participant`, mounts Hosted HTTP API v1, persists service state atomically, exposes liveness and readiness checks, accepts checksum-locked workspace assets, and delivers them through expiring HMAC-signed URLs.
 
 ## Start

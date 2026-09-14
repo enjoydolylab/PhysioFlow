@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
 import ParticipantMedia from './ParticipantMedia.jsx';
+import { pathTo } from './participantUi/tree.js';
 
 // PPT-style WYSIWYG canvas for the participant-interface editor.
 // Renders the real participant UI and lets the designer click to select an element
@@ -52,7 +53,7 @@ function AlignIcon({ name }) {
 export default function ParticipantUiCanvas({
   schema, selectedId, selectedIds, onSelect, onDropElement, onMoveElement, onMoveElements,
   onRemoveElement, onDuplicateElement, onMoveStep, onResizeElement, onUpdateText, onUpdateProp,
-  onContextMenu, onRemoveSelected, onDuplicateSelected, onAlignSelected, onConvertFree, zoom = 1, snapEnabled = true, context = {},
+  onContextMenu, onRemoveSelected, onDuplicateSelected, onAlignSelected, onReorderFlow, onBoundsIssues, zoom = 1, snapEnabled = true, context = {},
 }) {
   const normalized = useMemo(() => normalizeParticipantUi(schema), [schema]);
   const theme = useMemo(() => resolveTheme(normalized), [normalized]);
@@ -79,8 +80,8 @@ export default function ParticipantUiCanvas({
   onDuplicateSelectedRef.current = onDuplicateSelected;
   const onAlignSelectedRef = useRef(onAlignSelected);
   onAlignSelectedRef.current = onAlignSelected;
-  const onConvertFreeRef = useRef(onConvertFree);
-  onConvertFreeRef.current = onConvertFree;
+  const onReorderFlowRef = useRef(onReorderFlow);
+  onReorderFlowRef.current = onReorderFlow;
   const zoomRef = useRef(zoom);
   zoomRef.current = zoom;
   const snapRef = useRef(snapEnabled);
@@ -89,15 +90,53 @@ export default function ParticipantUiCanvas({
   selectedIdsRef.current = selectedIds;
   const nodeRefs = useRef(new Map());
   const dragStartRef = useRef(null);
+  const dragClickRef = useRef(null);
+  const dragCleanupRef = useRef(null);
   const resizeStartRef = useRef(null);
-  // While a flow container is being converted to free mid-drag, keep it a containing
-  // block so the dragged element renders at its live position even before the commit.
-  const freePendingRef = useRef(null);
+  const [reorderHint, setReorderHint] = useState(null);
   const [livePos, setLivePos] = useState(null); // { elementId, x, y } or { multi, ids, offsetX, offsetY }
   const [liveSize, setLiveSize] = useState(null); // { elementId, w, h } during an active resize
   const [editingId, setEditingId] = useState(null); // element id currently edited inline (double-click)
   const [guides, setGuides] = useState(null); // { containerId, v: [x], h: [y] } alignment lines in container coords
   const suppressFocusSelectRef = useRef(false);
+  useEffect(() => {
+    const cancel = event => {
+      if (event.type === 'keydown' && event.key !== 'Escape') return;
+      if (!dragStartRef.current) return;
+      dragCleanupRef.current?.();
+      dragStartRef.current = null;
+      setLivePos(null);
+      setGuides(null);
+      setReorderHint(null);
+    };
+    window.addEventListener('keydown', cancel);
+    window.addEventListener('blur', cancel);
+    return () => {
+      dragCleanupRef.current?.();
+      window.removeEventListener('keydown', cancel);
+      window.removeEventListener('blur', cancel);
+    };
+  }, []);
+  const locked = element => pathTo(normalized.root, element.id)?.some(node => node.props?.locked);
+  useEffect(() => {
+    if (!onBoundsIssues) return;
+    let frame;
+    const measure = () => {
+      const screen = nodeRefs.current.get(normalized.root.id)?.getBoundingClientRect();
+      if (!screen) return;
+      const issues = [];
+      for (const [id, node] of nodeRefs.current) {
+        if (id === normalized.root.id) continue;
+        const r = node.getBoundingClientRect();
+        if (r.left < screen.left - 1 || r.top < screen.top - 1 || r.right > screen.right + 1 || r.bottom > screen.bottom + 1) issues.push(id);
+      }
+      onBoundsIssues(previous => JSON.stringify(previous) === JSON.stringify(issues) ? previous : issues);
+    };
+    const observer = new window.ResizeObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(measure); });
+    for (const node of nodeRefs.current.values()) observer.observe(node);
+    frame = requestAnimationFrame(measure);
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, [normalized, zoom, onBoundsIssues]);
   useEffect(() => {
     const closeOnPointer = event => {
       if (event.target?.closest?.('.ui-slot.editing')) return;
@@ -113,7 +152,7 @@ export default function ParticipantUiCanvas({
     else nodeRefs.current.delete(id);
   };
 
-  const selectedClass = element => (selectedIds?.has(element.id) ? ' selected' : '');
+  const selectedClass = element => (selectedIds?.has(element.id) ? ' selected' : '') + (reorderHint?.beforeId === element.id ? ' ui-insert-before' : '') + (reorderHint && !reorderHint.beforeId && reorderHint.containerId === element.id ? ' ui-insert-end' : '');
 
   const collectSiblingRects = (containerId, draggedId) => {
     const containerNode = nodeRefs.current.get(containerId);
@@ -151,22 +190,24 @@ export default function ParticipantUiCanvas({
         ox = Math.round(ox / SNAP) * SNAP;
         oy = Math.round(oy / SNAP) * SNAP;
       }
+      ox = Math.max(ox, -start.minX);
+      oy = Math.max(oy, -start.minY);
       start.offsetX = ox;
       start.offsetY = oy;
       setLivePos({ multi: true, ids: start.ids, offsetX: ox, offsetY: oy });
       return;
     }
     if (start.flow) {
-      // First real movement on a flow (non-free) child: convert its container to free
-      // once, pinning this element where it currently sits and arranging the siblings
-      // neatly underneath (see convertContainerToFreeArrange). Restart measuring from
-      // the current pointer so the drag continues smoothly without a jump to (0,0).
-      onConvertFreeRef.current?.(start.containerId, start.elementId, start.startX, start.startY);
-      freePendingRef.current = start.containerId;
-      start.flow = false;
+      // Keep the original layout until release; indicate the insertion point.
+      const siblings = start.flowParent.children.filter(child => child.id !== start.elementId);
+      const horizontal = start.flowParent.props?.direction === 'row';
+      const before = siblings.find(child => {
+        const r = nodeRefs.current.get(child.id)?.getBoundingClientRect();
+        return r && (horizontal ? event.clientX < r.left + r.width / 2 : event.clientY < r.top + r.height / 2);
+      });
+      start.beforeId = before?.id || null;
+      setReorderHint({ beforeId: start.beforeId, containerId: start.containerId });
       start.siblingRects = [];
-      start.startClientX = event.clientX;
-      start.startClientY = event.clientY;
     }
     let x = start.startX + (event.clientX - start.startClientX) / zoomRef.current;
     let y = start.startY + (event.clientY - start.startClientY) / zoomRef.current;
@@ -182,10 +223,10 @@ export default function ParticipantUiCanvas({
         const xPairs = [[t.l, s.l, s.l], [t.cx, s.cx, s.cx], [t.r, s.r, s.r], [t.l, s.r, s.r], [t.r, s.l, s.l]];
         const yPairs = [[t.t, s.t, s.t], [t.cy, s.cy, s.cy], [t.b, s.b, s.b], [t.t, s.b, s.b], [t.b, s.t, s.t]];
         for (const [a, b, line] of xPairs) {
-          if (sx == null && Math.abs(a - b) <= GUIDE_THRESHOLD) { sx = b; if (!v.includes(line)) v.push(line); }
+          if (sx == null && Math.abs(a - b) <= GUIDE_THRESHOLD) { sx = x + b - a; if (!v.includes(line)) v.push(line); }
         }
         for (const [a, b, line] of yPairs) {
-          if (sy == null && Math.abs(a - b) <= GUIDE_THRESHOLD) { sy = b; if (!h.includes(line)) h.push(line); }
+          if (sy == null && Math.abs(a - b) <= GUIDE_THRESHOLD) { sy = y + b - a; if (!h.includes(line)) h.push(line); }
         }
       }
       if (sx != null) x = sx;
@@ -196,29 +237,34 @@ export default function ParticipantUiCanvas({
     y = Math.max(0, y);
     start.x = x;
     start.y = y;
-    setLivePos({ elementId: start.elementId, x, y });
+    setLivePos({ elementId: start.elementId, x, y, flow: start.flow, dx: x - start.startX, dy: y - start.startY });
   };
 
   const pointerUp = () => {
     const start = dragStartRef.current;
     dragStartRef.current = null;
-    freePendingRef.current = null;
     window.removeEventListener('mousemove', pointerMove);
     window.removeEventListener('mouseup', pointerUp);
     if (start?.moved) {
+      dragClickRef.current = { id: start.elementId, until: performance.now() + 300 };
       if (start.multi) onMoveElementsRef.current(start.ids, Math.round(start.offsetX), Math.round(start.offsetY));
+      else if (start.flow) onReorderFlowRef.current?.(start.containerId, start.elementId, start.beforeId);
       else onMoveRef.current(start.elementId, start.containerId, Math.round(start.x), Math.round(start.y));
     }
     setLivePos(null);
+    setReorderHint(null);
     setGuides(null);
   };
 
   // Free repositioning via pointer events. Dragging one of several selected
   // elements moves the whole selection together; otherwise it is a single drag.
-  // A flow (non-free) child is never live-rendered at an absolute position until
-  // pointerMove converts its container to free layout, so a plain click selects
-  // without flashing the element to (0,0) and a real drag never scatters siblings.
+  // Flow children retain their layout space until the single release commit.
   const beginPointerDrag = (event, element) => {
+    if (event.button !== 0) return;
+    dragClickRef.current = null;
+    if (locked(element)) { event.stopPropagation(); return; }
+    markSuppressFocusSelect();
+    if (!selectedIdsRef.current?.has(element.id) || selectedIdsRef.current.size <= 1) event.currentTarget.focus({ preventScroll: true });
     if (element.type === 'Screen') return;
     if (editingId === element.id || event.target?.isContentEditable) return;
     const parent = parentElementOf(normalized.root, element.id);
@@ -226,6 +272,7 @@ export default function ParticipantUiCanvas({
     event.preventDefault();
     event.stopPropagation();
     markSuppressFocusSelect();
+    if (event.shiftKey) return; // Shift-click changes selection without starting a drag.
     // Alt+drag duplicates the element and drags the copy instead (Figma-style).
     // Only free-layout (positioned) elements can be duplicated this way; the copy
     // is inserted exactly where the source sits, so the drag continues from the
@@ -245,8 +292,9 @@ export default function ParticipantUiCanvas({
     // (shift) selection is left to the single click handler to avoid the toggle
     // being applied twice (mousedown + click) and cancelling the multi-select.
     if (!alreadyInMulti && !event.shiftKey) onSelect(dragId, false);
-    const multi = alreadyInMulti;
-    const ids = multi ? [...selectedIdsRef.current].filter(id => id !== normalized.root.id) : [dragId];
+    const multi = alreadyInMulti && !flow;
+    const members = parent.children.filter(child => selectedIdsRef.current?.has(child.id) && !locked(child) && child.props?.x != null && child.props?.y != null);
+    const ids = multi ? members.map(child => child.id) : [dragId];
     const node = nodeRefs.current.get(element.id);
     const rect = node?.getBoundingClientRect();
     const z = zoomRef.current || 1;
@@ -281,8 +329,11 @@ export default function ParticipantUiCanvas({
       ids,
       offsetX: 0,
       offsetY: 0,
+      minX: members.length ? Math.min(...members.map(child => child.props.x)) : 0,
+      minY: members.length ? Math.min(...members.map(child => child.props.y)) : 0,
       snap: snapRef.current,
       flow,
+      flowParent: parent,
       siblingRects: multi || flow ? [] : collectSiblingRects(parent.id, element.id),
     };
     if (!flow) {
@@ -291,6 +342,10 @@ export default function ParticipantUiCanvas({
     }
     window.addEventListener('mousemove', pointerMove);
     window.addEventListener('mouseup', pointerUp);
+    dragCleanupRef.current = () => {
+      window.removeEventListener('mousemove', pointerMove);
+      window.removeEventListener('mouseup', pointerUp);
+    };
   };
 
   const resizeMove = event => {
@@ -312,6 +367,7 @@ export default function ParticipantUiCanvas({
   };
 
   const beginResize = (event, element) => {
+    if (locked(element)) return;
     event.preventDefault();
     event.stopPropagation();
     onSelect(element.id, event.shiftKey);
@@ -349,10 +405,18 @@ export default function ParticipantUiCanvas({
   });
 
   const clickProps = element => ({
-    onClick: event => { event.stopPropagation(); markSuppressFocusSelect(); onSelect(element.id, event.shiftKey); },
+    onClick: event => {
+      event.stopPropagation();
+      const dragClick = dragClickRef.current;
+      dragClickRef.current = null;
+      if (event.detail > 0 && dragClick?.id === element.id && performance.now() < dragClick.until) return;
+      if (locked(element)) return;
+      markSuppressFocusSelect(); onSelect(element.id, event.shiftKey);
+    },
     onContextMenu: event => {
       event.preventDefault();
       event.stopPropagation();
+      if (locked(element)) return;
       if (onContextMenu) onContextMenu(element.id, event.clientX, event.clientY);
     },
   });
@@ -365,16 +429,17 @@ export default function ParticipantUiCanvas({
     requestAnimationFrame(() => { suppressFocusSelectRef.current = false; });
   };
   const a11yProps = element => ({
-    tabIndex: 0,
+    tabIndex: locked(element) ? -1 : 0,
+    'data-locked': locked(element) ? 'true' : undefined,
     onFocus: event => {
       event.stopPropagation();
-      if (suppressFocusSelectRef.current) return;
+      if (suppressFocusSelectRef.current || locked(element)) return;
       onSelect(element.id, false);
     },
   });
 
   // Floating action bar for a single selected element (anchored to the element).
-  const floatBar = element => selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Screen'
+  const floatBar = element => selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Screen' && editingId !== element.id
     ? <span className="ui-float-bar" onMouseDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()}>
       <button type="button" title="Move up" onClick={() => onMoveStepRef.current(element.id, -1)}>↑</button>
       <button type="button" title="Move down" onClick={() => onMoveStepRef.current(element.id, 1)}>↓</button>
@@ -397,7 +462,7 @@ export default function ParticipantUiCanvas({
       if (livePos.multi && livePos.ids.includes(element.id) && (props.x != null || props.y != null)) {
         x = (props.x ?? 0) + livePos.offsetX;
         y = (props.y ?? 0) + livePos.offsetY;
-      } else if (livePos.elementId === element.id) {
+      } else if (livePos.elementId === element.id && !livePos.flow) {
         x = livePos.x;
         y = livePos.y;
       }
@@ -405,18 +470,20 @@ export default function ParticipantUiCanvas({
     const liveSizeEl = liveSize?.elementId === element.id;
     const w = liveSizeEl ? liveSize.w : props.width;
     const h = liveSizeEl ? liveSize.h : props.height;
-    const sized = (w != null || h != null) ? { width: w != null ? w : undefined, height: h != null ? h : undefined } : {};
-    const positioned = (x != null && y != null) ? { position: 'absolute', left: x, top: y, ...sized } : {};
+    const sized = (w != null || h != null) ? { width: w != null ? w : undefined, height: h != null ? h : undefined, boxSizing: 'border-box', minWidth: 0, minHeight: 0 } : {};
+    const positioned = (x != null && y != null) ? { position: 'absolute', left: x, top: y, ...sized, ...(props.zeroMargin ? {margin:0} : {}) } : {};
     // Anchor the floating bar to static elements by making the selected one relative.
     const anchorStyle = (!positioned.position && selectedId === element.id) ? { position: 'relative' } : {};
+    if (livePos?.flow && livePos.elementId === element.id) {
+      anchorStyle.transform = `translate(${livePos.dx}px, ${livePos.dy}px)`;
+    }
     // Resize handle only for free-positioned leaf elements.
-    const showResize = Boolean(positioned.position) && selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Layout' && element.type !== 'Screen';
+    const showResize = Boolean(positioned.position) && selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Layout' && element.type !== 'Screen' && editingId !== element.id;
     const resizeHandle = showResize ? <span className="ui-resize-handle" title="Drag to resize" onMouseDown={event => beginResize(event, element)} /> : null;
     const freeClass = props.free ? ' ui-free' : '';
-    const pendingFree = freePendingRef.current === element.id;
-    const freeBlock = props.free || pendingFree;
-    if (element.type === 'Screen') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-screen ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, ...(freeBlock ? { position: 'relative', minHeight: 'min(72vh, 560px)' } : {}) }} ref={registerRef(element.id)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{freeBlock && <span className="ui-free-hint">FREE · drag elements anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
-    if (element.type === 'Layout') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-layout ${props.direction || 'column'} ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, gap: style.gap ?? 16, ...(freeBlock ? { position: 'relative', minHeight: 'min(72vh, 560px)' } : {}) }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{floatBar(element)}{freeBlock && <span className="ui-free-hint">FREE · drag anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
+    const freeBlock = props.free;
+    if (element.type === 'Screen') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-screen ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{freeBlock && <span className="ui-free-hint">FREE · drag elements anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
+    if (element.type === 'Layout') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-layout ${props.direction || 'column'} ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, gap: style.gap ?? 16, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{floatBar(element)}{freeBlock && <span className="ui-free-hint">FREE · drag anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
     if (element.type === 'Text') {
       const text = boundProp(element, 'text', context) ?? '';
       const editing = editingId === element.id;
@@ -428,11 +495,12 @@ export default function ParticipantUiCanvas({
         onMouseDown: event => beginPointerDrag(event, element),
         ...a11yProps(element),
         ...clickProps(element),
-        onDoubleClick: event => { event.stopPropagation(); if (element.bindings?.text) return; setEditingId(element.id); },
+        onDoubleClick: event => { event.stopPropagation(); if (locked(element) || element.bindings?.text) return; setEditingId(element.id); },
         contentEditable: editing,
         suppressContentEditableWarning: true,
         spellCheck: false,
         onBlur: event => {
+          if (!editing) return;
           setEditingId(null);
           const next = event.currentTarget.textContent ?? '';
           if (next !== text) onUpdateTextRef.current(element.id, next);
@@ -463,7 +531,7 @@ export default function ParticipantUiCanvas({
             }} />
         </span>;
       }
-      return <span key={element.id} data-ui-id={element.id} className={`ui-media-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)} onDoubleClick={event => { event.stopPropagation(); if (element.bindings?.sourceUrl) return; setEditingId(element.id); }}>{floatBar(element)}{resizeHandle}<ParticipantMedia source={source} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={Boolean(props.autoPlay)} alt={props.alt || ''} fit={props.fit || 'contain'} /><div className="ui-edit-shield" /></span>;
+      return <span key={element.id} data-ui-id={element.id} className={`ui-media-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)} onDoubleClick={event => { event.stopPropagation(); if (locked(element) || element.bindings?.sourceUrl) return; setEditingId(element.id); }}>{floatBar(element)}{resizeHandle}<ParticipantMedia source={source} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={Boolean(props.autoPlay)} alt={props.alt || ''} fit={props.fit || 'contain'} style={(w != null || h != null) ? {width:w != null ? '100%' : undefined, height:h != null ? '100%' : undefined, maxHeight:'none', margin:0, boxSizing:'border-box'} : undefined} /><div className="ui-edit-shield" /></span>;
     }
     if (element.type === 'Progress') {
       const value = Number(boundProp(element, 'value', context) ?? 0), max = Number(boundProp(element, 'max', context) ?? 100);
@@ -499,7 +567,7 @@ export default function ParticipantUiCanvas({
             : <div className="ui-input-ghost" />}
       </label>;
     }
-    if (element.type === 'Button') return <span key={element.id} data-ui-id={element.id} className={`ui-button-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)}>{floatBar(element)}{resizeHandle}<button type="button" className={`participant-ui-button ${props.variant || 'primary'}`} style={style}>{props.label || 'Continue'}</button></span>;
+    if (element.type === 'Button') return <span key={element.id} data-ui-id={element.id} className={`participant-ui-button-wrap ui-button-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)}>{floatBar(element)}{resizeHandle}<button type="button" className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(w != null ? {width:'100%', minWidth:0} : {}), ...(h != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}}>{props.label || 'Continue'}</button></span>;
     return null;
   };
 

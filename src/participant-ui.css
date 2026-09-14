@@ -1,5 +1,12 @@
 .participant-ui-renderer { width: 100%; min-height: 100%; display: grid; place-items: center; }
 .participant-ui-screen { box-sizing: border-box; width: min(100%, 900px); margin: auto; border-radius: 14px; }
+.ui-screen-frame { position: relative; width: 100%; overflow: hidden; }
+.participant-ui-button-wrap { display: inline-block; position: relative; }
+.ui-screen-surface, .ui-canvas-device { container-type: inline-size; }
+.ui-screen-surface .participant-ui-screen h1, .ui-canvas-device .participant-ui-screen h1 { font-size: clamp(1.8rem, 4cqw, 3.5rem); }
+.ui-screen-surface { position: absolute; top: 0; transform-origin: top left; }
+.ui-screen-surface > .participant-ui-renderer { height: 100%; }
+.ui-screen-surface > .participant-ui-renderer > .participant-ui-screen { width: 100% !important; max-width: none !important; height: 100% !important; min-height: 0 !important; overflow: hidden !important; }
 .participant-ui-layout { display: flex; width: 100%; }
 .participant-ui-layout.column { flex-direction: column; }
 .participant-ui-layout.row { flex-direction: row; }

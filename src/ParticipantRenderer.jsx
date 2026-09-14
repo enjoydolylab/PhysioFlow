@@ -1,3 +1,4 @@
+import { ScreenFrame } from './participantUi/ScreenFrame.jsx';
 import { useMemo, useState } from 'react';
 import { normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
 import ParticipantMedia from './ParticipantMedia.jsx';
@@ -50,11 +51,12 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     // Free-layout positioning: elements carrying x/y coordinates are absolutely
     // positioned inside a container that opted into free layout.
     const positioned = {
+      ...(props.zeroMargin ? { margin: 0 } : {}),
       ...((props.x != null && props.y != null) ? { position: 'absolute', left: props.x, top: props.y } : {}),
       ...(Number.isFinite(props.width) && props.width > 0 ? { width: props.width, minWidth: 0, boxSizing: 'border-box' } : {}),
       ...(Number.isFinite(props.height) && props.height > 0 ? { height: props.height, minHeight: 0, boxSizing: 'border-box' } : {}),
     };
-    const freeLayout = props.free ? { position: 'relative', minHeight: 'min(78vh, 620px)', overflow: 'auto' } : {};
+    const freeLayout = props.free ? { position: positioned.position || 'relative', minHeight: props.height != null ? 0 : 'min(78vh, 620px)', overflow: 'auto' } : {};
     if (element.type === 'Screen') return <div key={element.id} className="participant-ui-screen" style={{ ...style, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
     if (element.type === 'Layout') return <div key={element.id} className={`participant-ui-layout ${props.direction || 'column'}`} style={{ ...style, gap: style.gap ?? 16, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
     if (element.type === 'Text') {
@@ -64,7 +66,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     }
     if (element.type === 'Media') {
       const source = boundProp(element, 'sourceUrl', context) || '';
-      return <ParticipantMedia key={element.id} source={source} disabled={disabled} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={props.autoPlay} alt={props.alt || ''} fit={props.fit || 'contain'} style={positioned} onMediaEvent={(eventType, payload) => onMediaEvent?.(eventType, { elementId: element.id, ...payload })} />;
+      return <span key={element.id} className="ui-media-wrap" style={positioned}><ParticipantMedia source={source} disabled={disabled} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={props.autoPlay} alt={props.alt || ''} fit={props.fit || 'contain'} style={(props.width != null || props.height != null) ? {width:props.width != null ? '100%' : undefined, height:props.height != null ? '100%' : undefined, maxHeight:'none', margin:0, boxSizing:'border-box'} : undefined} onMediaEvent={(eventType, payload) => onMediaEvent?.(eventType, { elementId: element.id, ...payload })} /></span>;
     }
     if (element.type === 'Progress') {
       const value = Number(boundProp(element, 'value', context) ?? 0), max = Number(boundProp(element, 'max', context) ?? 100);
@@ -103,9 +105,12 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
         {errors[name] && <small>{errors[name]}</small>}
       </label>;
     }
-    if (element.type === 'Button') return <button key={element.id} type="button" disabled={disabled || preview} className={`participant-ui-button ${props.variant || 'primary'}`} style={{ ...style, ...positioned }} onClick={() => executeActions(element.actions)}>{props.label || 'Continue'}</button>;
+    if (element.type === 'Button') return <span key={element.id} className="participant-ui-button-wrap" style={positioned}><button type="button" disabled={disabled || preview} className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(props.width != null ? {width:'100%', minWidth:0} : {}), ...(props.height != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}} onClick={() => executeActions(element.actions)}>{props.label || 'Continue'}</button></span>;
     return null;
   };
 
-  return <div className="participant-ui-renderer">{render(normalized.root)}</div>;
+  const content = <div className="participant-ui-renderer">{render(normalized.root)}</div>;
+  return normalized.root.props?.screenWidth && normalized.root.props?.screenHeight
+    ? <ScreenFrame width={normalized.root.props.screenWidth} height={normalized.root.props.screenHeight}>{content}</ScreenFrame>
+    : content;
 }

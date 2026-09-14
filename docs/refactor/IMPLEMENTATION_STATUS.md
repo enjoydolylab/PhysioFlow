@@ -1,104 +1,59 @@
-# Refactor Implementation Status
+# 当前实现与发布状态
 
-> 2026-09-05: runtime audit fixes are implemented but unreleased. Current verification: 335 JavaScript tests (334 passed, 1 skipped), 2 Rust tests, lint/build and expanded browser scenarios. Published beta.3 does not contain these fixes. See [the follow-up report](RUNTIME_RELIABILITY_AUDIT_2026-09-05.md). The dated beta.3 statement below is historical.
+更新：2026-09-14。此页区分当前开发代码与已发布安装包；历史审查保留其日期，不作为新的验收结果。
 
-The planned MVP refactor phases 0–6 are implemented on the `demo` branch.
+## 发布基线
 
-> 2026-09-04 · **v0.6.0-beta.3 已发布**（research-test；`demo`、tag 与 GitHub prerelease 同步，包含 NSIS、SHA256SUMS 与日语发布说明）。当前 `npm test` = **332 项合计 / 331 通过 / 1 跳过**（win32 symlink 助手）、lint 0 警告、build、Rust 测试与浏览器 E2E 通过。
-> 本文件正文中的历史测试数（226 / 222 等）以 `OPTIMIZATION_PLAN.md` §0 为准。正式 1.0 仍被「真人可用性研究 `verify:usability-study` → `passed:true`」门禁阻塞。
-
-| Phase | Delivered |
+| 项目 | 已核实状态 |
 | --- | --- |
-| 0 — Baseline | Glossary, representative experiments, legacy inventory, and architecture decisions |
-| 1 — Core | Protocol Graph, component registry, ports, variables, immutable commands, validation, canonical serialization, and migration skeleton |
-| 2 — Runtime | Deterministic Runtime V2, conditions, bounded loops, injected clocks/IDs, pause/resume, retry/skip, snapshots, event envelopes, and event-driven replay |
-| 3 — Composer | Component palette, graph canvas, port wiring, schema-driven Inspector, validation, undo/redo, inline node duplication, validated node groups, reusable parameterized subflows, Quick/Design/Advanced modes, storage and Dashboard compatibility |
-| 4 — Participant UI | Screen/Layout/Text/Media/Input/Button/Progress schema, reusable templates, tree builder, authorable bindings/actions, renderer, session setup, and Runtime V2 runner |
-| 5 — Data | Raw JSONL, normalized CSV, snapshots, manifests, data dictionary, quality report, full package download, participant/media/device lifecycle events, reaction times, device provenance, and independently tested validator |
-| 6 — Migration/Pilot | In-app and CLI migration, migration reports, native Questionnaire adapter, review gate, freeze hashes, three representative migration tests, operator guide, and release gate |
+| 最新研究测试版本 | [v0.6.0-beta.4](https://github.com/kyzzz22/physioflow-app/releases/tag/v0.6.0-beta.4) |
+| 发布时间 | 2026-09-06 |
+| 版本源码 | `68a3451c3f33dcb8cbf87f53d612bf0938e990d1`，demo 分支 |
+| 安装包 | Windows x64 NSIS，当前用户安装，未签名 |
+| 附件 | EXE、SHA256SUMS.txt、RELEASE_NOTES.md |
+| macOS / Linux 安装包 | 未发布 |
 
-Current automated baseline: 226 tests, a production build without bundle warnings, and strict zero-warning lint pass. Release qualification remains the full `npm run quality:release` command, including its isolated browser flows. Two hosted-file tests fail only on Windows where `fs.stat().mode` cannot express `0o600` and symlinks require privileges; they pass on Linux/macOS.
+安装包 SHA-256：`7176bd8edab95c34903c15669bccda1b8079575fedb0df610f75c4d003cd38c7`。
 
-Composer V2 canvas interactions now match the legacy canvas: node search supports Ctrl+F focus, match counts, Enter-to-select and Escape-to-clear (input-scoped Escape no longer leaves the builder); auto layout skips grouped nodes so their bounding boxes stay intact and lays out unreachable nodes by index; flow snapshots capture the full graph state (nodes, edges, groups, entry) for whole-graph restore with undo, support renaming saved snapshots, and remain backward compatible with layout-only snapshots.
+## 已有能力
 
-Composer V2 data wiring adds drag-to-connect: press an output port, drag to a compatible input port, and release to create the edge, with a temporary wire previewed in real time; Escape cancels an in-flight drag without completing the wire, and point-to-point wiring (click output, then input) remains available. Canvas keyboard shortcuts add Ctrl+A select-all (entry node excluded), Ctrl+=/Ctrl+- zoom steps, and Ctrl+0 viewport reset. Escape is layered inside the editor — it cancels in-flight operations first (drag wire, pending point-to-point connection, marquee selection, delete confirmation), then clears selection — and the app-level handler no longer intercepts Escape at all, so Escape never exits the builder.
+- Composer V2 Graph：控制/数据连接、变量、条件、循环、随机分支、分组、子流程及版本冻结。
+- Participant UI：声明式元素、可视化编辑、JSON 配置、模板和受限制的 HTML 展示；专用问卷、认知任务等仍有独立运行适配。
+- 执行与记录：响应/事件、暂停/恢复、Retry/Skip、检查点、最终保存重试、失败会话保存。
+- 资源与随机化：本地媒体内容校验、新 Graph 共享刺激池按实际执行消费。
+- 兼容旧 Block/Trial：层级、重复、条件约束排序与迁移；不是 Graph 的通用 Trial 容器。
+- 可选开发能力：声明式组件 SDK、可信控制处理器、设备连接契约、离线协作变更集和单节点 Hosted 服务。
 
-Composer V2 now includes a typed variable catalog with scope, source, default value, and export policy, plus a variable picker for condition inputs. Variable renames update node and participant-UI bindings atomically; referenced variables cannot be removed accidentally.
+业务含义与限制见[业务流程](../BUSINESS_WORKFLOW.md)，技术契约见[文档导航](../README.md)。
 
-Runtime V2 includes a graph-native Random split component. Its deterministic state stores the injected seed and draw count; every decision records the seed, draw index, random value, configured probability, and selected branch so that a run can be reproduced and audited.
+## 验证证据
 
-Node groups are persisted inside the Protocol Graph, validated for referential integrity and single membership, included in serialization/freeze hashes, and rendered as live canvas containers. Removing a node updates its group safely; duplication preserves membership.
+2026-09-14 开发版新增首页整理、结构化响应选项、试次生成与流程重复入口，以及[画布布局和属性面板优化](CANVAS_EDITING.md)。这些改动尚未重新打包发布。[多语言审查](I18N_REVIEW_WORKFLOW.md)目前提供初步候选扫描，不表示翻译已完整。
 
-A node group can define a subflow boundary with one member entry, one or more member exits, and typed input/output parameters bound to concrete component data ports. Composer V2 can publish that definition as a reusable template and create isolated expanded instances with explicit variable mappings. Runtime V2 reads mapped input variables and writes mapped component outputs back to protocol variables while retaining template/version/instance provenance.
+本轮本地验证：
 
-Component definitions now declare their runtime kind, participant UI adapter, and completion strategy. Runtime V2 dispatches by the registry contract instead of component type; a newly registered standard participant component enters and completes without adding a central runtime type branch.
+- JS 单测：348 项，347 通过，1 项跳过。
+- lint（零警告）与生产构建通过。
+- 公开参与者浏览器 E2E 通过，包含画布真实鼠标多选拖动、取消拖动、锁定和属性输入提交检查。
 
-The `input.response` component completes the legacy step coverage (GAP #3). It shows a stimulus, collects a keyboard or button response through a dedicated `ResponseRunner` (real keydown capture, ignored key repeats, RT from component entry), and records `value` / `response_key` / `reaction_time_ms` / `correct` / `timed_out` data fields with optional scoring (`correctValue`), feedback modes, timeout, and auto-advance. Options are edited as `value=label,key=1` lines that round-trip to the stored array, and legacy V1 `response` steps migrate with their variable/options/auto-advance/required settings preserved.
+此前验证记录：
 
-Session Review now includes an event-sequence replay panel. A pure reducer rebuilds runtime status, active node, variables, outputs, attempts, loop counts and recorded branch decisions at each immutable event; discontinuous or cross-session logs are rejected instead of being silently approximated.
+- Composer 浏览器 E2E 通过。
+- Windows 文件替换的 2 项 Rust 测试在运行可靠性修复阶段通过。
+- 8 种 CSS 视口检查覆盖编辑器及主要页面控件；不是全部页面内容、Windows DPI、WebView2 或所有设备的验收。
+- [UI / Block 验收](../ACCEPTANCE_REPORT_2026-09-05.md)与[运行可靠性审查](RUNTIME_RELIABILITY_AUDIT_2026-09-05.md)提供具体范围。
 
-The declarative Component SDK 1.0 and project component library support versioned JSON packages without executable code injection. Composer Advanced mode imports packages, requires explicit capability approval, registers components in the normal palette, and prevents uninstall while nodes still depend on them. Runtime and validation enforce variable, asset, network-media and event permissions. A runnable Reaction Button package is included as the reference example; see `COMPONENT_SDK.md`.
+不要由这些记录推断最新 CI 或真人研究已通过。
 
-The External Device Connector Contract 1.0 stores versioned, permission-approved typed channel manifests in the protocol while injecting trusted hardware adapters at runtime. The connector session records connection, samples, markers, failure, retry, recovery and disconnection with connector/device provenance. Raw and normalized device event tables are included in every graph export; see `DEVICE_CONNECTORS.md`.
+## 未完成与不确定项
 
-Trusted Control Handler Contract 1.0 lets host-installed, versioned handlers add deterministic routing without accepting executable code from protocol JSON. Runtime gives handlers cloned, deeply frozen inputs and accepts only synchronous results targeting declared control outputs; custom events are allow-listed. The built-in Value switch is the reference implementation; see `CONTROL_HANDLERS.md`.
+- 真实 Windows 安装后的操作、125%/150% 缩放、真实设备并发/重连和时间同步。
+- 研究人员独立完成任务的证据及三方签收。
+- 未提交问卷和认知任务内部进度的完整崩溃恢复；会话多文件事务。
+- 通用 Graph Trial 语义、跨被试配额分配及复杂实验的适用性。
+- 所有自定义 UI、外部媒体及长文本的跨屏呈现一致性。
+- 单节点 Hosted 的生产运维、身份服务与规模化部署，不能由契约测试替代。
 
-The release gate includes a deterministic refactor E2E test (compose → validate → freeze → run → snapshot/restore → export) and explicit performance gates. Current local measurements validate/edit a 500-node graph in about 36 ms and export 10,000 events in about 39 ms, well below the enforced 2 s / 3 s limits.
+[下一步路线图](OPTIMIZATION_PLAN.md)描述后续工作。[发布检查](RELEASE_CHECKLIST.md)应对每个新版本重新执行。正式可用性结果须通过 `verify:usability-study`，当前没有已确认的通过证据。
 
-The release gate includes three self-hosted browser tests. The legacy compatibility flow verifies the formal-storage gate and completes, saves, and reloads a preview session. The Composer V2 flow freezes a minimal graph, publishes it through the hosted sandbox queue, creates and runs a participant session through successful hosted synchronization, creates a new editable version, then exercises typed variables, reusable subflows, SDK components and device connectors. The public-participant flow runs a real cross-origin hosted HTTP server, redeems a fragment launch token from `/participant`, validates Bootstrap, deletes local recovery data, restores from the hosted checkpoint after a full page reload, and completes synchronization. All launch isolated Vite and headless Chrome processes, and GitHub Actions runs them through the complete quality gate for `demo` pushes and pull requests.
-
-The production bundle loads Composer V2, the legacy visual workspace, Session Review, Guide, Analytics, and both runtime runners as view-level chunks while keeping the first-screen Dashboard synchronous. React, React DOM, and Scheduler now occupy a stable vendor chunk, keeping the growing application entry well below the 500 kB warning threshold without changing local-first behavior.
-
-Returning from either runtime runner now reloads the saved session index before showing Dashboard. A completed local session is therefore visible immediately instead of appearing only after a full application reload.
-
-Formal usability evidence has a checked-in JSON template and verifier. It enforces two cohorts of at least five participants, all five representative tasks per participant, the 600-second/8-operation/80%-without-help thresholds, resolved critical defects, and designer/operator/data-analyst sign-off. The release remains explicitly incomplete until real participant results pass this verifier.
-
-Local-first Collaboration Change Sets 1.0 add transport-neutral team editing without requiring a server. Composer Advanced establishes a baseline, exports field-level operations with base/result hashes, imports changes for the same protocol version, automatically merges independent edits, requires explicit same-field conflict resolution, and records application provenance. See `COLLABORATION_CHANGE_SETS.md`. Online presence and cloud synchronization remain separate deployment capabilities.
-
-Portable Deployment Contract 1.0 packages a frozen Protocol Graph snapshot, exact configuration hash, dependency manifest, execution policy, and provider target under an outer integrity hash. Composer Advanced exports and verifies bundles; a versioned provider registry plus in-memory reference provider prove the transport boundary through submit/status/cancel operations. See `PORTABLE_DEPLOYMENT.md`. A hosted backend remains a separate infrastructure deliverable.
-
-Hosted Service Contract 1.0 adds role-separated publication, an explicit deployment queue, idempotent requests, scoped participant sessions, optimistic state revisions, contiguous append-only event ingestion, completion-time token revocation, separate metadata/data access and sequential audit records. Composer Advanced exposes the complete publish-to-ready-to-session path through a local hosted sandbox. See `HOSTED_SERVICE_CONTRACT.md`; production identity, durable infrastructure and internet hosting remain deployment responsibilities.
-
-Hosted Data Export 1.0 adds a `data.read`-protected deployment package containing the exact frozen bundle, every session's metadata/raw events/latest snapshot, public enrollment metadata, related audit provenance, summary counts, and explicit cross-record integrity diagnostics. Bearer and launch credentials and internal idempotency state are excluded. See `HOSTED_DATA_EXPORT.md`.
-
-Governed hosted retention is opt-in through the integrity-protected deployment policy and disabled by default. An owner previews the exact eligible terminal sessions, then confirms that stable plan idempotently. Purge removes participant identifiers and tokens, events, snapshots, and cached response copies while retaining pseudonymized provenance, aggregate removal counts, and a validated audit tombstone across restart. See `DATA_RETENTION.md`.
-
-Hosted tenant isolation assigns server-controlled ownership to every deployment-derived record and access path. Queue processing, idempotency, resource lookup, export, retention, audit, metrics and filesystem assets are tenant-scoped; cross-tenant IDs are indistinguishable from missing records. Legacy pre-tenant state migrates into `default` without losing idempotent retries or existing asset paths. See `TENANT_ISOLATION.md`.
-
-Hosted state 1.3 protects persisted participant and launch credentials without weakening restart idempotency: lookup indexes are HMAC-SHA-256 digests and recoverable response credentials are sealed with authenticated AES-256-GCM. Versioned key rings support eager rotation and old plaintext states are atomically upgraded at startup. See `CREDENTIAL_PROTECTION.md`.
-
-Hosted tenant capacity policies bound deployment, session, launch-link, retained-event and logical event-byte growth independently per server-assigned tenant. Admission occurs before mutation, idempotent retries are not charged twice, retention purge releases event capacity, and owners can inspect only their tenant's limits and remaining allowance. See `TENANT_CAPACITY.md`.
-
-Persisted audit records now form a domain-separated HMAC chain whose entry count and head are independently authenticated. Startup detects content edits, insertion, deletion, reordering and tail truncation before exposing traffic; old unauthenticated state upgrades atomically and normal credential-key rotation re-signs the chain under the new primary. See `AUDIT_INTEGRITY.md`.
-
-Runtime V2 now attaches directly to a hosted participant session through a serialized synchronization controller. It sends incremental events before their matching snapshot, retries lost acknowledgements idempotently, records completed or failed terminal states exactly once, exposes sync errors/retry in the runner, and prevents leaving a terminal run until required hosted synchronization succeeds.
-
-Hosted HTTP API v1 adds a framework-neutral Web Request/Response handler and a fetch-based client with Bearer authentication, bounded JSON bodies, stable status/error semantics, request timeouts and no-store security headers. A versioned hosted-state snapshot plus serialized `load`/`save` store boundary restores deployments, sessions, scoped tokens, idempotency, raw data and audit history after service restart. See `HOSTED_HTTP_API.md`.
-
-Public participant entry is now controlled by opaque launch tokens rather than exposing operator credentials. Deployment session quotas and expiry are inherited from the integrity-protected bundle; each link adds its own expiry/use limit, redemption is idempotent, revocation is immediate, and deployment deactivation blocks new sessions without killing active ones. These controls persist across service restart and are available through the HTTP API and Composer sandbox.
-
-Participant Bootstrap Contract 1.0 lets a scoped session retrieve the exact frozen graph and an explicit safe-resource manifest. Service and client independently verify protocol/bootstrap hashes; unsafe URLs become unavailable records, workspace assets route through an injected signed-URL resolver, tokens stay out of response bodies, and viewer access does not imply bootstrap access. Composer launches hosted Runtime V2 from this returned snapshot, and media components resolve only ready manifest entries instead of bypassing delivery policy. See `PARTICIPANT_BOOTSTRAP.md`.
-
-The standalone participant application now provides the real public execution surface at `/participant`. Launch credentials remain in the URL fragment, HTTP redemption is deterministic and idempotent across refreshes, CORS origins are explicitly configured, current hosted revisions are fetched before synchronization, and the newest local or server checkpoint resumes Runtime V2 without opening any researcher interface. See `PUBLIC_PARTICIPANT_APP.md`.
-
-The single-node Node adapter makes the hosted boundary directly runnable: it serves the built researcher/participant application, exposes health and API routes, restores validated state from an atomic mode-`0600` JSON store, accepts permission-checked workspace assets, gates deployment readiness on their SHA-256 integrity, and resolves them to expiring HMAC-signed URLs. Its real-network test uploads, processes, restarts, redeems, bootstraps, downloads an asset, and rejects a tampered signature. See `SELF_HOSTING.md`.
-
-Single-node recovery tooling now creates an offline atomic directory backup with a validated state snapshot, private asset copies and a complete SHA-256 inventory; verification detects altered/missing/unexpected files, and restore validates first and refuses existing targets. `/readyz` separately checks state-store readability/writability and processed-asset integrity. See `BACKUP_AND_RECOVERY.md`.
-
-Single-node abuse controls apply memory-bounded, process-local fixed-window limits to public redemption, API, asset upload and signed delivery. Proxy forwarding is ignored unless an exact trusted hop count is configured. An `audit.read`-protected metrics document exposes response/limit and aggregate deployment/session/event counts without record identities or payloads. See `HOSTED_OPERATIONS.md`.
-
-The node business review's P2 experience backlog (see `EXPERIMENT_DESIGN_ANALYSIS.md`) is now fully closed (2026-08-25): media URL validation surfaces `config.media_url_invalid` at freeze time and the Inspector flags bad URLs inline; canvas nodes show data-output badges and data ports reveal downstream targets on hover; `stimulus.fixation` exposes manual/fixed completion modes (manual injects a Continue button at runtime, fixed keeps the bare cross); validation issues expand beyond the first eight with zh-CN code→message localization; and condition/loop variable pickers offer a "Node outputs (upstream)" group binding upstream data ports (`kind: 'output'`), with the Expected field type following the bound output's dataType. A `composer-p2` acceptance STEP in `.playwright-cli/verify-step.cjs` exercises all five behaviors headlessly, and the full suite passes except two Windows-only POSIX permission-bit assertions (`0o600` vs `0o666`) that are unrelated to application code.
-
-The deployment asset pipeline replaces manual provisioning with authenticated, manifest-constrained upload. Workspace dependencies require safe IDs and SHA-256 checksums; owner/editor/operator uploads are size/type/content checked, atomically stored and audited; incomplete assets block readiness; ready deployments reject replacement. A browser-neutral coordinator loads local workspace binaries, uploads with progress, and verifies server readiness. See `DEPLOYMENT_ASSETS.md`.
-
-The final hardening pass makes frozen protocols immutable: editing always creates a new draft protocol version with a distinct ID. Formal validation now checks participant UI completion paths, media sources, durations, rating ranges, migration review, and every required condition/loop control exit before preview or freeze.
-
-A component acceptance suite (`tests/component-acceptance.test.js`) exercises all 22 core components: registry contract matrix, completion-strategy/button defaults, `schemaForNode` participant-UI validity, a linear graph of every participant component running end-to-end, full-graph formal validation, and control-flow execution. Participant media renders direct URLs, protocol assets (via a local resource manifest) and YouTube embeds; the participant-interface editor supports free-layout absolute positioning with pointer-drag repositioning. See `COMPONENT_ACCEPTANCE.md`. Current baseline: 222 automated tests, zero-warning lint, clean build, and three browser E2E flows.
-
-Composer V2 canvas interaction now includes alignment guides and keyboard navigation. Dragging a node shows 6px-tolerance guide lines against neighbour left/center/right edges and top/middle/bottom centers, snapping the node to the exact aligned position (guide snap takes priority over grid snap); multi-drag aligns by bounding box and guides clear on release. Arrow keys nudge the selection 24px per step (8px with Shift) into the undo stack, Escape clears the selection, and Enter opens the UI editor for a single selected node. Copy/paste carries the internal edges of the selected subgraph, remaps them by node id on paste (skipping incompatible ports), and offsets consecutive pastes to avoid overlap. The minimap viewport rectangle now derives from the measured canvas size instead of a hard-coded width. Canvas interaction is covered by the `composer-step8` acceptance flow in `.playwright-cli/verify-step.cjs` (10/10 assertions pass with zero console errors).
-
-The legacy editor and runner remain available during transition. New blank protocols use Protocol Graph and Composer V2. Real-time collaboration and cloud execution remain intentionally outside this MVP and belong to the continuous Stage 7 roadmap.
-
-The W4 rendering-performance pass (see `OPTIMIZATION_PLAN.md`) is complete: node cards are memoized behind a dedicated `NodeCard` component with stable callbacks and live refs so drag closures never go stale; derived `nodeById`/`stepsById`/`filteredIds` indexes are built once with `useMemo` maps instead of linear scans. Interaction-budget gates now cover a 500-node drag across 60 frames and 20 rapid label edits (measured 119 ms / 42 ms against enforced 500 ms / 200 ms budgets).
-
-The W5 experience pass is complete. Editor undo/redo is scoped per editor session: entering the Builder/Setup/Runner starts a history scope and leaving truncates the stack back to the pre-session base, so switching views never leaks editor operations into global undo. Translation dictionaries now cover Dashboard, session management, Analytics, Onboarding, Guide chrome and both runtime runner views in addition to Composer V2 (zh/ja additions with missing-key fallback to English). The runtime runner adds a live `⌄ Inspect` panel showing runtime variables, data outputs and flow state (status, current node, completed/skipped, attempts, loop counts) straight from the Runtime V2 state-machine snapshot. Editor transitions animate panel expansion and node release-snap feedback; runner and editor layouts adapt below 560 px and gain a wide-screen layout above 1680 px.
+原阶段 0–7 的累积记录可从 [beta.4 时的旧状态文档](https://github.com/kyzzz22/physioflow-app/blob/68a3451c3f33dcb8cbf87f53d612bf0938e990d1/docs/refactor/IMPLEMENTATION_STATUS.md)追溯。

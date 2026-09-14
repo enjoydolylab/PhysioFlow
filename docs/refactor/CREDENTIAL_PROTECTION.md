@@ -1,5 +1,7 @@
 # Hosted Credential Protection
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 The single-node adapter never writes participant bearer tokens or public launch tokens to disk as plaintext. Hosted state 1.3 protects credential lookup indexes with HMAC-SHA-256 and seals the exact recoverable tokens with authenticated AES-256-GCM encryption.
 
 Exact recovery is required because an idempotent session/link request retried after a restart must return the same credential instead of creating another session. A one-way hash alone cannot satisfy that contract, so the persisted representation combines a non-reversible lookup digest with authenticated encryption for recovery fields and idempotency results.

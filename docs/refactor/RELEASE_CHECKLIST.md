@@ -1,31 +1,32 @@
-# Refactor Release Checklist
+# 每次发布检查
 
-- [x] `npm run quality:release` passes as the single automated release gate.
-- [x] Lint completes with zero errors and zero warnings.
-- [x] Composer V2 can create, edit, connect, validate, save, reopen, duplicate, version, archive, import, and export a graph protocol.
-- [x] Instruction, Media, and Form participant interfaces render without custom code.
-- [x] Runtime V2 executes deterministic linear, branch, and bounded-loop fixtures.
-- [x] Pause, resume, retry, skip, snapshot, and recovery tests pass.
-- [x] Self-hosted legacy, Composer V2, and public-participant browser gates pass from clean profiles.
-- [x] Collaboration change sets export, merge independent edits, require conflict resolution, reject unsafe input and retain audit provenance.
-- [x] Portable deployment bundles reject drafts and detect protocol or manifest tampering.
-- [x] Hosted service enforces roles, idempotency, deployment queues, session revisions, contiguous event ingestion and audit provenance.
-- [x] Runtime V2 retries hosted event/snapshot acknowledgements without duplication and completes the remote session exactly once.
-- [x] `/participant` redeems fragment credentials, validates Bootstrap, resumes from a hosted checkpoint without local recovery data, and completes through an explicitly allowed CORS origin.
-- [x] Hosted HTTP transport and persistent-state recovery preserve authentication boundaries, idempotency, session data and audit history.
-- [x] Single-node Node hosting restores atomic file state after restart and rejects corrupt state, unsafe asset paths, checksum mismatches, expired links and signature tampering.
-- [x] Deployment data export contains every expected session/event, reports valid cross-record integrity, and excludes bearer and launch credentials.
-- [x] A verified offline backup restores into new paths, rejects tampering and existing targets, and the recovered server passes `/readyz`.
-- [x] Rate limits return stable 429/retry metadata, forwarded addresses are trusted only by explicit topology, and protected metrics contain no record identities or tokens.
-- [x] Data retention is opt-in, owner-planned and explicitly confirmed; purge removes participant credentials, identifiers, raw events, snapshots and cached response copies while preserving a validated audit tombstone across restart.
-- [x] Server-assigned tenant identity scopes queues, idempotency, deployments, sessions, links, data, retention, audit, metrics and filesystem assets; cross-tenant probes disclose no resource existence.
-- [x] Persisted participant and launch credentials contain no plaintext, use HMAC lookup indexes and authenticated encryption, reject tampering/missing keys, and rotate without breaking restart idempotency.
-- [x] Server-configured tenant capacity limits reject deployment/session/link/event growth before mutation, expose only owner-scoped usage, and do not double-charge idempotent retries.
-- [x] Persisted audit entries use a keyed chain and authenticated count/head anchor; startup rejects edits, reordering, deletion, truncation, missing keys and malformed metadata.
-- [x] Workspace binaries are authenticated, checksum-locked, atomically uploaded and audited before deployment readiness; incomplete or immutable deployments reject processing or replacement.
-- [x] Participant launch tokens enforce expiry, quotas, revocation and deployment deactivation without interrupting active sessions.
-- [x] Participant bootstrap verifies the frozen graph, omits credentials and marks unsafe or unresolved resources unavailable.
-- [x] Complete session package includes all raw, normalized, metadata, dictionary, manifest, and quality files.
-- [x] Emotion, Stroop, and Go/No-Go migrations exceed 90% native mapping and retain every source payload.
-- [ ] A human pilot follows `OPERATOR_PILOT_GUIDE.md` and `USABILITY_STUDY_PROTOCOL.md`; `npm run verify:usability-study -- <results.json>` returns `passed: true`.
-- [x] Legacy protocols remain untouched and readable during the transition period.
+这是可复用清单，不是永久勾选的完成证明。当前版本的结果见[实现状态](IMPLEMENTATION_STATUS.md)，每次发布记录应用版本、提交 SHA、平台和实际结果。
+
+## 工程与制品
+
+- [ ] 版本配置一致，提交范围明确，来源 commit 可追溯。
+- [ ] `npm run quality:release` 通过；其内容以 package scripts 为准。
+- [ ] 涉及桌面代码时运行 `cargo test --manifest-path src-tauri/Cargo.toml`。
+- [ ] 对本次业务修改的关键失败用例完成回归，不把模拟设备结果记为真实硬件通过。
+- [ ] 从目标源码构建安装包；核对版本、文件名与 SHA-256。
+- [ ] 说明签名状态、WebView2 依赖、支持的平台和已知限制。
+- [ ] 发布到目标标签；核对远程 tag、附件 digest、draft/prerelease 状态。
+- [ ] 更新 README 下载入口、发布说明、CHANGELOG 和当前状态。
+
+## 操作与数据
+
+- [ ] 在实际桌面安装环境完成创建、保存重开、画面预览、试运行与数据导出。
+- [ ] 核对目标分辨率和系统缩放、长文本和媒体；需要精确呈现时核对刺激尺寸。
+- [ ] 核对条件数、重复、随机化、退出路径及数据数量。
+- [ ] 确认暂停恢复、失败保存、设备缺失/断连和数据质量异常的处理。
+- [ ] 迁移协议按报告复核语义；新算法与旧版本的顺序不能只用 seed 推断等价。
+
+## 真人与稳定版判定
+
+- [ ] 完成[操作员试跑](OPERATOR_PILOT_GUIDE.md)。
+- [ ] 完成[可用性规程](USABILITY_STUDY_PROTOCOL.md)，运行 `npm run verify:usability-study -- <results.json>`，确认 `complete` 与 `passed`。
+- [ ] 设计者、操作员、分析人员签收，阻塞/数据完整性缺陷闭环。
+
+研究测试版可用于收集这些证据，但需明确未验收项。签发预发布不代表以上全部通过。
+
+Hosted 发布另需按[自托管指南](SELF_HOSTING.md)及其运维文档验证身份、资源、备份恢复和网络边界；本地 Windows 包发布不会自动部署 Hosted 服务。

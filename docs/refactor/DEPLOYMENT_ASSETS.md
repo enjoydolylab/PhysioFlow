@@ -1,5 +1,7 @@
 # Deployment Asset Pipeline
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 Frozen workspace media is part of deployment integrity even though the binary payload is stored separately from the JSON bundle. The deployment manifest normalizes modern and legacy asset fields into an ID, name, media type, SHA-256 checksum, and `workspace` or `remote` source.
 
 Every workspace asset must have a safe unique ID and SHA-256 checksum before a bundle can be created or accepted. Remote resources remain governed by Participant Bootstrap URL policy.

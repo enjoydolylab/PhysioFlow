@@ -1,12 +1,14 @@
 # Hosted HTTP API v1
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 The HTTP adapter exposes Hosted Service Contract 1.0 without coupling the core service to a web framework. `createHostedHttpHandler(service)` accepts a standard Web `Request` and returns a standard `Response`, so the same handler can be mounted in a Node server, serverless function, edge runtime, or test transport. `HostedHttpClient` implements the interface consumed by `HostedRuntimeSync`.
 
 The single-node adapter additionally exposes unauthenticated `GET /healthz` for liveness, `GET /readyz` for state-store and processed-asset readiness, and owner-protected `GET /metrics` for aggregate operational counters. These operational routes sit outside the versioned application contract. Its bounded request limiter returns HTTP 429 and stable `rate_limited` errors before reading rejected request bodies.
 
 ## Authentication and request rules
 
-- Every endpoint requires `Authorization: Bearer <token>`.
+- Authenticated v1 endpoints require `Authorization: Bearer <token>`. Public launch redemption uses the launch credential instead; health/readiness and signed asset delivery follow their separate rules described below and in the hosting guide.
 - The server credential fixes both role and tenant; client-supplied tenant headers or body fields are ignored.
 - A role may access only resources in its tenant. Cross-tenant resource IDs use the same not-found response as absent records.
 - Publication and session creation send `Idempotency-Key`.

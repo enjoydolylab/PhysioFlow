@@ -26,6 +26,9 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
   const check = validateProtocolGraphConfiguration(p, createProjectComponentRegistry(p));
   const stimulusAssignments = resolveStimulusAssignments(p, `${protocolIdOf(p)}:${p.version.number}:${sessionId}`);
   const [assetCheck, setAssetCheck] = useState({ status: 'checking', issues: [] });
+  const [assetCheckAttempt, setAssetCheckAttempt] = useState(0);
+  const deviceNodes = p.graph.nodes.filter(node => node.config?.deviceConnectorId);
+  const requiredDevices = [...new Set(deviceNodes.filter(node => node.config.deviceRequired !== false).map(node => node.config.deviceConnectorId))];
 
   useEffect(() => {
     let active = true;
@@ -34,26 +37,37 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
       .then(result => { if (active) setAssetCheck({ status: result.valid ? 'ready' : 'error', issues: result.issues }); })
       .catch(error => { if (active) setAssetCheck({ status: 'error', issues: [{ message: error.message || String(error) }] }); });
     return () => { active = false; };
-  }, [p]);
+  }, [p, assetCheckAttempt]);
   const assetsBlocked = assetCheck.status !== 'ready';
+  const blockers = [
+    !participant.trim() && 'Enter a participant ID.',
+    storageBlocked && 'Select a local data folder.',
+    !check.valid && 'Fix the protocol configuration.',
+    assetsBlocked && (assetCheck.status === 'checking' ? 'Wait for the media check.' : 'Resolve the media issues and check again.'),
+  ].filter(Boolean);
 
   return <main><Header onGuide={onGuide} /><div className="narrow">
     <button onClick={onBack}>← Protocol</button>
-    <span className="eyebrow">RUNTIME V2 SESSION SETUP</span>
+    <nav aria-label="Collection workflow" className="setup-note">Design → <strong aria-current="step">Prepare</strong> → Run → Review data</nav>
+    <span className="eyebrow">PREPARE COLLECTION</span>
     <h1>{protocolNameOf(p)}</h1>
-    <p>Bind this run to an anonymous participant and the exact Protocol Graph version.</p>
+    <p>Check the participant, protocol, media and storage before opening the experiment.</p>
+    <section className="setup-note" aria-label="Run configuration"><b>{isFormal ? 'Formal collection · frozen version' : 'Test run · draft version'} {p.version.number}</b><p>{isFormal ? 'This session uses the frozen configuration below.' : 'This session will be recorded as a preview. Return to the protocol and freeze a version for formal collection.'}</p><code style={{ overflowWrap: 'anywhere' }}>{p.freeze?.configHash || 'No frozen configuration hash'}</code></section>
     <label htmlFor="participant-id">Participant ID<input id="participant-id" autoFocus value={participant} onChange={event => setParticipant(event.target.value)} placeholder="P001" /></label>
     <label htmlFor="participant-lang">Participant language<select id="participant-lang" value={participantLanguage} onChange={event => setParticipantLanguage(event.target.value)}><option value="zh">中文</option><option value="ja">日本語</option><option value="en">English</option></select></label>
     <label htmlFor="operator-id">Operator ID<input id="operator-id" value={operator} onChange={event => setOperator(event.target.value)} placeholder="optional" /></label>
     {stimulusAssignments.size > 0 && <div className="setup-note"><b>Nominal stimulus order</b><p>This preview assumes each listed node runs once in the displayed order. Actual draws follow execution: completion or Skip consumes one item; Retry keeps it. Branches and loops can change which node receives each item.</p>{[...stimulusAssignments.entries()].map(([nodeId, assignment]) => <p key={nodeId}><span>{p.graph.nodes.find(node => node.id === nodeId)?.label || nodeId}</span> → <strong>{assignment.name}</strong></p>)}<button type="button" onClick={() => setSessionId(crypto.randomUUID())}>Generate another order</button></div>}
-    <div className={`setup-note ${check.valid ? 'ok' : 'error'}`}><b>Protocol Graph validation</b><p>{check.valid ? `${p.graph.nodes.length} nodes · ${p.graph.edges.length} connections · ready to preview` : check.errors.slice(0, 3).map(error => error.message).join(' ')}</p></div>
+    <div className={`setup-note ${check.valid ? 'ok' : 'error'}`}><b>Protocol validation</b><p>{check.valid ? `${p.graph.nodes.length} nodes · ${p.graph.edges.length} connections · configuration checked` : check.errors.map(error => error.message).join(' ')}</p>{!check.valid && <button onClick={onBack}>Return to protocol to fix</button>}</div>
     <div className={`setup-note ${assetCheck.status === 'ready' ? 'ok' : assetCheck.status === 'error' ? 'error' : ''}`}><b>Media readiness</b><p>{assetCheck.status === 'checking' ? 'Checking referenced local media…' : assetCheck.status === 'ready' ? 'All referenced media are available.' : assetCheck.issues.slice(0, 3).map(issue => issue.message).join(' ')}</p></div>
+    {assetCheck.status === 'error' && <button onClick={() => setAssetCheckAttempt(value => value + 1)}>Check media again</button>}
+    <section className="setup-note" aria-label="Device requirements"><b>Devices · {deviceNodes.length ? 'connection pending' : 'none configured'}</b><p>{deviceNodes.length ? `Required: ${requiredDevices.join(', ') || 'none'}. Device connection is checked when you begin the experiment; configuration does not confirm connectivity or timing accuracy.` : 'This protocol has no configured device connection.'}</p>{deviceNodes.length > 0 && <p>Configured: {[...new Set(deviceNodes.map(node => node.config.deviceConnectorId))].join(', ')}</p>}</section>
     <div className={`setup-note storage-gate ${storageBlocked ? 'blocked' : storageInfo?.selected ? 'ready' : 'preview'}`}>
       <b>{storageBlocked ? 'Local data folder required' : storageInfo?.selected ? `Local data folder: ${storageInfo.name || 'selected'}` : 'Preview storage'}</b>
-      <p>{storageBlocked ? 'Select a local data folder before formal collection.' : 'Runtime state, raw events, and responses are saved throughout the session.'}</p>
+      <p>{storageBlocked ? 'Select a local data folder before formal collection.' : storageInfo?.selected ? 'Checkpoints and final session data are written to this folder. Unsubmitted questionnaire answers and task progress may not be recoverable.' : 'This test run uses browser-managed storage. Export a data package after the run to keep a separate copy.'}</p>
       {storageBlocked && onChooseDataDirectory && <button onClick={onChooseDataDirectory}>Select local data folder</button>}
     </div>
-    <button className="primary wide" disabled={!participant.trim() || storageBlocked || !check.valid || assetsBlocked} onClick={() => onStart({
+    <div role="status" className="setup-note"><b>{blockers.length ? 'Before you continue' : 'Ready to open the experiment'}</b>{blockers.map(message => <p key={message}>{message}</p>)}</div>
+    <button className="primary wide" disabled={blockers.length > 0} onClick={() => onStart({
       session_id: sessionId,
       participant_id: participant.trim(),
       operator_id: operator.trim(),
@@ -66,7 +80,7 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
       status: 'ready',
       started_at: new Date().toISOString(),
       ended_at: null,
-    })}>Start session</button>
+    })}>{isFormal ? 'Continue to collection' : 'Continue to test run'}</button>
   </div>{guideOpen && <Suspense fallback={null}><GuidePanel initialTab={guideTab} onClose={onCloseGuide} /></Suspense>}</main>;
 }
 

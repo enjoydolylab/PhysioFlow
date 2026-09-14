@@ -1,5 +1,7 @@
 # External Device Connector Contract 1.0
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 PhysioFlow device connectors separate reproducible protocol configuration from host-specific hardware code. The protocol stores a versioned manifest, permissions, typed channels, units, and sampling metadata. A trusted host adapter implements `connect`, `read`, `write`, and `disconnect`; adapter code is never embedded in the protocol.
 
 ## Manifest

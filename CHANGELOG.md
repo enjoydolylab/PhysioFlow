@@ -2,7 +2,17 @@
 
 All notable changes to PhysioFlow are documented in this file.
 
-## [0.6.0-beta.4] — 2026-09-05 (local research-test build; not published)
+## [Unreleased]
+
+- Simplify the dashboard and experiment authoring: structured response options, explicit trial generation and repeat-sequence configuration.
+- Make free positioning and automatic layout explicit; preserve element geometry during conversion and scale saved screen dimensions proportionally in the editor and preview.
+- Preserve multi-selection after dragging, support Escape to cancel a drag, and separate single-element properties from bulk selection actions. Position and size edits apply on Enter or blur; locked properties cannot be edited.
+- Save text only during explicit text editing, preventing selection/focus changes from incorporating toolbar symbols into content.
+- Add screen presets, missing-media and overflow checks, and browser regression coverage for authoring and canvas interactions.
+- Add an initial multilingual text audit and LAN architecture notes. Translation review and laboratory deployment validation remain ongoing.
+- Reorganize documentation around the researcher workflow, clarify Graph versus legacy Block/Trial semantics, and replace stale status and roadmap text.
+
+## [0.6.0-beta.4] — 2026-09-06 (research-test prerelease)
 
 - Isolate participant state by node and attempt; reject stale callbacks and cancel response feedback on transition.
 - Preserve paused timer remainders, reset Retry timers, gate restored execution on media/device readiness, and save fixed-node timing checkpoints.
@@ -11,6 +21,9 @@ All notable changes to PhysioFlow are documented in this file.
 - Consume shared stimulus pools globally for new runs; preserve legacy policy when restoring older checkpoints. Setup preview is labelled nominal.
 - Recompute binary media hashes and replace Windows files without first removing the destination.
 - Add browser failure scenarios, focused regression tests and a [verification/limitations report](docs/refactor/RUNTIME_RELIABILITY_AUDIT_2026-09-05.md).
+- Improve responsive Composer, Dashboard and Session Manager controls; honor participant element dimensions and allow free-layout overflow scrolling.
+- Reject impossible legacy Block random constraints and fractional repeats; correct newly generated Stroop congruency/color assignments.
+- Publish Windows x64 NSIS, SHA256SUMS.txt and release notes from commit `68a3451`. See the [release](https://github.com/kyzzz22/physioflow-app/releases/tag/v0.6.0-beta.4).
 
 ## [0.6.0-beta.3] — 2026-09-04
 

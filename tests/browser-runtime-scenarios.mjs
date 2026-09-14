@@ -63,7 +63,7 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
   await waitFor(`(${text}).includes('Injected disk full')`, 'final save error displayed');
   await evaluate(`Storage.prototype.setItem = window.originalStorageSet`);
   await clickText('Retry local save');
-  await waitFor(`(${text}).includes('Saved locally.')`, 'final local save can be retried');
+  await waitFor(`(${text}).includes('Session data saved.')`, 'final local save can be retried');
 
   await evaluate(`mountScenario([['display.screen','Restored device',{completion:{mode:'fixed',durationMs:100}}]],{restore:true,missingDevice:true})`);
   await waitFor(`(${text}).includes('RUNTIME V2 READY')`, 'restored device run requires preflight');
@@ -80,6 +80,6 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
   await evaluate(`mountScenario([['display.screen','Broken exit',{completion:{mode:'manual'}}]],{failAfter:true})`);
   await clickText('Begin experiment');
   await clickText('Continue');
-  await waitFor(`(${text}).includes('RUNTIME FAILED') && (${text}).includes('Saved locally.')`, 'failed runtime is finalized locally');
+  await waitFor(`(${text}).includes('RUNTIME FAILED') && (${text}).includes('Session data saved.')`, 'failed runtime is finalized locally');
   await evaluate(`window.scenarioRoot.unmount(); document.getElementById('runtime-regression').remove()`);
 }

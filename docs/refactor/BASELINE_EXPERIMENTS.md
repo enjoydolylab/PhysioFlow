@@ -1,53 +1,15 @@
-# 重构基准实验集
+# 代表实验与验证入口
 
-基准实验用于确认新模型的表达能力、运行语义、迁移覆盖和数据输出。每个实验必须保存协议 fixture、预期事件序列和导出摘要。
+本页列出要核对的研究场景，不宣称每个场景都有单独 fixture 目录或已完成人工验收。此前规划的 `tests/fixtures/refactor/<id>/` 并不存在，实际测试入口如下。
 
-## B01 最小刺激评分
+| 场景 | 核对内容 | 当前自动化入口 |
+| --- | --- | --- |
+| 最小 Graph 实验 | 编排、验证、冻结、运行、恢复、导出 | [refactor-e2e.test.js](../../tests/refactor-e2e.test.js) |
+| 随机刺激 | 消费顺序、重试、分支访问与耗尽 | [stimulus-randomization.test.js](../../tests/stimulus-randomization.test.js) |
+| 问卷与恢复 | 连续问卷、保存失败、缺失资源、设备门禁 | [browser-runtime-scenarios.mjs](../../tests/browser-runtime-scenarios.mjs) |
+| 旧 Block / Trial | 次数嵌套、不可满足约束、可行顺序 | [block-acceptance.test.js](../../tests/block-acceptance.test.js) |
+| Emotion / Stroop / Go-No-Go | 模板结构、实际试次与语义 | [task-templates.test.js](../../tests/task-templates.test.js) |
+| 编辑与小屏 | JSON 回读、控件位置、自定义尺寸与滚动 | [browser-layout-acceptance.mjs](../../tests/browser-layout-acceptance.mjs) |
+| 公开参与者 | Bootstrap、Hosted 恢复和同步 | [e2e-participant-public.mjs](../../tests/e2e-participant-public.mjs) |
 
-流程：说明 → 图片 → 1–7 分量表 → 结束。
-
-验证重点：基础控制流、媒体资源、必填响应、反应时、预览与正式运行一致性。
-
-## B02 随机反应时任务
-
-流程：说明 → 随机化容器（注视 → 刺激 → 按键反应 → ITI）× 20 → 结束。
-
-验证重点：随机种子、条件平衡、按键输入、正确率和反应时事件。
-
-## B03 条件问卷
-
-流程：人口统计 → 条件问题 → 根据回答显示后续问题 → 提交 → 结束。
-
-验证重点：类型化变量、条件分支、隐藏字段不进入必填校验、答案变更日志。
-
-## B04 循环与注意力检查
-
-流程：训练任务 → 注意力检查 → 失败时最多重试 2 次 → 通过或退出。
-
-验证重点：有界循环、分支求值记录、重试计数和失败出口。
-
-## B05 生理实验运行
-
-流程：设备检查 → 基线 → 视频刺激 → SAM → 恢复；包含暂停、操作员标记和恢复。
-
-验证重点：分析窗口、媒体生命周期、单调时间、操作员事件、会话恢复和数据完整性。
-
-## B06 旧协议迁移
-
-输入：当前 `emotionTemplate`、Stroop 和 Go/No-Go 代表协议。
-
-验证重点：旧 Block/Trial/Step/Flow 合并、ID 映射、资源与问卷引用、迁移警告和运行结果对照。
-
-## Fixture 约定
-
-每个基准实验最终包含：
-
-```text
-tests/fixtures/refactor/<id>/
-├── protocol.json
-├── expected-events.json
-├── expected-export-summary.json
-└── README.md
-```
-
-任何改变运行语义、事件字段或迁移结果的提交必须更新 fixture，并在变更说明中解释原因。
+人工代表任务与通过标准见[可用性规程](USABILITY_STUDY_PROTOCOL.md)。真实设备和实际桌面安装的验证范围见[当前状态](IMPLEMENTATION_STATUS.md)。

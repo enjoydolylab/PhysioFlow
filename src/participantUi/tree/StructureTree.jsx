@@ -13,9 +13,9 @@ export function StructureTree({ s }) {
       const isDropAfter = dragOver?.where === 'after' && dragOver.parentId === entry.parentId && dragOver.index === entry.childIndex + 1;
       const isDropInside = dragOver?.where === 'inside' && dragOver.parentId === element.id;
       return <div key={element.id} data-ui-id={element.id} className={`ui-row${isDropBefore ? ' drop-before' : ''}${isDropAfter ? ' drop-after' : ''}${isDropInside ? ' drop-inside' : ''}`}
-        draggable={element.id !== normalized.root.id}
+        draggable={element.id !== normalized.root.id && !s.isLocked(element.id)}
         onDragStart={event => {
-          if (element.id === normalized.root.id) return;
+          if (element.id === normalized.root.id || s.isLocked(element.id)) return;
           event.dataTransfer.setData('application/x-physioflow-ui', JSON.stringify({ action: 'move', elementId: element.id }));
           event.dataTransfer.effectAllowed = 'move';
           selectElement(element.id);
@@ -68,6 +68,7 @@ export function StructureTree({ s }) {
           <UiIcon name={element.type} />
           <span>{element.type}</span><small>{elementLabel(element)}</small>
         </button>
+        {element.id !== normalized.root.id && <button type="button" aria-label={(element.props?.locked ? 'Unlock ' : 'Lock ') + element.type} onClick={() => s.updateProp(element.id, 'locked', !element.props?.locked)}>{element.props?.locked ? 'Unlock' : 'Lock'}</button>}
       </div>;
     })}
   </div>;

@@ -1,0 +1,2709 @@
+# i18n audit
+
+Generated: 2026-09-13T17:31:49.649Z
+
+- Source files scanned: 190
+- Candidate strings: 2689
+- Candidates already in dictionary: 340
+- Candidates missing from dictionary: 2349
+
+## Review rules
+
+- **Missing** strings are candidates for system UI translation; review before adding because experiment-authored content and data values must remain unchanged.
+- **Present** strings are covered by the current DOM translation layer, but attribute and interpolated usage should be migrated to useT() when possible.
+- Technical identifiers, CSS values and URLs are filtered heuristically.
+
+## Missing candidates
+
+- `_aarch64.dmg for macOS Apple Silicon, or build native installers on Windows/Linux before distributing to those systems.` — src\GuidePanel.jsx:126
+- `- elapsed_monotonic_ms: monotonic milliseconds since session start for within-session intervals.` — src\exporter.js:154
+- `- timestamp_epoch_ms: high-resolution Unix epoch milliseconds for external-device alignment.` — src\exporter.js:153
+- `-- 选择问题 --` — src\QuestionnaireDesigner.jsx:126
+- `-- select question --` — src\QuestionnaireWorkspace.jsx:261
+- `-0.01em` — src\Onboarding.jsx:85
+- `-4c4d-454d-96be-f03bac821358` — src\devices\museProtocol.js:17
+- `-90deg` — src\RuntimeContent.jsx:102, src\RuntimeContent.jsx:124, src\RuntimeContent.jsx:179
+- `— choose —` — src\composer\NodeInspector.jsx:128, src\participantUi\StyleEditor.jsx:40
+- `— fixed stimulus —` — src\composer\NodeInspector.jsx:151
+- `— none —` — src\composer\NodeInspector.jsx:127
+- `— none (iterate by maxIterations) —` — src\composer\NodeInspector.jsx:165
+- `— none (use Expected value) —` — src\composer\NodeInspector.jsx:160
+- `— none / direct URL —` — src\composer\NodeInspector.jsx:189
+- `— question —` — src\QuestionnaireEditorV2.jsx:111
+- `, arousal` — src\analysis\AffectMap.jsx:100
+- `, Col` — src\composer\NodeInspector.jsx:34
+- `: valence` — src\analysis\AffectMap.jsx:100
+- `? You can undo this change.` — src\ParticipantUiBuilder.jsx:105
+- `../i18n` — src\app\AppHeader.jsx:1, src\app\sessionSetup.jsx:3
+- `../i18n.jsx` — src\composer\Catalogs.jsx:7, src\composer\NodeInspector.jsx:9, src\composer\useComposerState.js:21, src\flowCanvas\NodeCard.jsx:4
+- `../QuestionnaireEditorV2.jsx` — src\composer\NodeInspector.jsx:11
+- `../QuestionnaireFormV2.jsx` — src\composer\NodeInspector.jsx:12
+- `./composer/composer-v2.css` — src\main.jsx:25
+- `./composer/questionnaire-v2.css` — src\main.jsx:26
+- `./ComposerV2.jsx` — src\App.jsx:39
+- `./i18n` — src\BioDBSettings.jsx:2, src\Dashboard.jsx:2, src\DataPanel.jsx:2, src\FlowWorkspaceOverlay.jsx:8, src\ProtocolBioDBConfig.jsx:2, src\RuntimeRunnerPage.jsx:8, src\main.jsx:5
+- `./i18n.css` — src\main.jsx:13
+- `./i18n.jsx` — src\FlowCanvas.jsx:9, src\FlowJsonEditor.jsx:14
+- `./legacy/migrateProtocolV1.js` — src\App.jsx:29
+- `./QuestionnaireFormV2.jsx` — src\GraphRuntimeRunnerPage.jsx:3
+- `.14em` — src\app\legacyBuilder.jsx:411, src\flowCanvas\NodePreviewModal.jsx:153
+- `.15rem` — src\Inspector.jsx:203, src\Inspector.jsx:209, src\app\legacyBuilder.jsx:167, src\app\legacyBuilder.jsx:193, src\flowCanvas\NodePreviewModal.jsx:111, src\flowCanvas\NodePreviewModal.jsx:120, src\flowCanvas\NodePreviewModal.jsx:128, src\flowCanvas\NodePreviewModal.jsx:133, src\flowCanvas\NodePreviewModal.jsx:58, src\flowCanvas\NodePreviewModal.jsx:91
+- `.15rem .5rem` — src\flowCanvas\CanvasToolbar.jsx:12
+- `.25rem` — src\Inspector.jsx:306, src\Inspector.jsx:311, src\Inspector.jsx:316, src\Inspector.jsx:321, src\Inspector.jsx:326, src\Inspector.jsx:333, src\Inspector.jsx:341, src\Inspector.jsx:420, src\Inspector.jsx:425, src\Inspector.jsx:441, src\ThemeSettings.jsx:76, src\ThemeSettings.jsx:87, src\ThemeSettings.jsx:98
+- `.25rem .5rem` — src\flowCanvas\CanvasToolbar.jsx:26
+- `.2rem` — src\RuntimeRunnerPage.jsx:539, src\TemplateConfig.jsx:18, src\TemplateConfig.jsx:23, src\TemplateConfig.jsx:26, src\TemplateConfig.jsx:34, src\app\legacyBuilder.jsx:162, src\app\legacyBuilder.jsx:166, src\app\legacyBuilder.jsx:169, src\app\legacyBuilder.jsx:192, src\flowCanvas\NodePreviewModal.jsx:49
+- `.2rem .4rem` — src\Inspector.jsx:344, src\flowCanvas\CanvasToolbar.jsx:33, src\flowCanvas\CanvasToolbar.jsx:34, src\flowCanvas\CanvasToolbar.jsx:35
+- `.35rem .5rem` — src\FlowCanvas.jsx:505, src\ThemeSettings.jsx:102, src\ThemeSettings.jsx:80, src\ThemeSettings.jsx:91, src\flowCanvas\CanvasToolbar.jsx:30
+- `.3rem` — src\Inspector.jsx:159, src\Inspector.jsx:201, src\TemplateConfig.jsx:19, src\TemplateConfig.jsx:24, src\TemplateConfig.jsx:31, src\flowCanvas\NodePreviewModal.jsx:143
+- `.3rem .5rem` — src\flowCanvas\CanvasToolbar.jsx:24
+- `.3rem .6rem` — src\Onboarding.jsx:92
+- `.3rem .7rem` — src\flowCanvas\NodePreviewModal.jsx:39
+- `.3rem .8rem` — src\Onboarding.jsx:93
+- `.3rem 0` — src\app\legacyBuilder.jsx:112
+- `.4rem` — src\Inspector.jsx:202, src\Inspector.jsx:342, src\Onboarding.jsx:90, src\TemplateConfig.jsx:38, src\flowCanvas\CanvasToolbar.jsx:30, src\flowCanvas\NodePreviewModal.jsx:111, src\flowCanvas\NodePreviewModal.jsx:114, src\flowCanvas\NodePreviewModal.jsx:122, src\flowCanvas\NodePreviewModal.jsx:131, src\flowCanvas\NodePreviewModal.jsx:135, src\flowCanvas\NodePreviewModal.jsx:143, src\flowCanvas\NodePreviewModal.jsx:51, src\flowCanvas\NodePreviewModal.jsx:58, src\flowCanvas\NodePreviewModal.jsx:62, src\flowCanvas\NodePreviewModal.jsx:72, src\flowCanvas\NodePreviewModal.jsx:85, src\flowCanvas\NodePreviewModal.jsx:93
+- `.55rem` — src\Onboarding.jsx:83, src\ThemeSettings.jsx:117
+- `.5rem` — src\BioDBSettings.jsx:62, src\BioDBSettings.jsx:81, src\DataPanel.jsx:264, src\DataPanel.jsx:391, src\Inspector.jsx:188, src\Inspector.jsx:226, src\Inspector.jsx:251, src\Inspector.jsx:267, src\Inspector.jsx:283, src\Inspector.jsx:304, src\Inspector.jsx:305, src\Inspector.jsx:351, src\Inspector.jsx:352, src\Inspector.jsx:375, src\Inspector.jsx:378, src\Inspector.jsx:38, src\Inspector.jsx:419, src\Inspector.jsx:439, src\Inspector.jsx:452, src\Inspector.jsx:57, src\MediaStep.jsx:132, src\ProtocolBioDBConfig.jsx:63, src\ProtocolBioDBConfig.jsx:92, src\QuestionnaireDesigner.jsx:62, src\RuntimeContent.jsx:121, src\RuntimeContent.jsx:99, src\RuntimeRunnerPage.jsx:390, src\RuntimeRunnerPage.jsx:403, src\RuntimeRunnerPage.jsx:458, src\RuntimeRunnerPage.jsx:611, src\SessionManager.jsx:339, src\TemplateConfig.jsx:18, src\TemplateConfig.jsx:23, src\TemplateConfig.jsx:26, src\TemplateConfig.jsx:31, src\TemplateConfig.jsx:34, src\ThemeSettings.jsx:63, src\app\legacyBuilder.jsx:111, src\app\legacyBuilder.jsx:277, src\app\legacyBuilder.jsx:431, src\flowCanvas\CanvasToolbar.jsx:12, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\NodePreviewModal.jsx:37
+- `.5rem 0` — src\RuntimeContent.jsx:141
+- `.5rem 0 0` — src\RuntimeContent.jsx:261
+- `.62rem` — src\Inspector.jsx:344
+- `.65rem` — src\FlowCanvas.jsx:504, src\FlowCanvas.jsx:505, src\Inspector.jsx:304, src\flowCanvas\CanvasToolbar.jsx:32, src\flowCanvas\NodePreviewModal.jsx:153
+- `.68rem` — src\Inspector.jsx:203, src\Inspector.jsx:209, src\flowCanvas\CanvasToolbar.jsx:33, src\flowCanvas\CanvasToolbar.jsx:34, src\flowCanvas\CanvasToolbar.jsx:35
+- `.6rem` — src\BioDBSettings.jsx:62, src\DataPanel.jsx:264, src\Onboarding.jsx:83, src\ProtocolBioDBConfig.jsx:63, src\RuntimeRunnerPage.jsx:458, src\TemplateConfig.jsx:38
+- `.6rem 1.2rem` — src\main.jsx:56
+- `.6rem 1.5rem` — src\flowCanvas\NodePreviewModal.jsx:164
+- `.72rem` — src\Inspector.jsx:199, src\Inspector.jsx:201, src\Inspector.jsx:259, src\Inspector.jsx:275, src\Inspector.jsx:291, src\Inspector.jsx:306, src\Inspector.jsx:311, src\Inspector.jsx:316, src\Inspector.jsx:321, src\Inspector.jsx:326, src\Inspector.jsx:333, src\Inspector.jsx:341, src\Inspector.jsx:420, src\Inspector.jsx:425, src\Inspector.jsx:441, src\Inspector.jsx:456, src\RuntimeRunnerPage.jsx:537, src\RuntimeRunnerPage.jsx:539, src\app\legacyBuilder.jsx:162, src\app\legacyBuilder.jsx:166, src\app\legacyBuilder.jsx:169, src\app\legacyBuilder.jsx:192, src\app\legacyBuilder.jsx:195, src\app\legacyBuilder.jsx:411, src\app\legacyBuilder.jsx:431, src\flowCanvas\CanvasToolbar.jsx:26, src\flowCanvas\CanvasToolbar.jsx:31
+- `.75rem` — src\Onboarding.jsx:89, src\Onboarding.jsx:92, src\Onboarding.jsx:93, src\TemplateConfig.jsx:31, src\flowCanvas\NodePreviewModal.jsx:39
+- `.78rem` — src\Inspector.jsx:454, src\TemplateConfig.jsx:16, src\ThemeSettings.jsx:68, src\flowCanvas\CanvasToolbar.jsx:25, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\NodePreviewModal.jsx:85
+- `.7rem` — src\Inspector.jsx:334, src\RuntimeRunnerPage.jsx:461, src\flowCanvas\CanvasToolbar.jsx:12
+- `.82rem` — src\ThemeSettings.jsx:102, src\ThemeSettings.jsx:127, src\ThemeSettings.jsx:63, src\ThemeSettings.jsx:76, src\ThemeSettings.jsx:80, src\ThemeSettings.jsx:87, src\ThemeSettings.jsx:91, src\ThemeSettings.jsx:98, src\flowCanvas\NodePreviewModal.jsx:62, src\flowCanvas\NodePreviewModal.jsx:72
+- `.84rem` — src\Onboarding.jsx:87
+- `.85rem` — src\RuntimeContent.jsx:261, src\flowCanvas\NodePreviewModal.jsx:146
+- `.8rem` — src\Onboarding.jsx:84, src\QuestionnaireDesigner.jsx:62, src\RuntimeContent.jsx:113, src\RuntimeContent.jsx:131, src\RuntimeRunnerPage.jsx:390, src\TemplateConfig.jsx:16, src\ThemeSettings.jsx:63, src\app\legacyBuilder.jsx:118, src\app\legacyBuilder.jsx:413, src\flowCanvas\NodePreviewModal.jsx:109, src\flowCanvas\NodePreviewModal.jsx:119, src\flowCanvas\NodePreviewModal.jsx:153, src\flowCanvas\NodePreviewModal.jsx:49, src\flowCanvas\NodePreviewModal.jsx:55, src\flowCanvas\NodePreviewModal.jsx:69, src\flowCanvas\NodePreviewModal.jsx:74, src\flowCanvas\NodePreviewModal.jsx:90, src\flowCanvas\NodePreviewModal.jsx:99, src\main.jsx:52
+- `.98rem` — src\Onboarding.jsx:85
+- `.9rem` — src\App.jsx:45, src\FlowWorkspaceOverlay.jsx:96, src\app\legacyBuilder.jsx:113, src\flowCanvas\NodePreviewModal.jsx:51
+- `.composer-node, .composer-port, .composer-wires` — src\composer\useComposerState.js:403
+- `.instruction { font-family: Georgia, serif; }` — src\Inspector.jsx:334
+- `· Review:` — src\SessionManager.jsx:293
+- `· revision` — src\composer\Catalogs.jsx:266, src\composer\Catalogs.jsx:272
+- `· Session:` — src\SessionManager.jsx:293
+- `· v` — src\Dashboard.jsx:194, src\SessionManager.jsx:264
+- `· Version` — src\SessionManager.jsx:292
+- `'Instrument Serif', serif` — src\app\legacyBuilder.jsx:412
+- `'Instrument Serif',Georgia,serif` — src\flowCanvas\NodePreviewModal.jsx:156
+- `'Inter', system-ui, sans-serif` — src\ThemeSettings.jsx:84
+- `'SF Mono', 'Cascadia Code', monospace` — src\Inspector.jsx:454, src\ThemeSettings.jsx:83
+- `"Comic Sans MS", "Marker Felt", cursive` — src\flowCanvas\NodeCard.jsx:44
+- `"Comic Sans MS", cursive` — src\Inspector.jsx:36
+- `«Custom HTML» is empty — add HTML content or this step will show a blank screen` — src\domain.js:389
+- `«Duration» is 0ms — this step will end immediately unless you set a duration` — src\domain.js:386
+- `«Expected key» is empty — set the key the participant must press (e.g. space)` — src\domain.js:381
+- `«Prompt» is empty — the participant will not know what to do` — src\domain.js:383
+- `(advanced)` — src\app\sessionSetup.jsx:119
+- `(custom)` — src\participantUi\ThemeEditor.jsx:14
+- `(defaults)` — src\participantUi\ThemeEditor.jsx:14
+- `(empty prompt)` — src\QuestionnaireWorkspace.jsx:170
+- `(empty)` — src\app\sessionSetup.jsx:132
+- `(fixed-duration steps only; media & manual steps extend runtime)` — src\app\legacyBuilder.jsx:433
+- `(missing)` — src\composer\Catalogs.jsx:82, src\core\questionnaireModel.js:35, src\core\validateProtocolGraph.js:101, src\core\validateProtocolGraph.js:102, src\core\validateProtocolGraph.js:24, src\core\validateProtocolGraph.js:242, src\data\graphIntegrity.js:14, src\deployment\deploymentBundle.js:107, src\deployment\deploymentBundle.js:120, src\deployment\deploymentBundle.js:91, src\devices\deviceConnector.js:10, src\hosted\hostedService.js:150, src\hosted\hostedService.js:31, src\hosted\hostedService.js:377, src\hosted\hostedService.js:514, src\hosted\hostedStateStore.js:116, src\hosted\hostedStateStore.js:120, src\hosted\hostedStateStore.js:122, src\hosted\hostedStateStore.js:40, src\hosted\hostedStateStore.js:52, src\hosted\hostedStateStore.js:53, src\hosted\hostedStateStore.js:62, src\hosted\hostedStateStore.js:63, src\hosted\hostedStateStore.js:65, src\hosted\hostedStateStore.js:66, src\hosted\hostedStateStore.js:88, src\hosted\hostedStateStore.js:89, src\hosted\hostedStateStore.js:90, src\hosted\hostedStateStore.js:96, src\hosted\participantBootstrap.js:137, src\hosted\participantBootstrap.js:149, src\hosted\participantBootstrap.js:150, src\sdk\componentPackage.js:19
+- `(no experiment — set it in the protocol BioDB dialog)` — src\SessionManager.jsx:111
+- `(trial rotation index)` — src\app\sessionSetup.jsx:127
+- `(unknown)` — src\core\componentRegistry.js:42, src\core\componentRegistry.js:43
+- `(unnamed)` — src\core\subflowCommands.js:37
+- `(whole entity)` — src\composer\Catalogs.jsx:137
+- `[A-Za-z0-9][A-Za-z0-9._-]{0,63}` — src\hosted\hostedStateStore.js:20
+- `[Circular]` — src\domain.js:12
+- `[data-node-id]` — src\flowCanvas\useCanvasPan.js:30, src\flowCanvas\useNodeDrag.js:109
+- `[data-ui-id]` — src\ParticipantUiBuilder.jsx:128, src\participantUi\layoutGeometry.js:3, src\participantUi\useParticipantUiState.js:545, src\participantUi\useParticipantUiState.js:575
+- `[purged]` — src\hosted\hostedService.js:114
+- `[role="complementary"]` — src\flowCanvas\useWheelZoom.js:34
+- `[tree-drop-error]` — src\participantUi\tree\StructureTree.jsx:61
+- `@tauri-apps/api/core` — src\tauriStorage.js:6
+- `/ channel dictionary attached to experiment.` — src\SessionManager.jsx:106
+- `/v1/audit` — src\hosted\hostedHttp.js:95
+- `/v1/deployments` — src\hosted\hostedHttp.js:88
+- `/v1/deployments/process-next` — src\hosted\hostedHttp.js:93
+- `/v1/launch-links/redeem` — src\hosted\hostedHttp.js:82
+- `/v1/tenant-capacity` — src\hosted\hostedHttp.js:94
+- `\n` — src\exporter.js:404, src\exporter.js:5
+- `\r` — src\exporter.js:404, src\exporter.js:5
+- `#root element not found` — src\main.jsx:67
+- `° of visual angle.` — src\CalibrationRunner.jsx:54
+- `← 前の問題` — src\QuestionnaireForm.jsx:6
+- `← 前へ` — src\QuestionnaireFormV2.jsx:7
+- `← 上一题` — src\QuestionnaireForm.jsx:6, src\QuestionnaireFormV2.jsx:7
+- `← Previous` — src\QuestionnaireForm.jsx:6, src\QuestionnaireFormV2.jsx:7
+- `← Projects` — src\app\legacyBuilder.jsx:97
+- `← Protocol` — src\app\sessionSetup.jsx:110, src\app\sessionSetup.jsx:50
+- `→ Run → Review data` — src\app\sessionSetup.jsx:51
+- `↗ analysis` — src\app\legacyBuilder.jsx:292, src\flowCanvas\NodePreviewModal.jsx:177, src\flowCanvas\NodePreviewModal.jsx:35
+- `↻ Loop` — src\flowCanvas\CanvasContextMenu.jsx:22
+- `＋ 多语言翻译（可选）` — src\QuestionnaireDesigner.jsx:148, src\QuestionnaireWorkspace.jsx:287
+- `+ 快速添加预设问题` — src\QuestionnaireDesigner.jsx:33
+- `+ 批量导入 (CSV)` — src\QuestionnaireDesigner.jsx:45
+- `+ 添加条件` — src\QuestionnaireDesigner.jsx:134
+- `+ 添加问题` — src\QuestionnaireDesigner.jsx:69
+- `＋ Add Block` — src\HierarchyManager.jsx:69
+- `+ Add condition` — src\QuestionnaireEditorV2.jsx:117, src\QuestionnaireWorkspace.jsx:275
+- `+ Add question` — src\QuestionnaireEditorV2.jsx:74, src\QuestionnaireWorkspace.jsx:120
+- `＋ Add questionnaire` — src\QuestionnaireLibrary.jsx:31
+- `＋ Add stimulus` — src\ResourceLibrary.jsx:54
+- `＋ Add Trial` — src\HierarchyManager.jsx:65
+- `+ CSV import` — src\QuestionnaireEditorV2.jsx:52
+- `+ CSV Import` — src\QuestionnaireWorkspace.jsx:134
+- `＋ Log note` — src\RuntimeRunnerPage.jsx:539
+- `+ Preset questions` — src\QuestionnaireEditorV2.jsx:45
+- `+ Presets` — src\QuestionnaireWorkspace.jsx:122
+- `<channel>` — src\data\jointExport.js:171
+- `<div style="padding:2rem;font-family:system-ui,sans-serif;color:#a32e25"><h2>Fatal Error</h2><p>Root element #root not found. Ensure index.html loads before this script.</p></div>` — src\main.jsx:66
+- `<div style="text-align:center"><h1>Custom HTML</h1></div>` — src\core\componentRegistry.js:273, src\core\participantUi.js:84
+- `<div style="text-align:center">Custom HTML</div>` — src\participantUi\constants.js:8
+- `<div></div>` — src\ParticipantUiCanvas.jsx:507
+- `<h1>Hello</h1> <style>h1{color:#197453;font-family:Georgia}</style>` — src\Inspector.jsx:454
+- `| Events:` — src\Analytics.jsx:105
+- `| Started:` — src\Analytics.jsx:104
+- `~/Documents/PhysioFlow Data` — src\GuidePanel.jsx:125
+- `⌄ Inspect` — src\GraphRuntimeRunnerPage.jsx:360
+- `⌘ Visual editor` — src\app\legacyBuilder.jsx:107
+- `⌘S` — src\app\legacyBuilder.jsx:100
+- `⏱ Estimated minimum:` — src\app\legacyBuilder.jsx:431
+- `⏹ End interval` — src\RuntimeRunnerPage.jsx:550
+- `▶ Preview media` — src\MediaSettings.jsx:79
+- `▶ Start interval` — src\RuntimeRunnerPage.jsx:550
+- `▼ Hide preview` — src\MediaSettings.jsx:79
+- `◇ Condition` — src\flowCanvas\CanvasContextMenu.jsx:21
+- `● Junction` — src\flowCanvas\CanvasContextMenu.jsx:24
+- `● Local-first workspace` — src\app\AppHeader.jsx:7
+- `● Recording` — src\RuntimeRunnerPage.jsx:551
+- `● Runtime state machine` — src\RuntimeRunnerPage.jsx:610
+- `● Unapplied changes` — src\composer\NodeInspector.jsx:27
+- `☀ Light` — src\RuntimeRunnerPage.jsx:611
+- `⚙ Advanced settings` — src\FlowWorkspaceOverlay.jsx:142
+- `✎ Edit` — src\ComposerV2.jsx:62, src\flowCanvas\NodePreviewModal.jsx:39
+- `✎ Sticky note` — src\flowCanvas\CanvasContextMenu.jsx:23
+- `✓ 反応を検出しました` — src\constants.js:69
+- `✓ 已检测到响应` — src\constants.js:69
+- `✓ Done` — src\flowCanvas\NodePreviewModal.jsx:39
+- `✓ No integrity issue detected by automatic checks` — src\SessionManager.jsx:310
+- `✓ Ready` — src\flowCanvas\CanvasToolbar.jsx:40
+- `✓ Ready to run` — src\app\legacyBuilder.jsx:127
+- `✓ Response detected` — src\constants.js:69
+- `✓ Saved` — src\app\AppHeader.jsx:9
+- `✕ Done` — src\ComposerV2.jsx:63
+- `✗ 未检测到响应` — src\constants.js:69
+- `✗ 応答が検出されませんでした` — src\constants.js:69
+- `✗ No response detected` — src\constants.js:69
+- `⤓ Export chart as PNG` — src\analysis\WindowCards.jsx:37
+- `☷ Questionnaire library` — src\FlowWorkspaceOverlay.jsx:133
+- `🌙 Dark` — src\RuntimeRunnerPage.jsx:611
+- `🎨 Theme & style` — src\FlowWorkspaceOverlay.jsx:141
+- `🎬 Stimuli library` — src\FlowWorkspaceOverlay.jsx:132
+- `💾 Export JSON` — src\FlowWorkspaceOverlay.jsx:138
+- `📊 Data format` — src\FlowWorkspaceOverlay.jsx:136
+- `📋 Blocks & Trials` — src\FlowWorkspaceOverlay.jsx:131
+- `📖 Built-in guide` — src\FlowWorkspaceOverlay.jsx:135
+- `🔒 Freeze version` — src\FlowWorkspaceOverlay.jsx:139
+- `🔓 Unfreeze` — src\app\legacyBuilder.jsx:105
+- `🔓 Unfreeze version` — src\FlowWorkspaceOverlay.jsx:140
+- `$protocol` — src\collaboration\changeSets.js:113, src\collaboration\changeSets.js:114, src\collaboration\changeSets.js:116, src\collaboration\changeSets.js:117, src\collaboration\changeSets.js:118, src\collaboration\changeSets.js:120, src\collaboration\changeSets.js:135, src\collaboration\changeSets.js:153, src\collaboration\changeSets.js:174
+- `0 = wait indefinitely for a response.` — src\core\componentRegistry.js:184
+- `0 0 1.1rem` — src\Onboarding.jsx:87
+- `0 0 1.5rem` — src\flowCanvas\NodePreviewModal.jsx:156
+- `0 1.5rem` — src\app\legacyBuilder.jsx:113
+- `0 1rem` — src\RuntimeContent.jsx:140
+- `0 24px 64px #00000038, 0 2px 8px #00000022` — src\Onboarding.jsx:78
+- `0 3px 8px #6c8e2733` — src\Onboarding.jsx:84
+- `0 auto` — src\flowCanvas\NodePreviewModal.jsx:47
+- `0.3rem` — src\analysis\WindowCards.jsx:143
+- `0.5rem` — src\analysis\ResponseCharts.jsx:139, src\analysis\ResponseCharts.jsx:152
+- `0.5rem 0.75rem` — src\analysis\WindowCards.jsx:164
+- `0.65rem` — src\analysis\CrossSessionCompare.jsx:163, src\analysis\ResponseCharts.jsx:81, src\analysis\WindowCards.jsx:146, src\analysis\WindowCards.jsx:167
+- `0.75rem` — src\analysis\ResponseCharts.jsx:152, src\analysis\WindowCards.jsx:140, src\analysis\WindowCards.jsx:19, src\analysis\WindowCards.jsx:30
+- `0.78rem` — src\analysis\CrossSessionCompare.jsx:138
+- `0.7rem` — src\Inspector.jsx:309, src\analysis\CrossSessionCompare.jsx:177, src\analysis\ResponseCharts.jsx:171, src\analysis\ResponseCharts.jsx:173, src\analysis\ResponseCharts.jsx:86, src\analysis\WindowCards.jsx:150, src\constants.js:221
+- `0.85rem` — src\Inspector.jsx:309, src\RuntimeContent.jsx:140, src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165, src\RuntimeContent.jsx:238, src\analysis\ResponseCharts.jsx:151
+- `0.8rem` — src\analysis\ResponseCharts.jsx:139, src\analysis\WindowCards.jsx:141
+- `0.95rem` — src\analysis\CrossSessionCompare.jsx:22, src\analysis\ResponseCharts.jsx:25, src\analysis\WindowCards.jsx:16
+- `01 / ANALYSIS` — src\Dashboard.jsx:215
+- `02 / DATA` — src\Dashboard.jsx:215
+- `03 / CONNECTION` — src\Dashboard.jsx:215
+- `1. Use events.csv for raw timing and reconstruction.` — src\exporter.js:146
+- `1.2rem` — src\Inspector.jsx:309, src\analysis\WindowCards.jsx:166
+- `1.2rem 0 0` — src\flowCanvas\NodePreviewModal.jsx:163
+- `1.35rem` — src\RuntimeContent.jsx:238
+- `1.35rem 1.6rem` — src\Onboarding.jsx:78
+- `1.3rem` — src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165, src\app\legacyBuilder.jsx:112
+- `1.4rem` — src\RuntimeContent.jsx:184
+- `1.5rem` — src\Inspector.jsx:309, src\MediaStep.jsx:132, src\RuntimeContent.jsx:121, src\RuntimeContent.jsx:150, src\RuntimeContent.jsx:151, src\RuntimeContent.jsx:163, src\RuntimeContent.jsx:164, src\RuntimeContent.jsx:99, src\RuntimeRunnerPage.jsx:388, src\SessionManager.jsx:338, src\analysis\CrossSessionCompare.jsx:21, src\analysis\ResponseCharts.jsx:24, src\app\legacyBuilder.jsx:383, src\constants.js:223, src\flowCanvas\NodePreviewModal.jsx:47
+- `1.8rem` — src\RuntimeContent.jsx:129
+- `1024x768` — src\ParticipantUiBuilder.jsx:86
+- `10px system-ui` — src\analysis\CrossSessionCompare.jsx:121, src\analysis\TimelineView.jsx:130, src\analysis\TimelineView.jsx:149, src\analysis\WindowCards.jsx:120, src\analysis\WindowCards.jsx:81, src\analysis\charts.js:108, src\analysis\charts.js:126
+- `11px system-ui` — src\analysis\charts.js:167, src\analysis\charts.js:204
+- `1280x720` — src\ParticipantUiBuilder.jsx:86
+- `12px 16px` — src\flowCanvas\ShortcutsModal.jsx:15
+- `1920x1080` — src\ParticipantUiBuilder.jsx:86
+- `1h` — src\DataPanel.jsx:21
+- `1px dashed var(--green)` — src\flowCanvas\CanvasLayers.jsx:62, src\flowCanvas\NodePreviewModal.jsx:33
+- `1px solid #a32e25` — src\main.jsx:56
+- `1px solid #ffcdcb` — src\main.jsx:46
+- `1px solid var(--line)` — src\Inspector.jsx:343, src\MediaStep.jsx:128, src\Onboarding.jsx:77, src\RuntimeContent.jsx:270, src\SessionManager.jsx:338, src\TemplateConfig.jsx:16, src\TemplateConfig.jsx:19, src\TemplateConfig.jsx:24, src\ThemeSettings.jsx:102, src\ThemeSettings.jsx:67, src\ThemeSettings.jsx:80, src\ThemeSettings.jsx:91, src\analysis\CrossSessionCompare.jsx:159, src\analysis\ResponseCharts.jsx:169, src\analysis\WindowCards.jsx:139, src\flowCanvas\CanvasContextMenu.jsx:16, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\CanvasToolbar.jsx:30, src\flowCanvas\NodePreviewModal.jsx:114, src\flowCanvas\NodePreviewModal.jsx:122, src\flowCanvas\NodePreviewModal.jsx:131, src\flowCanvas\NodePreviewModal.jsx:135, src\flowCanvas\NodePreviewModal.jsx:51, src\flowCanvas\NodePreviewModal.jsx:62, src\flowCanvas\NodePreviewModal.jsx:72, src\flowCanvas\NodePreviewModal.jsx:85, src\flowCanvas\NodePreviewModal.jsx:93
+- `1rem` — src\BioDBSettings.jsx:39, src\BioDBSettings.jsx:81, src\Dashboard.jsx:186, src\DataPanel.jsx:218, src\DataPanel.jsx:391, src\Inspector.jsx:309, src\ProtocolBioDBConfig.jsx:52, src\ProtocolBioDBConfig.jsx:92, src\SessionManager.jsx:338, src\ThemeSettings.jsx:40, src\ThemeSettings.jsx:75, src\analysis\WindowCards.jsx:15, src\constants.js:222, src\flowCanvas\NodePreviewModal.jsx:119, src\flowCanvas\NodePreviewModal.jsx:164, src\flowCanvas\NodePreviewModal.jsx:33, src\main.jsx:56
+- `1rem auto` — src\RuntimeRunnerPage.jsx:388
+- `2. Use analysis_windows.csv for physiology window extraction.` — src\exporter.js:147
+- `2.0.0-alpha.1` — src\GraphRuntimeRunnerPage.jsx:340, src\core\freezeProtocolGraph.js:199, src\core\protocolGraph.js:3, src\data\graphExport.js:7
+- `2.5rem` — src\Inspector.jsx:309, src\app\legacyBuilder.jsx:111, src\domain.js:216, src\domain.js:246
+- `2.8rem` — src\RuntimeContent.jsx:129
+- `2026-08-23T00:00:00.000Z` — src\core\taskTemplates.js:22
+- `24h` — src\DataPanel.jsx:23
+- `2d` — src\analysis\CrossSessionCompare.jsx:43, src\analysis\TimelineView.jsx:117, src\analysis\WindowCards.jsx:58, src\analysis\charts.js:38
+- `2px 6px` — src\analysis\CrossSessionCompare.jsx:163, src\analysis\WindowCards.jsx:146
+- `2px dashed var(--green)` — src\app\legacyBuilder.jsx:147
+- `2px solid var(--line)` — src\analysis\CrossSessionCompare.jsx:141, src\analysis\CrossSessionCompare.jsx:142, src\analysis\CrossSessionCompare.jsx:143, src\analysis\CrossSessionCompare.jsx:144, src\analysis\CrossSessionCompare.jsx:145, src\analysis\CrossSessionCompare.jsx:146, src\analysis\CrossSessionCompare.jsx:147, src\analysis\CrossSessionCompare.jsx:148, src\analysis\ResponseCharts.jsx:155, src\analysis\ResponseCharts.jsx:156, src\analysis\ResponseCharts.jsx:157, src\analysis\ResponseCharts.jsx:158
+- `2rem` — src\Inspector.jsx:309, src\MediaStep.jsx:132, src\RuntimeContent.jsx:150, src\RuntimeContent.jsx:163, src\RuntimeContent.jsx:259, src\RuntimeContent.jsx:260, src\analysis\CrossSessionCompare.jsx:15, src\analysis\ResponseCharts.jsx:15, src\analysis\ResponseCharts.jsx:7, src\analysis\TimelineView.jsx:18, src\analysis\WindowCards.jsx:9, src\constants.js:224, src\main.jsx:45
+- `2rem auto` — src\main.jsx:45
+- `3. Use responses.csv for questionnaire outcomes, quick Response-node choices, reaction times, and branch variables.` — src\exporter.js:148
+- `3px solid #a32e25` — src\app\legacyBuilder.jsx:277
+- `3px solid #f4d77e` — src\app\legacyBuilder.jsx:277
+- `3rem` — src\FlowWorkspaceOverlay.jsx:151, src\RuntimeContent.jsx:151, src\RuntimeContent.jsx:164, src\domain.js:297, src\domain.js:328
+- `4 colors × (trials/4) words each` — src\TemplateConfig.jsx:20
+- `4. Check integrity_report.json before excluding or accepting a session.` — src\exporter.js:149
+- `4px 0` — src\flowCanvas\CanvasContextMenu.jsx:20
+- `4px 8px` — src\Dashboard.jsx:186, src\analysis\CrossSessionCompare.jsx:160, src\analysis\CrossSessionCompare.jsx:161, src\analysis\CrossSessionCompare.jsx:168, src\analysis\CrossSessionCompare.jsx:169, src\analysis\CrossSessionCompare.jsx:170, src\analysis\CrossSessionCompare.jsx:171, src\analysis\CrossSessionCompare.jsx:172, src\analysis\CrossSessionCompare.jsx:177, src\analysis\ResponseCharts.jsx:170, src\analysis\ResponseCharts.jsx:171, src\analysis\ResponseCharts.jsx:172, src\analysis\ResponseCharts.jsx:173, src\flowCanvas\CanvasContextMenu.jsx:18, src\flowCanvas\CanvasContextMenu.jsx:21, src\flowCanvas\CanvasContextMenu.jsx:22, src\flowCanvas\CanvasContextMenu.jsx:23, src\flowCanvas\CanvasContextMenu.jsx:24
+- `5. For external questionnaires, join answers from the external service by participant/session labels or appended URL parameters, and use external_questionnaire_* events for timing.` — src\exporter.js:150
+- `600 12px system-ui` — src\analysis\CrossSessionCompare.jsx:63, src\analysis\WindowCards.jsx:70
+- `600 13px system-ui` — src\analysis\charts.js:157
+- `600 13px system-ui, -apple-system, sans-serif` — src\analysis\TimelineView.jsx:125, src\analysis\charts.js:44, src\analysis\charts.js:95
+- `6h` — src\DataPanel.jsx:22
+- `6px 8px` — src\analysis\CrossSessionCompare.jsx:141, src\analysis\CrossSessionCompare.jsx:142, src\analysis\CrossSessionCompare.jsx:143, src\analysis\CrossSessionCompare.jsx:144, src\analysis\CrossSessionCompare.jsx:145, src\analysis\CrossSessionCompare.jsx:146, src\analysis\CrossSessionCompare.jsx:147, src\analysis\CrossSessionCompare.jsx:148, src\analysis\ResponseCharts.jsx:155, src\analysis\ResponseCharts.jsx:156, src\analysis\ResponseCharts.jsx:157, src\analysis\ResponseCharts.jsx:158
+- `768x1024` — src\ParticipantUiBuilder.jsx:86
+- `8px 12px` — src\flowCanvas\NodeCard.jsx:44
+- `9px monospace` — src\analysis\TimelineView.jsx:174, src\analysis\TimelineView.jsx:197, src\analysis\charts.js:211
+- `9px system-ui` — src\analysis\CrossSessionCompare.jsx:103, src\analysis\CrossSessionCompare.jsx:74, src\analysis\WindowCards.jsx:110
+- `按键` — src\domain.js:294, src\domain.js:325
+- `把 End mode 切换为 Manual continue。` — src\PreRunChecklist.jsx:52
+- `绑定变量的类型与端口不匹配` — src\composer\toolbox.js:72
+- `绑定的变量不存在` — src\composer\toolbox.js:71
+- `悲伤` — src\core\taskTemplates.js:40
+- `悲しみ` — src\core\taskTemplates.js:40
+- `必填` — src\QuestionnaireFormV2.jsx:6
+- `必填 / Required / 必須` — src\QuestionnaireForm.jsx:196
+- `必须修复` — src\PreRunChecklist.jsx:236, src\PreRunChecklist.jsx:252
+- `必須` — src\QuestionnaireFormV2.jsx:6
+- `必須ポートが接続されていません` — src\composer\toolbox.js:143
+- `必須ポートに変数が割り当てられていません` — src\composer\toolbox.js:142
+- `必需端口未绑定变量` — src\composer\toolbox.js:69
+- `必需端口未连接` — src\composer\toolbox.js:70
+- `变量类型无效` — src\composer\toolbox.js:75
+- `变量名称重复` — src\composer\toolbox.js:74
+- `变量缺少名称` — src\composer\toolbox.js:73
+- `变量作用域无效` — src\composer\toolbox.js:76
+- `変数とポートの型が一致しません` — src\composer\toolbox.js:145
+- `表示時間は0以上で指定してください` — src\composer\toolbox.js:152
+- `不合格 / 遅すぎ` — src\AttentionCheckRunner.jsx:6
+- `不正解` — src\ResponseRunner.jsx:7
+- `步骤未放入流程图` — src\PreRunChecklist.jsx:38
+- `部分内容位于屏幕外。检查位置或大小。` — src\participantUi\ScreenChecks.jsx:13
+- `参加者画面がありません` — src\composer\toolbox.js:149
+- `参加者画面に入力項目がありません` — src\composer\toolbox.js:150
+- `参与者内容为空` — src\PreRunChecklist.jsx:72
+- `参照している変数がありません` — src\composer\toolbox.js:144
+- `残り時間` — src\QuestionnaireFormV2.jsx:13
+- `层级结构不完整` — src\PreRunChecklist.jsx:112
+- `查看原始提示` — src\PreRunChecklist.jsx:175
+- `持续时间无效（需为正数）` — src\composer\toolbox.js:109
+- `此刻您的唤醒程度如何？` — src\core\questionnaireModel.js:124, src\domain.js:159
+- `此刻您的愉悦程度如何？` — src\core\questionnaireModel.js:123, src\domain.js:159
+- `此设置只能在文本编辑器中修改。` — src\PreRunChecklist.jsx:98
+- `次へ →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:8
+- `刺激池 ID 缺失或重复` — src\composer\toolbox.js:96
+- `刺激池媒体类型无效` — src\composer\toolbox.js:98
+- `刺激池缺少名称` — src\composer\toolbox.js:97
+- `刺激池引用的媒体资源不存在` — src\composer\toolbox.js:101
+- `刺激池与媒体节点的类型不一致` — src\composer\toolbox.js:102
+- `刺激池中还没有可用刺激` — src\composer\toolbox.js:100
+- `刺激数量不足以进行无放回分配` — src\composer\toolbox.js:104
+- `刺激プール名を入力してください` — src\composer\toolbox.js:158
+- `刺激プールIDがないか重複しています` — src\composer\toolbox.js:157
+- `刺激プールとMediaノードの種別が一致しません` — src\composer\toolbox.js:163
+- `刺激プールに刺激を追加してください` — src\composer\toolbox.js:161
+- `刺激プールのメディア種別が無効です` — src\composer\toolbox.js:159
+- `刺激プールのメディアが見つかりません` — src\composer\toolbox.js:162
+- `从左侧”Add to flow”面板添加对应类型的事件节点。` — src\PreRunChecklist.jsx:40
+- `错误` — src\ResponseRunner.jsx:7
+- `答题时限 (可选)` — src\QuestionnaireDesigner.jsx:190
+- `待機時間は0以上で指定してください` — src\composer\toolbox.js:153
+- `单选题或多选题需要至少一个可选项，否则参与者无法作答。` — src\PreRunChecklist.jsx:28
+- `当前为响应式页面。选择顶部 Screen size 后，编辑和运行将使用相同的固定分辨率。` — src\participantUi\ScreenChecks.jsx:10
+- `导入` — src\QuestionnaireDesigner.jsx:92
+- `得点` — src\QuestionnaireFormV2.jsx:12
+- `得分` — src\QuestionnaireFormV2.jsx:12
+- `得分:` — src\QuestionnaireForm.jsx:170
+- `等待操作员确认。` — src\RuntimeContent.jsx:7
+- `等待时长无效（需为正数）` — src\composer\toolbox.js:110
+- `点击 ⋯ → Advanced settings 切换到文本编辑器。` — src\PreRunChecklist.jsx:98
+- `点击”+ Add block”创建第一个 Block。` — src\PreRunChecklist.jsx:109
+- `点击”定位并修改”打开 Questionnaire 节点。` — src\PreRunChecklist.jsx:34
+- `点击”定位并修改”打开 Response 节点。` — src\PreRunChecklist.jsx:63, src\PreRunChecklist.jsx:68
+- `点击”定位并修改”打开对应的 Questionnaire 节点。` — src\PreRunChecklist.jsx:24, src\PreRunChecklist.jsx:29
+- `点击”定位并修改”打开对应的媒体节点。` — src\PreRunChecklist.jsx:46, src\PreRunChecklist.jsx:86, src\PreRunChecklist.jsx:92
+- `点击”定位并修改”打开对应节点。` — src\PreRunChecklist.jsx:52, src\PreRunChecklist.jsx:57, src\PreRunChecklist.jsx:74
+- `点击”定位并修改”跳转到对应位置。` — src\PreRunChecklist.jsx:114, src\PreRunChecklist.jsx:120
+- `点击"跳转到 Trial"后会定位到对应 Trial。` — src\PreRunChecklist.jsx:98
+- `点击下面的按钮选择 PhysioFlow Data 文件夹。` — src\PreRunChecklist.jsx:257
+- `定位并修改` — src\PreRunChecklist.jsx:174, src\participantUi\ScreenChecks.jsx:14
+- `反応` — src\ResponseRunner.jsx:4
+- `返回编辑` — src\participantUi\ScreenChecks.jsx:9
+- `方案结构为空` — src\PreRunChecklist.jsx:107
+- `方案名称未填写` — src\PreRunChecklist.jsx:102
+- `方案中没有任何 Block，需要先创建 Block → Trial → Step 的层级结构。` — src\PreRunChecklist.jsx:108
+- `非常不同意` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:125
+- `非常可能` — src\core\questionnaireModel.js:127
+- `非常同意` — src\core\questionnaireModel.js:125, src\core\questionnaireModel.js:13
+- `非常に勧める` — src\core\questionnaireModel.js:127
+- `分组缺少名称` — src\composer\toolbox.js:77
+- `分组为空` — src\composer\toolbox.js:78
+- `分组中的节点不存在` — src\composer\toolbox.js:79
+- `该步骤的「Participant content」在所有语言中都是空的。这不影响试运行，但参与者可能看不到引导信息。` — src\PreRunChecklist.jsx:73
+- `格式: type, en, options(用|分隔), min, max, answer` — src\QuestionnaireDesigner.jsx:91
+- `根据右侧检查器的提示补充缺失字段。` — src\PreRunChecklist.jsx:120
+- `勾选 ↗ analysis 并设置合适的 Role。` — src\PreRunChecklist.jsx:80
+- `关闭` — src\PreRunChecklist.jsx:283
+- `关闭 Loop，或将 End mode 改为 Fixed time / Manual continue。` — src\PreRunChecklist.jsx:86
+- `合格` — src\AttentionCheckRunner.jsx:5
+- `红 / 赤 / RED` — src\core\taskTemplates.js:72
+- `画面校正` — src\CalibrationRunner.jsx:4
+- `黄 / 黄 / YELLOW` — src\core\taskTemplates.js:75
+- `或者从”Steps outside flow”面板中点击 Insert 插入。` — src\PreRunChecklist.jsx:40
+- `基础检查通过` — src\participantUi\ScreenChecks.jsx:9
+- `继续` — src\QuestionnaireFormV2.jsx:11, src\ResponseRunner.jsx:5
+- `继续到 Session 设置` — src\PreRunChecklist.jsx:282
+- `建议项` — src\PreRunChecklist.jsx:271
+- `接続先ノードがありません` — src\composer\toolbox.js:137
+- `接続先ポートがありません` — src\composer\toolbox.js:139
+- `接続元ノードがありません` — src\composer\toolbox.js:136
+- `接続元ポートがありません` — src\composer\toolbox.js:138
+- `接続タイプとポートタイプが一致しません` — src\composer\toolbox.js:140
+- `节点 ID 重复` — src\composer\toolbox.js:58
+- `节点不可达，缺少输入边` — src\composer\toolbox.js:56
+- `节点内容问题` — src\PreRunChecklist.jsx:263
+- `节点缺少 ID` — src\composer\toolbox.js:57
+- `节点缺少组件类型` — src\composer\toolbox.js:59
+- `节点设置为 Fixed time 模式但还没有填写 Duration 毫秒数。` — src\PreRunChecklist.jsx:56
+- `节点引用的刺激池不存在` — src\composer\toolbox.js:99
+- `节点只能属于一个分组` — src\composer\toolbox.js:80
+- `结束方式需要设为手动` — src\PreRunChecklist.jsx:50
+- `结束节点不可达（有节点未连到主路径）` — src\composer\toolbox.js:55
+- `界面绑定引用了不存在的变量` — src\composer\toolbox.js:106
+- `界面模板为空` — src\composer\toolbox.js:105
+- `界面缺少输入控件` — src\composer\toolbox.js:107
+- `紧张` — src\core\taskTemplates.js:40
+- `緊張` — src\core\taskTemplates.js:40
+- `旧版内嵌刺激池配置不一致` — src\composer\toolbox.js:103
+- `开启 Show player controls，或将 Start mode 改为 Automatic。` — src\PreRunChecklist.jsx:92
+- `开始` — src\AttentionCheckRunner.jsx:4
+- `开始模式设为”Participant click”但播放控件被隐藏了，参与者无法触发播放。` — src\PreRunChecklist.jsx:91
+- `開始` — src\AttentionCheckRunner.jsx:4
+- `開始ノードがありません` — src\composer\toolbox.js:129
+- `可以开始试运行` — src\PreRunChecklist.jsx:228
+- `控制端口已有多条连线，只能保留一条` — src\composer\toolbox.js:68
+- `蓝 / 青 / BLUE` — src\core\taskTemplates.js:74
+- `连线类型与控制流端口不匹配` — src\composer\toolbox.js:67
+- `连线目标方向错误（应指向输入端口）` — src\composer\toolbox.js:66
+- `连线缺少目标端口` — src\composer\toolbox.js:64
+- `连线缺少目标节点` — src\composer\toolbox.js:62
+- `连线缺少源端口` — src\composer\toolbox.js:63
+- `连线缺少源节点` — src\composer\toolbox.js:61
+- `连线源方向错误（应从输出端口出发）` — src\composer\toolbox.js:65
+- `流程缺少结束节点` — src\composer\toolbox.js:54
+- `流程缺少开始节点` — src\composer\toolbox.js:51
+- `流程中存在多个开始节点` — src\composer\toolbox.js:53
+- `绿 / 緑 / GREEN` — src\core\taskTemplates.js:73
+- `没有题目` — src\QuestionnaireFormV2.jsx:10
+- `媒体 URL 无效，请检查地址或改用资产` — src\composer\toolbox.js:94
+- `媒体节点开启了循环（Loop）但结束模式设为”When media ends”，这样播放永远不会停止。` — src\PreRunChecklist.jsx:85
+- `媒体节点缺少 URL 或资产` — src\composer\toolbox.js:93
+- `媒体来源缺失` — src\PreRunChecklist.jsx:44
+- `媒体完成模式无效` — src\composer\toolbox.js:95
+- `每行一个选项` — src\QuestionnaireDesigner.jsx:175
+- `秒，留空=不限时` — src\QuestionnaireDesigner.jsx:191
+- `名称` — src\QuestionnaireDesigner.jsx:27
+- `您向朋友推荐的可能性有多大？` — src\core\questionnaireModel.js:127
+- `配置媒体` — src\participantUi\ScreenChecks.jsx:18
+- `匹配选项文字` — src\QuestionnaireDesigner.jsx:183
+- `平静` — src\core\taskTemplates.js:40
+- `评分范围无效（min 需小于 max）` — src\composer\toolbox.js:111
+- `屏幕校准` — src\CalibrationRunner.jsx:4
+- `評価してください` — src\core\questionnaireModel.js:125, src\core\questionnaireModel.js:126, src\core\questionnaireModel.js:9
+- `評価の最大値は最小値より大きくしてください` — src\composer\toolbox.js:154
+- `其他` — src\core\taskTemplates.js:40
+- `迁移后需要人工复核配置` — src\composer\toolbox.js:121
+- `強く同意する` — src\core\questionnaireModel.js:125, src\core\questionnaireModel.js:13
+- `请按空格键` — src\constants.js:69
+- `请按响应键` — src\ResponseRunner.jsx:8
+- `请按照研究员给出的指示操作。` — src\RuntimeContent.jsx:6
+- `请给方案一个名称，便于在项目列表中区分。` — src\PreRunChecklist.jsx:103
+- `请评价` — src\core\questionnaireModel.js:125, src\core\questionnaireModel.js:126, src\core\questionnaireModel.js:9
+- `请输入` — src\core\questionnaireModel.js:131
+- `请输入数字` — src\core\questionnaireModel.js:133
+- `请拖动滑块` — src\core\questionnaireModel.js:128
+- `请详细描述` — src\core\questionnaireModel.js:132
+- `请选择` — src\core\questionnaireModel.js:129
+- `请选择（可多选）` — src\core\questionnaireModel.js:130
+- `请选择最符合当前感受的情绪` — src\core\taskTemplates.js:39
+- `请选择最符合的情绪标签` — src\domain.js:159
+- `取消` — src\PreRunChecklist.jsx:283
+- `全く勧めない` — src\core\questionnaireModel.js:127
+- `全く同意しない` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:125
+- `缺少固定时长` — src\PreRunChecklist.jsx:55
+- `缺少媒体：` — src\participantUi\ScreenChecks.jsx:17
+- `确认校准` — src\CalibrationRunner.jsx:5
+- `然后在 Block 里添加 Trial 和 Step。` — src\PreRunChecklist.jsx:109
+- `认知任务类型无效` — src\composer\toolbox.js:117
+- `认知任务没有试次，请先生成` — src\composer\toolbox.js:118
+- `认知任务试次 ID 无效` — src\composer\toolbox.js:119
+- `认知任务试次时长无效` — src\composer\toolbox.js:120
+- `日本語` — src\Inspector.jsx:298, src\app\legacyBuilder.jsx:322, src\app\sessionSetup.jsx:115, src\app\sessionSetup.jsx:57, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59
+- `日本語タイトル` — src\Inspector.jsx:126
+- `如果不需要这个步骤，可以点击 Remove unused 删除。` — src\PreRunChecklist.jsx:40
+- `入口节点不是 start 节点` — src\composer\toolbox.js:52
+- `入口はStartノードである必要があります` — src\composer\toolbox.js:130
+- `入力してください` — src\core\questionnaireModel.js:131
+- `尚未配置图片、音频或视频来源。` — src\participantUi\ScreenChecks.jsx:17
+- `设备检查中…请等待操作员。` — src\RuntimeContent.jsx:8
+- `设备连接器无效` — src\composer\toolbox.js:91
+- `设备权限未批准` — src\composer\toolbox.js:92
+- `剩余时间` — src\QuestionnaireFormV2.jsx:13
+- `视频、音频或图片节点没有可播放的文件或链接。` — src\PreRunChecklist.jsx:45
+- `收起标记面板` — src\RuntimeRunnerPage.jsx:522
+- `手动开始与播放控件冲突` — src\PreRunChecklist.jsx:90
+- `手动完成模式需要界面中有提交按钮` — src\composer\toolbox.js:108
+- `手動完了には送信または次へボタンが必要です` — src\composer\toolbox.js:151
+- `数値を入力してください` — src\core\questionnaireModel.js:133
+- `送信` — src\QuestionnaireFormV2.jsx:9
+- `随机概率需在 0–100 之间` — src\composer\toolbox.js:115
+- `随机题目顺序` — src\QuestionnaireDesigner.jsx:28
+- `随机选项顺序` — src\QuestionnaireDesigner.jsx:117
+- `提交` — src\QuestionnaireFormV2.jsx:9
+- `提交回答` — src\QuestionnaireForm.jsx:211
+- `题目文字` — src\QuestionnaireDesigner.jsx:152
+- `添加缺失的 Trial 或 Step。` — src\PreRunChecklist.jsx:114
+- `条件显示 · 跳题逻辑` — src\QuestionnaireDesigner.jsx:122
+- `条件运算符无效` — src\composer\toolbox.js:113
+- `跳转到 Trial` — src\PreRunChecklist.jsx:174
+- `通过` — src\AttentionCheckRunner.jsx:5
+- `拖拽排序` — src\QuestionnaireDesigner.jsx:109
+- `外部问卷等节点需要参与者或操作员手动确认完成，不能用定时自动跳过。` — src\PreRunChecklist.jsx:51
+- `外部问卷链接缺失` — src\PreRunChecklist.jsx:32
+- `外部问卷模式需要 Google Forms、Qualtrics 或其他问卷服务的链接。` — src\PreRunChecklist.jsx:33
+- `完全不可能` — src\core\questionnaireModel.js:127
+- `未安装设备连接器` — src\composer\toolbox.js:90
+- `未登録のコンポーネントです` — src\composer\toolbox.js:135
+- `未发现越界元素或缺失的媒体来源。仍需预览确认实际内容；此检查不验证媒体链接能否加载或实验时序。` — src\participantUi\ScreenChecks.jsx:20
+- `未设置分析窗口` — src\PreRunChecklist.jsx:78
+- `未通过 / 超时` — src\AttentionCheckRunner.jsx:6
+- `未知的组件类型，请安装对应 SDK 包` — src\composer\toolbox.js:60
+- `问卷设计器 · Questionnaire designer · アンケート設計` — src\QuestionnaireDesigner.jsx:23
+- `问卷题目缺少标题` — src\PreRunChecklist.jsx:22
+- `喜び` — src\core\taskTemplates.js:40
+- `下面每一项都写了为什么不能运行，以及应该点哪里修改。先处理“必须修复”，建议项可以稍后再看。` — src\PreRunChecklist.jsx:231
+- `下一题 →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:8
+- `显示进度` — src\QuestionnaireDesigner.jsx:29
+- `現在の感情に最も近いものを選んでください` — src\core\taskTemplates.js:39
+- `現在の覚醒度を教えてください。` — src\core\questionnaireModel.js:124, src\domain.js:159
+- `現在の快・不快の程度を教えてください。` — src\core\questionnaireModel.js:123, src\domain.js:159
+- `詳しく記述してください` — src\core\questionnaireModel.js:132
+- `响应` — src\ResponseRunner.jsx:4
+- `校正を確認` — src\CalibrationRunner.jsx:5
+- `协议流程为空，请先添加节点` — src\composer\toolbox.js:50
+- `协议缺少 ID` — src\composer\toolbox.js:48
+- `协议缺少名称` — src\composer\toolbox.js:49
+- `协议文档结构无效` — src\composer\toolbox.js:47
+- `需要检查的元素` — src\participantUi\ScreenChecks.jsx:9
+- `需要检查配置` — src\PreRunChecklist.jsx:118
+- `需要选择本地数据文件夹` — src\PreRunChecklist.jsx:255
+- `続行` — src\ResponseRunner.jsx:5
+- `选项 1` — src\core\questionnaireModel.js:10
+- `选项 2` — src\core\questionnaireModel.js:10
+- `选项1` — src\core\questionnaireModel.js:129, src\core\questionnaireModel.js:130
+- `选项2` — src\core\questionnaireModel.js:129, src\core\questionnaireModel.js:130
+- `选项3` — src\core\questionnaireModel.js:129
+- `选择本地数据文件夹` — src\PreRunChecklist.jsx:259
+- `选择题缺少选项` — src\PreRunChecklist.jsx:27
+- `选择完成后再开始正式 session。` — src\PreRunChecklist.jsx:257
+- `选择一个 baseline、stimulus、task 或 recovery 节点。` — src\PreRunChecklist.jsx:80
+- `選択肢 1` — src\core\questionnaireModel.js:10
+- `選択肢 2` — src\core\questionnaireModel.js:10
+- `選択肢1` — src\core\questionnaireModel.js:129, src\core\questionnaireModel.js:130
+- `選択肢2` — src\core\questionnaireModel.js:129, src\core\questionnaireModel.js:130
+- `選択肢3` — src\core\questionnaireModel.js:129
+- `選択した刺激プールがありません` — src\composer\toolbox.js:160
+- `選択してください` — src\core\questionnaireModel.js:129
+- `選択してください（複数可）` — src\core\questionnaireModel.js:130
+- `循环播放与结束模式冲突` — src\PreRunChecklist.jsx:84
+- `循环次数无效（需为正整数）` — src\composer\toolbox.js:112
+- `循环终止运算符无效` — src\composer\toolbox.js:114
+- `押したキー` — src\ResponseRunner.jsx:9
+- `押す` — src\domain.js:294, src\domain.js:325
+- `研究者の指示に従ってください。` — src\RuntimeContent.jsx:6
+- `已按` — src\ResponseRunner.jsx:9
+- `已定位到以下步骤，请点击 Insert 放入流程图` — src\flowCanvas\CanvasOverlays.jsx:14
+- `以下越界结果来自最近一次编辑。点击定位可返回编辑并修改。` — src\participantUi\ScreenChecks.jsx:11
+- `応答キーを押してください` — src\ResponseRunner.jsx:8
+- `友人に勧める可能性はどのくらいですか？` — src\core\questionnaireModel.js:127
+- `愉快` — src\core\taskTemplates.js:40
+- `预览实验画面` — src\participantUi\ScreenChecks.jsx:9
+- `在 Duration (ms) 输入框中填写一个大于 0 的毫秒数。` — src\PreRunChecklist.jsx:57
+- `在 External form URL 中粘贴完整的问卷链接（https://...）。` — src\PreRunChecklist.jsx:34
+- `在 Options 文本框里添加至少一行选项。` — src\PreRunChecklist.jsx:68
+- `在 Participant content 中至少填写一种语言的内容。` — src\PreRunChecklist.jsx:74
+- `在 Prompt 中至少填写一种语言（中文/日文/英文）。` — src\PreRunChecklist.jsx:24
+- `在 Response variable 中填写变量名。` — src\PreRunChecklist.jsx:63
+- `在编辑器顶部标题栏输入方案名称。` — src\PreRunChecklist.jsx:104
+- `在对应问题的 Options 中添加至少一个选项。` — src\PreRunChecklist.jsx:29
+- `在右侧检查器的 Media source 中填写 URL 或上传本地文件。` — src\PreRunChecklist.jsx:46
+- `在右侧检查器中找到对应的问题（Question 1, 2...）。` — src\PreRunChecklist.jsx:24
+- `暂无问题。使用上方预设或手动添加。` — src\QuestionnaireDesigner.jsx:62
+- `展开标记面板` — src\RuntimeRunnerPage.jsx:522
+- `找到该 Trial，确保 ITI jitter ms ≥ 0，分布类型在可选范围内。` — src\PreRunChecklist.jsx:98
+- `这个 Step 在 Trial 中存在，但流程图中没有对应的事件节点，运行时会被跳过。` — src\PreRunChecklist.jsx:39
+- `整个方案中没有步骤启用 Generate analysis window，导出的 analysis_windows.csv 将为空。` — src\PreRunChecklist.jsx:79
+- `正解` — src\ResponseRunner.jsx:6
+- `正确` — src\ResponseRunner.jsx:6
+- `正确答案 (自动计分)` — src\QuestionnaireDesigner.jsx:182
+- `正式采集必须写入你选择的本地文件夹，不能只放在浏览器管理的缓存里。` — src\PreRunChecklist.jsx:256
+- `知道了` — src\flowCanvas\CanvasToolbar.jsx:12
+- `質問がありません` — src\QuestionnaireFormV2.jsx:10
+- `中文` — src\Inspector.jsx:298, src\app\legacyBuilder.jsx:321, src\app\sessionSetup.jsx:115, src\app\sessionSetup.jsx:57, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59
+- `中文标题` — src\Inspector.jsx:126
+- `重複なしで割り当てるための刺激数が不足しています` — src\composer\toolbox.js:164
+- `注视点形状无效` — src\composer\toolbox.js:116
+- `注意力检查` — src\AttentionCheckRunner.jsx:3
+- `注意チェック` — src\AttentionCheckRunner.jsx:3
+- `子流程参数映射类型不匹配` — src\composer\toolbox.js:82
+- `子流程参数映射缺失` — src\composer\toolbox.js:81
+- `子流程出口节点无效` — src\composer\toolbox.js:85
+- `子流程模板为空` — src\composer\toolbox.js:83
+- `子流程入口节点无效` — src\composer\toolbox.js:84
+- `自动排版` — src\ParticipantUiBuilder.jsx:72
+- `自由编辑` — src\ParticipantUiBuilder.jsx:71
+- `最大` — src\QuestionnaireDesigner.jsx:161
+- `最大标签` — src\QuestionnaireDesigner.jsx:164
+- `最低` — src\core\questionnaireModel.js:128
+- `最低标签` — src\QuestionnaireDesigner.jsx:163
+- `最高` — src\core\questionnaireModel.js:128
+- `最高标签` — src\QuestionnaireDesigner.jsx:164
+- `最小` — src\QuestionnaireDesigner.jsx:160
+- `最小标签` — src\QuestionnaireDesigner.jsx:163
+- `最も近い感情ラベルを選んでください` — src\domain.js:159
+- `A centered cross for rest or fixation.` — src\participantUi\screenPresets.js:4
+- `A declarative SDK example that completes on button press.` — src\sdk\exampleReactionButtonPackage.js:23
+- `A device connection is required before this run can start.` — src\GraphRuntimeRunnerPage.jsx:347
+- `A group cannot contain an unknown node` — src\core\groupCommands.js:13, src\core\groupCommands.js:41
+- `A group needs at least one node` — src\core\groupCommands.js:12
+- `A nested write requires a path` — src\collaboration\changeSets.js:162
+- `A node can belong to only one group` — src\core\groupCommands.js:15, src\core\groupCommands.js:43
+- `A prompt, rating response and submit button.` — src\participantUi\screenPresets.js:7
+- `A protocol must contain at least one Block.` — src\HierarchyManager.jsx:18
+- `A saved runtime snapshot and its append-only event history were found.` — src\RuntimeRunnerPage.jsx:401
+- `A space for` — src\Dashboard.jsx:160
+- `A stimulus area with a short instruction.` — src\participantUi\screenPresets.js:5
+- `Abort session` — src\RuntimeRunnerPage.jsx:471
+- `Accuracy (1 correct / 0 incorrect)` — src\data\graphExport.js:202
+- `Actual elapsed duration including recorded pauses.` — src\exporter.js:196
+- `Add a` — src\app\legacyBuilder.jsx:114
+- `Add a question from the left panel, or click an existing question to edit it.` — src\QuestionnaireWorkspace.jsx:223
+- `Add a source URL, pick an asset, or enable a stimulus pool below.` — src\composer\NodeInspector.jsx:135
+- `Add a Trial before opening the workflow.` — src\FlowWorkspaceOverlay.jsx:151
+- `Add at least one block, trial, and event node.` — src\readiness.js:62
+- `Add at least one experiment component between Start and End.` — src\readiness.js:62
+- `Add compatible protocol variables before instantiating.` — src\composer\Catalogs.jsx:74
+- `Add event nodes, connect ports, and use Condition/Loop nodes for branches and repeats.` — src\constants.js:164
+- `Add from palette →` — src\flowCanvas\CanvasContextMenu.jsx:15
+- `Add media, stimulus pools, variables, groups, and participant screens.` — src\composer\Header.jsx:5
+- `Add parameter` — src\composer\Catalogs.jsx:49
+- `Add response option` — src\composer\ResponseOptionsEditor.jsx:24
+- `Add style` — src\participantUi\StyleEditor.jsx:40
+- `Add variable` — src\composer\Catalogs.jsx:394
+- `admin JWT exchange failed` — src\bioDBClient.js:51, src\bioDBClient.js:58
+- `Advance immediately after a valid key press.` — src\core\componentRegistry.js:185
+- `Advanced appearance (` — src\participantUi\StyleEditor.jsx:38
+- `Advanced mode: SDK packages, devices, collaboration, deployment, and raw configuration.` — src\composer\Palette.jsx:23
+- `AF7` — src\devices\museProtocol.js:31
+- `AF8` — src\devices\museProtocol.js:32
+- `Affect map` — src\DataPanel.jsx:15
+- `Align bottom` — src\ParticipantUiCanvas.jsx:46
+- `Align centers (horizontal)` — src\ParticipantUiCanvas.jsx:45
+- `Align left` — src\ParticipantUiCanvas.jsx:45
+- `Align middles (vertical)` — src\ParticipantUiCanvas.jsx:46
+- `Align right` — src\ParticipantUiCanvas.jsx:45
+- `Align top` — src\ParticipantUiCanvas.jsx:46
+- `All channels` — src\DataPanel.jsx:13
+- `All referenced media are available.` — src\app\sessionSetup.jsx:61
+- `Allow retry` — src\Inspector.jsx:144
+- `Allow skip` — src\Inspector.jsx:143
+- `already applied ·` — src\composer\Catalogs.jsx:135
+- `Alt text` — src\participantUi\UiPropertyEditor.jsx:12
+- `Alt+Drag` — src\flowCanvas\ShortcutsModal.jsx:6
+- `Analysis & recovery` — src\composer\NodeInspector.jsx:171
+- `Analysis Windows (` — src\analysis\WindowCards.jsx:16
+- `analysis_windows.csv — Derived intervals for physiology analysis` — src\exporter.js:359
+- `Analytics ↗` — src\Dashboard.jsx:215
+- `analytics-card analytics-issues` — src\Analytics.jsx:127
+- `analytics-card analytics-session-card` — src\Analytics.jsx:97
+- `answers)` — src\analysis\ResponseCharts.jsx:25
+- `App Error` — src\main.jsx:50
+- `appCommit is required` — src\usability\studyMetrics.js:18
+- `Appearance overrides` — src\Inspector.jsx:303
+- `Append participant/session to URL` — src\Inspector.jsx:248, src\app\legacyBuilder.jsx:348
+- `Append-only event log for blocks, trials, graph nodes, steps, media, pauses, retries, skips, and markers.` — src\constants.js:175
+- `Append-only raw event log.` — src\exporter.js:128
+- `applied ·` — src\composer\Catalogs.jsx:142
+- `Applied history (` — src\composer\Catalogs.jsx:142
+- `Apply change set` — src\composer\Catalogs.jsx:140
+- `Approve and install` — src\composer\Catalogs.jsx:311, src\composer\Catalogs.jsx:349
+- `Approve every requested capability before installation:` — src\composer\Catalogs.jsx:308
+- `Approve every requested device capability:` — src\composer\Catalogs.jsx:347
+- `Archive project?` — src\App.jsx:225
+- `arousal →` — src\analysis\AffectMap.jsx:64
+- `Arousal: Low (1) → High (9) excitement` — src\analysis\ResponseCharts.jsx:83
+- `Arrange hierarchy` — src\constants.js:163
+- `Asset DB blocked — close other tabs` — src\assetStore.js:15
+- `Asset name` — src\composer\Catalogs.jsx:443
+- `Asset save aborted` — src\assetStore.js:47
+- `Asset type` — src\composer\Catalogs.jsx:444
+- `Asset URL` — src\composer\Catalogs.jsx:445
+- `assets to the Media library first.` — src\composer\Catalogs.jsx:468
+- `Assign a source and keep fixed duration unless the operator should advance manually.` — src\constants.js:107
+- `Assign a source and set volume, loop, controls, and duration behavior.` — src\constants.js:102
+- `Assign a source. Local files give the most reliable play/end events; YouTube timing is flagged for attention.` — src\constants.js:97
+- `At least one block is required — click "+ Add block"` — src\domain.js:23
+- `At least one End node must be reachable from Start.` — src\constants.js:157
+- `Attach a URL, uploaded file, or reusable stimulus to every media step.` — src\readiness.js:86
+- `Attach media, write instructions, configure questionnaires, and mark analysis windows.` — src\constants.js:165
+- `attention-check result` — src\AttentionCheckRunner.jsx:68
+- `attention-check showing` — src\AttentionCheckRunner.jsx:67
+- `audio/*` — src\MediaSettings.jsx:42, src\app\legacyBuilder.jsx:366
+- `Author ID` — src\composer\Catalogs.jsx:125
+- `authorization, content-type, idempotency-key` — src\hosted\hostedHttp.js:67
+- `Auto arrange` — src\ParticipantUiBuilder.jsx:171
+- `Auto layout · reorder` — src\participantUi\UiPropertyEditor.jsx:10, src\participantUi\UiPropertyEditor.jsx:4
+- `Auto layout applied` — src\composer\useComposerState.js:476
+- `Auto-advance on key press` — src\core\componentRegistry.js:185
+- `Automated checks for event continuity, missing ends, invalid windows, and timing attention flags.` — src\constants.js:179
+- `Automated quality report for missing terminal events, invalid windows, unclosed markers, and timing caveats.` — src\constants.js:205
+- `Automated validity checks and warnings.` — src\exporter.js:133
+- `Automatic checks do not establish hardware timing accuracy or replace researcher review.` — src\SessionManager.jsx:311
+- `Automatic transition limit exceeded` — src\runtime\runtimeMachine.js:263
+- `autoplay; encrypted-media; picture-in-picture` — src\MediaStep.jsx:119, src\ParticipantMedia.jsx:50
+- `Avg Duration` — src\analysis\WindowCards.jsx:23
+- `Awaiting first checkpoint` — src\GraphRuntimeRunnerPage.jsx:358
+- `Awaiting operator` — src\core\participantUi.js:109
+- `B · Blue` — src\CognitiveTaskRunner.jsx:6
+- `Background color` — src\Inspector.jsx:42
+- `band_*_relative` — src\data\jointExport.js:184
+- `Base hash must be SHA-256` — src\collaboration\changeSets.js:103
+- `Base version must be a positive integer` — src\collaboration\changeSets.js:102
+- `base64` — src\bioDBClient.js:129, src\bioDBClient.js:248
+- `Baseline: v` — src\composer\Catalogs.jsx:127
+- `Bearer access token is required` — src\hosted\hostedHttp.js:17
+- `Before you continue` — src\app\sessionSetup.jsx:69
+- `below — this is your top-level container` — src\app\legacyBuilder.jsx:114
+- `BIDS-compatible PhysioFlow session export` — src\exporter.js:507
+- `Bindings and actions` — src\ParticipantUiBuilder.jsx:187
+- `bio-btn viz-zoom-reset` — src\analysis\MultiChannelChart.jsx:129
+- `BioDB credentials are missing, so only the PF session was archived. Configure Dashboard → BioDB and export again for the full joint package.` — src\SessionManager.jsx:137
+- `BioDB is not configured (user_id / token missing).` — src\SessionManager.jsx:135
+- `BioDB not configured` — src\SessionManager.jsx:89
+- `BioDB push failed` — src\SessionManager.jsx:115
+- `BioDB returned no sensor samples for this participant and window.` — src\data\jointExport.js:130
+- `BioDB settings ↗` — src\Dashboard.jsx:215
+- `BioDB time series flattened from the columnar read-back. Missing samples are empty cells, not zeros, so gaps stay visible.` — src\data\jointExport.js:170
+- `BioDB timestamps are UTC; PF event timestamps carry their own offset. Compare on instants, not on local strings.` — src\data\jointExport.js:189
+- `blank = no limit` — src\QuestionnaireEditorV2.jsx:139
+- `Block 内缺少 Trial，或 Trial 内缺少 Step。` — src\PreRunChecklist.jsx:113
+- `Block identifier from protocol hierarchy.` — src\exporter.js:447
+- `Block identifier from protocol.json.` — src\exporter.js:169
+- `Block repeat needs a container policy` — src\legacy\migrateProtocolV1.js:32
+- `Bluetooth transport is not connected` — src\devices\transports\webBluetooth.js:49, src\devices\transports\webBluetooth.js:54
+- `blur(3px)` — src\Onboarding.jsx:75
+- `Body starts the repeated sequence. Its last step returns to this Loop. Exit continues after repetition.` — src\composer\NodeInspector.jsx:146
+- `bold 10px system-ui` — src\analysis\charts.js:133
+- `Bold blues, larger text — accessible` — src\theme.js:125
+- `Bootstrap verified ·` — src\composer\Catalogs.jsx:272
+- `Border radius` — src\ThemeSettings.jsx:98, src\app\legacyBuilder.jsx:391
+- `Border style` — src\Inspector.jsx:326
+- `Brightness at comfortable level` — src\constants.js:70
+- `Bring to front` — src\ParticipantUiBuilder.jsx:147
+- `Browse data ↗` — src\Dashboard.jsx:215
+- `Browser fallback` — src\constants.js:196
+- `browser storage unavailable` — src\fsStorage.js:179
+- `Browser-local upload asset ID.` — src\exporter.js:212
+- `Bubble size = frequency.` — src\analysis\ResponseCharts.jsx:86
+- `Build the flow` — src\constants.js:164
+- `Build the flow and edit essential node settings.` — src\composer\Header.jsx:4
+- `Build your next experiment` — src\Dashboard.jsx:161
+- `Built-in answers appear in responses.csv. External forms export open/confirmed timing events and the resolved form URL in events.csv.` — src\constants.js:113
+- `Built-in operator handbook for setup, node behavior, local storage, distribution, and exported data formats.` — src\GuidePanel.jsx:16
+- `Built-in questions` — src\Inspector.jsx:229, src\app\legacyBuilder.jsx:339
+- `Bundle integrity verified` — src\composer\Catalogs.jsx:260
+- `Bundle rejected` — src\composer\Catalogs.jsx:260
+- `Button appearance` — src\Inspector.jsx:201
+- `Button color` — src\Inspector.jsx:215
+- `button, input, select, textarea, [tabindex]:not([tabindex="-1"])` — src\Modal.jsx:11
+- `button,input,select` — src\flowCanvas\useNodeDrag.js:20
+- `button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])` — src\Modal.jsx:17, src\QuestionnaireWorkspace.jsx:38
+- `calibration done` — src\CalibrationRunner.jsx:31
+- `calm / content` — src\analysis\AffectMap.jsx:13
+- `Cannot delete` — src\HierarchyManager.jsx:18, src\HierarchyManager.jsx:27, src\QuestionnaireLibrary.jsx:19
+- `Cannot freeze` — src\App.jsx:365
+- `Cannot freeze:` — src\App.jsx:422, src\app\legacyBuilder.jsx:103
+- `Cannot move an element into its own descendant` — src\core\participantUi.js:229
+- `Cannot move an element into itself` — src\core\participantUi.js:222
+- `Cannot save a protocol without an ID` — src\fsStorage.js:62
+- `Canvas editing mode` — src\ParticipantUiBuilder.jsx:70
+- `Canvas zoom` — src\ParticipantUiBuilder.jsx:88
+- `Captures a single quick participant response with button or keyboard input.` — src\constants.js:116
+- `Catch trial to verify participant attention. Shows a prompt and expects a specific keypress within a time window.` — src\constants.js:131
+- `CC0` — src\exporter.js:497
+- `Centered fixation` — src\participantUi\screenPresets.js:4
+- `Change set exceeds the 10,000-operation safety limit` — src\collaboration\changeSets.js:106
+- `Change set ID is required` — src\collaboration\changeSets.js:99
+- `Change set targets a different protocol or project` — src\collaboration\changeSets.js:206
+- `Change sets cannot cross protocol versions` — src\collaboration\changeSets.js:132
+- `Change sets require the same protocol and project identity` — src\collaboration\changeSets.js:131
+- `Channel analysis` — src\DataPanel.jsx:317
+- `channel id (per connector)` — src\data\graphExport.js:93
+- `Channel-level data dictionary (D4): time-series channel manifest with dataType/unit/sampleRate per device connector. Rendered in channel_dictionary.json.` — src\data\graphExport.js:94
+- `Channel-level data dictionary: time-series channels with dataType/unit/sampleRate per device connector.` — src\exporter.js:132
+- `Check media again` — src\app\sessionSetup.jsx:62
+- `Check the participant, protocol, media and storage before opening the experiment.` — src\app\sessionSetup.jsx:54
+- `Checking referenced local media…` — src\app\sessionSetup.jsx:61
+- `Checklist items` — src\Inspector.jsx:284
+- `Checkpoint not saved` — src\GraphRuntimeRunnerPage.jsx:358
+- `Checkpoint saved` — src\GraphRuntimeRunnerPage.jsx:358
+- `Checkpoints and final session data are written to this folder. Unsubmitted questionnaire answers and task progress may not be recoverable.` — src\app\sessionSetup.jsx:66
+- `Chinese content` — src\app\legacyBuilder.jsx:321
+- `Choose (multiple allowed)` — src\core\questionnaireModel.js:130
+- `Choose 10–10,000 trials. The Go ratio is applied to this total and rounded to whole trials.` — src\composer\TrialGenerator.jsx:12
+- `Choose a file` — src\MediaSettings.jsx:48
+- `Choose a folder on your computer. All protocols, sessions, and media stay there — not in browser cache.` — src\Onboarding.jsx:19
+- `Choose a multiple of 4 (4–10,000). Use a multiple of 8 for equal congruent/incongruent counts within each ink color.` — src\composer\TrialGenerator.jsx:12
+- `Choose a response.` — src\RuntimeContent.jsx:197
+- `Choose a stimulus image` — src\participantUi\screenPresets.js:12
+- `Choose a variable…` — src\composer\NodeInspector.jsx:155
+- `Choose one` — src\core\questionnaireModel.js:129
+- `Choose presentation or response steps. Branches and loop controls need manual configuration.` — src\core\repeatSegment.js:12
+- `Choose the closest emotion label` — src\domain.js:159
+- `Choose the emotion closest to your current feeling` — src\core\taskTemplates.js:39
+- `Choose the steps to repeat.` — src\core\repeatSegment.js:8
+- `choose…` — src\composer\NodeInspector.jsx:107
+- `Chooses true or false path from participant fields, trial condition, or questionnaire answers.` — src\constants.js:148
+- `clamp(1.1rem, 2.5vw, 1.8rem)` — src\RuntimeContent.jsx:140
+- `clamp(1.4rem, 3vw, 2.2rem)` — src\app\legacyBuilder.jsx:412
+- `clamp(1.6rem,4vw,2.6rem)` — src\flowCanvas\NodePreviewModal.jsx:156
+- `Clean White` — src\theme.js:158
+- `clean-group-btn danger` — src\flowCanvas\CanvasLayers.jsx:77
+- `Click a node to edit · Click an edge to delete` — src\Inspector.jsx:85
+- `Click action` — src\ParticipantUiBuilder.jsx:190
+- `Click to insert after the selection (or inside a selected container) · drag for precise placement · Del to remove` — src\ParticipantUiBuilder.jsx:126
+- `Click-to-use distribution` — src\GuidePanel.jsx:112
+- `Close (Esc)` — src\QuestionnaireWorkspace.jsx:111
+- `Close guide` — src\GuidePanel.jsx:18
+- `cm ·` — src\CalibrationRunner.jsx:51
+- `Cognitive task` — src\core\componentRegistry.js:367
+- `cognitive-task instructions` — src\CognitiveTaskRunner.jsx:115
+- `Collaboration baseline updated` — src\composer\useCatalogActions.js:37
+- `Collaboration change set applied` — src\composer\useCatalogActions.js:38
+- `Collapse markers` — src\RuntimeRunnerPage.jsx:523
+- `Collection workflow` — src\app\sessionSetup.jsx:51
+- `Collects participant responses with required/optional questions.` — src\constants.js:111
+- `Color theme` — src\ThemeSettings.jsx:48
+- `Color-word Stroop` — src\CognitiveTaskRunner.jsx:115
+- `Column reference (analysis_windows.csv):` — src\exporter.js:376
+- `Column reference (events.csv):` — src\exporter.js:363
+- `Column reference (responses.csv):` — src\exporter.js:373
+- `Column-level reference for the CSV files. Use this first when building analysis scripts.` — src\constants.js:206
+- `Compact (0.9x)` — src\ThemeSettings.jsx:92
+- `Compare the two images.` — src\participantUi\screenPresets.js:15
+- `Compare with variable` — src\composer\NodeInspector.jsx:159
+- `Compared against the input. Ignored when a compare variable or port is bound.` — src\core\componentRegistry.js:310
+- `completed node visits` — src\SessionManager.jsx:303
+- `Completed session lacks protocol_completed event` — src\data\graphIntegrity.js:23
+- `Completed Session lacks session_completed event` — src\integrity.js:28
+- `completed steps` — src\SessionManager.jsx:303
+- `Completed steps` — src\Analytics.jsx:118, src\analysis\CrossSessionCompare.jsx:115
+- `completed visits ·` — src\GraphRuntimeRunnerPage.jsx:358
+- `Completion checkbox label` — src\Inspector.jsx:240
+- `Completion label` — src\app\legacyBuilder.jsx:346
+- `Component definition must be an object` — src\core\componentRegistry.js:30
+- `Component label is required` — src\core\componentRegistry.js:33
+- `Component package must be an object` — src\sdk\componentPackage.js:18
+- `Component type` — src\data\graphExport.js:198
+- `Component type is required` — src\core\componentRegistry.js:31
+- `Component version is required` — src\core\componentRegistry.js:32
+- `component(s)` — src\composer\Catalogs.jsx:314
+- `Composer V2` — src\composer\Header.jsx:15
+- `composer-guide guide-h` — src\composer\Canvas.jsx:92
+- `composer-guide guide-v` — src\composer\Canvas.jsx:91
+- `composer-v2-tag` — src\Dashboard.jsx:262
+- `composer-wire temp` — src\composer\Canvas.jsx:71
+- `Condition compare variable` — src\composer\NodeInspector.jsx:159
+- `Condition input variable` — src\composer\NodeInspector.jsx:154
+- `condition Trial condition label` — src\exporter.js:367
+- `Conditional display` — src\QuestionnaireEditorV2.jsx:107
+- `Conditional display · 条件显示` — src\QuestionnaireWorkspace.jsx:256
+- `Conditional repetition` — src\composer\NodeInspector.jsx:146
+- `Conditions, loops or junctions need graph-aware migration review` — src\legacy\migrateProtocolV1.js:38
+- `Configure SDK packages, devices, collaboration, deployment, and raw node details.` — src\composer\Header.jsx:6
+- `Configure the checklist items that must be ticked before the run can continue.` — src\constants.js:127
+- `Configure the prompt, expected key, timeout duration, and pass/fail feedback text. Use in condition nodes with last_attention_passed to branch.` — src\constants.js:132
+- `Configured duration when available.` — src\exporter.js:195
+- `Confirm calibration` — src\CalibrationRunner.jsx:5
+- `Confirm delete` — src\app\legacyBuilder.jsx:47
+- `Confirmation label` — src\Inspector.jsx:268
+- `conflict(s)` — src\composer\Catalogs.jsx:135
+- `Connect body and exit ports; keep the maximum finite to protect runs.` — src\constants.js:153
+- `Connect nodes` — src\flowCanvas\ShortcutsModal.jsx:5
+- `Connect Start to the first event or control node.` — src\constants.js:145
+- `Connecting…` — src\GraphRuntimeRunnerPage.jsx:347
+- `Connection created` — src\composer\useComposerState.js:217
+- `connection pending` — src\app\sessionSetup.jsx:63
+- `Connector ID must use lowercase dot/dash notation` — src\devices\deviceConnector.js:11
+- `Connector name is required` — src\devices\deviceConnector.js:13
+- `Connector permissions must be unique` — src\devices\deviceConnector.js:16
+- `Connector version must use semantic versioning` — src\devices\deviceConnector.js:12
+- `Contains pauses` — src\analysis\WindowCards.jsx:237
+- `Content is empty — fill in «Participant content» in at least one language for clearer participant guidance` — src\domain.js:361
+- `content_i18n` — src\app\legacyBuilder.jsx:257, src\flowCanvas\NodePreviewModal.jsx:61
+- `content-fields stimulus-pool-fields` — src\composer\NodeInspector.jsx:149
+- `Continue / action button` — src\participantUi\constants.js:32
+- `Continue after response` — src\app\legacyBuilder.jsx:332
+- `Continue immediately after response` — src\Inspector.jsx:197
+- `Continue to collection` — src\app\sessionSetup.jsx:83
+- `Continue to test run` — src\app\sessionSetup.jsx:83
+- `Control handler ID must use lowercase dot/dash notation` — src\runtime\controlHandlerRegistry.js:11
+- `Control handler needs an execute function` — src\runtime\controlHandlerRegistry.js:13
+- `Control handler version must use semantic versioning` — src\runtime\controlHandlerRegistry.js:12
+- `Cool blue tones — calm, focused` — src\theme.js:107
+- `Copy / Paste / Duplicate` — src\flowCanvas\ShortcutsModal.jsx:2
+- `Correct answer (auto-score)` — src\QuestionnaireEditorV2.jsx:136, src\QuestionnaireWorkspace.jsx:321
+- `Correct value (optional)` — src\core\componentRegistry.js:182
+- `Could not choose a local data folder. Use Chrome or Edge, then try again.` — src\App.jsx:298
+- `Could not compute SHA-256 for` — src\assetStore.js:39
+- `Could not open folder` — src\App.jsx:306
+- `Could not save the completed session. Export the bundle now, then retry saving.` — src\RuntimeRunnerPage.jsx:123
+- `Could not write protocol data to the active storage location. Check local folder permission, storage quota, or export the protocol before continuing.` — src\App.jsx:155
+- `Countdown ring` — src\app\legacyBuilder.jsx:308
+- `Create a draft version before editing.` — src\core\repeatSegment.js:40
+- `Create a pool in the left panel, then choose it here. Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.` — src\composer\NodeInspector.jsx:151
+- `Create an editable protocol version before applying collaboration changes` — src\collaboration\changeSets.js:205
+- `Create editable version` — src\composer\Header.jsx:26
+- `Create multilingual forms once and reference them from multiple questionnaire nodes. Editing a shared form updates every linked node in the current draft.` — src\QuestionnaireLibrary.jsx:26
+- `Create one-use launch token` — src\composer\Catalogs.jsx:269
+- `Create or import` — src\constants.js:162
+- `Create or import a protocol, then organize Blocks and Trials before editing the visual flow.` — src\constants.js:184
+- `Create pool` — src\composer\Catalogs.jsx:470
+- `Create repeat sequence` — src\composer\RepeatSequenceEditor.jsx:35
+- `Create sandbox session` — src\composer\Catalogs.jsx:268
+- `created from PF Data panel (D3)` — src\DataPanel.jsx:180
+- `Creates an analysis_windows.csv row when analysis window is enabled.` — src\constants.js:83
+- `Cross (+)` — src\Inspector.jsx:422
+- `Cross-Session Comparison (` — src\analysis\CrossSessionCompare.jsx:22
+- `CSV contains an unclosed quoted field` — src\core\questionnaireModel.js:98
+- `CSV field descriptions.` — src\exporter.js:134
+- `Ctrl+A` — src\flowCanvas\ShortcutsModal.jsx:2
+- `Ctrl+C` — src\Inspector.jsx:67
+- `Ctrl+C/V/D` — src\flowCanvas\ShortcutsModal.jsx:2
+- `Ctrl+D` — src\Inspector.jsx:69
+- `Ctrl+F` — src\flowCanvas\ShortcutsModal.jsx:3
+- `Ctrl+S` — src\FlowWorkspaceOverlay.jsx:117, src\app\AppHeader.jsx:9, src\app\legacyBuilder.jsx:100
+- `Ctrl+Shift+Z` — src\FlowWorkspaceOverlay.jsx:116, src\app\AppHeader.jsx:11
+- `Ctrl+V` — src\Inspector.jsx:68
+- `Ctrl+Z` — src\FlowWorkspaceOverlay.jsx:115, src\app\AppHeader.jsx:10
+- `Ctrl+Z / Ctrl+Shift+Z` — src\flowCanvas\ShortcutsModal.jsx:3
+- `Current node` — src\GraphRuntimeRunnerPage.jsx:420
+- `Current version is editable draft.` — src\readiness.js:101
+- `Custom CSS` — src\Inspector.jsx:333
+- `Custom HTML` — src\Inspector.jsx:451, src\ParticipantRenderer.jsx:78, src\ParticipantUiCanvas.jsx:507, src\RuntimeContent.jsx:266, src\constants.js:12, src\constants.js:71, src\core\componentRegistry.js:270
+- `Custom HTML fragment` — src\participantUi\constants.js:34
+- `Custom HTML or CSS requires sandbox compatibility review` — src\legacy\migrateProtocolV1.js:44
+- `Custom primary color:` — src\ThemeSettings.jsx:63
+- `d3-axis` — src\DataPanel.jsx:425, src\DataPanel.jsx:430, src\DataPanel.jsx:433
+- `d3-chart` — src\DataPanel.jsx:421
+- `d3-chart-block` — src\DataPanel.jsx:282
+- `d3-event-create` — src\DataPanel.jsx:356
+- `d3-grid` — src\DataPanel.jsx:424
+- `d3-line` — src\DataPanel.jsx:428
+- `d3-range-row` — src\DataPanel.jsx:246
+- `d3-shortcuts` — src\DataPanel.jsx:258, src\DataPanel.jsx:283
+- `d3-table` — src\DataPanel.jsx:335, src\DataPanel.jsx:366
+- `d3-table-wrap` — src\DataPanel.jsx:329
+- `d3-time` — src\DataPanel.jsx:342, src\DataPanel.jsx:373, src\DataPanel.jsx:374
+- `D7 pipeline output: per-channel time-domain statistics, band powers, and HRV/EDA features when the channel is recognised as cardiac or electrodermal.` — src\data\jointExport.js:183
+- `Dark Focus` — src\theme.js:166
+- `Dark mode by default (participant view)` — src\ThemeSettings.jsx:129
+- `dashboard dashboard-redesign` — src\Dashboard.jsx:152
+- `Data & settings` — src\Dashboard.jsx:153, src\Dashboard.jsx:155, src\Dashboard.jsx:202
+- `Data columns:` — src\composer\NodeInspector.jsx:181
+- `Data folders` — src\constants.js:194
+- `Database blocked — close other tabs` — src\dataStore.js:17
+- `Deactivate deployment` — src\composer\Catalogs.jsx:271
+- `Default desktop data folder` — src\GuidePanel.jsx:124
+- `Default green — clean, professional` — src\theme.js:98
+- `Default trial layout` — src\ThemeSettings.jsx:109
+- `Defaults to 1 − A when connected and left empty.` — src\core\componentRegistry.js:327
+- `defects must be an array` — src\usability\studyMetrics.js:70
+- `Delete (Del)` — src\ParticipantUiBuilder.jsx:163
+- `Delete asset` — src\composer\Catalogs.jsx:440
+- `Delete block?` — src\HierarchyManager.jsx:19
+- `Delete pool` — src\composer\Catalogs.jsx:466
+- `Delete questionnaire?` — src\QuestionnaireLibrary.jsx:20
+- `Delete step` — src\app\legacyBuilder.jsx:296
+- `Delete stimulus?` — src\ResourceLibrary.jsx:23
+- `Delete transaction aborted` — src\dataStore.js:54
+- `Delete trial?` — src\HierarchyManager.jsx:28
+- `Deployment asset IDs may contain only letters, numbers, dot, dash and underscore` — src\deployment\deploymentBundle.js:55
+- `Deployment asset IDs must be safe and unique` — src\deployment\deploymentBundle.js:105
+- `Deployment asset upload requires a deployment ID` — src\deployment\deploymentAssets.js:9
+- `Deployment asset upload requires a hosted HTTP client` — src\deployment\deploymentAssets.js:8
+- `Deployment asset upload requires an asset loader` — src\deployment\deploymentAssets.js:10
+- `Deployment bundle content does not match its hash` — src\deployment\deploymentBundle.js:110
+- `Deployment bundle hash is invalid` — src\deployment\deploymentBundle.js:109
+- `Deployment bundle ID is required` — src\deployment\deploymentBundle.js:92
+- `Deployment bundle must be an object` — src\deployment\deploymentBundle.js:90
+- `Deployment data retention days must be an integer from 1 to 36500` — src\deployment\deploymentBundle.js:113, src\deployment\deploymentBundle.js:52
+- `Deployment dependency manifest does not match the protocol snapshot` — src\deployment\deploymentBundle.js:101
+- `Deployment expiry must be a valid timestamp` — src\deployment\deploymentBundle.js:112, src\deployment\deploymentBundle.js:51
+- `Deployment maximum sessions must be a positive integer` — src\deployment\deploymentBundle.js:111, src\deployment\deploymentBundle.js:50
+- `Deployment protocol hash is invalid` — src\deployment\deploymentBundle.js:95
+- `Deployment protocol identity does not match the snapshot` — src\deployment\deploymentBundle.js:98
+- `Deployment protocol identity is incomplete` — src\deployment\deploymentBundle.js:94
+- `Deployment protocol snapshot hash does not match the manifest` — src\deployment\deploymentBundle.js:100
+- `Deployment protocol snapshot must be frozen` — src\deployment\deploymentBundle.js:96
+- `Deployment provider ID is invalid` — src\deployment\deploymentBundle.js:93
+- `Deployment provider ID must use lowercase dot/dash notation` — src\deployment\deploymentBundle.js:49
+- `Deployment requires a frozen Protocol Graph` — src\deployment\deploymentBundle.js:45
+- `Derived analysis intervals for steps with Generate analysis window enabled.` — src\constants.js:177
+- `Derived intervals for baseline, stimulus, task, recovery, and custom windows. Join by session_id and trial/step identifiers.` — src\constants.js:203
+- `Derived windows for steps marked as analysis windows.` — src\exporter.js:130
+- `DESIGN · RUN · DISCOVER` — src\Dashboard.jsx:160
+- `Design →` — src\app\sessionSetup.jsx:51
+- `Design mode: manage media, random stimulus pools, variables, and participant screens.` — src\composer\Palette.jsx:22
+- `Desktop app` — src\constants.js:193
+- `Detailed configuration changed` — src\Dashboard.jsx:128
+- `Device channel IDs must be valid and unique` — src\devices\deviceConnector.js:20
+- `Device check in progress. Please wait for the operator.` — src\RuntimeContent.jsx:8
+- `Device connection is optional for this run.` — src\GraphRuntimeRunnerPage.jsx:347
+- `Device connector` — src\core\validateProtocolGraph.js:77
+- `Device connector must be an object` — src\devices\deviceConnector.js:9
+- `Device is not connected` — src\devices\deviceConnector.js:103, src\devices\deviceConnector.js:117
+- `Device requirements` — src\app\sessionSetup.jsx:63
+- `Device samples are kept in this browser's session package; runtime synchronization does not upload the device sample stream.` — src\GraphRuntimeRunnerPage.jsx:366
+- `Device session requires connector, adapter, session ID, clock and ID factory` — src\devices\deviceConnector.js:57
+- `device_check_completed metadata` — src\exporter.js:188
+- `Devices ·` — src\app\sessionSetup.jsx:63
+- `Diamond (◇)` — src\Inspector.jsx:422
+- `Directory structure:` — src\exporter.js:513
+- `Disable snap` — src\flowCanvas\ShortcutsModal.jsx:6
+- `Discard & Leave` — src\App.jsx:128
+- `Discard this unfinished Session and its recovery snapshot?` — src\App.jsx:548
+- `Discard unapplied JSON changes?` — src\composer\useComposerState.js:137
+- `Display at native resolution` — src\constants.js:70
+- `Displayed option label for Response nodes when available.` — src\exporter.js:206
+- `Displays a centered cross for baseline or gaze reset periods.` — src\constants.js:81
+- `Distance (cm)` — src\composer\Catalogs.jsx:409
+- `Distribute horizontally` — src\ParticipantUiCanvas.jsx:47
+- `Distribute vertically` — src\ParticipantUiCanvas.jsx:47
+- `Does not equal` — src\Inspector.jsx:409
+- `Dot (•)` — src\Inspector.jsx:422
+- `Double-click node` — src\flowCanvas\ShortcutsModal.jsx:5
+- `Download the session ZIP and use the included data dictionary for downstream analysis.` — src\constants.js:167
+- `Draft 1` — src\core\protocolGraph.js:64, src\core\protocolSelectors.js:80, src\domain.js:11, src\domain.js:120
+- `Draft preview runs can continue without a local folder, but select one before formal collection.` — src\app\sessionSetup.jsx:137
+- `Drag onto the canvas` — src\composer\Palette.jsx:30
+- `Drag output port` — src\flowCanvas\ShortcutsModal.jsx:5
+- `Drag the slider` — src\core\questionnaireModel.js:128
+- `Drag to move together · Delete to remove · Ctrl+D to duplicate` — src\Inspector.jsx:78
+- `Drag to position. Arrow keys move by 1 px; Shift by 10 px.` — src\ParticipantUiBuilder.jsx:173
+- `Drag to reorder` — src\QuestionnaireEditorV2.jsx:94
+- `Drag to reorder. Select the container to change layout mode.` — src\ParticipantUiBuilder.jsx:173
+- `Drag to resize` — src\ParticipantUiCanvas.jsx:448
+- `Duplicate (Ctrl+D)` — src\ParticipantUiBuilder.jsx:162, src\ParticipantUiCanvas.jsx:412
+- `Duration in milliseconds` — src\app\legacyBuilder.jsx:307
+- `duration_ms Event duration when available` — src\exporter.js:368
+- `Dynamic bindings (variables.*) win over static style for color and background.` — src\participantUi\StyleEditor.jsx:41
+- `e.g. 1, 2, 3 (position numbers)` — src\app\sessionSetup.jsx:129
+- `e.g. 1.2rem, 18px` — src\Inspector.jsx:307
+- `e.g. 20px` — src\participantUi\UiPropertyEditor.jsx:11
+- `e.g. 5` — src\QuestionnaireDesigner.jsx:183, src\QuestionnaireEditorV2.jsx:136, src\QuestionnaireWorkspace.jsx:322
+- `e.g. exp_xxxxx` — src\ProtocolBioDBConfig.jsx:83
+- `e.g. f, j, space` — src\composer\ResponseOptionsEditor.jsx:14
+- `e.g. variables.score` — src\ParticipantUiBuilder.jsx:188
+- `Each Block must contain at least one Trial.` — src\HierarchyManager.jsx:27
+- `Each checked item is exported in device_check_completed metadata.` — src\Inspector.jsx:291
+- `Each selected step must have one incoming and one outgoing connection.` — src\core\repeatSegment.js:14
+- `Each trial owns its interface and media behavior.` — src\app\legacyBuilder.jsx:123
+- `eda_*` — src\data\jointExport.js:184
+- `eda,hr` — src\DataPanel.jsx:243, src\DataPanel.jsx:36
+- `Edge ID is required` — src\core\validateProtocolGraph.js:94
+- `Edge kind must match both ports` — src\core\validateProtocolGraph.js:114
+- `Edge source must be an output port` — src\core\validateProtocolGraph.js:112
+- `Edge target must be an input port` — src\core\validateProtocolGraph.js:113
+- `Edit language` — src\QuestionnaireEditorV2.jsx:75
+- `Edit participant screen` — src\composer\NodeInspector.jsx:147
+- `Edit style` — src\ParticipantUiBuilder.jsx:149
+- `Edit the full protocol graph. Changes apply only after validation.` — src\composer\NodeInspector.jsx:27
+- `Editor view` — src\flowCanvas\CanvasToolbar.jsx:6
+- `EEG bands (relative)` — src\analysis\FeaturePanel.jsx:67
+- `elapsedMonotonicMs must be non-negative` — src\data\eventSchemaRegistry.js:53
+- `Element X` — src\ParticipantUiBuilder.jsx:177, src\participantUi\ScreenChecks.jsx:14
+- `Emotion (SAM) template` — src\core\taskTemplates.js:48
+- `Emotion template v1` — src\domain.js:160
+- `Enable Generate analysis window on baseline, stimulus, task, or recovery steps that need physiological analysis.` — src\readiness.js:94
+- `Enabled (skip node when disabled)` — src\Inspector.jsx:58
+- `Endノードがありません` — src\composer\toolbox.js:132
+- `Endノードに到達できません` — src\composer\toolbox.js:133
+- `English content` — src\app\legacyBuilder.jsx:323
+- `English title` — src\Inspector.jsx:126
+- `Enter a number` — src\core\questionnaireModel.js:133
+- `Enter a participant ID.` — src\app\sessionSetup.jsx:43
+- `Enter a recorded value for every option.` — src\composer\ResponseOptionsEditor.jsx:19
+- `Enter a screen width to compute.` — src\composer\Catalogs.jsx:413
+- `Enter a whole number from 1 to 10,000.` — src\composer\RepeatSequenceEditor.jsx:30
+- `Enter a whole number of repetitions from 1 to 10,000.` — src\core\repeatSegment.js:41
+- `Enter note...` — src\RuntimeRunnerPage.jsx:311, src\RuntimeRunnerPage.jsx:335
+- `Enter participant and device sync metadata, preview the actual trial order, then start the session.` — src\constants.js:187
+- `Enter viewing distance and screen dimensions. The operator confirms display settings before the session proceeds.` — src\constants.js:137
+- `Entry point for the selected trial flow.` — src\constants.js:144
+- `Equipment check` — src\core\participantUi.js:104
+- `Error ·` — src\Analytics.jsx:130
+- `Event duration` — src\data\graphExport.js:195
+- `Event duration in seconds.` — src\exporter.js:444
+- `event Event type (step_entered, step_completed, manual_marker, etc.)` — src\exporter.js:365
+- `event id` — src\data\jointExport.js:174
+- `Event ingestion requires a batch ID` — src\hosted\hostedService.js:500
+- `Event ingestion requires a non-empty event batch` — src\hosted\hostedService.js:509
+- `event JWT exchange failed` — src\bioDBClient.js:261
+- `Event markers` — src\RuntimeRunnerPage.jsx:528
+- `Event name such as step_entered, step_completed, media_play_started, or manual_marker.` — src\exporter.js:179
+- `Event onset` — src\data\graphExport.js:194
+- `Event onset in seconds from session start (monotonic clock).` — src\exporter.js:443
+- `Event sample (runtime monotonic clock)` — src\data\graphExport.js:196
+- `Event that closed the window. Empty means missing end event.` — src\exporter.js:194
+- `Event that opened the window.` — src\exporter.js:193
+- `Event type is required` — src\data\eventSchemaRegistry.js:15
+- `Event type: step_entered, step_completed, media_play_started, manual_marker, etc.` — src\exporter.js:451
+- `eventId is required` — src\data\eventSchemaRegistry.js:46
+- `events |` — src\Analytics.jsx:195
+- `Events recorded in BioDB for this participant within the requested window (as returned by /sensor/data/export).` — src\data\jointExport.js:175
+- `events.csv — Timeline of every step, marker, and media event` — src\exporter.js:357
+- `eventType is required` — src\data\eventSchemaRegistry.js:50
+- `Every component port needs an ID` — src\core\componentRegistry.js:39
+- `Every stimulus pool needs a name` — src\core\freezeProtocolGraph.js:56
+- `Every stimulus pool needs a unique ID` — src\core\freezeProtocolGraph.js:54
+- `Exchange auditable protocol changes without requiring a server. Independent fields merge automatically; same-field edits require an explicit choice.` — src\composer\Catalogs.jsx:124
+- `excited / tense` — src\analysis\AffectMap.jsx:12
+- `Execution provider ID is invalid` — src\deployment\deploymentBundle.js:121
+- `Execution provider must be an object` — src\deployment\deploymentBundle.js:119
+- `Execution provider must implement submit, status and cancel` — src\deployment\deploymentBundle.js:124
+- `Execution provider name is required` — src\deployment\deploymentBundle.js:123
+- `Execution provider version must use semantic versioning` — src\deployment\deploymentBundle.js:122
+- `Existing project` — src\Dashboard.jsx:128
+- `Existing responsive screen` — src\ParticipantUiBuilder.jsx:86
+- `Existing responsive screen: choose a screen size for fixed-resolution editing and presentation.` — src\ParticipantUiBuilder.jsx:198
+- `Expand markers` — src\RuntimeRunnerPage.jsx:523
+- `Expected a legacy PhysioFlow 1.0.0 protocol` — src\legacy\migrateProtocolV1.js:192
+- `Expected a Protocol Graph` — src\core\protocolSelectors.js:64
+- `Expected vs Actual Duration` — src\analysis\WindowCards.jsx:73
+- `Experiment layouts` — src\ParticipantUiBuilder.jsx:104
+- `experiment not writable` — src\SessionManager.jsx:107
+- `Experiment registry entry, including the channel dictionary attached by D4.` — src\data\jointExport.js:179
+- `Experiment stimulus` — src\core\participantUi.js:62
+- `Experiment structure` — src\readiness.js:58
+- `experimentId is required` — src\bioDBClient.js:200
+- `Explore results and compare recorded sessions.` — src\Dashboard.jsx:215
+- `Export changes` — src\composer\Catalogs.jsx:128
+- `Export data` — src\constants.js:167
+- `Export deployment bundle` — src\composer\Catalogs.jsx:254
+- `Export failure data` — src\GraphRuntimeRunnerPage.jsx:354
+- `Export the complete session ZIP. Keep the ZIP with the frozen protocol and external device files.` — src\constants.js:189
+- `Export the PF session together with the BioDB time series, events and experiment metadata` — src\SessionManager.jsx:298
+- `Exported without BioDB` — src\SessionManager.jsx:137
+- `Exports are local files. CSV files include a UTF-8 BOM for spreadsheet compatibility, and every ZIP includes both a human README and a machine-readable data dictionary.` — src\GuidePanel.jsx:88
+- `Exports attention_check_passed / attention_check_failed with reaction time, expected key, and actual key.` — src\constants.js:133
+- `Exports calibration measurements and calculated pixels-per-degree value for visual angle reference.` — src\constants.js:138
+- `Exports device_check_completed with item-level pass state, note, and setup timing.` — src\constants.js:128
+- `Exports manual_event_confirmed plus step timing, operator note, and confirmation label.` — src\constants.js:123
+- `Exports media events and stimulus_manifest.csv metadata.` — src\constants.js:103
+- `Exports media events, stimulus manifest rows, and optional stimulus analysis windows.` — src\constants.js:98
+- `Exports one responses.csv row with value, option label, response key, and reaction_time_ms. The response variable can drive Condition nodes.` — src\constants.js:118
+- `Exports step events and stimulus manifest metadata.` — src\constants.js:108
+- `Exports step_entered and step_completed events; no response row is created.` — src\constants.js:78
+- `Exports timing events and optional analysis windows.` — src\constants.js:88
+- `External answers stay in the form service. PhysioFlow records opened/confirmed timing and the original/resolved URL in events.csv.` — src\Inspector.jsx:259
+- `External form link` — src\Inspector.jsx:230, src\app\legacyBuilder.jsx:340
+- `External form URL` — src\Inspector.jsx:234, src\app\legacyBuilder.jsx:344
+- `External form URL is empty — paste a Google Forms, Qualtrics, or survey link` — src\domain.js:373
+- `External form URL is not configured.` — src\QuestionnaireForm.jsx:126
+- `External questionnaire` — src\QuestionnaireForm.jsx:124, src\QuestionnaireForm.jsx:125
+- `external_questionnaire_confirmed metadata` — src\exporter.js:190
+- `external_questionnaire_opened metadata` — src\exporter.js:189
+- `Extra large (1.15x)` — src\ThemeSettings.jsx:95
+- `Extra large (2rem)` — src\constants.js:224
+- `Extremely likely` — src\core\questionnaireModel.js:127
+- `Failed to clear current run:` — src\dataStore.js:70, src\storage.js:83
+- `failed to decode read payload` — src\bioDBClient.js:289
+- `Failed to delete session detail:` — src\dataStore.js:61
+- `Failed to delete session:` — src\storage.js:65
+- `Failed to load asset` — src\assetStore.js:70
+- `Failed to load current run:` — src\dataStore.js:68, src\storage.js:78
+- `Failed to load session detail:` — src\Analytics.jsx:38, src\dataStore.js:60
+- `Failed to save asset:` — src\MediaSettings.jsx:45
+- `Failed to save current run:` — src\storage.js:71
+- `Failed to save project to localStorage:` — src\fsStorage.js:73
+- `Failed to save projects to localStorage:` — src\fsStorage.js:116
+- `Failed to save protocols:` — src\storage.js:44
+- `Failed to save session:` — src\storage.js:55
+- `Failed to sync session summary:` — src\fsStorage.js:176
+- `Failed to update session:` — src\storage.js:60
+- `features request returned no features` — src\bioDBClient.js:351
+- `field-hint bio-warn` — src\ProtocolBioDBConfig.jsx:61
+- `field-label d3-channel-pick` — src\DataPanel.jsx:293
+- `field-label d3-maxrows` — src\DataPanel.jsx:330
+- `Fill content` — src\constants.js:165
+- `Fill participant content in at least one language, then choose fixed time or manual continue.` — src\constants.js:77
+- `Filled ellipse / circle shape` — src\participantUi\constants.js:37
+- `Filled rectangle shape` — src\participantUi\constants.js:36
+- `Final session save failed:` — src\RuntimeRunnerPage.jsx:120
+- `Find a participant, review a run, and return to your data.` — src\Dashboard.jsx:178
+- `Fit to view` — src\ParticipantUiBuilder.jsx:92
+- `Five-condition emotion physiology experiment` — src\domain.js:160
+- `Fix the protocol configuration.` — src\app\sessionSetup.jsx:45
+- `fix-section notes` — src\PreRunChecklist.jsx:270
+- `Fixation appearance` — src\Inspector.jsx:418
+- `fixation rest-icon` — src\RuntimeContent.jsx:129
+- `Fixed repetition` — src\composer\NodeInspector.jsx:146
+- `Fixed screen: positions use design pixels. Editor and preview scale proportionally; content outside the screen is clipped.` — src\ParticipantUiBuilder.jsx:198
+- `flow · steps · layout` — src\FlowJsonEditor.jsx:69
+- `Flow cycle detection exceeded depth limit` — src\flowEngine.js:150
+- `Flow graph node ID; useful when a branch revisits the same step.` — src\exporter.js:177
+- `Flow needs at least one End node` — src\flowEngine.js:91
+- `Flow snapshot saved` — src\composer\useComposerState.js:500
+- `Flow state` — src\GraphRuntimeRunnerPage.jsx:418
+- `flow-json-status error` — src\FlowJsonEditor.jsx:71
+- `flow-json-status ok` — src\FlowJsonEditor.jsx:74
+- `flow-status invalid` — src\flowCanvas\CanvasToolbar.jsx:40
+- `flow-status valid` — src\flowCanvas\CanvasToolbar.jsx:40
+- `Follow the instructions shown by the researcher.` — src\RuntimeContent.jsx:6
+- `Font family` — src\ThemeSettings.jsx:76
+- `Font scale` — src\ThemeSettings.jsx:87
+- `Font size` — src\Inspector.jsx:306, src\participantUi\UiPropertyEditor.jsx:11
+- `Font weight` — src\Inspector.jsx:311
+- `For device_check nodes, metadata_json contains checks[], all_checked, required_all, and operator_note.` — src\exporter.js:188
+- `for each Trial — instruction, video, questionnaire…` — src\app\legacyBuilder.jsx:116
+- `For external questionnaire nodes, metadata_json contains external_form_url, resolved_form_url, appended_context, and embedded/click open mode details.` — src\exporter.js:189
+- `For full data, also export the standard PhysioFlow session ZIP.` — src\exporter.js:523
+- `For manual_event nodes, metadata_json contains confirmation_label, operator_note, and note_required.` — src\exporter.js:187
+- `Formal collection` — src\SessionManager.jsx:293
+- `Formal collection · frozen version` — src\app\sessionSetup.jsx:55
+- `Formal collection requires the desktop app or a selected local data folder.` — src\readiness.js:119
+- `Format JSON` — src\composer\NodeInspector.jsx:28
+- `Format: type, en, options (| separated), min, max, answer` — src\QuestionnaireEditorV2.jsx:85
+- `FREE · drag anywhere` — src\ParticipantUiCanvas.jsx:452
+- `FREE · drag elements anywhere` — src\ParticipantUiCanvas.jsx:451
+- `Free canvas` — src\ParticipantUiBuilder.jsx:173
+- `Free canvas · position` — src\participantUi\UiPropertyEditor.jsx:10, src\participantUi\UiPropertyEditor.jsx:4
+- `Freeze a validated version before formal collection.` — src\readiness.js:102
+- `Freeze this protocol version before deployment.` — src\composer\Catalogs.jsx:256
+- `Frozen or draft protocol snapshot used for this session.` — src\constants.js:174
+- `Frozen protocol configuration no longer matches its hash` — src\deployment\deploymentBundle.js:47
+- `Frozen Protocol Graph has no config hash.` — src\Dashboard.jsx:106
+- `Frozen protocol has no config_hash.` — src\Dashboard.jsx:101
+- `Frozen reproducible version` — src\readiness.js:98
+- `G · Green` — src\CognitiveTaskRunner.jsx:5
+- `Generate an analysis window for this step in the exported CSV` — src\app\legacyBuilder.jsx:292
+- `Generate another order` — src\app\sessionSetup.jsx:59
+- `Generate trials` — src\composer\TrialGenerator.jsx:21
+- `Generation uses the current paradigm, seed, jitter and Go ratio. Existing trials are replaced only when you click the button.` — src\composer\TrialGenerator.jsx:13
+- `Gentle purple — creative, relaxed` — src\theme.js:134
+- `Georgia (serif)` — src\ThemeSettings.jsx:82
+- `Georgia, serif` — src\ThemeSettings.jsx:82, src\core\participantUi.js:17, src\theme.js:113
+- `GET, POST, PUT, OPTIONS` — src\hosted\hostedHttp.js:66
+- `global-completion-v1` — src\GraphRuntimeRunnerPage.jsx:305, src\GraphRuntimeRunnerPage.jsx:341, src\GraphRuntimeRunnerPage.jsx:359, src\GraphRuntimeRunnerPage.jsx:99
+- `Go (press space)` — src\domain.js:270
+- `Go / No-Go` — src\CognitiveTaskRunner.jsx:115
+- `Go ratio (%)` — src\core\componentRegistry.js:374
+- `Go ratio:` — src\TemplateConfig.jsx:26
+- `Go/No-Go inhibition task` — src\domain.js:338
+- `Go/No-Go main task` — src\domain.js:307
+- `Go/No-Go practice` — src\domain.js:277
+- `Go/No-Go template` — src\core\taskTemplates.js:115
+- `Go/No-Go template v1` — src\domain.js:339
+- `Go/No-Go trials` — src\core\taskTemplates.js:129
+- `Graph commands cannot change a node ID` — src\core\graphCommands.js:47
+- `Graph connections` — src\composer\Canvas.jsx:60
+- `Graph entry node is missing or invalid` — src\core\validateProtocolGraph.js:47
+- `Graph entry node must be a core.start component` — src\core\validateProtocolGraph.js:49
+- `Graph needs at least one End node` — src\core\validateProtocolGraph.js:55
+- `Graph node identifier` — src\data\graphExport.js:199
+- `grayscale(.35) brightness(.8)` — src\RuntimeRunnerPage.jsx:452
+- `Greater than` — src\Inspector.jsx:409
+- `Group children in a row or column` — src\participantUi\constants.js:28
+- `Group ID is required` — src\core\validateProtocolGraph.js:129
+- `Group IDs cannot be changed` — src\core\groupCommands.js:37
+- `Group name is required` — src\core\validateProtocolGraph.js:132
+- `Group name:` — src\flowCanvas\useCanvasNodes.js:120
+- `Guide sections` — src\GuidePanel.jsx:21
+- `guide-control-list guide-data-list` — src\GuidePanel.jsx:90
+- `guide-control-list guide-storage-list` — src\GuidePanel.jsx:115
+- `guide-in .22s cubic-bezier(.4,0,.2,1)` — src\Onboarding.jsx:81
+- `h2` — src\main.jsx:50
+- `Handler runtime components need a handlerId` — src\core\componentRegistry.js:35
+- `Heading or body copy` — src\participantUi\constants.js:29
+- `Help & documentation ↗` — src\Dashboard.jsx:153
+- `High Contrast` — src\participantUi\constants.js:50, src\theme.js:119
+- `High-resolution Unix epoch milliseconds. Use for aligning with physiological devices.` — src\exporter.js:182
+- `hmac-sha256-chain` — src\hosted\hostedStateStore.js:106
+- `hmac-sha256+aes-256-gcm` — src\hosted\hostedStateStore.js:101
+- `Horizontal or vertical separator line` — src\participantUi\constants.js:35
+- `Hosted actor access token is required` — src\hosted\hostedService.js:123
+- `Hosted actor access tokens must be unique` — src\hosted\hostedService.js:143
+- `Hosted actor ID is required` — src\hosted\hostedService.js:121
+- `Hosted actor tenant ID is invalid` — src\hosted\hostedService.js:124
+- `Hosted API origin is not allowed` — src\hosted\hostedHttp.js:161
+- `Hosted API route not found` — src\hosted\hostedHttp.js:153, src\hosted\hostedHttp.js:80
+- `Hosted asset upload requires content` — src\hosted\hostedHttp.js:215
+- `Hosted asset upload timed out` — src\hosted\hostedHttp.js:229
+- `Hosted audit entries contain integrity fields without metadata` — src\hosted\hostedStateStore.js:114
+- `Hosted audit integrity head does not match its entries` — src\hosted\hostedStateStore.js:113
+- `Hosted audit integrity metadata is invalid` — src\hosted\hostedStateStore.js:106
+- `Hosted client requires a service and access token` — src\hosted\hostedService.js:697
+- `Hosted credential protection metadata is invalid` — src\hosted\hostedStateStore.js:101
+- `Hosted deployment assets remain incomplete after upload` — src\deployment\deploymentAssets.js:24
+- `Hosted deployment IDs must be present and unique` — src\hosted\hostedStateStore.js:50
+- `Hosted HTTP client requires a base URL` — src\hosted\hostedHttp.js:170
+- `Hosted HTTP client requires fetch` — src\hosted\hostedHttp.js:176
+- `Hosted HTTP handler requires a service` — src\hosted\hostedHttp.js:74
+- `Hosted launch did not return participant session credentials` — src\hosted\participantLaunch.js:20
+- `Hosted launch link expiry must be a valid timestamp` — src\hosted\hostedService.js:422
+- `Hosted launch link expiry must be in the future` — src\hosted\hostedService.js:426
+- `Hosted launch link IDs must be present and unique` — src\hosted\hostedStateStore.js:86
+- `Hosted launch link maximum uses must be a positive integer` — src\hosted\hostedService.js:421
+- `Hosted launch tokens must reference a known launch link` — src\hosted\hostedStateStore.js:93
+- `Hosted participant tokens must reference a known session` — src\hosted\hostedStateStore.js:77
+- `Hosted permission session.manage is required` — src\hosted\hostedService.js:578
+- `Hosted protected launch-token entry is invalid` — src\hosted\hostedStateStore.js:135
+- `Hosted protected participant-token entry is invalid` — src\hosted\hostedStateStore.js:127
+- `Hosted request body is too large` — src\hosted\hostedHttp.js:23, src\hosted\hostedHttp.js:25
+- `Hosted request body must be valid JSON` — src\hosted\hostedHttp.js:28
+- `Hosted request timed out` — src\hosted\hostedHttp.js:198
+- `Hosted retention plan as-of time` — src\hosted\hostedService.js:597
+- `Hosted retention purge confirmation conflict` — src\hosted\hostedService.js:622
+- `Hosted retention purge requires the plan as-of time` — src\hosted\hostedService.js:617
+- `Hosted runtime sync requires a client and hosted session metadata` — src\hosted\hostedRuntimeSync.js:5
+- `Hosted sandbox ·` — src\composer\Catalogs.jsx:265
+- `Hosted service request failed` — src\hosted\hostedHttp.js:50
+- `Hosted session IDs must be present and unique` — src\hosted\hostedStateStore.js:60
+- `Hosted state must be an object` — src\hosted\hostedStateStore.js:39
+- `Hosted tenant limits must be an object keyed by tenant ID` — src\hosted\hostedService.js:29
+- `Hosted web storage requires the Storage API` — src\hosted\hostedStateStore.js:154
+- `How aroused do you feel right now?` — src\core\questionnaireModel.js:124, src\domain.js:159
+- `How do you feel?` — src\core\participantUi.js:66, src\participantUi\screenPresets.js:16
+- `How likely are you to recommend to a friend?` — src\core\questionnaireModel.js:127
+- `How long the participant waits before continuing.` — src\core\componentRegistry.js:204
+- `How pleasant do you feel right now?` — src\core\questionnaireModel.js:123, src\domain.js:159
+- `How the input value is compared.` — src\core\componentRegistry.js:309
+- `How this stimulus advances: a click, a fixed duration, or when playback ends.` — src\core\componentRegistry.js:123
+- `How this stimulus advances: a click, or a fixed duration.` — src\core\componentRegistry.js:218
+- `hrv_*` — src\data\jointExport.js:184
+- `HTML / CSS / JS` — src\Inspector.jsx:453
+- `HTML fragment` — src\participantUi\UiPropertyEditor.jsx:16
+- `HTML fragment (whitelisted, no scripts)` — src\core\componentRegistry.js:275
+- `HTML fragment has no content yet` — src\core\participantUi.js:161
+- `Human-readable description of the export package.` — src\exporter.js:124
+- `Human-readable guide for the session export package.` — src\constants.js:171
+- `I completed the external form` — src\Inspector.jsx:241, src\QuestionnaireForm.jsx:121, src\app\legacyBuilder.jsx:346, src\constants.js:62
+- `i18n-group` — src\Inspector.jsx:125, src\Inspector.jsx:297
+- `If the session was pushed moments ago, wait a few seconds and export again — VictoriaMetrics makes new samples queryable asynchronously.` — src\data\jointExport.js:131
+- `If the web build cannot access a local folder, drafts and preview runs may fall back to browser storage. Formal collection is blocked until a local folder is selected.` — src\constants.js:196
+- `Image and instructions` — src\participantUi\screenPresets.js:5
+- `Image, audio or video` — src\participantUi\constants.js:30
+- `image/*` — src\MediaSettings.jsx:42, src\app\legacyBuilder.jsx:366
+- `image/*,audio/*,video/*` — src\composer\Catalogs.jsx:448
+- `Immutable external-device lifecycle, sample, marker, failure and recovery events with connector/device provenance.` — src\data\graphExport.js:89
+- `Import as draft` — src\Dashboard.jsx:116
+- `Import as version` — src\Dashboard.jsx:128
+- `Import change set` — src\composer\Catalogs.jsx:129
+- `Import connector manifest` — src\composer\Catalogs.jsx:343
+- `Import failed` — src\Dashboard.jsx:148
+- `Import SDK package` — src\composer\Catalogs.jsx:304
+- `Impossible condition order: no valid continuation.` — src\core\sequenceConstraints.js:23
+- `Impossible condition order: reduce repetitions or relax the consecutive-condition constraint.` — src\core\sequenceConstraints.js:15
+- `IndexedDB not available — session storage disabled` — src\RuntimeRunnerPage.jsx:19
+- `IndexedDB session save failed:` — src\fsStorage.js:178
+- `Input needs a response name` — src\core\participantUi.js:159
+- `Input type` — src\participantUi\UiPropertyEditor.jsx:13
+- `Input variable` — src\composer\NodeInspector.jsx:154
+- `inside the Block — each Trial is one run-through` — src\app\legacyBuilder.jsx:115
+- `Inspect deployment bundle` — src\composer\Catalogs.jsx:257
+- `Install Reaction Button example` — src\composer\Catalogs.jsx:303
+- `Install simulated sensor` — src\composer\Catalogs.jsx:342
+- `Installed Reaction Button example package` — src\composer\useCatalogActions.js:31
+- `Installed simulated physiology connector` — src\composer\useCatalogActions.js:34
+- `Instances are expanded into the same executable graph and keep their template provenance.` — src\composer\Catalogs.jsx:65
+- `Integrity has not been checked. Review the session before using its data.` — src\SessionManager.jsx:310
+- `Integrity report embedded into the session summary.` — src\exporter.js:162
+- `Inter-trial interval` — src\CognitiveTaskRunner.jsx:123
+- `Interval marker type` — src\RuntimeRunnerPage.jsx:547
+- `Invalid file` — src\assetStore.js:21, src\fsStorage.js:280
+- `Invalid URL — fix it or pick an asset instead.` — src\composer\NodeInspector.jsx:148
+- `ISO 8601` — src\app\sessionSetup.jsx:123
+- `iso8601` — src\app\sessionSetup.jsx:123, src\constants.js:217
+- `Item deleted` — src\app\legacyBuilder.jsx:58
+- `item(s) must be checked before this draft can be frozen.` — src\composer\Inspector.jsx:15
+- `ITI 抖动设置无效` — src\PreRunChecklist.jsx:96
+- `ITI jitter (ms)` — src\app\legacyBuilder.jsx:192
+- `ITI jitter:` — src\TemplateConfig.jsx:34
+- `Japanese content` — src\app\legacyBuilder.jsx:322
+- `Jitter distribution` — src\app\legacyBuilder.jsx:195
+- `Joint export (BioDB)` — src\SessionManager.jsx:298
+- `Joint export (PF only)` — src\SessionManager.jsx:177
+- `Joint export complete` — src\SessionManager.jsx:177
+- `JSON payload for event-specific details.` — src\exporter.js:186
+- `Keep local` — src\composer\Catalogs.jsx:138
+- `Keep storage, analysis and integrations in one place.` — src\Dashboard.jsx:202
+- `Key (optional)` — src\composer\ResponseOptionsEditor.jsx:14
+- `Keyboard key used for a Response node when configured.` — src\exporter.js:207
+- `Keyboard keys are optional. The selected value is exported and can be used by Condition nodes.` — src\Inspector.jsx:199
+- `Large (1.1x)` — src\ThemeSettings.jsx:94
+- `Large (1.5rem)` — src\constants.js:223
+- `Last step to repeat` — src\composer\RepeatSequenceEditor.jsx:28
+- `launch links` — src\hosted\hostedService.js:225
+- `Layout mode` — src\participantUi\UiPropertyEditor.jsx:10, src\participantUi\UiPropertyEditor.jsx:4
+- `Left / right stimuli` — src\participantUi\screenPresets.js:6
+- `Legacy Step` — src\core\componentRegistry.js:380
+- `Less than` — src\Inspector.jsx:409
+- `linear-gradient(135deg, var(--lime), var(--green-300))` — src\Onboarding.jsx:84
+- `LINK UNAVAILABLE` — src\ParticipantLaunchPage.jsx:80
+- `Live participant preview ·` — src\composer\NodeInspector.jsx:169
+- `Live variables, outputs and flow state` — src\GraphRuntimeRunnerPage.jsx:360
+- `Loading referenced local files and checking their integrity.` — src\GraphRuntimeRunnerPage.jsx:346
+- `Loading…` — src\App.jsx:45, src\main.jsx:87
+- `Local author` — src\collaboration\changeSets.js:145, src\composer\Catalogs.jsx:104
+- `Local data folder` — src\Onboarding.jsx:18
+- `Local data storage` — src\readiness.js:114
+- `Local folder connected` — src\Dashboard.jsx:216
+- `Local folder unavailable` — src\App.jsx:298
+- `Local in-memory execution provider` — src\deployment\deploymentBundle.js:153
+- `Local workspace` — src\Dashboard.jsx:153
+- `Lock element` — src\ParticipantUiBuilder.jsx:174
+- `Log format version — currently 1.2.0.` — src\exporter.js:163
+- `Loop body repeats while this rule holds for the bound until variable; the loop exits when it fails. Ignored without an until variable.` — src\core\componentRegistry.js:361
+- `Loop counts` — src\GraphRuntimeRunnerPage.jsx:424
+- `Loop until variable` — src\composer\NodeInspector.jsx:164
+- `M0,0 L8,4 L0,8 z` — src\flowCanvas\CanvasLayers.jsx:10
+- `M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z` — src\flowCanvas\NodeCard.jsx:84
+- `M12 10v5` — src\flowIcons.jsx:86
+- `M12 18h.01` — src\flowIcons.jsx:86
+- `M12 3l10 18H2L12 3z` — src\flowIcons.jsx:86
+- `M12 3l9 9-9 9-9-9 9-9z` — src\flowIcons.jsx:102
+- `M12 4v16` — src\flowIcons.jsx:70
+- `M12 5.5c4.4 0 8 2.9 8 6.5s-3.6 6.5-8 6.5-8-2.9-8-6.5 3.6-6.5 8-6.5z` — src\participantUi\UiIcon.jsx:13
+- `M12 7v5l3 2` — src\flowIcons.jsx:72
+- `M15 4h5v5` — src\RuntimeRunnerPage.jsx:467, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
+- `M15 4l6 5-6 5` — src\flowCanvas\CanvasToolbar.jsx:18
+- `M15 5v14` — src\RuntimeRunnerPage.jsx:468, src\flowIcons.jsx:74
+- `M15 6l5 6-5 6` — src\flowIcons.jsx:94
+- `M16 12H4` — src\flowIcons.jsx:84
+- `M16 9a4 4 0 0 1 0 6` — src\flowIcons.jsx:78
+- `M18 5v14` — src\RuntimeRunnerPage.jsx:470
+- `M18 6L6 18` — src\flowCanvas\NodeCard.jsx:91
+- `M20 12a8 8 0 1 1-2.34-5.66` — src\RuntimeRunnerPage.jsx:469, src\flowIcons.jsx:104
+- `M20 15v5h-5` — src\RuntimeRunnerPage.jsx:467, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
+- `M20 4v4h-4` — src\RuntimeRunnerPage.jsx:469, src\flowIcons.jsx:104
+- `M21 9H10a6 6 0 0 0 0 12h3` — src\flowCanvas\CanvasToolbar.jsx:18
+- `M3 10h18` — src\flowIcons.jsx:110
+- `M3 9h11a6 6 0 0 1 0 12h-3` — src\flowCanvas\CanvasToolbar.jsx:17
+- `M4 10h16v4H4z M4 12h12` — src\participantUi\UiIcon.jsx:9
+- `M4 12h.01` — src\flowIcons.jsx:82
+- `M4 12h16` — src\flowIcons.jsx:70, src\participantUi\UiIcon.jsx:11
+- `M4 17l5-5 4 4 3-3 4 4` — src\flowIcons.jsx:80
+- `M4 18h.01` — src\flowIcons.jsx:82
+- `M4 5h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z M9 21h6` — src\participantUi\UiIcon.jsx:3
+- `M4 5h16v14H4z M4 9h16 M4 13h16` — src\participantUi\UiIcon.jsx:4
+- `M4 6h.01` — src\flowIcons.jsx:82
+- `M4 6h10M4 12h14M4 18h8` — src\ParticipantUiCanvas.jsx:35
+- `M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z M9 10.5l3-3 3 3 M8.5 14l2.5-2.5 2 2 2-2 1.5 1.5` — src\participantUi\UiIcon.jsx:6
+- `M4 8.5h16v7H4z M7 8.5v7` — src\participantUi\UiIcon.jsx:7
+- `M4 8h16` — src\flowIcons.jsx:106
+- `M4 9V4h5` — src\RuntimeRunnerPage.jsx:467, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
+- `M4 9v6h4l5 4V5L8 9H4z` — src\flowIcons.jsx:78
+- `M5 12h9` — src\flowIcons.jsx:68
+- `M5 15V5a2 2 0 0 1 2-2h10` — src\flowCanvas\NodeCard.jsx:88
+- `M5 18h14` — src\flowIcons.jsx:68
+- `M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z` — src\flowIcons.jsx:106
+- `M5 5l10 7-10 7V5z` — src\RuntimeRunnerPage.jsx:470
+- `M5 6h14` — src\flowIcons.jsx:68
+- `M5 6h14 M5 11h10 M5 16h14 M12 11v5` — src\participantUi\UiIcon.jsx:5
+- `M5 7h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z` — src\participantUi\UiIcon.jsx:12
+- `M5 7v10M12 7v10M19 7v10M5 12h14` — src\ParticipantUiCanvas.jsx:41
+- `M6 4v10M12 4v14M18 4v8` — src\ParticipantUiCanvas.jsx:38
+- `M6 6l12 12` — src\flowCanvas\NodeCard.jsx:91
+- `M6 6v8M12 2v16M18 7v6` — src\ParticipantUiCanvas.jsx:39
+- `M6 8v10M12 4v14M18 9v8` — src\ParticipantUiCanvas.jsx:40
+- `M7 5h10M7 12h10M7 19h10M12 5v14` — src\ParticipantUiCanvas.jsx:42
+- `M7 5l12 7-12 7V5z` — src\flowIcons.jsx:76
+- `M7 6h8M2 12h16M6 18h9` — src\ParticipantUiCanvas.jsx:36
+- `M7 9.5h10a3 3 0 0 1 3 3v-1a0 0 0 0 1 0 0v1a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-1a0 0 0 0 1 0 0v1a3 3 0 0 1 3-3z` — src\participantUi\UiIcon.jsx:8
+- `M8 12h12` — src\flowIcons.jsx:82
+- `M8 12l3 3 5-6` — src\flowIcons.jsx:90
+- `M8 18h12` — src\flowIcons.jsx:82
+- `M8 5l11 7-11 7V5z` — src\RuntimeRunnerPage.jsx:468
+- `M8 6h10M4 12h14M10 18h8` — src\ParticipantUiCanvas.jsx:37
+- `M8 6h12` — src\flowIcons.jsx:82
+- `M9 20H4v-5` — src\RuntimeRunnerPage.jsx:467, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
+- `M9 4L3 9l6 5` — src\flowCanvas\CanvasToolbar.jsx:17
+- `M9 5l7 7-7 7` — src\flowIcons.jsx:84
+- `M9 5v14` — src\RuntimeRunnerPage.jsx:468, src\flowIcons.jsx:74
+- `M9 6l-5 6 5 6` — src\flowIcons.jsx:94
+- `M9 8.5L5.5 12 9 15.5 M15 8.5l3.5 3.5L15 15.5` — src\participantUi\UiIcon.jsx:10
+- `Machine-readable field descriptions for the exported CSV files.` — src\constants.js:180
+- `Machine-readable package manifest and record counts.` — src\exporter.js:125
+- `Machine-readable package manifest, protocol/session IDs, generation time, and record counts.` — src\constants.js:172
+- `Main emotion block` — src\domain.js:160
+- `Make this protocol editable again` — src\app\legacyBuilder.jsx:105
+- `Manage the database connection when you need it.` — src\Dashboard.jsx:215
+- `Manifest schema version for the export package.` — src\exporter.js:160
+- `Manual event confirmation` — src\Inspector.jsx:266
+- `Manual markers or marker intervals overlapping the window, separated by |.` — src\exporter.js:200
+- `Manual order ·` — src\app\sessionSetup.jsx:129
+- `manual_event_confirmed metadata` — src\exporter.js:187
+- `Map of channel id -> { connectorId, connectorVersion, label, dataType, unit, sampleRateHz, direction }.` — src\exporter.js:215
+- `Mark migration reviewed` — src\composer\Header.jsx:25
+- `match option text` — src\QuestionnaireWorkspace.jsx:322
+- `matching option text` — src\QuestionnaireEditorV2.jsx:136
+- `Max consecutive trials with same condition (0 = no limit)` — src\app\legacyBuilder.jsx:166
+- `max label` — src\QuestionnaireWorkspace.jsx:303
+- `Max label` — src\QuestionnaireEditorV2.jsx:127, src\QuestionnaireWorkspace.jsx:303
+- `max same` — src\app\legacyBuilder.jsx:167
+- `Max width` — src\participantUi\UiPropertyEditor.jsx:5
+- `max_label_i18n` — src\QuestionnaireDesigner.jsx:164, src\QuestionnaireWorkspace.jsx:303
+- `mean HR` — src\analysis\FeaturePanel.jsx:82
+- `mean RR` — src\analysis\FeaturePanel.jsx:83
+- `Measure viewing distance` — src\constants.js:70
+- `Media has no source yet` — src\core\participantUi.js:160
+- `Media library (` — src\composer\Catalogs.jsx:436
+- `Media needs attention` — src\GraphRuntimeRunnerPage.jsx:346
+- `MEDIA PREFLIGHT` — src\GraphRuntimeRunnerPage.jsx:346
+- `Media readiness` — src\app\sessionSetup.jsx:61
+- `Media resources referenced by the protocol.` — src\exporter.js:131
+- `Media settings` — src\MediaSettings.jsx:20
+- `Media source not configured` — src\ParticipantMedia.jsx:49
+- `Media source URL` — src\participantUi\ScreenChecks.jsx:18, src\participantUi\UiPropertyEditor.jsx:12
+- `Media sources are assigned.` — src\readiness.js:86
+- `Medium (1rem)` — src\constants.js:222
+- `migrated-v1` — src\legacy\migrateProtocolV1.js:204
+- `Migration complete` — src\App.jsx:276
+- `Migration failed` — src\App.jsx:278
+- `Migration requires an explicit ID factory` — src\legacy\migrateProtocolV1.js:194
+- `Migration review must be acknowledged before freezing` — src\core\freezeProtocolGraph.js:188
+- `Migration review required` — src\composer\Inspector.jsx:15
+- `Milliseconds from Response-node display to the selected answer. Empty for ordinary questionnaire rows.` — src\exporter.js:208
+- `min label` — src\QuestionnaireWorkspace.jsx:302
+- `Min label` — src\QuestionnaireEditorV2.jsx:126, src\QuestionnaireWorkspace.jsx:302
+- `min_label_i18n` — src\QuestionnaireDesigner.jsx:163, src\QuestionnaireWorkspace.jsx:302
+- `min(700px, 85vw)` — src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165
+- `min(70vh, 640px)` — src\RuntimeContent.jsx:270
+- `min(72vh, 560px)` — src\ParticipantUiCanvas.jsx:451, src\ParticipantUiCanvas.jsx:452
+- `min(760px, 88vw)` — src\RuntimeContent.jsx:238
+- `min(78vh, 620px)` — src\ParticipantRenderer.jsx:59
+- `min(800px, 90vw)` — src\RuntimeContent.jsx:140
+- `Minimal Mono` — src\participantUi\constants.js:51, src\theme.js:137
+- `Missed / too slow` — src\AttentionCheckRunner.jsx:6
+- `Missing assets` — src\Dashboard.jsx:116
+- `Missing end event` — src\analysis\WindowCards.jsx:235
+- `missing media` — src\participantUi\ScreenChecks.jsx:8
+- `Missing required content` — src\Inspector.jsx:29
+- `missing sample(s) were interpolated before analysis.` — src\analysis\FeaturePanel.jsx:63
+- `modal-panel modal-alert` — src\Modal.jsx:69
+- `modal-panel modal-confirm` — src\Modal.jsx:50
+- `modal-panel modal-prompt` — src\Modal.jsx:89
+- `model is not fitted` — src\analysis\signal\stats.js:181, src\analysis\signal\stats.js:275
+- `modelId is required` — src\bioDBClient.js:377
+- `Monotonic elapsed milliseconds since session start. Use for intervals.` — src\exporter.js:183
+- `Monotonic milliseconds since runtime start for duration analysis.` — src\data\graphExport.js:100
+- `Move down` — src\HierarchyManager.jsx:47, src\HierarchyManager.jsx:59, src\ParticipantUiBuilder.jsx:146, src\ParticipantUiCanvas.jsx:411, src\app\legacyBuilder.jsx:174, src\app\legacyBuilder.jsx:199, src\app\legacyBuilder.jsx:295
+- `Move up` — src\HierarchyManager.jsx:46, src\HierarchyManager.jsx:58, src\ParticipantUiBuilder.jsx:145, src\ParticipantUiCanvas.jsx:410, src\app\legacyBuilder.jsx:173, src\app\legacyBuilder.jsx:198, src\app\legacyBuilder.jsx:294
+- `ms jitter` — src\app\legacyBuilder.jsx:193
+- `Muse device is not connected` — src\devices\museConnector.js:125, src\devices\museConnector.js:136
+- `Muse EEG Headset` — src\devices\museConnector.js:33
+- `Muse S Athena (Gen 3) is not supported by this adapter: it multiplexes sensors on 273e0013 with a different packing. Connect a Muse 1/2/S Gen 1-2 headset.` — src\devices\museConnector.js:103
+- `MyBeat file / sync note` — src\app\sessionSetup.jsx:117
+- `n/a (single object)` — src\data\jointExport.js:164
+- `narrow summary` — src\RuntimeRunnerPage.jsx:413
+- `Needs attention` — src\Inspector.jsx:29
+- `Needs setup` — src\Dashboard.jsx:241
+- `Neutral gray — minimal distraction` — src\theme.js:143
+- `New block` — src\domain.js:10
+- `New group` — src\core\groupCommands.js:19
+- `New stimulus` — src\ResourceLibrary.jsx:6
+- `New trial` — src\domain.js:9
+- `New variable default` — src\composer\Catalogs.jsx:393
+- `New variable name` — src\composer\Catalogs.jsx:390
+- `New variable scope` — src\composer\Catalogs.jsx:392
+- `New variable type` — src\composer\Catalogs.jsx:391
+- `No analysis results` — src\DataPanel.jsx:318
+- `No analysis results yet.` — src\analysis\FeaturePanel.jsx:15
+- `No analysis window defined — enable «Generate analysis window» on at least one step to produce a per-trial time window in the exported CSV` — src\domain.js:108
+- `No analysis windows configured.` — src\readiness.js:93
+- `No analysis windows defined. Mark steps as "Analysis window" in the protocol editor.` — src\analysis\WindowCards.jsx:9
+- `No BioDB export was attached; this package contains the PF session only.` — src\data\jointExport.js:126
+- `No blocking validation errors.` — src\readiness.js:69
+- `No changes exist relative to the current collaboration baseline` — src\composer\Catalogs.jsx:105
+- `No channels` — src\composer\Catalogs.jsx:353
+- `No channels were analysed.` — src\analysis\FeaturePanel.jsx:18
+- `No checklist items configured.` — src\runtime\nodeSchema.js:115
+- `No content differences` — src\Dashboard.jsx:128
+- `No device samples found in this session.` — src\SessionManager.jsx:116
+- `No End node is reachable from Start` — src\core\validateProtocolGraph.js:264, src\flowEngine.js:126
+- `No events to display` — src\analysis\TimelineView.jsx:18
+- `No experiment metadata was returned; the session may not be linked to a registered experiment.` — src\data\jointExport.js:134
+- `No frozen configuration hash` — src\app\sessionSetup.jsx:55
+- `No groups yet. Select a node and create one from its Inspector.` — src\composer\Catalogs.jsx:19
+- `No HTML content` — src\ParticipantRenderer.jsx:77
+- `No HTML yet — edit this step to add custom HTML content.` — src\RuntimeContent.jsx:261
+- `No immediate repeat of the same condition` — src\app\legacyBuilder.jsx:169
+- `No instruction text — the response buttons are the primary interface` — src\domain.js:361
+- `No local data folder selected.` — src\readiness.js:117
+- `No media source — enter a «Source URL» or upload a file` — src\domain.js:355
+- `No media steps in this protocol.` — src\readiness.js:85
+- `No node outputs yet.` — src\GraphRuntimeRunnerPage.jsx:415
+- `No node selected` — src\Inspector.jsx:84
+- `No permissions` — src\composer\Catalogs.jsx:315
+- `No permissions requested.` — src\composer\Catalogs.jsx:309
+- `No projects match your search.` — src\Dashboard.jsx:170
+- `No protocol variables declared.` — src\GraphRuntimeRunnerPage.jsx:409
+- `No question selected` — src\QuestionnaireWorkspace.jsx:222
+- `No questionnaire data found in protocol` — src\analysis\ResponseCharts.jsx:15
+- `No questions` — src\QuestionnaireFormV2.jsx:10
+- `No questions — click «Add question» in the questionnaire designer` — src\domain.js:374
+- `No questions yet. Click "+ Add question" or choose a preset.` — src\QuestionnaireWorkspace.jsx:151
+- `No questions yet. Use presets or add manually.` — src\QuestionnaireEditorV2.jsx:67
+- `no repeat` — src\app\legacyBuilder.jsx:170
+- `no response` — src\composer\TrialGenerator.jsx:24
+- `No response options — add at least one value/label/key row` — src\domain.js:365
+- `No responses recorded` — src\analysis\ResponseCharts.jsx:7
+- `No samples to plot.` — src\analysis\MultiChannelChart.jsx:81
+- `No sessions match "` — src\Dashboard.jsx:199
+- `No shared questionnaires yet. Node-local questionnaires remain available.` — src\QuestionnaireLibrary.jsx:29
+- `No shared stimuli yet. Direct node resources still remain available.` — src\ResourceLibrary.jsx:52
+- `No snapshots yet. Save one to preserve the current graph state.` — src\composer\Canvas.jsx:43
+- `no training samples` — src\analysis\signal\stats.js:151, src\analysis\signal\stats.js:243
+- `No valence/arousal responses to plot.` — src\analysis\AffectMap.jsx:36
+- `No-Go (withhold)` — src\domain.js:271
+- `Node color` — src\Inspector.jsx:56
+- `Node component type and version are required` — src\core\validateProtocolGraph.js:40
+- `Node ID is required` — src\core\validateProtocolGraph.js:36
+- `Node ID:` — src\composer\NodeInspector.jsx:183
+- `Node outputs (upstream)` — src\composer\NodeInspector.jsx:157, src\composer\NodeInspector.jsx:162, src\composer\NodeInspector.jsx:167
+- `Node raw data` — src\composer\NodeInspector.jsx:183
+- `Node style` — src\Inspector.jsx:55
+- `Node URL/upload overrides the shared resource.` — src\Inspector.jsx:390
+- `node-issue-dot error` — src\flowCanvas\NodeCard.jsx:102
+- `node-issue-dot warn` — src\flowCanvas\NodeCard.jsx:103
+- `node(s)` — src\composer\Canvas.jsx:58
+- `node(s) ·` — src\composer\Catalogs.jsx:26
+- `node(s)? This cannot be undone.` — src\ComposerV2.jsx:50
+- `nodes selected` — src\Inspector.jsx:77
+- `nodes)` — src\SessionManager.jsx:369
+- `Nominal stimulus order` — src\app\sessionSetup.jsx:59
+- `None — use settings below` — src\MediaSettings.jsx:25
+- `none = no feedback; correct_incorrect = show correct/incorrect; always = show the pressed key and value.` — src\core\componentRegistry.js:183
+- `none configured` — src\app\sessionSetup.jsx:63
+- `Normal (1.0x)` — src\ThemeSettings.jsx:93
+- `Not at all likely` — src\core\questionnaireModel.js:127
+- `not every core task was completed successfully` — src\usability\studyMetrics.js:67
+- `not every task 3 error location was understood` — src\usability\studyMetrics.js:66
+- `Note content` — src\Inspector.jsx:35
+- `note Marker text, confirmation label, or response value` — src\exporter.js:370
+- `Note text` — src\core\componentRegistry.js:286
+- `Number of pause events inside the window.` — src\exporter.js:197
+- `Number of trials` — src\composer\TrialGenerator.jsx:11
+- `observations are required` — src\usability\studyMetrics.js:19
+- `Observe the image.` — src\participantUi\screenPresets.js:14
+- `Ocean Blue` — src\participantUi\constants.js:48, src\theme.js:101
+- `ok, warning, or error status emitted by the runtime.` — src\exporter.js:180
+- `On macOS share the .dmg or .app from release-desktop. Build Windows and Linux installers on those systems for native one-click packages.` — src\constants.js:197
+- `One item per line` — src\Inspector.jsx:285
+- `One option per line` — src\QuestionnaireEditorV2.jsx:132, src\QuestionnaireWorkspace.jsx:314
+- `One per line: value=label,key=1 (key is optional; empty means free-form keys are accepted).` — src\core\componentRegistry.js:181
+- `One row per immutable Runtime V2 event. payload_json retains the complete component payload.` — src\data\graphExport.js:78
+- `One row per participant response value projected from component submission.` — src\data\graphExport.js:83
+- `One-based repetition index of the block.` — src\exporter.js:171
+- `One-based repetition index of the trial.` — src\exporter.js:174
+- `Only a subflow group can become a reusable template` — src\core\subflowCommands.js:32
+- `Only used when branch C is connected.` — src\core\componentRegistry.js:328
+- `Only used when branch D is connected.` — src\core\componentRegistry.js:329
+- `onset duration trial_type response_time block_id trial_id step_id condition event_type` — src\exporter.js:419
+- `opacity .3s` — src\app\uiHelpers.js:37
+- `Open button label` — src\Inspector.jsx:237
+- `Open Dashboard → BioDB and enter user_id and long-term token first.` — src\SessionManager.jsx:89
+- `Open external form` — src\Inspector.jsx:238, src\QuestionnaireForm.jsx:120, src\app\legacyBuilder.jsx:345, src\constants.js:62
+- `Open full questionnaire editor ↗` — src\Inspector.jsx:161, src\flowCanvas\NodePreviewModal.jsx:101
+- `Open label` — src\app\legacyBuilder.jsx:345
+- `Open the data folder from your file manager.` — src\App.jsx:306
+- `Open the Questionnaire editor to add questions.` — src\composer\NodeInspector.jsx:137
+- `Open your data viewer and inspect saved signals.` — src\Dashboard.jsx:215
+- `Opening the data folder directly is only available in the desktop app.` — src\localWorkspace.js:89
+- `operation(s)` — src\composer\Catalogs.jsx:134
+- `Operations must be an array` — src\collaboration\changeSets.js:105
+- `Operator checkpoint for sensors, acquisition software, or room setup.` — src\constants.js:126
+- `Operator controls` — src\Inspector.jsx:141, src\RuntimeRunnerPage.jsx:457
+- `Operator note` — src\RuntimeRunnerPage.jsx:580, src\RuntimeRunnerPage.jsx:597, src\runtime\nodeSchema.js:130
+- `operator retry` — src\GraphRuntimeRunnerPage.jsx:363
+- `operator skip` — src\GraphRuntimeRunnerPage.jsx:364
+- `operator-step-panel continue-bar` — src\RuntimeRunnerPage.jsx:579, src\RuntimeRunnerPage.jsx:588
+- `Option 1` — src\core\questionnaireModel.js:10, src\core\questionnaireModel.js:129, src\core\questionnaireModel.js:130
+- `Option 2` — src\core\questionnaireModel.js:10, src\core\questionnaireModel.js:129, src\core\questionnaireModel.js:130
+- `Option 3` — src\core\questionnaireModel.js:129
+- `Optional setup note` — src\RuntimeRunnerPage.jsx:598
+- `Options (value | label | key)` — src\flowCanvas\NodePreviewModal.jsx:75
+- `options_i18n` — src\QuestionnaireDesigner.jsx:174, src\QuestionnaireWorkspace.jsx:313
+- `Output/marker channel ids, not part of the time-series stream.` — src\exporter.js:217
+- `Outputs (` — src\SessionManager.jsx:369
+- `outside screen ·` — src\participantUi\ScreenChecks.jsx:8
+- `Outside screen:` — src\participantUi\ScreenChecks.jsx:13
+- `Override trial-level appearance for this step only.` — src\Inspector.jsx:304
+- `P001` — src\app\sessionSetup.jsx:114, src\app\sessionSetup.jsx:56, src\data\graphExport.js:188
+- `p20` — src\devices\museProtocol.js:142
+- `p21` — src\devices\museProtocol.js:141
+- `p50` — src\devices\museProtocol.js:143
+- `Package ID must use lowercase dot/dash notation` — src\sdk\componentPackage.js:20
+- `Package name is required` — src\sdk\componentPackage.js:22
+- `Package needs at least one component` — src\sdk\componentPackage.js:26
+- `Package one frozen protocol, its dependency manifest, execution policy, and integrity hashes for a compatible local or remote execution provider.` — src\composer\Catalogs.jsx:250
+- `Package permissions must be unique` — src\sdk\componentPackage.js:24
+- `Package version must use semantic versioning` — src\sdk\componentPackage.js:21
+- `Pan canvas` — src\flowCanvas\ShortcutsModal.jsx:5
+- `panel-toggle inspector-toggle` — src\FlowCanvas.jsx:547
+- `panel-toggle palette-toggle` — src\FlowCanvas.jsx:397
+- `Participant API must use HTTPS, except on a loopback development host` — src\hosted\participantRoute.js:7
+- `Participant bootstrap content does not match its hash` — src\hosted\participantBootstrap.js:158
+- `Participant bootstrap identity and issue time are required` — src\hosted\participantBootstrap.js:138
+- `Participant bootstrap must be an object` — src\hosted\participantBootstrap.js:136
+- `Participant bootstrap requires deployment, session and protocol snapshot` — src\hosted\participantBootstrap.js:99
+- `Participant content · 中 / 日 / EN` — src\Inspector.jsx:297, src\app\legacyBuilder.jsx:319
+- `Participant field or question ID` — src\Inspector.jsx:405
+- `Participant identifier` — src\data\graphExport.js:208
+- `Participant launch location is unavailable` — src\hosted\participantRoute.js:17
+- `Participant launch URL requires an origin` — src\hosted\participantRoute.js:32
+- `Participant param` — src\Inspector.jsx:252, src\app\legacyBuilder.jsx:350
+- `Participant protocol hash does not match the session` — src\hosted\participantBootstrap.js:143
+- `Participant protocol identity does not match the session` — src\hosted\participantBootstrap.js:140
+- `Participant protocol snapshot integrity check failed` — src\hosted\participantBootstrap.js:101
+- `Participant recovery events do not match the runtime snapshot` — src\hosted\participantBootstrap.js:156
+- `Participant recovery snapshot does not match the session` — src\hosted\participantBootstrap.js:155
+- `Participant resource IDs must be present and unique` — src\hosted\participantBootstrap.js:147
+- `Participant response time in seconds. n/a when not applicable.` — src\exporter.js:446
+- `Participant session does not match its deployment` — src\hosted\participantBootstrap.js:100
+- `Participant session identity is incomplete` — src\hosted\participantBootstrap.js:139
+- `Participant title · 中 / 日 / EN` — src\Inspector.jsx:125
+- `Participant UI is invalid:` — src\ParticipantRenderer.jsx:46, src\ParticipantUiCanvas.jsx:128
+- `Participant UI needs a root Screen` — src\core\participantUi.js:168, src\core\participantUi.js:220, src\core\participantUi.js:255
+- `Participant UI root must be a Screen` — src\core\participantUi.js:170
+- `participant_id or entry.xxxxx` — src\Inspector.jsx:253, src\app\legacyBuilder.jsx:350
+- `participant_id session_id protocol_name run_mode started_at ended_at participant_language sync_method timezone sampling_rate` — src\exporter.js:470
+- `Participant-facing content is ready.` — src\readiness.js:78
+- `participant-ui-button primary` — src\AttentionCheckRunner.jsx:66, src\CalibrationRunner.jsx:57, src\CognitiveTaskRunner.jsx:115, src\QuestionnaireFormV2.jsx:138, src\QuestionnaireFormV2.jsx:148, src\ResponseRunner.jsx:137
+- `participant-ui-button primary gonogo-response` — src\CognitiveTaskRunner.jsx:122
+- `participant-ui-button secondary` — src\QuestionnaireFormV2.jsx:147
+- `participant-ui-html missing` — src\ParticipantRenderer.jsx:77
+- `participants.tsv — Participant metadata` — src\exporter.js:520
+- `Paste (Ctrl+V)` — src\Inspector.jsx:86
+- `Paste an HTML fragment below.` — src\composer\NodeInspector.jsx:139
+- `Paste video or image URL…` — src\ParticipantUiCanvas.jsx:487
+- `Pauses the run until the operator confirms an external event.` — src\constants.js:121
+- `peak Hz` — src\analysis\FeaturePanel.jsx:60
+- `peaks;` — src\analysis\FeaturePanel.jsx:90
+- `Permission to write this folder was not granted.` — src\localWorkspace.js:78
+- `Persistent hosted service requires a load/save state store` — src\hosted\hostedStateStore.js:170
+- `PF session files are stored at the top level unchanged, so an existing analysis pipeline keeps working.` — src\data\jointExport.js:188
+- `phasic sd` — src\analysis\FeaturePanel.jsx:103
+- `Physio Green` — src\participantUi\constants.js:47, src\theme.js:92
+- `PhysioFlow · Experiment workspace` — src\Dashboard.jsx:216
+- `PhysioFlow built-in help center` — src\GuidePanel.jsx:10
+- `PhysioFlow crashed:` — src\main.jsx:39
+- `PhysioFlow experiment` — src\exporter.js:494
+- `PhysioFlow experiment session` — src\exporter.js:425
+- `PHYSIOFLOW HELP CENTER` — src\GuidePanel.jsx:14
+- `PHYSIOFLOW PARTICIPANT` — src\ParticipantLaunchPage.jsx:81
+- `PhysioFlow session export` — src\exporter.js:138
+- `physioflow-assets-v1` — src\assetStore.js:3
+- `physioflow-data-v1` — src\dataStore.js:1
+- `physioflow-workspace-v1` — src\localWorkspace.js:3
+- `physioflow.current-run-pointer.v2` — src\fsStorage.js:254, src\fsStorage.js:274
+- `physioflow.hosted-service.v1` — src\hosted\hostedStateStore.js:153
+- `physioflow.onboarding-v1` — src\App.jsx:81
+- `physioflow.protocols.v1` — src\fsStorage.js:100, src\fsStorage.js:101, src\fsStorage.js:114, src\fsStorage.js:68, src\fsStorage.js:71, src\fsStorage.js:88
+- `physioflow.sessions.v2` — src\fsStorage.js:171, src\fsStorage.js:174, src\fsStorage.js:192, src\fsStorage.js:226, src\fsStorage.js:228, src\fsStorage.js:241, src\fsStorage.js:242
+- `physiologically implausible interval(s) excluded.` — src\analysis\FeaturePanel.jsx:90
+- `Pilot run evidence` — src\readiness.js:106
+- `pixels per degree · 1° =` — src\CalibrationRunner.jsx:56
+- `Plain-text content from the migrated legacy step.` — src\core\componentRegistry.js:386
+- `Player controls` — src\MediaSettings.jsx:67
+- `Plays local, uploaded, URL, or YouTube video stimuli.` — src\constants.js:96
+- `Plays sound stimuli while logging media lifecycle events.` — src\constants.js:101
+- `Please describe in detail` — src\core\questionnaireModel.js:132
+- `Please enter` — src\core\questionnaireModel.js:131
+- `Please rate` — src\core\participantUi.js:76, src\core\questionnaireModel.js:125, src\core\questionnaireModel.js:126, src\core\questionnaireModel.js:9
+- `Please read the instructions carefully.` — src\core\participantUi.js:114
+- `Please wait` — src\core\componentRegistry.js:12, src\legacy\migrateProtocolV1.js:126
+- `Please wait…` — src\runtime\nodeSchema.js:189
+- `pNN50` — src\analysis\FeaturePanel.jsx:86
+- `Pool name` — src\composer\Catalogs.jsx:470
+- `Port kinds must match` — src\composer\useComposerState.js:211
+- `Portable deployment` — src\composer\Catalogs.jsx:249
+- `Power bands (relative)` — src\analysis\FeaturePanel.jsx:66
+- `Practice block` — src\TemplateConfig.jsx:32
+- `Practice block — excluded from analysis` — src\app\legacyBuilder.jsx:162
+- `Pre-experiment display calibration to measure screen dimensions and viewing distance for visual angle calculations.` — src\constants.js:136
+- `preflight failed` — src\GraphRuntimeRunnerPage.jsx:169
+- `PREPARE COLLECTION` — src\app\sessionSetup.jsx:52
+- `Preparing media…` — src\GraphRuntimeRunnerPage.jsx:346
+- `Preparing your experiment…` — src\ParticipantLaunchPage.jsx:81
+- `Presents a still image stimulus.` — src\constants.js:106
+- `Press a response key` — src\ResponseRunner.jsx:8
+- `Press one of the response keys to answer.` — src\core\participantUi.js:99
+- `Press Space for X (Go). Do not press for O (No-Go).` — src\CognitiveTaskRunner.jsx:115
+- `Press the key when you see the target` — src\AttentionCheckRunner.jsx:16, src\core\componentRegistry.js:227, src\core\participantUi.js:93
+- `Press the spacebar now` — src\constants.js:69
+- `Preview saved trials` — src\composer\TrialGenerator.jsx:24
+- `Preview step full-size` — src\flowCanvas\ShortcutsModal.jsx:5
+- `primary external-form-link` — src\QuestionnaireForm.jsx:126
+- `primary q-next-btn` — src\QuestionnaireForm.jsx:206
+- `primary q-submit-btn` — src\QuestionnaireForm.jsx:210
+- `Primary timeline table. Use session_id, event_type, block_id, trial_id, node_id, step_id, elapsed_ms, and timestamp_iso to align behavior with physiological recordings.` — src\constants.js:201
+- `primary wide` — src\RuntimeRunnerPage.jsx:425, src\app\sessionSetup.jsx:140, src\app\sessionSetup.jsx:70
+- `Probability of A` — src\core\componentRegistry.js:326
+- `Probability of B` — src\core\componentRegistry.js:327
+- `Probability of C` — src\core\componentRegistry.js:328
+- `Probability of D` — src\core\componentRegistry.js:329
+- `Progress indicator` — src\participantUi\constants.js:33
+- `Project archived` — src\App.jsx:234
+- `Project ID is required` — src\collaboration\changeSets.js:101
+- `prompt_i18n` — src\QuestionnaireDesigner.jsx:154, src\QuestionnaireWorkspace.jsx:293
+- `Protocol frozen` — src\app\legacyBuilder.jsx:103
+- `Protocol frozen — now immutable` — src\App.jsx:420
+- `Protocol graph cannot contain circular references` — src\core\serialization.js:3
+- `Protocol Graph configuration differs` — src\Dashboard.jsx:125
+- `Protocol Graph frozen` — src\App.jsx:364
+- `Protocol graph needs nodes` — src\core\validateProtocolGraph.js:31
+- `Protocol ID is required` — src\collaboration\changeSets.js:100, src\core\validateProtocolGraph.js:26
+- `Protocol identifier.` — src\exporter.js:167
+- `Protocol JSON` — src\composer\NodeInspector.jsx:26, src\composer\NodeInspector.jsx:33
+- `Protocol must be an object` — src\core\validateProtocolGraph.js:21
+- `Protocol name` — src\composer\Header.jsx:16
+- `Protocol name is required` — src\core\validateProtocolGraph.js:27
+- `Protocol name is required — enter a name at the top of the editor` — src\domain.js:22
+- `Protocol snapshot used by this session.` — src\exporter.js:127
+- `Protocol theme & style presets` — src\ThemeSettings.jsx:40
+- `Protocol unfrozen — editable again` — src\App.jsx:429, src\App.jsx:480
+- `Protocol validation` — src\app\sessionSetup.jsx:60, src\readiness.js:66
+- `Protocol variables` — src\composer\NodeInspector.jsx:156, src\composer\NodeInspector.jsx:161, src\composer\NodeInspector.jsx:166
+- `Protocol version number.` — src\exporter.js:168
+- `protocol-card project-card` — src\Dashboard.jsx:238
+- `protocol.json — The protocol configuration used` — src\exporter.js:361
+- `protocolId is required` — src\data\eventSchemaRegistry.js:49
+- `Provenance of the merged package: which legs succeeded, the requested and actual time windows, and record counts.` — src\data\jointExport.js:165
+- `Provider ID` — src\composer\Catalogs.jsx:251
+- `Publish to local hosted sandbox` — src\composer\Catalogs.jsx:255
+- `Push device samples to BioDB (experiment/participant tags)` — src\SessionManager.jsx:297
+- `Push to BioDB` — src\SessionManager.jsx:297
+- `Pushed to BioDB` — src\SessionManager.jsx:109
+- `px · 5° =` — src\CalibrationRunner.jsx:56
+- `px/°` — src\CalibrationRunner.jsx:31
+- `qbtn d3-del` — src\DataPanel.jsx:379
+- `qf-scale sam-scale` — src\QuestionnaireFormV2.jsx:117
+- `Question and rating` — src\participantUi\screenPresets.js:7
+- `Question identifier or Response-node variable; can also be used in flow condition rules.` — src\exporter.js:203
+- `Question IDs from this Trial are listed automatically.` — src\Inspector.jsx:407
+- `Question shuffling cannot be combined with conditional display` — src\core\questionnaireModel.js:53
+- `Question text` — src\QuestionnaireWorkspace.jsx:291
+- `Question type such as likert, single_choice, short_text, or response_choice.` — src\exporter.js:204
+- `Questionnaire 中有一道题的 Prompt 在所有语言中都是空的，参与者无法知道该回答什么。` — src\PreRunChecklist.jsx:23
+- `Questionnaire answers and Response-node choices, one row per submitted answer.` — src\exporter.js:129
+- `Questionnaire answers: one row per submitted question answer.` — src\constants.js:176
+- `Questionnaire configuration is required` — src\core\questionnaireModel.js:24
+- `Questionnaire editor` — src\QuestionnaireEditorV2.jsx:37
+- `QUESTIONNAIRE EDITOR` — src\QuestionnaireWorkspace.jsx:88
+- `Questionnaire identifier.` — src\exporter.js:202
+- `Questionnaire library (` — src\QuestionnaireEditorV2.jsx:56
+- `Questionnaire mode` — src\Inspector.jsx:225, src\app\legacyBuilder.jsx:337
+- `Questionnaire needs a name` — src\core\questionnaireModel.js:26
+- `Questionnaire needs an ID` — src\core\questionnaireModel.js:25
+- `Questionnaire needs at least one question` — src\core\questionnaireModel.js:27
+- `Quick mode: build the execution flow and set essential properties.` — src\composer\Palette.jsx:20
+- `Quick start` — src\GuidePanel.jsx:22
+- `R · Red` — src\CognitiveTaskRunner.jsx:4
+- `Random split` — src\core\componentRegistry.js:315
+- `Randomization seed` — src\core\componentRegistry.js:373
+- `Randomize options` — src\QuestionnaireWorkspace.jsx:249
+- `Raw answer value; multiple choices use | separator. Missed required response windows export an empty value.` — src\exporter.js:205
+- `Re-lay this screen's elements as a tidy, aligned column on the 8px grid` — src\ParticipantUiBuilder.jsx:171
+- `Reaction Button` — src\sdk\exampleReactionButtonPackage.js:21
+- `Reaction Button Example` — src\sdk\exampleReactionButtonPackage.js:15
+- `read JWT exchange failed` — src\bioDBClient.js:73
+- `read returned no data` — src\bioDBClient.js:282
+- `ready ·` — src\composer\Catalogs.jsx:135
+- `Ready to open the experiment` — src\app\sessionSetup.jsx:69
+- `Realtime ·` — src\analysis\LiveChart.jsx:105
+- `Realtime signal` — src\analysis\LiveChart.jsx:113
+- `Reason for invalid or attention status.` — src\exporter.js:199
+- `Recent markers (` — src\RuntimeRunnerPage.jsx:558
+- `Recommended analysis entry points:` — src\exporter.js:145
+- `Recommended formal workflow` — src\GuidePanel.jsx:47
+- `Reconnect devices` — src\GraphRuntimeRunnerPage.jsx:361
+- `Record counts for quick completeness checks.` — src\exporter.js:161
+- `Recorded value` — src\composer\ResponseOptionsEditor.jsx:13
+- `Recorded values are duplicated. Use distinct values to distinguish responses in exported data.` — src\composer\ResponseOptionsEditor.jsx:17
+- `Recording software ready` — src\RuntimeRunnerPage.jsx:447, src\constants.js:68
+- `Recovery after interruption` — src\Inspector.jsx:132, src\composer\NodeInspector.jsx:174
+- `Recovery behavior` — src\composer\NodeInspector.jsx:174
+- `Recovery period between trials or stimuli.` — src\constants.js:91
+- `RECOVERY READY` — src\RuntimeRunnerPage.jsx:399
+- `Recovery save failed ·` — src\GraphRuntimeRunnerPage.jsx:358
+- `Recovery save failed:` — src\RuntimeRunnerPage.jsx:463
+- `Redeem launch token` — src\composer\Catalogs.jsx:270
+- `Redo (Ctrl+Shift+Z)` — src\ParticipantUiBuilder.jsx:80
+- `regression needs at least 2 rows (features + target)` — src\bioDBClient.js:363
+- `Relative weight for branch A. Probabilities are normalized across the branches actually connected.` — src\core\componentRegistry.js:326
+- `Remove (Del)` — src\ParticipantUiCanvas.jsx:413
+- `Remove option` — src\composer\ResponseOptionsEditor.jsx:15
+- `Remove question` — src\QuestionnaireWorkspace.jsx:172
+- `Remove this asset from its stimulus pool first` — src\composer\Catalogs.jsx:440
+- `Rename project` — src\App.jsx:245
+- `Rename snapshot` — src\composer\Canvas.jsx:46
+- `Rendered in a sandboxed iframe. Use fixed or manual end mode to control timing.` — src\Inspector.jsx:456
+- `Repeat a sequence` — src\composer\RepeatSequenceEditor.jsx:25, src\composer\RepeatSequenceEditor.jsx:26
+- `Repeat sequence` — src\core\repeatSegment.js:46
+- `Repeat sequence created. Edit Maximum iterations to change its total passes.` — src\composer\Inspector.jsx:19
+- `Repeat these steps in execution order. The count includes the first pass.` — src\composer\RepeatSequenceEditor.jsx:27
+- `Repeat through` — src\composer\RepeatSequenceEditor.jsx:28
+- `repeat(auto-fill, minmax(280px, 1fr))` — src\analysis\WindowCards.jsx:30
+- `Repeats a body path until a rule fails or the maximum iteration count is reached.` — src\constants.js:152
+- `Replace the current participant screen with this template? You can still undo this change.` — src\ParticipantUiBuilder.jsx:57
+- `Replace this screen with` — src\ParticipantUiBuilder.jsx:105
+- `Replace trials with generated set` — src\composer\TrialGenerator.jsx:21
+- `Replay event sequence` — src\SessionManager.jsx:359
+- `Require all items before continuing` — src\Inspector.jsx:288
+- `Require this device before the session starts` — src\composer\NodeInspector.jsx:175
+- `Required content` — src\readiness.js:74
+- `Required device sampling failed` — src\GraphRuntimeRunnerPage.jsx:154
+- `Required for valid session` — src\Inspector.jsx:376
+- `Required response` — src\Inspector.jsx:196, src\app\legacyBuilder.jsx:331
+- `RESEARCH RECORDS` — src\Dashboard.jsx:178
+- `RESEARCH WORKSPACE` — src\Dashboard.jsx:153
+- `Researcher-entered participant code. Use anonymous IDs.` — src\exporter.js:166
+- `Reset template` — src\ParticipantUiBuilder.jsx:77
+- `Reset to 100%` — src\ParticipantUiBuilder.jsx:93
+- `Reset to defaults` — src\participantUi\ThemeEditor.jsx:19
+- `Reset view` — src\composer\Canvas.jsx:37
+- `Reset zoom` — src\FlowCanvas.jsx:504, src\analysis\MultiChannelChart.jsx:129
+- `Resolve the media issues and check again.` — src\app\sessionSetup.jsx:46
+- `Resolve…` — src\composer\Catalogs.jsx:138
+- `resource-library hierarchy-manager` — src\HierarchyManager.jsx:35
+- `resource-library questionnaire-library` — src\QuestionnaireLibrary.jsx:24
+- `resources ready` — src\composer\Catalogs.jsx:272
+- `Respond to the ink color, not the word. Use R, G, B, or Y.` — src\CognitiveTaskRunner.jsx:115
+- `Respond when you are ready` — src\sdk\exampleReactionButtonPackage.js:7
+- `Respond when you see the target` — src\ResponseRunner.jsx:35, src\core\componentRegistry.js:165, src\core\participantUi.js:98, src\legacy\migrateProtocolV1.js:117, src\legacy\migrateProtocolV1.js:163
+- `Response 变量名缺失` — src\PreRunChecklist.jsx:61
+- `Response 步骤需要一个变量名（如 response 或 rating），用于在 Condition 节点中引用。` — src\PreRunChecklist.jsx:62
+- `Response 步骤需要至少一个选项（value | label | key 格式）。` — src\PreRunChecklist.jsx:67
+- `Response 选项缺失` — src\PreRunChecklist.jsx:66
+- `Response Analysis (` — src\analysis\ResponseCharts.jsx:25
+- `Response capture` — src\Inspector.jsx:187
+- `Response field` — src\participantUi\constants.js:31
+- `Response keys are duplicated. The same key cannot uniquely select these options.` — src\composer\ResponseOptionsEditor.jsx:18
+- `Response name` — src\participantUi\UiPropertyEditor.jsx:13
+- `Response options` — src\RuntimeContent.jsx:237, src\composer\ResponseOptionsEditor.jsx:8, src\core\componentRegistry.js:181
+- `response or rating` — src\Inspector.jsx:190, src\app\legacyBuilder.jsx:329
+- `Response required` — src\core\componentRegistry.js:186
+- `Response row identifier.` — src\exporter.js:201
+- `Response summary table` — src\analysis\ResponseCharts.jsx:151
+- `Response value` — src\data\graphExport.js:201
+- `Response variable` — src\Inspector.jsx:189, src\app\legacyBuilder.jsx:329, src\core\componentRegistry.js:179, src\flowCanvas\NodePreviewModal.jsx:70
+- `Response variable is empty — set a name such as response or rating` — src\domain.js:364
+- `response-runner result` — src\ResponseRunner.jsx:125, src\ResponseRunner.jsx:133
+- `responses.csv — Questionnaire answers and Response-node choices` — src\exporter.js:358
+- `Result hash must be SHA-256` — src\collaboration\changeSets.js:104
+- `Retry checkpoint cleanup` — src\GraphRuntimeRunnerPage.jsx:351, src\GraphRuntimeRunnerPage.jsx:354
+- `Retry device and begin` — src\GraphRuntimeRunnerPage.jsx:347
+- `Retry save` — src\GraphRuntimeRunnerPage.jsx:359, src\RuntimeRunnerPage.jsx:466
+- `Retry server synchronization` — src\GraphRuntimeRunnerPage.jsx:366
+- `Retry step` — src\RuntimeRunnerPage.jsx:469
+- `Return to protocol` — src\GraphRuntimeRunnerPage.jsx:346
+- `Return to protocol to fix` — src\app\sessionSetup.jsx:60
+- `Review setup` — src\Dashboard.jsx:241
+- `Revoke launch token` — src\composer\Catalogs.jsx:270
+- `rgba(20, 184, 166, 0.15)` — src\analysis\TimelineView.jsx:168
+- `rgba(241,245,249,0.5)` — src\analysis\TimelineView.jsx:144
+- `rgba(25,116,83,0.06)` — src\flowCanvas\CanvasLayers.jsx:62
+- `rgba(255,255,255,0.8)` — src\analysis\charts.js:185
+- `rgba(59, 130, 246, 0.3)` — src\analysis\WindowCards.jsx:100
+- `rgba(59, 130, 246, 0.4)` — src\analysis\WindowCards.jsx:118
+- `ri-section ri-flow` — src\GraphRuntimeRunnerPage.jsx:417
+- `Ring color` — src\Inspector.jsx:440
+- `Ring thickness (px)` — src\Inspector.jsx:441
+- `Root must be a JSON object` — src\FlowJsonEditor.jsx:30
+- `Root Screen cannot be moved` — src\core\participantUi.js:221
+- `Root Screen cannot be removed` — src\core\participantUi.js:187
+- `rotate(45 12 12)` — src\flowIcons.jsx:88
+- `rows (channel list) is required` — src\bioDBClient.js:170, src\bioDBClient.js:344, src\bioDBClient.js:361
+- `rt_ms Reaction time for responses` — src\exporter.js:369
+- `Rule settings` — src\Inspector.jsx:48
+- `Run configuration` — src\app\sessionSetup.jsx:55
+- `Run hosted session` — src\composer\Catalogs.jsx:276
+- `Run mode not recorded` — src\SessionManager.jsx:293
+- `Run one preview session and inspect the export before handing the tool to operators.` — src\readiness.js:110
+- `Run the checklist, fix blocking errors, and freeze the version that will be used for formal data collection.` — src\constants.js:186
+- `Run the protocol check, select a local data folder, then freeze and start a formal session.` — src\constants.js:166
+- `runner closed` — src\GraphRuntimeRunnerPage.jsx:279
+- `Runtime binding for` — src\ParticipantUiBuilder.jsx:188
+- `Runtime completed but session status differs` — src\data\graphIntegrity.js:25
+- `Runtime event type` — src\data\graphExport.js:197
+- `Runtime failed` — src\runtime\replayRuntime.js:67
+- `Runtime is not waiting on a component` — src\runtime\runtimeMachine.js:278, src\runtime\runtimeMachine.js:315, src\runtime\runtimeMachine.js:329
+- `Runtime replay requires a Protocol Graph snapshot` — src\runtime\replayRuntime.js:74
+- `Runtime requires a session ID` — src\runtime\runtimeMachine.js:61
+- `Runtime requires explicit epoch and monotonic start times` — src\runtime\runtimeMachine.js:63
+- `Runtime services require clock.now and idFactory` — src\runtime\eventEnvelope.js:4
+- `Runtime snapshot does not match the hosted session identity` — src\hosted\hostedService.js:554
+- `Runtime snapshot does not match the protocol version` — src\runtime\runtimeMachine.js:358
+- `Runtime state belongs to a different hosted session` — src\hosted\hostedRuntimeSync.js:38
+- `Runtime state synchronization requires a sync ID` — src\hosted\hostedService.js:545
+- `Runtime variables, outputs and flow state` — src\GraphRuntimeRunnerPage.jsx:404
+- `runtime-replay runtime-replay-error` — src\SessionManager.jsx:352
+- `s window` — src\analysis\LiveChart.jsx:105
+- `sad / depressed` — src\analysis\AffectMap.jsx:15
+- `SAM and emotion label` — src\domain.js:159, src\domain.js:160
+- `SAM: Valence × Arousal` — src\analysis\ResponseCharts.jsx:72
+- `Sample rate could not be determined; spectral and HRV features are unavailable.` — src\analysis\signal\pipeline.js:65
+- `sample rate unknown` — src\analysis\FeaturePanel.jsx:25
+- `sample(s) were replaced as artefacts.` — src\analysis\FeaturePanel.jsx:64
+- `SANDBOX-P001` — src\composer\Catalogs.jsx:154
+- `Save & Open` — src\App.jsx:170
+- `Save current to library` — src\QuestionnaireEditorV2.jsx:57
+- `Save needs attention` — src\RuntimeRunnerPage.jsx:422
+- `Saving checkpoint…` — src\GraphRuntimeRunnerPage.jsx:358
+- `Saving session` — src\RuntimeRunnerPage.jsx:422
+- `Saving session data…` — src\GraphRuntimeRunnerPage.jsx:351, src\GraphRuntimeRunnerPage.jsx:354
+- `Saving the completed session to local storage...` — src\RuntimeRunnerPage.jsx:113
+- `Scaling at 100% in OS settings` — src\constants.js:70
+- `SCR amp` — src\analysis\FeaturePanel.jsx:106
+- `SCR count` — src\analysis\FeaturePanel.jsx:104
+- `SCR rate` — src\analysis\FeaturePanel.jsx:105
+- `Screen calibration` — src\CalibrationRunner.jsx:4, src\constants.js:11, src\constants.js:70, src\core\componentRegistry.js:258, src\core\participantUi.js:88
+- `Screen checks ·` — src\participantUi\ScreenChecks.jsx:8
+- `Screen height (cm)` — src\core\componentRegistry.js:265
+- `Screen size` — src\ParticipantUiBuilder.jsx:82
+- `Screen width (cm)` — src\core\componentRegistry.js:264
+- `SDK 权限未批准` — src\composer\toolbox.js:86
+- `SDK 缺少变量读取权限` — src\composer\toolbox.js:87
+- `SDK 缺少网络媒体权限` — src\composer\toolbox.js:88
+- `SDK 缺少资产读取权限` — src\composer\toolbox.js:89
+- `SDK packages are declarative, versioned, permission-gated, and cannot inject JavaScript into Runtime V2.` — src\composer\Catalogs.jsx:302
+- `Search nodes` — src\composer\Canvas.jsx:22, src\flowCanvas\ShortcutsModal.jsx:3
+- `Search nodes… (Ctrl+F)` — src\composer\Canvas.jsx:22
+- `Search projects` — src\Dashboard.jsx:166
+- `Search projects…` — src\Dashboard.jsx:166
+- `See data_dictionary.csv` — src\exporter.js:432, src\exporter.js:433
+- `See data_dictionary.csv for field-level definitions.` — src\exporter.js:156
+- `See protocol.json for full trial structure` — src\exporter.js:426
+- `Select a connection or node, then click a component to insert it after that point.` — src\composer\Palette.jsx:27
+- `Select a local data folder before formal collection.` — src\app\sessionSetup.jsx:66
+- `Select a local data folder.` — src\app\sessionSetup.jsx:44
+- `Select completed sessions to compare` — src\analysis\CrossSessionCompare.jsx:15
+- `Select data folder first` — src\app\sessionSetup.jsx:140
+- `Select local data folder` — src\app\sessionSetup.jsx:138, src\app\sessionSetup.jsx:67
+- `Select one continuous sequence with a single entry and exit.` — src\core\repeatSegment.js:18
+- `Select port` — src\composer\Catalogs.jsx:41
+- `Select variable` — src\composer\Catalogs.jsx:73
+- `Selected steps must form a continuous sequence without a cycle.` — src\core\repeatSegment.js:25
+- `Send to back` — src\ParticipantUiBuilder.jsx:148
+- `Sensor connected` — src\RuntimeRunnerPage.jsx:447, src\constants.js:68
+- `Sensor data` — src\DataPanel.jsx:278
+- `sequence must be a positive integer` — src\data\eventSchemaRegistry.js:47
+- `sequence within connector session` — src\data\graphExport.js:88
+- `Server session · local copy` — src\SessionManager.jsx:293
+- `Server synchronization` — src\GraphRuntimeRunnerPage.jsx:366
+- `service idempotency` — src\hosted\hostedStateStore.js:137
+- `SESSION CLOSED` — src\ParticipantLaunchPage.jsx:79
+- `Session completion requires a completion ID` — src\hosted\hostedService.js:570
+- `Session data is saved, but the recovery checkpoint could not be removed:` — src\GraphRuntimeRunnerPage.jsx:351, src\GraphRuntimeRunnerPage.jsx:354
+- `Session data not saved:` — src\GraphRuntimeRunnerPage.jsx:351, src\GraphRuntimeRunnerPage.jsx:354
+- `Session data saved.` — src\GraphRuntimeRunnerPage.jsx:351, src\GraphRuntimeRunnerPage.jsx:354
+- `Session data, recovery snapshots, and exports can be written to the selected local folder.` — src\app\sessionSetup.jsx:137
+- `session end` — src\GraphRuntimeRunnerPage.jsx:274
+- `Session identifier shared by all rows in this run.` — src\exporter.js:165
+- `Session metadata and integrity summary without raw event arrays.` — src\exporter.js:126
+- `Session metadata, participant ID, sync settings, run status, and integrity summary.` — src\constants.js:173
+- `Session Metrics Comparison` — src\analysis\CrossSessionCompare.jsx:66
+- `Session param` — src\Inspector.jsx:255, src\app\legacyBuilder.jsx:351
+- `Session protocol hash does not match the protocol snapshot` — src\integrity.js:27
+- `Session quota` — src\composer\Catalogs.jsx:253
+- `Session saved` — src\RuntimeRunnerPage.jsx:422
+- `Session Timeline` — src\analysis\TimelineView.jsx:127
+- `Session ZIP contents` — src\GuidePanel.jsx:87
+- `session_id or entry.xxxxx` — src\Inspector.jsx:256, src\app\legacyBuilder.jsx:351
+- `session.json — Session metadata and integrity summary` — src\exporter.js:360
+- `sessionId is required` — src\data\eventSchemaRegistry.js:48
+- `sessions)` — src\analysis\CrossSessionCompare.jsx:22
+- `Set a variable, comparison, and value; connect both true and false ports.` — src\constants.js:149
+- `Set the confirmation label and decide whether the operator must enter a note before continuing.` — src\constants.js:122
+- `Set the prompt, response variable, option values, labels, and optional keys. Use it for stimulus ratings, forced-choice tasks, and reaction-time responses.` — src\constants.js:117
+- `Set what participants see, what is saved, and the response key. Leave the list empty to accept free-form keys.` — src\composer\ResponseOptionsEditor.jsx:9
+- `setup-note error` — src\GraphRuntimeRunnerPage.jsx:347
+- `setVariable action needs a variable name` — src\core\participantUi.js:164
+- `SHA-256` — src\ResourceLibrary.jsx:50, src\assetStore.js:111, src\assetStore.js:25, src\assetStore.js:37, src\core\freezeProtocolGraph.js:41, src\deployment\deploymentBundle.js:20, src\domain.js:13, src\fsStorage.js:285, src\hosted\participantBootstrap.js:15, src\hosted\participantLaunch.js:7
+- `SHA-256 checksum for locally uploaded media when available.` — src\exporter.js:213
+- `Shape an idea into a study. Pick up where you left off.` — src\Dashboard.jsx:160
+- `Share release-desktop/PhysioFlow_` — src\GuidePanel.jsx:126
+- `Shift+Click` — src\flowCanvas\ShortcutsModal.jsx:4
+- `Show controls` — src\participantUi\UiPropertyEditor.jsx:12
+- `Show milliseconds` — src\Inspector.jsx:444
+- `Showing the first 20 of` — src\composer\TrialGenerator.jsx:24
+- `Shown as the participant-facing heading.` — src\core\componentRegistry.js:111
+- `Shows a countdown without media or questionnaire content.` — src\constants.js:86
+- `Shows participant-facing text before or between tasks.` — src\constants.js:76
+- `Shuffle options` — src\QuestionnaireEditorV2.jsx:103
+- `SIM-001` — src\devices\exampleSimulatedConnector.js:23
+- `Simulated connection failure` — src\devices\exampleSimulatedConnector.js:23
+- `Simulated device disconnected` — src\devices\exampleSimulatedConnector.js:24, src\devices\exampleSimulatedConnector.js:25
+- `Simulated Physiology Sensor` — src\devices\exampleSimulatedConnector.js:8
+- `Single series` — src\DataPanel.jsx:12
+- `Skip step` — src\RuntimeRunnerPage.jsx:470
+- `Small (0.7rem)` — src\constants.js:221
+- `Snap to 8px grid while dragging` — src\ParticipantUiBuilder.jsx:95
+- `Snapshot name` — src\composer\Canvas.jsx:42
+- `Snapshot name:` — src\flowCanvas\CanvasToolbar.jsx:34
+- `Snapshot renamed` — src\composer\useComposerState.js:517
+- `Snapshots (` — src\composer\Canvas.jsx:31
+- `Soft Lavender` — src\theme.js:128
+- `Soft Mint` — src\theme.js:182
+- `sourceHz and targetHz must be positive` — src\analysis\signal\preprocess.js:60
+- `SPACE · Go` — src\CognitiveTaskRunner.jsx:122
+- `Space/Middle+Drag` — src\flowCanvas\ShortcutsModal.jsx:5
+- `Standard Date.now() integer epoch milliseconds.` — src\exporter.js:184
+- `Start and End nodes cannot be duplicated` — src\core\graphCommands.js:124
+- `Start from a blank protocol, the emotion template, or a validated protocol JSON file.` — src\constants.js:162
+- `Start from a template` — src\Dashboard.jsx:161
+- `Start node cannot be removed` — src\core\graphCommands.js:57
+- `Start with a blank flow, or make a template your own.` — src\Dashboard.jsx:161
+- `Starting offset for Latin square / random seed` — src\app\sessionSetup.jsx:127
+- `Startノードは1つだけ必要です` — src\composer\toolbox.js:131
+- `status ok | warning | error` — src\exporter.js:371
+- `Step analysis label or role.` — src\exporter.js:192
+- `Step content` — src\core\componentRegistry.js:386
+- `Step identifier from protocol hierarchy.` — src\exporter.js:449
+- `Step identifier from protocol.json.` — src\exporter.js:175
+- `Step retried` — src\analysis\WindowCards.jsx:238
+- `Step skipped` — src\analysis\WindowCards.jsx:236
+- `Step types` — src\app\legacyBuilder.jsx:116
+- `step_path Human-readable path through Block / Trial / Step` — src\exporter.js:366
+- `steps done` — src\RuntimeRunnerPage.jsx:460
+- `Steps done` — src\analysis\CrossSessionCompare.jsx:144
+- `Steps outside flow ·` — src\flowCanvas\CanvasOverlays.jsx:13
+- `Sticky note (not shown to participant)` — src\core\componentRegistry.js:285
+- `Stimulus file or URL` — src\data\graphExport.js:200
+- `Stimulus identifier from library or step resource.` — src\exporter.js:210
+- `Stimulus library` — src\Inspector.jsx:388
+- `Stimulus media` — src\readiness.js:82
+- `Stimulus metadata and step playback options.` — src\exporter.js:214
+- `Stimulus pool` — src\composer\NodeInspector.jsx:151, src\core\freezeProtocolGraph.js:57, src\core\freezeProtocolGraph.js:60
+- `Stimulus pool name` — src\composer\Catalogs.jsx:466
+- `Stimulus pools` — src\composer\Catalogs.jsx:463
+- `Stimulus provenance table. It records local asset IDs, filenames, MIME type, source URLs, checksums, and attention flags.` — src\constants.js:204
+- `Stimulus randomization` — src\composer\NodeInspector.jsx:150
+- `Stimulus sources, upload IDs, filenames, checksums, and metadata.` — src\constants.js:178
+- `Stimulus text shown while awaiting a response.` — src\core\componentRegistry.js:180
+- `Stimulus/resource identifier when the event is tied to media.` — src\exporter.js:185
+- `Stops the current trial unit and advances to the next repeat, trial, or block.` — src\constants.js:156
+- `Storage & sharing` — src\GuidePanel.jsx:25
+- `Storage settings` — src\Dashboard.jsx:216
+- `Store a media URL or local upload once, then select it from any matching media node. SHA-256 checksums are saved for uploaded files.` — src\ResourceLibrary.jsx:37
+- `stored event bytes` — src\hosted\hostedService.js:227
+- `stored events` — src\hosted\hostedService.js:226
+- `Stored locally with SHA-256 checksum` — src\MediaSettings.jsx:49
+- `stressed / anxious` — src\analysis\AffectMap.jsx:14
+- `Strongly agree` — src\core\questionnaireModel.js:125, src\core\questionnaireModel.js:13
+- `Strongly disagree` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:125
+- `Stroop color-word task` — src\domain.js:255
+- `Stroop main task` — src\domain.js:225
+- `Stroop practice` — src\domain.js:195
+- `Stroop template` — src\core\taskTemplates.js:115
+- `Stroop template v1` — src\domain.js:256
+- `Stroop trials` — src\core\taskTemplates.js:129
+- `structuredClone not available — data operations may fail` — src\RuntimeRunnerPage.jsx:20
+- `studio-inspector empty-inspector` — src\Inspector.jsx:76, src\Inspector.jsx:83
+- `Style must be an object` — src\core\participantUi.js:146
+- `Subflow boundaries must be complete before publishing` — src\core\subflowCommands.js:34
+- `Subflow parameter needs a valid name` — src\core\validateProtocolGraph.js:146
+- `Subflow template IDs must be present and unique` — src\core\validateProtocolGraph.js:212
+- `Submission time in Unix epoch milliseconds.` — src\exporter.js:209
+- `Switch to visual flow editor` — src\app\legacyBuilder.jsx:107
+- `Sync reference prepared` — src\RuntimeRunnerPage.jsx:447, src\constants.js:68
+- `System guide and data reference` — src\GuidePanel.jsx:15
+- `System UI (default)` — src\ThemeSettings.jsx:81
+- `system-ui, sans-serif` — src\core\participantUi.js:17, src\main.jsx:47
+- `Task complete` — src\CognitiveTaskRunner.jsx:116
+- `Task has no trials.` — src\CognitiveTaskRunner.jsx:114
+- `Template parameter names must be valid and unique` — src\core\validateProtocolGraph.js:225
+- `Test run · draft version` — src\app\sessionSetup.jsx:55
+- `Text alignment` — src\ParticipantUiBuilder.jsx:184
+- `Text input` — src\core\participantUi.js:71
+- `Text Input` — src\core\componentRegistry.js:143
+- `text responses` — src\analysis\ResponseCharts.jsx:140
+- `The click-to-use Tauri build stores protocols, sessions, recovery snapshots, and uploaded assets in ~/Documents/PhysioFlow Data. Use Open folder on the dashboard to reveal it.` — src\constants.js:193
+- `The completed session was saved, but the dashboard could not refresh its session list.` — src\App.jsx:332
+- `The condition can end repetition early. Maximum iterations is the upper limit.` — src\composer\NodeInspector.jsx:146
+- `The confirmation and note are written into the event log for audit and device-alignment records.` — src\Inspector.jsx:275
+- `The participant link could not be opened` — src\ParticipantLaunchPage.jsx:73
+- `The PF session was exported, but BioDB returned no samples for this window. If you pushed it just now, wait a few seconds and export again.` — src\SessionManager.jsx:181
+- `The same connection already exists` — src\core\graphCommands.js:80
+- `The square spans` — src\CalibrationRunner.jsx:54
+- `The Web ZIP is lightweight, but index.html must be served by the included start script because modern browsers block ES modules from file:// pages.` — src\constants.js:195
+- `Theme must be an object` — src\core\participantUi.js:130
+- `THEME SETTINGS` — src\ThemeSettings.jsx:39
+- `theme-preset-card layout-preset` — src\ThemeSettings.jsx:113
+- `theme-settings-panel d3-panel` — src\DataPanel.jsx:214
+- `These steps already belong to a repeating path. Edit its existing Loop instead.` — src\core\repeatSegment.js:31
+- `These steps exist in the Trial but will not run until placed in the graph.` — src\flowCanvas\CanvasOverlays.jsx:14
+- `This browser does not support choosing a local data folder. Use Chrome or Edge.` — src\localWorkspace.js:76
+- `This experiment cannot be opened` — src\ParticipantLaunchPage.jsx:80
+- `This is a frozen formal session. Select a local data folder before starting so data is not stored only in browser-managed storage.` — src\app\sessionSetup.jsx:137
+- `This keeps the step order. Media pools draw on each completed or skipped visit; a retry keeps its stimulus. Operator actions can change the actual visit count.` — src\composer\RepeatSequenceEditor.jsx:31
+- `This participant link is missing its launch token` — src\hosted\participantLaunch.js:13
+- `This pool is assigned to a Media node` — src\composer\Catalogs.jsx:466
+- `This preview shows how the participant will see this trial` — src\app\legacyBuilder.jsx:413
+- `This protocol has no configured device connection.` — src\app\sessionSetup.jsx:63
+- `This session has no device channels, so there is nothing to read back from BioDB.` — src\SessionManager.jsx:141
+- `This session uses the frozen configuration below.` — src\app\sessionSetup.jsx:55
+- `This session will be recorded as a preview. Return to the protocol and freeze a version for formal collection.` — src\app\sessionSetup.jsx:55
+- `This shared questionnaire is still used by one or more nodes.` — src\QuestionnaireLibrary.jsx:19
+- `This test run uses browser-managed storage. Export a data package after the run to keep a separate copy.` — src\app\sessionSetup.jsx:66
+- `time (UTC ISO-8601)` — src\data\jointExport.js:169
+- `Time left` — src\QuestionnaireFormV2.jsx:13
+- `Time limit (s)` — src\QuestionnaireWorkspace.jsx:250
+- `Time limit (sec, optional)` — src\QuestionnaireEditorV2.jsx:139
+- `time_sec Seconds from session start` — src\exporter.js:364
+- `time_sec, step_path, condition, label, duration_ms, pauses, validity, issue, markers` — src\exporter.js:377
+- `time_sec, step_path, question, answer, rt_ms, question_type, response_key` — src\exporter.js:374
+- `Time-series (sensor input) channel ids — the signal channels recorded during the session.` — src\exporter.js:216
+- `Timer appearance` — src\Inspector.jsx:438
+- `Timestamped operator note...` — src\RuntimeRunnerPage.jsx:536
+- `timestampEpochMs is required` — src\data\eventSchemaRegistry.js:52
+- `Timing columns:` — src\exporter.js:152
+- `Toggle dark mode` — src\RuntimeRunnerPage.jsx:611
+- `Toggle selection` — src\flowCanvas\ShortcutsModal.jsx:4
+- `Toggle snap to grid` — src\composer\Canvas.jsx:29
+- `tonic mean` — src\analysis\FeaturePanel.jsx:102
+- `Too few intervals for a reliable frequency-domain estimate.` — src\analysis\FeaturePanel.jsx:91
+- `Total events` — src\analysis\CrossSessionCompare.jsx:115
+- `Total repetitions` — src\composer\RepeatSequenceEditor.jsx:29
+- `TP10` — src\devices\museProtocol.js:33
+- `TP9` — src\devices\museProtocol.js:30
+- `Transaction aborted` — src\dataStore.js:30
+- `translate(-50%, -50%)` — src\flowCanvas\ShortcutsModal.jsx:13
+- `translateX(-50%)` — src\Onboarding.jsx:47, src\Onboarding.jsx:79
+- `translateY(-50%)` — src\Onboarding.jsx:79
+- `Trial 的 ITI jitter（试次间间隔抖动）字段值不合法。jitter 必须是一个 ≥0 的数字，分布类型必须是 fixed、uniform、normal 或 exponential。` — src\PreRunChecklist.jsx:97
+- `Trial appearance` — src\app\legacyBuilder.jsx:412
+- `Trial condition label or event type.` — src\exporter.js:445
+- `Trial condition label.` — src\exporter.js:178, src\exporter.js:450
+- `Trial default` — src\Inspector.jsx:313, src\Inspector.jsx:318, src\Inspector.jsx:323, src\constants.js:220
+- `Trial generation` — src\composer\TrialGenerator.jsx:10
+- `Trial identifier from protocol hierarchy.` — src\exporter.js:448
+- `Trial identifier from protocol.json.` — src\exporter.js:172
+- `Trial layout & colors (background, spacing, progress bar)` — src\app\legacyBuilder.jsx:382
+- `Trial repeat needs a container policy` — src\legacy\migrateProtocolV1.js:36
+- `trials currently saved` — src\composer\TrialGenerator.jsx:22
+- `Try again` — src\ParticipantLaunchPage.jsx:80
+- `Try embedded preview` — src\Inspector.jsx:244, src\app\legacyBuilder.jsx:347
+- `Two equally sized stimulus areas.` — src\participantUi\screenPresets.js:6
+- `type,en,options,min,max,answer likert,How satisfied?,Very dissatisfied|Neutral|Very satisfied,1,5,3 single_choice,Choose one,Yes|No|Maybe,,,Yes` — src\QuestionnaireDesigner.jsx:89
+- `type,en,options,min,max,answer likert,Rate your experience,Not at all|Very,1,5,5` — src\QuestionnaireEditorV2.jsx:84
+- `Typed values available to conditions and participant UI bindings.` — src\composer\Catalogs.jsx:376
+- `UI element ID is required` — src\core\participantUi.js:140
+- `ui-tree-toggle is-empty` — src\participantUi\tree\StructureTree.jsx:67
+- `Undo (Ctrl+Z)` — src\ParticipantUiBuilder.jsx:79
+- `Undo / Redo` — src\flowCanvas\ShortcutsModal.jsx:3
+- `Unique derived analysis-window identifier.` — src\exporter.js:191
+- `Unique event identifier.` — src\exporter.js:164
+- `Unknown bundle` — src\composer\Catalogs.jsx:261
+- `unknown error` — src\data\graphIntegrity.js:24, src\integrity.js:29
+- `Unknown hosted launch token` — src\hosted\hostedService.js:467
+- `Unknown provider` — src\composer\Catalogs.jsx:261
+- `unknown time` — src\composer\Catalogs.jsx:127
+- `Unlock element` — src\ParticipantUiBuilder.jsx:174
+- `Unsupported event schema version` — src\data\eventSchemaRegistry.js:45
+- `Unsupported Participant UI schema version` — src\core\participantUi.js:128
+- `Unsupported schema version` — src\domain.js:21
+- `Until rule` — src\core\componentRegistry.js:361, src\core\componentRegistry.js:362
+- `Until rule operator` — src\core\componentRegistry.js:361
+- `Until rule value` — src\core\componentRegistry.js:362
+- `Until variable` — src\composer\NodeInspector.jsx:164
+- `Untitled experiment` — src\core\protocolGraph.js:53, src\core\protocolSelectors.js:17, src\domain.js:11
+- `Upload local media` — src\composer\Catalogs.jsx:448
+- `url, youtube, upload, or library.` — src\exporter.js:211
+- `url(#arrow)` — src\flowCanvas\CanvasLayers.jsx:23, src\flowCanvas\CanvasLayers.jsx:53
+- `Use “New protocol” above to create your first experiment.` — src\Dashboard.jsx:171
+- `Use Blocks & Trials for repeat order, latin-square/randomization, and trial conditions.` — src\constants.js:163
+- `Use current as baseline` — src\composer\Catalogs.jsx:128
+- `Use fixed duration and mark as an analysis window when it is a baseline interval.` — src\constants.js:82
+- `Use fixed duration and role recovery when the interval should be analyzed.` — src\constants.js:92
+- `Use fixed duration for timed tasks, waiting screens, or short breaks.` — src\constants.js:87
+- `Use incoming` — src\composer\Catalogs.jsx:138
+- `Use Sessions and Analytics to inspect integrity, responses, analysis windows, markers, and timing.` — src\constants.js:188
+- `Use the dashboard checklist to confirm structure, content, media, analysis windows, frozen version, pilot run, and local storage.` — src\constants.js:185
+- `Use the desktop app or select a local folder before formal collection.` — src\readiness.js:120
+- `Use the desktop build for the easiest handoff. It writes data to a normal local folder, so lab operators can back it up, inspect it, and move it without relying on browser cache.` — src\GuidePanel.jsx:113
+- `Useful for recovery windows in analysis_windows.csv.` — src\constants.js:93
+- `user_id and long-term token are required` — src\bioDBClient.js:49
+- `Using shared resource; local settings below act as overrides.` — src\MediaSettings.jsx:28
+- `utf8` — src\bioDBClient.js:129, src\bioDBClient.js:248
+- `v1` — src\devices\museProtocol.js:137, src\hosted\hostedHttp.js:3
+- `valence →` — src\analysis\AffectMap.jsx:63
+- `Valence-arousal affect map` — src\analysis\AffectMap.jsx:48
+- `Valence: Low (1) → High (9) pleasure` — src\analysis\ResponseCharts.jsx:82
+- `valid, attention, or invalid.` — src\exporter.js:198
+- `Validate and freeze` — src\constants.js:166
+- `value | label | key` — src\Inspector.jsx:192, src\app\legacyBuilder.jsx:330
+- `Value switch` — src\core\componentRegistry.js:336
+- `var(--font-sans)` — src\Onboarding.jsx:81
+- `var(--green-900)` — src\Onboarding.jsx:84
+- `var(--green)` — src\Inspector.jsx:201, src\Inspector.jsx:440, src\Onboarding.jsx:91, src\RuntimeContent.jsx:104, src\RuntimeContent.jsx:181, src\app\legacyBuilder.jsx:411, src\flowCanvas\CanvasLayers.jsx:20, src\flowCanvas\CanvasLayers.jsx:24, src\flowCanvas\CanvasLayers.jsx:32, src\flowCanvas\CanvasLayers.jsx:53
+- `var(--ink)` — src\flowCanvas\CanvasLayers.jsx:25, src\flowCanvas\NodePreviewModal.jsx:47
+- `var(--lime)` — src\SessionManager.jsx:276, src\app\legacyBuilder.jsx:410
+- `var(--line)` — src\Onboarding.jsx:91, src\flowCanvas\CanvasContextMenu.jsx:20
+- `var(--muted)` — src\App.jsx:45, src\Inspector.jsx:192, src\Inspector.jsx:199, src\Inspector.jsx:259, src\Inspector.jsx:275, src\Inspector.jsx:291, src\Inspector.jsx:456, src\Onboarding.jsx:87, src\Onboarding.jsx:89, src\QuestionnaireDesigner.jsx:62, src\RuntimeContent.jsx:113, src\RuntimeContent.jsx:131, src\RuntimeContent.jsx:259, src\TemplateConfig.jsx:20, src\analysis\CrossSessionCompare.jsx:15, src\analysis\ResponseCharts.jsx:15, src\analysis\ResponseCharts.jsx:7, src\analysis\TimelineView.jsx:18, src\analysis\WindowCards.jsx:9, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\CanvasToolbar.jsx:32, src\flowCanvas\NodePreviewModal.jsx:112, src\flowCanvas\NodePreviewModal.jsx:153, src\flowCanvas\NodePreviewModal.jsx:59
+- `var(--paper)` — src\Onboarding.jsx:77, src\TemplateConfig.jsx:16, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\NodePreviewModal.jsx:47
+- `var(--ring-track, #e5ebe4)` — src\RuntimeContent.jsx:103, src\RuntimeContent.jsx:125, src\RuntimeContent.jsx:180
+- `var(--shadow-md)` — src\TemplateConfig.jsx:16, src\flowCanvas\CanvasToolbar.jsx:23
+- `var(--surface)` — src\App.jsx:45
+- `Variable name` — src\ParticipantUiBuilder.jsx:191
+- `Variable name is required` — src\core\validateProtocolGraph.js:187
+- `Variable name used in exports and Condition nodes.` — src\core\componentRegistry.js:179
+- `Variable names must start with a letter or underscore and contain only letters, numbers, and underscores` — src\core\variableCommands.js:19
+- `Variables (` — src\SessionManager.jsx:368
+- `Vary this to change the deterministic draw sequence.` — src\core\componentRegistry.js:330
+- `Verify the setup, then continue.` — src\core\participantUi.js:105
+- `Verify viewing distance and screen dimensions before continuing.` — src\core\participantUi.js:89
+- `Verifying the session and downloading its exact protocol.` — src\ParticipantLaunchPage.jsx:81
+- `Versioned adapters expose typed I/O channels with explicit connect/read/write permissions and provenance events.` — src\composer\Catalogs.jsx:341
+- `video/*` — src\MediaSettings.jsx:42, src\app\legacyBuilder.jsx:366
+- `Viewing distance (cm)` — src\core\componentRegistry.js:263
+- `Visual angle calculator` — src\composer\Catalogs.jsx:405
+- `Visual containers organize related nodes without creating a second execution model.` — src\composer\Catalogs.jsx:18
+- `Wait for the media check.` — src\app\sessionSetup.jsx:46
+- `Wall-clock ISO 8601 with microsecond precision.` — src\exporter.js:181
+- `Wall-clock Unix milliseconds for cross-device alignment.` — src\data\graphExport.js:99
+- `Warm Amber` — src\participantUi\constants.js:49, src\theme.js:110
+- `Warm earthy tones — inviting, natural` — src\theme.js:116
+- `Warm Paper` — src\theme.js:150
+- `Warning ·` — src\Analytics.jsx:135
+- `Web Bluetooth is unavailable in this environment. Use a Chromium-based browser in the hosted/web target, or supply a native Tauri BLE transport to the adapter.` — src\devices\transports\webBluetooth.js:22
+- `Web Crypto API not available — protocol hashing disabled` — src\RuntimeRunnerPage.jsx:18
+- `Web Crypto SHA-256 is unavailable` — src\core\freezeProtocolGraph.js:39, src\deployment\deploymentBundle.js:18
+- `Web package` — src\constants.js:195
+- `What changed?` — src\composer\Catalogs.jsx:126
+- `When enabled, connection or adapter errors block the run instead of silently collecting without device data.` — src\composer\NodeInspector.jsx:175
+- `When set, each response is marked correct/incorrect in the export.` — src\core\componentRegistry.js:182
+- `When several experiments share a channel name, BioDB suffixes the column with @<experiment_id>.` — src\data\jointExport.js:190
+- `Width (cm)` — src\composer\Catalogs.jsx:408
+- `Width (px)` — src\composer\Catalogs.jsx:407
+- `Workspace DB blocked — close other tabs` — src\localWorkspace.js:24
+- `Workspace handle save aborted` — src\localWorkspace.js:37
+- `Workspace navigation` — src\Dashboard.jsx:153
+- `WORKSPACE TOOLS` — src\Dashboard.jsx:202
+- `write JWT exchange failed` — src\bioDBClient.js:122
+- `xMidYMid meet` — src\composer\Canvas.jsx:103
+- `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx` — src\core\ids.js:4, src\domain.js:6
+- `Y · Yellow` — src\CognitiveTaskRunner.jsx:7
+- `yes | Yes | 1 no | No | 2` — src\Inspector.jsx:193, src\app\legacyBuilder.jsx:330
+- `You have unsaved changes. Discard them and return to projects?` — src\App.jsx:127
+- `You have unsaved changes. Save before opening another protocol?` — src\App.jsx:169
+- `Your experiment record has been synchronized.` — src\ParticipantLaunchPage.jsx:79
+- `Your experiments.` — src\Dashboard.jsx:153
+- `Your first study starts here` — src\Dashboard.jsx:171
+- `your next experiment.` — src\Dashboard.jsx:160
+- `Your research.` — src\Dashboard.jsx:153
+- `YouTube preview` — src\MediaSettings.jsx:86
+- `Zero-based block order in the resolved runtime sequence.` — src\exporter.js:170
+- `Zero-based step order inside the compiled trial path.` — src\exporter.js:176
+- `Zero-based trial order after fixed/random/latin-square/manual resolution.` — src\exporter.js:173
+- `Zoom in` — src\FlowCanvas.jsx:502, src\composer\Canvas.jsx:36
+- `Zoom in (Ctrl+wheel)` — src\ParticipantUiBuilder.jsx:91
+- `Zoom in/out` — src\flowCanvas\ShortcutsModal.jsx:6
+- `Zoom out` — src\FlowCanvas.jsx:503, src\composer\Canvas.jsx:34
+- `Zoom out (Ctrl+wheel)` — src\ParticipantUiBuilder.jsx:89
+- `いいえ` — src\constants.js:65
+- `オペレーターの確認を待っています。` — src\RuntimeContent.jsx:7
+- `この入力ポートには複数接続できません` — src\composer\toolbox.js:141
+- `このノードはフローから到達できません` — src\composer\toolbox.js:134
+- `スペースキーを押してください` — src\constants.js:69
+- `スライダーを動かしてください` — src\core\questionnaireModel.js:128
+- `その他` — src\core\taskTemplates.js:40
+- `デバイスをチェックしています…` — src\RuntimeContent.jsx:8
+- `はい` — src\constants.js:64
+- `フローが空です。ノードを追加してください` — src\composer\toolbox.js:128
+- `プロトコル名を入力してください` — src\composer\toolbox.js:127
+- `プロトコルIDがありません` — src\composer\toolbox.js:126
+- `プロトコルのデータ構造が無効です` — src\composer\toolbox.js:125
+- `メディアURL、アセット、または刺激プールを設定してください` — src\composer\toolbox.js:146
+- `メディアURLが無効です` — src\composer\toolbox.js:147
+- `メディアの完了方法が無効です` — src\composer\toolbox.js:148
+- `ランダム分岐の確率が無効です` — src\composer\toolbox.js:156
+- `ループ回数は1以上の整数で指定してください` — src\composer\toolbox.js:155
+
+## Present candidates needing explicit API review
+
+- `… syncing` — src\FlowJsonEditor.jsx:73 — string/attribute
+- `← Back` — src\Analytics.jsx:57, src\Onboarding.jsx:92 — JSX text
+- `+ Add block` — src\app\legacyBuilder.jsx:244 — JSX text
+- `+ Add Block` — src\app\legacyBuilder.jsx:118 — JSX text
+- `+ Add trial` — src\app\legacyBuilder.jsx:241 — JSX text
+- `+ Save` — src\flowCanvas\CanvasToolbar.jsx:26 — JSX text
+- `⏸ Paused` — src\RuntimeRunnerPage.jsx:476 — JSX text
+- `⚠ missing media` — src\Dashboard.jsx:259 — JSX text
+- `✓ 开始使用` — src\Onboarding.jsx:93 — string/attribute
+- `✗ Invalid JSON` — src\FlowJsonEditor.jsx:71 — string/attribute
+- `☷ Manage sessions` — src\SessionManager.jsx:230 — JSX text
+- `次へ` — src\QuestionnaireFormV2.jsx:11 — string/attribute
+- `回答已记录` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:5 — string/attribute
+- `回答が記録されました` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:5 — string/attribute
+- `回答を送信` — src\QuestionnaireForm.jsx:211 — string/attribute
+- `Abort session?` — src\RuntimeRunnerPage.jsx:471 — string/attribute
+- `Actual Trial order preview` — src\app\sessionSetup.jsx:131 — JSX text
+- `Add to flow` — src\flowCanvas\PalettePanel.jsx:15 — JSX text
+- `All validity` — src\SessionManager.jsx:247 — JSX text
+- `Analysis label` — src\composer\NodeInspector.jsx:173 — JSX text, string/attribute
+- `Analysis role` — src\app\legacyBuilder.jsx:289, src\composer\NodeInspector.jsx:172 — JSX text, string/attribute
+- `Analysis windows` — src\Analytics.jsx:145, src\readiness.js:90 — string/attribute
+- `Analytics views` — src\Analytics.jsx:142 — string/attribute
+- `Apply changes` — src\composer\NodeInspector.jsx:29 — JSX text
+- `Apply now` — src\FlowJsonEditor.jsx:75 — JSX text
+- `Archive project` — src\Dashboard.jsx:248 — JSX text
+- `Attention check` — src\AttentionCheckRunner.jsx:3, src\constants.js:10, src\constants.js:49, src\constants.js:69, src\core\componentRegistry.js:224 — string/attribute
+- `Auto advance` — src\Inspector.jsx:368, src\app\legacyBuilder.jsx:315 — JSX text
+- `Auto layout` — src\ParticipantUiBuilder.jsx:173, src\composer\Canvas.jsx:30, src\flowCanvas\CanvasContextMenu.jsx:29, src\flowCanvas\CanvasToolbar.jsx:19 — JSX text, string/attribute
+- `Automatic integrity check` — src\SessionManager.jsx:307 — JSX text
+- `Back to projects` — src\FlowWorkspaceOverlay.jsx:88 — string/attribute
+- `Base URL` — src\BioDBSettings.jsx:48 — string/attribute
+- `Baseline → media stimulus → rating response` — src\constants.js:25 — string/attribute
+- `Baseline → SAM questionnaire` — src\constants.js:36 — string/attribute
+- `Begin experiment` — src\GraphRuntimeRunnerPage.jsx:347, src\RuntimeRunnerPage.jsx:402 — string/attribute
+- `Bind this run to an anonymous participant and an exact protocol version.` — src\app\sessionSetup.jsx:113 — JSX text
+- `BioDB connection settings` — src\BioDBSettings.jsx:39 — string/attribute
+- `blocking issues` — src\composer\Inspector.jsx:23 — string/attribute
+- `Blocks and Trials` — src\HierarchyManager.jsx:36 — JSX text
+- `Browser Issues` — src\RuntimeRunnerPage.jsx:387 — JSX text
+- `Build your protocol, validate it, run a session, then review and export your data.` — src\Onboarding.jsx:13 — string/attribute
+- `Cancel & return` — src\RuntimeRunnerPage.jsx:403 — JSX text
+- `Cancel connection` — src\composer\Canvas.jsx:32 — string/attribute
+- `Change folder` — src\Dashboard.jsx:210 — string/attribute
+- `Checklist (one per line)` — src\core\componentRegistry.js:242 — string/attribute
+- `Choose a local data folder` — src\Dashboard.jsx:205 — string/attribute
+- `Choose media file` — src\ResourceLibrary.jsx:48, src\app\legacyBuilder.jsx:366 — string/attribute
+- `Clear search` — src\Dashboard.jsx:186 — string/attribute
+- `Collaboration change sets` — src\composer\Catalogs.jsx:123 — string/attribute
+- `COMPATIBILITY WARNING` — src\RuntimeRunnerPage.jsx:386 — JSX text
+- `Complete an experiment to see analytics here. Your session data will be visualized with timelines, charts, and integrity reports.` — src\Analytics.jsx:227 — string/attribute
+- `Complete device check →` — src\RuntimeRunnerPage.jsx:602 — JSX text
+- `Complete every checklist item before continuing.` — src\RuntimeRunnerPage.jsx:600 — JSX text
+- `Completed and aborted sessions will appear here.` — src\Dashboard.jsx:199 — JSX text
+- `completed sessions` — src\Analytics.jsx:65 — JSX text
+- `Composer V2 ·` — src\Dashboard.jsx:262 — JSX text
+- `Confirm event` — src\Inspector.jsx:269, src\RuntimeRunnerPage.jsx:276, src\RuntimeRunnerPage.jsx:583, src\constants.js:67 — string/attribute
+- `Confirm label` — src\core\componentRegistry.js:252 — string/attribute
+- `Connect a wire to here` — src\flowCanvas\NodeCard.jsx:57, src\flowCanvas\NodeCard.jsx:79 — string/attribute
+- `connect BioDB first hint` — src\DataPanel.jsx:225, src\ProtocolBioDBConfig.jsx:61 — string/attribute
+- `Connection OK` — src\BioDBSettings.jsx:20 — string/attribute
+- `Content width` — src\app\legacyBuilder.jsx:387 — JSX text
+- `Continue →` — src\QuestionnaireForm.jsx:128, src\RuntimeContent.jsx:249, src\RuntimeRunnerPage.jsx:513, src\flowCanvas\NodePreviewModal.jsx:164 — JSX text
+- `Continue when` — src\Inspector.jsx:404 — JSX text
+- `Could not load local sessions.` — src\SessionManager.jsx:34 — string/attribute
+- `Could not save the session review to local storage.` — src\SessionManager.jsx:77 — string/attribute
+- `Create group from node` — src\composer\NodeInspector.jsx:178 — string/attribute
+- `Create instance` — src\composer\Catalogs.jsx:75 — JSX text
+- `Danger zone` — src\SessionManager.jsx:339 — JSX text
+- `Data columns` — src\composer\Canvas.jsx:86 — string/attribute
+- `Data files stay in a folder you can back up and move.` — src\Dashboard.jsx:206 — string/attribute
+- `Data format` — src\Analytics.jsx:63, src\GuidePanel.jsx:24, src\SessionManager.jsx:235 — JSX text
+- `Data management` — src\DataPanel.jsx:218 — string/attribute
+- `Delete connection` — src\composer\Inspector.jsx:17, src\flowCanvas\CanvasContextMenu.jsx:8 — JSX text
+- `Delete node` — src\Inspector.jsx:66, src\composer\Inspector.jsx:21 — JSX text
+- `Delete selected` — src\flowCanvas\ShortcutsModal.jsx:4 — string/attribute
+- `Delete session` — src\SessionManager.jsx:215 — string/attribute
+- `Delete Session` — src\SessionManager.jsx:340 — JSX text
+- `Delete template` — src\composer\Catalogs.jsx:75 — JSX text
+- `Detach as editable copy` — src\Inspector.jsx:397 — JSX text
+- `Device check` — src\constants.js:10, src\constants.js:68, src\core\componentRegistry.js:237 — string/attribute
+- `Device checklist` — src\Inspector.jsx:282, src\RuntimeRunnerPage.jsx:590 — JSX text
+- `Device connected ·` — src\GraphRuntimeRunnerPage.jsx:351 — JSX text
+- `Device connectors` — src\composer\Catalogs.jsx:340 — string/attribute
+- `device samples ·` — src\GraphRuntimeRunnerPage.jsx:351 — JSX text
+- `Device start reference` — src\app\sessionSetup.jsx:117 — JSX text
+- `Device synchronization` — src\app\sessionSetup.jsx:119 — JSX text
+- `Device time column` — src\app\sessionSetup.jsx:122 — JSX text
+- `Direct URL` — src\MediaSettings.jsx:34, src\ResourceLibrary.jsx:47, src\app\legacyBuilder.jsx:360 — JSX text
+- `Discard recovery?` — src\App.jsx:547, src\RuntimeRunnerPage.jsx:403 — string/attribute
+- `Display label` — src\composer\ResponseOptionsEditor.jsx:12 — JSX text
+- `Draft test run — no frozen hash` — src\app\sessionSetup.jsx:134 — string/attribute
+- `Drag a step or preset from the palette to place your first node.` — src\FlowCanvas.jsx:495 — JSX text
+- `Drag nodes to arrange` — src\flowCanvas\PalettePanel.jsx:15 — JSX text
+- `Drag to canvas, or click to add` — src\flowCanvas\PalettePanel.jsx:19 — string/attribute
+- `Duplicate (⌘D)` — src\flowCanvas\NodeCard.jsx:87 — string/attribute
+- `Duplicate node` — src\composer\Inspector.jsx:20 — JSX text
+- `Duplicate project` — src\Dashboard.jsx:247 — JSX text
+- `Duration (ms)` — src\Inspector.jsx:367, src\app\legacyBuilder.jsx:307, src\core\componentRegistry.js:113, src\core\componentRegistry.js:124, src\core\componentRegistry.js:204, src\core\componentRegistry.js:219, src\core\componentRegistry.js:277, src\flowCanvas\NodePreviewModal.jsx:128 — JSX text, string/attribute
+- `Each project stores its protocol versions here. Open, edit, or freeze them for formal data collection.` — src\Onboarding.jsx:25 — string/attribute
+- `Edit draft` — src\Dashboard.jsx:265 — JSX text
+- `Editor mode` — src\composer\Header.jsx:17 — string/attribute
+- `End mode` — src\Inspector.jsx:359, src\app\legacyBuilder.jsx:300, src\flowCanvas\NodePreviewModal.jsx:120 — JSX text
+- `End time` — src\DataPanel.jsx:253, src\DataPanel.jsx:368 — string/attribute
+- `Epoch milliseconds` — src\app\sessionSetup.jsx:123 — JSX text
+- `Epoch seconds` — src\app\sessionSetup.jsx:123 — JSX text
+- `Event list` — src\DataPanel.jsx:355 — string/attribute
+- `Event name` — src\DataPanel.jsx:357 — string/attribute
+- `Event payload` — src\SessionManager.jsx:370 — JSX text
+- `Event type` — src\Inspector.jsx:120 — JSX text
+- `events ·` — src\GraphRuntimeRunnerPage.jsx:351 — JSX text
+- `events captured` — src\RuntimeRunnerPage.jsx:553 — JSX text
+- `Exclude from analysis` — src\SessionManager.jsx:329 — JSX text
+- `Expected key` — src\core\componentRegistry.js:230, src\flowCanvas\NodePreviewModal.jsx:91 — JSX text, string/attribute
+- `Expected value` — src\core\componentRegistry.js:310 — string/attribute
+- `Experiment / participant mapping` — src\BioDBSettings.jsx:75 — string/attribute
+- `Experiment → Block → Trial → Step` — src\app\legacyBuilder.jsx:138 — JSX text
+- `Experiment label` — src\ProtocolBioDBConfig.jsx:86, src\ProtocolBioDBConfig.jsx:88 — string/attribute
+- `experiment mapping hint` — src\BioDBSettings.jsx:77 — string/attribute
+- `Experiment stopped` — src\GraphRuntimeRunnerPage.jsx:354 — JSX text
+- `EXPERIMENT STRUCTURE` — src\HierarchyManager.jsx:36 — JSX text
+- `Export complete (advanced)` — src\SessionManager.jsx:296 — JSX text
+- `Export complete bundle (advanced)` — src\RuntimeRunnerPage.jsx:425 — JSX text
+- `Export complete data package` — src\GraphRuntimeRunnerPage.jsx:352 — JSX text
+- `Export config` — src\app\legacyBuilder.jsx:99 — JSX text
+- `export files` — src\GraphRuntimeRunnerPage.jsx:351, src\RuntimeRunnerPage.jsx:419 — JSX text
+- `Export filtered Sessions` — src\SessionManager.jsx:237 — JSX text
+- `Export package` — src\SessionManager.jsx:315 — JSX text
+- `Export simplified data` — src\RuntimeRunnerPage.jsx:426, src\SessionManager.jsx:295 — JSX text
+- `Export ZIP` — src\Analytics.jsx:111 — JSX text
+- `Find node by name...` — src\flowCanvas\CanvasOverlays.jsx:7 — string/attribute
+- `Fit view` — src\flowCanvas\CanvasToolbar.jsx:20 — string/attribute
+- `Fixed time` — src\Inspector.jsx:361, src\app\legacyBuilder.jsx:302, src\flowCanvas\NodePreviewModal.jsx:123 — JSX text
+- `Flow snapshots` — src\composer\Canvas.jsx:31, src\flowCanvas\CanvasToolbar.jsx:22, src\flowCanvas\CanvasToolbar.jsx:25 — JSX text, string/attribute
+- `Formal storage needs Chrome, Edge, or the desktop app` — src\Dashboard.jsx:205 — string/attribute
+- `Four-step workflow` — src\Onboarding.jsx:12 — string/attribute
+- `Freeze version` — src\composer\Header.jsx:26 — string/attribute
+- `frozen versions` — src\Dashboard.jsx:160 — JSX text
+- `Generate analysis window` — src\Inspector.jsx:377, src\flowCanvas\NodePreviewModal.jsx:146 — JSX text
+- `Graph valid` — src\composer\Inspector.jsx:23 — string/attribute
+- `Group selected` — src\flowCanvas\CanvasContextMenu.jsx:27 — string/attribute
+- `Hide inspector` — src\FlowCanvas.jsx:549, src\FlowCanvas.jsx:550 — string/attribute
+- `Hide palette` — src\FlowCanvas.jsx:399, src\FlowCanvas.jsx:400 — string/attribute
+- `Import JSON` — src\Dashboard.jsx:161 — JSX text
+- `in progress` — src\Dashboard.jsx:196 — string/attribute
+- `initial state` — src\SessionManager.jsx:363 — string/attribute
+- `Inspect the reconstructed state after any immutable event.` — src\SessionManager.jsx:358 — JSX text
+- `Instant markers` — src\RuntimeRunnerPage.jsx:543 — JSX text
+- `Instruction → attention check` — src\constants.js:46 — string/attribute
+- `Instruction + check` — src\constants.js:44 — string/attribute
+- `Integrity issues` — src\Analytics.jsx:128 — JSX text
+- `Interval marker` — src\RuntimeRunnerPage.jsx:546 — JSX text
+- `Invalid YouTube URL` — src\MediaStep.jsx:123 — JSX text
+- `Language & theme` — src\Onboarding.jsx:30 — string/attribute
+- `Latest branch:` — src\SessionManager.jsx:367 — JSX text
+- `Latin square` — src\HierarchyManager.jsx:44, src\app\legacyBuilder.jsx:156 — JSX text
+- `Load BioDB experiments` — src\ProtocolBioDBConfig.jsx:65 — string/attribute
+- `Loading participants...` — src\DataPanel.jsx:234 — string/attribute
+- `Loading session data...` — src\Analytics.jsx:92 — JSX text
+- `Loading Session…` — src\SessionManager.jsx:273 — JSX text
+- `Loading sessions...` — src\SessionManager.jsx:268 — JSX text
+- `Loading uploaded media…` — src\MediaStep.jsx:125 — JSX text
+- `Local data folder required` — src\app\sessionSetup.jsx:136, src\app\sessionSetup.jsx:65 — string/attribute
+- `Local upload` — src\ResourceLibrary.jsx:47 — JSX text
+- `Long-term token` — src\BioDBSettings.jsx:58 — string/attribute
+- `Manual continue` — src\Inspector.jsx:363, src\app\legacyBuilder.jsx:304, src\flowCanvas\NodePreviewModal.jsx:125 — JSX text
+- `Manual event` — src\constants.js:10, src\constants.js:67, src\core\componentRegistry.js:247 — string/attribute
+- `Manual offset` — src\app\sessionSetup.jsx:120 — JSX text
+- `Manual sync marker` — src\app\sessionSetup.jsx:120 — JSX text
+- `Match value` — src\core\componentRegistry.js:345 — string/attribute
+- `Max rows shown` — src\DataPanel.jsx:331 — string/attribute
+- `Maximum iterations` — src\Inspector.jsx:50, src\core\componentRegistry.js:360 — JSX text, string/attribute
+- `Media errors` — src\Analytics.jsx:122 — string/attribute
+- `Media source` — src\app\legacyBuilder.jsx:358, src\flowCanvas\NodePreviewModal.jsx:110 — JSX text
+- `Media type` — src\composer\NodeInspector.jsx:60, src\participantUi\UiPropertyEditor.jsx:12 — JSX text, string/attribute
+- `Migrate to Composer V2` — src\Dashboard.jsx:246 — JSX text
+- `More actions` — src\FlowWorkspaceOverlay.jsx:126 — string/attribute
+- `New event` — src\DataPanel.jsx:361 — string/attribute
+- `New protocol` — src\Dashboard.jsx:161 — JSX text
+- `New text` — src\participantUi\constants.js:3 — string/attribute
+- `New version` — src\Dashboard.jsx:267 — JSX text
+- `Next →` — src\Onboarding.jsx:93, src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:8 — string/attribute
+- `No completed sessions yet. Run experiments to see data here.` — src\Analytics.jsx:75 — JSX text
+- `No data in this range` — src\DataPanel.jsx:279 — string/attribute
+- `No events in this range` — src\DataPanel.jsx:364 — string/attribute
+- `No group` — src\composer\NodeInspector.jsx:177 — string/attribute
+- `No media source assigned` — src\MediaStep.jsx:126 — JSX text
+- `No participants found` — src\DataPanel.jsx:72 — string/attribute
+- `No questions configured for this questionnaire.` — src\QuestionnaireForm.jsx:133 — JSX text
+- `No selected session has a complete protocol snapshot.` — src\SessionManager.jsx:205 — string/attribute
+- `No session selected` — src\Analytics.jsx:223 — JSX text
+- `No Sessions match the current filter.` — src\SessionManager.jsx:270 — JSX text
+- `No Sessions stored.` — src\SessionManager.jsx:269 — JSX text
+- `No snapshots yet. Save a snapshot to preserve your current flow layout.` — src\flowCanvas\CanvasToolbar.jsx:28 — JSX text
+- `No steps match` — src\flowCanvas\PalettePanel.jsx:18 — string/attribute
+- `Node group` — src\composer\NodeInspector.jsx:177 — string/attribute
+- `Node manual` — src\FlowWorkspaceOverlay.jsx:118, src\GuidePanel.jsx:23 — JSX text, string/attribute
+- `nodes ·` — src\composer\Canvas.jsx:20, src\flowCanvas\CanvasToolbar.jsx:10 — JSX text
+- `not checked` — src\SessionManager.jsx:290 — string/attribute
+- `Nothing to export` — src\SessionManager.jsx:141, src\SessionManager.jsx:204, src\SessionManager.jsx:205 — string/attribute
+- `Offset (ms)` — src\app\sessionSetup.jsx:121 — JSX text
+- `Open folder` — src\Dashboard.jsx:209 — JSX text
+- `Operator ID` — src\app\sessionSetup.jsx:116, src\app\sessionSetup.jsx:58 — JSX text
+- `Optional note` — src\RuntimeRunnerPage.jsx:581 — string/attribute
+- `Order row` — src\app\sessionSetup.jsx:127 — JSX text
+- `Participant click` — src\Inspector.jsx:356, src\app\legacyBuilder.jsx:312, src\flowCanvas\NodePreviewModal.jsx:137 — JSX text
+- `participant components` — src\GraphRuntimeRunnerPage.jsx:347 — JSX text
+- `Participant fullscreen (F)` — src\RuntimeRunnerPage.jsx:467 — string/attribute
+- `Participant ID` — src\app\sessionSetup.jsx:114, src\app\sessionSetup.jsx:56, src\composer\Catalogs.jsx:267 — JSX text
+- `Participant ID does not match. Deletion cancelled.` — src\SessionManager.jsx:220 — string/attribute
+- `Participant interface` — src\ParticipantUiBuilder.jsx:69 — JSX text
+- `Participant language` — src\app\sessionSetup.jsx:115, src\app\sessionSetup.jsx:57 — JSX text
+- `Participant view` — src\GraphRuntimeRunnerPage.jsx:368, src\RuntimeRunnerPage.jsx:475 — string/attribute
+- `Please use a modern browser (Chrome 90+, Firefox 90+, Edge 90+, Safari 15+).` — src\RuntimeRunnerPage.jsx:390 — JSX text
+- `Preview (double-click)` — src\flowCanvas\NodeCard.jsx:83 — string/attribute
+- `Preview run` — src\composer\Header.jsx:24 — string/attribute
+- `Preview storage` — src\app\sessionSetup.jsx:136, src\app\sessionSetup.jsx:65 — string/attribute
+- `Project actions` — src\Dashboard.jsx:243 — string/attribute
+- `Project component library` — src\composer\Catalogs.jsx:301 — string/attribute
+- `Project name` — src\App.jsx:247, src\FlowWorkspaceOverlay.jsx:97 — string/attribute
+- `Protocol BioDB experiment mapping` — src\ProtocolBioDBConfig.jsx:52 — string/attribute
+- `Protocol check` — src\app\legacyBuilder.jsx:126 — JSX text
+- `Protocol integrity` — src\app\sessionSetup.jsx:134 — JSX text
+- `Protocol saved` — src\App.jsx:207 — string/attribute
+- `Publish reusable template` — src\composer\Catalogs.jsx:50 — JSX text
+- `Pulse animation` — src\Inspector.jsx:429, src\core\componentRegistry.js:217 — JSX text, string/attribute
+- `Questionnaire library` — src\Inspector.jsx:395 — JSX text
+- `QUESTIONNAIRE LIBRARY` — src\QuestionnaireLibrary.jsx:25 — JSX text
+- `Questionnaire name` — src\QuestionnaireWorkspace.jsx:94 — string/attribute
+- `Quick note` — src\RuntimeRunnerPage.jsx:531 — JSX text
+- `Read data` — src\DataPanel.jsx:266 — string/attribute
+- `Read events` — src\DataPanel.jsx:269 — string/attribute
+- `Ready to run` — src\Dashboard.jsx:241 — string/attribute
+- `Ready when you are` — src\RuntimeRunnerPage.jsx:483 — JSX text
+- `Recording hosted failure…` — src\GraphRuntimeRunnerPage.jsx:354 — string/attribute
+- `Redo (⌘⇧Z)` — src\flowCanvas\CanvasToolbar.jsx:18 — string/attribute
+- `Relative milliseconds` — src\app\sessionSetup.jsx:123 — JSX text
+- `Remove unused` — src\flowCanvas\CanvasOverlays.jsx:21 — JSX text
+- `Repeat count` — src\app\legacyBuilder.jsx:159, src\app\legacyBuilder.jsx:189 — string/attribute
+- `Require operator note` — src\Inspector.jsx:272, src\core\componentRegistry.js:253 — JSX text, string/attribute
+- `Required confirmation note` — src\RuntimeRunnerPage.jsx:581 — string/attribute
+- `Researcher notes` — src\SessionManager.jsx:332 — JSX text
+- `Researcher validity` — src\SessionManager.jsx:324 — JSX text
+- `Resource URL` — src\MediaSettings.jsx:52 — JSX text
+- `responses ·` — src\GraphRuntimeRunnerPage.jsx:351 — JSX text
+- `Responses recorded` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:5 — string/attribute
+- `Restart this event` — src\Inspector.jsx:136 — JSX text
+- `Resume experiment` — src\RuntimeRunnerPage.jsx:402, src\app\sessionSetup.jsx:13 — JSX text, string/attribute
+- `Resume remaining time` — src\Inspector.jsx:135 — JSX text
+- `Retry hosted sync` — src\GraphRuntimeRunnerPage.jsx:351, src\GraphRuntimeRunnerPage.jsx:354 — JSX text
+- `Retry local save` — src\GraphRuntimeRunnerPage.jsx:352, src\GraphRuntimeRunnerPage.jsx:354, src\RuntimeRunnerPage.jsx:427 — JSX text
+- `Return to projects` — src\GraphRuntimeRunnerPage.jsx:352, src\GraphRuntimeRunnerPage.jsx:354, src\RuntimeRunnerPage.jsx:428 — JSX text, string/attribute
+- `Reusable media resources` — src\ResourceLibrary.jsx:36 — JSX text
+- `Reusable questionnaire` — src\Inspector.jsx:396 — JSX text
+- `Reusable questionnaires` — src\QuestionnaireLibrary.jsx:25 — JSX text
+- `Reusable resource` — src\Inspector.jsx:389, src\MediaSettings.jsx:23 — JSX text
+- `Reusable subflows` — src\composer\Catalogs.jsx:64 — string/attribute
+- `Review, export and validate` — src\SessionManager.jsx:233 — JSX text
+- `Run latest` — src\Dashboard.jsx:266 — string/attribute
+- `RUNTIME FAILED` — src\GraphRuntimeRunnerPage.jsx:354 — JSX text
+- `Runtime replay` — src\SessionManager.jsx:352, src\SessionManager.jsx:358 — JSX text
+- `RUNTIME V2 READY` — src\GraphRuntimeRunnerPage.jsx:347 — JSX text
+- `SAM block` — src\constants.js:34 — string/attribute
+- `Same computer clock` — src\app\sessionSetup.jsx:120 — JSX text
+- `samples collected` — src\GraphRuntimeRunnerPage.jsx:351 — JSX text
+- `Sampling rate (Hz)` — src\app\sessionSetup.jsx:125 — JSX text
+- `Save failed` — src\App.jsx:154, src\GraphRuntimeRunnerPage.jsx:343, src\SessionManager.jsx:77 — string/attribute
+- `Save flow` — src\FlowWorkspaceOverlay.jsx:117 — string/attribute
+- `Save review` — src\SessionManager.jsx:336 — JSX text
+- `Saved to local storage. The export bundle is ready.` — src\RuntimeRunnerPage.jsx:118 — string/attribute
+- `Screen content` — src\core\componentRegistry.js:111 — string/attribute
+- `Search participant, protocol...` — src\SessionManager.jsx:245 — string/attribute
+- `Search sessions...` — src\Dashboard.jsx:185 — string/attribute
+- `Search steps…` — src\flowCanvas\PalettePanel.jsx:16 — string/attribute
+- `Seed salt` — src\core\componentRegistry.js:330 — string/attribute
+- `Select a node or connection to configure it.` — src\composer\Inspector.jsx:18 — string/attribute
+- `Select a Session` — src\SessionManager.jsx:273 — JSX text
+- `Select all` — src\flowCanvas\CanvasContextMenu.jsx:28, src\flowCanvas\ShortcutsModal.jsx:2 — JSX text, string/attribute
+- `Select an experiment` — src\ProtocolBioDBConfig.jsx:71 — string/attribute
+- `Select folder` — src\Dashboard.jsx:210 — string/attribute
+- `Select trial to edit` — src\FlowWorkspaceOverlay.jsx:104 — string/attribute
+- `SESSION COMPLETE` — src\GraphRuntimeRunnerPage.jsx:351, src\RuntimeRunnerPage.jsx:414 — JSX text
+- `SESSION DATA` — src\SessionManager.jsx:233 — JSX text
+- `Session list unavailable` — src\App.jsx:332, src\SessionManager.jsx:34 — string/attribute
+- `Session missing` — src\SessionManager.jsx:64 — string/attribute
+- `SESSION REVIEW` — src\Analytics.jsx:59 — JSX text
+- `Session review saved` — src\SessionManager.jsx:75 — string/attribute
+- `SESSION SETUP` — src\app\sessionSetup.jsx:111 — JSX text
+- `Show all` — src\composer\Inspector.jsx:29 — string/attribute
+- `Show fewer` — src\composer\Inspector.jsx:29 — string/attribute
+- `Show inspector` — src\FlowCanvas.jsx:549, src\FlowCanvas.jsx:550 — string/attribute
+- `Show palette` — src\FlowCanvas.jsx:399, src\FlowCanvas.jsx:400 — string/attribute
+- `Size (px)` — src\Inspector.jsx:425, src\core\componentRegistry.js:215 — JSX text, string/attribute
+- `Skip tour` — src\Onboarding.jsx:89 — JSX text
+- `Source URL` — src\app\legacyBuilder.jsx:368, src\composer\NodeInspector.jsx:60, src\flowCanvas\NodePreviewModal.jsx:112, src\participantUi\UiPropertyEditor.jsx:12 — JSX text, string/attribute
+- `Start building your experiment` — src\app\legacyBuilder.jsx:112 — JSX text
+- `Start building your flow` — src\FlowCanvas.jsx:494 — JSX text
+- `Start here — create a new experiment protocol, or choose a template to get going quickly.` — src\Onboarding.jsx:7 — string/attribute
+- `Start mode` — src\Inspector.jsx:353, src\flowCanvas\NodePreviewModal.jsx:133 — JSX text
+- `Start session` — src\app\sessionSetup.jsx:140 — string/attribute
+- `Start time` — src\DataPanel.jsx:248, src\DataPanel.jsx:368 — string/attribute
+- `Step label` — src\app\legacyBuilder.jsx:393 — JSX text
+- `Step name` — src\app\legacyBuilder.jsx:288, src\core\componentRegistry.js:385 — string/attribute
+- `Step palette` — src\app\legacyBuilder.jsx:122 — JSX text
+- `STIMULUS LIBRARY` — src\ResourceLibrary.jsx:36 — JSX text
+- `Stimulus trial` — src\constants.js:23 — string/attribute
+- `Storage guide` — src\Dashboard.jsx:211 — JSX text
+- `Submit response` — src\QuestionnaireForm.jsx:211, src\core\participantUi.js:68, src\legacy\migrateProtocolV1.js:109 — string/attribute
+- `Switch between English, 中文, 日本語 and toggle dark mode anytime.` — src\Onboarding.jsx:31 — string/attribute
+- `Sync method` — src\app\sessionSetup.jsx:120 — JSX text
+- `Syncing hosted session…` — src\GraphRuntimeRunnerPage.jsx:351 — string/attribute
+- `Test connection` — src\BioDBSettings.jsx:64 — string/attribute
+- `Test run` — src\FlowWorkspaceOverlay.jsx:122, src\SessionManager.jsx:293, src\app\legacyBuilder.jsx:106 — JSX text, string/attribute
+- `Text color` — src\Inspector.jsx:331, src\app\legacyBuilder.jsx:386, src\participantUi\UiPropertyEditor.jsx:8 — JSX text, string/attribute
+- `Thank you` — src\GraphRuntimeRunnerPage.jsx:351, src\ParticipantLaunchPage.jsx:79 — JSX text
+- `The complete bundle includes raw events, responses, derived analysis windows, protocol snapshot, integrity report, and a data dictionary.` — src\SessionManager.jsx:316 — JSX text
+- `The complete event history and answers are stored in the active local storage backend, separate from the lightweight dashboard index.` — src\SessionManager.jsx:273 — JSX text
+- `The selected session could not be found in local storage.` — src\SessionManager.jsx:64 — string/attribute
+- `This will delete the recovery snapshot.` — src\RuntimeRunnerPage.jsx:403 — string/attribute
+- `This will mark the session as aborted. All data so far will be preserved.` — src\RuntimeRunnerPage.jsx:471 — string/attribute
+- `Time format` — src\app\sessionSetup.jsx:123 — JSX text
+- `Timeout (ms)` — src\core\componentRegistry.js:184, src\core\componentRegistry.js:231 — string/attribute
+- `Timing & behavior` — src\Inspector.jsx:350 — JSX text
+- `Trial JSON` — src\FlowJsonEditor.jsx:69, src\FlowJsonEditor.jsx:89 — JSX text, string/attribute
+- `Type participant ID to confirm` — src\SessionManager.jsx:217 — string/attribute
+- `Undo (⌘Z)` — src\flowCanvas\CanvasToolbar.jsx:17 — string/attribute
+- `UNFINISHED SESSION` — src\app\sessionSetup.jsx:12 — JSX text
+- `Unknown participant` — src\Analytics.jsx:101 — string/attribute
+- `Unsaved changes` — src\App.jsx:126, src\App.jsx:168 — string/attribute
+- `Upload file` — src\MediaSettings.jsx:36 — JSX text
+- `Upload local file` — src\app\legacyBuilder.jsx:362 — JSX text
+- `User ID` — src\BioDBSettings.jsx:53 — string/attribute
+- `user_id from BioDB admin` — src\BioDBSettings.jsx:55 — string/attribute
+- `Wait for operator` — src\Inspector.jsx:137 — JSX text
+- `Wait until the completed session is saved locally` — src\RuntimeRunnerPage.jsx:428 — string/attribute
+- `Waiting for operator confirmation.` — src\RuntimeContent.jsx:7 — string/attribute
+- `Welcome to PhysioFlow` — src\Onboarding.jsx:6 — string/attribute
+- `When media ends` — src\Inspector.jsx:362, src\app\legacyBuilder.jsx:303, src\flowCanvas\NodePreviewModal.jsx:124 — JSX text
+- `Your projects` — src\Dashboard.jsx:165, src\Onboarding.jsx:24 — JSX text, string/attribute
+- `YouTube embed` — src\MediaSettings.jsx:35, src\ResourceLibrary.jsx:47, src\app\legacyBuilder.jsx:361 — JSX text

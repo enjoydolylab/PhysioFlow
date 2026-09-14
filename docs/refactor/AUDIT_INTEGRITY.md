@@ -1,5 +1,7 @@
 # Hosted Audit Integrity
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 The Node hosted adapter authenticates every persisted audit record with a key-backed HMAC-SHA-256 chain. This closes the gap where an offline editor could previously change structurally valid audit JSON without detection.
 
 ## Chain format

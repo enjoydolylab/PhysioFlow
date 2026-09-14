@@ -1,5 +1,7 @@
 # Hosted Tenant Isolation
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 Hosted state 1.3 assigns every configured actor to one tenant and propagates that tenant to deployments, sessions, participant-token mappings, launch links, audit entries, idempotency scopes, metrics, and filesystem asset namespaces.
 
 ## Actor configuration

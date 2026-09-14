@@ -1,5 +1,7 @@
 # Hosted Tenant Capacity
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 The hosted service can apply independent logical capacity policies to each server-assigned tenant. Limits are injected by the hosting environment and are never accepted from request headers, bodies, deployment bundles, or participant credentials.
 
 ## Configuration

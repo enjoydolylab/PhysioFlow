@@ -1,5 +1,7 @@
 # Single-Node Backup and Recovery
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 The hosted Node adapter includes a dependency-free offline backup format for its validated service state and workspace assets. A backup is a private directory containing `state.json`, optional `assets/`, and `manifest.json` with the size and SHA-256 checksum of every file.
 
 ## Create and verify

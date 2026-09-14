@@ -1,5 +1,7 @@
 # Participant Bootstrap Contract 1.0
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 A redeemed launch token creates a scoped participant session. The participant then authenticates with that session token and downloads a bootstrap document before Runtime V2 starts.
 
 The bootstrap contains:

@@ -1,5 +1,7 @@
 # Hosted Data Retention and Pseudonymization
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 Hosted retention is explicit, deployment-scoped, and disabled by default. A frozen deployment bundle may declare `executionPolicy.dataRetentionDays` from 1 through 36,500. A `null` value means that PhysioFlow will not select or delete records automatically.
 
 ## Governed workflow

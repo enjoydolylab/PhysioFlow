@@ -1,13 +1,16 @@
-# Composer V2 Pilot Guide
+# 操作员试跑与数据交接
 
-1. Create a new protocol or migrate a legacy draft.
-2. Build the control flow in Composer V2. Resolve every blocking graph validation issue.
-3. Select each participant-facing node. Configure its interface tree and preview Instruction, Media, and Form variants.
-4. Run a preview with a non-identifying participant code. Exercise pause, retry, skip, response submission, and recovery where applicable.
-5. Finish the session and export the complete data package.
-6. Inspect `quality_report.json`; it must not be `invalid`.
-7. Confirm `events.jsonl`, `responses.jsonl`, normalized CSV files, the exact protocol/runtime snapshots, component and asset manifests, and the data dictionary are present.
-8. Validate an unpacked package with `npm run validate:graph-export -- <directory>`.
-9. For migrated work, review every migration warning and compare the V2 preview with the source protocol before formal collection.
+适用：beta.4。日常操作从[研究人员指南](../USER_GUIDE.md)开始。
 
-Do not use a migrated or draft protocol for formal collection solely because graph validation passes. Formal readiness also requires operator review, one successful pilot, stable local storage, assets, and an accepted data quality report.
+1. 选择明确的协议版本与测试参与者编号；迁移协议先逐项审阅报告。
+2. 确认资源、存储、目标窗口尺寸及所需设备。
+3. 先检查画面，再试运行响应、暂停恢复、Retry/Skip 和失败处理。
+4. 完成后确认保存结果，打开会话管理并导出完整包。
+5. Graph 包核对原始事件、响应、快照、清单和质量报告；异常或被标记的数据应解释处理，不因有 ZIP 就认定完整。
+6. 解压 Graph 导出，执行 `npm run validate:graph-export -- <directory>`；旧导出结构使用包内清单和字典，不能套用 Graph 验证器。
+7. 将协议版本、应用版本、窗口/缩放、设备配置、发现的问题和包名记录到试跑结果。
+8. 用研究的正式设备配置和目标时长再次试跑，再决定是否进入正式采集。
+
+Graph 检查点不完整保存未提交问卷/任务进度。自由布局保留像素尺寸；受约束的旧 Block 算法在 beta.4 有变化，不应未经比较在进行中的研究里更换应用版本。
+
+这份操作试跑不等于[正式可用性研究](USABILITY_STUDY_PROTOCOL.md)。自动化的[UI 验收报告](../ACCEPTANCE_REPORT_2026-09-05.md)也不能替代真人签收。

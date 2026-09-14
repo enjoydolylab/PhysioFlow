@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { verifyRuntimeScenarios } from './browser-runtime-scenarios.mjs';
+import { verifyPreparationScenarios } from './browser-preparation-scenarios.mjs';
+import { verifyAuthoringScenarios } from './browser-authoring-scenarios.mjs';
 import { spawn } from 'node:child_process';
-import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -130,6 +132,13 @@ try {
   assert.equal(session.status, 'completed');
   assert.ok(session.eventCount >= 4);
   await verifyRuntimeScenarios(evaluate, waitFor, clickText);
+  await verifyPreparationScenarios(evaluate, waitFor);
+  await verifyAuthoringScenarios(evaluate, waitFor, process.env.PHYSIOFLOW_CANVAS_SCREENSHOT ? async () => {
+    await send('Emulation.setDeviceMetricsOverride', {width:1600, height:1000, deviceScaleFactor:1, mobile:false});
+    await evaluate(`document.getElementById('root').style.display='none'; window.scrollTo(0,0); new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
+    const screenshot = await send('Page.captureScreenshot', {format:'png'});
+    writeFileSync(process.env.PHYSIOFLOW_CANVAS_SCREENSHOT, Buffer.from(screenshot.data,'base64'));
+  } : undefined, send);
   console.log(JSON.stringify({ status: 'passed', publicParticipantEntry: true, bootstrapVerified: true, refreshRecovery: true, hostedRuntimeSync: true }, null, 2));
 } finally {
   socket.close();

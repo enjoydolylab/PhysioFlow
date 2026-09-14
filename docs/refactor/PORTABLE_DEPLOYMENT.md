@@ -1,5 +1,7 @@
 # Portable Deployment Contract 1.0
 
+> 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
+
 PhysioFlow deployment bundles separate experiment design from the system that hosts or executes it. A bundle contains one immutable Protocol Graph version, the exact frozen configuration hash, component/device/asset dependency manifests, target-provider metadata, an execution policy, and a second hash covering the complete bundle.
 
 ## Workflow

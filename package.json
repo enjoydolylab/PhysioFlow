@@ -25,6 +25,7 @@
     "test:performance": "node --test tests/performance-gates.test.js",
     "validate:graph-export": "node scripts/validate-graph-export.mjs",
     "verify:usability-study": "node scripts/verify-usability-study.mjs",
+    "audit:i18n": "node scripts/audit-i18n.mjs",
     "migrate:v1": "node scripts/migrate-protocol-v1.mjs",
     "quality:refactor": "npm test && npm run build && npm run lint -- --max-warnings=0",
     "quality:release": "npm run quality:refactor && npm run test:e2e && npm run test:e2e:refactor-browser && npm run test:e2e:participant-public"
