@@ -1,3 +1,5 @@
+import { createId } from './ids.js';
+
 function hashSeed(value) {
   let hash = 2166136261;
   for (const character of String(value)) {
@@ -85,4 +87,35 @@ export function resolveStimulusAssignments(protocol, randomSeed, priorPresentati
 export function withStimulusAssignment(node, assignment) {
   if (!assignment) return node;
   return { ...node, config: { ...node.config, assetId: assignment.assetId, sourceUrl: assignment.sourceUrl, mediaType: assignment.mediaType } };
+}
+
+/**
+ * Create a stimulus pool, optionally binding it to a media node, as one pure step.
+ * Both the pool catalog and the media-node shortcut go through here so their naming,
+ * de-duplication and binding rules cannot drift apart.
+ *
+ * @param protocol      protocol graph to extend
+ * @param name          pool name
+ * @param mediaType     'image' | 'audio' | 'video'
+ * @param assetIds      assets that make up the pool (de-duplicated)
+ * @param bindNodeId    optional media node to point at the new pool
+ * @returns {{ protocol, poolId, pool }}
+ */
+export function createStimulusPool(protocol, { name, mediaType = 'image', assetIds = [], bindNodeId = null } = {}, options = {}) {
+  const idFactory = options.idFactory || createId;
+  const poolId = idFactory('stimulus_pool');
+  const pool = { id: poolId, name: String(name || 'Stimulus pool').trim(), mediaType, assetIds: [...new Set(assetIds.filter(Boolean))] };
+  let next = { ...protocol, stimulusPools: [...(protocol.stimulusPools || []), pool] };
+  if (bindNodeId) {
+    next = {
+      ...next,
+      graph: {
+        ...next.graph,
+        nodes: next.graph.nodes.map(node => (node.id === bindNodeId
+          ? { ...node, config: { ...node.config, stimulusPoolId: poolId, mediaType } }
+          : node)),
+      },
+    };
+  }
+  return { protocol: next, poolId, pool };
 }

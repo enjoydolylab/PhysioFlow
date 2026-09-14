@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   createCoreComponentRegistry,
   createProtocolGraph,
+  createStimulusPool,
   participantUiTemplate,
   resolveStimulusAssignments,
   validateProtocolGraphConfiguration,
@@ -99,4 +100,40 @@ test('assigned media schema renders the selected asset and validation rejects un
   protocol.stimulusPools[0].assetIds = ['a', 'b'];
   const check = validateProtocolGraphConfiguration(protocol, createCoreComponentRegistry());
   assert.ok(check.errors.some(error => error.code === 'config.stimulus_pool_too_small'));
+});
+
+test('createStimulusPool creates and binds a pool in one step', () => {
+  const protocol = createProtocolGraph({ name: 'Pool creation' });
+  protocol.graph.nodes.push({ id: 'media_1', label: 'Stimulus', component: { type: 'display.media', version: '1.0.0' }, config: { mediaType: 'image', ui: participantUiTemplate('media') } });
+  const result = createStimulusPool(protocol, { name: 'Stroop stimuli', mediaType: 'image', assetIds: ['a2', 'a1', 'a2'], bindNodeId: 'media_1' });
+  assert.equal(result.protocol.stimulusPools.length, 1);
+  assert.deepEqual(result.pool.assetIds, ['a2', 'a1'], 'duplicate assets collapse');
+  assert.equal(result.poolId, result.pool.id);
+  const bound = result.protocol.graph.nodes.find(node => node.id === 'media_1');
+  assert.equal(bound.config.stimulusPoolId, result.poolId);
+  assert.equal(bound.config.mediaType, 'image');
+});
+
+test('media display presets resolve to plain element geometry', () => {
+  const registry = createCoreComponentRegistry();
+  const definition = registry.get('display.media');
+  const mediaProps = config => {
+    const node = { id: 'm', label: 'M', component: { type: 'display.media', version: '1.0.0' }, config: { ...structuredClone(definition.defaultConfig), ...config } };
+    const schema = schemaForNode(node, definition, localResourceManifest([]));
+    const walk = element => {
+      if (element.type === 'Media') return element.props;
+      for (const child of element.children || []) { const found = walk(child); if (found) return found; }
+      return null;
+    };
+    return walk(schema.root);
+  };
+  const fill = mediaProps({ display: { preset: 'fill' } });
+  assert.deepEqual({ x: fill.x, y: fill.y, width: fill.width, height: fill.height, fit: fill.fit }, { x: 0, y: 0, width: '100%', height: '100%', fit: 'cover' });
+  const fit = mediaProps({ display: { preset: 'fit' } });
+  assert.equal(fit.fit, 'contain');
+  assert.equal(fit.width, '100%');
+  const auto = mediaProps({});
+  assert.equal(auto.width, undefined, 'auto preset leaves element geometry untouched');
+  assert.equal(auto.x, undefined);
+  assert.equal(auto.height, undefined);
 });

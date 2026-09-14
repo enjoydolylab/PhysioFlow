@@ -115,6 +115,10 @@ const clickText = async text => {
 
 try {
   await send('Page.enable');
+  // The page is already loaded when CDP attaches, so pin the UI language (the product
+  // default is now Japanese) and reload for it to take effect.
+  await send('Page.addScriptToEvaluateOnNewDocument', { source: "try{localStorage.setItem('physioflow.ui-language','en')}catch(e){}" });
+  await send('Page.reload', { ignoreCache: true });
   await send('Runtime.enable');
   await waitFor(`document.body.textContent.includes('RUNTIME V2 READY') && document.body.textContent.includes('PUBLIC-E2E')`, 'verified participant runtime');
   await clickText('Begin experiment');
@@ -122,7 +126,7 @@ try {
   const syncStarted = Date.now();
   while (![...service.sessions.values()][0]?.runtimeSnapshot && Date.now() - syncStarted < 5000) await new Promise(resolve => setTimeout(resolve, 50));
   assert.ok([...service.sessions.values()][0]?.runtimeSnapshot, 'Hosted recovery snapshot was not synchronized');
-  await evaluate(`new Promise((resolve, reject) => { const request = indexedDB.open('physioflow-data-v1', 1); request.onsuccess = () => { const transaction = request.result.transaction('current', 'readwrite'); transaction.objectStore('current').delete('active'); transaction.oncomplete = resolve; transaction.onerror = () => reject(transaction.error); }; request.onerror = () => reject(request.error); }).then(() => localStorage.removeItem('physioflow.current-run-pointer.v2'))`);
+  await evaluate(`new Promise((resolve, reject) => { const request = indexedDB.open('physioflow-data-v1', 1); request.onsuccess = () => { const transaction = request.result.transaction('current', 'readwrite'); transaction.objectStore('current').delete('active'); transaction.oncomplete = resolve; transaction.onerror = () => reject(transaction.error); }; request.onerror = () => reject(request.error); }).then(() => { localStorage.removeItem('physioflow.current-run-pointer.v2'); localStorage.setItem('physioflow.ui-language', 'en'); })`);
   await send('Page.reload', { ignoreCache: true });
   await waitFor(`document.body.textContent.includes('Welcome') && !document.body.textContent.includes('RUNTIME V2 READY') && [...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue') && !button.disabled)`, 'participant refresh recovery');
   await clickText('Continue');

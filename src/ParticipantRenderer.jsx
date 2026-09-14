@@ -1,6 +1,6 @@
 import { ScreenFrame } from './participantUi/ScreenFrame.jsx';
 import { useMemo, useState } from 'react';
-import { normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
+import { isUiSize, normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
 import ParticipantMedia from './ParticipantMedia.jsx';
 
 function boundProp(element, name, context) {
@@ -53,8 +53,8 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     const positioned = {
       ...(props.zeroMargin ? { margin: 0 } : {}),
       ...((props.x != null && props.y != null) ? { position: 'absolute', left: props.x, top: props.y } : {}),
-      ...(Number.isFinite(props.width) && props.width > 0 ? { width: props.width, minWidth: 0, boxSizing: 'border-box' } : {}),
-      ...(Number.isFinite(props.height) && props.height > 0 ? { height: props.height, minHeight: 0, boxSizing: 'border-box' } : {}),
+      ...(isUiSize(props.width) ? { width: props.width, minWidth: 0, boxSizing: 'border-box' } : {}),
+      ...(isUiSize(props.height) ? { height: props.height, minHeight: 0, boxSizing: 'border-box' } : {}),
     };
     const freeLayout = props.free ? { position: positioned.position || 'relative', minHeight: props.height != null ? 0 : 'min(78vh, 620px)', overflow: 'auto' } : {};
     if (element.type === 'Screen') return <div key={element.id} className="participant-ui-screen" style={{ ...style, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;

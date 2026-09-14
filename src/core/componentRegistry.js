@@ -118,8 +118,9 @@ export function createCoreComponentRegistry() {
     type: 'display.media', version: '1.0.0', label: 'Media', category: 'presentation',
     ports: [controlInput, controlOutput],
     runtime: { kind: 'participant', uiAdapter: 'media', completion: 'config' },
-    defaultConfig: { mediaType: 'image', assetId: null, stimulusPoolId: null, ui: participantUiTemplate('media'), completion: { mode: 'fixed', durationMs: 3000 } },
+    defaultConfig: { mediaType: 'image', assetId: null, stimulusPoolId: null, display: { preset: 'auto' }, ui: participantUiTemplate('media'), completion: { mode: 'fixed', durationMs: 3000 } },
     editorFields: [
+      { path: 'display.preset', label: 'Display', type: 'select', options: ['auto', 'fill', 'fit'], group: 'Display', help: 'Fill covers the screen (cropping overflow), Fit shows the whole stimulus, Element size uses the width/height set in the participant screen.' },
       { path: 'completion.mode', label: 'Completion', type: 'select', options: ['manual', 'fixed', 'media-ended'], group: 'Timing', help: 'How this stimulus advances: a click, a fixed duration, or when playback ends.' },
       { path: 'completion.durationMs', label: 'Duration (ms)', type: 'number', min: 0, group: 'Timing', showWhen: { path: 'completion.mode', equals: 'fixed' } },
     ],

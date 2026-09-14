@@ -2,19 +2,19 @@ import { useCallback, useEffect, useState } from 'react';
 
 const STEPS = [
   {
-    target: '.dashboard-actions',
+    target: '.workspace-create',
     title: 'Welcome to PhysioFlow',
     body: 'Start here — create a new experiment protocol, or choose a template to get going quickly.',
     position: 'right',
   },
   {
-    target: '.dashboard-workflow',
-    title: 'Four-step workflow',
-    body: 'Build your protocol, validate it, run a session, then review and export your data.',
+    target: '.workspace-templates',
+    title: 'Start from a template',
+    body: 'Emotion, Stroop and Go/No-Go templates, or build a blank protocol from scratch.',
     position: 'bottom',
   },
   {
-    target: '.storage-banner',
+    target: '.status-bar',
     title: 'Local data folder',
     body: 'Choose a folder on your computer. All protocols, sessions, and media stay there — not in browser cache.',
     position: 'bottom',

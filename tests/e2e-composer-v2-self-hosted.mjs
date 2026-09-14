@@ -113,7 +113,7 @@ try {
   await send('Page.enable');
   await send('Runtime.enable');
   await waitFor(`!!document.querySelector('nav[aria-label="Workspace navigation"]')`, 'workspace');
-  await evaluate(`Promise.all(['physioflow-data-v1','physioflow-assets-v1','physioflow-workspace-v1'].map(name => new Promise(resolve => { const request = indexedDB.deleteDatabase(name); request.onsuccess = request.onerror = request.onblocked = () => resolve(); }))).then(() => { localStorage.clear(); localStorage.setItem('physioflow.guide-seen.v1','1'); location.reload(); })`);
+  await evaluate(`Promise.all(['physioflow-data-v1','physioflow-assets-v1','physioflow-workspace-v1'].map(name => new Promise(resolve => { const request = indexedDB.deleteDatabase(name); request.onsuccess = request.onerror = request.onblocked = () => resolve(); }))).then(() => { localStorage.clear(); localStorage.setItem('physioflow.guide-seen.v1','1'); localStorage.setItem('physioflow.ui-language','en'); location.reload(); })`);
   await waitFor(`document.body.textContent.includes('Your first study starts here')`, 'clean dashboard');
   await clickText('New protocol');
   await waitFor(`document.body.textContent.includes('Composer V2')`, 'Composer V2');

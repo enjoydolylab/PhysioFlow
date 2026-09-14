@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { createId } from './core/ids.js';
 import { COMPARISON_OPS, LANGS, newQuestion, PRESETS, QUESTION_TYPES, createQuestionnaire } from './core/questionnaireModel.js';
+import { useT } from './i18n.jsx';
 
 export { COMPARISON_OPS, LANGS, newQuestion, PRESETS, QUESTION_TYPES, createQuestionnaire } from './core/questionnaireModel.js';
 
@@ -24,13 +25,13 @@ export default function QuestionnaireDesigner({ value, onChange, disabled }) {
 
     {/* Questionnaire-level settings */}
     <div className="q-settings-row">
-      <label>名称 <input value={questionnaire.name} disabled={disabled} onChange={e => onChange({ ...questionnaire, name: e.target.value })} /></label>
-      <label className="q-check"><input type="checkbox" checked={questionnaire.shuffle_questions || false} disabled={disabled} onChange={e => onChange({ ...questionnaire, shuffle_questions: e.target.checked })} /> 随机题目顺序</label>
-      <label className="q-check"><input type="checkbox" checked={questionnaire.show_progress !== false} disabled={disabled} onChange={e => onChange({ ...questionnaire, show_progress: e.target.checked })} /> 显示进度</label>
+      <label>Questionnaire name <input value={questionnaire.name} disabled={disabled} onChange={e => onChange({ ...questionnaire, name: e.target.value })} /></label>
+      <label className="q-check"><input type="checkbox" checked={questionnaire.shuffle_questions || false} disabled={disabled} onChange={e => onChange({ ...questionnaire, shuffle_questions: e.target.checked })} /> Shuffle question order</label>
+      <label className="q-check"><input type="checkbox" checked={questionnaire.show_progress !== false} disabled={disabled} onChange={e => onChange({ ...questionnaire, show_progress: e.target.checked })} /> Show progress</label>
     </div>
 
     {/* Question presets */}
-    <details className="q-presets"><summary>+ 快速添加预设问题</summary>
+    <details className="q-presets"><summary>+ Quick-add a preset question</summary>
       <div className="q-preset-grid">
         {Object.entries(PRESETS).map(([key, fn]) => {
           const q = fn();
@@ -42,7 +43,7 @@ export default function QuestionnaireDesigner({ value, onChange, disabled }) {
     </details>
 
     {/* Batch import */}
-    <details className="q-import"><summary>+ 批量导入 (CSV)</summary>
+    <details className="q-import"><summary>+ Batch import (CSV)</summary>
       <BatchImport disabled={disabled} onImport={rows => {
         const imported = rows.map(row => ({
           question_id: createId('question'),
@@ -59,14 +60,14 @@ export default function QuestionnaireDesigner({ value, onChange, disabled }) {
     </details>
 
     {/* Question list */}
-    {qs.length === 0 && <p style={{ color: 'var(--muted)', fontSize: '.8rem', padding: '.5rem' }}>暂无问题。使用上方预设或手动添加。</p>}
+    {qs.length === 0 && <p style={{ color: 'var(--muted)', fontSize: '.8rem', padding: '.5rem' }}>No questions yet. Use a preset above, or add one manually.</p>}
     {qs.map((q, index) => (
       <QuestionEditor key={q.question_id} question={q} index={index} total={qs.length}
         disabled={disabled} updateQuestion={updateQuestion} removeQuestion={removeQuestion}
         moveQuestion={moveQuestion} allQuestions={qs}
       />
     ))}
-    <button type="button" disabled={disabled} onClick={() => onChange({ ...questionnaire, questions: [...qs, newQuestion()] })}>+ 添加问题</button>
+    <button type="button" disabled={disabled} onClick={() => onChange({ ...questionnaire, questions: [...qs, newQuestion()] })}>+ Add question</button>
   </details>;
 }
 
@@ -88,13 +89,14 @@ export function BatchImport({ disabled, onImport }) {
     <textarea rows={4} value={text} disabled={disabled}
       placeholder="type,en,options,min,max,answer&#10;likert,How satisfied?,Very dissatisfied|Neutral|Very satisfied,1,5,3&#10;single_choice,Choose one,Yes|No|Maybe,,,Yes"
       onChange={e => setText(e.target.value)} />
-    <small>格式: type, en, options(用|分隔), min, max, answer</small>
-    <button type="button" disabled={disabled || !text.trim()} onClick={parse}>导入</button>
+    <small>Format: type, en, options (separated by |), min, max, answer</small>
+    <button type="button" disabled={disabled || !text.trim()} onClick={parse}>Import questions</button>
   </div>;
 }
 
 // ── Question Editor ──
 function QuestionEditor({ question: q, index, total, disabled, updateQuestion, removeQuestion, moveQuestion, allQuestions }) {
+  const t = useT();
   const [lang, setLang] = useState('en');
   const [multiLang, setMultiLang] = useState(false);
   const [dragOver, setDragOver] = useState(null);
@@ -106,7 +108,7 @@ function QuestionEditor({ question: q, index, total, disabled, updateQuestion, r
       onDragOver={e => { e.preventDefault(); const rect = e.currentTarget.closest('article').getBoundingClientRect(); setDragOver(e.clientY < rect.top + rect.height/2 ? 'top' : 'bottom'); }}
       onDragLeave={() => setDragOver(null)}
       onDrop={e => { e.preventDefault(); const from = Number(e.dataTransfer.getData('text/plain')); setDragOver(null); if (from !== index && from >= 0 && from < total) moveQuestion(from, index); }}
-      title="拖拽排序">⠿</span>}
+      title={t('Drag to reorder')}>⠿</span>}
 
     <div className="q-head">
       <b>Q{index + 1}</b>
@@ -114,24 +116,24 @@ function QuestionEditor({ question: q, index, total, disabled, updateQuestion, r
         {QUESTION_TYPES.map(type => <option key={type} value={type}>{type}</option>)}
       </select>
       <label className="q-check"><input type="checkbox" checked={q.required} disabled={disabled} onChange={e => updateQuestion(index, 'required', e.target.checked)} /> Required</label>
-      <label className="q-check"><input type="checkbox" checked={q.shuffle || false} disabled={disabled} onChange={e => updateQuestion(index, 'shuffle', e.target.checked)} title="随机选项顺序" /> ⇄</label>
+      <label className="q-check"><input type="checkbox" checked={q.shuffle || false} disabled={disabled} onChange={e => updateQuestion(index, 'shuffle', e.target.checked)} title={t('Shuffle option order')} /> ⇄</label>
       <button type="button" disabled={disabled} onClick={() => removeQuestion(index)} className="q-remove">×</button>
     </div>
 
     {/* Conditional logic */}
-    <details className="q-conditional"><summary>条件显示 · 跳题逻辑</summary>
+    <details className="q-conditional"><summary>Conditional display · skip logic</summary>
       {q.show_if ? <div className="q-cond-row">
-        <span>当</span>
+        <span>Show when</span>
         <select value={q.show_if.question_id} disabled={disabled} onChange={e => updateQuestion(index, 'show_if', { ...q.show_if, question_id: e.target.value })}>
-          <option value="">-- 选择问题 --</option>
+          <option value="">-- Select question --</option>
           {allQuestions.filter(oq => oq.question_id !== q.question_id).map(oq => <option key={oq.question_id} value={oq.question_id}>Q{allQuestions.indexOf(oq)+1}: {(oq.prompt_i18n?.en || oq.prompt_i18n?.zh || '').slice(0, 30)}</option>)}
         </select>
         <select value={q.show_if.operator || 'equals'} disabled={disabled} onChange={e => updateQuestion(index, 'show_if', { ...q.show_if, operator: e.target.value })}>
           {COMPARISON_OPS.map(op => <option key={op} value={op}>{op}</option>)}
         </select>
-        <input value={q.show_if.value || ''} disabled={disabled} placeholder="值" onChange={e => updateQuestion(index, 'show_if', { ...q.show_if, value: e.target.value })} style={{ width: 80 }} />
+        <input value={q.show_if.value || ''} disabled={disabled} placeholder={t('Value')} onChange={e => updateQuestion(index, 'show_if', { ...q.show_if, value: e.target.value })} style={{ width: 80 }} />
         <button type="button" disabled={disabled} onClick={() => updateQuestion(index, 'show_if', null)}>×</button>
-      </div> : <button type="button" disabled={disabled} onClick={() => updateQuestion(index, 'show_if', { question_id: '', operator: 'equals', value: '' })}>+ 添加条件</button>}
+      </div> : <button type="button" disabled={disabled} onClick={() => updateQuestion(index, 'show_if', { question_id: '', operator: 'equals', value: '' })}>+ Add condition</button>}
     </details>
 
     {/* Language — single by default, translations optional */}
@@ -145,11 +147,11 @@ function QuestionEditor({ question: q, index, total, disabled, updateQuestion, r
         ))}
       </div>
     ) : (
-      <button type="button" className="q-add-lang" disabled={disabled} onClick={() => setMultiLang(true)}>＋ 多语言翻译（可选）</button>
+      <button type="button" className="q-add-lang" disabled={disabled} onClick={() => setMultiLang(true)}>＋ Translations (optional)</button>
     )}
 
     {/* Prompt */}
-    <textarea className="q-prompt" placeholder={multiLang ? `题目文字 (${lang})` : '题目文字'}
+    <textarea className="q-prompt" placeholder={multiLang ? `${t('Question text')} (${lang})` : t('Question text')}
       value={q.prompt_i18n?.[lang] || ''} disabled={disabled}
       onChange={e => updateQuestion(index, 'prompt_i18n', { ...q.prompt_i18n, [lang]: e.target.value })}
       rows={2} />
@@ -157,11 +159,11 @@ function QuestionEditor({ question: q, index, total, disabled, updateQuestion, r
     {/* Scale settings */}
     {['likert','sam_valence','sam_arousal','number','vas_slider'].includes(q.type) && (
       <div className="q-scale">
-        <label>最小 <input type="number" value={q.scale_min ?? 1} disabled={disabled} onChange={e => updateQuestion(index, 'scale_min', Number(e.target.value))} /></label>
-        <label>最大 <input type="number" value={q.scale_max ?? 5} disabled={disabled} onChange={e => updateQuestion(index, 'scale_max', Number(e.target.value))} /></label>
+        <label>Minimum <input type="number" value={q.scale_min ?? 1} disabled={disabled} onChange={e => updateQuestion(index, 'scale_min', Number(e.target.value))} /></label>
+        <label>Maximum <input type="number" value={q.scale_max ?? 5} disabled={disabled} onChange={e => updateQuestion(index, 'scale_max', Number(e.target.value))} /></label>
         {q.type !== 'number' && <>
-          <label>最小标签 <input value={q.min_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'min_label_i18n', { ...q.min_label_i18n, [lang]: e.target.value })} placeholder="最低标签" /></label>
-          <label>最大标签 <input value={q.max_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'max_label_i18n', { ...q.max_label_i18n, [lang]: e.target.value })} placeholder="最高标签" /></label>
+          <label>Minimum label <input value={q.min_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'min_label_i18n', { ...q.min_label_i18n, [lang]: e.target.value })} placeholder={t('Lowest label')} /></label>
+          <label>Maximum label <input value={q.max_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'max_label_i18n', { ...q.max_label_i18n, [lang]: e.target.value })} placeholder={t('Highest label')} /></label>
         </>}
       </div>
     )}
@@ -172,23 +174,23 @@ function QuestionEditor({ question: q, index, total, disabled, updateQuestion, r
         <textarea disabled={disabled}
           value={(q.options_i18n?.[lang] || []).join('\n')}
           onChange={e => updateQuestion(index, 'options_i18n', { ...q.options_i18n, [lang]: e.target.value.split('\n') })}
-          placeholder={multiLang ? `每行一个选项 (${lang})` : '每行一个选项'} rows={3} />
+          placeholder={multiLang ? `${t('One option per line')} (${lang})` : t('One option per line')} rows={3} />
       </div>
     )}
 
     {/* Correct answer / scoring */}
     {['single_choice','number','likert'].includes(q.type) && (
       <label className="q-answer">
-        <span>正确答案 (自动计分)</span>
-        <input value={q.correct_answer || ''} disabled={disabled} placeholder={q.type==='likert'||q.type==='number'?'e.g. 5':'匹配选项文字'}
+        <span>Correct answer (auto-scored)</span>
+        <input value={q.correct_answer || ''} disabled={disabled} placeholder={q.type==='likert'||q.type==='number'?'e.g. 5':t('Matching option text')}
           onChange={e => updateQuestion(index, 'correct_answer', e.target.value)} />
       </label>
     )}
 
     {/* Time limit */}
     <label className="q-time">
-      <span>答题时限 (可选)</span>
-      <input type="number" min={0} max={600} value={q.time_limit_sec || ''} disabled={disabled} placeholder="秒，留空=不限时"
+      <span>Time limit (optional)</span>
+      <input type="number" min={0} max={600} value={q.time_limit_sec || ''} disabled={disabled} placeholder={t('Seconds; leave blank for no limit')}
         onChange={e => updateQuestion(index, 'time_limit_sec', e.target.value === '' ? null : Number(e.target.value))} />
     </label>
   </article>;

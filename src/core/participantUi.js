@@ -27,6 +27,15 @@ export function isUiTokenRef(value) {
     && Object.keys(value).length === 1 && typeof value.$token === 'string' && Boolean(value.$token.trim());
 }
 
+// A size is either a positive design-pixel number or a CSS length string. Letting
+// elements carry a length (e.g. "100%") is what allows a preset such as "fill the
+// screen" to be expressed with the ordinary x/y/width/height properties instead of
+// a media-only flag, so every renderer only has to know one sizing model.
+export function isUiSize(value) {
+  if (Number.isFinite(value) && value > 0) return true;
+  return typeof value === 'string' && /^\d+(\.\d+)?(px|%|vw|vh|em|rem)$/.test(value.trim());
+}
+
 const CONTAINERS = new Set(['Screen', 'Layout']);
 const FORBIDDEN_TOKEN_KEYS = new Set(['__proto__', 'prototype', 'constructor']);
 
@@ -45,71 +54,81 @@ export function createUiElement(type, options = {}) {
 }
 
 export function createParticipantScreen(options = {}) {
+  const screenSize = options.screenSize
+    ? { screenWidth: options.screenSize.width, screenHeight: options.screenSize.height }
+    : {};
   return {
     schemaVersion: PARTICIPANT_UI_SCHEMA_VERSION,
     root: createUiElement('Screen', {
       ...options,
-      props: { maxWidth: 800, align: 'center', background: '#ffffff', color: '#17211b', padding: 32, ...(options.props || {}) },
+      props: { maxWidth: 800, align: 'center', background: '#ffffff', color: '#17211b', padding: 32, ...screenSize, ...(options.props || {}) },
       children: options.children || [],
     }),
   };
 }
 
+// Default design resolution for freshly created participant screens. Keeping a fixed
+// resolution is what makes the editor canvas, the preview and the live experiment
+// agree; without it the runtime falls back to a responsive layout that no longer
+// matches the canvas the screen was designed on. Explicit props still win, so
+// callers that want a responsive screen can pass their own.
+export const TEMPLATE_SCREEN_SIZE = Object.freeze({ width: 1280, height: 720 });
+
 export function participantUiTemplate(kind = 'instruction', options = {}) {
   const idFactory = options.idFactory || createId;
-  if (kind === 'media') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'media') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Stimulus', variant: 'heading' } }),
     createUiElement('Media', { idFactory, props: { mediaType: 'image', sourceUrl: '', alt: 'Experiment stimulus', fit: 'contain' } }),
     createUiElement('Button', { idFactory, props: { label: 'Continue', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'form') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'form') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'How do you feel?', variant: 'heading' } }),
     createUiElement('Input', { idFactory, props: { name: 'response', inputType: 'rating', label: 'Rating', min: 1, max: 7, required: true } }),
     createUiElement('Button', { idFactory, props: { label: 'Submit response', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'text') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'text') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Text input', variant: 'heading' } }),
     createUiElement('Input', { idFactory, props: { name: 'value', inputType: 'text', label: 'Response', required: false } }),
     createUiElement('Button', { idFactory, props: { label: 'Continue', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'rating') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'rating') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Please rate', variant: 'heading' } }),
     createUiElement('Input', { idFactory, props: { name: 'rating', inputType: 'rating', label: 'Rating', min: 1, max: 7, required: true } }),
     createUiElement('Button', { idFactory, props: { label: 'Submit', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'fixation') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'fixation') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, style: { fontSize: '80px', textAlign: 'center' }, props: { text: '+', variant: 'heading' } }),
   ] });
-  if (kind === 'html') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'html') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Html', { idFactory, props: { html: '<div style="text-align:center"><h1>Custom HTML</h1></div>' } }),
     createUiElement('Button', { idFactory, props: { label: 'Continue', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'calibration') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'calibration') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Screen calibration', variant: 'heading' } }),
     createUiElement('Text', { idFactory, props: { text: 'Verify viewing distance and screen dimensions before continuing.', variant: 'body' } }),
     createUiElement('Button', { idFactory, props: { label: 'Ready', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'attention') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'attention') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Press the key when you see the target', variant: 'heading' } }),
     createUiElement('Input', { idFactory, props: { name: 'attention', inputType: 'text', label: 'Response', required: true } }),
     createUiElement('Button', { idFactory, props: { label: 'Submit', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'response') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'response') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Respond when you see the target', variant: 'heading' } }),
     createUiElement('Text', { idFactory, props: { text: 'Press one of the response keys to answer.', variant: 'body' } }),
     createUiElement('Input', { idFactory, props: { name: 'response', inputType: 'text', label: 'Response', required: true } }),
     createUiElement('Button', { idFactory, props: { label: 'Submit', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'device') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'device') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Equipment check', variant: 'heading' } }),
     createUiElement('Text', { idFactory, props: { text: 'Verify the setup, then continue.', variant: 'body' } }),
     createUiElement('Button', { idFactory, props: { label: 'Ready', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  if (kind === 'manual') return createParticipantScreen({ idFactory, children: [
+  if (kind === 'manual') return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Awaiting operator', variant: 'heading' } }),
     createUiElement('Button', { idFactory, props: { label: 'Confirm', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }),
   ] });
-  return createParticipantScreen({ idFactory, children: [
+  return createParticipantScreen({ idFactory, screenSize: TEMPLATE_SCREEN_SIZE, children: [
     createUiElement('Text', { idFactory, props: { text: 'Welcome', variant: 'heading' } }),
     createUiElement('Text', { idFactory, props: { text: 'Please read the instructions carefully.', variant: 'body' } }),
     createUiElement('Progress', { idFactory, props: { value: 0, max: 100, label: '' }, bindings: { value: 'progress.percent' } }),

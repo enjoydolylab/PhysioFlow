@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
+// 日本語を既定の表示言語にする（研究室内の共通言語）。
+// UI 文言の原文は英語で JSX に埋め込み、ここで上書きする。
+export const DEFAULT_LANGUAGE = 'ja';
 const dictionaries = {
   zh: {
     'EXPERIMENT WORKSPACE':'实验工作区','Design the flow.':'设计流程。','Trust the timeline.':'信任时间线。','New protocol':'新建实验方案','Import protocol':'导入实验方案','Edit flow':'编辑流程','New version':'新版本','Duplicate':'复制','Archive':'归档','Run':'正式运行','Sessions':'实验记录','Manage sessions':'管理实验记录',
@@ -231,7 +234,7 @@ const LanguageContext = createContext(null);
 const translationState = new WeakMap();
 
 export function LanguageProvider({ children }) {
-  const [language, setLanguageState] = useState(() => localStorage.getItem('physioflow.ui-language') || 'en');
+  const [language, setLanguageState] = useState(() => localStorage.getItem('physioflow.ui-language') || DEFAULT_LANGUAGE);
   const root = useRef(null);
   const setLanguage = next => { localStorage.setItem('physioflow.ui-language', next); setLanguageState(next); };
   useEffect(() => {
@@ -334,4 +337,135 @@ Object.assign(dictionaries.ja, {
   // Runtime runners (V2 graph + legacy)
   'RUNTIME V2 READY':'ランタイム V2 準備完了','Begin experiment':'実験を開始','participant components':'個の参加者コンポーネント','RUNTIME FAILED':'ランタイム失敗','Experiment stopped':'実験は停止しました','Thank you':'ありがとうございました','events ·':'件のイベント ·','responses ·':'件の回答 ·','device samples ·':'件のデバイスサンプル ·','export files':'件の出力ファイル','Saved locally.':'ローカルに保存されました。','Saving…':'保存中…','Device connected ·':'デバイス接続済み ·','samples collected':'件のサンプルを収集','Hosted sync complete · revision':'ホステッド同期完了 · リビジョン ','Hosted sync failed:':'ホステッド同期に失敗：','Syncing hosted session…':'ホステッドセッションを同期中…','Recording hosted failure…':'ホステッド障害を記録中…','Retry hosted sync':'ホステッド同期を再試行','Export complete data package':'完全データパッケージを出力','Return to projects':'プロジェクトに戻る','Paused':'一時停止中','Participant view':'参加者ビュー','completed':'完了',
   'COMPATIBILITY WARNING':'互換性の警告','Browser Issues':'ブラウザの問題','Please use a modern browser (Chrome 90+, Firefox 90+, Edge 90+, Safari 15+).':'最新のブラウザを使用してください（Chrome 90+、Firefox 90+、Edge 90+、Safari 15+）。','Cancel & return':'キャンセルして戻る','Discard recovery?':'復元を破棄しますか？','This will delete the recovery snapshot.':'復元スナップショットが削除されます。','steps':'ステップ','Retry local save':'ローカル保存を再試行','Wait until the completed session is saved locally':'完了したセッションがローカルに保存されるまでお待ちください','Fullscreen':'全画面','Participant fullscreen (F)':'参加者ビュー全画面 (F)','Abort session?':'セッションを中止しますか？','This will mark the session as aborted. All data so far will be preserved.':'セッションは中止済みとしてマークされます。これまでのデータはすべて保持されます。','Abort':'中止','⏸ Paused':'⏸ 一時停止中','Ready when you are':'準備ができたら開始','Start':'開始','Continue →':'続行 →','Quick note':'クイックメモ','Instant markers':'即時マーカー','Interval marker':'区間マーカー','Device checklist':'デバイスチェックリスト','Complete every checklist item before continuing.':'続行する前にすべてのチェック項目を完了してください。','Complete device check →':'デバイスチェックを完了 →','Runtime state machine':'ランタイム状態機械',
+});
+
+// Composer V2: participant-canvas optimisation, media display presets, stimulus pools
+Object.assign(dictionaries.ja, {
+  'Flow nodes':'フローノード','Click or drag onto the canvas to insert':'クリックするかキャンバスへドラッグして挿入','Media & stimuli':'メディアと刺激','Asset library and randomized pools':'素材ライブラリとランダム化プール','Variables & structure':'変数と構造','Variables, groups, reusable subflows':'変数・グループ・再利用サブフロー','Advanced':'詳細設定','SDK packages, devices, collaboration, deployment':'SDKパッケージ・デバイス・共同編集・配備',
+  'Display':'表示','Element size':'要素サイズ','Fit screen':'画面に合わせる','Fill screen':'画面全体に表示','Fill / fit scale the stimulus to cover the whole screen; element size keeps the width and height set in the participant screen.':'「画面全体」「画面に合わせる」は刺激を画面いっぱいに拡大縮小します。「要素サイズ」は参加者画面で設定した幅・高さを使います。',
+  '＋ New pool from media library…':'＋ メディアライブラリからプールを作成…','Edit assets':'素材を編集','assets':'件の素材','No assets yet — use “Edit assets” to pick from the media library.':'素材がまだありません — 「素材を編集」からメディアライブラリで選択してください。',
+  'Pool name':'プール名','Stimulus pool':'刺激プール','Selected':'選択中','Search assets…':'素材を検索…','Select all':'すべて選択','· in results':'· 絞り込み結果','Clear':'クリア','Cancel':'キャンセル','Done':'完了',
+  'Draws without replacement each cycle; repeats its seeded order once exhausted.':'各サイクルで重複なく抽選し、使い切るとシード順で繰り返します。','No matching assets.':'一致する素材がありません。','No image assets in the media library yet.':'メディアライブラリに画像素材がまだありません。','No audio assets in the media library yet.':'メディアライブラリに音声素材がまだありません。','No video assets in the media library yet.':'メディアライブラリに動画素材がまだありません。',
+  'Create a pool in the left panel, then choose it here. Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.':'左パネルでプールを作成し、ここで選択します。完了またはスキップで次の刺激を抽選し、再試行では同じ刺激を保ちます。使い切るとシード順で繰り返します。',
+});
+Object.assign(dictionaries.zh, {
+  'Flow nodes':'流程节点','Click or drag onto the canvas to insert':'点击或拖到画布插入','Media & stimuli':'媒体与刺激','Asset library and randomized pools':'素材库与随机池','Variables & structure':'变量与结构','Variables, groups, reusable subflows':'变量·分组·可复用子流程','Advanced':'高级','SDK packages, devices, collaboration, deployment':'SDK 包·设备·协作·部署',
+  'Display':'显示方式','Element size':'元素尺寸','Fit screen':'适应屏幕','Fill screen':'铺满屏幕','Fill / fit scale the stimulus to cover the whole screen; element size keeps the width and height set in the participant screen.':'铺满/适应会让刺激铺满整个屏幕并等比缩放；元素尺寸使用参与者界面里设置的宽高。',
+  '＋ New pool from media library…':'＋ 从媒体库新建池…','Edit assets':'编辑资产','assets':'个资产','No assets yet — use “Edit assets” to pick from the media library.':'还没有选择资产 —— 点「编辑资产」从媒体库挑选。',
+  'Pool name':'池名称','Stimulus pool':'刺激池','Selected':'已选','Search assets…':'搜索资产…','Select all':'全选','· in results':'· 筛选结果','Clear':'清空','Cancel':'取消','Done':'完成',
+  'Draws without replacement each cycle; repeats its seeded order once exhausted.':'每个循环不重复抽取；用完后按种子顺序重复。','No matching assets.':'没有匹配的资产。','No image assets in the media library yet.':'媒体库里还没有图片资产。','No audio assets in the media library yet.':'媒体库里还没有音频资产。','No video assets in the media library yet.':'媒体库里还没有视频资产。',
+  'Create a pool in the left panel, then choose it here. Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.':'在左侧面板创建池后在此选择。完成或 Skip 抽取下一个刺激；Retry 保持当前刺激。用完后按种子顺序循环。',
+});
+
+// Participant-UI canvas editor (toolbar, tabs, inspector)
+Object.assign(dictionaries.ja, {
+  'Free edit':'自由編集','Auto layout':'自動配置','Fit to view':'ウィンドウに合わせる','Reset to 100%':'100% に戻す','Zoom presets':'ズーム','Canvas settings':'キャンバス設定','Settings':'設定','Screen size':'画面サイズ','Existing responsive screen':'既存のレスポンシブ画面','Snap to 8px grid':'8pxグリッドに吸着',
+  '✎ Edit':'✎ 編集','▶ Preview':'▶ プレビュー','Elements':'要素','Presets':'プリセット','Layers':'レイヤー','Content':'内容','Layout':'レイアウト','Appearance':'外観','Color':'色','Text alignment':'文字揃え','Left':'左','Center':'中央','Right':'右','Bindings and actions':'バインディングと動作','Click action':'クリック時の動作','Variable name':'変数名','Value':'値',
+  'Free canvas':'自由キャンバス','Auto arrange':'自動整列','Lock element':'ロック','Unlock element':'ロック解除',
+  'Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove':'選択要素の後（またはコンテナ内）に挿入 · ドラッグで正確に配置 · Del で削除',
+  'Drag to position; arrow keys nudge 1px, Shift+arrows 10px':'ドラッグで配置。矢印キーで1px、Shift+矢印で10px移動。','Drag to reorder; select the container to change layout mode':'ドラッグで並べ替え。コンテナを選択すると配置モードを変更できます。',"Re-lay this screen's elements as an aligned 8px-grid column":'この画面の要素を8pxグリッドに揃えて整列します',
+  'Fixed screen 1280×720: the editor and the run scale identically; content outside the screen is clipped. Change the size under ⚙ Settings.':'固定画面 1280×720：編集時と実行時は同じ比率で拡大縮小され、画面外の内容は切り取られます。サイズは ⚙ 設定で変更できます。',
+});
+Object.assign(dictionaries.zh, {
+  'Free edit':'自由编辑','Auto layout':'自动排版','Fit to view':'适应窗口','Reset to 100%':'实际大小 (1:1)','Zoom presets':'缩放预设','Canvas settings':'画布设置','Settings':'设置','Screen size':'屏幕尺寸','Existing responsive screen':'响应式（现有）','Snap to 8px grid':'吸附 8px 网格',
+  '✎ Edit':'✎ 编辑','▶ Preview':'▶ 预览','Elements':'元素','Presets':'预设','Layers':'图层','Content':'内容','Layout':'布局','Appearance':'外观','Color':'颜色','Text alignment':'文字对齐','Left':'左','Center':'居中','Right':'右','Bindings and actions':'绑定与动作','Click action':'点击行为','Variable name':'变量名','Value':'值',
+  'Free canvas':'自由画布','Auto arrange':'自动整理','Lock element':'锁定元素','Unlock element':'解锁元素',
+  'Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove':'点击插入到选中元素之后（或容器内）· 拖拽可精确放置 · Del 删除',
+  'Drag to position; arrow keys nudge 1px, Shift+arrows 10px':'拖动定位；方向键微调 1px，Shift+方向键 10px','Drag to reorder; select the container to change layout mode':'拖动重排；选中容器可切换排版模式',"Re-lay this screen's elements as an aligned 8px-grid column":'把该页元素重新排成对齐的 8px 网格列',
+  'Fixed screen 1280×720: the editor and the run scale identically; content outside the screen is clipped. Change the size under ⚙ Settings.':'固定屏幕 1280×720：编辑与运行等比缩放一致，超出屏幕的内容会被裁剪。可在 ⚙ 设置里更换尺寸。',
+});
+
+// Pre-run checklist: the formal-run gate, its validation advice catalogue and the
+// per-issue fix steps. Titles/summaries/steps are computed in PreRunChecklist.jsx,
+// so the walker matches them here by their exact English source text.
+Object.assign(dictionaries.ja, {
+  'Locate and fix':'位置を修正','Go to trial':'Trialへ移動','View raw message':'元のメッセージを表示','Ready for a test run':'テスト実行できます','Must fix':'必ず修正','Step content issues':'ステップ内容の問題','Suggestions':'推奨事項','Continue to session setup':'セッション設定へ進む',
+  '{n} issues must be fixed before running':'実行前に {n} 件の問題を修正してください','{n} suggestions remain, which do not block a test run.':'推奨事項が {n} 件ありますが、テスト実行は妨げません。',
+  'Each item below says why it blocks the run and where to change it. Fix the required ones first; suggestions can wait.':'各項目に、実行できない理由と修正すべき場所が書かれています。まず「必ず修正」を片付け、推奨事項は後回しで構いません。',
+  'Formal collection must be written to a local folder you choose, not only to browser-managed cache.':'本番収集のデータは、ブラウザ管理のキャッシュではなく、選択したローカルフォルダへ書き込む必要があります。',
+  'Press the button below to select your PhysioFlow Data folder.':'下のボタンを押して PhysioFlow Data フォルダを選択してください。','Start the formal session once the folder is selected.':'フォルダを選択してから本番セッションを開始してください。',
+  'Questionnaire item has no prompt':'アンケート設問にプロンプトがありません','One question in this questionnaire has an empty prompt in every language, so participants cannot tell what to answer.':'このアンケートには、すべての言語でプロンプトが空の設問があります。参加者は何に答えるべきか分かりません。',
+  'Choice question has no options':'選択式の設問に選択肢がありません','A single- or multiple-choice question needs at least one option, otherwise participants cannot answer it.':'単一選択・複数選択の設問には選択肢が最低1つ必要です。ないと参加者は回答できません。',
+  'External questionnaire link is missing':'外部アンケートのリンクがありません','External form mode needs a link to Google Forms, Qualtrics or another questionnaire service.':'外部フォームモードには Google Forms や Qualtrics などのアンケートサービスのリンクが必要です。',
+  'Step is not placed in the flow':'ステップがフローに配置されていません','This step exists in the trial but has no matching event node in the flow, so it is skipped at run time.':'このステップは Trial にはありますが、フローに対応するイベントノードがないため、実行時はスキップされます。',
+  'Media source is missing':'メディアソースがありません','This video, audio or image node has no file or link to play.':'この動画・音声・画像ノードには再生できるファイルやリンクがありません。',
+  'End mode must be manual':'終了方法を手動にする必要があります','This node (an external questionnaire, for example) must be finished by the participant or operator, not skipped on a timer.':'このノード（外部アンケートなど）は、タイマーで自動的に進めず、参加者または実験者が終了する必要があります。',
+  'Fixed duration is missing':'固定時間が設定されていません','This node uses Fixed time mode but has no duration in milliseconds.':'このノードは固定時間モードですが、ミリ秒の時間が入力されていません。',
+  'Response variable name is missing':'Response の変数名がありません','A response step needs a variable name (such as response or rating) so a condition node can reference it.':'Response ステップには、条件ノードから参照するための変数名（response や rating など）が必要です。',
+  'Response options are missing':'Response の選択肢がありません','A response step needs at least one option in the value | label | key format.':'Response ステップには value | label | key 形式の選択肢が最低1つ必要です。',
+  'Participant content is empty':'参加者向けの内容が空です','Participant content is empty in every language for this step. A test run still works, but participants may see no instructions.':'このステップはすべての言語で参加者向け内容が空です。テスト実行はできますが、参加者に教示が表示されない可能性があります。',
+  'No analysis window is set':'分析ウィンドウが設定されていません','No step in this protocol enables Generate analysis window, so the exported analysis_windows.csv will be empty.':'このプロトコルには「分析ウィンドウを生成」を有効にしたステップがないため、書き出される analysis_windows.csv は空になります。',
+  'Looping conflicts with the end mode':'ループと終了方法が矛盾しています','This media node loops but its end mode is "When media ends", so playback would never stop.':'このメディアノードはループする設定ですが、終了方法が「メディア終了時」なので再生が止まりません。',
+  'Manual start conflicts with hidden controls':'手動開始とコントロール非表示が矛盾しています','Start mode is "Participant click" but the player controls are hidden, so participants cannot start playback.':'開始方法が「参加者がクリック」ですが再生コントロールが非表示のため、参加者が再生を開始できません。',
+  'ITI jitter settings are invalid':'ITI ジッターの設定が不正です','The trial\'s ITI jitter value is not valid. Jitter must be a number ≥ 0 and the distribution must be fixed, uniform, normal or exponential.':'Trial の ITI ジッターの値が不正です。ジッターは 0 以上の数値、分布は fixed・uniform・normal・exponential のいずれかである必要があります。',
+  'Protocol name is missing':'プロトコル名がありません','Give the protocol a name so it is easy to tell apart in the project list.':'プロジェクト一覧で見分けられるよう、プロトコルに名前を付けてください。',
+  'Protocol structure is empty':'プロトコルの構造が空です','This protocol has no blocks yet. Build the Block → Trial → Step hierarchy first.':'このプロトコルには Block がまだありません。まず Block → Trial → Step の階層を作成してください。',
+  'Hierarchy is incomplete':'階層が不完全です','A block has no trials, or a trial has no steps.':'Block に Trial がない、または Trial に Step がありません。',
+  'This setting needs attention':'この設定を確認してください',
+  'Press "Locate and fix" to open the questionnaire node.':'「位置を修正」を押してアンケートノードを開きます。','Find the question in the inspector on the right (Question 1, 2, …).':'右側のインスペクタで該当の設問（Question 1, 2…）を探します。','Fill in the prompt in at least one language (Japanese / English / Chinese).':'プロンプトに少なくとも1つの言語（日本語・英語・中国語）を入力します。',
+  'Add at least one option to that question.':'その設問に選択肢を最低1つ追加します。','Paste the full form URL (https://…) into External form URL.':'「External form URL」にフォームの完全な URL（https://…）を貼り付けます。',
+  'Add an event node of the matching type from the "Add to flow" panel.':'左側の「フローに追加」パネルから対応する種類のイベントノードを追加します。','Or press Insert in the "Steps outside flow" panel.':'または「フロー外のステップ」パネルで「挿入」を押します。','If the step is not needed, press Remove unused.':'不要なステップなら「未使用を削除」を押します。',
+  'Press "Locate and fix" to open the media node.':'「位置を修正」を押してメディアノードを開きます。','Enter a URL under Media source in the inspector, or upload a local file.':'右側のインスペクタの「メディアソース」に URL を入力するか、ローカルファイルをアップロードします。',
+  'Press "Locate and fix" to open the node.':'「位置を修正」を押して該当ノードを開きます。','Switch End mode to Manual continue.':'「終了方法」を「手動で続行」に切り替えます。','Enter a duration greater than 0 under Duration (ms).':'「時間（ミリ秒）」に 0 より大きい数値を入力します。',
+  'Press "Locate and fix" to open the response node.':'「位置を修正」を押して Response ノードを開きます。','Enter the variable name under Response variable.':'「Response variable」に変数名を入力します。','Add at least one line under Options.':'「Options」に1行以上追加します。',
+  'Fill in Participant content in at least one language.':'「参加者向け内容」に少なくとも1つの言語を入力します。',
+  'Select a baseline, stimulus, task or recovery node.':'baseline・stimulus・task・recovery のいずれかのノードを選択します。','Tick ↗ analysis and set a suitable Role.':'「↗ analysis」にチェックを入れ、適切な Role を設定します。',
+  'Turn Loop off, or change End mode to Fixed time / Manual continue.':'ループをオフにするか、終了方法を「固定時間」または「手動で続行」に変更します。',
+  'Turn on Show player controls, or change Start mode to Automatic.':'「プレイヤー操作を表示」をオンにするか、開始方法を「自動」に変更します。',
+  'This setting can only be changed in the text editor.':'この設定はテキストエディタでのみ変更できます。','Press "Go to trial" to jump to that trial.':'「Trialへ移動」を押すと該当の Trial に移動します。','Open ⋯ → Advanced settings to switch to the text editor.':'⋯ → 「詳細設定」でテキストエディタに切り替えます。','Find the trial and make sure ITI jitter ms ≥ 0 and the distribution is one of the allowed values.':'該当の Trial を探し、ITI jitter ms が 0 以上で、分布が許可された値であることを確認します。',
+  'Enter a name in the title bar at the top of the editor.':'エディタ上部のタイトルバーに名前を入力します。','Press "+ Add block" to create the first block.':'「+ Add block」を押して最初の Block を作成します。','Then add trials and steps inside it.':'その中に Trial と Step を追加します。',
+  'Press "Locate and fix" to jump to the right place.':'「位置を修正」を押して該当箇所へ移動します。','Add the missing trial or step.':'不足している Trial または Step を追加します。','Fill in the missing field following the inspector on the right.':'右側のインスペクタの指示に従って不足項目を埋めます。',
+});
+Object.assign(dictionaries.zh, {
+  'Locate and fix':'定位并修改','Go to trial':'跳转到 Trial','View raw message':'查看原始提示','Ready for a test run':'可以开始试运行','Must fix':'必须修复','Step content issues':'节点内容问题','Suggestions':'建议项','Continue to session setup':'继续到 Session 设置',
+  '{n} issues must be fixed before running':'有 {n} 个问题需要先修复','{n} suggestions remain, which do not block a test run.':'还有 {n} 个建议项，不影响试运行。',
+  'Each item below says why it blocks the run and where to change it. Fix the required ones first; suggestions can wait.':'下面每一项都写了为什么不能运行，以及应该点哪里修改。先处理「必须修复」，建议项可以稍后再看。',
+  'Formal collection must be written to a local folder you choose, not only to browser-managed cache.':'正式采集必须写入你选择的本地文件夹，不能只放在浏览器管理的缓存里。',
+  'Press the button below to select your PhysioFlow Data folder.':'点击下面的按钮选择 PhysioFlow Data 文件夹。','Start the formal session once the folder is selected.':'选择完成后再开始正式 session。',
+  'Questionnaire item has no prompt':'问卷题目缺少标题','One question in this questionnaire has an empty prompt in every language, so participants cannot tell what to answer.':'Questionnaire 中有一道题的 Prompt 在所有语言中都是空的，参与者无法知道该回答什么。',
+  'Choice question has no options':'选择题缺少选项','A single- or multiple-choice question needs at least one option, otherwise participants cannot answer it.':'单选题或多选题需要至少一个可选项，否则参与者无法作答。',
+  'External questionnaire link is missing':'外部问卷链接缺失','External form mode needs a link to Google Forms, Qualtrics or another questionnaire service.':'外部问卷模式需要 Google Forms、Qualtrics 或其他问卷服务的链接。',
+  'Step is not placed in the flow':'步骤未放入流程图','This step exists in the trial but has no matching event node in the flow, so it is skipped at run time.':'这个 Step 在 Trial 中存在，但流程图中没有对应的事件节点，运行时会被跳过。',
+  'Media source is missing':'媒体来源缺失','This video, audio or image node has no file or link to play.':'视频、音频或图片节点没有可播放的文件或链接。',
+  'End mode must be manual':'结束方式需要设为手动','This node (an external questionnaire, for example) must be finished by the participant or operator, not skipped on a timer.':'外部问卷等节点需要参与者或操作员手动确认完成，不能用定时自动跳过。',
+  'Fixed duration is missing':'缺少固定时长','This node uses Fixed time mode but has no duration in milliseconds.':'节点设置为 Fixed time 模式但还没有填写 Duration 毫秒数。',
+  'Response variable name is missing':'Response 变量名缺失','A response step needs a variable name (such as response or rating) so a condition node can reference it.':'Response 步骤需要一个变量名（如 response 或 rating），用于在 Condition 节点中引用。',
+  'Response options are missing':'Response 选项缺失','A response step needs at least one option in the value | label | key format.':'Response 步骤需要至少一个选项（value | label | key 格式）。',
+  'Participant content is empty':'参与者内容为空','Participant content is empty in every language for this step. A test run still works, but participants may see no instructions.':'该步骤的「Participant content」在所有语言中都是空的。这不影响试运行，但参与者可能看不到引导信息。',
+  'No analysis window is set':'未设置分析窗口','No step in this protocol enables Generate analysis window, so the exported analysis_windows.csv will be empty.':'整个方案中没有步骤启用 Generate analysis window，导出的 analysis_windows.csv 将为空。',
+  'Looping conflicts with the end mode':'循环播放与结束模式冲突','This media node loops but its end mode is "When media ends", so playback would never stop.':'媒体节点开启了循环（Loop）但结束模式设为「When media ends」，这样播放永远不会停止。',
+  'Manual start conflicts with hidden controls':'手动开始与播放控件冲突','Start mode is "Participant click" but the player controls are hidden, so participants cannot start playback.':'开始模式设为「Participant click」但播放控件被隐藏了，参与者无法触发播放。',
+  'ITI jitter settings are invalid':'ITI 抖动设置无效','The trial\'s ITI jitter value is not valid. Jitter must be a number ≥ 0 and the distribution must be fixed, uniform, normal or exponential.':'Trial 的 ITI jitter（试次间间隔抖动）字段值不合法。jitter 必须是一个 ≥0 的数字，分布类型必须是 fixed、uniform、normal 或 exponential。',
+  'Protocol name is missing':'方案名称未填写','Give the protocol a name so it is easy to tell apart in the project list.':'请给方案一个名称，便于在项目列表中区分。',
+  'Protocol structure is empty':'方案结构为空','This protocol has no blocks yet. Build the Block → Trial → Step hierarchy first.':'方案中没有任何 Block，需要先创建 Block → Trial → Step 的层级结构。',
+  'Hierarchy is incomplete':'层级结构不完整','A block has no trials, or a trial has no steps.':'Block 内缺少 Trial，或 Trial 内缺少 Step。',
+  'This setting needs attention':'需要检查配置',
+  'Press "Locate and fix" to open the questionnaire node.':'点击「定位并修改」打开对应的 Questionnaire 节点。','Find the question in the inspector on the right (Question 1, 2, …).':'在右侧检查器中找到对应的问题（Question 1, 2...）。','Fill in the prompt in at least one language (Japanese / English / Chinese).':'在 Prompt 中至少填写一种语言（中文/日文/英文）。',
+  'Add at least one option to that question.':'在对应问题的 Options 中添加至少一个选项。','Paste the full form URL (https://…) into External form URL.':'在 External form URL 中粘贴完整的问卷链接（https://...）。',
+  'Add an event node of the matching type from the "Add to flow" panel.':'从左侧「Add to flow」面板添加对应类型的事件节点。','Or press Insert in the "Steps outside flow" panel.':'或者从「Steps outside flow」面板中点击 Insert 插入。','If the step is not needed, press Remove unused.':'如果不需要这个步骤，可以点击 Remove unused 删除。',
+  'Press "Locate and fix" to open the media node.':'点击「定位并修改」打开对应的媒体节点。','Enter a URL under Media source in the inspector, or upload a local file.':'在右侧检查器的 Media source 中填写 URL 或上传本地文件。',
+  'Press "Locate and fix" to open the node.':'点击「定位并修改」打开对应节点。','Switch End mode to Manual continue.':'把 End mode 切换为 Manual continue。','Enter a duration greater than 0 under Duration (ms).':'在 Duration (ms) 输入框中填写一个大于 0 的毫秒数。',
+  'Press "Locate and fix" to open the response node.':'点击「定位并修改」打开 Response 节点。','Enter the variable name under Response variable.':'在 Response variable 中填写变量名。','Add at least one line under Options.':'在 Options 文本框里添加至少一行选项。',
+  'Fill in Participant content in at least one language.':'在 Participant content 中至少填写一种语言的内容。',
+  'Select a baseline, stimulus, task or recovery node.':'选择一个 baseline、stimulus、task 或 recovery 节点。','Tick ↗ analysis and set a suitable Role.':'勾选 ↗ analysis 并设置合适的 Role。',
+  'Turn Loop off, or change End mode to Fixed time / Manual continue.':'关闭 Loop，或将 End mode 改为 Fixed time / Manual continue。',
+  'Turn on Show player controls, or change Start mode to Automatic.':'开启 Show player controls，或将 Start mode 改为 Automatic。',
+  'This setting can only be changed in the text editor.':'此设置只能在文本编辑器中修改。','Press "Go to trial" to jump to that trial.':'点击「跳转到 Trial」后会定位到对应 Trial。','Open ⋯ → Advanced settings to switch to the text editor.':'点击 ⋯ → Advanced settings 切换到文本编辑器。','Find the trial and make sure ITI jitter ms ≥ 0 and the distribution is one of the allowed values.':'找到该 Trial，确保 ITI jitter ms ≥ 0，分布类型在可选范围内。',
+  'Enter a name in the title bar at the top of the editor.':'在编辑器顶部标题栏输入方案名称。','Press "+ Add block" to create the first block.':'点击「+ Add block」创建第一个 Block。','Then add trials and steps inside it.':'然后在 Block 里添加 Trial 和 Step。',
+  'Press "Locate and fix" to jump to the right place.':'点击「定位并修改」跳转到对应位置。','Add the missing trial or step.':'添加缺失的 Trial 或 Step。','Fill in the missing field following the inspector on the right.':'根据右侧检查器的提示补充缺失字段。',
+});
+
+// Questionnaire designer (questionnaire library / workspace). Attribute and
+// placeholder strings go through useT() because the DOM walker only sees text nodes.
+Object.assign(dictionaries.ja, {
+  'Shuffle question order':'設問の順序をランダム化','Show progress':'進捗を表示','+ Quick-add a preset question':'+ プリセット設問を追加','+ Batch import (CSV)':'+ 一括インポート (CSV)','No questions yet. Use a preset above, or add one manually.':'設問がまだありません。上のプリセットを使うか、手動で追加してください。','+ Add question':'+ 設問を追加',
+  'Format: type, en, options (separated by |), min, max, answer':'形式: type, en, options（| 区切り）, min, max, answer','Import questions':'インポート','Drag to reorder':'ドラッグして並べ替え','Shuffle option order':'選択肢の順序をランダム化',
+  'Conditional display · skip logic':'条件表示・スキップ制御','Show when':'表示条件','-- Select question --':'-- 設問を選択 --','+ Add condition':'+ 条件を追加','＋ Translations (optional)':'＋ 多言語翻訳（任意）',
+  'Question text':'設問文','Minimum label':'最小ラベル','Maximum label':'最大ラベル','Lowest label':'最小側のラベル','Highest label':'最大側のラベル','One option per line':'1行に1つの選択肢','Correct answer (auto-scored)':'正解（自動採点）','Matching option text':'選択肢の文字列と一致','Time limit (optional)':'回答制限時間（任意）','Seconds; leave blank for no limit':'秒。空欄なら制限なし',
+});
+Object.assign(dictionaries.zh, {
+  'Shuffle question order':'随机题目顺序','Show progress':'显示进度','+ Quick-add a preset question':'+ 快速添加预设问题','+ Batch import (CSV)':'+ 批量导入 (CSV)','No questions yet. Use a preset above, or add one manually.':'暂无问题。使用上方预设或手动添加。','+ Add question':'+ 添加问题',
+  'Format: type, en, options (separated by |), min, max, answer':'格式: type, en, options（用 | 分隔）, min, max, answer','Import questions':'导入','Drag to reorder':'拖拽排序','Shuffle option order':'随机选项顺序',
+  'Conditional display · skip logic':'条件显示 · 跳题逻辑','Show when':'当','-- Select question --':'-- 选择问题 --','+ Add condition':'+ 添加条件','＋ Translations (optional)':'＋ 多语言翻译（可选）',
+  'Question text':'题目文字','Minimum label':'最小标签','Maximum label':'最大标签','Lowest label':'最低标签','Highest label':'最高标签','One option per line':'每行一个选项','Correct answer (auto-scored)':'正确答案 (自动计分)','Matching option text':'匹配选项文字','Time limit (optional)':'答题时限 (可选)','Seconds; leave blank for no limit':'秒，留空=不限时',
 });

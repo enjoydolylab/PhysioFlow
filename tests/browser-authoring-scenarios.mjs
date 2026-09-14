@@ -73,9 +73,10 @@ export async function verifyAuthoringScenarios(evaluate, waitFor, capture, send)
     });
   })()`);
   await waitFor(`!!document.querySelector('#authoring-regression .ui-canvas-root [data-ui-id]')`, 'canvas mounts');
-  await evaluate(`document.querySelector('#authoring-regression button[title="Reset to 100%"]').click()`);
+  // Zoom presets (Fit / Reset) now live behind the zoom dropdown.
+  await evaluate(`(() => { const menu = document.querySelector('#authoring-regression .ui-zoom-controls .ui-menu'); if (menu) menu.open = true; const button = [...document.querySelectorAll('#authoring-regression .ui-menu-pop button')].find(item => item.textContent.includes('Reset to 100%')); button?.click(); })()`);
   await evaluate(`document.querySelector('#authoring-regression .ui-canvas-root h1').click()`);
-  await evaluate(`[...document.querySelectorAll('#authoring-regression [aria-label="Canvas editing mode"] button')].find(button => button.textContent === '自由编辑').click()`);
+  await evaluate(`[...document.querySelectorAll('#authoring-regression [aria-label="Canvas editing mode"] button')].find(button => button.textContent === 'Free edit').click()`);
   await waitFor(`window.canvasCommits === 1`, 'explicit free mode conversion');
   assert.equal(await evaluate(`canvasSchema.root.props.free`), true, 'toolbar changes mode while a leaf is selected');
   if (scenario === 'nested') assert.equal(await evaluate(`canvasSchema.root.children[0].props.free`), true, 'nested containers also become freely editable');

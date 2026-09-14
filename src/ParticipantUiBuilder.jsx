@@ -17,14 +17,16 @@ import { useParticipantUiState } from './participantUi/useParticipantUiState.js'
 
 export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate }) {
   const [boundsIssues, setBoundsIssues] = useState([]);
+  const [libraryTab, setLibraryTab] = useState('elements');
   const [focusRequest, setFocusRequest] = useState(null);
   const builderRef = useRef(null);
+  const alignedRootRef = useRef(null);
   const s = useParticipantUiState({ schema, onChange, defaultTemplate });
   const {
     normalized, theme, commit, canUndo, canRedo, undo, redo,
     templateKind, setTemplateKind, selectElement,
     viewportCenter, zoomAt, zoom, fitView, resetView,
-    snapEnabled, setSnapEnabled, preview, setPreview, structureOpen, setStructureOpen,
+    snapEnabled, setSnapEnabled, preview, setPreview, setStructureOpen,
     addToRoot, viewportRef, handleViewportPointerDown, closeContextMenu,
     pan, panRef, deviceWidth, deviceHeight,
     selectedId, selectedIds, dropElement, moveElement, moveElements, removeElement,
@@ -39,6 +41,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
   const locateIssue = (id, field) => {
     setPreview(false);
     selectElement(id);
+    setLibraryTab('layers');
     setStructureOpen(true);
     const ancestors = new Set(pathTo(normalized.root, id)?.map(element => element.id));
     s.setCollapsed(previous => new Set([...previous].filter(key => !ancestors.has(key))));
@@ -55,6 +58,18 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
     });
     return () => cancelAnimationFrame(frame);
   }, [focusRequest, preview, selected.id]);
+  // Keep the canvas and the live experiment identical: a screen without an explicit
+  // design resolution renders responsively at runtime while the canvas always uses a
+  // fixed one, so the two disagree. Adopt the canvas resolution for such screens
+  // once per screen (undoable, and only persisted if the designer saves).
+  useEffect(() => {
+    const rootId = normalized.root.id;
+    if (normalized.root.props?.screenWidth && normalized.root.props?.screenHeight) return;
+    if (alignedRootRef.current === rootId) return;
+    alignedRootRef.current = rootId;
+    commit(mapUiElement(normalized, rootId, root => ({ ...root, props: { ...root.props, screenWidth: deviceWidth, screenHeight: deviceHeight } })));
+  }, [normalized, deviceWidth, deviceHeight]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const replaceTemplate = kind => {
     if (!window.confirm('Replace the current participant screen with this template? You can still undo this change.')) return;
     const next = participantUiTemplate(kind);
@@ -68,64 +83,85 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
   };
   return <section className="participant-ui-builder" ref={builderRef}>
     <div className="ui-builder-toolbar">
-      <b className="ui-builder-title">Participant interface</b>
       <div className="ui-device-switch" role="group" aria-label="Canvas editing mode">
-        <button type="button" disabled={preview} aria-pressed={elements.filter(item => ['Screen', 'Layout'].includes(item.element.type)).every(item => item.element.props?.free)} onClick={() => s.setCanvasLayoutMode(true)}>自由编辑</button>
-        <button type="button" disabled={preview} aria-pressed={elements.filter(item => ['Screen', 'Layout'].includes(item.element.type)).every(item => !item.element.props?.free)} onClick={() => s.setCanvasLayoutMode(false)}>自动排版</button>
+        <button type="button" disabled={preview} aria-pressed={elements.filter(item => ['Screen', 'Layout'].includes(item.element.type)).every(item => item.element.props?.free)} onClick={() => s.setCanvasLayoutMode(true)}>Free edit</button>
+        <button type="button" disabled={preview} aria-pressed={elements.filter(item => ['Screen', 'Layout'].includes(item.element.type)).every(item => !item.element.props?.free)} onClick={() => s.setCanvasLayoutMode(false)}>Auto layout</button>
       </div>
-      <select aria-label="Template" value={templateKind} onChange={event => replaceTemplate(event.target.value)}>
-        {TEMPLATE_KINDS.map(kind => <option key={kind} value={kind}>{kind}</option>)}
-      </select>
-      <button onClick={() => replaceTemplate(templateKind)}>Reset template</button>
       <span className="ui-toolbar-sep" />
-      <button className="ui-history-btn" disabled={!canUndo} onClick={undo} title="Undo (Ctrl+Z)">↶</button>
-      <button className="ui-history-btn" disabled={!canRedo} onClick={redo} title="Redo (Ctrl+Shift+Z)">↷</button>
+      <div className="ui-toolbar-group">
+        <select aria-label="Template" value={templateKind} onChange={event => replaceTemplate(event.target.value)}>
+          {TEMPLATE_KINDS.map(kind => <option key={kind} value={kind}>{kind}</option>)}
+        </select>
+        <button className="ui-icon-btn" onClick={() => replaceTemplate(templateKind)} title="Reset to this template">↺</button>
+      </div>
       <span className="ui-toolbar-sep" />
-      <label className="ui-screen-size">Screen size<select aria-label="Screen size" value={normalized.root.props?.screenWidth ? deviceWidth + 'x' + deviceHeight : 'legacy'} onChange={event => {
-        if (event.target.value === 'legacy') return;
-        const [screenWidth, screenHeight] = event.target.value.split('x').map(Number);
-        commit(mapUiElement(normalized, normalized.root.id, root => ({ ...root, props: { ...root.props, screenWidth, screenHeight } })));
-      }}><option value="legacy" disabled>Existing responsive screen</option>{['1280x720','1920x1080','1024x768','768x1024'].map(size => <option key={size} value={size}>{size.replace('x',' × ')}</option>)}</select></label>
+      <div className="ui-toolbar-group">
+        <button className="ui-history-btn" disabled={!canUndo} onClick={undo} title="Undo (Ctrl+Z)">↶</button>
+        <button className="ui-history-btn" disabled={!canRedo} onClick={redo} title="Redo (Ctrl+Shift+Z)">↷</button>
+      </div>
       <span className="ui-toolbar-sep" />
       <div className="ui-zoom-controls" role="group" aria-label="Canvas zoom">
         <button type="button" onClick={() => { const c = viewportCenter(); zoomAt(c.x, c.y, 0.9); }} title="Zoom out (Ctrl+wheel)">−</button>
         <span className="ui-zoom-value">{Math.round(zoom * 100)}%</span>
         <button type="button" onClick={() => { const c = viewportCenter(); zoomAt(c.x, c.y, 1.1); }} title="Zoom in (Ctrl+wheel)">+</button>
-        <button type="button" onClick={fitView} title="Fit to view">Fit</button>
-        <button type="button" onClick={resetView} title="Reset to 100%">1:1</button>
+        <details className="ui-menu">
+          <summary title="Zoom presets">▾</summary>
+          <div className="ui-menu-pop">
+            <button type="button" onClick={fitView}>Fit to view</button>
+            <button type="button" onClick={resetView}>Reset to 100%</button>
+          </div>
+        </details>
       </div>
-      <label className="ui-snap-toggle" title="Snap to 8px grid while dragging"><input type="checkbox" checked={snapEnabled} onChange={event => setSnapEnabled(event.target.checked)} /> Snap</label>
-      <button onClick={() => setPreview(value => !value)}>{preview ? 'Edit' : 'Preview'}</button>
-      <button onClick={() => setStructureOpen(value => !value)}>Layers</button>
-      <ThemeEditor schema={normalized} theme={theme} onChange={commit} />
+      <span className="ui-toolbar-sep" />
+      <details className="ui-menu ui-canvas-settings">
+        <summary title="Canvas settings">⚙ Settings</summary>
+        <div className="ui-menu-pop">
+          <label className="ui-setting-row"><span>Screen size</span><select aria-label="Screen size" value={normalized.root.props?.screenWidth ? deviceWidth + 'x' + deviceHeight : 'legacy'} onChange={event => {
+            if (event.target.value === 'legacy') return;
+            const [screenWidth, screenHeight] = event.target.value.split('x').map(Number);
+            commit(mapUiElement(normalized, normalized.root.id, root => ({ ...root, props: { ...root.props, screenWidth, screenHeight } })));
+          }}><option value="legacy" disabled>Existing responsive screen</option>{['1280x720','1920x1080','1024x768','768x1024'].map(size => <option key={size} value={size}>{size.replace('x',' × ')}</option>)}</select></label>
+          <label className="ui-setting-row ui-snap-toggle" title="Snap to the 8px grid while dragging"><input type="checkbox" checked={snapEnabled} onChange={event => setSnapEnabled(event.target.checked)} /> Snap to 8px grid</label>
+          <ThemeEditor schema={normalized} theme={theme} onChange={commit} />
+        </div>
+      </details>
+      <button className="ui-preview-btn" onClick={() => setPreview(value => !value)}>{preview ? '✎ Edit' : '▶ Preview'}</button>
     </div>
 
     {preview ? <ParticipantPreview schema={normalized} width={deviceWidth} />
       : <div className="ui-canvas-layout">
         <div className="ui-element-library">
-          <details className="ui-preset-menu"><summary>Experiment layouts</summary>{SCREEN_PRESETS.map(preset => <button key={preset.id} type="button" title={preset.hint} onClick={() => {
-            if (!window.confirm('Replace this screen with ' + preset.label + '? You can undo this change.')) return;
-            const next = createScreenPreset(preset.id); commit(next); selectElement(next.root.id);
-          }}>{preset.label}</button>)}</details>
-          <details className="ui-layers-panel" open={structureOpen} onToggle={event => setStructureOpen(event.currentTarget.open)}><summary>Layers</summary>{structureOpen && <StructureTree s={s} />}</details>
-          <b className="ui-library-title">Elements</b>
-          {LIBRARY_GROUPS.map(group => <div key={group.label} className="ui-library-group">
-            <span className="ui-library-label">{group.label}</span>
-            {group.types.map(type => (
-              <div key={type} className="ui-library-block" draggable
-                onClick={() => addToRoot(type)}
-                onDragStart={event => {
-                  event.dataTransfer.setData('application/x-physioflow-ui', JSON.stringify({ action: 'add', type }));
-                  event.dataTransfer.effectAllowed = 'copy';
-                }}
-                title={TYPE_HINTS[type]}>
-                <UiIcon name={type} />
-                <span className="ui-library-name">{type}</span>
-                <small>{TYPE_HINTS[type]}</small>
-              </div>
-            ))}
-          </div>)}
-          <small className="ui-library-tip">Click to insert after the selection (or inside a selected container) · drag for precise placement · Del to remove</small>
+          <div className="ui-library-tabs" role="tablist" aria-label="Library panels">
+            <button type="button" role="tab" aria-selected={libraryTab === 'elements'} className={libraryTab === 'elements' ? 'active' : ''} onClick={() => setLibraryTab('elements')}>Elements</button>
+            <button type="button" role="tab" aria-selected={libraryTab === 'presets'} className={libraryTab === 'presets' ? 'active' : ''} onClick={() => setLibraryTab('presets')}>Presets</button>
+            <button type="button" role="tab" aria-selected={libraryTab === 'layers'} className={libraryTab === 'layers' ? 'active' : ''} onClick={() => { setLibraryTab('layers'); setStructureOpen(true); }}>Layers</button>
+          </div>
+          {libraryTab === 'elements' && <div className="ui-library-panel">
+            {LIBRARY_GROUPS.map(group => <div key={group.label} className="ui-library-group">
+              <span className="ui-library-label">{group.label}</span>
+              {group.types.map(type => (
+                <div key={type} className="ui-library-block" draggable
+                  onClick={() => addToRoot(type)}
+                  onDragStart={event => {
+                    event.dataTransfer.setData('application/x-physioflow-ui', JSON.stringify({ action: 'add', type }));
+                    event.dataTransfer.effectAllowed = 'copy';
+                  }}
+                  title={TYPE_HINTS[type]}>
+                  <UiIcon name={type} />
+                  <span className="ui-library-name">{type}</span>
+                  <small>{TYPE_HINTS[type]}</small>
+                </div>
+              ))}
+            </div>)}
+            <small className="ui-library-tip">Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove</small>
+          </div>}
+          {libraryTab === 'presets' && <div className="ui-library-panel ui-library-presets">
+            {SCREEN_PRESETS.map(preset => <button key={preset.id} type="button" className="ui-preset-btn" title={preset.hint} onClick={() => {
+              if (!window.confirm('Replace this screen with “' + preset.label + '”? You can undo this.')) return;
+              const next = createScreenPreset(preset.id); commit(next); selectElement(next.root.id);
+            }}>{preset.label}</button>)}
+          </div>}
+          {libraryTab === 'layers' && <div className="ui-library-panel ui-library-layers"><StructureTree s={s} /></div>}
         </div>
         <div className="ui-canvas-wrap" ref={viewportRef} onPointerDown={handleViewportPointerDown} onContextMenu={event => { if (event.target === event.currentTarget || !event.target.closest('[data-ui-id]')) closeContextMenu(); }}>
           <div className="ui-canvas-pan" ref={panRef} style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})` }}>
@@ -168,23 +204,27 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
           </div>
           {(() => {
             const isContainer = selected.type === 'Screen' || selected.type === 'Layout';
-            const inFreeContainer = selectedParentElement && (selectedParentElement.type === 'Screen' || selectedParentElement.type === 'Layout') && selectedParentElement.props?.free;
-            const arrangeTarget = (isContainer && selected.props?.free) ? selected.id : inFreeContainer ? selectedParentElement.id : null;
-            if (!arrangeTarget) return null;
-            return <button type="button" className="ui-arrange-btn" onClick={() => arrangeContainer(arrangeTarget)} title="Re-lay this screen's elements as a tidy, aligned column on the 8px grid">Auto arrange</button>;
+            const activeContainer = isContainer ? selected : selectedParentElement;
+            const isFree = Boolean(activeContainer?.props?.free);
+            const arrangeTarget = (isContainer && selected.props?.free) ? selected.id : (selectedParentElement?.props?.free ? selectedParentElement.id : null);
+            return <div className="ui-inspector-bar">
+              <span className={`ui-mode-badge${isFree ? ' free' : ''}`} title={isFree ? 'Drag to position; arrow keys nudge 1px, Shift+arrows 10px' : 'Drag to reorder; select the container to change layout mode'}>{isFree ? 'Free canvas' : 'Auto layout'}</span>
+              {arrangeTarget && <button type="button" className="ui-arrange-btn" onClick={() => arrangeContainer(arrangeTarget)} title="Re-lay this screen's elements as an aligned 8px-grid column">Auto arrange</button>}
+              {selected.type !== 'Screen' && <button type="button" className="ui-lock-btn" aria-pressed={Boolean(selected.props?.locked)} onClick={() => updateProps({locked: !selected.props?.locked})} title={selected.props?.locked ? 'Unlock element' : 'Lock element'}>{selected.props?.locked ? '🔒' : '🔓'}</button>}
+            </div>;
           })()}
-          <div className="ui-mode-help"><b>{(selected.type === 'Screen' || selected.type === 'Layout' ? selected : selectedParentElement)?.props?.free ? 'Free canvas' : 'Auto layout'}</b><p>{(selected.type === 'Screen' || selected.type === 'Layout' ? selected : selectedParentElement)?.props?.free ? 'Drag to position. Arrow keys move by 1 px; Shift by 10 px.' : 'Drag to reorder. Select the container to change layout mode.'}</p></div>
-          {selected.type !== 'Screen' && <button type="button" aria-pressed={Boolean(selected.props?.locked)} onClick={() => updateProps({locked: !selected.props?.locked})}>{selected.props?.locked ? 'Unlock element' : 'Lock element'}</button>}
           <fieldset className="ui-editable-properties" disabled={s.isLocked(selected.id)}>
           {showPosition && <PositionFields key={selected.id} element={selected} onUpdate={updateProps} />}
           <section className="ui-content-fields"><b>{['Screen', 'Layout'].includes(selected.type) ? 'Layout' : 'Content'}</b><UiPropertyEditor element={selected} onUpdate={updateProps} onToggleFree={toggleFree} /></section>
-          {selected.type !== 'Screen' && <div className="ui-property-grid"><b>Appearance</b>
-            <label>Color<input type="color" value={/^#[\da-f]{6}$/i.test(appearance.color || '') ? appearance.color : '#17231d'} onChange={event => setStyle({...selected.style, color:event.target.value})} /></label>
-            <label>Text alignment<select value={appearance.textAlign || 'center'} onChange={event => setStyle({...selected.style, textAlign:event.target.value})}><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label>
-          </div>}
+          {selected.type !== 'Screen' && <details className="ui-advanced"><summary>Appearance</summary>
+            <div className="ui-property-grid">
+              <label>Color<input type="color" value={/^#[\da-f]{6}$/i.test(appearance.color || '') ? appearance.color : '#17231d'} onChange={event => setStyle({...selected.style, color:event.target.value})} /></label>
+              <label>Text alignment<select value={appearance.textAlign || 'center'} onChange={event => setStyle({...selected.style, textAlign:event.target.value})}><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label>
+            </div>
+          </details>}
           <StyleEditor element={selected} theme={theme} onSetStyle={setStyle} forceOpen={styleForceOpen} onToggle={open => { if (!open) s.setStyleForceOpen(false); }} />
           <details className="ui-advanced"><summary>Bindings and actions</summary>
-          {bindingTarget && <label className="ui-binding-field">Runtime binding for {bindingTarget}<input value={selected.bindings?.[bindingTarget] || ''} placeholder="e.g. variables.score" onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings: { ...element.bindings, [bindingTarget]: event.target.value } })))} /></label>}
+          {bindingTarget && <label className="ui-binding-field">Runtime binding: {bindingTarget}<input value={selected.bindings?.[bindingTarget] || ''} placeholder="e.g. variables.score" onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings: { ...element.bindings, [bindingTarget]: event.target.value } })))} /></label>}
           {selected.type === 'Button' && <div className="ui-property-grid">
             <label>Click action<select value={selected.actions?.[0]?.action || 'submit'} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...(element.actions?.[0] || { event: 'click' }), action: event.target.value }] })))}><option value="submit">submit</option><option value="next">next</option><option value="setVariable">setVariable</option></select></label>
             {selected.actions?.[0]?.action === 'setVariable' && <><label>Variable name<input value={selected.actions[0].name || ''} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...element.actions[0], name: event.target.value }] })))} /></label><label>Value<input value={selected.actions[0].value ?? ''} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...element.actions[0], value: event.target.value }] })))} /></label></>}
@@ -196,7 +236,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
       </div>}
 
     <ScreenChecks elements={elements} boundsIssues={boundsIssues} fixedSize={Boolean(normalized.root.props?.screenWidth)} preview={preview} onLocate={locateIssue} onPreview={() => setPreview(value => !value)} />
-    {elements.some(item => item.element.props?.free) && <p className="ui-layout-notice" role="note">{normalized.root.props?.screenWidth ? 'Fixed screen: positions use design pixels. Editor and preview scale proportionally; content outside the screen is clipped.' : 'Existing responsive screen: choose a screen size for fixed-resolution editing and presentation.'}</p>}
+    {elements.some(item => item.element.props?.free) && normalized.root.props?.screenWidth && <p className="ui-layout-notice" role="note">Fixed screen {deviceWidth}×{deviceHeight}: the editor and the run scale identically; content outside the screen is clipped. Change the size under ⚙ Settings.</p>}
 
     <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} elements · schema valid` : validation.errors[0]?.message}</small>
   </section>;

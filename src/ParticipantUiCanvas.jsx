@@ -246,7 +246,11 @@ export default function ParticipantUiCanvas({
     window.removeEventListener('mousemove', pointerMove);
     window.removeEventListener('mouseup', pointerUp);
     if (start?.moved) {
-      dragClickRef.current = { id: start.elementId, until: performance.now() + 300 };
+      // A completed drag is followed by a synthetic click. It lands on whichever
+      // element is under the release point — often a sibling or the container,
+      // since the dragged element moved away from where the press started. Swallow
+      // that one click wherever it lands, so a drag never collapses the selection.
+      dragClickRef.current = { until: performance.now() + 300 };
       if (start.multi) onMoveElementsRef.current(start.ids, Math.round(start.offsetX), Math.round(start.offsetY));
       else if (start.flow) onReorderFlowRef.current?.(start.containerId, start.elementId, start.beforeId);
       else onMoveRef.current(start.elementId, start.containerId, Math.round(start.x), Math.round(start.y));
@@ -409,7 +413,7 @@ export default function ParticipantUiCanvas({
       event.stopPropagation();
       const dragClick = dragClickRef.current;
       dragClickRef.current = null;
-      if (event.detail > 0 && dragClick?.id === element.id && performance.now() < dragClick.until) return;
+      if (event.detail > 0 && dragClick && performance.now() < dragClick.until) return;
       if (locked(element)) return;
       markSuppressFocusSelect(); onSelect(element.id, event.shiftKey);
     },
@@ -477,8 +481,9 @@ export default function ParticipantUiCanvas({
     if (livePos?.flow && livePos.elementId === element.id) {
       anchorStyle.transform = `translate(${livePos.dx}px, ${livePos.dy}px)`;
     }
-    // Resize handle only for free-positioned leaf elements.
-    const showResize = Boolean(positioned.position) && selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Layout' && element.type !== 'Screen' && editingId !== element.id;
+    // Resize handle only for free-positioned leaf elements sized in design pixels
+    // (a length such as "100%" is driven by the container, not the handle).
+    const showResize = Boolean(positioned.position) && selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Layout' && element.type !== 'Screen' && editingId !== element.id && Number.isFinite(w) && Number.isFinite(h);
     const resizeHandle = showResize ? <span className="ui-resize-handle" title="Drag to resize" onMouseDown={event => beginResize(event, element)} /> : null;
     const freeClass = props.free ? ' ui-free' : '';
     const freeBlock = props.free;

@@ -163,7 +163,16 @@ export function schemaForNode(node, definition, resources) {
       nodeId: node.id,
       fallbackUrl: node.config?.sourceUrl || '',
     });
-    if (media) media.props = { ...media.props, mediaType: node.config?.mediaType || 'image', sourceUrl, assetId: node.config?.assetId || null };
+    if (media) {
+      media.props = { ...media.props, mediaType: node.config?.mediaType || 'image', sourceUrl, assetId: node.config?.assetId || null };
+      // Display presets resolve here — the one place where node config becomes element
+      // properties — so the editor canvas, the preview and the live experiment all read
+      // the same layout. "fill"/"fit" are plain x/y/size lengths, not a media-only flag.
+      const preset = node.config?.display?.preset;
+      if (preset === 'fill' || preset === 'fit') {
+        media.props = { ...media.props, x: 0, y: 0, width: '100%', height: '100%', fit: preset === 'fill' ? 'cover' : 'contain' };
+      }
+    }
     // media-ended must not let the participant advance before playback finishes.
     if (node.config?.completion?.mode === 'media-ended') {
       schema.root.children = schema.root.children.filter(child => child.type !== 'Button');

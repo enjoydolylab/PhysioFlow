@@ -1,4 +1,5 @@
 import ResponseOptionsEditor from './ResponseOptionsEditor.jsx';
+import StimulusPoolEditor from './StimulusPoolEditor.jsx';
 import TrialGenerator from './TrialGenerator.jsx';
 import { useRef, useState } from 'react';
 import {
@@ -35,9 +36,10 @@ export function CodeView({ text, error, locked, dirty, onChange, onApply, onForm
   </div>;
 }
 
-export function NodeInspector({ node, definition, variables, groups, mode, onUpdate, onAssignGroup, onCreateGroup, onEditParticipantUi, questionnaireLibrary, onLibraryChange, assets, resources, stimulusPools = [], dataOutputOptions }) {
+export function NodeInspector({ node, definition, variables, groups, mode, onUpdate, onAssignGroup, onCreateGroup, onEditParticipantUi, questionnaireLibrary, onLibraryChange, assets, resources, stimulusPools = [], dataOutputOptions, onCreateStimulusPool }) {
   const { language } = useLanguage();
   const t = key => translate(key, language);
+  const [poolEditorOpen, setPoolEditorOpen] = useState(false);
   const currentGroup = groups.find(group => group.nodeIds.includes(node.id));
   const boundValueType = () => {
     if (node.component.type !== 'logic.condition') return null;
@@ -63,6 +65,9 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
   }[node.component.type] || null;
   const contentKeys = contentSpec ? new Set(contentSpec.fields.map(field => field.key)) : null;
   const usesStimulusPool = node.component.type === 'display.media' && Boolean(node.config?.stimulusPoolId);
+  const mediaPreset = node.config?.display?.preset || 'auto';
+  const setMediaDisplay = preset => onUpdate({ config: { ...node.config, display: { ...(node.config.display || {}), preset } } });
+  const poolMediaType = node.config?.mediaType || 'image';
   const visibleContentFields = usesStimulusPool
     ? contentSpec?.fields.filter(field => !['mediaType', 'sourceUrl', 'assetId'].includes(field.key))
     : contentSpec?.fields;
@@ -146,9 +151,27 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
     {node.component.type === 'logic.loop' && <div className="node-empty-hint"><b>{node.bindings?.until ? 'Conditional repetition' : 'Fixed repetition'}</b><p>{node.bindings?.until ? 'The condition can end repetition early. Maximum iterations is the upper limit.' : `The body runs ${node.config.maxIterations || 1} time(s) in total, including the first pass, then follows Exit.`}</p><small>Body starts the repeated sequence. Its last step returns to this Loop. Exit continues after repetition.</small></div>}
     {node.config?.ui && !['core.start', 'core.end', 'input.questionnaire', 'timing.wait'].includes(node.component.type) && <><div className="node-inline-preview"><ParticipantRenderer key={node.id} schema={schemaForNode(node, definition, resources || localResourceManifest(assets || []))} preview /></div><button type="button" className="edit-participant-ui" onClick={onEditParticipantUi}>Edit participant screen</button></>}
     {contentSpec && visibleContentFields.length > 0 && <div className="content-fields"><b>Content</b>{visibleContentFields.map(field => <ContentField key={field.key} field={field} value={node.config?.[field.key]} assets={assets} onChange={value => updateContentField(field.key, value)} invalid={field.key === 'sourceUrl' && Boolean(node.config?.sourceUrl) && !isValidMediaUrl(node.config.sourceUrl)} hint={field.key === 'sourceUrl' && Boolean(node.config?.sourceUrl) && !isValidMediaUrl(node.config.sourceUrl) ? 'Invalid URL — fix it or pick an asset instead.' : undefined} />)}</div>}
+    {node.component.type === 'display.media' && <div className="content-fields">
+      <b>Display</b>
+      <div className="display-presets" role="group" aria-label="Media display">
+        {[['auto', 'Element size'], ['fit', 'Fit screen'], ['fill', 'Fill screen']].map(([value, label]) => <button key={value} type="button" className={mediaPreset === value ? 'active' : ''} onClick={() => setMediaDisplay(value)}>{label}</button>)}
+      </div>
+      <small className="field-help">Fill / fit scale the stimulus to cover the whole screen; element size keeps the width and height set in the participant screen.</small>
+    </div>}
     {node.component.type === 'display.media' && <div className="content-fields stimulus-pool-fields">
       <b>Stimulus randomization</b>
-      <label>Stimulus pool<select value={node.config?.stimulusPoolId || ''} onChange={event => { const pool = stimulusPools.find(item => item.id === event.target.value); onUpdate({ config: { ...node.config, stimulusPoolId: pool?.id || null, ...(pool?.mediaType ? { mediaType: pool.mediaType } : {}) } }); }}><option value="">— fixed stimulus —</option>{stimulusPools.map(pool => <option key={pool.id} value={pool.id}>{pool.name} ({pool.assetIds?.length || 0})</option>)}</select><small className="field-help">Create a pool in the left panel, then choose it here. Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.</small></label>
+      <label>Stimulus pool<select value={node.config?.stimulusPoolId || ''} onChange={event => { const pool = stimulusPools.find(item => item.id === event.target.value); onUpdate({ config: { ...node.config, stimulusPoolId: pool?.id || null, ...(pool?.mediaType ? { mediaType: pool.mediaType } : {}) } }); }}><option value="">— fixed stimulus —</option>{stimulusPools.map(pool => <option key={pool.id} value={pool.id}>{pool.name} ({pool.assetIds?.length || 0})</option>)}</select><small className="field-help">Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.</small></label>
+      {onCreateStimulusPool && <>
+        <button type="button" className="pool-open-editor" onClick={() => setPoolEditorOpen(true)}>＋ New pool from media library…</button>
+        {poolEditorOpen && <StimulusPoolEditor
+          pool={{ name: node.label, mediaType: poolMediaType, assetIds: [] }}
+          assets={assets}
+          onClose={() => setPoolEditorOpen(false)}
+          onSave={({ name, assetIds }) => {
+            onCreateStimulusPool({ nodeId: node.id, name, mediaType: poolMediaType, assetIds });
+            setPoolEditorOpen(false);
+          }} />}
+      </>}
     </div>}
     {fieldGroups.map(([group, fields], groupIndex) => <details key={group} className="field-group" open={group === 'General' || groupIndex === 0 || fieldGroups.length === 1}><summary>{group}</summary>{fields.map(renderField)}</details>)}
     {node.component.type === 'logic.condition' && <label>Input variable<select aria-label="Condition input variable" value={bindingValue(node.bindings?.value)} onChange={event => { const binding = parseBindingValue(event.target.value); onUpdate({ bindings: binding ? { ...node.bindings, value: binding } : Object.fromEntries(Object.entries(node.bindings || {}).filter(([key]) => key !== 'value')) }); }}>

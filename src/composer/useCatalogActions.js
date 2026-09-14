@@ -2,6 +2,7 @@ import {
   addVariable,
   assignNodeToGroup,
   createNodeGroup,
+  createStimulusPool as buildStimulusPool,
   createSubflowTemplate,
   instantiateSubflowTemplate,
   removeNodeGroup,
@@ -42,6 +43,14 @@ export function useCatalogActions({ protocol, commit, setMessage, setSelectedNod
     createGroupFromSelection: () => { try { const result = createNodeGroup(protocol, [selectedNode.id], { name: `${selectedNode.label} group` }); commit(result.protocol); setMessage(`Created group ${result.group.name}`); } catch (error) { setMessage(error.message); } },
     updateAssets: assets => commit({ ...protocol, assets }),
     updateStimulusPools: stimulusPools => commit({ ...protocol, stimulusPools }),
+    // Pool creation lives in core as a pure function so the catalog and the media-node
+    // shortcut share one rule set. Creating and binding in a single protocol revision
+    // also avoids two commits racing on the same snapshot.
+    createStimulusPool: ({ nodeId, name, mediaType, assetIds }) => {
+      const result = buildStimulusPool(protocol, { name, mediaType, assetIds, bindNodeId: nodeId });
+      commit(result.protocol);
+      return result.poolId;
+    },
     updateLibrary: library => commit({ ...protocol, questionnaireLibrary: library }),
   };
 }

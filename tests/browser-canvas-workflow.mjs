@@ -69,6 +69,9 @@ export async function verifyCanvasWorkflow(evaluate, waitFor, capture, send) {
     window.dispatchEvent(new MouseEvent('mouseup'));
   })()`);
   assert.equal(await evaluate(`JSON.stringify(workflowSchema)`), cancelBefore, 'Escape cancels the drag without committing');
+  // The layer tree now lives behind the palette's "Layers" tab.
+  await evaluate(`(() => { const tab = [...document.querySelectorAll('#authoring-regression .ui-library-tabs button')].find(button => button.textContent === 'Layers'); tab?.click(); })()`);
+  await waitFor(`!!document.querySelector('#authoring-regression .ui-tree')`, 'layers panel open');
   await evaluate(`document.querySelector('#authoring-regression .ui-tree [data-ui-id="A"] button[aria-label="Lock Text"]').click()`);
   await waitFor(`workflowSchema.root.children[0].props.locked === true`, 'lock saved');
   const locked = await evaluate(`JSON.stringify(workflowSchema)`);
@@ -85,14 +88,16 @@ export async function verifyCanvasWorkflow(evaluate, waitFor, capture, send) {
   assert.equal(await evaluate(`workflowSchema.root.children[0].props.width`), widthBefore, 'invalid negative size is rejected');
   await evaluate(`workflowDrag('A',2000,0)`);
   await waitFor(`document.querySelector('#authoring-regression .ui-screen-checks').textContent.includes('Outside screen: A')`, 'overflow is reported');
-  await evaluate(`document.querySelector('#authoring-regression button[aria-label="定位越界元素 A"]').click()`);
+  await evaluate(`document.querySelector('#authoring-regression button[aria-label="Locate out-of-bounds element A"]').click()`);
   await waitFor(`document.activeElement?.getAttribute('aria-label') === 'Element X'`, 'overflow check focuses position');
   await evaluate(`(() => {const input=document.activeElement;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,'0');input.dispatchEvent(new Event('input',{bubbles:true}));})()`);
   assert.notEqual(await evaluate(`workflowSchema.root.children[0].props.x`), 0, 'typing does not commit intermediate positions');
   await evaluate(`document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true}))`);
   await waitFor(`workflowSchema.root.children[0].props.x === 0`, 'Enter commits the position');
   await waitFor(`!document.querySelector('#authoring-regression .ui-screen-checks').textContent.includes('Outside screen: A')`, 'correcting position clears the issue');
-  await evaluate(`(() => { const old=window.confirm;window.confirm=()=>true;[...document.querySelectorAll('#authoring-regression .ui-preset-menu button')].find(button=>button.textContent==='Left / right stimuli').click();window.confirm=old; })()`);
+  await evaluate(`(() => { const tab=[...document.querySelectorAll('#authoring-regression .ui-library-tabs button')].find(button=>button.textContent==='Presets');tab?.click(); })()`);
+  await waitFor(`!!document.querySelector('#authoring-regression .ui-library-presets')`, 'presets panel open');
+  await evaluate(`(() => { const old=window.confirm;window.confirm=()=>true;[...document.querySelectorAll('#authoring-regression .ui-library-presets button')].find(button=>button.textContent==='Left / right stimuli').click();window.confirm=old; })()`);
   await waitFor(`workflowSchema.root.children.filter(child=>child.type==='Media').length===2`, 'comparison preset');
   assert.equal(await evaluate(`workflowSchema.root.props.screenWidth`), 1280);
   assert.ok(await evaluate(`document.querySelector('#authoring-regression .ui-screen-checks summary').textContent.includes('2 missing media')`));
@@ -104,7 +109,7 @@ export async function verifyCanvasWorkflow(evaluate, waitFor, capture, send) {
   assert.ok(Math.abs(editorBounds[0][3]-360)<1, 'media wrapper preserves preset height');
   const editorMediaHeight = await evaluate(`(() => {const screen=document.querySelector('#authoring-regression .ui-canvas-root .participant-ui-screen');return screen.querySelector('.participant-ui-media').getBoundingClientRect().height/(screen.getBoundingClientRect().width/1280);})()`);
   assert.ok(Math.abs(editorMediaHeight-360)<1, 'media content fills the edited area');
-  await evaluate(`[...document.querySelectorAll('#authoring-regression .ui-builder-toolbar button')].find(button=>button.textContent==='Preview').click()`);
+  await evaluate(`document.querySelector('#authoring-regression .ui-builder-toolbar .ui-preview-btn').click()`);
   await waitFor(`!!document.querySelector('#authoring-regression .ui-screen-surface')`, 'shared runtime preview');
   assert.deepEqual(await evaluate(`(()=>{const el=document.querySelector('#authoring-regression .ui-screen-surface');return [el.offsetWidth,el.offsetHeight];})()`), [1280,720]);
   const ratio = await evaluate(`(()=>{const r=document.querySelector('#authoring-regression .ui-screen-surface').getBoundingClientRect();return r.width/r.height;})()`);
@@ -115,7 +120,7 @@ export async function verifyCanvasWorkflow(evaluate, waitFor, capture, send) {
     return [...screen.children].map(child=>{const b=child.getBoundingClientRect();return [(b.x-r.x)/scale,(b.y-r.y)/scale,b.width/scale,b.height/scale];});
   })()`);
   for (let i=0;i<editorBounds.length;i++) for(let j=0;j<4;j++) assert.ok(Math.abs(editorBounds[i][j]-previewBounds[i][j])<1, 'editor and runtime preview geometry agree');
-  await evaluate(`document.querySelector('#authoring-regression .ui-screen-checks button[aria-label^="配置媒体"]').click()`);
+  await evaluate(`document.querySelector('#authoring-regression .ui-screen-checks button[aria-label^="Configure media"]').click()`);
   await waitFor(`document.activeElement?.getAttribute('aria-label') === 'Media source URL'`, 'media check returns from preview and focuses source');
   assert.ok(await evaluate(`!!document.querySelector('#authoring-regression .ui-canvas-device')`), 'locating an issue restores editing');
   await evaluate(`(() => {const input=document.activeElement;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360"><rect width="480" height="360" fill="green"/></svg>'));input.dispatchEvent(new Event('input',{bubbles:true}));})()`);

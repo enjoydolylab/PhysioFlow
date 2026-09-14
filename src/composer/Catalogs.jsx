@@ -6,6 +6,7 @@ import { HostedExecutionClient, LocalHostedExecutionService, validateParticipant
 import { calibrationReport } from '../visualAngle.js';
 import { translate, useLanguage } from '../i18n.jsx';
 import { endpointValue, groupDataPorts, parseEndpoint } from './NodeInspector.jsx';
+import StimulusPoolEditor from './StimulusPoolEditor.jsx';
 import { downloadJson } from './toolbox.js';
 import { saveAsset } from '../assetStore.js';
 
@@ -452,6 +453,8 @@ export function AssetLibrary({ assets, stimulusPools = [], locked, onUpdate }) {
 
 export function StimulusPoolCatalog({ pools = [], assets = [], nodes = [], locked, onUpdate }) {
   const [draft, setDraft] = useState({ name: '', mediaType: 'image' });
+  const [editingId, setEditingId] = useState(null);
+  const editingPool = pools.find(pool => pool.id === editingId) || null;
   const create = () => {
     if (!draft.name.trim()) return;
     onUpdate([...pools, { id: createId('stimulus_pool'), name: draft.name.trim(), mediaType: draft.mediaType, assetIds: [] }]);
@@ -464,9 +467,13 @@ export function StimulusPoolCatalog({ pools = [], assets = [], nodes = [], locke
     <p>Create a pool once, then select it from a Media node. Each cycle draws without replacement; when exhausted, the pool repeats its seeded order. Use a flow loop to repeat presentation.</p>
     {pools.map(pool => <article key={pool.id}>
       <div className="stimulus-pool-head"><input disabled={locked} aria-label="Stimulus pool name" value={pool.name || ''} onChange={event => update(pool.id, { name: event.target.value })} /><select disabled={locked || used(pool.id)} aria-label={`${pool.name} media type`} value={pool.mediaType || 'image'} onChange={event => update(pool.id, { mediaType: event.target.value, assetIds: [] })}><option>image</option><option>audio</option><option>video</option></select><button className="danger" disabled={locked || used(pool.id)} title={used(pool.id) ? 'This pool is assigned to a Media node' : 'Delete pool'} onClick={() => onUpdate(pools.filter(item => item.id !== pool.id))}>×</button></div>
-      <div className="stimulus-pool-assets">{assets.filter(asset => (asset.mediaType || asset.type || 'image') === (pool.mediaType || 'image')).map(asset => { const assetId = asset.id || asset.assetId; return <label key={assetId}><input type="checkbox" disabled={locked} checked={Boolean(pool.assetIds?.includes(assetId))} onChange={event => update(pool.id, { assetIds: event.target.checked ? [...(pool.assetIds || []), assetId] : (pool.assetIds || []).filter(id => id !== assetId) })} />{asset.name || assetId}</label>; })}</div>
-      {!assets.some(asset => (asset.mediaType || asset.type || 'image') === (pool.mediaType || 'image')) && <small>Add {pool.mediaType || 'image'} assets to the Media library first.</small>}
+      <div className="stimulus-pool-summary">
+        <span><b>{pool.assetIds?.length || 0}</b> assets</span>
+        <button type="button" disabled={locked} onClick={() => setEditingId(pool.id)}>Edit assets</button>
+      </div>
+      {!(pool.assetIds || []).length && <small>No assets yet — use “Edit assets” to pick from the media library.</small>}
     </article>)}
     {!locked && <div className="stimulus-pool-create"><input placeholder="Pool name" value={draft.name} onChange={event => setDraft({ ...draft, name: event.target.value })} /><select value={draft.mediaType} onChange={event => setDraft({ ...draft, mediaType: event.target.value })}><option>image</option><option>audio</option><option>video</option></select><button disabled={!draft.name.trim()} onClick={create}>Create pool</button></div>}
+    {editingPool && <StimulusPoolEditor pool={editingPool} assets={assets} locked={locked} onClose={() => setEditingId(null)} onSave={({ name, assetIds }) => { update(editingPool.id, { name, assetIds }); setEditingId(null); }} />}
   </section>;
 }
