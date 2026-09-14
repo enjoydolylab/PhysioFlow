@@ -19,6 +19,7 @@
 
 ## 业务与日常操作
 
+- [组会进展报告：9/4 会后至 9/14](PROGRESS_REPORT_2026-09-14.md)
 - [画布编辑：布局、选中、拖动与属性面板](refactor/CANVAS_EDITING.md)
 - [实验自定义改进与使用路径](refactor/CUSTOMIZATION_USABILITY.md)
 - [多语言审查工作流](refactor/I18N_REVIEW_WORKFLOW.md)
