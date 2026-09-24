@@ -1,0 +1,12 @@
+{
+  "samples": 24888,
+  "connectionRuns": [
+    "1eee9e06-0393-4e77-99e2-75643e1f43d3",
+    "fec6a306-ca2f-4263-a277-a3828db6de8c"
+  ],
+  "failures": [
+    "device_read_failed"
+  ],
+  "lastDeviceEvent": "device_disconnected",
+  "previewPolicy": null
+}

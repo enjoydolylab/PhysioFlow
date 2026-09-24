@@ -1,0 +1,20 @@
+- main:
+  - toolbar:
+    - generic: QA nested 2 x 3 - locked responses
+    - generic: response · input.response
+    - status: Paused · Checkpoint saved
+    - generic: 1 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Resume" [active]
+    - button "Retry" [disabled]
+    - button "Skip" [disabled]
+  - region "Participant view":
+    - generic: Paused
+    - generic: Response
+    - generic: Press y, then n. First response must stay yes.
+    - button "y Yes" [disabled]:
+      - generic: "y"
+      - text: "Yes"
+    - button "n No" [disabled]:
+      - generic: "n"
+      - text: "No"

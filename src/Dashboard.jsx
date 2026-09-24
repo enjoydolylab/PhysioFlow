@@ -1,6 +1,8 @@
+import { formatDateTime } from './analysis/charts.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LanguageToggle, DarkModeToggle } from './i18n';
 import BioDBSettings from './BioDBSettings.jsx';
+import PhysioDBUpload from './PhysioDBUpload.jsx';
 import DataPanel from './DataPanel.jsx';
 import { loadSettings, saveSettings } from './fsStorage.js';
 import { createNextProtocolVersion, duplicateProtocolAsProject, hashProtocol, protocolDiff, validateProtocol } from './domain';
@@ -23,6 +25,7 @@ import {
   validateProtocolGraphConfiguration,
 } from './core/index.js';
 import { createProjectComponentRegistry } from './sdk/index.js';
+import { protocolGraphDiff } from './core/protocolGraphDiff.js';
 
 const groupProjects = protocols => Object.values(protocols
   .filter(item => protocolStatusOf(item) !== 'retired' && !protocolArchivedAtOf(item))
@@ -52,7 +55,7 @@ function formatDuration(ms) {
   return m > 0 ? `~${m}m ${s}s` : `~${s}s`;
 }
 
-export default function Dashboard({ protocols, sessions, onOpen, onNew, onTemplate, onImport, onRun, onNextVersion, onDuplicate, onArchive, onRenameProject, onMigrate, onAnalytics, storageInfo, onChooseDataDirectory, onOpenDataFolder, onGuide, onStroopTemplate, onGonogoTemplate }) {
+export default function Dashboard({ protocols, sessions, onOpen, onNew, onTemplate, onImport, onRun, onNextVersion, onDuplicate, onArchive, onRemoveVersion, onRestoreVersion, onRenameProject, onMigrate, onAnalytics, storageInfo, onChooseDataDirectory, onOpenDataFolder, onGuide, onStroopTemplate, onGonogoTemplate }) {
   const input = useRef(null);
   const [page, setPage] = useState('projects');
   const [projectSearch, setProjectSearch] = useState('');
@@ -122,13 +125,14 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
       let imported = structuredClone(candidate);
       if (related.length) {
         const comparison = graphCandidate
-          ? { identical: JSON.stringify(related[0].graph) === JSON.stringify(candidate.graph), changes: ['Protocol Graph configuration differs'] }
+          ? protocolGraphDiff(related[0], candidate)
           : protocolDiff(related[0], candidate);
         const asVersion = await new Promise(resolve => {
-          setConfirm({ title: 'Existing project', message: `A project with this project_id already exists.\n\nDifferences from latest version:\n${comparison.identical ? 'No content differences' : comparison.changes.join('\n') || 'Detailed configuration changed'}\n\nOK: import as the next version\nCancel: import as a new project`, confirmLabel: 'Import as version', danger: false, onConfirm: () => { setConfirm(null); resolve(true); }, onCancel: () => { setConfirm(null); resolve(false); } });
+          setConfirm({ title: 'Existing project', message: `A project with this project_id already exists.\n\nDifferences from latest version:\n${comparison.identical ? 'No content differences' : comparison.changes.join('\n') || 'Detailed configuration changed'}\n\nChoose how to import, or cancel without making changes.`, confirmLabel: 'Import as version', secondaryLabel: 'Import as new project', danger: false, onConfirm: () => { setConfirm(null); resolve(true); }, onSecondary: () => { setConfirm(null); resolve(false); }, onCancel: () => { setConfirm(null); resolve(null); } });
         });
+        if (asVersion === null) return;
         if (asVersion) {
-          imported = graphCandidate ? createNextGraphProtocolVersion(candidate) : createNextProtocolVersion(candidate);
+          imported = graphCandidate ? createNextGraphProtocolVersion(candidate, { existingProtocols: protocols }) : createNextProtocolVersion(candidate, { existingProtocols: protocols });
           if (graphCandidate) imported.projectId = projectIdOf(related[0]);
           else imported.project_id = projectIdOf(related[0]);
         } else imported = graphCandidate ? duplicateGraphProtocolAsProject(candidate) : duplicateProtocolAsProject(candidate);
@@ -166,12 +170,20 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
         <input className="project-search" aria-label="Search projects" placeholder="Search projects…" value={projectSearch} onChange={event => setProjectSearch(event.target.value)} />
       </div>
       <div className="protocol-grid">
-        {projects.filter(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())).map(versions => <ProjectCard key={projectIdOf(versions[0])} versions={versions} sessions={sessions} storageInfo={storageInfo} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRenameProject={onRenameProject} onMigrate={onMigrate} />)}
+        {projects.filter(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())).map(versions => <ProjectCard key={projectIdOf(versions[0])} versions={versions} sessions={sessions} storageInfo={storageInfo} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRemoveVersion={onRemoveVersion} onRenameProject={onRenameProject} onMigrate={onMigrate} />)}
         {projects.length > 0 && !projects.some(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())) && <p className="empty">No projects match your search.</p>}{!projects.length && <div className="empty">
           <div className="empty-project-mark" aria-hidden="true">↗</div><h3 className="empty-title">Your first study starts here</h3><p>Use “New protocol” above to create your first experiment.</p>
         </div>}
       </div>
     </section>
+    <details className="project-version-history">
+      <summary>Removed / archived versions ({protocols.filter(protocolArchivedAtOf).length})</summary>
+      <p>Removed versions remain recoverable. Session data is retained.</p>
+      {protocols.filter(protocolArchivedAtOf).map(version => <div className="card-actions" key={protocolIdOf(version)}>
+        <span>{protocolNameOf(version)} · v{protocolVersionOf(version)} · {protocolStatusOf(version)}</span>
+        <button onClick={() => onRestoreVersion(version)}>Restore {protocolNameOf(version)} v{protocolVersionOf(version)}</button>
+      </div>)}
+    </details>
 
     </>}
     {page === 'sessions' && <section className="workspace-sessions">
@@ -193,8 +205,9 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
             <span>{item.protocol_name}</span>
             <span>{item.run_mode || 'formal'} · v{item.protocol_version}</span>
             <span>{item.event_count || 0} events</span>
-            <time>{item.ended_at?.replace('T', ' ').slice(0, 19) || 'in progress'}</time>
+            <time dateTime={item.ended_at || undefined} title={item.ended_at || undefined}>{item.ended_at ? formatDateTime(item.ended_at) : 'in progress'}</time>
             {item.integrity?.validity_status && <span className={`badge integrity-${item.integrity.validity_status}`}>{item.integrity.validity_status}</span>}
+            {onAnalytics && <button className="hint" aria-label={`Review ${item.participant_id}`} onClick={() => onAnalytics(item.session_id)}>Review ↗</button>}
           </div>
         )) : sessionFilter ? <p className="empty">No sessions match "{sessionFilter}"</p> : <p className="empty">Completed and aborted sessions will appear here.</p>}
       </div>
@@ -212,7 +225,7 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
       </div>
     </section>
 
-<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><button onClick={() => setBioDBOpen(true)}><span>03 / CONNECTION</span><b>BioDB settings ↗</b><p>Manage the database connection when you need it.</p></button></div></section>}
+<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><button onClick={() => setBioDBOpen(true)}><span>03 / CONNECTION</span><b>BioDB settings ↗</b><p>Manage the database connection when you need it.</p></button></div><PhysioDBUpload /></section>}
     <footer className="workspace-footer"><span>PhysioFlow · Experiment workspace</span><button onClick={() => setPage('tools')}>{storageInfo?.selected ? storageInfo.name || 'Local folder connected' : 'Storage settings'} ↗</button></footer>
     </div>
     {confirmState && <ConfirmDialog {...confirmState} />}
@@ -220,7 +233,7 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
   </main>;
 }
 
-function ProjectCard({ versions, sessions, storageInfo, onOpen, onRun, onNextVersion, onDuplicate, onArchive, onRenameProject, onMigrate }) {
+function ProjectCard({ versions, sessions, storageInfo, onOpen, onRun, onNextVersion, onDuplicate, onArchive, onRemoveVersion, onRenameProject, onMigrate }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const latest = versions[0], draft = versions.find(item => protocolStatusOf(item) === 'draft');
   const activeProtocol = draft || latest;
@@ -266,5 +279,13 @@ function ProjectCard({ versions, sessions, storageInfo, onOpen, onRun, onNextVer
         : <button className="primary" onClick={() => (status === 'frozen' ? onRun(latest) : onOpen(latest))}>{status === 'frozen' ? 'Run latest' : 'Open'}</button>}
       {!draft && <button onClick={() => onNextVersion(latest)}>New version</button>}
     </div>
+    <details className="project-version-history">
+      <summary>Version history ({versions.length})</summary>
+      {versions.map(version => <div className="card-actions" key={`${protocolIdOf(version)}:${protocolVersionOf(version)}`}>
+        <span>v{protocolVersionOf(version)} · {protocolStatusOf(version)}</span>
+        <button onClick={() => onOpen(version)}>Open v{protocolVersionOf(version)}</button>
+        {onRemoveVersion && <button onClick={() => onRemoveVersion(version)}>Remove v{protocolVersionOf(version)}</button>}
+      </div>)}
+    </details>
   </article>;
 }

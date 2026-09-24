@@ -1,0 +1,368 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "qa-batch-media",
+  "projectId": "qa-batch-media",
+  "metadata": {
+    "name": "QA group media batch",
+    "description": "40動画を参加者セッションごとに8感情×5本、前後半20本ずつカテゴリ差1本となるようランダム配置。SAMは支給画像を用いた1–9の画像選択式。動画ファイルはローカルから登録してください。機器同期未実装。",
+    "tags": [
+      "imgNoBio",
+      "draft",
+      "emotion",
+      "video",
+      "migration"
+    ],
+    "migrationSpecification": {
+      "originalProgram": "imgNoBio_long_manual_participant_id",
+      "targetVersion": "PhysioFlow 0.6.0-beta.2",
+      "status": "DRAFT_REQUIRES_ENGINEERING",
+      "scheduleSeed": null,
+      "scheduleMode": "session-specific balanced-halves via PhysioFlow stimulus pool; seed = session runtime.randomSeed",
+      "randomization": "PhysioFlow session seeded categorical half balancing; reproducible by session randomSeed",
+      "videoCompletion": "media-ended; original video duration_sec is blank",
+      "sourcePathsArePlaceholders": false,
+      "sourceMediaRoot": "local Media library placeholders; upload 40 videos",
+      "markerTransportImplemented": false,
+      "markerTarget": {
+        "kind": "OpenBCI GUI UDP",
+        "host": "127.0.0.1",
+        "port": 12350
+      },
+      "myBeatCsvExportImplemented": false,
+      "participantIdRegistryImplemented": false,
+      "videoMutedImplemented": false,
+      "exactSAMImagesImplemented": true,
+      "middleRestAlarmImplemented": false,
+      "exactQuestionnaireMatrixImplemented": false,
+      "trialSchedule": null,
+      "sourceQuestionDefinitions": "main.py QUESTIONNAIRE_DEFINITIONS",
+      "note": "Marker numbers only as metadata; no UDP signal is emitted. A participant ID is set up in the session UI, not generated here.",
+      "scheduleSha256": null,
+      "videoAssetsNeedUploading": true
+    }
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-21T00:00:00.000Z",
+    "updatedAt": "2026-09-22T10:41:52.563Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_0001",
+    "nodes": [
+      {
+        "id": "node_0001",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 100
+        },
+        "metadata": {}
+      },
+      {
+        "id": "m1",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "Media 1",
+        "config": {
+          "mediaType": "video",
+          "assetId": null,
+          "stimulusPoolId": null,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_ae5445e8-95cd-4bd6-a233-e17c160f6204",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 1920,
+                "align": "center",
+                "background": "#112233",
+                "color": "#ffffff",
+                "padding": 0
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_81943806-d492-44bd-9fec-e385070e8778",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "sourceUrl": "https://example.test/media1.mp4",
+                    "alt": "Experiment stimulus",
+                    "fit": "contain",
+                    "autoPlay": true,
+                    "controls": false,
+                    "assetId": null,
+                    "presentationMode": "fullscreen-contain"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 1000
+          },
+          "sourceUrl": "https://example.test/media1.mp4"
+        },
+        "bindings": {},
+        "layout": {
+          "x": 520,
+          "y": 100
+        },
+        "metadata": {
+          "trialIndex": 1,
+          "half": 1,
+          "markerStart": 11,
+          "markerEnd": 12,
+          "randomization": "balanced-halves/session"
+        }
+      },
+      {
+        "id": "m2",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "Media 2",
+        "config": {
+          "mediaType": "video",
+          "assetId": null,
+          "stimulusPoolId": null,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_ae5445e8-95cd-4bd6-a233-e17c160f6204",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 1920,
+                "align": "center",
+                "background": "#445566",
+                "color": "#ffffff",
+                "padding": 0
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_81943806-d492-44bd-9fec-e385070e8778",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "sourceUrl": "https://example.test/media2.mp4",
+                    "alt": "Experiment stimulus",
+                    "fit": "contain",
+                    "autoPlay": true,
+                    "controls": false,
+                    "assetId": null,
+                    "presentationMode": "fullscreen-contain"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 2000
+          },
+          "sourceUrl": "https://example.test/media2.mp4"
+        },
+        "bindings": {},
+        "layout": {
+          "x": 740,
+          "y": 100
+        },
+        "metadata": {
+          "trialIndex": 1,
+          "half": 1,
+          "markerStart": 11,
+          "markerEnd": 12,
+          "randomization": "balanced-halves/session"
+        }
+      },
+      {
+        "id": "m3",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "Media 3",
+        "config": {
+          "mediaType": "video",
+          "assetId": null,
+          "stimulusPoolId": null,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_ae5445e8-95cd-4bd6-a233-e17c160f6204",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 1920,
+                "align": "center",
+                "background": "#778899",
+                "color": "#ffffff",
+                "padding": 0
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_81943806-d492-44bd-9fec-e385070e8778",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "sourceUrl": "https://example.test/media3.mp4",
+                    "alt": "Experiment stimulus",
+                    "fit": "contain",
+                    "autoPlay": true,
+                    "controls": false,
+                    "assetId": null,
+                    "presentationMode": "fullscreen-contain"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 3000
+          },
+          "sourceUrl": "https://example.test/media3.mp4"
+        },
+        "bindings": {},
+        "layout": {
+          "x": 960,
+          "y": 100
+        },
+        "metadata": {
+          "trialIndex": 1,
+          "half": 1,
+          "markerStart": 11,
+          "markerEnd": 12,
+          "randomization": "balanced-halves/session"
+        }
+      },
+      {
+        "id": "node_0002",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 46060,
+          "y": 100
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_0001",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "m1",
+          "portId": "in"
+        }
+      },
+      {
+        "id": "e1",
+        "kind": "control",
+        "source": {
+          "nodeId": "m1",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "m2",
+          "portId": "in"
+        }
+      },
+      {
+        "id": "e2",
+        "kind": "control",
+        "source": {
+          "nodeId": "m2",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "m3",
+          "portId": "in"
+        }
+      },
+      {
+        "id": "e3",
+        "kind": "control",
+        "source": {
+          "nodeId": "m3",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_0002",
+          "portId": "in"
+        }
+      }
+    ],
+    "groups": [
+      {
+        "id": "g",
+        "name": "Media batch",
+        "kind": "container",
+        "nodeIds": [
+          "m1",
+          "m2"
+        ],
+        "entryNodeId": null,
+        "exitNodeIds": [],
+        "parameters": [],
+        "metadata": {}
+      }
+    ]
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

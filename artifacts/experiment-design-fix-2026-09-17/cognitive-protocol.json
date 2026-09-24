@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_854e6c65-6539-455a-ba4b-cdc50c5e1902",
+  "projectId": "project_2a20314f-41a5-4279-ac9e-5960fde753a6",
+  "metadata": {
+    "name": "QA calibration and cognitive tasks",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-17T11:08:55.139Z",
+    "updatedAt": "2026-09-17T11:08:55.142Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_9b69aa07-2053-42e4-bd6a-ea9228d76748",
+    "nodes": [
+      {
+        "id": "node_9b69aa07-2053-42e4-bd6a-ea9228d76748",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_771d9031-3691-461d-ac6c-49f31032df24",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "cal",
+        "component": {
+          "type": "stimulus.screen-calibration",
+          "version": "1.0.0"
+        },
+        "label": "cal",
+        "config": {
+          "viewingDistanceCm": 60,
+          "screenWidthCm": 60,
+          "screenHeightCm": 34,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_d1292810-4534-4c54-aa9f-f1e7d07bce74",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_8fba6fa6-4a91-4925-bcdb-b8a3c8cd93da",
+                  "type": "Text",
+                  "props": {
+                    "text": "Screen calibration",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_07d995d7-4ebb-48b4-ab37-73e01d1293d0",
+                  "type": "Text",
+                  "props": {
+                    "text": "Verify viewing distance and screen dimensions before continuing.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_61362fe9-e1e8-471c-a05e-fadb45040ba0",
+                  "type": "Button",
+                  "props": {
+                    "label": "Ready",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "stroop",
+        "component": {
+          "type": "experiment.cognitive-task",
+          "version": "1.0.0"
+        },
+        "label": "stroop",
+        "config": {
+          "taskKind": "stroop",
+          "practice": false,
+          "seed": 1,
+          "goRatio": 70,
+          "jitterMs": 0,
+          "trials": [
+            {
+              "trialId": "s1",
+              "word": "BLUE",
+              "inkColor": "red",
+              "expectedKey": "r",
+              "fixationMs": 100,
+              "responseWindowMs": 60000,
+              "itiMs": 100
+            }
+          ]
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "gonogo",
+        "component": {
+          "type": "experiment.cognitive-task",
+          "version": "1.0.0"
+        },
+        "label": "gonogo",
+        "config": {
+          "taskKind": "gonogo",
+          "practice": false,
+          "seed": 1,
+          "goRatio": 50,
+          "jitterMs": 0,
+          "trials": [
+            {
+              "trialId": "g1",
+              "trialType": "go",
+              "stimulus": "X",
+              "fixationMs": 100,
+              "responseWindowMs": 60000,
+              "itiMs": 100,
+              "expectedKey": "space"
+            },
+            {
+              "trialId": "g2",
+              "trialType": "nogo",
+              "stimulus": "O",
+              "fixationMs": 100,
+              "responseWindowMs": 60000,
+              "itiMs": 100,
+              "expectedKey": null
+            }
+          ]
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_d9d7504e-225c-4655-b061-afe2c9112398",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_9b69aa07-2053-42e4-bd6a-ea9228d76748",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "cal",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_b1f9c2f9-0c4a-4564-85d8-dd3159b63d6c",
+        "kind": "control",
+        "source": {
+          "nodeId": "cal",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "stroop",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_96831f40-9ec5-4c0e-883a-2ec189a50aec",
+        "kind": "control",
+        "source": {
+          "nodeId": "stroop",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "gonogo",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_347141ff-622b-4ad9-8329-5535aca5d70b",
+        "kind": "control",
+        "source": {
+          "nodeId": "gonogo",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_771d9031-3691-461d-ac6c-49f31032df24",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

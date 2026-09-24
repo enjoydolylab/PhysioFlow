@@ -1,6 +1,8 @@
 # 文档导航
 
-更新：2026-09-14。当前发布为 beta.4；画布与实验自定义新增功能属于开发版，尚未重新打包发布。应用版本事实以[实现状态](refactor/IMPLEMENTATION_STATUS.md)为准。
+当前开发候选与对接进度（2026-09-24）：[已完成／进行中／未完成](PROGRESS_REPORT_2026-09-24.md)。最新完整质量检查：437 项测试通过，构建、Lint 和三个浏览器套件通过；尚未发布新版安装包。下方旧日期记录保留作历史基线。
+
+更新：2026-09-17。当前发布为 beta.4；画布与实验自定义新增功能属于开发版，尚未重新打包发布。应用版本事实以[实现状态](refactor/IMPLEMENTATION_STATUS.md)为准。
 
 第一次使用：先读[业务流程](BUSINESS_WORKFLOW.md)，再按[使用指南](USER_GUIDE.md)完成一个实验。业务文档使用中文；技术契约保留原英文和代码字段名。
 
@@ -24,6 +26,7 @@
 - [实验自定义改进与使用路径](refactor/CUSTOMIZATION_USABILITY.md)
 - [多语言审查工作流](refactor/I18N_REVIEW_WORKFLOW.md)
 - [研究室局域网架构规划](refactor/LAN_ARCHITECTURE.md)
+- [传感器接入与实时数据通道规划](refactor/REALTIME_SENSOR_ARCHITECTURE.md)
 - [业务流程与能力边界](BUSINESS_WORKFLOW.md)
 - [开发、验证与发布](DEVELOPMENT.md)
 - [代表实验与验证入口](refactor/BASELINE_EXPERIMENTS.md)

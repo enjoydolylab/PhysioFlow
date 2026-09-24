@@ -1,0 +1,247 @@
+{
+  "assets": [],
+  "audit": {
+    "createdAt": "2026-09-19T05:52:33.869Z",
+    "frozenAt": null,
+    "updatedAt": "2026-09-19T05:54:00.737Z"
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "componentPackages": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  },
+  "deviceConnectors": [],
+  "graph": {
+    "edges": [
+      {
+        "id": "edge_1eaedcc1-36c7-430c-865c-0141958939a8",
+        "kind": "control",
+        "metadata": {},
+        "source": {
+          "nodeId": "node_41694990-bb1d-4809-a698-4e2cc6f155bd",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_80ffce89-7797-45b4-a8cb-bbc3a21ac54b",
+          "portId": "in"
+        }
+      },
+      {
+        "id": "edge_7991ea85-0773-4cd0-a1f7-ac743bde2776",
+        "kind": "control",
+        "metadata": {},
+        "source": {
+          "nodeId": "node_80ffce89-7797-45b4-a8cb-bbc3a21ac54b",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_4a126e39-283e-417e-bfe6-d292ca8a7322",
+          "portId": "in"
+        }
+      }
+    ],
+    "entryNodeId": "node_41694990-bb1d-4809-a698-4e2cc6f155bd",
+    "groups": [],
+    "nodes": [
+      {
+        "bindings": {},
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "config": {},
+        "id": "node_41694990-bb1d-4809-a698-4e2cc6f155bd",
+        "label": "Start",
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "bindings": {},
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "config": {},
+        "id": "node_4a126e39-283e-417e-bfe6-d292ca8a7322",
+        "label": "End",
+        "layout": {
+          "x": 800,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "bindings": {},
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "config": {
+          "completion": {
+            "mode": "manual"
+          },
+          "content": "Welcome",
+          "ui": {
+            "root": {
+              "actions": [],
+              "bindings": {},
+              "children": [
+                {
+                  "actions": [],
+                  "bindings": {},
+                  "children": [],
+                  "id": "ui_fcea261e-3c37-46d0-a327-e26b4e375e66",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "type": "Text"
+                },
+                {
+                  "actions": [],
+                  "bindings": {},
+                  "children": [],
+                  "id": "ui_13e40051-eb51-4a9e-9e74-ce721cf31b84",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "type": "Text"
+                },
+                {
+                  "actions": [],
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "children": [],
+                  "id": "ui_054bd117-7f23-4181-ba74-b5db29f04517",
+                  "props": {
+                    "label": "",
+                    "max": 100,
+                    "value": 0
+                  },
+                  "type": "Progress"
+                },
+                {
+                  "actions": [
+                    {
+                      "action": "submit",
+                      "event": "click"
+                    }
+                  ],
+                  "bindings": {},
+                  "children": [],
+                  "id": "ui_bf34aa37-027a-445b-9e80-96a1b21492e6",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "type": "Button"
+                },
+                {
+                  "actions": [],
+                  "bindings": {},
+                  "children": [],
+                  "id": "ui_c16b57cd-7328-4f1b-81b6-9c550e64d471",
+                  "props": {
+                    "inputType": "text",
+                    "label": "Response",
+                    "name": "response",
+                    "required": false
+                  },
+                  "type": "Input"
+                },
+                {
+                  "actions": [],
+                  "bindings": {},
+                  "children": [],
+                  "id": "ui_75e7cb7e-d354-4608-8f49-ac457482edd5",
+                  "props": {
+                    "inputType": "text",
+                    "label": "Response",
+                    "name": "second_response",
+                    "required": false
+                  },
+                  "type": "Input"
+                },
+                {
+                  "actions": [],
+                  "bindings": {},
+                  "children": [],
+                  "id": "ui_e892644d-942b-46e2-a145-84ba66d67b61",
+                  "props": {
+                    "inputType": "text",
+                    "label": "Response",
+                    "name": "response_2",
+                    "required": false
+                  },
+                  "type": "Input"
+                },
+                {
+                  "actions": [],
+                  "bindings": {},
+                  "children": [],
+                  "id": "ui_1f9d6ad8-3973-4fba-8bb6-0cfd92a2deb9",
+                  "props": {
+                    "inputType": "text",
+                    "label": "Response",
+                    "name": "response_2_2",
+                    "required": false
+                  },
+                  "type": "Input"
+                }
+              ],
+              "id": "ui_fcc09f58-fc0d-49ae-9382-656fe8da86d7",
+              "props": {
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "maxWidth": 800,
+                "padding": 32,
+                "screenHeight": 720,
+                "screenWidth": 1280
+              },
+              "type": "Screen"
+            },
+            "schemaVersion": "1.0.0"
+          }
+        },
+        "id": "node_80ffce89-7797-45b4-a8cb-bbc3a21ac54b",
+        "label": "Screen",
+        "layout": {
+          "x": 320,
+          "y": 180
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  "metadata": {
+    "description": "验收：JSON 编辑保存，日本語 / English",
+    "name": "QA editor data fields",
+    "tags": []
+  },
+  "participantUi": {
+    "theme": {}
+  },
+  "projectId": "project_eb8a97fb-66e7-4ee7-a28d-23a6d173cd46",
+  "protocolId": "protocol_30f59517-95d3-4733-b791-77256f204a33",
+  "questionnaireLibrary": [],
+  "schemaVersion": "2.0.0-alpha.1",
+  "stimulusPools": [],
+  "subflowTemplates": [],
+  "templates": [],
+  "variables": [],
+  "version": {
+    "label": "Draft 1",
+    "number": 1,
+    "status": "draft"
+  }
+}

@@ -299,7 +299,9 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
     </div>
     <div className="session-metrics">
       <div><b>{detail.events?.length || 0}</b><span>events</span></div>
-      <div><b>{detail.responses?.length || 0}</b><span>responses</span></div>
+      <div><b>{detail.responses?.length || 0}</b><span>raw response records</span></div>
+      {graphSession && <div><b>{(detail.responses || []).filter(row => !row.supersededByEventId).length}</b><span>effective response records</span></div>}
+      {graphSession && <div><b>{(detail.responses || []).filter(row => row.supersededByEventId).length}</b><span>superseded response records</span></div>}
       <div><b>{graphSession ? detail.runtime_snapshot?.completedNodeIds?.length || 0 : detail.runtime_snapshot?.completed_steps?.length || 0}</b><span>{graphSession ? 'completed node visits' : 'completed steps'}</span></div>
       {graphSession && ['skipped', 'retries', 'pauses'].map(key => <div key={key}><b>{integrity.facts?.[key] ?? '—'}</b><span>{key}</span></div>)}
     </div>
@@ -313,11 +315,11 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
     <div className="session-export-note">
       <div>
         <h3>Export package</h3>
-        <p>The complete bundle includes raw events, responses, derived analysis windows, protocol snapshot, integrity report, and a data dictionary.</p>
+        <p>{graphSession ? 'The complete bundle includes raw events, responses, device samples, protocol and runtime snapshots, a quality report, data dictionaries and BIDS event files.' : 'The complete bundle includes raw events, responses, derived analysis windows, protocol snapshot, integrity report, and a data dictionary.'}</p>
       </div>
       <div className="session-export-files">
-        {OUTPUT_FILES.slice(0, 6).map(([file]) => <code key={file}>{file}</code>)}
-        <code>+{Math.max(0, OUTPUT_FILES.length - 6)} more</code>
+        {(graphSession ? ['manifest.json', 'protocol_snapshot.json', 'runtime_snapshot.json', 'events.csv', 'responses.csv', 'device_events.csv'] : OUTPUT_FILES.slice(0, 6).map(([file]) => file)).map(file => <code key={file}>{file}</code>)}
+        <code>+{graphSession ? 16 : Math.max(0, OUTPUT_FILES.length - 6)} more</code>
       </div>
     </div>
     {graphSession && <RuntimeReplayPanel protocol={detail.protocol_snapshot} events={detail.events || []} />}

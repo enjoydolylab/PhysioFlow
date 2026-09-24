@@ -23,8 +23,8 @@ export function inspectRepeatSegment(protocol, nodeIds, registry) {
     id = edges.find(edge => edge.source.nodeId === id).target.nodeId;
   }
   if (ordered.length !== ids.size || ids.has(id)) return fail('Selected steps must form a continuous sequence without a cycle.');
-  // Existing runtime loop counters are session-scoped: do not offer this shortcut
-  // inside a repeating path where a new inner loop would silently exhaust once.
+  // This shortcut only wraps a simple linear segment. Keep existing repeating
+  // paths explicit in the graph editor instead of guessing the user's nesting.
   const pending = [outgoing[0].target.nodeId], visited = new Set();
   while (pending.length) {
     const next = pending.pop();

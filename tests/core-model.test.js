@@ -374,3 +374,20 @@ test('legacy migration preserves every step payload and creates a safe linear dr
   assert.equal(report.idMap.steps.step_1, protocol.graph.nodes[2].id);
   assert.equal(validateProtocolGraph(protocol, createCoreComponentRegistry()).valid, true);
 });
+
+test('drafts from historical graph versions allocate after all existing project versions', () => {
+  const source = createProtocolGraph({ name: 'Historical version' });
+  source.version = { number: 1, label: 'Version 1', status: 'frozen' };
+  const existing = [
+    { ...structuredClone(source), protocolId: 'draft-2', version: { number: 2, status: 'draft' } },
+    { ...structuredClone(source), protocolId: 'archived-4', version: { number: 4, status: 'frozen' }, audit: { archivedAt: '2026-09-23' } },
+    { ...structuredClone(source), projectId: 'other-project', version: { number: 99, status: 'draft' } },
+  ];
+  const before = structuredClone({ source, existing });
+  const next = createNextGraphProtocolVersion(source, { existingProtocols: existing });
+  assert.equal(next.version.number, 5);
+  assert.equal(next.version.status, 'draft');
+  assert.notEqual(next.protocolId, source.protocolId);
+  assert.deepEqual(next.graph, source.graph);
+  assert.deepEqual({ source, existing }, before);
+});

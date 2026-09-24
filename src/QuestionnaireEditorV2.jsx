@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { canUseMatrix, canUseSamMatrix } from './questionnaireMatrix.js';
 import { COMPARISON_OPS, LANGS, PRESETS, QUESTION_TYPES, createQuestionnaire, newQuestion, parseQuestionnaireCsv, removeQuestionnaireFromLibrary, saveQuestionnaireToLibrary } from './core/questionnaireModel.js';
 
 // New-architecture questionnaire editor for Composer V2.
@@ -38,9 +39,13 @@ export default function QuestionnaireEditorV2({ value, onChange, library = [], o
 
     <div className="qe-settings">
       <label>Name<input value={questionnaire.name || ''} onChange={e => commit({ ...questionnaire, name: e.target.value })} /></label>
+      <label>Layout<select value={questionnaire.display_mode || "single"} onChange={event => commit({ ...questionnaire, display_mode: event.target.value })}><option value="single">One question at a time</option><option value="matrix">Matrix (uniform Likert questions)</option><option value="sam-matrix">SAM (three dimensions on one page)</option></select></label>
       <label className="qe-check"><input type="checkbox" checked={Boolean(questionnaire.shuffle_questions)} onChange={e => commit({ ...questionnaire, shuffle_questions: e.target.checked })} /> Shuffle</label>
       <label className="qe-check"><input type="checkbox" checked={questionnaire.show_progress !== false} onChange={e => commit({ ...questionnaire, show_progress: e.target.checked })} /> Progress</label>
     </div>
+
+    {questionnaire.display_mode === 'matrix' && !canUseMatrix(questionnaire) && <p role="status">This configuration will show one question at a time. A matrix needs at least two Likert questions with identical integer bounds (at most 21 choices), without individual timers or conditional visibility.</p>}
+    {questionnaire.display_mode === 'sam-matrix' && !canUseSamMatrix(questionnaire) && <p role="status">This configuration will show one question at a time. A SAM matrix needs exactly one arousal, valence and dominance question, each scaled 1–9, without shuffle, individual timers or conditional visibility.</p>}
 
     <details className="qe-presets"><summary>+ Preset questions</summary>
       <div className="qe-preset-grid">{PRESET_KEYS.map(key => {
@@ -119,7 +124,7 @@ function QuestionRow({ q, index, total, lang, questions, dragOver, setDragOver, 
 
     <textarea className="qe-prompt" rows={2} value={field(lang, q.prompt_i18n)} placeholder={`Prompt (${lang})`} onChange={e => updateQuestion(index, { prompt_i18n: { ...q.prompt_i18n, [lang]: e.target.value } })} />
 
-    {['likert', 'sam_valence', 'sam_arousal', 'number', 'vas_slider'].includes(q.type) && (
+    {['likert', 'sam_valence', 'sam_arousal', 'sam_dominance', 'number', 'vas_slider'].includes(q.type) && (
       <div className="qe-scale">
         <label>Min <input type="number" value={q.scale_min ?? 1} onChange={e => updateQuestion(index, { scale_min: Number(e.target.value) })} /></label>
         <label>Max <input type="number" value={q.scale_max ?? 5} onChange={e => updateQuestion(index, { scale_max: Number(e.target.value) })} /></label>

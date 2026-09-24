@@ -1,0 +1,299 @@
+{
+  "feedbackTimeout": {
+    "values": {
+      "value": null,
+      "response_key": null,
+      "reaction_time_ms": null,
+      "correct": null,
+      "timed_out": true
+    },
+    "outputs": {
+      "value": null,
+      "response_key": null,
+      "reaction_time_ms": null,
+      "correct": null,
+      "timed_out": true,
+      "response": null
+    },
+    "variables": {
+      "response": null,
+      "response_rt_ms": null,
+      "last_response_key": null
+    },
+    "metadata": {
+      "response": {
+        "key": null,
+        "value": null,
+        "rt": null,
+        "correct": null,
+        "timedOut": true
+      }
+    }
+  },
+  "confirmationTimeout": {
+    "values": {
+      "value": null,
+      "response_key": null,
+      "reaction_time_ms": null,
+      "correct": null,
+      "timed_out": true
+    },
+    "outputs": {
+      "value": null,
+      "response_key": null,
+      "reaction_time_ms": null,
+      "correct": null,
+      "timed_out": true,
+      "response": null
+    },
+    "variables": {
+      "response": null,
+      "response_rt_ms": null,
+      "last_response_key": null
+    },
+    "metadata": {
+      "response": {
+        "key": null,
+        "value": null,
+        "rt": null,
+        "correct": null,
+        "timedOut": true
+      }
+    }
+  },
+  "changedAnswer": "Respond when you see the targetPressed n — no165 msContinue",
+  "timing": {
+    "responses": [
+      {
+        "responseId": "response_bf2a5240-6ae8-4b6a-b2c3-d7374419f799",
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "participantId": "AUDIT",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "name": "value",
+        "value": "yes",
+        "reactionTimeMs": 1167,
+        "timestampIso": "2026-09-17T04:14:49.395Z"
+      },
+      {
+        "responseId": "response_14622146-4352-4ea9-a406-fa377ea17f8c",
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "participantId": "AUDIT",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "name": "response_key",
+        "value": "y",
+        "reactionTimeMs": 1167,
+        "timestampIso": "2026-09-17T04:14:49.395Z"
+      },
+      {
+        "responseId": "response_176e8a63-c36b-4f0c-ac4d-d15650cfb441",
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "participantId": "AUDIT",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "name": "reaction_time_ms",
+        "value": 165,
+        "reactionTimeMs": 1167,
+        "timestampIso": "2026-09-17T04:14:49.395Z"
+      },
+      {
+        "responseId": "response_8578a5d0-352c-43a2-89b7-accc376eefc9",
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "participantId": "AUDIT",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "name": "correct",
+        "value": null,
+        "reactionTimeMs": 1167,
+        "timestampIso": "2026-09-17T04:14:49.395Z"
+      },
+      {
+        "responseId": "response_70625817-411c-42c1-942a-f310bfc7ea6b",
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "participantId": "AUDIT",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "name": "timed_out",
+        "value": false,
+        "reactionTimeMs": 1167,
+        "timestampIso": "2026-09-17T04:14:49.395Z"
+      }
+    ],
+    "runtime": {
+      "schemaVersion": "1.0.0",
+      "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+      "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+      "protocolSchemaVersion": "2.0.0-alpha.1",
+      "protocolVersion": 1,
+      "status": "completed",
+      "statusBeforePause": null,
+      "currentNodeId": null,
+      "variables": {
+        "last_rt_ms": 1167,
+        "response": "yes",
+        "response_rt_ms": 165,
+        "last_response_key": "y"
+      },
+      "outputs": {
+        "node_1e696163-0426-4e57-bbcf-9a94465960aa": {
+          "value": "yes",
+          "response_key": "y",
+          "reaction_time_ms": 165,
+          "correct": null,
+          "timed_out": false,
+          "response": "yes"
+        }
+      },
+      "loopCounts": {},
+      "randomSeed": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b:1:aa9366a1-d564-40c5-9634-c9a5ec074fab",
+      "randomState": 3275604276,
+      "randomDrawCount": 0,
+      "attempts": {
+        "node_1e696163-0426-4e57-bbcf-9a94465960aa": 1
+      },
+      "completedNodeIds": [
+        "node_1e696163-0426-4e57-bbcf-9a94465960aa"
+      ],
+      "skippedNodeIds": [],
+      "transitionCount": 3,
+      "eventSequence": 5,
+      "startedAtEpochMs": 1789618488158,
+      "startedAtMonotonicMs": 1789618488158.5,
+      "error": null
+    },
+    "events": [
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_c46391b5-079b-4fbd-8ad6-6c990e09dbf7",
+        "sequence": 1,
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "protocolVersion": 1,
+        "nodeId": "node_3a990ab8-a2a8-4a7b-b133-2617b70640fe",
+        "componentType": null,
+        "componentVersion": null,
+        "eventType": "protocol_started",
+        "timestampIso": "2026-09-17T04:14:48.226Z",
+        "timestampEpochMs": 1789618488226,
+        "elapsedMonotonicMs": 68.5,
+        "payload": {
+          "protocolSchemaVersion": "2.0.0-alpha.1",
+          "randomSeed": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b:1:aa9366a1-d564-40c5-9634-c9a5ec074fab"
+        }
+      },
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_f07df250-e128-49ec-8266-b0b649f592aa",
+        "sequence": 2,
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "protocolVersion": 1,
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "componentVersion": "1.0.0",
+        "eventType": "component_entered",
+        "timestampIso": "2026-09-17T04:14:48.226Z",
+        "timestampEpochMs": 1789618488226,
+        "elapsedMonotonicMs": 68.699951171875,
+        "payload": {
+          "attempt": 1
+        }
+      },
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_760145ef-294f-4eb0-b41b-1fdbfc09188a",
+        "sequence": 3,
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "protocolVersion": 1,
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "componentVersion": "1.0.0",
+        "eventType": "response_submitted",
+        "timestampIso": "2026-09-17T04:14:49.395Z",
+        "timestampEpochMs": 1789618489395,
+        "elapsedMonotonicMs": 1237.800048828125,
+        "payload": {
+          "fields": [
+            "value",
+            "response_key",
+            "reaction_time_ms",
+            "correct",
+            "timed_out"
+          ],
+          "values": {
+            "value": "yes",
+            "response_key": "y",
+            "reaction_time_ms": 165,
+            "correct": null,
+            "timed_out": false
+          },
+          "reactionTimeMs": 1167
+        }
+      },
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_22027614-449e-469d-ba4a-80dba16f4094",
+        "sequence": 4,
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "protocolVersion": 1,
+        "nodeId": "node_1e696163-0426-4e57-bbcf-9a94465960aa",
+        "componentType": "input.response",
+        "componentVersion": "1.0.0",
+        "eventType": "component_completed",
+        "timestampIso": "2026-09-17T04:14:49.396Z",
+        "timestampEpochMs": 1789618489396,
+        "elapsedMonotonicMs": 1238,
+        "payload": {
+          "attempt": 1,
+          "outputs": {
+            "value": "yes",
+            "response_key": "y",
+            "reaction_time_ms": 165,
+            "correct": null,
+            "timed_out": false,
+            "response": "yes"
+          },
+          "variables": {
+            "response": "yes",
+            "response_rt_ms": 165,
+            "last_response_key": "y",
+            "last_rt_ms": 1167
+          },
+          "metadata": {
+            "response": {
+              "key": "y",
+              "value": "yes",
+              "rt": 165,
+              "correct": null,
+              "timedOut": false
+            }
+          }
+        }
+      },
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_c0d72903-9bd5-4e27-9ca0-17a99fe7d4f6",
+        "sequence": 5,
+        "sessionId": "aa9366a1-d564-40c5-9634-c9a5ec074fab",
+        "protocolId": "protocol_9eac2cc7-94d1-4c0d-8cb8-fda5103b193b",
+        "protocolVersion": 1,
+        "nodeId": "node_4fa32dac-2de9-4cbe-9826-ac50574a30cf",
+        "componentType": "core.end",
+        "componentVersion": "1.0.0",
+        "eventType": "protocol_completed",
+        "timestampIso": "2026-09-17T04:14:49.396Z",
+        "timestampEpochMs": 1789618489396,
+        "elapsedMonotonicMs": 1238.10009765625,
+        "payload": {}
+      }
+    ]
+  }
+}

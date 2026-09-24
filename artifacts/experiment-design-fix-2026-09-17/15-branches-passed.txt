@@ -1,0 +1,48 @@
+- main:
+  - toolbar:
+    - generic: QA control branches
+    - generic: ALL BRANCHES PASSED · display.screen
+    - status: Running · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect" [active]
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Runtime variables, outputs and flow state":
+    - heading "Variables 1" [level=4]
+    - table:
+      - rowgroup:
+        - row "Name Type Value":
+          - columnheader "Name"
+          - columnheader "Type"
+          - columnheader "Value"
+      - rowgroup:
+        - row "choice string yes":
+          - cell "choice":
+            - code: choice
+          - cell "string"
+          - cell "yes":
+            - code: "yes"
+    - heading "Outputs 0" [level=4]
+    - paragraph: No node outputs yet.
+    - heading "Flow state" [level=4]
+    - paragraph:
+      - generic: Status
+      - generic: waiting
+    - paragraph:
+      - generic: Current node
+      - generic: ALL BRANCHES PASSED
+    - paragraph:
+      - generic: Completed
+      - generic: "0"
+    - paragraph:
+      - generic: Skipped
+      - generic: "0"
+    - paragraph:
+      - generic: Attempts
+      - generic: "1"
+  - region "Participant view":
+    - heading "Welcome" [level=1]
+    - paragraph: Please read the instructions carefully.
+    - progressbar
+    - button "Continue"

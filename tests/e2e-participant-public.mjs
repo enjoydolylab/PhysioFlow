@@ -1,3 +1,4 @@
+import { verifyComponentAcceptance } from './browser-component-acceptance.mjs';
 import assert from 'node:assert/strict';
 import { verifyRuntimeScenarios } from './browser-runtime-scenarios.mjs';
 import { verifyPreparationScenarios } from './browser-preparation-scenarios.mjs';
@@ -126,6 +127,8 @@ try {
   const syncStarted = Date.now();
   while (![...service.sessions.values()][0]?.runtimeSnapshot && Date.now() - syncStarted < 5000) await new Promise(resolve => setTimeout(resolve, 50));
   assert.ok([...service.sessions.values()][0]?.runtimeSnapshot, 'Hosted recovery snapshot was not synchronized');
+  assert.equal([...service.sessions.values()][0].runtimeSnapshot.stimulus_shuffle_version, 'mulberry32-v2');
+  assert.equal([...service.sessions.values()][0].runtimeSnapshot.stimulus_assignment_policy, 'global-completion-v1');
   await evaluate(`new Promise((resolve, reject) => { const request = indexedDB.open('physioflow-data-v1', 1); request.onsuccess = () => { const transaction = request.result.transaction('current', 'readwrite'); transaction.objectStore('current').delete('active'); transaction.oncomplete = resolve; transaction.onerror = () => reject(transaction.error); }; request.onerror = () => reject(request.error); }).then(() => { localStorage.removeItem('physioflow.current-run-pointer.v2'); localStorage.setItem('physioflow.ui-language', 'en'); })`);
   await send('Page.reload', { ignoreCache: true });
   await waitFor(`document.body.textContent.includes('Welcome') && !document.body.textContent.includes('RUNTIME V2 READY') && [...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue') && !button.disabled)`, 'participant refresh recovery');
@@ -134,9 +137,12 @@ try {
   assert.equal(service.launchLinks.get(link.launchLinkId).useCount, 1);
   const session = [...service.sessions.values()][0];
   assert.equal(session.status, 'completed');
+  assert.equal(session.runtimeSnapshot.stimulus_shuffle_version, 'mulberry32-v2', 'hosted refresh preserves the shuffle algorithm');
+  assert.equal(session.runtimeSnapshot.stimulus_assignment_policy, 'global-completion-v1', 'hosted refresh preserves pool consumption');
   assert.ok(session.eventCount >= 4);
   await verifyRuntimeScenarios(evaluate, waitFor, clickText);
   await verifyPreparationScenarios(evaluate, waitFor);
+  await verifyComponentAcceptance(evaluate, waitFor);
   await verifyAuthoringScenarios(evaluate, waitFor, process.env.PHYSIOFLOW_CANVAS_SCREENSHOT ? async () => {
     await send('Emulation.setDeviceMetricsOverride', {width:1600, height:1000, deviceScaleFactor:1, mobile:false});
     await evaluate(`document.getElementById('root').style.display='none'; window.scrollTo(0,0); new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);

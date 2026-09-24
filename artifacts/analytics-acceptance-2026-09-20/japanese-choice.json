@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_69dd8487-0b7e-4c90-99ba-77c9fd38c250",
+  "projectId": "project_8c035ccc-986d-45e2-a2ae-2c1d9831ca70",
+  "metadata": {
+    "name": "QA Japanese analysis choices",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-21T02:36:07.918Z",
+    "updatedAt": "2026-09-21T02:36:07.919Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_16bac8b3-481e-467b-a70d-bd1244717001",
+    "nodes": [
+      {
+        "id": "node_16bac8b3-481e-467b-a70d-bd1244717001",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_7a0dbeea-9869-42b2-8e04-a033a122854c",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_794ee352-a133-4f11-9152-2769b21b7214",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "Japanese choices",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "ja-choice",
+            "name": "Japanese choices",
+            "questions": [
+              {
+                "question_id": "choice",
+                "type": "single_choice",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Choose",
+                  "ja": "選択してください"
+                },
+                "options_i18n": {
+                  "en": [
+                    "One",
+                    "Two"
+                  ],
+                  "ja": [
+                    "一",
+                    "二"
+                  ]
+                }
+              }
+            ]
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_8685db7d-0f43-4717-8ee3-354833d46d0f",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_3b9b4175-4b16-49c2-8307-a3f569123c50",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_e1adb257-2a82-4a19-8653-3c92f238b395",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_8a5fac8f-99c0-49f6-9595-30501020754c",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_06dd7d25-0c93-4fe6-b096-1d1277378a3e",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_16bac8b3-481e-467b-a70d-bd1244717001",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_794ee352-a133-4f11-9152-2769b21b7214",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_7e496372-6c30-49a2-b4ea-4df39f919494",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_794ee352-a133-4f11-9152-2769b21b7214",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_7a0dbeea-9869-42b2-8e04-a033a122854c",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

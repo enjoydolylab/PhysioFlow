@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_6271e586-b351-4ae7-b600-f9ca56a9c636",
+  "projectId": "project_3fa1375a-fde6-4867-837e-4d27ad311efc",
+  "metadata": {
+    "name": "QA nested video completion",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-18T13:39:13.647Z",
+    "updatedAt": "2026-09-18T13:41:50.279Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_03c530a1-299a-4d82-b087-b31eafd9e940",
+    "nodes": [
+      {
+        "id": "node_03c530a1-299a-4d82-b087-b31eafd9e940",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "qa-video",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "QA video",
+        "config": {
+          "mediaType": "video",
+          "assetId": "asset_f7241ead-d446-42bc-b947-cd3483f5896a",
+          "stimulusPoolId": null,
+          "display": {
+            "preset": "auto"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_b9412432-e210-42e9-b48e-3589859db3e5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_3ace44fc-faa6-45fa-8e82-ab4ccb0adef4",
+                  "type": "Text",
+                  "props": {
+                    "text": "Stimulus",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_2ed31f12-1d3b-4f47-8b46-9c575f1c29e4",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "sourceUrl": "",
+                    "alt": "Experiment stimulus",
+                    "fit": "contain",
+                    "controls": true,
+                    "autoPlay": false
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "nested-layout",
+                  "type": "Layout",
+                  "props": {},
+                  "bindings": {},
+                  "actions": [],
+                  "children": [
+                    {
+                      "id": "ui_6d36e6f7-a692-485d-82ee-e7c97a3faccc",
+                      "type": "Button",
+                      "props": {
+                        "label": "Continue",
+                        "variant": "primary"
+                      },
+                      "bindings": {},
+                      "actions": [
+                        {
+                          "event": "click",
+                          "action": "submit"
+                        }
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "media-ended",
+            "durationMs": 3000
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_25050d0d-4125-42e1-a6b8-4921b74702ba",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 800,
+          "y": 180
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "c9b8532a-2647-4033-ba25-997ef574210c",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_03c530a1-299a-4d82-b087-b31eafd9e940",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "qa-video",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "41d8b037-f42f-413b-ab3e-668f11e147e1",
+        "kind": "control",
+        "source": {
+          "nodeId": "qa-video",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_25050d0d-4125-42e1-a6b8-4921b74702ba",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [
+    {
+      "id": "asset_26fc0003-8563-4945-8b19-1fb8732759df",
+      "name": "red.svg",
+      "mediaType": "image",
+      "fileName": "red.svg",
+      "mimeType": "image/svg+xml",
+      "size": 177,
+      "checksum": "baf5e8cfff9e1c9688b86219c3a8a60fc5816eee985249648b816027fb4bdd6e",
+      "sourceMode": "upload"
+    },
+    {
+      "id": "asset_423542f6-eb46-4dcb-86d4-0608a23b0ef6",
+      "name": "blue.svg",
+      "mediaType": "image",
+      "fileName": "blue.svg",
+      "mimeType": "image/svg+xml",
+      "size": 179,
+      "checksum": "9cde68b2bec4ae91c9e1695b0f603b9d6ca85df19bc1b6a653bb8c6ff76b4dfb",
+      "sourceMode": "upload"
+    },
+    {
+      "id": "asset_3b8c931d-367e-44d6-8669-d240af1eaf3e",
+      "name": "tone.wav",
+      "mediaType": "audio",
+      "fileName": "tone.wav",
+      "mimeType": "audio/wav",
+      "size": 384044,
+      "checksum": "71be1c543322331c91700cf09d8659739eb5f5599453241a8cd5feaf2c637a3b",
+      "sourceMode": "upload"
+    },
+    {
+      "id": "asset_f7241ead-d446-42bc-b947-cd3483f5896a",
+      "name": "video.mp4",
+      "mediaType": "video",
+      "fileName": "video.mp4",
+      "mimeType": "video/mp4",
+      "size": 59567,
+      "checksum": "bdfb179213ac94fc95a5f23749c8d2743aec7233c3a08979d56a57f5ee667916",
+      "sourceMode": "upload"
+    }
+  ],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

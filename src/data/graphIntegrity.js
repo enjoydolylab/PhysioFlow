@@ -1,6 +1,8 @@
 import { createProjectComponentRegistry } from '../sdk/index.js';
 import { createEventSchemaRegistry, validateRuntimeEvent } from './eventSchemaRegistry.js';
 
+export const GRAPH_INTEGRITY_VERSION = '3-test-navigation';
+
 export function assessGraphSession({ session, protocol, events = [], responses = [], runtime }) {
   const errors = [];
   const warnings = [];
@@ -29,20 +31,31 @@ export function assessGraphSession({ session, protocol, events = [], responses =
   if (skipped) warnings.push(`${skipped} component(s) skipped`);
   if (retries) warnings.push(`${retries} component retry/retries`);
   if (pauses) warnings.push(`${pauses} pause(s)`);
+  const navigation = events.filter(event => event.eventType === 'test_navigation_back');
+  if (navigation.length && session?.run_mode !== 'preview') errors.push('Test navigation is only permitted in preview sessions');
+  const effective = event => !navigation.some(back => back.sessionId === event.sessionId && event.sequence >= back.payload?.supersededFromSequence && event.sequence <= back.payload?.supersededThroughSequence);
+  if (navigation.length) warnings.push(`${navigation.length} test navigation back action(s); superseded visits excluded from effective counts`);
   const validity_status = errors.length ? 'invalid' : warnings.length ? 'attention' : 'valid';
   return {
+    assessment_version: GRAPH_INTEGRITY_VERSION,
     validity_status,
     checked_at: new Date().toISOString(),
     errors,
     warnings,
     facts: {
       events: events.length,
-      responses: responses.length,
+      responses: responses.filter(row => !row.supersededByEventId).length,
+      raw_responses: responses.length,
       components_entered: events.filter(event => event.eventType === 'component_entered').length,
-      components_completed: events.filter(event => event.eventType === 'component_completed').length,
+      components_completed: events.filter(event => event.eventType === 'component_completed' && effective(event)).length,
       skipped,
       retries,
       pauses,
     },
   };
+}
+
+export function reviewGraphSession(session) {
+  if (!session?.protocol_snapshot?.graph) return session;
+  return { ...session, integrity: assessGraphSession({ session, protocol: session.protocol_snapshot, events: session.events || [], responses: session.responses || [], runtime: session.runtime_snapshot }) };
 }

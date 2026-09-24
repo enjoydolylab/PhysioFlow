@@ -10,6 +10,8 @@
 
 /* Flow overlay head — single-row compact toolbar */
 .flow-overlay-head {
+  position: relative;
+  z-index: 40;
   height: 64px;
   display: flex;
   align-items: center;

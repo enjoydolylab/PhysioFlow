@@ -1,3 +1,4 @@
+import { computeWindows } from './windowData.js';
 import { useRef, useEffect } from 'react';
 import { COLORS, STATUS_COLORS, formatMs } from './charts.js';
 
@@ -91,8 +92,7 @@ function WindowBarChart({ windows }) {
     const groupW = (chartW - groupGap * (itemsToShow - 1)) / itemsToShow;
     const barW = Math.max(3, (groupW - barGap) / 2);
 
-    itemsToShow.forEach((_, i) => {
-      const w = windows[i];
+    windows.slice(0, itemsToShow).forEach((w, i) => {
       const gx = pad.left + i * (groupW + groupGap);
 
       // Expected (lighter)
@@ -170,75 +170,6 @@ function StatBadge({ label, value, color }) {
 }
 
 // ── Window computation (mirrors exporter.js logic) ──
-function computeWindows(events, protocol) {
-  if (!events?.length) return [];
-
-  const stepMap = new Map();
-  try {
-    (protocol?.blocks || []).forEach(b =>
-      (b.trials || []).forEach(t =>
-        (t.steps || []).forEach(s => stepMap.set(s.step_id, s))
-      ));
-  } catch { /* ignore */ }
-
-  const ordered = [...events].sort((a, b) => a.elapsed_monotonic_ms - b.elapsed_monotonic_ms);
-  const open = new Map();
-  const pairs = new Map();
-
-  ordered.forEach(ev => {
-    const step = stepMap.get(ev.step_id);
-    const isMedia = ['video', 'audio'].includes(step?.type) && step?.source_mode !== 'youtube';
-    const startType = isMedia ? 'media_play_started' : 'step_entered';
-    const endTypes = isMedia ? ['media_ended', 'step_skipped', 'step_retried'] : ['step_completed', 'step_skipped', 'step_retried'];
-
-    if (ev.event_type === startType) {
-      const queue = open.get(ev.step_id) || [];
-      queue.push(ev);
-      open.set(ev.step_id, queue);
-    }
-    if (endTypes.includes(ev.event_type)) {
-      const queue = open.get(ev.step_id) || [];
-      const start = queue.shift();
-      if (start) pairs.set(start.event_id, ev);
-    }
-  });
-
-  const pauses = ordered.filter(e => e.event_type === 'session_paused');
-
-  return ordered.filter(ev => {
-    const step = stepMap.get(ev.step_id);
-    const isMedia = ['video', 'audio'].includes(step?.type) && step?.source_mode !== 'youtube';
-    return ev.event_type === (isMedia ? 'media_play_started' : 'step_entered') && step?.is_analysis_window;
-  }).map(start => {
-    const step = stepMap.get(start.step_id);
-    const end = pairs.get(start.event_id);
-    const pauseCount = pauses.filter(p =>
-      p.elapsed_monotonic_ms >= start.elapsed_monotonic_ms &&
-      p.elapsed_monotonic_ms <= (end?.elapsed_monotonic_ms || Infinity)
-    ).length;
-
-    const validity = !end ? 'invalid' :
-      end.event_type === 'step_skipped' ? 'invalid' :
-      pauseCount ? 'attention' :
-      end.event_type === 'step_retried' ? 'attention' :
-      'valid';
-
-    return {
-      windowId: start.event_id,
-      label: step?.analysis_label || step?.role || step?.name || '',
-      stepName: step?.name || '',
-      condition: start.condition || '',
-      expectedMs: step?.planned_duration_ms || 0,
-      durationMs: end ? end.elapsed_monotonic_ms - start.elapsed_monotonic_ms : 0,
-      pauseCount,
-      validity,
-      reason: !end ? 'Missing end event' :
-        end.event_type === 'step_skipped' ? 'Step skipped' :
-        pauseCount ? 'Contains pauses' :
-        end.event_type === 'step_retried' ? 'Step retried' : '',
-    };
-  });
-}
 
 function average(arr) {
   if (!arr.length) return 0;

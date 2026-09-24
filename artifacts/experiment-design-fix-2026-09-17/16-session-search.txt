@@ -1,0 +1,43 @@
+- main:
+  - complementary:
+    - generic: pf.
+    - text: PhysioFlow
+    - generic: RESEARCH WORKSPACE
+    - navigation "Workspace navigation":
+      - button "01 Projects 6":
+        - generic: "01"
+        - text: Projects
+        - generic: "6"
+      - button "02 Sessions":
+        - generic: "02"
+        - text: Sessions
+      - button "03 Data & settings":
+        - generic: "03"
+        - text: Data & settings
+    - text: Local workspace
+    - paragraph:
+      - text: Your experiments.
+      - text: Your research.
+    - button "Help & documentation ↗"
+  - generic: Workspace / Sessions
+  - button "🌙"
+  - generic "Language":
+    - button "中文"
+    - button "日本語"
+    - button "EN"
+  - text: RESEARCH RECORDS
+  - heading "Sessions" [level=1]
+  - paragraph: Find a participant, review a run, and return to your data.
+  - heading "Sessions" [level=2]
+  - generic: 5 total
+  - textbox "Search sessions..." [active]: QA-COGNITIVE
+  - button "×"
+  - generic: QA-COGNITIVE
+  - generic: QA calibration and cognitive tasks
+  - generic: preview · v1
+  - generic: 17 events
+  - time: 2026-09-17 11:10:54
+  - generic: valid
+  - generic: PhysioFlow · Experiment workspace
+  - button "Storage settings ↗"
+- button "☷ Manage sessions"

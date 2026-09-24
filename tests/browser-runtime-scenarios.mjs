@@ -17,6 +17,7 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
         protocol = core.insertNodeOnControlEdge(protocol, edge.id, type, { label, config }).protocol;
       }
       const data = { protocol, session: { session_id: crypto.randomUUID(), participant_id: 'REGRESSION' } };
+      window.scenarioSessionId = data.session.session_id;
       if (options.restore) {
         const runtime = await import('/src/runtime/index.js');
         const services = { idFactory: prefix => prefix + crypto.randomUUID(), clock: { now: () => ({ epochMs: Date.now(), monotonicMs: performance.now(), iso: new Date().toISOString() }) }, controlHandlers: runtime.createCoreControlHandlerRegistry() };
@@ -32,8 +33,16 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
   })()`);
   const text = `document.querySelector('#runtime-regression')?.textContent || ''`;
   const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+  const revealOperator = async () => {
+    await waitFor(`!!document.querySelector('#runtime-regression [aria-label="Participant view"]')`, 'participant view ready');
+    assert.equal(await evaluate(`!!document.querySelector('#runtime-regression [role="toolbar"]')`), false, 'operator controls default to hidden');
+    await evaluate(`window.dispatchEvent(new KeyboardEvent('keydown',{key:'O',code:'KeyO',ctrlKey:true,shiftKey:true,bubbles:true}))`);
+    await waitFor(`!!document.querySelector('#runtime-regression [role="toolbar"]')`, 'operator shortcut reveals controls');
+  };
+
   await evaluate(`mountScenario([['input.questionnaire','First',{questionnaire:{questionnaire_id:'q1',questions:[{question_id:'one',type:'short_text',text:'First question',required:false}]}}],['input.questionnaire','Second',{questionnaire:{questionnaire_id:'q2',questions:[{question_id:'two',type:'short_text',text:'Second question',required:false}]}}]])`);
   await clickText('Begin experiment');
+  await revealOperator();
   await clickText('Submit');
   await waitFor(`(${text}).includes('Second') && !!document.querySelector('#runtime-regression textarea, #runtime-regression input')`, 'second questionnaire is editable');
   await clickText('Submit');
@@ -41,6 +50,7 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
 
   await evaluate(`mountScenario([['display.screen','Timed',{completion:{mode:'fixed',durationMs:1200}}],['display.screen','After timer',{completion:{mode:'manual'}}]])`);
   await clickText('Begin experiment');
+  await revealOperator();
   await delay(700);
   await clickText('Retry');
   await delay(700);
@@ -53,6 +63,7 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
 
   await evaluate(`mountScenario([['input.response','Response A',{options:[{value:'yes',label:'yes',key:'y'}],feedbackMode:'always'}],['display.screen','Hold here',{completion:{mode:'manual'}}]])`);
   await clickText('Begin experiment');
+  await revealOperator();
   await evaluate(`window.dispatchEvent(new KeyboardEvent('keydown',{key:'y',code:'KeyY'}))`);
   await clickText('Skip');
   await delay(1300);
@@ -81,5 +92,48 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
   await clickText('Begin experiment');
   await clickText('Continue');
   await waitFor(`(${text}).includes('RUNTIME FAILED') && (${text}).includes('Session data saved.')`, 'failed runtime is finalized locally');
+  await evaluate(`mountScenario([['input.response','Deadline feedback',{options:[{value:'yes',label:'yes',key:'y'}],timeoutMs:500,feedbackMode:'always'}]])`);
+  await clickText('Begin experiment');
+  await evaluate(`window.dispatchEvent(new KeyboardEvent('keydown',{key:'y',code:'KeyY'}))`);
+  await waitFor(`(${text}).includes('Session data saved.')`, 'feedback response saved');
+  const feedbackSession = await evaluate(`(async () => (await import('/src/storage.js')).loadSession(window.scenarioSessionId))()`);
+  assert.equal(feedbackSession.ended_at, feedbackSession.events.find(event => event.eventType === 'protocol_completed').timestampIso);
+  const responseRt = feedbackSession.responses.find(row => row.name === 'reaction_time_ms').value;
+  assert.ok(Number.isFinite(responseRt));
+  assert.equal(feedbackSession.responses.find(row => row.name === 'timed_out').value, false);
+  assert.equal(feedbackSession.responses[0].reactionTimeMs, responseRt);
+  assert.ok(feedbackSession.responses[0].nodeDurationMs - responseRt >= 800, 'feedback belongs to dwell time, not RT');
+
+  await evaluate(`mountScenario([['input.response','Lock first response',{options:[{value:'yes',label:'yes',key:'y'},{value:'no',label:'no',key:'n'}],timeoutMs:400,autoAdvance:false}]])`);
+  await clickText('Begin experiment');
+  await evaluate(`window.dispatchEvent(new KeyboardEvent('keydown',{key:'y',code:'KeyY'})); window.dispatchEvent(new KeyboardEvent('keydown',{key:'n',code:'KeyN'}))`);
+  await delay(500);
+  assert.ok(await evaluate(`(${text}).includes('— yes') && !(${text}).includes('SESSION COMPLETE')`), 'first response survives subsequent keys and confirmation deadline');
+  await clickText('Continue');
+  await waitFor(`(${text}).includes('Session data saved.')`, 'confirmed response saved');
+  const lockedSession = await evaluate(`(async () => (await import('/src/storage.js')).loadSession(window.scenarioSessionId))()`);
+  assert.equal(lockedSession.responses.find(row => row.name === 'value').value, 'yes');
+  assert.equal(lockedSession.responses.find(row => row.name === 'timed_out').value, false);
+
+  await evaluate(`mountScenario([['stimulus.attention-check','Attention pause',{expectedKey:'space',timeoutMs:2000}]])`);
+  await clickText('Begin experiment');
+  await revealOperator();
+  await evaluate(`document.querySelector('#runtime-regression .attention-check button').click()`);
+  await evaluate(`window.dispatchEvent(new KeyboardEvent('keydown',{key:' ',code:'Space'}))`);
+  await clickText('Pause');
+  await delay(1300);
+  assert.ok(await evaluate(`(${text}).includes('Passed') && !(${text}).includes('SESSION COMPLETE')`));
+  await clickText('Resume');
+  await waitFor(`(${text}).includes('Session data saved.')`, 'attention feedback resumes and saves');
+  await evaluate(`mountScenario([['experiment.cognitive-task','No-Go commission',{taskKind:'gonogo',trials:[{trialId:'nogo',trialType:'nogo',stimulus:'O',expectedKey:null,fixationMs:0,responseWindowMs:5000,itiMs:0}]}]])`);
+  await clickText('Begin experiment');
+  await clickText('Start task');
+  await waitFor(`!!document.querySelector('#runtime-regression .gonogo-response')`, 'No-Go stimulus visible');
+  await clickText('SPACE · Go');
+  await waitFor(`(${text}).includes('Session data saved.')`, 'commission trial saved');
+  const cognitiveSession = await evaluate(`(async () => (await import('/src/storage.js')).loadSession(window.scenarioSessionId))()`);
+  assert.equal(cognitiveSession.responses.find(row => row.name === 'commissions').value, 1);
+  assert.equal(cognitiveSession.responses.find(row => row.name === 'omissions').value, 0);
+  assert.equal(cognitiveSession.responses[0].reactionTimeMs, null);
   await evaluate(`window.scenarioRoot.unmount(); document.getElementById('runtime-regression').remove()`);
 }

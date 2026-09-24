@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_5b3c0d1b-7ac3-4e63-a271-5bdb5cc7cdb7",
+  "projectId": "project_64741a80-5003-4f02-a7f6-5c3fd4e70ffb",
+  "metadata": {
+    "name": "QA conditional questionnaire score",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-17T16:38:13.478Z",
+    "updatedAt": "2026-09-17T16:38:13.481Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_15c7dbf9-b617-4b23-a68c-7d548ff72a7a",
+    "nodes": [
+      {
+        "id": "node_15c7dbf9-b617-4b23-a68c-7d548ff72a7a",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_f388f4df-fc98-40dd-a28e-b7207d033dd0",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "Conditional score",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "conditional-score",
+            "name": "Conditional score",
+            "questions": [
+              {
+                "question_id": "gate",
+                "type": "short_text",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Type no to hide the next question"
+                },
+                "correct_answer": "no"
+              },
+              {
+                "question_id": "hidden",
+                "type": "short_text",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Only shown for yes"
+                },
+                "correct_answer": "42",
+                "show_if": {
+                  "question_id": "gate",
+                  "operator": "equals",
+                  "value": "yes"
+                }
+              }
+            ]
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_8685db7d-0f43-4717-8ee3-354833d46d0f",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_3b9b4175-4b16-49c2-8307-a3f569123c50",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_e1adb257-2a82-4a19-8653-3c92f238b395",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_8a5fac8f-99c0-49f6-9595-30501020754c",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_3d06be75-3d49-4189-a50d-827f40234f03",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "4af88e52-2233-436e-b335-68fe03814994",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_15c7dbf9-b617-4b23-a68c-7d548ff72a7a",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_f388f4df-fc98-40dd-a28e-b7207d033dd0",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "e5c6d6f2-379c-4e19-96a1-b3560d1efd6d",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_f388f4df-fc98-40dd-a28e-b7207d033dd0",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_3d06be75-3d49-4189-a50d-827f40234f03",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

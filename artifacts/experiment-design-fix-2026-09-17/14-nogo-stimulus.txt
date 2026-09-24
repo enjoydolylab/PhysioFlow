@@ -1,0 +1,14 @@
+- main:
+  - toolbar:
+    - generic: QA calibration and cognitive tasks
+    - generic: gonogo · experiment.cognitive-task
+    - status: Running · Checkpoint saved
+    - generic: 2 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - generic: Trial 2/2
+    - generic: O
+    - button "SPACE · Go"

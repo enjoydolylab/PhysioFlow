@@ -1,3 +1,4 @@
+import useOperatorControls from './runtime/useOperatorControls.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createLogger } from './engine';
 import { bundle, bundleSimple, downloadBundle } from './exporter';
@@ -37,6 +38,7 @@ export default function RuntimeRunnerPage({ data, onDone }) {
   const [markerType, setMarkerType] = useState('movement');
   const [activeMarker, setActiveMarker] = useState(restoredRunner.active_marker || null);
   const [done, setDone] = useState(false);
+  const operatorVisible = useOperatorControls(!done);
   const [lastSaved, setLastSaved] = useState(null);
   const [saveFlash, setSaveFlash] = useState(false);
   const [recoverySaveError, setRecoverySaveError] = useState('');
@@ -399,7 +401,7 @@ export default function RuntimeRunnerPage({ data, onDone }) {
       <span className="eyebrow">{data.restore ? 'RECOVERY READY' : 'READY'}</span>
       <h1>{session.participant_id}</h1>
       <p>{data.restore ? 'A saved runtime snapshot and its append-only event history were found.' : `${units.length} trial instances · runtime branching enabled · dual-clock logging enabled`}</p>
-      <button className="primary" onClick={begin}>{data.restore ? 'Resume experiment' : 'Begin experiment'}</button>
+      <p>Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.</p><button className="primary" onClick={begin}>{data.restore ? 'Resume experiment' : 'Begin experiment'}</button>
       {data.restore && <button style={{ marginTop: '.5rem' }} onClick={() => setConfirmAbort({ title: 'Discard recovery?', message: 'This will delete the recovery snapshot.', confirmLabel: 'Discard', danger: true, onConfirm: () => { setConfirmAbort(null); onDone(); }, onCancel: () => setConfirmAbort(null) })}>Cancel & return</button>}
     </div>
   </main>;
@@ -452,9 +454,9 @@ export default function RuntimeRunnerPage({ data, onDone }) {
   const participantStyle = { background: app.background ?? layout.background, color: app.color ?? layout.foreground, padding: layout.padding, gap: layout.gap, textAlign: app.alignment ?? layout.alignment, pointerEvents: paused ? 'none' : 'auto', filter: paused ? 'grayscale(.35) brightness(.8)' : 'none' };
   const contentStyle = { width: '100%', maxWidth: layout.content_width || 900, marginInline: 'auto', textAlign: app.alignment ?? (layout.alignment || 'center') };
 
-  return <main className="runner">
+  return <main className={`runner${operatorVisible ? "" : " participant-only"}`}>
     {((layout.custom_css || '') + (app.custom_css || '')).trim() ? <style>{(layout.custom_css || '') + '\n' + (app.custom_css || '')}</style> : null}
-    <div className="operator" role="toolbar" aria-label="Operator controls">
+    <div hidden={!operatorVisible} className="operator" role="toolbar" aria-label="Operator controls">
       <div><b>{item.block.name}</b><span>{item.trial.name} · {item.trial.condition}</span><span className={`badge ${step.type}`} style={{ marginLeft: '.5rem', fontSize: '.6rem', background: '#2a3b32', color: '#a9c4b4' }}>{step.type}</span></div>
       <div style={{ textAlign: 'center' }}>
         Trial {progress.current_unit}/{progress.total_units} · {runtime.completed_steps.length} steps done

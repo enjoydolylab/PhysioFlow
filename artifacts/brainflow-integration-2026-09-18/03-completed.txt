@@ -1,0 +1,8 @@
+- main:
+  - generic: SESSION COMPLETE
+  - heading "Thank you" [level=1]
+  - paragraph: 7 events · 0 responses · 28552 device samples · 22 export files
+  - status: Session data saved.
+  - paragraph: BrainFlow preview exported; full raw recording remains on the acquisition computer.
+  - button "Export complete data package"
+  - button "Return to projects"

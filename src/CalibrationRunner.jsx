@@ -35,8 +35,11 @@ export default function CalibrationRunner({ config, language = 'en', disabled = 
     pixels_per_degree: report.pixels_per_degree,
     pixels_per_cm: report.pixels_per_cm,
     viewing_distance_cm: report.viewing_distance_cm,
-    screen_width_cm: report.screen_width_cm,
-    screen_height_cm: report.screen_height_cm,
+    screen_width_cm: report.display_width_cm,
+    screen_height_cm: report.display_height_cm,
+    display_width_css_px: viewport.widthPx,
+    display_height_css_px: viewport.heightPx,
+    device_pixel_ratio: viewport.devicePixelRatio,
     one_degree_px: report.references?.one_degree_px,
     two_degrees_px: report.references?.two_degrees_px,
     five_degrees_px: report.references?.five_degrees_px,
@@ -48,7 +51,7 @@ export default function CalibrationRunner({ config, language = 'en', disabled = 
 
   return <div className="calibration" role="region" aria-label={msg(MSG)}>
     <span className="eyebrow">{msg(MSG)}</span>
-    <p>{report.viewing_distance_cm} cm · {report.screen_width_cm} × {report.screen_height_cm} cm · {viewport.widthPx}×{viewport.heightPx} px</p>
+    <p>{report.viewing_distance_cm} cm · {report.display_width_cm} × {report.display_height_cm} cm · {viewport.widthPx}×{viewport.heightPx} CSS px</p>
     <div className="calibration-stage">
       <div className="calibration-reference" style={{ width: referencePx, height: referencePx }} />
       <p>The square spans {referenceDeg}° of visual angle.</p>

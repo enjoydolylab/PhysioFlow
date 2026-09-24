@@ -1,0 +1,1196 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_2cabf715-12f2-4f2d-bd2e-20fcc1d5e83d",
+  "projectId": "project_452eb39a-5cba-4af5-9eb3-5ba7d48a5bd1",
+  "metadata": {
+    "name": "QA complete component acceptance",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-17T16:38:13.478Z",
+    "updatedAt": "2026-09-17T16:38:13.481Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_15c7dbf9-b617-4b23-a68c-7d548ff72a7a",
+    "nodes": [
+      {
+        "id": "node_15c7dbf9-b617-4b23-a68c-7d548ff72a7a",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_3d06be75-3d49-4189-a50d-827f40234f03",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_87dbf6fc-db9b-4839-b2fe-da46075915c4",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "Input boundaries",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_2a210306-8a62-454b-8007-d7561e4e3c5c",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_7a185739-e8ab-4816-ab7d-ab0c99734c9c",
+                  "type": "Text",
+                  "props": {
+                    "text": "Input boundary acceptance",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_3875cc48-9a46-497e-98d1-20ed1ec8d896",
+                  "type": "Input",
+                  "props": {
+                    "name": "amount",
+                    "label": "Number 0–10",
+                    "inputType": "number",
+                    "required": true,
+                    "min": 0,
+                    "max": 10
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_5d7373b7-3768-43e2-92bc-a7b27d54c4d0",
+                  "type": "Input",
+                  "props": {
+                    "name": "rating",
+                    "label": "Rating 0–2",
+                    "inputType": "rating",
+                    "required": true,
+                    "min": 0,
+                    "max": 2
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_1ee411ea-1bce-4333-99b8-c4d66d9d74af",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit inputs"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_f388f4df-fc98-40dd-a28e-b7207d033dd0",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "All nine question types",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "qa_all_questions",
+            "name": "All nine question types",
+            "questions": [
+              {
+                "question_id": "likert",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify likert"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 5,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "single_choice",
+                "type": "single_choice",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify single_choice"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 5,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "multiple_choice",
+                "type": "multiple_choice",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify multiple_choice"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 5,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "vas_slider",
+                "type": "vas_slider",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify vas_slider"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 5,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "sam_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify sam_valence"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 9,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "sam_arousal",
+                "type": "sam_arousal",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify sam_arousal"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 9,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "number",
+                "type": "number",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify number"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 5,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "short_text",
+                "type": "short_text",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify short_text"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 5,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              },
+              {
+                "question_id": "long_text",
+                "type": "long_text",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Verify long_text"
+                },
+                "options_i18n": {
+                  "zh": [
+                    "选项 1",
+                    "选项 2"
+                  ],
+                  "ja": [
+                    "選択肢 1",
+                    "選択肢 2"
+                  ],
+                  "en": [
+                    "Option 1",
+                    "Option 2"
+                  ]
+                },
+                "scale_min": 0,
+                "scale_max": 5,
+                "min_label_i18n": {
+                  "zh": "非常不同意",
+                  "ja": "全く同意しない",
+                  "en": "Strongly disagree"
+                },
+                "max_label_i18n": {
+                  "zh": "非常同意",
+                  "ja": "強く同意する",
+                  "en": "Strongly agree"
+                },
+                "correct_answer": "",
+                "show_if": null,
+                "shuffle": false,
+                "time_limit_sec": null
+              }
+            ],
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_8685db7d-0f43-4717-8ee3-354833d46d0f",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_3b9b4175-4b16-49c2-8307-a3f569123c50",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_e1adb257-2a82-4a19-8653-3c92f238b395",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_8a5fac8f-99c0-49f6-9595-30501020754c",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_bd7bbf28-c717-4c21-af4d-724085420334",
+        "component": {
+          "type": "setup.device-check",
+          "version": "1.0.0"
+        },
+        "label": "Required device checklist",
+        "config": {
+          "checklist": "Electrodes checked\nRecording directory checked",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_a9ed5640-7371-4617-bf74-8e3d47ad8d68",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_ae973dc4-1f86-4809-9654-a49a097229bc",
+                  "type": "Text",
+                  "props": {
+                    "text": "Equipment check",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7bd43fa6-b36a-4d78-8335-55b98aea177d",
+                  "type": "Text",
+                  "props": {
+                    "text": "Verify the setup, then continue.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7a53ace6-208c-4aa4-97a9-71dfbda29459",
+                  "type": "Button",
+                  "props": {
+                    "label": "Ready",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_69469a57-e518-482d-b217-ab942b31e831",
+        "component": {
+          "type": "operator.manual-event",
+          "version": "1.0.0"
+        },
+        "label": "Operator note",
+        "config": {
+          "confirmLabel": "Confirm annotated event",
+          "requireNote": true,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_b4c26c53-5cf7-4de0-840d-c6dc9d77ddf0",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_25ff14ce-ba6b-41b4-ba59-4162fcae9dd6",
+                  "type": "Text",
+                  "props": {
+                    "text": "Awaiting operator",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_21aff852-dcfd-413d-a3c5-5087f3c2cde7",
+                  "type": "Button",
+                  "props": {
+                    "label": "Confirm",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_95f12945-017d-4e9c-9667-856f126480b6",
+        "component": {
+          "type": "stimulus.fixation",
+          "version": "1.0.0"
+        },
+        "label": "Manual dot fixation",
+        "config": {
+          "shape": "dot",
+          "sizePx": 64,
+          "color": "#ff0000",
+          "pulse": true,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_e7a278e2-486c-494f-88ff-ce2d2348d15f",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_23c333ac-7efb-4220-828d-b0d75cb2165e",
+                  "type": "Text",
+                  "props": {
+                    "text": "+",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": "80px",
+                    "textAlign": "center"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_3ca99492-0dfa-45b3-99a6-5e6905c77da2",
+        "component": {
+          "type": "utility.note",
+          "version": "1.0.0"
+        },
+        "label": "Researcher note",
+        "config": {
+          "note": "NOT A PARTICIPANT INSTRUCTION",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_d9334438-5b7b-40a4-8353-d01770edc805",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_f45d5602-58de-46fd-b8c3-7b00cbd58389",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b6cdb70d-bb07-4476-908e-a08b98594880",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_88627f7d-e2ad-476c-8bd5-5fa16e254a7b",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4229cd74-4d21-423b-8fd2-fb02e0a9f090",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 0
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_797845f3-a72a-446e-aadc-c998413918d7",
+        "component": {
+          "type": "utility.junction",
+          "version": "1.0.0"
+        },
+        "label": "Junction",
+        "config": {
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_2a83f74f-e5ef-404e-bcde-7646a79f8821",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_5b44a814-88c4-428f-a01e-a4f6a1b28916",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_073048ba-39e9-4ad9-bf42-d536e2ae1dec",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_08abbb46-3b81-4b08-9cf1-18ebd0e18a6c",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_2f7c756a-4228-4ca7-8bfe-5d99b841696f",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 0
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_fbbc4996-5a0d-4f71-97a7-c2b32cfa81c6",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "Finish",
+        "config": {
+          "content": "All components complete",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_401d0402-fb6b-4e8c-b02c-a96304af75e9",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_35d3e3f9-63c9-4819-a382-73235fcf5ee5",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ce3d6c22-3787-4c6f-847f-9b4cf3d413cc",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_76faead7-1e35-4dfc-8313-d05ecc7f796b",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7cabfc7e-eed1-4ba9-baed-47c4cacde530",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_5e30f7ef-25d3-4ab4-8d2f-983c200a8d6d",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_15c7dbf9-b617-4b23-a68c-7d548ff72a7a",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_87dbf6fc-db9b-4839-b2fe-da46075915c4",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_01a25b30-14c4-459a-83ff-b1c6440a1123",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_87dbf6fc-db9b-4839-b2fe-da46075915c4",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_f388f4df-fc98-40dd-a28e-b7207d033dd0",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_d620df24-432b-482c-9bbf-b85bbadfec52",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_f388f4df-fc98-40dd-a28e-b7207d033dd0",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_bd7bbf28-c717-4c21-af4d-724085420334",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_d20ce76e-839d-4573-8615-ce4272a19da6",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_bd7bbf28-c717-4c21-af4d-724085420334",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_69469a57-e518-482d-b217-ab942b31e831",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_7cc699d5-ccef-4b1a-81d4-4fea58a512ce",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_69469a57-e518-482d-b217-ab942b31e831",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_95f12945-017d-4e9c-9667-856f126480b6",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_a910f6c5-6201-44f3-99c0-a8e0323e07ce",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_95f12945-017d-4e9c-9667-856f126480b6",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_3ca99492-0dfa-45b3-99a6-5e6905c77da2",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_85ed1656-f793-454b-bfab-0a98acc627d7",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_3ca99492-0dfa-45b3-99a6-5e6905c77da2",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_797845f3-a72a-446e-aadc-c998413918d7",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_d53a864b-aa8c-4b35-8a5c-3971b836e7d6",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_797845f3-a72a-446e-aadc-c998413918d7",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_fbbc4996-5a0d-4f71-97a7-c2b32cfa81c6",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_cf4e4076-69df-48ef-a187-6063b2a326d2",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_fbbc4996-5a0d-4f71-97a7-c2b32cfa81c6",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_3d06be75-3d49-4189-a50d-827f40234f03",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

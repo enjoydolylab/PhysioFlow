@@ -1,0 +1,483 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "qa-wait-video-questionnaire-repeat",
+  "projectId": "qa-wait-video-questionnaire-repeat",
+  "metadata": {
+    "name": "QA quiet video questionnaire x3",
+    "description": "Acceptance fixture: 1500 ms quiet, 12 s local video to natural end, one required rating; repeated three times."
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-24T05:01:58.033Z",
+    "updatedAt": "2026-09-24T05:01:58.033Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_03c530a1-299a-4d82-b087-b31eafd9e940",
+    "nodes": [
+      {
+        "id": "node_03c530a1-299a-4d82-b087-b31eafd9e940",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "repeat",
+        "component": {
+          "type": "logic.loop",
+          "version": "1.0.0"
+        },
+        "label": "Repeat trial x3",
+        "config": {
+          "maxIterations": 3,
+          "untilRule": null
+        },
+        "bindings": {},
+        "layout": {
+          "x": 320,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "wait0",
+        "component": {
+          "type": "timing.wait",
+          "version": "1.0.0"
+        },
+        "label": "Wait 0",
+        "config": {
+          "durationMs": 1500,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_6a0605cb-db2a-46bf-a0f5-be3598fec194",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_1803f4c2-86a1-4610-95fd-415ea3c07af4",
+                  "type": "Text",
+                  "props": {
+                    "text": "Quiet: 1.5 seconds",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_784ec4b3-5ae2-41da-9fcf-ba3c9316b9bb",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_61a66a31-e0e2-4c50-a0b6-8f04d4741d39",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "qa-video",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "QA video",
+        "config": {
+          "mediaType": "video",
+          "assetId": "asset_f7241ead-d446-42bc-b947-cd3483f5896a",
+          "stimulusPoolId": null,
+          "display": {
+            "preset": "auto"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_b9412432-e210-42e9-b48e-3589859db3e5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_3ace44fc-faa6-45fa-8e82-ab4ccb0adef4",
+                  "type": "Text",
+                  "props": {
+                    "text": "Stimulus",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_2ed31f12-1d3b-4f47-8b46-9c575f1c29e4",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "sourceUrl": "",
+                    "alt": "Experiment stimulus",
+                    "fit": "contain",
+                    "controls": true,
+                    "autoPlay": false
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_6d36e6f7-a692-485d-82ee-e7c97a3faccc",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "media-ended",
+            "durationMs": 3000
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 800,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "qa-questionnaire",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "Trial rating",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "qa-combination-rating",
+            "name": "Trial rating",
+            "questions": [
+              {
+                "question_id": "rating",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "en": "Rate this trial."
+                },
+                "scale_min": 1,
+                "scale_max": 3
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_97369560-3700-41f3-aaab-17cf6bed1af1",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_4a4fb12d-a92c-4a90-85fc-456d2d28aea0",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_96cdabcb-2680-412b-b55c-49c023296730",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_1cfa7329-fbc0-468e-a4ad-ad90d69356e4",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 1040,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_25050d0d-4125-42e1-a6b8-4921b74702ba",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 1280,
+          "y": 180
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "combo-edge-0",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_03c530a1-299a-4d82-b087-b31eafd9e940",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "repeat",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "combo-edge-1",
+        "kind": "control",
+        "source": {
+          "nodeId": "repeat",
+          "portId": "body"
+        },
+        "target": {
+          "nodeId": "wait0",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "combo-edge-2",
+        "kind": "control",
+        "source": {
+          "nodeId": "wait0",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "qa-video",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "combo-edge-3",
+        "kind": "control",
+        "source": {
+          "nodeId": "qa-video",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "qa-questionnaire",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "combo-edge-4",
+        "kind": "control",
+        "source": {
+          "nodeId": "qa-questionnaire",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "repeat",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "combo-edge-5",
+        "kind": "control",
+        "source": {
+          "nodeId": "repeat",
+          "portId": "exit"
+        },
+        "target": {
+          "nodeId": "node_25050d0d-4125-42e1-a6b8-4921b74702ba",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": [
+      {
+        "id": "trial-group",
+        "name": "Quiet → Video → Questionnaire",
+        "kind": "container",
+        "nodeIds": [
+          "wait0",
+          "qa-video",
+          "qa-questionnaire"
+        ],
+        "entryNodeId": "wait0",
+        "exitNodeIds": [
+          "qa-questionnaire"
+        ],
+        "parameters": [],
+        "metadata": {}
+      }
+    ]
+  },
+  "variables": [],
+  "assets": [
+    {
+      "id": "asset_26fc0003-8563-4945-8b19-1fb8732759df",
+      "name": "red.svg",
+      "mediaType": "image",
+      "fileName": "red.svg",
+      "mimeType": "image/svg+xml",
+      "size": 177,
+      "checksum": "baf5e8cfff9e1c9688b86219c3a8a60fc5816eee985249648b816027fb4bdd6e",
+      "sourceMode": "upload"
+    },
+    {
+      "id": "asset_423542f6-eb46-4dcb-86d4-0608a23b0ef6",
+      "name": "blue.svg",
+      "mediaType": "image",
+      "fileName": "blue.svg",
+      "mimeType": "image/svg+xml",
+      "size": 179,
+      "checksum": "9cde68b2bec4ae91c9e1695b0f603b9d6ca85df19bc1b6a653bb8c6ff76b4dfb",
+      "sourceMode": "upload"
+    },
+    {
+      "id": "asset_3b8c931d-367e-44d6-8669-d240af1eaf3e",
+      "name": "tone.wav",
+      "mediaType": "audio",
+      "fileName": "tone.wav",
+      "mimeType": "audio/wav",
+      "size": 384044,
+      "checksum": "71be1c543322331c91700cf09d8659739eb5f5599453241a8cd5feaf2c637a3b",
+      "sourceMode": "upload"
+    },
+    {
+      "id": "asset_f7241ead-d446-42bc-b947-cd3483f5896a",
+      "name": "video.mp4",
+      "mediaType": "video",
+      "fileName": "video.mp4",
+      "mimeType": "video/mp4",
+      "size": 59567,
+      "checksum": "bdfb179213ac94fc95a5f23749c8d2743aec7233c3a08979d56a57f5ee667916",
+      "sourceMode": "upload"
+    }
+  ],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "files": 22,
+  "responses": 15,
+  "values": {
+    "rating": "0",
+    "amount": "0",
+    "likert": "0",
+    "single_choice": "Option 2",
+    "multiple_choice": "[\"Option 1\",\"Option 2\"]",
+    "vas_slider": "1",
+    "sam_valence": "5",
+    "sam_arousal": "7",
+    "number": "0",
+    "short_text": "姜：短文本 日本語 ABC",
+    "long_text": "第一行：长文本验收\n第二行：日本語と English\n特殊字符：, \" ;",
+    "questionnaire_timed_out_question_ids": "[]",
+    "check_0": "yes",
+    "check_1": "yes",
+    "note": "姜 QA：确认设备准备完成"
+  }
+}

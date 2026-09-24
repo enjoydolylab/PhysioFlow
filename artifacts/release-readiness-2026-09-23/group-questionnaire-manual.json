@@ -1,0 +1,21 @@
+{
+  "exportRows": [
+    [
+      "questionnaire_t1_sam",
+      "t1_sam_valence",
+      "Prompt from trial 1"
+    ],
+    [
+      "questionnaire_t2_sam",
+      "t2_sam_valence",
+      "Prompt from trial 1"
+    ],
+    [
+      "questionnaire_t3_sam",
+      "t3_sam_valence",
+      "Prompt from trial 3"
+    ]
+  ],
+  "undoPrompt": "Prompt from trial 2",
+  "outsidePrompt": "Prompt from trial 3"
+}

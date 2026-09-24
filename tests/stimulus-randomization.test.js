@@ -137,3 +137,48 @@ test('media display presets resolve to plain element geometry', () => {
   assert.equal(auto.x, undefined);
   assert.equal(auto.height, undefined);
 });
+
+test('four-item seeded pools can reach all permutations without low-bit exclusions', () => {
+  const protocol = fixture();
+  protocol.assets.push({ id: 'd', mediaType: 'image' });
+  protocol.stimulusPools[0].assetIds.push('d');
+  const permutations = new Map();
+  for (let seed = 0; seed < 10000; seed += 1) {
+    const history = [];
+    const order = [];
+    for (let draw = 0; draw < 4; draw += 1) {
+      order.push(resolveStimulusAssignments(protocol, `session-${seed}`, history).get('slot-1').assetId);
+      history.push('slot-1');
+    }
+    assert.equal(new Set(order).size, 4);
+    const key = order.join('');
+    permutations.set(key, (permutations.get(key) || 0) + 1);
+  }
+  assert.equal(permutations.size, 24);
+  // Fixed seed corpus, deliberately broad bounds; catches structural bias rather
+  // than asserting that finite random samples are perfectly balanced.
+  for (const count of permutations.values()) assert.ok(count > 250 && count < 600);
+});
+
+test('old checkpoints retain the original seeded order while new draws are reproducible', () => {
+  const protocol = fixture();
+  const options = { shuffleVersion: 'legacy-lcg-v1' };
+  const legacy = [...resolveStimulusAssignments(protocol, 'session-seed', {}, options).values()].map(value => value.assetId);
+  assert.deepEqual(legacy, ['b', 'a', 'c']);
+  const history = ['slot-1'];
+  const current = resolveStimulusAssignments(protocol, 'session-seed', history).get('slot-1');
+  const restored = resolveStimulusAssignments(JSON.parse(JSON.stringify(protocol)), 'session-seed', [...history], { shuffleVersion: 'mulberry32-v2' }).get('slot-1');
+  assert.deepEqual(restored, current);
+});
+
+test('creating or binding a pool cannot modify a frozen protocol', () => {
+  const protocol = fixture();
+  protocol.version = { number: 1, status: 'frozen' };
+  const before = structuredClone(protocol);
+  let idsGenerated = 0;
+  for (const bindNodeId of [null, 'slot-1']) {
+    assert.throws(() => createStimulusPool(protocol, { name: 'Blocked', assetIds: ['a'], bindNodeId }, { idFactory: () => { idsGenerated++; return 'new'; } }), /Frozen protocols/);
+    assert.deepEqual(protocol, before);
+  }
+  assert.equal(idsGenerated, 0);
+});

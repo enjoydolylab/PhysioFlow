@@ -1,0 +1,16 @@
+- main:
+  - toolbar:
+    - generic: QA conditional questionnaire score
+    - generic: Conditional score · input.questionnaire
+    - status: Running · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - progressbar
+    - generic: 1/1
+    - paragraph: Type no to hide the next question
+    - textbox [active]: "no"
+    - button "Submit"

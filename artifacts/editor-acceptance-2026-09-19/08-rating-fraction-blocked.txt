@@ -1,0 +1,187 @@
+- main:
+  - generic: PF
+  - text: Composer V2
+  - generic: ●
+  - textbox "Protocol name": QA editor data fields
+  - generic "Editor mode":
+    - button "Quick" [pressed]
+    - button "Design"
+    - button "Advanced"
+    - 'button "{ } Code"'
+  - button "↩ Undo"
+  - button "↪ Redo" [disabled]
+  - button "Preview run" [disabled]
+  - button "Freeze version" [disabled]
+  - button "BioDB"
+  - button "Export"
+  - button "Save"
+  - button "← Projects"
+  - complementary:
+    - heading "Components" [level=2]
+    - paragraph: "Quick mode: build the execution flow and set essential properties."
+    - generic "▾ Flow nodes Click or drag onto the canvas to insert":
+      - text: ▾
+      - generic: Flow nodes
+      - generic: Click or drag onto the canvas to insert
+    - heading "presentation" [level=4]
+    - button "Screen display.screen":
+      - generic: Screen
+      - generic: display.screen
+    - button "Media display.media":
+      - generic: Media
+      - generic: display.media
+    - button "Fixation stimulus.fixation":
+      - generic: Fixation
+      - generic: stimulus.fixation
+    - button "Custom HTML stimulus.custom-html":
+      - generic: Custom HTML
+      - generic: stimulus.custom-html
+    - heading "interaction" [level=4]
+    - button "Rating input.rating":
+      - generic: Rating
+      - generic: input.rating
+    - button "Text Input input.text":
+      - generic: Text Input
+      - generic: input.text
+    - button "Response input.response":
+      - generic: Response
+      - generic: input.response
+    - button "Questionnaire input.questionnaire":
+      - generic: Questionnaire
+      - generic: input.questionnaire
+    - button "Attention check stimulus.attention-check":
+      - generic: Attention check
+      - generic: stimulus.attention-check
+    - button "Cognitive task experiment.cognitive-task":
+      - generic: Cognitive task
+      - generic: experiment.cognitive-task
+    - heading "timing" [level=4]
+    - button "Wait timing.wait":
+      - generic: Wait
+      - generic: timing.wait
+    - heading "setup" [level=4]
+    - button "Device check setup.device-check":
+      - generic: Device check
+      - generic: setup.device-check
+    - button "Manual event operator.manual-event":
+      - generic: Manual event
+      - generic: operator.manual-event
+    - button "Screen calibration stimulus.screen-calibration":
+      - generic: Screen calibration
+      - generic: stimulus.screen-calibration
+    - heading "utility" [level=4]
+    - button "Note utility.note":
+      - generic: Note
+      - generic: utility.note
+    - button "Junction utility.junction":
+      - generic: Junction
+      - generic: utility.junction
+    - heading "control" [level=4]
+    - button "Condition logic.condition":
+      - generic: Condition
+      - generic: logic.condition
+    - button "Random split logic.random":
+      - generic: Random split
+      - generic: logic.random
+    - button "Value switch logic.value-switch":
+      - generic: Value switch
+      - generic: logic.value-switch
+    - button "Loop logic.loop":
+      - generic: Loop
+      - generic: logic.loop
+    - generic "▾ Media & stimuli Asset library and randomized pools":
+      - text: ▾
+      - generic: Media & stimuli
+      - generic: Asset library and randomized pools
+    - generic "Media library (0)"
+    - option "image" [selected]
+    - option "audio"
+    - option "video"
+    - heading "Stimulus pools" [level=3]
+    - paragraph: Create a pool once, then select it from a Media node. Each cycle draws without replacement; when exhausted, the pool repeats its seeded order. Use a flow loop to repeat presentation.
+    - textbox "Pool name"
+    - combobox:
+      - option "image" [selected]
+      - option "audio"
+      - option "video"
+    - button "Create pool" [disabled]
+  - generic: 4 nodes · 3 connections
+  - textbox "Search nodes":
+    - /placeholder: Search nodes… (Ctrl+F)
+  - button "Snap"
+  - button "Auto layout"
+  - button "Snapshots (0)"
+  - button "−"
+  - generic: 100%
+  - button "＋"
+  - button "1:1"
+  - generic: Inserted Rating after Start
+  - img "Graph connections"
+  - article:
+    - generic: control
+    - generic: Start
+    - generic: core.start
+    - button "next":
+      - generic: next
+  - article:
+    - generic: control
+    - generic: End
+    - generic: core.end
+    - button "in":
+      - generic: in
+  - article:
+    - generic: presentation
+    - generic: Screen
+    - generic: display.screen
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - article:
+    - generic: interaction
+    - generic: Rating
+    - generic: input.rating
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+    - button "value":
+      - generic: value
+    - 'generic "Data columns: value, reaction_time_ms"': 2 outputs
+  - complementary:
+    - heading "Inspector" [level=2]
+    - text: Label
+    - textbox "Label": Rating
+    - generic: input.rating@1.0.0
+    - generic: "Participant UI is invalid: Rating needs increasing integer bounds and at most 1000 choices"
+    - button "Edit participant screen"
+    - generic: Content
+    - text: Minimum
+    - spinbutton "Minimum" [active]: "1.5"
+    - text: Maximum
+    - spinbutton "Maximum": "7"
+    - checkbox "Required" [checked]
+    - text: Required
+    - region "Repeat a sequence":
+      - heading "Repeat a sequence" [level=3]
+      - paragraph: Repeat these steps in execution order. The count includes the first pass.
+      - text: Repeat through
+      - combobox "Last step to repeat":
+        - option "Rating" [selected]
+        - option "Screen"
+      - text: Total repetitions
+      - spinbutton "Total repetitions": "3"
+      - list:
+        - listitem: Rating
+      - status: 1 steps × 3 passes = 3 step visits, then continue to the next step.
+      - text: This keeps the step order. Media pools draw on each completed or skipped visit; a retry keeps its stimulus. Operator actions can change the actual visit count.
+      - button "Create repeat sequence"
+    - button "Duplicate node"
+    - button "Delete node"
+    - heading "2 blocking issues" [level=3]
+    - button "config.ui.rating_range_invalid Rating needs increasing integer bounds and at most 1000 choices":
+      - generic: config.ui.rating_range_invalid
+      - generic: Rating needs increasing integer bounds and at most 1000 choices
+    - button "config.rating_range_invalid Rating needs increasing integer bounds and at most 1000 choices":
+      - generic: config.rating_range_invalid
+      - generic: Rating needs increasing integer bounds and at most 1000 choices

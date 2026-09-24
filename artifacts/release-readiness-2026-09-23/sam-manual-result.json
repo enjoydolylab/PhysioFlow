@@ -1,0 +1,20 @@
+{
+  "participant": "QA-SAM-RELEASE",
+  "fixture": "sam-runtime-fixture.json",
+  "requiredBlocked": [
+    "valence",
+    "dominance"
+  ],
+  "loadedImagesChecked": [
+    "valence",
+    "dominance"
+  ],
+  "exportValues": {
+    "t1_sam_valence": 3,
+    "t1_sam_arousal": 6,
+    "t1_sam_dominance": 9,
+    "questionnaire_timed_out_question_ids": []
+  },
+  "sessionStatus": "saved",
+  "observedLayoutIssue": "9 choices wrap into two rows at 1280px viewport; needs layout refinement"
+}

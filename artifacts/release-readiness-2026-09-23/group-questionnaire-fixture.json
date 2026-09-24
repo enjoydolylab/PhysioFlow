@@ -1,0 +1,467 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "qa-batch-questionnaires",
+  "projectId": "qa-batch-questionnaires",
+  "metadata": {
+    "name": "QA group questionnaire batch",
+    "description": "40動画を参加者セッションごとに8感情×5本、前後半20本ずつカテゴリ差1本となるようランダム配置。SAMは支給画像を用いた1–9の画像選択式。動画ファイルはローカルから登録してください。機器同期未実装。",
+    "tags": [
+      "imgNoBio",
+      "draft",
+      "emotion",
+      "video",
+      "migration"
+    ],
+    "migrationSpecification": {
+      "originalProgram": "imgNoBio_long_manual_participant_id",
+      "targetVersion": "PhysioFlow 0.6.0-beta.2",
+      "status": "DRAFT_REQUIRES_ENGINEERING",
+      "scheduleSeed": null,
+      "scheduleMode": "session-specific balanced-halves via PhysioFlow stimulus pool; seed = session runtime.randomSeed",
+      "randomization": "PhysioFlow session seeded categorical half balancing; reproducible by session randomSeed",
+      "videoCompletion": "media-ended; original video duration_sec is blank",
+      "sourcePathsArePlaceholders": false,
+      "sourceMediaRoot": "local Media library placeholders; upload 40 videos",
+      "markerTransportImplemented": false,
+      "markerTarget": {
+        "kind": "OpenBCI GUI UDP",
+        "host": "127.0.0.1",
+        "port": 12350
+      },
+      "myBeatCsvExportImplemented": false,
+      "participantIdRegistryImplemented": false,
+      "videoMutedImplemented": false,
+      "exactSAMImagesImplemented": true,
+      "middleRestAlarmImplemented": false,
+      "exactQuestionnaireMatrixImplemented": false,
+      "trialSchedule": null,
+      "sourceQuestionDefinitions": "main.py QUESTIONNAIRE_DEFINITIONS",
+      "note": "Marker numbers only as metadata; no UDP signal is emitted. A participant ID is set up in the session UI, not generated here.",
+      "scheduleSha256": null,
+      "videoAssetsNeedUploading": true
+    }
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-21T00:00:00.000Z",
+    "updatedAt": "2026-09-22T10:41:52.563Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_0001",
+    "nodes": [
+      {
+        "id": "node_0001",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 100
+        },
+        "metadata": {}
+      },
+      {
+        "id": "q1",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "Questionnaire 1",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "questionnaire_t1_sam",
+            "name": "SAM trial 1",
+            "questions": [
+              {
+                "question_id": "t1_sam_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "",
+                  "en": "Prompt from trial 1"
+                },
+                "scale_min": 1,
+                "scale_max": 9
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_97369560-3700-41f3-aaab-17cf6bed1af1",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_4a4fb12d-a92c-4a90-85fc-456d2d28aea0",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_96cdabcb-2680-412b-b55c-49c023296730",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_1cfa7329-fbc0-468e-a4ad-ad90d69356e4",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 520,
+          "y": 100
+        },
+        "metadata": {
+          "trialIndex": 1,
+          "questionnaireKind": "sam"
+        }
+      },
+      {
+        "id": "q2",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "Questionnaire 2",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "questionnaire_t2_sam",
+            "name": "SAM trial 1",
+            "questions": [
+              {
+                "question_id": "t2_sam_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "",
+                  "en": "Prompt from trial 2"
+                },
+                "scale_min": 1,
+                "scale_max": 9
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_97369560-3700-41f3-aaab-17cf6bed1af1",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_4a4fb12d-a92c-4a90-85fc-456d2d28aea0",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_96cdabcb-2680-412b-b55c-49c023296730",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_1cfa7329-fbc0-468e-a4ad-ad90d69356e4",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 740,
+          "y": 100
+        },
+        "metadata": {
+          "trialIndex": 1,
+          "questionnaireKind": "sam"
+        }
+      },
+      {
+        "id": "q3",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "Questionnaire 3",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "questionnaire_t3_sam",
+            "name": "SAM trial 1",
+            "questions": [
+              {
+                "question_id": "t3_sam_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "",
+                  "en": "Prompt from trial 3"
+                },
+                "scale_min": 1,
+                "scale_max": 9
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_97369560-3700-41f3-aaab-17cf6bed1af1",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_4a4fb12d-a92c-4a90-85fc-456d2d28aea0",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_96cdabcb-2680-412b-b55c-49c023296730",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_1cfa7329-fbc0-468e-a4ad-ad90d69356e4",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 960,
+          "y": 100
+        },
+        "metadata": {
+          "trialIndex": 1,
+          "questionnaireKind": "sam"
+        }
+      },
+      {
+        "id": "node_0002",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 46060,
+          "y": 100
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_0001",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "q1",
+          "portId": "in"
+        }
+      },
+      {
+        "id": "e1",
+        "kind": "control",
+        "source": {
+          "nodeId": "q1",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "q2",
+          "portId": "in"
+        }
+      },
+      {
+        "id": "e2",
+        "kind": "control",
+        "source": {
+          "nodeId": "q2",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "q3",
+          "portId": "in"
+        }
+      },
+      {
+        "id": "e3",
+        "kind": "control",
+        "source": {
+          "nodeId": "q3",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_0002",
+          "portId": "in"
+        }
+      }
+    ],
+    "groups": [
+      {
+        "id": "g",
+        "name": "Questionnaire batch",
+        "kind": "container",
+        "nodeIds": [
+          "q1",
+          "q2"
+        ],
+        "entryNodeId": null,
+        "exitNodeIds": [],
+        "parameters": [],
+        "metadata": {}
+      }
+    ]
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

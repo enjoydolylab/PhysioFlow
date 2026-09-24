@@ -78,6 +78,9 @@ export function connect(protocol, kind, source, target, options = {}) {
   if (!next.graph.nodes.some(node => node.id === target.nodeId)) throw new Error(`Target node ${target.nodeId} does not exist`);
   const duplicate = next.graph.edges.some(edge => edge.kind === kind && edge.source.nodeId === source.nodeId && edge.source.portId === source.portId && edge.target.nodeId === target.nodeId && edge.target.portId === target.portId);
   if (duplicate) throw new Error('The same connection already exists');
+  if (kind === 'control' && next.graph.edges.some(edge => edge.kind === 'control' && edge.source.nodeId === source.nodeId && edge.source.portId === source.portId)) {
+    throw new Error(`Output ${source.portId} already has a control connection. Disconnect it before choosing another target.`);
+  }
   const edge = createEdge(kind, source, target, options);
   if (next.graph.edges.some(existing => existing.id === edge.id)) throw new Error(`Edge ${edge.id} already exists`);
   next.graph.edges.push(edge);

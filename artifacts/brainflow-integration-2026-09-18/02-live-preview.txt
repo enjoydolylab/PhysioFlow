@@ -1,0 +1,20 @@
+- main:
+  - toolbar:
+    - generic: QA BrainFlow Synthetic acquisition
+    - generic: Synthetic acquisition · display.screen
+    - generic: Device connected · 16928 samples
+    - status: Running · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - complementary "BrainFlow live preview":
+    - text: BrainFlow EEG preview (µV)
+    - paragraph: "eeg_1: 8.18 · eeg_2: 14.05 · eeg_3: 17.68 · eeg_4: 20.90"
+    - text: Preview channels only. Complete raw recording stays on the acquisition computer.
+  - region "Participant view":
+    - heading "Welcome" [level=1]
+    - paragraph: Please read the instructions carefully.
+    - progressbar
+    - button "Continue"

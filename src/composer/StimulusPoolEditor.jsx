@@ -1,4 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { loadAsset } from '../assetStore.js';
 
 // Full-size editor for a stimulus pool. The left panel is far too narrow to list every
 // asset, so the pool card shows a summary and this dialog does the actual picking with
@@ -16,6 +18,28 @@ export default function StimulusPoolEditor({ pool, assets = [], locked = false, 
     () => assets.filter(asset => (asset.mediaType || asset.type || 'image') === mediaType),
     [assets, mediaType],
   );
+  const [localPreviews, setLocalPreviews] = useState({});
+  useEffect(() => {
+    let active = true;
+    const urls = [];
+    setLocalPreviews({});
+    if (mediaType !== 'image') return undefined;
+    Promise.all(candidates.map(async asset => {
+      if (asset.sourceUrl || asset.url) return null;
+      const id = asset.id || asset.assetId;
+      try {
+        const stored = await loadAsset(id);
+        if (!active || !stored?.file) return null;
+        const url = URL.createObjectURL(stored.file);
+        urls.push(url);
+        return [id, url];
+      } catch { return null; }
+    })).then(entries => {
+      if (active) setLocalPreviews(Object.fromEntries(entries.filter(Boolean)));
+    });
+    return () => { active = false; urls.forEach(url => URL.revokeObjectURL(url)); };
+  }, [candidates, mediaType]);
+
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return candidates;
@@ -29,7 +53,7 @@ export default function StimulusPoolEditor({ pool, assets = [], locked = false, 
     return next;
   });
 
-  return <div className="pool-editor-backdrop" onMouseDown={onClose}>
+  return createPortal(<div className="pool-editor-backdrop" onMouseDown={onClose}>
     <div className="pool-editor" role="dialog" aria-label={`Edit ${pool.name}`} onMouseDown={event => event.stopPropagation()}>
       <header className="pool-editor-head">
         <div>
@@ -49,7 +73,7 @@ export default function StimulusPoolEditor({ pool, assets = [], locked = false, 
         {filtered.map(asset => {
           const id = assetIdOf(asset);
           const on = selected.has(id);
-          const source = asset.sourceUrl || asset.url;
+          const source = asset.sourceUrl || asset.url || localPreviews[id];
           const showThumb = mediaType === 'image' && source;
           return <button key={id} type="button" disabled={locked} className={`pool-tile${on ? ' selected' : ''}`} onClick={() => toggle(id)} title={asset.name || id}>
             <span className="pool-tile-thumb">{showThumb ? <img src={source} alt="" loading="lazy" /> : <em>{MEDIA_LABEL[mediaType] || mediaType}</em>}</span>
@@ -66,5 +90,5 @@ export default function StimulusPoolEditor({ pool, assets = [], locked = false, 
         <button type="button" className="primary" disabled={locked} onClick={() => onSave({ name: name.trim() || 'Stimulus pool', assetIds: [...selected] })}>{'Done'} ({selected.size})</button>
       </footer>
     </div>
-  </div>;
+  </div>, document.body);
 }

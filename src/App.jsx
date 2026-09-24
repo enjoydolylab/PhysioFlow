@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { applyThemeToDOM, resetThemeToDOM } from './theme.js';
-import { createNextProtocolVersion, duplicateProtocolAsProject, freezeProtocol, unfreezeProtocol, validateProtocol } from './domain';
+import { createNextProtocolVersion, duplicateProtocolAsProject, freezeProtocol, validateProtocol } from './domain';
 import { clearCurrentRun, getStorageInfo, loadCurrentRunAsync, loadProtocols, loadSessions, openDataDirectory, saveProtocols, selectDataDirectory } from './storage';
 import Dashboard from './Dashboard.jsx';
 import { ConfirmDialog, AlertDialog, PromptDialog } from './Modal.jsx';
@@ -22,6 +22,7 @@ import {
   protocolIdOf,
   protocolNameOf,
   protocolStatusOf,
+  protocolVersionOf,
   renameProtocol,
   validateProtocolGraph,
 } from './core/index.js';
@@ -31,6 +32,7 @@ import { useGlobalShortcuts } from './app/useGlobalShortcuts.js';
 import { useUndoRedo } from './app/useUndoRedo.js';
 import { Builder } from './app/legacyBuilder.jsx';
 import { GraphSessionSetup, ResumeBanner, SessionSetup } from './app/sessionSetup.jsx';
+import { useT } from './i18n.jsx';
 import { clone, saveFile, showToast } from './app/uiHelpers.js';
 
 // Lazy-loaded for code splitting
@@ -45,7 +47,9 @@ const SessionManager = lazy(() => import('./SessionManager.jsx'));
 const LoadingFallback = () => <div style={{ position:'fixed',inset:0,zIndex:2000,display:'grid',placeItems:'center',background:'var(--surface)' }}><span style={{ color:'var(--muted)',fontSize:'.9rem' }}>Loading…</span></div>;
 
 export default function App() {
+  const t = useT();
   const [view, setView] = useState('home');
+  const [analyticsSessionId, setAnalyticsSessionId] = useState(null);
   const [viewMode, setViewMode] = useState('visual');
   const [protocols, setProtocols] = useState([]);
   const [current, setCurrent] = useState(null);
@@ -107,6 +111,16 @@ export default function App() {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   // Alert
   const [alertState, setAlert] = useState(null);
+  const handleProtocolExport = () => {
+    try {
+      const filename = `${protocolNameOf(current)}.${isGraphProtocol(current) ? 'protocol-graph' : 'protocol'}.json`;
+      saveFile(filename, JSON.stringify(current, null, 2));
+      showToast(`${t('Protocol generated; download started. Check your browser downloads.')} ${filename}`, { duration: 6000 });
+    } catch {
+      setAlert({ title: t('Protocol export failed'), message: t('The protocol could not be exported. Please try again.') });
+    }
+  };
+
   // Prompt
   const [promptState, setPrompt] = useState(null);
   // Pre-run checklist
@@ -240,6 +254,28 @@ export default function App() {
     });
   };
 
+  const restoreVersion = async value => {
+    try {
+      await persist(protocols.map(item => protocolIdOf(item) === protocolIdOf(value) ? archiveProtocol(item, null) : item));
+      showToast('Version restored');
+    } catch (error) { showProtocolSaveError(error); }
+  };
+
+  const removeVersion = value => setDeleteConfirm({
+    title: 'Remove this version?',
+    message: `Move "${protocolNameOf(value)}" v${protocolVersionOf(value)} to the recovery area? Other versions and session data will remain. You can restore it from Removed / archived versions.`,
+    confirmLabel: 'Remove version',
+    danger: false,
+    onConfirm: async () => {
+      try {
+        await persist(protocols.map(item => protocolIdOf(item) === protocolIdOf(value) ? archiveProtocol(item) : item));
+        setDeleteConfirm(null);
+        showToast('Version removed; recovery is available');
+      } catch (error) { showProtocolSaveError(error); }
+    },
+    onCancel: () => setDeleteConfirm(null),
+  });
+
   const renameProject = value => {
     setPrompt({
       title: 'Rename project',
@@ -259,7 +295,7 @@ export default function App() {
             showProtocolSaveError(error);
           }
         } else {
-          const next = isGraphProtocol(value) ? createNextGraphProtocolVersion(value) : createNextProtocolVersion(value);
+          const next = isGraphProtocol(value) ? createNextGraphProtocolVersion(value, { existingProtocols: protocols }) : createNextProtocolVersion(value, { existingProtocols: protocols });
           if (isGraphProtocol(next)) next.metadata.name = name;
           else next.name = name;
           addAndOpen(next);
@@ -352,7 +388,7 @@ export default function App() {
           }}
           onSave={handleSave}
           onBack={handleBackFromBuilder}
-          onExport={() => saveFile(`${protocolNameOf(current)}.protocol-graph.json`, JSON.stringify(current, null, 2))}
+          onExport={handleProtocolExport}
           onPreview={() => {
             const check = validateProtocolGraph(current, createProjectComponentRegistry(current));
             if (check.valid) { setRun(current); setView('setup'); }
@@ -364,7 +400,7 @@ export default function App() {
               if (await handleSave(frozen)) showToast('Protocol Graph frozen');
             } catch (error) { setAlert({ title: 'Cannot freeze', message: error.message }); }
           }}
-          onCreateDraft={() => addAndOpen(createNextGraphProtocolVersion(current))}
+          onCreateDraft={() => addAndOpen(createNextGraphProtocolVersion(current, { existingProtocols: protocols }))}
           onHostedRun={({ client, session, protocol: hostedProtocol, resources }) => {
             setRun({
               protocol: hostedProtocol || current,
@@ -410,7 +446,7 @@ export default function App() {
             setCurrent(cv);
           }} onSave={handleSave}
           onBack={handleBackFromBuilder}
-          onExport={() => saveFile(`${current.name}.protocol.json`, JSON.stringify(current, null, 2))}
+          onExport={handleProtocolExport}
           onFreeze={current.status !== 'frozen' ? async () => {
             const check = validateProtocol(current);
             if (check.valid) {
@@ -423,11 +459,7 @@ export default function App() {
               }
             } else { setPreRunCheck(current); }
           } : null}
-          onUnfreeze={current.status === 'frozen' ? async () => {
-            const draft = unfreezeProtocol(current);
-            setCurrent(draft);
-            if (await handleSave(draft)) showToast('Protocol unfrozen — editable again');
-          } : null}
+          onUnfreeze={current.status === 'frozen' ? () => addAndOpen(createNextProtocolVersion(current, { existingProtocols: protocols })) : null}
           onTestRun={() => {
             const check = validateProtocol(current);
             if (check.valid && current.status !== 'frozen') { setRun(current); setView('setup'); } else { setPreRunCheck(current); }
@@ -474,11 +506,7 @@ export default function App() {
           hasUnsaved={hasUnsaved}
           onSwitchToVisual={() => setViewMode('visual')}
           onGuide={openGuide}
-          onUnfreeze={current.status === 'frozen' ? async () => {
-            const draft = unfreezeProtocol(current);
-            setCurrent(draft);
-            if (await handleSave(draft)) showToast('Protocol unfrozen — editable again');
-          } : null}
+          onUnfreeze={current.status === 'frozen' ? () => addAndOpen(createNextProtocolVersion(current, { existingProtocols: protocols })) : null}
         />
         {deleteConfirm && <ConfirmDialog {...deleteConfirm} />}
         {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}
@@ -491,7 +519,7 @@ export default function App() {
 
   if (view === 'setup' && run) {
     const SetupComponent = isGraphProtocol(run) ? GraphSessionSetup : SessionSetup;
-    return <SetupComponent
+    return <><SetupComponent
       protocol={run}
       onBack={() => setView(run.status === 'frozen' ? 'home' : 'builder')}
       onStart={session => { setRun({ protocol: run, session }); setView('runner'); }}
@@ -501,7 +529,7 @@ export default function App() {
       guideOpen={guideOpen}
       guideTab={guideTab}
       onCloseGuide={() => setGuideOpen(false)}
-    />;
+    />{alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}</>;
   }
 
   if (view === 'runner' && run?.protocol) {
@@ -511,7 +539,7 @@ export default function App() {
 
   if (view === 'analytics') {
     return <>
-      <Suspense fallback={<LoadingFallback />}><Analytics onBack={() => setView('home')} initialSessions={sessions} onGuide={openGuide} /></Suspense>
+      <Suspense fallback={<LoadingFallback />}><Analytics onBack={() => setView('home')} initialSessions={sessions} initialSessionId={analyticsSessionId} onGuide={openGuide} /></Suspense>
       {guideOpen && <Suspense fallback={null}><GuidePanel initialTab={guideTab} onClose={() => setGuideOpen(false)} /></Suspense>}
     </>;
   }
@@ -527,12 +555,14 @@ export default function App() {
       onGonogoTemplate={(cfg) => addAndOpen(createGonogoGraphTemplate(cfg || {}))}
       onImport={addAndOpen}
       onRun={value => { setPreRunCheck(value); }}
-      onNextVersion={value => addAndOpen(isGraphProtocol(value) ? createNextGraphProtocolVersion(value) : createNextProtocolVersion(value))}
+      onNextVersion={value => addAndOpen(isGraphProtocol(value) ? createNextGraphProtocolVersion(value, { existingProtocols: protocols }) : createNextProtocolVersion(value, { existingProtocols: protocols }))}
       onDuplicate={value => addAndOpen(isGraphProtocol(value) ? duplicateGraphProtocolAsProject(value) : duplicateProtocolAsProject(value))}
       onArchive={archive}
+      onRemoveVersion={removeVersion}
+      onRestoreVersion={restoreVersion}
       onRenameProject={renameProject}
       onMigrate={migrateProtocol}
-      onAnalytics={() => setView('analytics')}
+      onAnalytics={sessionId => { setAnalyticsSessionId(typeof sessionId === 'string' ? sessionId : null); setView('analytics'); }}
       storageInfo={storageInfo}
       onChooseDataDirectory={chooseDataDirectory}
       onOpenDataFolder={openDataFolder}

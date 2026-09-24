@@ -42,7 +42,7 @@ export function Modal({ open = true, onClose, children }) {
   );
 }
 
-export function ConfirmDialog({ open = true, title, message, confirmLabel = 'Confirm', danger, onConfirm, onCancel }) {
+export function ConfirmDialog({ open = true, title, message, confirmLabel = 'Confirm', secondaryLabel, onSecondary, danger, onConfirm, onCancel }) {
   const ref = useModalFocus(() => onCancel?.());
   if (!open) return null;
   return createPortal(
@@ -53,6 +53,7 @@ export function ConfirmDialog({ open = true, title, message, confirmLabel = 'Con
         <p>{message}</p>
         <div className="modal-actions">
           <button className={danger ? 'danger' : 'primary'} onClick={onConfirm} autoFocus={danger}>{confirmLabel}</button>
+          {secondaryLabel && onSecondary && <button onClick={onSecondary}>{secondaryLabel}</button>}
           <button onClick={onCancel}>Cancel</button>
         </div>
       </div>

@@ -1,0 +1,20 @@
+{
+  "graphMatchesGuiExport": true,
+  "status": "completed",
+  "attempts": {
+    "wait0": 3,
+    "qa-video": 3,
+    "qa-questionnaire": 3
+  },
+  "values": [
+    3,
+    2,
+    1
+  ],
+  "videoPlaybackMs": [
+    11993.199951171875,
+    11991.199951171875,
+    12004.800048828125
+  ],
+  "events": 33
+}

@@ -1,3 +1,4 @@
+import { isReviewableSession } from './analysis/sessionReview.js';
 import { useEffect, useMemo, useState } from 'react';
 import { loadSessions, loadSession } from './storage';
 import { bundle, downloadBundle } from './exporter.js';
@@ -8,11 +9,12 @@ import CrossSessionCompare from './analysis/CrossSessionCompare.jsx';
 import { formatDateTime, STATUS_COLORS } from './analysis/charts.js';
 
 // Analytics — Full-screen dashboard for session data visualization
-export default function Analytics({ onBack, initialSessions = [], onGuide }) {
+export default function Analytics({ onBack, initialSessions = [], initialSessionId = null, onGuide }) {
   const [sessions, setSessions] = useState(initialSessions || []);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(initialSessionId);
   const [detail, setDetail] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState('');
   const [tab, setTab] = useState('timeline'); // timeline | windows | responses | compare
 
   // Load sessions — use initialSessions if provided, otherwise load from storage
@@ -27,21 +29,28 @@ export default function Analytics({ onBack, initialSessions = [], onGuide }) {
     })().catch(console.warn);
   }, [initialSessions]);
 
-  // Load session detail when selected
+  // Ignore an older request after the selected session changes or we unmount.
   useEffect(() => {
     if (!selectedId) return;
+    let active = true;
     setLoading(true);
+    setDetail(null);
+    setLoadError('');
     loadSession(selectedId).then(data => {
+      if (!active) return;
+      if (!data) throw new Error('This session is no longer available.');
       setDetail(data);
       setLoading(false);
-    }).catch(err => {
-      console.warn('Failed to load session detail:', err);
+    }).catch(error => {
+      if (!active) return;
+      setLoadError(error.message || 'Could not load the selected session.');
       setLoading(false);
     });
+    return () => { active = false; };
   }, [selectedId]);
 
-  const completedSessions = useMemo(() =>
-    sessions.filter(s => s.status === 'completed' || s.status === 'aborted'),
+  const reviewableSessions = useMemo(() =>
+    sessions.filter(isReviewableSession),
     [sessions]
   );
 
@@ -62,7 +71,7 @@ export default function Analytics({ onBack, initialSessions = [], onGuide }) {
         <div className="analytics-head-actions">
           <button className="hint" onClick={() => onGuide?.('data')}>Data format</button>
           <small>
-            {completedSessions.length} completed sessions
+            {reviewableSessions.length} finished sessions
           </small>
         </div>
       </header>
@@ -71,10 +80,10 @@ export default function Analytics({ onBack, initialSessions = [], onGuide }) {
         <aside className="analytics-sidebar">
           <div className="analytics-sidebar-inner">
             <h3>Sessions</h3>
-            {completedSessions.length === 0 && (
-              <p>No completed sessions yet. Run experiments to see data here.</p>
+            {reviewableSessions.length === 0 && (
+              <p>No finished sessions yet. Run experiments to see data here.</p>
             )}
-            {completedSessions.map(s => (
+            {reviewableSessions.map(s => (
               <SessionRow
                 key={s.session_id}
                 session={s}
@@ -86,12 +95,13 @@ export default function Analytics({ onBack, initialSessions = [], onGuide }) {
         </aside>
 
         <main className="analytics-main">
-          {!selectedId && <EmptyState count={completedSessions.length} />}
+          {!selectedId && <EmptyState count={reviewableSessions.length} />}
 
           {selectedId && loading && (
             <div className="analytics-loading">Loading session data...</div>
           )}
 
+          {loadError && <p role="alert">{loadError}</p>}
           {selectedId && detail && !loading && (
             <>
               <section className="analytics-card analytics-session-card">
@@ -114,10 +124,10 @@ export default function Analytics({ onBack, initialSessions = [], onGuide }) {
 
                 <div className="analytics-metrics">
                   <Metric label="Events" value={detail.event_count || 0} />
-                  <Metric label="Responses" value={(detail.responses || []).length} />
-                  <Metric label="Completed steps" value={detail.integrity?.facts?.completed_steps || 0} />
+                  <Metric label="Effective response records" value={(detail.responses || []).filter(row => !row.supersededByEventId).length} />
+                  <Metric label="Completed steps" value={detail.integrity?.facts?.components_completed ?? detail.integrity?.facts?.completed_steps ?? 0} />
                   <Metric label="Pauses" value={detail.integrity?.facts?.pauses || 0} />
-                  <Metric label="Skips" value={detail.integrity?.facts?.skips || 0} />
+                  <Metric label="Skips" value={detail.integrity?.facts?.skipped ?? detail.integrity?.facts?.skips ?? 0} />
                   <Metric label="Retries" value={detail.integrity?.facts?.retries || 0} />
                   <Metric label="Media errors" value={detail.integrity?.facts?.media_errors || 0} color={STATUS_COLORS.invalid} />
                 </div>
@@ -164,10 +174,10 @@ export default function Analytics({ onBack, initialSessions = [], onGuide }) {
                   <WindowCards events={detail.events || []} protocol={detail.protocol_snapshot} />
                 )}
                 {tab === 'responses' && (
-                  <ResponseCharts responses={detail.responses || []} protocol={detail.protocol_snapshot} />
+                  <ResponseCharts responses={detail.responses || []} protocol={detail.protocol_snapshot} language={detail.participant_language || 'en'} />
                 )}
                 {tab === 'compare' && (
-                  <CrossSessionCompare sessions={completedSessions} protocolId={detail.protocol_id} />
+                  <CrossSessionCompare sessions={reviewableSessions} protocolId={detail.protocol_id} />
                 )}
               </section>
             </>
@@ -223,7 +233,7 @@ function EmptyState({ count }) {
       <h3>No session selected</h3>
       <p>
         {count > 0
-          ? `Select a session from the sidebar to view its timeline, analysis windows, and response charts. ${count} completed sessions available.`
+          ? `Select a session from the sidebar to view its timeline, analysis windows, and response charts. ${count} finished sessions available.`
           : 'Complete an experiment to see analytics here. Your session data will be visualized with timelines, charts, and integrity reports.'}
       </p>
     </div>

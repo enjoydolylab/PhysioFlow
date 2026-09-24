@@ -20,19 +20,22 @@ export function maxInputSampleRateHz(connector) {
 // Drift-corrected recursive setTimeout sampler (setInterval would drift when read() is
 // slow; requestAnimationFrame is capped ~60 Hz and cannot hit the 100 Hz simulated signal).
 export function createDeviceSampler({ session, channels, sampleRateHz = 10, onError }) {
-  const periodMs = Math.max(1, Math.round(1000 / Math.max(1, Number(sampleRateHz))));
+  const batch = typeof session.adapter?.readBatch === 'function';
+  const periodMs = batch ? 250 : Math.max(1, Math.round(1000 / Math.max(1, Number(sampleRateHz))));
   let timer = null;
   let running = false;
+  let pending = Promise.resolve();
   const tick = async () => {
     const started = performance.now();
-    await Promise.all(channels.map(channel => session.read(channel.id).catch(error => { running = false; onError?.(channel.id, error); })));
+    if (batch) await session.readBatch().catch(error => { running = false; onError?.('batch', error); });
+    else await Promise.all(channels.map(channel => session.read(channel.id).catch(error => { running = false; onError?.(channel.id, error); })));
     if (!running) return;
     const elapsed = performance.now() - started;
-    timer = setTimeout(tick, Math.max(0, periodMs - elapsed));
+    timer = setTimeout(() => { pending = tick(); }, Math.max(0, periodMs - elapsed));
   };
   return {
-    start() { if (running) return; running = true; tick(); },
-    stop() { running = false; if (timer) { clearTimeout(timer); timer = null; } },
+    start() { if (running) return; running = true; pending = tick(); },
+    stop() { running = false; if (timer) { clearTimeout(timer); timer = null; } return pending; },
     isRunning: () => running,
   };
 }

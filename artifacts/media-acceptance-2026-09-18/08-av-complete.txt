@@ -1,0 +1,7 @@
+- main:
+  - generic: SESSION COMPLETE
+  - heading "Thank you" [level=1]
+  - paragraph: 13 events · 0 responses · 0 device samples · 22 export files
+  - status: Session data saved.
+  - button "Export complete data package" [active]
+  - button "Return to projects"

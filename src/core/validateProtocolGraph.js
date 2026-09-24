@@ -174,9 +174,10 @@ export function validateProtocolGraph(protocol, registry) {
       const bound = Object.prototype.hasOwnProperty.call(node.bindings || {}, port.id) || subflowMappedInputs.has(`${node.id}:${port.id}`);
       if (!connected && !bound) errors.push(issue('port.required_unbound', `Required port ${port.id} is not connected or bound`, `graph.nodes.${node.id}.bindings.${port.id}`, { nodeId: node.id }));
     }
-    for (const port of definition.ports.filter(port => port.direction === 'output' && port.kind === 'control' && port.required)) {
-      const connected = edges.some(edge => edge.source?.nodeId === node.id && edge.source?.portId === port.id);
-      if (!connected) errors.push(issue('port.required_unconnected', `Required output ${port.id} is not connected`, `graph.nodes.${node.id}.ports.${port.id}`, { nodeId: node.id }));
+    for (const port of definition.ports.filter(port => port.direction === 'output' && port.kind === 'control')) {
+      const count = edges.filter(edge => edge.kind === 'control' && edge.source?.nodeId === node.id && edge.source?.portId === port.id).length;
+      if (port.required && !count) errors.push(issue('port.required_unconnected', `Required output ${port.id} is not connected`, `graph.nodes.${node.id}.ports.${port.id}`, { nodeId: node.id }));
+      if (count > 1) errors.push(issue('port.control_output_multiple', `Output ${port.id} on ${node.label || node.id} must have only one control connection; found ${count}`, `graph.nodes.${node.id}.ports.${port.id}`, { nodeId: node.id }));
     }
   }
 

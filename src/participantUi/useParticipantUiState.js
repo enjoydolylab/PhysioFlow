@@ -12,7 +12,7 @@ import {
 import { measureLayout, freezeLayout, restoreFlow } from './layoutGeometry.js';
 import { useParticipantUiHistory } from './useParticipantUiHistory.js';
 import { CONTAINERS, defaults, DEVICES } from './constants.js';
-import { duplicateElementTree, findInTree, findParentAndIndex, flatten, mapTree, pathTo } from './tree.js';
+import { duplicateElementTree, withUniqueResponseNames, findInTree, findParentAndIndex, flatten, mapTree, pathTo } from './tree.js';
 import { contentXOf, elementHeight, nextFreeSlot, snap, tidyStack } from './arrange.js';
 
 export function useParticipantUiState({ schema, onChange, defaultTemplate = 'instruction' }) {
@@ -126,7 +126,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     const index = selectedParent ? (selectedParent.children || []).length : selectedLocation ? selectedLocation.index + 1 : (parent.children || []).length;
     const placement = parent.props?.free ? nextFreeSlot(parent.children || [], { x: contentXOf(parent), first: contentXOf(parent) }) : null;
     const props = parent.props?.free ? { ...defaults[type], ...(placement || {}) } : defaults[type];
-    const element = createUiElement(type, { props, actions: type === 'Button' ? [{ event: 'click', action: 'submit' }] : [] });
+    const element = withUniqueResponseNames(createUiElement(type, { props, actions: type === 'Button' ? [{ event: 'click', action: 'submit' }] : [] }), normalized.root);
     commit(insertUiElement(normalized, parentId, index, element));
     selectElement(element.id);
   };
@@ -142,7 +142,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
       ? { x: snap(Math.max(0, Number(x))), y: snap(Math.max(0, Number(y))) }
       : parentEl?.props?.free ? nextFreeSlot(parentEl.children || [], { x: contentXOf(parentEl), first: contentXOf(parentEl) }) : null;
     const props = { ...defaults[type], ...(slot || {}) };
-    const element = createUiElement(type, { props, actions: type === 'Button' ? [{ event: 'click', action: 'submit' }] : [] });
+    const element = withUniqueResponseNames(createUiElement(type, { props, actions: type === 'Button' ? [{ event: 'click', action: 'submit' }] : [] }), normalized.root);
     try {
       const index = CONTAINERS.has(target.type) ? (target.children || []).length : (findParentAndIndex(normalized.root, target.id)?.index || 0) + 1;
       commit(insertUiElement(normalized, parentId, index, element));
@@ -189,7 +189,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     if (!source || source.id === normalized.root.id) return;
     const parent = findParentAndIndex(normalized.root, elementId);
     if (!parent) return;
-    const copy = duplicateElementTree(source);
+    const copy = duplicateElementTree(source, normalized.root);
     commit(insertUiElement(normalized, parent.parentId, parent.index + 1, copy));
     selectElement(copy.id);
     return copy.id;
@@ -210,7 +210,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
   };
   const pasteClipboard = () => {
     if (!clipboardRef.current) return null;
-    const copy = duplicateElementTree(clipboardRef.current);
+    const copy = duplicateElementTree(clipboardRef.current, normalized.root);
     if (copy.props?.x != null || copy.props?.y != null) {
       copy.props = { ...copy.props, x: (copy.props.x ?? 0) + 20, y: (copy.props.y ?? 0) + 20 };
     }
@@ -279,7 +279,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
       if (!source) continue;
       const parent = findParentAndIndex(tree.root, id);
       if (!parent) continue;
-      const copy = duplicateElementTree(source);
+      const copy = duplicateElementTree(source, tree.root);
       tree = insertUiElement(tree, parent.parentId, parent.index + 1, copy);
       lastId = copy.id;
     }

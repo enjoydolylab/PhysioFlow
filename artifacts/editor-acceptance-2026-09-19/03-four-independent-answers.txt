@@ -1,0 +1,31 @@
+- main:
+  - toolbar:
+    - generic: QA editor data fields
+    - generic: Screen · display.screen
+    - status: Running · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - heading "Welcome" [level=1]
+    - paragraph: Please read the instructions carefully.
+    - progressbar
+    - button "Continue"
+    - generic: Response
+    - textbox "Response":
+      - /placeholder: ""
+      - text: first answer
+    - generic: Response
+    - textbox "Response":
+      - /placeholder: ""
+      - text: 第二个答案
+    - generic: Response
+    - textbox "Response":
+      - /placeholder: ""
+      - text: 第三回答
+    - generic: Response
+    - textbox "Response" [active]:
+      - /placeholder: ""
+      - text: copied field answer

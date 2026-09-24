@@ -1,0 +1,311 @@
+- main:
+  - generic: PF
+  - text: Composer V2
+  - generic: ●
+  - textbox "Protocol name": QA editor data fields
+  - generic "Editor mode":
+    - button "Quick" [pressed]
+    - button "Design"
+    - button "Advanced"
+    - 'button "{ } Code"'
+  - button "↩ Undo"
+  - button "↪ Redo" [disabled]
+  - button "Preview run"
+  - button "Freeze version"
+  - button "BioDB"
+  - button "Export"
+  - button "Save"
+  - button "← Projects"
+  - complementary:
+    - heading "Components" [level=2]
+    - paragraph: "Quick mode: build the execution flow and set essential properties."
+    - generic "▾ Flow nodes Click or drag onto the canvas to insert":
+      - text: ▾
+      - generic: Flow nodes
+      - generic: Click or drag onto the canvas to insert
+    - heading "presentation" [level=4]
+    - button "Screen display.screen":
+      - generic: Screen
+      - generic: display.screen
+    - button "Media display.media":
+      - generic: Media
+      - generic: display.media
+    - button "Fixation stimulus.fixation":
+      - generic: Fixation
+      - generic: stimulus.fixation
+    - button "Custom HTML stimulus.custom-html":
+      - generic: Custom HTML
+      - generic: stimulus.custom-html
+    - heading "interaction" [level=4]
+    - button "Rating input.rating":
+      - generic: Rating
+      - generic: input.rating
+    - button "Text Input input.text":
+      - generic: Text Input
+      - generic: input.text
+    - button "Response input.response":
+      - generic: Response
+      - generic: input.response
+    - button "Questionnaire input.questionnaire":
+      - generic: Questionnaire
+      - generic: input.questionnaire
+    - button "Attention check stimulus.attention-check":
+      - generic: Attention check
+      - generic: stimulus.attention-check
+    - button "Cognitive task experiment.cognitive-task":
+      - generic: Cognitive task
+      - generic: experiment.cognitive-task
+    - heading "timing" [level=4]
+    - button "Wait timing.wait":
+      - generic: Wait
+      - generic: timing.wait
+    - heading "setup" [level=4]
+    - button "Device check setup.device-check":
+      - generic: Device check
+      - generic: setup.device-check
+    - button "Manual event operator.manual-event":
+      - generic: Manual event
+      - generic: operator.manual-event
+    - button "Screen calibration stimulus.screen-calibration":
+      - generic: Screen calibration
+      - generic: stimulus.screen-calibration
+    - heading "utility" [level=4]
+    - button "Note utility.note":
+      - generic: Note
+      - generic: utility.note
+    - button "Junction utility.junction":
+      - generic: Junction
+      - generic: utility.junction
+    - heading "control" [level=4]
+    - button "Condition logic.condition":
+      - generic: Condition
+      - generic: logic.condition
+    - button "Random split logic.random":
+      - generic: Random split
+      - generic: logic.random
+    - button "Value switch logic.value-switch":
+      - generic: Value switch
+      - generic: logic.value-switch
+    - button "Loop logic.loop":
+      - generic: Loop
+      - generic: logic.loop
+    - generic "▾ Media & stimuli Asset library and randomized pools":
+      - text: ▾
+      - generic: Media & stimuli
+      - generic: Asset library and randomized pools
+    - generic "Media library (0)"
+    - option "image" [selected]
+    - option "audio"
+    - option "video"
+    - heading "Stimulus pools" [level=3]
+    - paragraph: Create a pool once, then select it from a Media node. Each cycle draws without replacement; when exhausted, the pool repeats its seeded order. Use a flow loop to repeat presentation.
+    - textbox "Pool name"
+    - combobox:
+      - option "image" [selected]
+      - option "audio"
+      - option "video"
+    - button "Create pool" [disabled]
+  - generic: 3 nodes · 2 connections
+  - textbox "Search nodes":
+    - /placeholder: Search nodes… (Ctrl+F)
+  - button "Snap"
+  - button "Auto layout"
+  - button "Snapshots (0)"
+  - button "−"
+  - generic: 100%
+  - button "＋"
+  - button "1:1"
+  - generic: Inserted Screen after Start
+  - img "Graph connections"
+  - article:
+    - generic: control
+    - generic: Start
+    - generic: core.start
+    - button "next":
+      - generic: next
+  - article:
+    - generic: control
+    - generic: End
+    - generic: core.end
+    - button "in":
+      - generic: in
+  - article:
+    - generic: presentation
+    - generic: Screen
+    - generic: display.screen
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - complementary:
+    - heading "Inspector" [level=2]
+    - text: Label
+    - textbox "Label": Screen
+    - generic: display.screen@1.0.0
+    - heading "Welcome" [level=1]
+    - paragraph: Please read the instructions carefully.
+    - progressbar
+    - button "Continue" [disabled]
+    - generic: Response
+    - textbox "Response":
+      - /placeholder: ""
+    - generic: Response
+    - textbox "Response":
+      - /placeholder: ""
+    - generic: Response
+    - textbox "Response":
+      - /placeholder: ""
+    - generic: Response
+    - textbox "Response":
+      - /placeholder: ""
+    - button "Edit participant screen"
+    - generic "Content"
+    - text: Screen content
+    - textbox "Screen content Shown as the participant-facing heading.": Welcome
+    - generic: Shown as the participant-facing heading.
+    - generic "Timing"
+    - option "manual" [selected]
+    - option "fixed"
+    - region "Repeat a sequence":
+      - heading "Repeat a sequence" [level=3]
+      - paragraph: Repeat these steps in execution order. The count includes the first pass.
+      - text: Total repetitions
+      - spinbutton "Total repetitions": "3"
+      - list:
+        - listitem: Screen
+      - status: 1 steps × 3 passes = 3 step visits, then continue to the next step.
+      - text: This keeps the step order. Media pools draw on each completed or skipped visit; a retry keeps its stimulus. Operator actions can change the actual visit count.
+      - button "Create repeat sequence"
+    - button "Duplicate node"
+    - button "Delete node"
+    - heading "✓ Graph valid" [level=3]
+  - generic: Screen
+  - generic: display.screen@1.0.0
+  - button "View"
+  - button "✕ Done"
+  - group "Canvas editing mode":
+    - button "Free edit"
+    - button "Auto layout" [pressed]
+  - combobox "Template":
+    - option "instruction" [selected]
+    - option "media"
+    - option "form"
+    - option "text"
+    - option "rating"
+    - option "fixation"
+    - option "attention"
+    - option "device"
+    - option "manual"
+    - option "html"
+    - option "calibration"
+  - button "↺"
+  - button "↶"
+  - button "↷" [disabled]
+  - group "Canvas zoom":
+    - button "−"
+    - generic: 55%
+    - button "+"
+    - generic "▾"
+  - generic "⚙ Settings"
+  - option "Existing responsive screen" [disabled]
+  - option "1280 × 720" [selected]
+  - option "1920 × 1080"
+  - option "1024 × 768"
+  - option "768 × 1024"
+  - button "▶ Preview"
+  - tablist "Library panels":
+    - tab "Elements" [selected]
+    - tab "Presets"
+    - tab "Layers"
+  - generic: Content
+  - generic "Heading or body copy":
+    - generic: Text
+    - generic: Heading or body copy
+  - generic "Image, audio or video":
+    - generic: Media
+    - generic: Image, audio or video
+  - generic "Custom HTML fragment":
+    - generic: Html
+    - generic: Custom HTML fragment
+  - generic: Form
+  - generic "Response field":
+    - generic: Input
+    - generic: Response field
+  - generic "Continue / action button":
+    - generic: Button
+    - generic: Continue / action button
+  - generic "Progress indicator":
+    - generic: Progress
+    - generic: Progress indicator
+  - generic: Layout
+  - generic "Group children in a row or column":
+    - generic: Layout
+    - generic: Group children in a row or column
+  - generic "Horizontal or vertical separator line":
+    - generic: Divider
+    - generic: Horizontal or vertical separator line
+  - generic: Shapes
+  - generic "Filled rectangle shape":
+    - generic: Rectangle
+    - generic: Filled rectangle shape
+  - generic "Filled ellipse / circle shape":
+    - generic: Ellipse
+    - generic: Filled ellipse / circle shape
+  - generic: Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove
+  - heading "Welcome" [level=1]
+  - paragraph: Please read the instructions carefully.
+  - progressbar
+  - button "Continue"
+  - generic: Response
+  - generic: Response
+  - generic: Response
+  - button "↓ ⧉ × Response": ↑
+  - button "↓"
+  - button "⧉"
+  - button "×"
+  - generic: Response
+  - complementary:
+    - generic: Input
+    - generic: Screen
+    - button "⧉" [active]
+    - button "×"
+    - generic "Drag to reorder; select the container to change layout mode": Auto layout
+    - button "🔓"
+    - text: Content
+    - text: Response name
+    - textbox "Response name": response_2_2
+    - text: Label
+    - textbox "Label": Response
+    - text: Input type
+    - combobox "Input type":
+      - option "text" [selected]
+      - option "textarea"
+      - option "number"
+      - option "rating"
+      - option "checkbox"
+    - text: Placeholder
+    - textbox "Placeholder"
+    - checkbox "Required"
+    - text: Required
+    - generic "▸ Appearance"
+    - option "Left"
+    - option "Center" [selected]
+    - option "Right"
+    - generic "Advanced appearance (0)"
+    - option "— choose —" [selected]
+    - option "color"
+    - option "background"
+    - option "fontSize"
+    - option "textAlign"
+    - option "fontFamily"
+    - option "fontWeight"
+    - option "lineHeight"
+    - option "maxWidth"
+    - option "padding"
+    - option "gap"
+    - option "justifyContent"
+    - option "alignItems"
+    - option "borderRadius"
+    - generic "▸ Bindings and actions"
+  - generic "Screen checks · 0 outside screen · 0 missing media"
+  - text: 9 elements · schema valid

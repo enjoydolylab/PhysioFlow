@@ -1,0 +1,127 @@
+- main:
+  - complementary:
+    - generic: pf.
+    - text: PhysioFlow
+    - generic: RESEARCH WORKSPACE
+    - navigation "Workspace navigation":
+      - button "01 プロジェクト 1":
+        - generic: "01"
+        - text: プロジェクト
+        - generic: "1"
+      - button "02 セッション":
+        - generic: "02"
+        - text: セッション
+      - button "03 Data & settings":
+        - generic: "03"
+        - text: Data & settings
+    - text: Local workspace
+    - paragraph:
+      - text: Your experiments.
+      - text: Your research.
+    - button "Help & documentation ↗"
+  - generic: Workspace / セッション
+  - button "🌙"
+  - generic "Language":
+    - button "中文"
+    - button "日本語"
+    - button "EN"
+  - text: RESEARCH RECORDS
+  - heading "セッション" [level=1]
+  - paragraph: Find a participant, review a run, and return to your data.
+  - heading "セッション" [level=2]
+  - generic: 1 合計
+  - textbox "Search sessions..."
+  - generic: QA-FEEDBACK-500
+  - generic: QA 0917 · response and repeat
+  - generic: preview · v1
+  - generic: 5 イベント
+  - time: 2026-09-17 04:23:06
+  - generic: 有効
+  - generic: PhysioFlow · Experiment workspace
+  - button "Storage settings ↗"
+- button "☷ セッション管理"
+- generic: セッションデータ
+- generic: 確認・出力・検証
+- button "データ形式"
+- button "ストレージ"
+- button "フィルタ済みセッションを出力"
+- button "更新"
+- button "閉じる"
+- complementary:
+  - textbox "Search participant, protocol..."
+  - combobox:
+    - option "すべての有効性" [selected]
+    - option "有効"
+    - option "要注意"
+    - option "無効"
+    - option "除外"
+    - option "未確認"
+  - generic: 1 合計
+  - generic: 0 reviewed
+  - generic: 0 要注意
+  - generic: 0 無効
+  - button "QA-FEEDBACK-500 QA 0917 · response and repeat · 未確認 · v1 2026-09-17":
+    - generic: QA-FEEDBACK-500
+    - generic: QA 0917 · response and repeat · 未確認 · v1
+    - time: 2026-09-17
+- generic: 有効
+- heading "QA-FEEDBACK-500" [level=2]
+- paragraph: QA 0917 · response and repeat · Version 1
+- paragraph: "テスト実行 · Session: 完了 · Review: 未確認"
+- button "簡易データ出力"
+- button "完全出力（詳細）"
+- button "Push to BioDB"
+- button "Joint export (BioDB)"
+- generic: "5"
+- generic: イベント
+- generic: "5"
+- generic: 回答
+- generic: "1"
+- generic: completed node visits
+- generic: "0"
+- generic: skipped
+- generic: "0"
+- generic: retries
+- generic: "0"
+- generic: pauses
+- heading "自動整合性チェック" [level=3]
+- paragraph: ✓ No integrity issue detected by automatic checks
+- paragraph: Automatic checks do not establish hardware timing accuracy or replace researcher review.
+- heading "出力パッケージ" [level=3]
+- paragraph: 完全なパッケージには、生イベント、回答、分析区間、プロトコルスナップショット、整合性レポート、データ辞書が含まれます。
+- code: README.txt
+- code: export_manifest.json
+- code: session.json
+- code: protocol.json
+- code: events.csv
+- code: responses.csv
+- code: +4 件以上
+- heading "ランタイムリプレイ" [level=3]
+- paragraph: 任意の不変イベント後の再構築状態を確認します。
+- generic: 5/5
+- slider "Replay event sequence": "5"
+- button "前へ"
+- button "次へ" [disabled]
+- generic: 状態
+- generic: 完了
+- generic: イベント
+- generic: protocol_completed
+- generic: Node
+- generic: End
+- generic: 経過時間
+- generic: 12867 ms
+- generic "Variables (8)"
+- generic "Outputs (1 nodes)" [active]
+- generic: "{ \"node_e2e40918-95ea-47c0-8ec7-c5661ffe4206\": { \"value\": \"yes\", \"response_key\": \"y\", \"reaction_time_ms\": 235, \"correct\": null, \"timed_out\": false, \"response\": \"yes\" } }"
+- generic "イベントペイロード"
+- text: 研究者による有効性判断
+- combobox "研究者による有効性判断":
+  - option "未確認" [selected]
+  - option "有効"
+  - option "無効"
+  - option "分析から除外"
+- text: 研究者メモ
+- textbox "研究者メモ"
+- button "審査を保存"
+- generic: 危険ゾーン
+- button "セッション削除"

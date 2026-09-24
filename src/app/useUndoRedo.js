@@ -38,6 +38,7 @@ export function useUndoRedo({ current, setCurrent, setHasUnsaved }) {
   }, [setHasUnsaved]);
 
   const undo = useCallback(() => {
+    if (current?.version?.status === 'frozen' || current?.status === 'frozen') return;
     setUndoStack(prev => {
       if (!prev.length) return prev;
       // Never undo past the editor-session boundary
@@ -51,6 +52,7 @@ export function useUndoRedo({ current, setCurrent, setHasUnsaved }) {
   }, [current, setCurrent, setHasUnsaved]);
 
   const redo = useCallback(() => {
+    if (current?.version?.status === 'frozen' || current?.status === 'frozen') return;
     setRedoStack(prev => {
       if (!prev.length) return prev;
       const snapshot = prev[prev.length - 1];

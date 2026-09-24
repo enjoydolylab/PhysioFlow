@@ -28,7 +28,7 @@ export default function CognitiveTaskRunner({ config, disabled = false, onSubmit
     const reactionTimes = finalResults.filter(result => Number.isFinite(result.reactionTimeMs)).map(result => result.reactionTimeMs);
     const accuracyPct = finalResults.length ? Math.round((correct / finalResults.length) * 1000) / 10 : 0;
     const meanRt = reactionTimes.length ? Math.round(reactionTimes.reduce((sum, value) => sum + value, 0) / reactionTimes.length) : null;
-    const omissions = finalResults.filter(result => result.outcome === 'omission' || result.outcome === 'commission').length;
+    const omissions = finalResults.filter(result => result.outcome === 'omission').length;
     const commissionCount = finalResults.filter(result => result.outcome === 'commission').length;
     const values = {
       task_kind: kind,
@@ -41,6 +41,7 @@ export default function CognitiveTaskRunner({ config, disabled = false, onSubmit
     };
     setPhase('complete');
     onSubmit?.({
+      reactionTimeMs: null, // Per-trial RT and mean_rt_ms carry the task's timing.
       values,
       outputs: values,
       variables: { mean_rt_ms: meanRt, accuracy_pct: accuracyPct, omissions, commissions: commissionCount },

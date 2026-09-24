@@ -1,0 +1,30 @@
+{
+  "completed": [
+    "response",
+    "response",
+    "response",
+    "response",
+    "response",
+    "response"
+  ],
+  "skipped": [
+    "after"
+  ],
+  "attempts": {
+    "response": 7,
+    "after": 1
+  },
+  "loops": {
+    "outer": 2,
+    "inner": 3
+  },
+  "responseRows": 30,
+  "answers": [
+    "yes",
+    "yes",
+    "yes",
+    "yes",
+    "yes",
+    "yes"
+  ]
+}

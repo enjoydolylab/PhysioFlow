@@ -1,0 +1,412 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_b283b5c4-09d7-43ea-ad63-992d2b801a77",
+  "projectId": "project_95ce752e-960e-4043-a446-75a683f867f9",
+  "metadata": {
+    "name": "QA nested 2 x 3 - locked responses",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-17T04:59:59.829Z",
+    "updatedAt": "2026-09-17T04:59:59.830Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_91eb9784-78a3-4775-86e9-af8841b84282",
+    "nodes": [
+      {
+        "id": "node_91eb9784-78a3-4775-86e9-af8841b84282",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_bf0a8c38-ced6-469b-973f-d55db0ba39f2",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "outer",
+        "component": {
+          "type": "logic.loop",
+          "version": "1.0.0"
+        },
+        "label": "outer",
+        "config": {
+          "maxIterations": 2,
+          "untilRule": null
+        },
+        "bindings": {},
+        "layout": {
+          "x": 600,
+          "y": 150
+        },
+        "metadata": {}
+      },
+      {
+        "id": "inner",
+        "component": {
+          "type": "logic.loop",
+          "version": "1.0.0"
+        },
+        "label": "inner",
+        "config": {
+          "maxIterations": 3,
+          "untilRule": null
+        },
+        "bindings": {},
+        "layout": {
+          "x": 200,
+          "y": 350
+        },
+        "metadata": {}
+      },
+      {
+        "id": "response",
+        "component": {
+          "type": "input.response",
+          "version": "1.0.0"
+        },
+        "label": "response",
+        "config": {
+          "variable": "response",
+          "prompt": "Press y, then n. First response must stay yes.",
+          "options": [
+            {
+              "value": "yes",
+              "key": "y",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "key": "n",
+              "label": "No"
+            }
+          ],
+          "correctValue": null,
+          "timeoutMs": 0,
+          "required": true,
+          "autoAdvance": false,
+          "feedbackMode": "none",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_343aa6d8-fe38-4d49-8aaa-f0a7a7ad8742",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_5838ac4e-7a81-4eac-aa98-defb0c80bda3",
+                  "type": "Text",
+                  "props": {
+                    "text": "Respond when you see the target",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4850d101-479a-4a0e-9652-07adc4e9a0f2",
+                  "type": "Text",
+                  "props": {
+                    "text": "Press one of the response keys to answer.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f823fe47-6336-43e6-aa5b-553f4d166e5f",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "text",
+                    "label": "Response",
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_e1f885e1-0414-4c1a-a052-9356b7615bec",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 400,
+          "y": 350
+        },
+        "metadata": {}
+      },
+      {
+        "id": "after",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "after",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_7fac367d-2c44-4752-b0d8-0512285f5c00",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_40721fbb-5ed0-4138-ab97-b6691db2e8b4",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_2fdce38e-97fb-4f85-be0d-41bd6ddf3db9",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f24f4aba-2268-4a42-a46c-80cf63fc11bf",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_2fc14269-c540-4844-9409-f151ac235a3e",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 600,
+          "y": 350
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_b2702660-37bd-449a-88ed-48366c40f036",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_91eb9784-78a3-4775-86e9-af8841b84282",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "outer",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_573a4993-81ab-4f33-a49b-5147a4f24b49",
+        "kind": "control",
+        "source": {
+          "nodeId": "outer",
+          "portId": "body"
+        },
+        "target": {
+          "nodeId": "inner",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_5d7044a2-1153-4b62-b367-c5a246456633",
+        "kind": "control",
+        "source": {
+          "nodeId": "inner",
+          "portId": "body"
+        },
+        "target": {
+          "nodeId": "response",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_6f7c1fb3-4aed-4659-a87f-a7670a29bb3f",
+        "kind": "control",
+        "source": {
+          "nodeId": "response",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "inner",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_b8c8f183-e162-4bcb-9257-08fe7322ac03",
+        "kind": "control",
+        "source": {
+          "nodeId": "inner",
+          "portId": "exit"
+        },
+        "target": {
+          "nodeId": "outer",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_102d5ce0-4e1c-4d5e-9710-25563c9eb56e",
+        "kind": "control",
+        "source": {
+          "nodeId": "outer",
+          "portId": "exit"
+        },
+        "target": {
+          "nodeId": "after",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_1745e853-e677-43ca-83ef-a41575c46e8c",
+        "kind": "control",
+        "source": {
+          "nodeId": "after",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_bf0a8c38-ced6-469b-973f-d55db0ba39f2",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [
+    {
+      "name": "last_rt_ms",
+      "type": "number",
+      "scope": "session",
+      "defaultValue": 0
+    }
+  ],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

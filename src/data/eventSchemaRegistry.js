@@ -4,7 +4,7 @@ const RUNTIME_EVENTS = [
   'protocol_started', 'protocol_completed', 'component_entered', 'component_completed',
   'component_skipped', 'component_retried', 'condition_evaluated', 'loop_evaluated', 'randomization_evaluated',
   'session_paused', 'session_resumed', 'runtime_failed',
-  'control_handler_evaluated',
+  'control_handler_evaluated', 'test_navigation_back',
   'ui_action', 'stimulus_assigned', 'media_loaded', 'media_error', 'value_changed', 'response_submitted',
 ];
 
@@ -49,6 +49,12 @@ export function validateRuntimeEvent(event, registry) {
   if (!event?.protocolId) errors.push('protocolId is required');
   if (!event?.eventType) errors.push('eventType is required');
   else if (registry && !registry.has(event.eventType)) errors.push(`Unknown event type ${event.eventType}`);
+  if (event?.eventType === 'test_navigation_back') {
+    const from = event.payload?.supersededFromSequence;
+    const through = event.payload?.supersededThroughSequence;
+    if (!Number.isInteger(from) || from < 1 || !Number.isInteger(through) || through < from || through !== event.sequence - 1) errors.push('Test navigation must reference a prior contiguous event range ending immediately before navigation');
+    if (!event.payload?.fromNodeId) errors.push('Test navigation requires fromNodeId');
+  }
   if (!Number.isFinite(event?.timestampEpochMs)) errors.push('timestampEpochMs is required');
   if (!Number.isFinite(event?.elapsedMonotonicMs) || event.elapsedMonotonicMs < 0) errors.push('elapsedMonotonicMs must be non-negative');
   return { valid: errors.length === 0, errors };

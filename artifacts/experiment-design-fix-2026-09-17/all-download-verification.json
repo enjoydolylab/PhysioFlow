@@ -1,0 +1,104 @@
+{
+  "QA-FEEDBACK-500_session_bundle.zip": {
+    "files": 22,
+    "events": 5,
+    "responseFields": 5,
+    "tsvColumns": 9
+  },
+  "QA-FULL-WORKFLOW_session_bundle.zip": {
+    "files": 22,
+    "events": 52,
+    "responseFields": 26,
+    "tsvColumns": 9
+  },
+  "QA-NESTED-6_session_bundle.zip": {
+    "files": 22,
+    "events": 37,
+    "responseFields": 30,
+    "tsvColumns": 9
+  },
+  "QA-BRANCHES_session_bundle.zip": {
+    "files": 22,
+    "events": 8,
+    "responseFields": 0,
+    "tsvColumns": 9,
+    "decisions": [
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_3e373a1f-90d3-4085-b681-581f87471eb0",
+        "sequence": 2,
+        "sessionId": "2c1e63e2-5fce-4d8d-b9f4-47207092efec",
+        "protocolId": "protocol_b657ca09-866c-4010-856d-88e528278adb",
+        "protocolVersion": 1,
+        "nodeId": "condition",
+        "componentType": "logic.condition",
+        "componentVersion": "1.0.0",
+        "eventType": "condition_evaluated",
+        "timestampIso": "2026-09-17T11:12:13.313Z",
+        "timestampEpochMs": 1789643533313,
+        "elapsedMonotonicMs": 8234.2998046875,
+        "payload": {
+          "actual": "yes",
+          "operator": "equals",
+          "expected": "yes",
+          "result": true
+        }
+      },
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_63917ade-c247-49e8-831b-7dc6878528a2",
+        "sequence": 3,
+        "sessionId": "2c1e63e2-5fce-4d8d-b9f4-47207092efec",
+        "protocolId": "protocol_b657ca09-866c-4010-856d-88e528278adb",
+        "protocolVersion": 1,
+        "nodeId": "random",
+        "componentType": "logic.random",
+        "componentVersion": "1.0.0",
+        "eventType": "randomization_evaluated",
+        "timestampIso": "2026-09-17T11:12:13.313Z",
+        "timestampEpochMs": 1789643533313,
+        "elapsedMonotonicMs": 8234.89990234375,
+        "payload": {
+          "seed": "protocol_b657ca09-866c-4010-856d-88e528278adb:1:2c1e63e2-5fce-4d8d-b9f4-47207092efec",
+          "drawIndex": 1,
+          "randomValue": 0.4908843918237835,
+          "probabilityA": 1,
+          "branchWeights": {
+            "a": 1,
+            "b": 0
+          },
+          "selectedPort": "a"
+        }
+      },
+      {
+        "schemaVersion": "1.0.0",
+        "eventId": "event_7c829533-e227-49a2-98bc-4029b0be8907",
+        "sequence": 4,
+        "sessionId": "2c1e63e2-5fce-4d8d-b9f4-47207092efec",
+        "protocolId": "protocol_b657ca09-866c-4010-856d-88e528278adb",
+        "protocolVersion": 1,
+        "nodeId": "switch",
+        "componentType": "logic.value-switch",
+        "componentVersion": "1.0.0",
+        "eventType": "control_handler_evaluated",
+        "timestampIso": "2026-09-17T11:12:13.314Z",
+        "timestampEpochMs": 1789643533314,
+        "elapsedMonotonicMs": 8235.199951171875,
+        "payload": {
+          "handlerId": "core.value-switch",
+          "handlerVersion": "1.0.0",
+          "selectedPort": "match",
+          "actual": "yes",
+          "expected": "yes",
+          "matched": true
+        }
+      }
+    ]
+  },
+  "QA-COGNITIVE_session_bundle.zip": {
+    "files": 22,
+    "events": 17,
+    "responseFields": 29,
+    "tsvColumns": 9
+  }
+}

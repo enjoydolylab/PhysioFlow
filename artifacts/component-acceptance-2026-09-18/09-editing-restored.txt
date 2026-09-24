@@ -1,0 +1,207 @@
+- main:
+  - generic: PF
+  - text: Composer V2
+  - generic: ●
+  - textbox "Protocol name": QA complete component acceptance
+  - generic "Editor mode":
+    - button "Quick" [pressed]
+    - button "Design"
+    - button "Advanced"
+    - 'button "{ } Code"'
+  - button "↩ Undo"
+  - button "↪ Redo" [disabled]
+  - button "Preview run"
+  - button "Freeze version"
+  - button "BioDB"
+  - button "Export"
+  - button "Save"
+  - button "← Projects"
+  - complementary:
+    - heading "Components" [level=2]
+    - paragraph: "Quick mode: build the execution flow and set essential properties."
+    - generic "▾ Flow nodes Click or drag onto the canvas to insert":
+      - text: ▾
+      - generic: Flow nodes
+      - generic: Click or drag onto the canvas to insert
+    - heading "presentation" [level=4]
+    - button "Screen display.screen":
+      - generic: Screen
+      - generic: display.screen
+    - button "Media display.media":
+      - generic: Media
+      - generic: display.media
+    - button "Fixation stimulus.fixation":
+      - generic: Fixation
+      - generic: stimulus.fixation
+    - button "Custom HTML stimulus.custom-html":
+      - generic: Custom HTML
+      - generic: stimulus.custom-html
+    - heading "interaction" [level=4]
+    - button "Rating input.rating":
+      - generic: Rating
+      - generic: input.rating
+    - button "Text Input input.text":
+      - generic: Text Input
+      - generic: input.text
+    - button "Response input.response":
+      - generic: Response
+      - generic: input.response
+    - button "Questionnaire input.questionnaire":
+      - generic: Questionnaire
+      - generic: input.questionnaire
+    - button "Attention check stimulus.attention-check":
+      - generic: Attention check
+      - generic: stimulus.attention-check
+    - button "Cognitive task experiment.cognitive-task":
+      - generic: Cognitive task
+      - generic: experiment.cognitive-task
+    - heading "timing" [level=4]
+    - button "Wait timing.wait":
+      - generic: Wait
+      - generic: timing.wait
+    - heading "setup" [level=4]
+    - button "Device check setup.device-check":
+      - generic: Device check
+      - generic: setup.device-check
+    - button "Manual event operator.manual-event":
+      - generic: Manual event
+      - generic: operator.manual-event
+    - button "Screen calibration stimulus.screen-calibration":
+      - generic: Screen calibration
+      - generic: stimulus.screen-calibration
+    - heading "utility" [level=4]
+    - button "Note utility.note":
+      - generic: Note
+      - generic: utility.note
+    - button "Junction utility.junction":
+      - generic: Junction
+      - generic: utility.junction
+    - heading "control" [level=4]
+    - button "Condition logic.condition":
+      - generic: Condition
+      - generic: logic.condition
+    - button "Random split logic.random":
+      - generic: Random split
+      - generic: logic.random
+    - button "Value switch logic.value-switch":
+      - generic: Value switch
+      - generic: logic.value-switch
+    - button "Loop logic.loop":
+      - generic: Loop
+      - generic: logic.loop
+    - generic "▾ Media & stimuli Asset library and randomized pools":
+      - text: ▾
+      - generic: Media & stimuli
+      - generic: Asset library and randomized pools
+    - generic "Media library (0)"
+    - option "image" [selected]
+    - option "audio"
+    - option "video"
+    - heading "Stimulus pools" [level=3]
+    - paragraph: Create a pool once, then select it from a Media node. Each cycle draws without replacement; when exhausted, the pool repeats its seeded order. Use a flow loop to repeat presentation.
+    - textbox "Pool name"
+    - combobox:
+      - option "image" [selected]
+      - option "audio"
+      - option "video"
+    - button "Create pool" [disabled]
+  - generic: 10 nodes · 9 connections
+  - textbox "Search nodes":
+    - /placeholder: Search nodes… (Ctrl+F)
+  - button "Snap"
+  - button "Auto layout"
+  - button "Snapshots (1)"
+  - button "−"
+  - generic: 100%
+  - button "＋"
+  - button "1:1"
+  - generic: Restored QA baseline 10 nodes
+  - textbox "Snapshot name"
+  - button "Save"
+  - generic: QA baseline 10 nodes
+  - generic: 2026-09-18T07:21:34.690Z
+  - button "Rename"
+  - button "Restore" [active]
+  - button "×"
+  - img "Graph connections"
+  - article:
+    - generic: control
+    - generic: Start
+    - generic: core.start
+    - button "next":
+      - generic: next
+  - article:
+    - generic: control
+    - generic: End
+    - generic: core.end
+    - button "in":
+      - generic: in
+  - article:
+    - generic: presentation
+    - generic: Input boundaries
+    - generic: display.screen
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - article:
+    - generic: interaction
+    - generic: All nine question types
+    - generic: input.questionnaire
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+    - 'generic "Data columns: question_id, value, reaction_time_ms, questionnaire_score_correct, questionnaire_score_total, questionnaire_score_pct, questionnaire_timed_out_question_ids"': 7 outputs
+  - article:
+    - generic: setup
+    - generic: Required device checklist
+    - generic: setup.device-check
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - article:
+    - generic: setup
+    - generic: Operator note
+    - generic: operator.manual-event
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - article:
+    - generic: presentation
+    - generic: Manual dot fixation
+    - generic: stimulus.fixation
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - article:
+    - generic: utility
+    - generic: Researcher note
+    - generic: utility.note
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - article:
+    - generic: utility
+    - generic: Junction
+    - generic: utility.junction
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - article:
+    - generic: presentation
+    - generic: Finish
+    - generic: display.screen
+    - button "in":
+      - generic: in
+    - button "next":
+      - generic: next
+  - complementary:
+    - heading "Inspector" [level=2]
+    - paragraph: Select a node or connection to configure it.
+    - heading "✓ Graph valid" [level=3]

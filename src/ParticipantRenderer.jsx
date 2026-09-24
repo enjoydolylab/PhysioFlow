@@ -1,3 +1,4 @@
+import { discreteScaleValues, responseValueError } from './core/inputValidation.js';
 import { ScreenFrame } from './participantUi/ScreenFrame.jsx';
 import { useMemo, useState } from 'react';
 import { isUiSize, normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
@@ -20,7 +21,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
 
   const submit = (submittedValues = values) => {
     if (disabled || preview) return;
-    const nextErrors = Object.fromEntries(inputs.filter(input => input.props?.required && (submittedValues[input.props.name] === undefined || submittedValues[input.props.name] === '')).map(input => [input.props.name, 'Required']));
+    const nextErrors = Object.fromEntries(inputs.map(input => [input.props.name, responseValueError(submittedValues[input.props.name], { ...input.props, type: input.props.inputType })]).filter(([, error]) => error));
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
     onSubmit?.({ values: structuredClone(submittedValues), outputs: structuredClone(submittedValues), variables: structuredClone(submittedValues) });
@@ -96,10 +97,10 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     }
     if (element.type === 'Input') {
       const name = props.name;
-      const common = { disabled, value: values[name] ?? '', onChange: event => changeValue(name, props.inputType === 'rating' || props.inputType === 'number' ? Number(event.target.value) : event.target.value, element) };
+      const common = { disabled, value: values[name] ?? '', onChange: event => changeValue(name, props.inputType === 'rating' || props.inputType === 'number' ? (event.target.value === '' ? '' : Number(event.target.value)) : event.target.value, element) };
       return <label key={element.id} className="participant-ui-input" style={{ ...style, ...positioned }}><span>{props.label || name}{props.required && ' *'}</span>
         {props.inputType === 'checkbox' ? <span className="participant-checkbox"><input type="checkbox" checked={Boolean(values[name])} disabled={disabled} onChange={event => changeValue(name, event.target.checked ? 'yes' : '', element)} /></span>
-          : props.inputType === 'rating' ? <div className="participant-rating">{Array.from({ length: Number(props.max || 7) - Number(props.min || 1) + 1 }, (_, index) => Number(props.min || 1) + index).map(value => <button type="button" className={values[name] === value ? 'selected' : ''} disabled={disabled} key={value} onClick={() => changeValue(name, value, element)}>{value}</button>)}</div>
+          : props.inputType === 'rating' ? <div className="participant-rating">{(discreteScaleValues(props.min ?? 1, props.max ?? 7) || []).map(value => <button type="button" className={values[name] === value ? 'selected' : ''} disabled={disabled} key={value} onClick={() => changeValue(name, value, element)}>{value}</button>)}</div>
             : props.inputType === 'textarea' ? <textarea {...common} placeholder={props.placeholder || ''} />
               : <input {...common} type={props.inputType || 'text'} placeholder={props.placeholder || ''} min={props.min} max={props.max} />}
         {errors[name] && <small>{errors[name]}</small>}

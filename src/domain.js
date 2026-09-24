@@ -109,9 +109,11 @@ export function validateProtocol(p){
   return{valid:!errors.length,errors:[...new Set(errors)],warnings:[...new Set(warnings)]};
 }
 
-export function createNextProtocolVersion(source){
+export function createNextProtocolVersion(source, options = {}){
   const next=structuredClone(source),now=new Date().toISOString();
-  next.protocol_id=uid('protocol');next.version=Number(source.version||1)+1;next.version_name=`Version ${next.version}`;next.status='draft';next.archived_at=null;next.created_at=now;next.updated_at=now;next.frozen_at=null;next.config_hash=null;
+  const projectVersions = (options.existingProtocols || []).filter(item => (item.project_id || item.projectId) === source.project_id);
+  const highestVersion = Math.max(Number(source.version || 1), ...projectVersions.map(item => Number(item.version?.number ?? item.version ?? 1)).filter(Number.isFinite));
+  next.protocol_id=uid('protocol');next.version=highestVersion+1;next.version_name=`Version ${next.version}`;next.status='draft';next.archived_at=null;next.created_at=now;next.updated_at=now;next.frozen_at=null;next.config_hash=null;
   return next;
 }
 

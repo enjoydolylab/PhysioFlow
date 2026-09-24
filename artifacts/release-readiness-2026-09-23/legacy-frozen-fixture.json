@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "protocol_b6c5d0ff-2367-4324-ab28-18dc485c2ba2",
+  "project_id": "project_d6daf3fb-7dbd-4360-9f6c-f118ff49c24e",
+  "name": "QA legacy frozen preservation",
+  "version": 1,
+  "version_name": "Draft 1",
+  "status": "frozen",
+  "archived_at": null,
+  "created_at": "2026-09-23T14:49:55.351Z",
+  "updated_at": "2026-09-23T14:49:55.354Z",
+  "frozen_at": "2026-09-23T14:49:55.354Z",
+  "config_hash": "7691a910c5e755af77459a1fc5a703c9d3baa2c4b4750464898ba6f021de91d2",
+  "app_version": "0.4.0",
+  "theme": {
+    "primary_color": "#197453",
+    "primary_color_dark": "#5ed0a2",
+    "font_family": "system-ui",
+    "font_scale": 1,
+    "border_radius": 8,
+    "dark_mode_default": false,
+    "default_trial_background": "#fffef9",
+    "default_trial_foreground": "#17221d",
+    "default_trial_padding": 48,
+    "default_trial_gap": 24
+  },
+  "blocks": [
+    {
+      "block_id": "block_5cb5fef2-878f-44c5-a099-dc0585614789",
+      "name": "New block",
+      "description": "",
+      "order_rule": "fixed",
+      "repeat_count": 1,
+      "is_practice": false,
+      "max_consecutive_same": 0,
+      "no_immediate_repeat": false,
+      "trials": [
+        {
+          "trial_id": "trial_091c1478-f354-484d-89b0-000c5cdf2a00",
+          "name": "New trial",
+          "condition": "",
+          "repeat_count": 1,
+          "iti_jitter_ms": 0,
+          "iti_jitter_distribution": "uniform",
+          "layout": {
+            "background": "#fffef9",
+            "foreground": "#17221d",
+            "content_width": 900,
+            "alignment": "center",
+            "padding": 48,
+            "gap": 24,
+            "show_progress": true,
+            "show_step_type": true,
+            "border_radius": 12,
+            "custom_css": ""
+          },
+          "steps": [
+            {
+              "step_id": "step_42521787-39ec-4b7d-9808-0ae59e04ad79",
+              "type": "instruction",
+              "name": "Instruction",
+              "name_i18n": {
+                "zh": "",
+                "ja": "",
+                "en": ""
+              },
+              "role": "custom",
+              "appearance": {
+                "font_size": null,
+                "alignment": null,
+                "color": null,
+                "background": null,
+                "font_weight": null,
+                "padding": null,
+                "border": null,
+                "border_radius": null,
+                "custom_css": null
+              },
+              "duration_mode": "fixed",
+              "planned_duration_ms": 5000,
+              "content": "",
+              "content_i18n": {
+                "zh": "",
+                "ja": "",
+                "en": ""
+              },
+              "stimulus_id": "",
+              "questionnaire_id": "",
+              "analysis_label": "",
+              "is_analysis_window": false,
+              "allow_skip": true,
+              "allow_retry": false,
+              "required": true,
+              "recovery_behavior": "resume_remaining",
+              "source_mode": "none",
+              "source_url": "",
+              "asset_id": "",
+              "file_name": "",
+              "start_mode": "auto",
+              "auto_advance": true,
+              "show_controls": true,
+              "muted": false,
+              "loop": false,
+              "volume": 1,
+              "fixation_config": null,
+              "timer_config": null,
+              "response_config": null,
+              "rest_config": null,
+              "icon": "Aa",
+              "show_countdown_ring": false
+            }
+          ],
+          "flow": {
+            "nodes": [
+              {
+                "id": "start",
+                "type": "start",
+                "x": 60,
+                "y": 160,
+                "label": "Start"
+              },
+              {
+                "id": "node_step_42521787-39ec-4b7d-9808-0ae59e04ad79",
+                "type": "event",
+                "step_id": "step_42521787-39ec-4b7d-9808-0ae59e04ad79",
+                "x": 250,
+                "y": 150,
+                "label": "Instruction"
+              },
+              {
+                "id": "end",
+                "type": "end",
+                "x": 470,
+                "y": 160,
+                "label": "End"
+              }
+            ],
+            "edges": [
+              {
+                "id": "edge_45e3373b-0065-4eb7-96d2-3d1998238318",
+                "source": "start",
+                "target": "node_step_42521787-39ec-4b7d-9808-0ae59e04ad79",
+                "branch": "next"
+              },
+              {
+                "id": "edge_63497167-0fd1-4324-aac0-68bf2c676232",
+                "source": "node_step_42521787-39ec-4b7d-9808-0ae59e04ad79",
+                "target": "end",
+                "branch": "next"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "stimuli": [],
+  "questionnaires": [],
+  "biodb": {
+    "experiment_id": "",
+    "experiment_label": ""
+  }
+}

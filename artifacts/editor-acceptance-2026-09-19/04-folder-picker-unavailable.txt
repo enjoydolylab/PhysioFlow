@@ -1,0 +1,54 @@
+- main:
+  - complementary:
+    - generic: pf.
+    - text: PhysioFlow
+    - generic: RESEARCH WORKSPACE
+    - navigation "Workspace navigation":
+      - button "01 Projects 13":
+        - generic: "01"
+        - text: Projects
+        - generic: "13"
+      - button "02 Sessions":
+        - generic: "02"
+        - text: Sessions
+      - button "03 Data & settings":
+        - generic: "03"
+        - text: Data & settings
+    - text: Local workspace
+    - paragraph:
+      - text: Your experiments.
+      - text: Your research.
+    - button "Help & documentation ↗"
+  - generic: Workspace / Data & settings
+  - button "🌙"
+  - generic "Language":
+    - button "中文"
+    - button "日本語"
+    - button "EN"
+  - text: WORKSPACE TOOLS
+  - heading "Data & settings" [level=1]
+  - paragraph: Keep storage, analysis and integrations in one place.
+  - generic: Choose a local data folder
+  - generic: 4 blocked · fix before formal collection
+  - button "Select folder"
+  - button "01 / ANALYSIS Analytics ↗ Explore results and compare recorded sessions.":
+    - generic: 01 / ANALYSIS
+    - generic: Analytics ↗
+    - paragraph: Explore results and compare recorded sessions.
+  - button "02 / DATA Browse data ↗ Open your data viewer and inspect saved signals.":
+    - generic: 02 / DATA
+    - generic: Browse data ↗
+    - paragraph: Open your data viewer and inspect saved signals.
+  - button "03 / CONNECTION BioDB settings ↗ Manage the database connection when you need it.":
+    - generic: 03 / CONNECTION
+    - generic: BioDB settings ↗
+    - paragraph: Manage the database connection when you need it.
+  - generic: PhysioFlow · Experiment workspace
+  - button "Storage settings ↗"
+- button "☷ Manage sessions"
+- alertdialog "Local folder unavailable":
+  - generic: i
+  - heading "Local folder unavailable" [level=3]
+  - paragraph: "Failed to execute 'showDirectoryPicker' on 'Window': Intercepted by Page.setInterceptFileChooserDialog()."
+  - button "OK" [active]
+  - text: ","

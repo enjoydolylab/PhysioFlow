@@ -1,15 +1,16 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { protocolIdOf, protocolNameOf, protocolStatusOf, resolveStimulusAssignments, validateProtocolGraphConfiguration } from '../core/index.js';
+import { protocolIdOf, protocolNameOf, protocolStatusOf, resolveStimulusAssignments, stimulusPoolOf, validateProtocolGraphConfiguration } from '../core/index.js';
 import { useLanguage } from '../i18n';
 import { createProjectComponentRegistry } from '../sdk/index.js';
 import Header from './AppHeader.jsx';
 import { verifyProtocolAssets } from '../fsStorage.js';
+import { createGroupExecutionSnapshot } from '../core/groupSequence.js';
 
 const GuidePanel = lazy(() => import('../GuidePanel.jsx'));
 
 export function ResumeBanner({ snapshot, onResume, onDiscard }) {
   return <div className="resume-banner">
-    <div><span>UNFINISHED SESSION</span><b>{snapshot.session?.participant_id} · {snapshot.protocol?.name}</b><small>Saved {snapshot.saved_at}</small></div>
+    <div><span>UNFINISHED SESSION</span><b>{snapshot.session?.participant_id} · {snapshot.protocol ? protocolNameOf(snapshot.protocol) : snapshot.session?.protocol_name}</b><small>Saved {snapshot.saved_at}</small></div>
     <button className="primary" onClick={onResume}>Resume experiment</button>
     <button onClick={onDiscard}>Discard</button>
   </div>;
@@ -24,7 +25,13 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
   const isFormal = protocolStatusOf(p) === 'frozen';
   const storageBlocked = isFormal && !storageInfo?.selected;
   const check = validateProtocolGraphConfiguration(p, createProjectComponentRegistry(p));
-  const stimulusAssignments = resolveStimulusAssignments(p, `${protocolIdOf(p)}:${p.version.number}:${sessionId}`);
+  let groupExecution = null, groupError = '';
+  if (p.groupRandomization?.enabled) {
+    try { groupExecution = createGroupExecutionSnapshot(p, p.groupRandomization.groupIds, `${protocolIdOf(p)}:${p.version.number}:${sessionId}:groups`, createProjectComponentRegistry(p)); }
+    catch (error) { groupError = error.message; }
+  }
+  const stimulusAssignments = check.valid ? resolveStimulusAssignments(p, `${protocolIdOf(p)}:${p.version.number}:${sessionId}`) : new Map();
+  const poolModes = new Set(p.graph.nodes.filter(node => node.component?.type === 'display.media').map(node => stimulusPoolOf(node, p)?.mode).filter(Boolean));
   const [assetCheck, setAssetCheck] = useState({ status: 'checking', issues: [] });
   const [assetCheckAttempt, setAssetCheckAttempt] = useState(0);
   const deviceNodes = p.graph.nodes.filter(node => node.config?.deviceConnectorId);
@@ -43,6 +50,7 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
     !participant.trim() && 'Enter a participant ID.',
     storageBlocked && 'Select a local data folder.',
     !check.valid && 'Fix the protocol configuration.',
+    groupError,
     assetsBlocked && (assetCheck.status === 'checking' ? 'Wait for the media check.' : 'Resolve the media issues and check again.'),
   ].filter(Boolean);
 
@@ -56,7 +64,12 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
     <label htmlFor="participant-id">Participant ID<input id="participant-id" autoFocus value={participant} onChange={event => setParticipant(event.target.value)} placeholder="P001" /></label>
     <label htmlFor="participant-lang">Participant language<select id="participant-lang" value={participantLanguage} onChange={event => setParticipantLanguage(event.target.value)}><option value="zh">中文</option><option value="ja">日本語</option><option value="en">English</option></select></label>
     <label htmlFor="operator-id">Operator ID<input id="operator-id" value={operator} onChange={event => setOperator(event.target.value)} placeholder="optional" /></label>
-    {stimulusAssignments.size > 0 && <div className="setup-note"><b>Nominal stimulus order</b><p>This preview assumes each listed node runs once in the displayed order. Actual draws follow execution: completion or Skip consumes one item; Retry keeps it. Branches and loops can change which node receives each item.</p>{[...stimulusAssignments.entries()].map(([nodeId, assignment]) => <p key={nodeId}><span>{p.graph.nodes.find(node => node.id === nodeId)?.label || nodeId}</span> → <strong>{assignment.name}</strong></p>)}<button type="button" onClick={() => setSessionId(crypto.randomUUID())}>Generate another order</button></div>}
+    {p.groupRandomization?.enabled && <section className="setup-note" aria-label="Randomized group order"><b>Randomized group order</b>{groupError ? <p role="alert">{groupError}</p> : <><p>Each group runs once in this order. Steps inside each group keep their execution order.</p><ol>{groupExecution.plan.groupOrder.map(id => <li key={id}>{p.graph.groups.find(group => group.id === id)?.name || id}</li>)}</ol><button type="button" onClick={() => setSessionId(crypto.randomUUID())}>Generate another group order</button></>}</section>}
+    {stimulusAssignments.size > 0 && <div className="setup-note"><b>Nominal stimulus order</b>
+      <p>This preview assumes each listed node runs once in the displayed order. Retry keeps the assigned stimulus.</p>
+      {poolModes.has('shuffle') && <p>Shuffle pools draw in execution order: completion or Skip consumes one item. Branches and loops can change which node receives each item.</p>}
+      {poolModes.has('balanced-halves') && <p>Balanced-half pools assign each node a stimulus within its configured half. Each category is split as evenly as possible between the two halves. Repeating a completed or skipped node uses its next assignment cycle; branching around nodes may leave some assigned stimuli unshown.</p>}
+      {[...stimulusAssignments.entries()].map(([nodeId, assignment]) => <p key={nodeId}><span>{p.graph.nodes.find(node => node.id === nodeId)?.label || nodeId}</span> → <strong>{assignment.name}</strong></p>)}<button type="button" onClick={() => setSessionId(crypto.randomUUID())}>Generate another order</button></div>}
     <div className={`setup-note ${check.valid ? 'ok' : 'error'}`}><b>Protocol validation</b><p>{check.valid ? `${p.graph.nodes.length} nodes · ${p.graph.edges.length} connections · configuration checked` : check.errors.map(error => error.message).join(' ')}</p>{!check.valid && <button onClick={onBack}>Return to protocol to fix</button>}</div>
     <div className={`setup-note ${assetCheck.status === 'ready' ? 'ok' : assetCheck.status === 'error' ? 'error' : ''}`}><b>Media readiness</b><p>{assetCheck.status === 'checking' ? 'Checking referenced local media…' : assetCheck.status === 'ready' ? 'All referenced media are available.' : assetCheck.issues.slice(0, 3).map(issue => issue.message).join(' ')}</p></div>
     {assetCheck.status === 'error' && <button onClick={() => setAssetCheckAttempt(value => value + 1)}>Check media again</button>}
@@ -80,6 +93,7 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
       status: 'ready',
       started_at: new Date().toISOString(),
       ended_at: null,
+      ...(groupExecution ? { group_execution_snapshot: groupExecution } : {}),
     })}>{isFormal ? 'Continue to collection' : 'Continue to test run'}</button>
   </div>{guideOpen && <Suspense fallback={null}><GuidePanel initialTab={guideTab} onClose={onCloseGuide} /></Suspense>}</main>;
 }

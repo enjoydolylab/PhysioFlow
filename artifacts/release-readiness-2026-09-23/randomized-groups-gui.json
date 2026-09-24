@@ -1,0 +1,760 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_4837a06e-6527-4664-95a0-50fb54686ec6",
+  "projectId": "project_1f8ddbce-95a7-4229-a3b6-38d58eceba70",
+  "metadata": {
+    "name": "QA randomized groups",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-24T05:30:11.889Z",
+    "updatedAt": "2026-09-24T05:30:11.892Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_3d268ff7-435e-4e37-a566-d8e00fdf875d",
+    "nodes": [
+      {
+        "id": "node_3d268ff7-435e-4e37-a566-d8e00fdf875d",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_9b22f0b3-2459-40b0-99f9-13d88132c151",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_8e53bed5-6f39-49f3-bc84-0d517562c714",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "A quiet",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_78b7f296-17cb-4d34-9969-83aeaa030df5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_551afb04-88ac-4c1f-9be3-2546571df262",
+                  "type": "Text",
+                  "props": {
+                    "text": "A quiet",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4e06783d-74b5-4727-b4e5-b7080412c4fb",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f29f6035-1640-4a48-97e3-dcf5e8456c49",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7973cb92-44de-403b-ad22-89688e917e5d",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_382a7c67-0b26-4d9b-a5ec-de2fc3cf5ff9",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "A questionnaire",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_78b7f296-17cb-4d34-9969-83aeaa030df5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_551afb04-88ac-4c1f-9be3-2546571df262",
+                  "type": "Text",
+                  "props": {
+                    "text": "A questionnaire",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4e06783d-74b5-4727-b4e5-b7080412c4fb",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f29f6035-1640-4a48-97e3-dcf5e8456c49",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7973cb92-44de-403b-ad22-89688e917e5d",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_711e9993-46ca-4a58-9b80-798e39636cd5",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "B quiet",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_78b7f296-17cb-4d34-9969-83aeaa030df5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_551afb04-88ac-4c1f-9be3-2546571df262",
+                  "type": "Text",
+                  "props": {
+                    "text": "B quiet",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4e06783d-74b5-4727-b4e5-b7080412c4fb",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f29f6035-1640-4a48-97e3-dcf5e8456c49",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7973cb92-44de-403b-ad22-89688e917e5d",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_64689fe3-74b9-42b4-a3ff-a24355183cc1",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "B questionnaire",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_78b7f296-17cb-4d34-9969-83aeaa030df5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_551afb04-88ac-4c1f-9be3-2546571df262",
+                  "type": "Text",
+                  "props": {
+                    "text": "B questionnaire",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4e06783d-74b5-4727-b4e5-b7080412c4fb",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f29f6035-1640-4a48-97e3-dcf5e8456c49",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7973cb92-44de-403b-ad22-89688e917e5d",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_a5a9134b-e236-46bf-915c-3ec10f84ac5b",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "C quiet",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_78b7f296-17cb-4d34-9969-83aeaa030df5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_551afb04-88ac-4c1f-9be3-2546571df262",
+                  "type": "Text",
+                  "props": {
+                    "text": "C quiet",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4e06783d-74b5-4727-b4e5-b7080412c4fb",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f29f6035-1640-4a48-97e3-dcf5e8456c49",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7973cb92-44de-403b-ad22-89688e917e5d",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_532e4f56-21fc-46c5-9006-86d3d63f929e",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "C questionnaire",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_78b7f296-17cb-4d34-9969-83aeaa030df5",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_551afb04-88ac-4c1f-9be3-2546571df262",
+                  "type": "Text",
+                  "props": {
+                    "text": "C questionnaire",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4e06783d-74b5-4727-b4e5-b7080412c4fb",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_f29f6035-1640-4a48-97e3-dcf5e8456c49",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7973cb92-44de-403b-ad22-89688e917e5d",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_878b9855-8f5f-45d7-bf61-a7a37d8ad344",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_3d268ff7-435e-4e37-a566-d8e00fdf875d",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_8e53bed5-6f39-49f3-bc84-0d517562c714",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_ca1fbdea-1138-4aee-b0aa-420b6368fee0",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_8e53bed5-6f39-49f3-bc84-0d517562c714",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_382a7c67-0b26-4d9b-a5ec-de2fc3cf5ff9",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_6b76ef4f-f0b5-4a58-8cfd-78cfc3c53a42",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_382a7c67-0b26-4d9b-a5ec-de2fc3cf5ff9",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_711e9993-46ca-4a58-9b80-798e39636cd5",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_d1294f21-c2d7-412d-9386-09cefb76367c",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_711e9993-46ca-4a58-9b80-798e39636cd5",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_64689fe3-74b9-42b4-a3ff-a24355183cc1",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_1e1d6c94-9a7c-4f28-98f1-c2d6536c9372",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_64689fe3-74b9-42b4-a3ff-a24355183cc1",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_a5a9134b-e236-46bf-915c-3ec10f84ac5b",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_0c9d0944-48f9-4ce4-aa43-19ac927d2d2f",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_a5a9134b-e236-46bf-915c-3ec10f84ac5b",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_532e4f56-21fc-46c5-9006-86d3d63f929e",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_6935c472-aaf4-488f-8862-55ffccc0be03",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_532e4f56-21fc-46c5-9006-86d3d63f929e",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_9b22f0b3-2459-40b0-99f9-13d88132c151",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": [
+      {
+        "id": "A",
+        "name": "Group A",
+        "kind": "container",
+        "nodeIds": [
+          "node_8e53bed5-6f39-49f3-bc84-0d517562c714",
+          "node_382a7c67-0b26-4d9b-a5ec-de2fc3cf5ff9"
+        ],
+        "entryNodeId": null,
+        "exitNodeIds": [],
+        "parameters": [],
+        "metadata": {}
+      },
+      {
+        "id": "B",
+        "name": "Group B",
+        "kind": "container",
+        "nodeIds": [
+          "node_711e9993-46ca-4a58-9b80-798e39636cd5",
+          "node_64689fe3-74b9-42b4-a3ff-a24355183cc1"
+        ],
+        "entryNodeId": null,
+        "exitNodeIds": [],
+        "parameters": [],
+        "metadata": {}
+      },
+      {
+        "id": "C",
+        "name": "Group C",
+        "kind": "container",
+        "nodeIds": [
+          "node_a5a9134b-e236-46bf-915c-3ec10f84ac5b",
+          "node_532e4f56-21fc-46c5-9006-86d3d63f929e"
+        ],
+        "entryNodeId": null,
+        "exitNodeIds": [],
+        "parameters": [],
+        "metadata": {}
+      }
+    ]
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

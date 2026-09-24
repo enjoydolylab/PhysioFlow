@@ -102,7 +102,7 @@ export function Builder({ value, onChange, onSave, onBack, onRun, undo, redo, ca
           if (!check.valid) { onRun(p); return; }
           try { const f = await freezeProtocol(p); onChange(f); onSave(f); showToast('Protocol frozen'); } catch (err) { showToast('Cannot freeze: ' + err.message); }
         }}>Freeze</button>}
-        {locked && onUnfreeze && <button onClick={onUnfreeze} title="Make this protocol editable again">🔓 Unfreeze</button>}
+        {locked && onUnfreeze && <button onClick={onUnfreeze} title="Create a new draft while preserving this frozen version">Create editable version</button>}
         <button className="primary" onClick={() => onRun(p)}>Test run</button>
         {onSwitchToVisual && <button onClick={onSwitchToVisual} title="Switch to visual flow editor">⌘ Visual editor</button>}
       </div>

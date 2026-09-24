@@ -1,31 +1,30 @@
+import { discreteScaleValues } from '../core/inputValidation.js';
+import { responseAnalysisData, samPairs, choiceDistribution } from './responseData.js';
 import { useRef, useEffect } from 'react';
 import { drawBarChart, drawScatterPlot, COLORS } from './charts.js';
 
 // ResponseCharts — Visualize questionnaire responses
-export default function ResponseCharts({ responses, protocol }) {
+export default function ResponseCharts({ responses: allResponses, protocol, language = 'en' }) {
+  const responses = (allResponses || []).filter(row => !row.supersededByEventId);
   if (!responses?.length) {
     return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>No responses recorded</div>;
   }
 
   // Build question index
-  const questions = buildQuestionIndex(protocol);
-  const groups = groupByQuestion(responses, questions);
+  const { questions, groups } = responseAnalysisData(responses, protocol, language);
 
   if (!Object.keys(groups).length) {
     return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>No questionnaire data found in protocol</div>;
   }
 
-  // Check for SAM data
-  const valence = groups['sam_valence']?.map(r => parseInt(r.value));
-  const arousal = groups['sam_arousal']?.map(r => parseInt(r.value));
-  const hasSam = valence?.length > 0 && arousal?.length > 0;
+  const pairedSam = samPairs(questions, groups);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>Response Analysis ({responses.length} answers)</h3>
+      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>Response Analysis ({responses.length} effective records)</h3>
 
       {/* SAM plot */}
-      {hasSam && <SAMPlot valence={valence} arousal={arousal} />}
+      {pairedSam.length > 0 && <SAMPlot points={pairedSam} />}
 
       {/* Bar charts for each Likert / choice question */}
       {Object.entries(groups).map(([qId, answers]) => {
@@ -40,12 +39,11 @@ export default function ResponseCharts({ responses, protocol }) {
   );
 }
 
-function SAMPlot({ valence, arousal }) {
+function SAMPlot({ points }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    const points = valence.map((v, i) => ({ x: v, y: arousal[i] || 0 }));
 
     // Heatmap: multiple points at same position get bigger size
     const countMap = new Map();
@@ -70,11 +68,11 @@ function SAMPlot({ valence, arousal }) {
       xLabel: 'Valence',
       yLabel: 'Arousal',
       title: 'SAM: Valence × Arousal',
-      xMax: 9,
-      yMax: 9,
+      xMax: Math.max(9, ...points.map(point => point.x)),
+      yMax: Math.max(9, ...points.map(point => point.y)),
       pointSize: 8,
     });
-  }, [valence, arousal]);
+  }, [points]);
 
   return (
     <div>
@@ -82,9 +80,9 @@ function SAMPlot({ valence, arousal }) {
         <span>Valence: Low (1) → High (9) pleasure</span>
         <span>Arousal: Low (1) → High (9) excitement</span>
       </div>
-      <canvas ref={canvasRef} />
+      <canvas ref={canvasRef} aria-label={`SAM matched pairs: ${points.map(point => `${point.x}, ${point.y}`).join("; ")}`} />
       <div style={{ fontSize: '0.7rem', color: COLORS.muted, textAlign: 'center' }}>
-        Bubble size = frequency. {valence.length} responses.
+        Bubble size = frequency. {points.length} matched submissions.
       </div>
     </div>
   );
@@ -96,12 +94,13 @@ function QuestionChart({ question, answers }) {
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    if (['likert'].includes(question.type) || (question.scale_min != null && question.scale_max != null)) {
+    if (question.type === 'likert') {
       // Likert / scale: show bar chart of distribution
       const min = question.scale_min ?? 1;
       const max = question.scale_max ?? 7;
-      const range = Array.from({ length: max - min + 1 }, (_, i) => min + i);
-      const counts = range.map(v => answers.filter(a => parseInt(a.value) === v).length);
+      const range = discreteScaleValues(min, max, 1000);
+      if (!range) return;
+      const counts = range.map(v => answers.filter(a => a.value != null && a.value !== '' && Number(a.value) === v).length);
       drawBarChart(canvasRef.current, {
         data: counts,
         labels: range.map(String),
@@ -113,16 +112,10 @@ function QuestionChart({ question, answers }) {
       });
     } else if (['single_choice', 'multiple_choice'].includes(question.type)) {
       // Choice: count per option
-      const options = question.options || [];
-      const counts = options.map(opt => {
-        if (question.type === 'multiple_choice') {
-          return answers.filter(a => (a.value || '').split('|').includes(opt.value || opt)).length;
-        }
-        return answers.filter(a => a.value === (opt.value || opt)).length;
-      });
+      const { labels, counts } = choiceDistribution(question, answers);
       drawBarChart(canvasRef.current, {
         data: counts,
-        labels: options.map(o => (o.label || o.value || '').substring(0, 8)),
+        labels: labels.map(label => label.substring(0, 8)),
         width: 500,
         height: 220,
         padding: 45,
@@ -133,16 +126,16 @@ function QuestionChart({ question, answers }) {
   }, [question, answers]);
 
   const qType = question.type || 'unknown';
-  if (!['likert', 'single_choice', 'multiple_choice'].includes(qType) && question.scale_min == null) {
+  if (!['likert', 'single_choice', 'multiple_choice'].includes(qType)) {
     // Text/number responses — show summary
     return (
       <div style={{ fontSize: '0.8rem', padding: '0.5rem' }}>
-        <b>{question.question_id}</b>: {answers.length} text responses
+        <b>{question.question_id}</b>: {answers.length} responses
       </div>
     );
   }
 
-  return <canvas ref={canvasRef} style={{ width: '100%', maxWidth: 500 }} />;
+  return <canvas ref={canvasRef} aria-label={['single_choice', 'multiple_choice'].includes(qType) ? choiceDistribution(question, answers).labels.map((label, i) => `${label}: ${choiceDistribution(question, answers).counts[i]}`).join('; ') : question.prompt || question.question_id} style={{ width: '100%', maxWidth: 500 }} />;
 }
 
 function ResponseTable({ groups, questions }) {
@@ -162,7 +155,7 @@ function ResponseTable({ groups, questions }) {
           {Object.entries(groups).map(([qId, answers]) => {
             const q = questions[qId] || {};
             const values = [...new Set(answers.map(a => a.value))]
-              .filter(Boolean)
+              .filter(value => value != null && value !== '')
               .sort()
               .slice(0, 5);
             return (
@@ -181,32 +174,4 @@ function ResponseTable({ groups, questions }) {
       </table>
     </details>
   );
-}
-
-// ── Helpers ──
-function buildQuestionIndex(protocol) {
-  const index = {};
-  try {
-    (protocol?.blocks || []).forEach(b =>
-      (b.trials || []).forEach(t =>
-        (t.steps || []).forEach(s => {
-          if (s.questionnaire?.questions) {
-            s.questionnaire.questions.forEach(q => { index[q.question_id] = q; });
-          }
-        })
-      ));
-    (protocol?.questionnaires || []).forEach(lib => {
-      (lib.questions || []).forEach(q => { index[q.question_id] = q; });
-    });
-  } catch { /* ignore */ }
-  return index;
-}
-
-function groupByQuestion(responses) {
-  const groups = {};
-  responses.forEach(r => {
-    if (!groups[r.question_id]) groups[r.question_id] = [];
-    groups[r.question_id].push(r);
-  });
-  return groups;
 }

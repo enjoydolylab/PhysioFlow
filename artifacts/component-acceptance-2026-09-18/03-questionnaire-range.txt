@@ -1,0 +1,18 @@
+- main:
+  - toolbar:
+    - generic: QA complete component acceptance
+    - generic: All nine question types · input.questionnaire
+    - status: Running · Checkpoint saved
+    - generic: 1 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - progressbar
+    - generic: 7/9
+    - paragraph: Verify number
+    - spinbutton: "6"
+    - text: Enter a value between 0 and 5
+    - button "← Previous"
+    - button "Next →" [active]

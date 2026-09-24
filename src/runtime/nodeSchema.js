@@ -175,7 +175,12 @@ export function schemaForNode(node, definition, resources) {
     }
     // media-ended must not let the participant advance before playback finishes.
     if (node.config?.completion?.mode === 'media-ended') {
-      schema.root.children = schema.root.children.filter(child => child.type !== 'Button');
+      const stripAdvanceActions = element => {
+        element.actions = (element.actions || []).filter(action => !['submit', 'next'].includes(action.action));
+        element.children = (element.children || []).filter(child => !(child.type === 'Button' && (child.actions || []).some(action => ['submit', 'next'].includes(action.action))));
+        element.children.forEach(stripAdvanceActions);
+      };
+      stripAdvanceActions(schema.root);
     }
     return schema;
   }

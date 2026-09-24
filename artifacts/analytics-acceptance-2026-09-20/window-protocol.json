@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_309d14b8-57d2-4b00-b840-1643607f18a5",
+  "projectId": "project_55f85246-df2d-468e-8037-49c2ad074300",
+  "metadata": {
+    "name": "QA analysis window editor",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-20T13:07:38.066Z",
+    "updatedAt": "2026-09-20T13:07:38.067Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_62c081f1-3b8b-4792-8074-c993113cbf1c",
+    "nodes": [
+      {
+        "id": "node_62c081f1-3b8b-4792-8074-c993113cbf1c",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_2a5de807-e8bd-4aff-8257-c3901ad2e1a0",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_412722e4-3c7a-4688-a551-721893f1ebfa",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "Window stimulus",
+        "config": {
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_9090aa67-d8aa-4fb3-86a7-fff6c23c59dc",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_825779a2-833d-4ca8-aeff-056e4768eba3",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_baaa251d-836e-45d3-b8b6-2b15a5ef6b79",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_57a54f63-8fc7-432d-9444-cc1381b18708",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_4dd145f5-59ba-42a7-a325-4541cdf2aa52",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_25194612-838e-44fd-9a1c-8afd8df1e7ad",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_62c081f1-3b8b-4792-8074-c993113cbf1c",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_412722e4-3c7a-4688-a551-721893f1ebfa",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_f1d31854-3056-4cc4-9a03-6ebdb7eefbe5",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_412722e4-3c7a-4688-a551-721893f1ebfa",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_2a5de807-e8bd-4aff-8257-c3901ad2e1a0",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

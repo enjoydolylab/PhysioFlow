@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "event_types": [
+    "protocol_started",
+    "component_entered",
+    "media_started",
+    "session_paused",
+    "session_resumed",
+    "media_started",
+    "session_paused",
+    "session_resumed",
+    "media_started",
+    "component_retried",
+    "component_entered",
+    "media_started",
+    "media_ended",
+    "component_completed",
+    "protocol_completed"
+  ],
+  "pause_time_seconds": 0.283326,
+  "second_paused_read_seconds": 0.283326,
+  "resumed_time_seconds": 4.970302,
+  "retry_time_seconds": 0
+}

@@ -1,7 +1,10 @@
+import { discreteScaleValues } from './inputValidation.js';
 import { serializeProtocolGraph } from './serialization.js';
 import { validateProtocolGraph } from './validateProtocolGraph.js';
 import { validateParticipantUi } from './participantUi.js';
 import { validateQuestionnaire } from './questionnaireModel.js';
+import { balancedHalfAssignments } from './stimulusRandomization.js';
+import { prepareGroupSequence } from './groupSequence.js';
 
 function hashableProtocol(protocol) {
   const next = structuredClone(protocol);
@@ -46,6 +49,10 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
   const base = validateProtocolGraph(protocol, registry);
   const errors = [...base.errors];
   const warnings = [...base.warnings];
+  if (protocol.groupRandomization?.enabled) {
+    try { prepareGroupSequence(protocol, protocol.groupRandomization.groupIds, 'configuration-check', registry); }
+    catch (error) { errors.push({ code: 'config.group_randomization_invalid', message: error.message, path: 'groupRandomization' }); }
+  }
   const assetsById = new Map((protocol.assets || []).map(asset => [asset.id || asset.assetId, asset]));
   const stimulusGroups = new Map();
   const poolIds = new Set();
@@ -95,8 +102,12 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
     if (node.config?.ui) {
       const ui = validateParticipantUi(node.config.ui);
       errors.push(...ui.errors.map(issue => ({ ...issue, code: `config.${issue.code}`, path: `${path}.ui.${issue.path}`, nodeId: node.id })));
-      warnings.push(...ui.warnings.map(issue => ({ ...issue, code: `config.${issue.code}`, path: `${path}.ui.${issue.path}`, nodeId: node.id })));
       const elements = uiElements(node.config.ui);
+      // The media adapter supplies the first Media element from node configuration.
+      // Other authored Media elements still need their own source.
+      const primaryMedia = elements.find(element => element.type === 'Media');
+      const hasNodeMediaSource = node.component?.type === 'display.media' && Boolean(node.config.sourceUrl || node.config.assetId || node.config.stimulusPoolId || node.config.stimulusPool?.enabled);
+      warnings.push(...ui.warnings.filter(issue => !(hasNodeMediaSource && issue.code === 'ui.media_source_missing' && issue.elementId === primaryMedia?.id)).map(issue => ({ ...issue, code: `config.${issue.code}`, path: `${path}.ui.${issue.path}`, nodeId: node.id })));
       const variableNames = new Set((protocol.variables || []).map(variable => variable.name));
       for (const element of elements) {
         for (const binding of Object.values(element.bindings || {})) {
@@ -131,7 +142,7 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
         else if ((asset.mediaType || asset.type) && node.config?.mediaType && (asset.mediaType || asset.type) !== node.config.mediaType) errors.push({ code: 'config.stimulus_pool_type_mismatch', message: `${node.label} pool asset ${asset.name || assetId} is not ${node.config.mediaType}`, path: `${path}.stimulusPool.assetIds`, nodeId: node.id });
       }
       if (!stimulusGroups.has(group)) stimulusGroups.set(group, []);
-      stimulusGroups.get(group).push({ node, assetIds, path });
+      stimulusGroups.get(group).push({ node, assetIds, path, mode: stimulusPool.randomizationMode || 'shuffle' });
     }
     if (node.component?.type === 'display.media' && !node.config?.sourceUrl && !node.config?.assetId && !usesStimulusPool) {
       errors.push({ code: 'config.media_source_missing', message: `${node.label} needs a media URL or asset`, path, nodeId: node.id });
@@ -140,6 +151,9 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
       errors.push({ code: 'config.media_url_invalid', message: `${node.label} has an invalid media URL`, path: `${path}.sourceUrl`, nodeId: node.id });
     }
     const mediaMode = node.config?.completion?.mode;
+    if (node.component?.type === 'display.media' && mediaMode === 'media-ended' && !['audio', 'video'].includes(node.config?.mediaType)) {
+      errors.push({ code: 'config.media_end_requires_playback', message: `${node.label} needs audio or video for playback-ended completion`, path: `${path}.completion.mode`, nodeId: node.id });
+    }
     if (node.component?.type === 'display.media' && mediaMode && !['manual', 'fixed', 'media-ended'].includes(mediaMode)) {
       errors.push({ code: 'config.media_mode_invalid', message: `${node.label} needs a supported completion mode`, path: `${path}.completion.mode`, nodeId: node.id });
     }
@@ -153,8 +167,8 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
     if (node.component?.type === 'timing.wait' && (!Number.isFinite(Number(node.config?.durationMs)) || Number(node.config.durationMs) < 0)) {
       errors.push({ code: 'config.wait_duration_invalid', message: `${node.label} needs a non-negative wait duration`, path, nodeId: node.id });
     }
-    if (node.component?.type === 'input.rating' && (!Number.isFinite(Number(node.config?.min)) || !Number.isFinite(Number(node.config?.max)) || Number(node.config.min) >= Number(node.config.max))) {
-      errors.push({ code: 'config.rating_range_invalid', message: `${node.label} maximum must be greater than minimum`, path, nodeId: node.id });
+    if (node.component?.type === 'input.rating' && !discreteScaleValues(node.config?.min, node.config?.max)) {
+      errors.push({ code: 'config.rating_range_invalid', message: `${node.label} needs increasing integer bounds and at most 1000 choices`, path, nodeId: node.id });
     }
     if (node.component?.type === 'logic.loop' && (!Number.isInteger(Number(node.config?.maxIterations)) || Number(node.config.maxIterations) < 1)) {
       errors.push({ code: 'config.loop_limit_invalid', message: `${node.label} needs a positive integer iteration limit`, path, nodeId: node.id });
@@ -175,6 +189,15 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
     }
   }
   for (const [group, entries] of stimulusGroups) {
+    const mode = entries[0].mode;
+    if (!['shuffle', 'balanced-halves'].includes(mode) || entries.some(entry => entry.mode !== mode)) errors.push({ code: 'config.stimulus_pool_mode_invalid', message: `Stimulus pool group ${group} must use the same supported randomization mode on every media node`, path: entries[0].path, nodeId: entries[0].node.id });
+    if (mode === 'balanced-halves') {
+      try {
+        balancedHalfAssignments(entries, entries[0].assetIds, assetsById, 'configuration-validation');
+      } catch (error) {
+        errors.push({ code: 'config.stimulus_pool_balance_invalid', message: `Stimulus pool group ${group}: ${error.message}`, path: entries[0].path, nodeId: entries[0].node.id });
+      }
+    }
     const expected = [...entries[0].assetIds].sort().join('\u0000');
     if (entries.some(entry => [...entry.assetIds].sort().join('\u0000') !== expected)) errors.push({ code: 'config.stimulus_pool_inconsistent', message: `Stimulus pool group ${group} must use the same asset selection on every media node`, path: entries[0].path, nodeId: entries[0].node.id });
     if (entries[0].assetIds.length < entries.length) errors.push({ code: 'config.stimulus_pool_too_small', message: `Stimulus pool group ${group} needs at least ${entries.length} assets for no-replacement assignment`, path: entries[0].path, nodeId: entries[0].node.id });

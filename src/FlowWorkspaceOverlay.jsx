@@ -137,7 +137,7 @@ export default function FlowWorkspaceOverlay({ protocol, onChange, onSave, onBac
                 <div className="overflow-divider" />
                 {onExport && <button onClick={() => { onExport(); setOverflowOpen(false); }}>💾 Export JSON</button>}
                 {protocol.status !== 'frozen' && onFreeze && <button onClick={() => { onFreeze(); setOverflowOpen(false); }}>🔒 Freeze version</button>}
-                {protocol.status === 'frozen' && onUnfreeze && <button onClick={() => { onUnfreeze(); setOverflowOpen(false); }}>🔓 Unfreeze version</button>}
+                {protocol.status === 'frozen' && onUnfreeze && <button onClick={() => { onUnfreeze(); setOverflowOpen(false); }}>Create editable version</button>}
                 <button onClick={() => { setThemeOpen(true); setOverflowOpen(false); }}>🎨 Theme &amp; style</button>
                 {onSwitchText && <button onClick={() => { onSwitchText(); setOverflowOpen(false); }}>⚙ Advanced settings</button>}
               </div>

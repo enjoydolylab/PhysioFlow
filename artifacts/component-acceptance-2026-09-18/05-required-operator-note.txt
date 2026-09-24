@@ -1,0 +1,17 @@
+- main:
+  - toolbar:
+    - generic: QA complete component acceptance
+    - generic: Operator note · operator.manual-event
+    - status: Running · Checkpoint saved
+    - generic: 3 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - heading "Awaiting operator" [level=1]
+    - generic: Operator note *
+    - textbox "Operator note * Required":
+      - /placeholder: ""
+    - generic: Required
+    - button "Confirm annotated event" [active]

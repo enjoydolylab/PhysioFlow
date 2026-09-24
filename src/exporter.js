@@ -1,6 +1,8 @@
 import { assessSession } from './integrity.js';
 import { uid } from './domain.js';
 import { channelDataDictionary } from './data/channelDictionary.js';
+import { isGraphProtocol } from './core/protocolSelectors.js';
+import { buildGraphBidsBundle, buildGraphSessionFiles } from './data/graphExport.js';
 
 const esc = value => `"${String(value ?? '').replaceAll('"', '""').replaceAll('\n', '\\n').replaceAll('\r', '\\r')}"`;
 const csv = (headers, rows) => '\uFEFF' + [headers, ...rows].map(row => row.map(esc).join(',')).join('\r\n') + '\r\n';
@@ -93,6 +95,10 @@ export function stimulusManifest(protocol) {
 }
 
 export function bundle(session, protocol, events, responses = []) {
+  if (isGraphProtocol(protocol)) return {
+    ...buildGraphSessionFiles(session, protocol, events, responses),
+    ...buildGraphBidsBundle(session, protocol, events, responses),
+  };
   const windowHeaders = ['window_id','session_id','participant_id','block_id','trial_id','step_id','condition','analysis_label','start_event_id','end_event_id','start_epoch_ms','end_epoch_ms','expected_duration_ms','duration_ms','pause_count','validity_status','invalid_reason','overlapping_markers'];
   const eventHeaders = ['schema_version','event_id','session_id','participant_id','protocol_id','protocol_version','block_id','block_order','block_repeat','trial_id','trial_order','trial_repeat','step_id','step_order','node_id','condition','event_type','event_status','timestamp_iso','timestamp_epoch_ms','elapsed_monotonic_ms','timestamp_epoch_fallback','stimulus_id','metadata_json'];
   const responseHeaders = ['response_id','session_id','participant_id','block_id','trial_id','step_id','condition','questionnaire_id','question_id','question_type','value','option_label','response_key','reaction_time_ms','submitted_epoch_ms'];
@@ -249,10 +255,35 @@ export function zipBundle(files) {
 }
 
 export function downloadBundle(files, prefix) {
-  const anchor=document.createElement('a');
   const safePrefix=String(prefix||'physioflow').replace(/[<>:"/\\|?*\p{Cc}]/gu,'_');
-  anchor.href=URL.createObjectURL(zipBundle(files));anchor.download=`${safePrefix}_session_bundle.zip`;anchor.click();
-  setTimeout(()=>{try{URL.revokeObjectURL(anchor.href)}catch{/* ignore */}},30000);
+  const container = document.getElementById('toast-root');
+  const notice = document.createElement('div');
+  notice.className = 'toast';
+  notice.setAttribute('role', 'status');
+  const anchor = document.createElement('a');
+  let url;
+  try {
+    url = URL.createObjectURL(zipBundle(files));
+    anchor.href = url;
+    anchor.download = `${safePrefix}_session_bundle.zip`;
+    anchor.textContent = 'Download data package again';
+    notice.append('Data package generated; download requested. Check your browser downloads. ', anchor);
+    (container || document.body).appendChild(notice);
+    anchor.click();
+  } catch (error) {
+    if (url) URL.revokeObjectURL(url);
+    notice.setAttribute('role', 'alert');
+    notice.textContent = 'Data package download could not be started. Your saved session is unchanged. Try exporting again.';
+    if (!notice.isConnected) (container || document.body).appendChild(notice);
+    setTimeout(() => notice.remove(), 15000);
+    throw error;
+  }
+  const dismiss = document.createElement('button');
+  dismiss.textContent = 'Dismiss';
+  const cleanup = () => { URL.revokeObjectURL(url); notice.remove(); };
+  const timer = setTimeout(cleanup, 60000);
+  dismiss.onclick = () => { clearTimeout(timer); cleanup(); };
+  notice.append(' ', dismiss);
 }
 
 // ── Simplified export (5 files, clean columns) ──
@@ -268,6 +299,16 @@ function stepPath(protocol, event) {
 }
 
 export function bundleSimple(session, protocol, events, responses = []) {
+  if (isGraphProtocol(protocol)) {
+    const files = buildGraphSessionFiles(session, protocol, events, responses);
+    return {
+      'README.txt': 'PhysioFlow Graph session\n\nEvents are ordered by sequence; node_id joins records to protocol_snapshot.json.\nresponses.csv contains one row per submitted value. reaction_time_ms is the captured response time (blank for omissions or multi-response tasks); node_duration_ms includes feedback/confirmation.\nUse the complete export for device samples, raw events, runtime state and BIDS files.\n',
+      'manifest.json': files['manifest.json'],
+      'events.csv': files['events.csv'],
+      'responses.csv': files['responses.csv'],
+      'protocol_snapshot.json': files['protocol_snapshot.json'],
+    };
+  }
   const report = assessSession({ session, protocol, events, responses, runtime: session.runtime_snapshot });
 
   // ── events.csv (10 columns) ──

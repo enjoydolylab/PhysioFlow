@@ -19,7 +19,7 @@ npm run desktop:dev
 npm run desktop:build
 ```
 
-当前 [Tauri 配置](../src-tauri/tauri.conf.json)构建 NSIS，输出在 `src-tauri/target/release/bundle/nsis/`。浏览器产物在 `dist/`；`release-desktop/` 是忽略的交付目录，不随 Git 提交。
+当前 [Tauri 配置](../src-tauri/tauri.conf.json)构建 NSIS，输出在 `src-tauri/` 下的 target/release/bundle/nsis/（构建产物目录，不随 Git 提交，全新检出时不存在）。浏览器产物在 `dist/`；`release-desktop/` 是忽略的交付目录，不随 Git 提交。
 
 ## 验证
 

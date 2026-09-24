@@ -1,0 +1,105 @@
+- main:
+  - complementary:
+    - generic: pf.
+    - text: PhysioFlow
+    - generic: RESEARCH WORKSPACE
+    - navigation "Workspace navigation":
+      - button "01 Projects 4":
+        - generic: "01"
+        - text: Projects
+        - generic: "4"
+      - button "02 Sessions":
+        - generic: "02"
+        - text: Sessions
+      - button "03 Data & settings":
+        - generic: "03"
+        - text: Data & settings
+    - text: Local workspace
+    - paragraph:
+      - text: Your experiments.
+      - text: Your research.
+    - button "Help & documentation ↗"
+  - generic: Workspace / Projects
+  - button "🌙"
+  - generic "Language":
+    - button "中文"
+    - button "日本語"
+    - button "EN"
+  - text: DESIGN · RUN · DISCOVER
+  - heading "A space for your next experiment." [level=1]:
+    - text: A space for
+    - text: your next experiment.
+  - paragraph: Shape an idea into a study. Pick up where you left off.
+  - generic: "4"
+  - text: projects
+  - generic: "2"
+  - text: frozen versions
+  - generic: "3"
+  - text: sessions
+  - generic: ＋
+  - heading "Build your next experiment" [level=2]
+  - paragraph: Start with a blank flow, or make a template your own.
+  - button "New protocol": New protocol ↗
+  - button "Import JSON"
+  - generic "Start from a template"
+  - heading "Your projects 4" [level=2]:
+    - text: Your projects
+    - generic: "4"
+  - textbox "Search projects":
+    - /placeholder: Search projects…
+  - article:
+    - generic: draft
+    - generic: Review setup
+    - button "Project actions": ⋯
+    - button "QA 0917 · response and repeat 3 nodes · 2 connections response Composer V2 · v1 · Draft 1 · 1 version":
+      - heading "QA 0917 · response and repeat" [level=3]
+      - paragraph: 3 nodes · 2 connections
+      - generic: response
+      - generic: Composer V2 · v1 · Draft 1 · 1 version
+    - button "Edit draft"
+  - article:
+    - generic: draft
+    - generic: Needs setup
+    - button "Project actions": ⋯
+    - button "Untitled experiment 2 nodes · 1 connections Composer V2 · v1 · Draft 1 · 1 version":
+      - heading "Untitled experiment" [level=3]
+      - paragraph: 2 nodes · 1 connections
+      - generic: Composer V2 · v1 · Draft 1 · 1 version
+    - button "Edit draft"
+  - article:
+    - generic: draft
+    - generic: Review setup
+    - button "Project actions": ⋯
+    - button "QA nested 2 x 3 - locked responses 6 nodes · 7 connections loop response screen Composer V2 · v2 · Version 2 · 2 versions":
+      - heading "QA nested 2 x 3 - locked responses" [level=3]
+      - paragraph: 6 nodes · 7 connections
+      - generic: loop
+      - generic: response
+      - generic: screen
+      - generic: Composer V2 · v2 · Version 2 · 2 versions
+    - button "Edit draft"
+  - article:
+    - generic: draft
+    - generic: Review setup
+    - button "Project actions": ⋯
+    - button "QA complete workflow - screen media ratings questionnaire 16 nodes · 15 connections screen fixation media rating text ⏱ ~1s +8 more Composer V2 · v2 · Version 2 · 2 versions":
+      - heading "QA complete workflow - screen media ratings questionnaire" [level=3]
+      - paragraph: 16 nodes · 15 connections
+      - generic: screen
+      - generic: fixation
+      - generic: media
+      - generic: rating
+      - generic: text
+      - generic: ⏱ ~1s
+      - generic: +8 more
+      - generic: Composer V2 · v2 · Version 2 · 2 versions
+    - button "Edit draft"
+  - generic: PhysioFlow · Experiment workspace
+  - button "Storage settings ↗"
+- button "☷ Manage sessions"
+- alertdialog "Import failed":
+  - generic: i
+  - heading "Import failed" [level=3]
+  - paragraph: gonogo trial 1 has invalid Go/No-Go semantics gonogo trial 2 has invalid Go/No-Go semantics
+  - button "OK" [active]
+  - text: ","

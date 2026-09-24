@@ -55,7 +55,7 @@ export function renameProtocol(protocol, name, now = new Date().toISOString()) {
 
 export function archiveProtocol(protocol, archivedAt = new Date().toISOString()) {
   const next = structuredClone(protocol);
-  if (isGraphProtocol(next)) next.audit = { ...next.audit, archivedAt, updatedAt: archivedAt };
+  if (isGraphProtocol(next)) next.audit = { ...next.audit, archivedAt, updatedAt: archivedAt || new Date().toISOString() };
   else next.archived_at = archivedAt;
   return next;
 }
@@ -65,7 +65,8 @@ export function createNextGraphProtocolVersion(source, options = {}) {
   const next = structuredClone(source);
   const idFactory = options.idFactory || createId;
   const now = options.now || new Date().toISOString();
-  const versionNumber = protocolVersionOf(source) + 1;
+  const projectVersions = (options.existingProtocols || []).filter(protocol => projectIdOf(protocol) === projectIdOf(source));
+  const versionNumber = Math.max(protocolVersionOf(source), ...projectVersions.map(protocolVersionOf).filter(Number.isFinite)) + 1;
   next.protocolId = idFactory('protocol');
   next.version = { number: versionNumber, label: `Version ${versionNumber}`, status: 'draft' };
   next.audit = { createdAt: now, updatedAt: now, frozenAt: null, archivedAt: null };

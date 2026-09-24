@@ -1,3 +1,4 @@
+import { isReviewableSession } from './sessionReview.js';
 import { useRef, useEffect, useMemo } from 'react';
 import { COLORS, STATUS_COLORS, formatMs } from './charts.js';
 
@@ -7,13 +8,13 @@ export default function CrossSessionCompare({ sessions, protocolId }) {
     if (!sessions?.length) return [];
     return sessions
       .filter(s => !protocolId || s.protocol_id === protocolId)
-      .filter(s => s.status === 'completed' || s.status === 'aborted')
+      .filter(isReviewableSession)
       .slice(0, 15); // limit for readability
   }, [sessions, protocolId]);
 
   if (!relevant.length) {
     return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>
-      Select completed sessions to compare
+      Select finished sessions to compare
     </div>;
   }
 
@@ -51,7 +52,7 @@ function ComparisonBarChart({ sessions }) {
     const metrics = sessions.map(s => ({
       label: (s.participant_id || '').substring(0, 8) || '?',
       events: s.event_count || 0,
-      completed: s.integrity?.facts?.completed_steps || 0,
+      completed: s.integrity?.facts?.components_completed ?? s.integrity?.facts?.completed_steps ?? 0,
       pauses: s.integrity?.facts?.pauses || 0,
     }));
 
@@ -86,8 +87,7 @@ function ComparisonBarChart({ sessions }) {
 
     const colors = [COLORS.blue, STATUS_COLORS.valid, STATUS_COLORS.attention];
 
-    itemsToShow.forEach((_, i) => {
-      const m = metrics[i];
+    metrics.slice(0, itemsToShow).forEach((m, i) => {
       const vals = [m.events, m.completed, m.pauses];
       const gx = pad.left + i * (groupW + groupGap);
 
@@ -166,9 +166,9 @@ function ComparisonTable({ sessions }) {
                 }}>{s.status}</span>
               </td>
               <td style={{ padding: '4px 8px', textAlign: 'center' }}>{s.event_count || 0}</td>
-              <td style={{ padding: '4px 8px', textAlign: 'center' }}>{s.integrity?.facts?.completed_steps || 0}</td>
+              <td style={{ padding: '4px 8px', textAlign: 'center' }}>{s.integrity?.facts?.components_completed ?? s.integrity?.facts?.completed_steps ?? 0}</td>
               <td style={{ padding: '4px 8px', textAlign: 'center' }}>{s.integrity?.facts?.pauses || 0}</td>
-              <td style={{ padding: '4px 8px', textAlign: 'center' }}>{s.integrity?.facts?.skips || 0}</td>
+              <td style={{ padding: '4px 8px', textAlign: 'center' }}>{s.integrity?.facts?.skipped ?? s.integrity?.facts?.skips ?? 0}</td>
               <td style={{ padding: '4px 8px', textAlign: 'center' }}>
                 <span style={{ color: validityColor, fontWeight: 600 }}>
                   {s.integrity?.validity_status || 'unreviewed'}

@@ -1,0 +1,271 @@
+{
+  "validation": {
+    "valid": false,
+    "errors": [
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_01_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_01_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_02_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_02_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_03_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_03_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_04_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_04_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_05_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_05_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_06_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_06_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_07_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_07_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_08_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_08_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_09_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_09_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_10_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_10_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_11_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_11_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_12_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_12_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_13_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_13_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_14_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_14_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_15_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_15_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_16_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_16_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_17_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_17_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_18_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_18_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_19_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_19_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_20_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_20_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_21_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_21_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_22_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_22_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_23_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_23_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_24_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_24_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_25_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_25_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_26_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_26_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_27_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_27_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_28_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_28_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_29_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_29_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_30_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_30_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_31_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_31_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_32_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_32_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_33_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_33_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_34_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_34_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_35_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_35_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_36_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_36_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_37_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_37_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_38_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_38_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_39_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_39_sam"
+      },
+      {
+        "code": "config.questionnaire.type_invalid",
+        "message": "Question 3 has unsupported type sam_dominance",
+        "path": "graph.nodes.trial_40_sam.config.questionnaire.questions.2.type",
+        "nodeId": "trial_40_sam"
+      }
+    ],
+    "warnings": []
+  },
+  "seed": "release-audit-1",
+  "halves": [
+    {
+      "Joy": 1,
+      "Anger": 2,
+      "Awkwardness": 4,
+      "Calmness": 4,
+      "Fear": 3,
+      "Sadness": 3,
+      "Amusement": 2,
+      "Excitement": 1
+    },
+    {
+      "Anger": 3,
+      "Calmness": 1,
+      "Amusement": 3,
+      "Fear": 2,
+      "Joy": 4,
+      "Excitement": 4,
+      "Awkwardness": 1,
+      "Sadness": 2
+    }
+  ]
+}

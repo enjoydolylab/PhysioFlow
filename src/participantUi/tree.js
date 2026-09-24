@@ -33,15 +33,30 @@ export function normalizeColor(value) {
   return typeof value === 'string' && /^#[0-9a-fA-F]{6}$/.test(value) ? value : '#000000';
 }
 
-export function duplicateElementTree(element) {
-  return createUiElement(element.type, {
-    id: createId('ui'),
-    props: element.props,
-    style: element.style,
-    bindings: element.bindings,
-    actions: element.actions,
-    children: (element.children || []).map(duplicateElementTree),
+// Response names are data keys: copies must not alias the original response.
+export function withUniqueResponseNames(element, existingRoot) {
+  const used = new Set(flatten(existingRoot).filter(x => x.element.type === 'Input').map(x => x.element.props?.name).filter(Boolean));
+  return mapTree(element, node => {
+    if (node.type !== 'Input') return node;
+    const base = node.props?.name || 'response';
+    let name = base;
+    let suffix = 2;
+    while (used.has(name)) name = `${base}_${suffix++}`;
+    used.add(name);
+    return { ...node, props: { ...node.props, name } };
   });
+}
+
+export function duplicateElementTree(element, existingRoot = element) {
+  const clone = node => createUiElement(node.type, {
+    id: createId('ui'),
+    props: node.props,
+    style: node.style,
+    bindings: node.bindings,
+    actions: node.actions,
+    children: (node.children || []).map(clone),
+  });
+  return withUniqueResponseNames(clone(element), existingRoot);
 }
 
 export function findInTree(node, id) {

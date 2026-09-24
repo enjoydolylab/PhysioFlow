@@ -23,6 +23,9 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
   const [feedback, setFeedback] = useState(null); // { ok, value, key, rt } while feedback is shown
   const startAt = useRef(performance.now());
   const resolved = useRef(false);
+  // Lock at acquisition, before React renders feedback/confirmation. Completion
+  // happens later and must not reopen the response window in the meantime.
+  const accepted = useRef(false);
   const feedbackRemaining = useRef(1000);
   const pausedAt = useRef(null);
   const timeoutRemaining = useRef(null);
@@ -65,6 +68,7 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
     const values = { value, response_key: key, reaction_time_ms: rt, correct, timed_out: timedOut };
     const variableName = config.variable || 'response';
     onSubmit?.({
+      reactionTimeMs: rt,
       values,
       outputs: { ...values, [variableName]: value },
       variables: { [variableName]: value, [`${variableName}_rt_ms`]: rt, last_response_key: key },
@@ -73,7 +77,8 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
   };
 
   const commitKey = key => {
-    if (resolved.current || disabled || feedback || pressed) return;
+    if (resolved.current || accepted.current || disabled) return;
+    accepted.current = true;
     const rt = Math.max(0, Math.round(performance.now() - startAt.current));
     const option = optionFor(key);
     const value = option ? option.value : key;
@@ -109,15 +114,15 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
   }, [disabled, allowKeys, options, autoAdvance, feedbackMode, correctValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (disabled || timeoutMs <= 0) return undefined;
+    if (disabled || feedback || pressed || timeoutMs <= 0) return undefined;
     if (timeoutRemaining.current == null) timeoutRemaining.current = timeoutMs;
     const since = performance.now();
     const timer = setTimeout(() => {
-      if (resolved.current) return;
+      if (resolved.current || accepted.current) return;
       submit({ key: null, value: null, rt: null, timedOut: true });
     }, timeoutRemaining.current);
     return () => { clearTimeout(timer); timeoutRemaining.current = Math.max(0, timeoutRemaining.current - (performance.now() - since)); };
-  }, [disabled, timeoutMs]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [disabled, timeoutMs, feedback, pressed]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (feedback) {
     const ok = feedback.ok;

@@ -1,0 +1,44 @@
+{
+  "channelSamples": 28552,
+  "sampleFrames": 7138,
+  "rawValuesAndTimestampsMatch": true,
+  "markers": [
+    {
+      "sequence": 23558,
+      "marker": 1.0,
+      "timestamp": 1789662279.316385
+    },
+    {
+      "sequence": 23563,
+      "marker": 2.0,
+      "timestamp": 1789662279.335849
+    },
+    {
+      "sequence": 27865,
+      "marker": 3.0,
+      "timestamp": 1789662296.546851
+    },
+    {
+      "sequence": 46273,
+      "marker": 4.0,
+      "timestamp": 1789662370.189835
+    },
+    {
+      "sequence": 46338,
+      "marker": 5.0,
+      "timestamp": 1789662370.44984
+    },
+    {
+      "sequence": 46394,
+      "marker": 6.0,
+      "timestamp": 1789662370.674106
+    },
+    {
+      "sequence": 46395,
+      "marker": 7.0,
+      "timestamp": 1789662370.677861
+    }
+  ],
+  "tokenExcludedFromExport": true,
+  "files": 22
+}

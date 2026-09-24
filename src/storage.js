@@ -1,3 +1,4 @@
+import { GRAPH_INTEGRITY_VERSION, reviewGraphSession } from './data/graphIntegrity.js';
 // storage.js — Compatibility layer
 // Delegates to fsStorage.js (local folder first, browser fallback)
 // All existing callers continue to work with the same API
@@ -29,7 +30,7 @@ export const openDataDirectory = async () => _openDataDirectory();
 export const clearDataDirectory = async () => _clearDataDirectory();
 
 export const loadSession = async (sessionId) => {
-  try { return await _loadSession(sessionId); }
+  try { return reviewGraphSession(await _loadSession(sessionId)); }
   catch { return null; }
 };
 
@@ -46,7 +47,17 @@ export const saveProtocols = async (protocols) => {
 
 // ── Sessions ──
 export const loadSessions = async () => {
-  try { return await _loadSessions(); }
+  try {
+    const summaries = await _loadSessions();
+    const reviewed = [];
+    for (const summary of summaries) {
+      if (summary.integrity?.assessment_version === GRAPH_INTEGRITY_VERSION) { reviewed.push(summary); continue; }
+      const detail = await _loadSession(summary.session_id).catch(() => null);
+      const current = reviewGraphSession(detail);
+      reviewed.push(current?.protocol_snapshot?.graph ? { ...summary, integrity: current.integrity } : summary);
+    }
+    return reviewed;
+  }
   catch { return []; }
 };
 

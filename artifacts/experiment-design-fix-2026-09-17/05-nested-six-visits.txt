@@ -1,0 +1,61 @@
+- main:
+  - toolbar:
+    - generic: QA nested 2 x 3 - locked responses
+    - generic: after · display.screen
+    - status: Running · Checkpoint saved
+    - generic: 6 completed visits · 0 skipped
+    - button "⌄ Inspect" [active]
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Runtime variables, outputs and flow state":
+    - heading "Variables 1" [level=4]
+    - table:
+      - rowgroup:
+        - row "Name Type Value":
+          - columnheader "Name"
+          - columnheader "Type"
+          - columnheader "Value"
+      - rowgroup:
+        - row "last_rt_ms number 282":
+          - cell "last_rt_ms":
+            - code: last_rt_ms
+          - cell "number"
+          - cell "282":
+            - code: "282"
+    - heading "Outputs 1" [level=4]
+    - table:
+      - rowgroup:
+        - row "Port Value":
+          - columnheader "Port"
+          - columnheader "Value"
+      - rowgroup:
+        - 'row "response {\"value\":\"yes\",\"response_key\":\"y\",\"reaction_time_ms\":282,\"correct\":null,\"timed_out\":false,\"response\":\"yes\"}"':
+          - cell "response":
+            - code: response
+          - 'cell "{\"value\":\"yes\",\"response_key\":\"y\",\"reaction_time_ms\":282,\"correct\":null,\"timed_out\":false,\"response\":\"yes\"}"':
+            - code: "{\"value\":\"yes\",\"response_key\":\"y\",\"reaction_time_ms\":282,\"correct\":null,\"timed_out\":false,\"response\":\"yes\"}"
+    - heading "Flow state" [level=4]
+    - paragraph:
+      - generic: Status
+      - generic: waiting
+    - paragraph:
+      - generic: Current node
+      - generic: after
+    - paragraph:
+      - generic: Completed
+      - generic: "6"
+    - paragraph:
+      - generic: Skipped
+      - generic: "0"
+    - paragraph:
+      - generic: Attempts
+      - generic: "2"
+    - paragraph:
+      - generic: Loop counts
+      - generic: outer×2, inner×3
+  - region "Participant view":
+    - heading "Welcome" [level=1]
+    - paragraph: Please read the instructions carefully.
+    - progressbar
+    - button "Continue"

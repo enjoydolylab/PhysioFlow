@@ -1,0 +1,20 @@
+- main:
+  - toolbar:
+    - generic: QA complete component acceptance
+    - generic: Input boundaries · display.screen
+    - status: Running · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - heading "Input boundary acceptance" [level=1]
+    - generic: Number 0–10 *
+    - spinbutton "Number 0–10 * Enter a value between 0 and 10": "11"
+    - generic: Enter a value between 0 and 10
+    - generic: Rating 0–2 *
+    - button "Rating 0–2 * 1 2": "0"
+    - button "1"
+    - button "2"
+    - button "Submit inputs" [active]

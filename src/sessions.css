@@ -26,7 +26,7 @@
 }
 
 .session-manager {
-  position: fixed; inset: 0; z-index: 40;
+  position: fixed; inset: 0; z-index: 60;
   background: var(--surface);
   display: flex; flex-direction: column;
   animation: manager-in .22s ease;

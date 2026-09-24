@@ -123,14 +123,15 @@ export function estimateScreenSize(diagonalInches, aspectRatioX = 16, aspectRati
 }
 
 /**
- * Get current browser viewport pixel dimensions.
- * Useful for quick calibration estimates.
+ * Get screen dimensions in CSS pixels, matching CSS stimulus sizes. The physical
+ * monitor width in cm describes the screen, not just the browser window. Applying
+ * devicePixelRatio here would scale the CSS reference a second time on HiDPI.
  * @returns {{ widthPx: number, heightPx: number, devicePixelRatio: number }}
  */
 export function getViewportDimensions() {
   return {
-    widthPx: window.screen.width * (window.devicePixelRatio || 1),
-    heightPx: window.screen.height * (window.devicePixelRatio || 1),
+    widthPx: window.screen.width,
+    heightPx: window.screen.height,
     devicePixelRatio: window.devicePixelRatio || 1,
   };
 }

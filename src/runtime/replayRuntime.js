@@ -16,16 +16,13 @@ function initialReplayState(protocol, sessionId) {
     completedNodeIds: [],
     skippedNodeIds: [],
     loopCounts: {},
+    loopStack: [],
     randomSeed: null,
     randomDrawCount: 0,
     decisions: [],
     eventSequence: 0,
     error: null,
   };
-}
-
-function appendUnique(values, value) {
-  return values.includes(value) ? values : [...values, value];
 }
 
 export function reduceRuntimeEvent(previous, event) {
@@ -37,7 +34,9 @@ export function reduceRuntimeEvent(previous, event) {
     case 'component_entered':
       return { ...state, status: 'waiting', currentNodeId: event.nodeId, attempts: { ...state.attempts, [event.nodeId]: payload.attempt || 1 } };
     case 'response_submitted':
-      return { ...state, variables: { ...state.variables, ...(payload.values || {}) } };
+      // Responses are observations. Only component_completed applies the exact
+      // variable changes accepted by the runtime (including permission checks).
+      return state;
     case 'component_completed':
       return {
         ...state,
@@ -45,16 +44,16 @@ export function reduceRuntimeEvent(previous, event) {
         currentNodeId: null,
         variables: { ...state.variables, ...(payload.variables || {}) },
         outputs: { ...state.outputs, [event.nodeId]: { ...(state.outputs[event.nodeId] || {}), ...(payload.outputs || {}) } },
-        completedNodeIds: appendUnique(state.completedNodeIds, event.nodeId),
+        completedNodeIds: [...state.completedNodeIds, event.nodeId],
       };
     case 'component_skipped':
-      return { ...state, status: 'running', currentNodeId: null, skippedNodeIds: appendUnique(state.skippedNodeIds, event.nodeId) };
+      return { ...state, status: 'running', currentNodeId: null, skippedNodeIds: [...state.skippedNodeIds, event.nodeId] };
     case 'component_retried':
       return { ...state, status: 'running' };
     case 'condition_evaluated':
       return { ...state, decisions: [...state.decisions, { sequence: event.sequence, nodeId: event.nodeId, kind: 'condition', selectedPort: payload.result ? 'true' : 'false', payload: structuredClone(payload) }] };
     case 'loop_evaluated':
-      return { ...state, loopCounts: { ...state.loopCounts, [event.nodeId]: payload.enterBody ? Number(payload.completedIterations || 0) + 1 : Number(payload.completedIterations || 0) }, decisions: [...state.decisions, { sequence: event.sequence, nodeId: event.nodeId, kind: 'loop', selectedPort: payload.enterBody ? 'body' : 'exit', payload: structuredClone(payload) }] };
+      return { ...state, ...(payload.loopStack ? { loopStack: [...payload.loopStack] } : {}), loopCounts: { ...state.loopCounts, [event.nodeId]: payload.enterBody ? Number(payload.completedIterations || 0) + 1 : Number(payload.completedIterations || 0) }, decisions: [...state.decisions, { sequence: event.sequence, nodeId: event.nodeId, kind: 'loop', selectedPort: payload.enterBody ? 'body' : 'exit', payload: structuredClone(payload) }] };
     case 'randomization_evaluated':
       return { ...state, randomSeed: payload.seed || state.randomSeed, randomDrawCount: Math.max(state.randomDrawCount, Number(payload.drawIndex || 0)), decisions: [...state.decisions, { sequence: event.sequence, nodeId: event.nodeId, kind: 'random', selectedPort: payload.selectedPort, payload: structuredClone(payload) }] };
     case 'session_paused':
@@ -62,7 +61,7 @@ export function reduceRuntimeEvent(previous, event) {
     case 'session_resumed':
       return { ...state, status: state.statusBeforePause || (state.currentNodeId ? 'waiting' : 'running'), statusBeforePause: null };
     case 'protocol_completed':
-      return { ...state, status: 'completed', currentNodeId: null };
+      return { ...state, status: 'completed', currentNodeId: null, loopStack: [] };
     case 'runtime_failed':
       return { ...state, status: 'failed', currentNodeId: event.nodeId || state.currentNodeId, error: payload.message || 'Runtime failed' };
     default:
@@ -80,7 +79,14 @@ export function createRuntimeReplay(protocol, events = []) {
     if (event.sequence !== index + 1) throw new Error(`Runtime replay requires contiguous event sequences; expected ${index + 1}, found ${event.sequence}`);
     if (event.protocolId !== protocol.protocolId) throw new Error(`Event ${event.sequence} belongs to a different protocol`);
     if (event.sessionId !== sessionId) throw new Error(`Event ${event.sequence} belongs to a different session`);
-    state = reduceRuntimeEvent(state, event);
+    if (event.eventType === 'test_navigation_back') {
+      const from = event.payload?.supersededFromSequence;
+      const through = event.payload?.supersededThroughSequence;
+      const target = Number.isInteger(from) ? frames[from] : null;
+      if (!target || from < 1 || through !== event.sequence - 1 || from > through || target.state.currentNodeId !== event.nodeId || target.state.status !== 'waiting') throw new Error(`Event ${event.sequence} has invalid test navigation history`);
+      // Restore logical decisions and outputs while retaining actual attempt counts.
+      state = { ...structuredClone(target.state), attempts: { ...state.attempts }, eventSequence: event.sequence, status: 'waiting', statusBeforePause: null };
+    } else state = reduceRuntimeEvent(state, event);
     frames.push({ sequence: event.sequence, event: structuredClone(event), state: structuredClone(state) });
   });
   return { frames, finalState: structuredClone(state) };

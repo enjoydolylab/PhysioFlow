@@ -1,3 +1,4 @@
+import { buildTimeline } from './timelineData.js';
 import { useRef, useEffect, useState } from 'react';
 import { COLORS, STATUS_COLORS, formatMs } from './charts.js';
 
@@ -37,63 +38,6 @@ export default function TimelineView({ events, protocol, width = 800 }) {
   );
 }
 
-function buildTimeline(events, protocol) {
-  if (!events?.length) return { items: [], startTime: 0, endTime: 0, totalMs: 1 };
-
-  const stepMap = new Map();
-  try {
-    (protocol?.blocks || []).forEach(b =>
-      (b.trials || []).forEach(t =>
-        (t.steps || []).forEach(s => stepMap.set(s.step_id, s))
-      ));
-  } catch { /* ignore */ }
-
-  const startTime = events[0]?.elapsed_monotonic_ms || 0;
-  const endTime = events[events.length - 1]?.elapsed_monotonic_ms || startTime + 1;
-  const totalMs = endTime - startTime || 1;
-
-  // Group events by step occurrence (entered → completed/skipped)
-  const entered = new Map();
-  const items = [];
-
-  events.forEach(ev => {
-    if (ev.event_type === 'step_entered') {
-      entered.set(ev.step_id + '_' + ev.elapsed_monotonic_ms, ev);
-    }
-    const isTerminal = ['step_completed', 'step_skipped', 'step_retried'].includes(ev.event_type);
-    if (isTerminal) {
-      // Find matching entered event
-      let startEv = null;
-      for (const [key, val] of entered) {
-        if (key.startsWith(ev.step_id) && !val._paired) {
-          startEv = val;
-          val._paired = true;
-          break;
-        }
-      }
-      const step = stepMap.get(ev.step_id);
-      items.push({
-        stepId: ev.step_id,
-        name: step?.name || ev.step_id?.substring(0, 8) || '?',
-        type: step?.type || 'unknown',
-        role: step?.role || 'custom',
-        startMs: startEv?.elapsed_monotonic_ms || ev.elapsed_monotonic_ms - (step?.planned_duration_ms || 5000),
-        endMs: ev.elapsed_monotonic_ms,
-        status: ev.event_type === 'step_completed' ? 'completed' : ev.event_type === 'step_skipped' ? 'skipped' : 'retried',
-        isAnalysis: step?.is_analysis_window || false,
-        condition: ev.condition || '',
-        blockOrder: ev.block_order,
-        trialOrder: ev.trial_order,
-        stepOrder: ev.step_order,
-      });
-    }
-  });
-
-  // Sort by start time
-  items.sort((a, b) => a.startMs - b.startMs);
-
-  return { items, startTime, endTime, totalMs };
-}
 
 function renderCanvas(container, timeline, width, setTooltip) {
   const { items, startTime, totalMs } = timeline;

@@ -75,6 +75,7 @@ export function createRuntimeState(protocol, options) {
     variables: initializeVariables(protocol, options.variables),
     outputs: {},
     loopCounts: {},
+    loopStack: [],
     randomSeed,
     randomState: hashRandomSeed(randomSeed),
     randomDrawCount: 0,
@@ -155,7 +156,7 @@ function advanceAutomatic(initialState, protocol, registry, services, startNodeI
         continue;
       }
       if (runtimeKind === 'end') {
-        const emitted = appendEvent({ ...state, status: 'completed', currentNodeId: null }, protocol, 'protocol_completed', services, { node });
+        const emitted = appendEvent({ ...state, status: 'completed', currentNodeId: null, ...(state.loopStack ? { loopStack: [] } : {}) }, protocol, 'protocol_completed', services, { node });
         events.push(emitted.event);
         return { state: emitted.state, events };
       }
@@ -180,7 +181,12 @@ function advanceAutomatic(initialState, protocol, registry, services, startNodeI
         continue;
       }
       if (runtimeKind === 'loop') {
-        const count = state.loopCounts[node.id] || 0;
+        // A loop's count belongs to its current activation. Returning to an
+        // enclosing loop abandons any inner activation; entering an exited loop
+        // starts afresh. Old checkpoints without a stack retain legacy semantics.
+        const stack = state.loopStack;
+        const activeIndex = stack?.indexOf(node.id) ?? -1;
+        const count = !stack || activeIndex >= 0 ? state.loopCounts[node.id] || 0 : 0;
         const maximum = Math.max(0, Number(node.config?.maxIterations ?? 1));
         const until = optionalNodeInput(protocol, node, 'until', state);
         const hasRule = until.present && node.config?.untilRule?.operator;
@@ -188,7 +194,10 @@ function advanceAutomatic(initialState, protocol, registry, services, startNodeI
         const enterBody = count < maximum && ruleHolds;
         state = {
           ...state,
-          loopCounts: enterBody ? { ...state.loopCounts, [node.id]: count + 1 } : state.loopCounts,
+          loopCounts: { ...state.loopCounts, [node.id]: enterBody ? count + 1 : count },
+          ...(stack ? { loopStack: enterBody
+            ? (activeIndex < 0 ? [...stack, node.id] : stack.slice(0, activeIndex + 1))
+            : (activeIndex < 0 ? stack : stack.slice(0, activeIndex)) } : {}),
         };
         const emitted = appendEvent(state, protocol, 'loop_evaluated', services, {
           node,
@@ -196,6 +205,7 @@ function advanceAutomatic(initialState, protocol, registry, services, startNodeI
             completedIterations: count,
             maxIterations: maximum,
             enterBody,
+            ...(state.loopStack ? { loopStack: [...state.loopStack] } : {}),
             ...(hasRule ? { untilValue: until.value, ruleHolds } : {}),
           },
         });

@@ -1,0 +1,19 @@
+- main:
+  - toolbar:
+    - generic: QA complete component acceptance
+    - generic: Required device checklist · setup.device-check
+    - status: Running · Checkpoint saved
+    - generic: 2 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - heading "Equipment check" [level=1]
+    - button "Ready" [active]
+    - generic: Electrodes checked *
+    - checkbox "Electrodes checked * Required"
+    - generic: Required
+    - generic: Recording directory checked *
+    - checkbox "Recording directory checked * Required"
+    - generic: Required

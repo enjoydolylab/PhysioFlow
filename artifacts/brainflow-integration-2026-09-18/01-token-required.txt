@@ -1,0 +1,14 @@
+- main:
+  - generic: RUNTIME V2 READY
+  - heading "QA BrainFlow Synthetic acquisition" [level=1]
+  - paragraph: QA-BRAINFLOW · 1 participant components
+  - paragraph: A device connection is required before this run can start.
+  - group "BrainFlow local agent":
+    - generic: BrainFlow local agent
+    - text: Agent URL
+    - textbox "BrainFlow agent URL": http://127.0.0.1:8765
+    - text: Agent token
+    - textbox "BrainFlow agent token"
+    - paragraph: Start the acquisition agent first. Raw recording continues independently of this browser. The token is not saved in the protocol or exports.
+  - alert: "Required device is not ready: Enter the BrainFlow agent token"
+  - button "Retry device and begin" [active]

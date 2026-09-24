@@ -1,3 +1,4 @@
+import { computeWindows } from '../analysis/windowData.js';
 import { createProjectComponentRegistry } from '../sdk/index.js';
 import { protocolNameOf, protocolVersionOf } from '../core/protocolSelectors.js';
 import { assessGraphSession } from './graphIntegrity.js';
@@ -13,6 +14,13 @@ const csvValue = value => {
 
 function csv(rows, columns) {
   return `${columns.join(',')}\n${rows.map(row => columns.map(column => csvValue(row[column])).join(',')).join('\n')}${rows.length ? '\n' : ''}`;
+}
+
+// Keep TSV rows unquoted; escape embedded separators so one event is one row.
+function tsv(rows, columns) {
+  const value = item => item === null || item === undefined || item === '' ? 'n/a'
+    : String(typeof item === 'object' ? JSON.stringify(item) : item).replaceAll('\\', '\\\\').replaceAll('\t', '\\t').replaceAll('\r', '\\r').replaceAll('\n', '\\n');
+  return `${columns.join('\t')}\n${rows.map(row => columns.map(column => value(row[column])).join('\t')).join('\n')}${rows.length ? '\n' : ''}`;
 }
 
 export function normalizeGraphEvents(session, events = []) {
@@ -36,6 +44,8 @@ export function normalizeGraphEvents(session, events = []) {
 
 export function normalizeGraphResponses(session, protocol, responses = []) {
   return responses.map(response => ({
+    event_sequence: response.eventSequence ?? '',
+    superseded_by_event_id: response.supersededByEventId || '',
     response_id: response.responseId || response.response_id || '',
     session_id: response.sessionId || session.session_id,
     participant_id: response.participantId || session.participant_id || '',
@@ -46,6 +56,7 @@ export function normalizeGraphResponses(session, protocol, responses = []) {
     response_name: response.name || '',
     value_json: response.value,
     reaction_time_ms: response.reactionTimeMs ?? '',
+    node_duration_ms: response.nodeDurationMs ?? '',
     timestamp_iso: response.timestampIso || '',
   }));
 }
@@ -81,13 +92,18 @@ export function graphDataDictionary() {
       responses: {
         primaryKey: 'response_id',
         description: 'One row per participant response value projected from component submission.',
-        columns: ['response_id', 'session_id', 'participant_id', 'protocol_id', 'protocol_version', 'node_id', 'component_type', 'response_name', 'value_json', 'reaction_time_ms', 'timestamp_iso'],
+        columns: ['response_id', 'event_sequence', 'superseded_by_event_id', 'session_id', 'participant_id', 'protocol_id', 'protocol_version', 'node_id', 'component_type', 'response_name', 'value_json', 'reaction_time_ms', 'node_duration_ms', 'timestamp_iso'],
       },
       device_events: {
         primaryKey: 'event_id',
         ordering: 'sequence within connector session',
         description: 'Immutable external-device lifecycle, sample, marker, failure and recovery events with connector/device provenance.',
         columns: ['event_id', 'sequence', 'session_id', 'connector_id', 'connector_version', 'transport', 'device_id', 'event_type', 'timestamp_iso', 'timestamp_epoch_ms', 'elapsed_monotonic_ms', 'payload_json', 'device_json'],
+      },
+      analysis_windows: {
+        primaryKey: 'window_id',
+        description: 'Configured component presentation intervals, including pauses; not physical stimulus onset.',
+        columns: ['window_id', 'session_id', 'node_id', 'label', 'start_event_id', 'end_event_id', 'start_epoch_ms', 'end_epoch_ms', 'start_monotonic_ms', 'end_monotonic_ms', 'expected_duration_ms', 'duration_ms', 'pause_count', 'validity_status', 'reason'],
       },
       channels: {
         primaryKey: 'channel id (per connector)',
@@ -103,6 +119,14 @@ export function graphDataDictionary() {
 }
 
 export function buildGraphSessionFiles(session, protocol, events = session.events || [], responses = session.responses || []) {
+  const windows = computeWindows(events, protocol).map(window => ({
+    window_id: window.windowId, session_id: session.session_id, node_id: window.nodeId, label: window.label,
+    start_event_id: window.startEventId, end_event_id: window.endEventId,
+    start_epoch_ms: window.startEpochMs, end_epoch_ms: window.endEpochMs,
+    start_monotonic_ms: window.startMs, end_monotonic_ms: window.endMs,
+    expected_duration_ms: window.expectedMs, duration_ms: window.durationMs,
+    pause_count: window.pauseCount, validity_status: window.validity, reason: window.reason,
+  }));
   const eventRows = normalizeGraphEvents(session, events);
   const responseRows = normalizeGraphResponses(session, protocol, responses);
   const deviceEvents = session.device_events || [];
@@ -120,7 +144,7 @@ export function buildGraphSessionFiles(session, protocol, events = session.event
     protocolId: protocol.protocolId,
     protocolName: protocolNameOf(protocol),
     protocolVersion: protocolVersionOf(protocol),
-    counts: { events: events.length, responses: responses.length, deviceEvents: deviceEvents.length, nodes: protocol.graph.nodes.length, assets: (protocol.assets || []).length },
+    counts: { analysisWindows: windows.length, events: events.length, responses: responses.length, deviceEvents: deviceEvents.length, nodes: protocol.graph.nodes.length, assets: (protocol.assets || []).length },
   };
   const channelDict = channelDataDictionary(protocol);
   const channelRows = Object.entries(channelDict.channels).map(([channel, def]) => ({
@@ -137,12 +161,14 @@ export function buildGraphSessionFiles(session, protocol, events = session.event
   manifest.counts.connectors = Object.keys(channelDict.connectors).length;
   return {
     'manifest.json': JSON.stringify(manifest, null, 2),
-    'session.json': JSON.stringify({ ...session, events: undefined, responses: undefined, device_events: undefined, protocol_snapshot: undefined }, null, 2),
-    'protocol_snapshot.json': JSON.stringify(protocol, null, 2),
+    'session.json': JSON.stringify({ ...session, events: undefined, responses: undefined, device_events: undefined, protocol_snapshot: undefined, group_execution_snapshot: undefined }, null, 2),
+    'protocol_snapshot.json': JSON.stringify(session.group_execution_snapshot?.sourceProtocol || protocol, null, 2),
+    ...(session.group_execution_snapshot ? { 'group_execution_snapshot.json': JSON.stringify(session.group_execution_snapshot, null, 2) } : {}),
     'runtime_snapshot.json': JSON.stringify(session.runtime_snapshot || null, null, 2),
     'events.jsonl': events.map(event => JSON.stringify(event)).join('\n') + (events.length ? '\n' : ''),
     'responses.jsonl': responses.map(response => JSON.stringify(response)).join('\n') + (responses.length ? '\n' : ''),
     'device_events.jsonl': deviceEvents.map(event => JSON.stringify(event)).join('\n') + (deviceEvents.length ? '\n' : ''),
+    'analysis_windows.csv': csv(windows, graphDataDictionary().tables.analysis_windows.columns),
     'events.csv': csv(eventRows, graphDataDictionary().tables.events.columns),
     'responses.csv': csv(responseRows, graphDataDictionary().tables.responses.columns),
     'device_events.csv': csv(deviceEventRows, graphDataDictionary().tables.device_events.columns),
@@ -202,9 +228,9 @@ export function buildGraphBidsBundle(session, protocol, events = [], responses =
     accuracy: { LongName: 'Accuracy (1 correct / 0 incorrect)' },
   };
   return {
-    [`${prefix}.tsv`]: csv(rows, columns),
+    [`${prefix}.tsv`]: tsv(rows, columns),
     [`${prefix}.json`]: JSON.stringify(eventsJson, null, 2),
-    'participants.tsv': `participant_id\n${participantId}\n`,
+    'participants.tsv': tsv([{ participant_id: participantId }], ['participant_id']),
     'participants.json': JSON.stringify({ participant_id: { LongName: 'Participant identifier' } }, null, 2),
     'dataset_description.json': JSON.stringify({
       Name: protocolNameOf(protocol),

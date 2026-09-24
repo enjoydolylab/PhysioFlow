@@ -1,3 +1,4 @@
+import { discreteScaleValues } from './inputValidation.js';
 import { createId } from './ids.js';
 
 export const PARTICIPANT_UI_SCHEMA_VERSION = '1.0.0';
@@ -155,6 +156,7 @@ export function validateParticipantUi(schema) {
     }
   }
   const ids = new Set();
+  const responseNames = new Set();
   const visit = (element, path) => {
     if (!element?.id) errors.push({ code: 'ui.id_missing', message: 'UI element ID is required', path: `${path}.id` });
     else if (ids.has(element.id)) errors.push({ code: 'ui.id_duplicate', message: `Duplicate UI element ID ${element.id}`, path: `${path}.id` });
@@ -175,7 +177,13 @@ export function validateParticipantUi(schema) {
         }
       }
     }
-    if (element?.type === 'Input' && !element.props?.name?.trim()) errors.push({ code: 'ui.input_name_missing', message: 'Input needs a response name', path: `${path}.props.name`, elementId: element.id });
+    if (element?.type === 'Input') {
+      const name = element.props?.name;
+      if (typeof name !== 'string' || !name.trim()) errors.push({ code: 'ui.input_name_missing', message: 'Input needs a response name', path: `${path}.props.name`, elementId: element.id });
+      else if (responseNames.has(name)) errors.push({ code: 'ui.input_name_duplicate', message: `Duplicate response name ${name}; each input needs a unique name`, path: `${path}.props.name`, elementId: element.id });
+      else responseNames.add(name);
+      if (element.props?.inputType === 'rating' && !discreteScaleValues(element.props.min ?? 1, element.props.max ?? 7)) errors.push({ code: 'ui.rating_range_invalid', message: 'Rating needs increasing integer bounds and at most 1000 choices', path: `${path}.props`, elementId: element.id });
+    }
     if (element?.type === 'Media' && !element.props?.sourceUrl && !element.props?.assetId) warnings.push({ code: 'ui.media_source_missing', message: 'Media has no source yet', path: `${path}.props`, elementId: element.id });
     if (element?.type === 'Html' && !element.props?.html?.trim()) warnings.push({ code: 'ui.html_missing', message: 'HTML fragment has no content yet', path: `${path}.props`, elementId: element.id });
     for (const [index, action] of (element?.actions || []).entries()) {

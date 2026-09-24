@@ -1,0 +1,17 @@
+- main:
+  - toolbar:
+    - generic: QA calibration and cognitive tasks
+    - generic: cal · stimulus.screen-calibration
+    - status: Running · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - region "Screen calibration":
+      - text: Screen calibration
+      - paragraph: 60 cm · 60 × 34 cm · 1710×1112 CSS px
+      - paragraph: The square spans 2° of visual angle.
+      - paragraph: 29.85 pixels per degree · 1° = 30 px · 5° = 149 px
+      - button "Confirm calibration"

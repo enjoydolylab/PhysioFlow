@@ -368,3 +368,8 @@
   .continue-bar { padding: .75rem; }
   .operator-step-panel button { width: 100%; }
 }
+
+.runner.participant-only > .operator,
+.runner.participant-only > .markers-toggle,
+.runner.participant-only > .markers { display: none; }
+.runner.participant-only > .participant { min-height: 100vh; min-height: 100dvh; }

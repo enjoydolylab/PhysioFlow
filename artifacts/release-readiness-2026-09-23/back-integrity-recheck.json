@@ -1,0 +1,18 @@
+{
+  "validity_status": "attention",
+  "checked_at": "2026-09-23T14:24:08.722Z",
+  "errors": [],
+  "warnings": [
+    "1 test navigation back action(s); superseded visits excluded from effective counts"
+  ],
+  "facts": {
+    "events": 16,
+    "responses": 6,
+    "raw_responses": 8,
+    "components_entered": 5,
+    "components_completed": 3,
+    "skipped": 0,
+    "retries": 0,
+    "pauses": 0
+  }
+}

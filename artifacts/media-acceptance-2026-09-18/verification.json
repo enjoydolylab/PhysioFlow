@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "pool_draws": [
+    {
+      "group": "stimulus_pool_2dae1e77-efea-47d3-b34b-dcb3848c2c07",
+      "attempt": 1,
+      "drawIndex": 0,
+      "assetId": "asset_26fc0003-8563-4945-8b19-1fb8732759df",
+      "sourceUrl": "",
+      "mediaType": "image",
+      "name": "red.svg"
+    },
+    {
+      "group": "stimulus_pool_2dae1e77-efea-47d3-b34b-dcb3848c2c07",
+      "attempt": 2,
+      "drawIndex": 1,
+      "assetId": "asset_423542f6-eb46-4dcb-86d4-0608a23b0ef6",
+      "sourceUrl": "",
+      "mediaType": "image",
+      "name": "blue.svg"
+    },
+    {
+      "group": "stimulus_pool_2dae1e77-efea-47d3-b34b-dcb3848c2c07",
+      "attempt": 3,
+      "drawIndex": 2,
+      "assetId": "asset_26fc0003-8563-4945-8b19-1fb8732759df",
+      "sourceUrl": "",
+      "mediaType": "image",
+      "name": "red.svg"
+    },
+    {
+      "group": "stimulus_pool_2dae1e77-efea-47d3-b34b-dcb3848c2c07",
+      "attempt": 4,
+      "drawIndex": 3,
+      "assetId": "asset_423542f6-eb46-4dcb-86d4-0608a23b0ef6",
+      "sourceUrl": "",
+      "mediaType": "image",
+      "name": "blue.svg"
+    }
+  ],
+  "pool_retry_count": 1,
+  "pool_skip_count": 1,
+  "media_ended": [
+    "audio",
+    "video"
+  ],
+  "av_event_count": 13,
+  "audio_paused_time_seconds": 4.508635,
+  "audio_time_unchanged_on_second_read": true
+}

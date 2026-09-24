@@ -1,0 +1,258 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_c9e8601d-5e2e-43e2-95f8-c2be68c55f28",
+  "projectId": "project_1c68adbb-d64a-4cbd-849f-67b62ca61568",
+  "metadata": {
+    "name": "QA BrainFlow Synthetic acquisition",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-17T16:23:33.025Z",
+    "updatedAt": "2026-09-17T16:23:33.027Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_d3470e73-451c-43af-84fc-6a16529d8ee7",
+    "nodes": [
+      {
+        "id": "node_d3470e73-451c-43af-84fc-6a16529d8ee7",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_1d30c11b-0745-4cbe-9e07-fdc953401108",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_29533c28-5b6b-4837-89fa-402b9c46e09f",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "Synthetic acquisition",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_ada66fee-1ba0-4abd-afe4-272e93a71845",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_a7c150b5-eed2-4e12-9202-c69ac46ec950",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_dc07c95d-853f-4342-8bbb-cf92649e9027",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_e1b5bf2a-8d31-434d-b135-3e8907d40ac8",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_953bcba5-5440-48ad-9a05-1c0dc28444c3",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_020c49cf-325a-460c-b953-7d7462b5a840",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_d3470e73-451c-43af-84fc-6a16529d8ee7",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_29533c28-5b6b-4837-89fa-402b9c46e09f",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_0d3015db-1c05-44d7-9ca8-6af7a3a40a93",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_29533c28-5b6b-4837-89fa-402b9c46e09f",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_1d30c11b-0745-4cbe-9e07-fdc953401108",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [
+    {
+      "sdkVersion": "1.0.0",
+      "connectorId": "org.physioflow.brainflow",
+      "version": "1.0.0",
+      "name": "BrainFlow board -1",
+      "transport": "network",
+      "permissions": [
+        "device.connect",
+        "device.read",
+        "device.write"
+      ],
+      "channels": [
+        {
+          "id": "eeg_1",
+          "direction": "input",
+          "dataType": "number",
+          "unit": "uV",
+          "sampleRateHz": 250
+        },
+        {
+          "id": "eeg_2",
+          "direction": "input",
+          "dataType": "number",
+          "unit": "uV",
+          "sampleRateHz": 250
+        },
+        {
+          "id": "eeg_3",
+          "direction": "input",
+          "dataType": "number",
+          "unit": "uV",
+          "sampleRateHz": 250
+        },
+        {
+          "id": "eeg_4",
+          "direction": "input",
+          "dataType": "number",
+          "unit": "uV",
+          "sampleRateHz": 250
+        },
+        {
+          "id": "marker",
+          "direction": "output",
+          "dataType": "string"
+        }
+      ],
+      "brainflow": {
+        "boardId": -1,
+        "previewRows": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "approvedPermissions": [
+        "device.connect",
+        "device.read",
+        "device.write"
+      ],
+      "installedAt": "2026-09-17T16:23:33.027Z"
+    }
+  ],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

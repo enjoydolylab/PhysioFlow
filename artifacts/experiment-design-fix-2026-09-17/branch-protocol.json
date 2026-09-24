@@ -1,0 +1,496 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "protocol_b657ca09-866c-4010-856d-88e528278adb",
+  "projectId": "project_6c7b7507-cb7d-46fb-a922-a904a4bf4619",
+  "metadata": {
+    "name": "QA control branches",
+    "description": "",
+    "tags": []
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-17T11:11:29.744Z",
+    "updatedAt": "2026-09-17T11:11:56.665Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_aa5e5469-1a8a-4e72-82af-3b8c2648937c",
+    "nodes": [
+      {
+        "id": "node_aa5e5469-1a8a-4e72-82af-3b8c2648937c",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_4031dbf5-b78a-44e5-b5c2-9a1ef8b811d1",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "condition",
+        "component": {
+          "type": "logic.condition",
+          "version": "1.0.0"
+        },
+        "label": "condition",
+        "config": {
+          "operator": "equals",
+          "expected": "yes"
+        },
+        "bindings": {
+          "value": {
+            "kind": "variable",
+            "variable": "choice"
+          }
+        },
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "random",
+        "component": {
+          "type": "logic.random",
+          "version": "1.0.0"
+        },
+        "label": "random",
+        "config": {
+          "probabilityA": 1,
+          "probabilityB": 0,
+          "probabilityC": null,
+          "probabilityD": null,
+          "seedSalt": ""
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "switch",
+        "component": {
+          "type": "logic.value-switch",
+          "version": "1.0.0"
+        },
+        "label": "switch",
+        "config": {
+          "match": "yes"
+        },
+        "bindings": {
+          "value": {
+            "kind": "variable",
+            "variable": "choice"
+          }
+        },
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "pass",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "ALL BRANCHES PASSED",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_faf300e6-2592-4b3f-83e4-cb86333459c0",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_b78300fb-3e15-489f-84bf-389271d37055",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_07701e12-0468-4921-89dc-a79e9646afa9",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_a72269bc-20ef-4ad6-8ce6-91c17242805b",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7bcaed89-fb75-47e4-adda-72100778212e",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "fail",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "UNEXPECTED BRANCH",
+        "config": {
+          "content": "",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_faf300e6-2592-4b3f-83e4-cb86333459c0",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_b78300fb-3e15-489f-84bf-389271d37055",
+                  "type": "Text",
+                  "props": {
+                    "text": "Welcome",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_07701e12-0468-4921-89dc-a79e9646afa9",
+                  "type": "Text",
+                  "props": {
+                    "text": "Please read the instructions carefully.",
+                    "variant": "body"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_a72269bc-20ef-4ad6-8ce6-91c17242805b",
+                  "type": "Progress",
+                  "props": {
+                    "value": 0,
+                    "max": 100,
+                    "label": ""
+                  },
+                  "bindings": {
+                    "value": "progress.percent"
+                  },
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_7bcaed89-fb75-47e4-adda-72100778212e",
+                  "type": "Button",
+                  "props": {
+                    "label": "Continue",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_c8267ed0-affc-4fcf-8fc6-0cb6793cc0e5",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "Alternative exit",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_d45d64f7-4a9a-431e-b1e9-10e9a3e061c8",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "Alternative exit",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_cd741e3c-83c3-44d8-864d-9c0838bbf90b",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "Alternative exit",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 0,
+          "y": 0
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_f03e3131-4b37-4c46-aa9b-52f6659d56f2",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_aa5e5469-1a8a-4e72-82af-3b8c2648937c",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "condition",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_98561be1-ee9f-4e6a-9fc5-5425dfd49251",
+        "kind": "control",
+        "source": {
+          "nodeId": "condition",
+          "portId": "true"
+        },
+        "target": {
+          "nodeId": "random",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_dcfa34e1-afe9-45db-8a9b-1c35d0920a7b",
+        "kind": "control",
+        "source": {
+          "nodeId": "condition",
+          "portId": "false"
+        },
+        "target": {
+          "nodeId": "fail",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_639be0ba-8a1e-44c0-9e64-a0052b9e59eb",
+        "kind": "control",
+        "source": {
+          "nodeId": "random",
+          "portId": "a"
+        },
+        "target": {
+          "nodeId": "switch",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_4f4d2c38-f415-482f-9f9f-dd998c2e6f73",
+        "kind": "control",
+        "source": {
+          "nodeId": "random",
+          "portId": "b"
+        },
+        "target": {
+          "nodeId": "node_c8267ed0-affc-4fcf-8fc6-0cb6793cc0e5",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_adedccbf-fbf7-4e62-889e-8e219fb7471d",
+        "kind": "control",
+        "source": {
+          "nodeId": "switch",
+          "portId": "match"
+        },
+        "target": {
+          "nodeId": "pass",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_893b8290-4d79-4f8c-a7b1-bd45d8201ee6",
+        "kind": "control",
+        "source": {
+          "nodeId": "switch",
+          "portId": "default"
+        },
+        "target": {
+          "nodeId": "node_d45d64f7-4a9a-431e-b1e9-10e9a3e061c8",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_74c03d77-c1bb-4450-9c75-2dc6278c233f",
+        "kind": "control",
+        "source": {
+          "nodeId": "pass",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_4031dbf5-b78a-44e5-b5c2-9a1ef8b811d1",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_64fa388a-deda-461e-8e10-88f05a2ae2a0",
+        "kind": "control",
+        "source": {
+          "nodeId": "fail",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_cd741e3c-83c3-44d8-864d-9c0838bbf90b",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [
+    {
+      "name": "choice",
+      "type": "string",
+      "scope": "session",
+      "defaultValue": "yes"
+    }
+  ],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

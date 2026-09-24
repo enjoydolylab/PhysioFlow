@@ -44,7 +44,7 @@ export default function Palette({ s, onHostedRun }) {
     <PaletteGroup title="Flow nodes" hint="Click or drag onto the canvas to insert" defaultOpen>
       {paletteGroups.map(([category, definitions]) => <section key={category} className="palette-node-group">
         <h4>{category}</h4>
-        {definitions.map(definition => <button key={definition.type} draggable={!locked} title="Drag onto the canvas" onClick={() => addComponent(definition)} onDragStart={event => { event.dataTransfer.setData('application/x-physioflow-node', definition.type); event.dataTransfer.effectAllowed = 'copy'; }}><b>{definition.label}</b><small>{definition.type}</small></button>)}
+        {definitions.map(definition => <button key={definition.type} disabled={locked} draggable={!locked} title="Drag onto the canvas" onClick={() => addComponent(definition)} onDragStart={event => { event.dataTransfer.setData('application/x-physioflow-node', definition.type); event.dataTransfer.effectAllowed = 'copy'; }}><b>{definition.label}</b><small>{definition.type}</small></button>)}
       </section>)}
     </PaletteGroup>
 

@@ -1,0 +1,15 @@
+- main:
+  - toolbar:
+    - generic: QA complete workflow - screen media ratings questionnaire
+    - generic: Attention · stimulus.attention-check
+    - status: Paused · Checkpoint saved
+    - generic: 11 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Resume" [active]
+    - button "Retry" [disabled]
+    - button "Skip" [disabled]
+  - region "Participant view":
+    - generic: Paused
+    - heading "✓" [level=1]
+    - paragraph: Passed
+    - generic: 247 ms

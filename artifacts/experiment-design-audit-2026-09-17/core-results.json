@@ -1,0 +1,26 @@
+{
+  "nestedLoop": {
+    "validation": true,
+    "frozen": "frozen",
+    "expectedVisits": 6,
+    "actualVisits": 3,
+    "finalStatus": "completed",
+    "loopCounts": {
+      "outer": 2,
+      "inner": 3
+    }
+  },
+  "controlFanout": {
+    "validation": true,
+    "frozen": "frozen",
+    "runtimeStatus": "failed",
+    "error": "Node node_66712137-6f1a-4545-af0c-7a4e5863125b requires exactly one next control connection; found 2"
+  },
+  "exportFormat": {
+    "eventsFile": "sub-P001/ses-audit/func/audit_audit_events.tsv",
+    "header": "onset,duration,sample,trial_type,component_type,node_id,stim_file,value,accuracy",
+    "expectedTabColumns": 9,
+    "actualTabColumns": 1,
+    "commaColumns": 9
+  }
+}

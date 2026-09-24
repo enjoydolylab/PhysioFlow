@@ -1,5 +1,7 @@
 # External Device Connector Contract 1.0
 
+> 2026-09-18 update: the local BrainFlow HTTP bridge, network adapter, readBatch and node device selector are now implemented. The earlier simulated/Muse-only boundary below is historical. See [BrainFlow integration](BRAINFLOW_INTEGRATION.md) for current setup and limits. Remote streaming and PhysioDB upload remain out of scope.
+
 > 技术参考：Graph 或可选扩展模块的接口与运维说明。返回[文档导航](../README.md)；应用版本、交付范围与待验证事项见[当前状态](IMPLEMENTATION_STATUS.md)。
 
 PhysioFlow device connectors separate reproducible protocol configuration from host-specific hardware code. The protocol stores a versioned manifest, permissions, typed channels, units, and sampling metadata. A trusted host adapter implements `connect`, `read`, `write`, and `disconnect`; adapter code is never embedded in the protocol.
@@ -30,3 +32,14 @@ The session exposes:
 Every event records connector ID/version/transport, device descriptor, wall and monotonic time, immutable sequence, session ID, and complete payload. Graph exports include raw `device_events.jsonl` and normalized `device_events.csv`; the manifest and data dictionary describe their counts and columns.
 
 `exampleSimulatedConnector` and `createSimulatedDeviceAdapter` provide a deterministic reference with a numeric signal input and string marker output. Hardware-specific adapters can be implemented without changing the Protocol Graph or Runtime V2 state machine.
+
+## Implementation boundary
+
+The contract above is implemented; the transport list is wider than the transport code. Only two adapters are wired in `src/GraphRuntimeRunnerPage.jsx`:
+
+- `simulated` — the reference connector, installable from Composer's Advanced mode;
+- `bluetooth` with a `org.physioflow.muse` connector ID — `src/devices/museConnector.js` and `src/devices/museProtocol.js`, a real 256 Hz four-channel EEG implementation over `src/devices/transports/webBluetooth.js`.
+
+`serial`, `usb` and `network` are manifest strings without an adapter: `createDeviceAdapter` returns `null` for them and the run reports "No runtime adapter is installed". Web Bluetooth is the only host platform API any transport touches, and `src-tauri/` ships no BLE or serial plugin, so the desktop build cannot reach these devices. Muse connectors must be installed by importing a JSON manifest, since Composer only offers a button for the simulated sensor.
+
+Two further boundaries are worth knowing when integrating hardware: no composer control writes `node.config.deviceConnectorId` (it must be present in the graph already, or be set by hand), and device samples never reach the hosted server — they stay in the browser's session package and local export. See [Realtime Sensor Architecture](REALTIME_SENSOR_ARCHITECTURE.md) for the connector-side gaps that block a live channel.

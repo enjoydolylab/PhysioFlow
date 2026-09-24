@@ -1,6 +1,6 @@
 import { createId } from './ids.js';
 
-export const QUESTION_TYPES = ['likert', 'single_choice', 'multiple_choice', 'vas_slider', 'sam_valence', 'sam_arousal', 'number', 'short_text', 'long_text'];
+export const QUESTION_TYPES = ['likert', 'single_choice', 'multiple_choice', 'vas_slider', 'sam_valence', 'sam_arousal', 'sam_dominance', 'number', 'short_text', 'long_text'];
 export const COMPARISON_OPS = ['equals', 'not_equals', 'contains', 'greater_than', 'less_than'];
 export const LANGS = [['zh', '中文'], ['ja', '日本語'], ['en', 'English']];
 
@@ -39,10 +39,10 @@ export function validateQuestionnaire(questionnaire) {
       if (!optionLists.some(options => options.filter(option => String(option).trim()).length >= 2)) errors.push(issue('questionnaire.options_missing', `Question ${index + 1} needs at least two options`, `${path}.options_i18n`));
       if (optionLists.some(options => new Set(options.map(option => String(option).trim()).filter(Boolean)).size !== options.map(option => String(option).trim()).filter(Boolean).length)) errors.push(issue('questionnaire.options_duplicate', `Question ${index + 1} has duplicate options`, `${path}.options_i18n`));
     }
-    if (question?.scale_min !== undefined || question?.scale_max !== undefined || ['likert', 'sam_valence', 'sam_arousal', 'number', 'vas_slider'].includes(question?.type)) {
+    if (question?.scale_min !== undefined || question?.scale_max !== undefined || ['likert', 'sam_valence', 'sam_arousal', 'sam_dominance', 'number', 'vas_slider'].includes(question?.type)) {
       const min = Number(question.scale_min), max = Number(question.scale_max);
       if (!Number.isFinite(min) || !Number.isFinite(max) || min >= max) errors.push(issue('questionnaire.scale_invalid', `Question ${index + 1} maximum must be greater than minimum`, `${path}.scale_max`));
-      if (['likert', 'sam_valence', 'sam_arousal'].includes(question?.type) && Number.isFinite(min) && Number.isFinite(max) && (!Number.isInteger(min) || !Number.isInteger(max) || max - min > 20)) errors.push(issue('questionnaire.discrete_scale_invalid', `Question ${index + 1} needs an integer scale of at most 21 values`, `${path}.scale_max`));
+      if (['likert', 'sam_valence', 'sam_arousal', 'sam_dominance'].includes(question?.type) && Number.isFinite(min) && Number.isFinite(max) && (!Number.isInteger(min) || !Number.isInteger(max) || max - min > 20)) errors.push(issue('questionnaire.discrete_scale_invalid', `Question ${index + 1} needs an integer scale of at most 21 values`, `${path}.scale_max`));
     }
     if (question?.time_limit_sec !== null && question?.time_limit_sec !== undefined && (!Number.isFinite(Number(question.time_limit_sec)) || Number(question.time_limit_sec) <= 0)) errors.push(issue('questionnaire.time_limit_invalid', `Question ${index + 1} time limit must be positive`, `${path}.time_limit_sec`));
     if (question?.show_if?.question_id && !questions.some(candidate => candidate.question_id === question.show_if.question_id)) errors.push(issue('questionnaire.condition_target_missing', `Question ${index + 1} condition references a missing question`, `${path}.show_if.question_id`));
@@ -52,6 +52,30 @@ export function validateQuestionnaire(questionnaire) {
   }
   if (questionnaire.shuffle_questions && questions.some(question => question.show_if?.question_id)) errors.push(issue('questionnaire.shuffle_condition_conflict', 'Question shuffling cannot be combined with conditional display', 'shuffle_questions'));
   return { valid: errors.length === 0, errors, warnings };
+}
+
+// Conditions only use answers from visible predecessors; hidden stale answers
+// must not keep a dependent branch alive after the participant changes a gate.
+export function visibleQuestionnaireQuestions(questions, answers = {}) {
+  const visible = new Set();
+  return questions.filter(question => {
+    const condition = question.show_if;
+    let matches = true;
+    if (condition?.question_id) {
+      const actual = answers[condition.question_id];
+      if (!visible.has(condition.question_id) || actual == null || actual === '' || (Array.isArray(actual) && !actual.length)) return false;
+      const expected = condition.value;
+      switch (condition.operator || 'equals') {
+        case 'not_equals': matches = String(actual) !== String(expected ?? ''); break;
+        case 'contains': matches = Array.isArray(actual) ? actual.map(String).includes(String(expected)) : String(actual).includes(String(expected ?? '')); break;
+        case 'greater_than': matches = Number(actual) > Number(expected); break;
+        case 'less_than': matches = Number(actual) < Number(expected); break;
+        default: matches = String(actual) === String(expected ?? '');
+      }
+    }
+    if (matches) visible.add(question.question_id);
+    return matches;
+  });
 }
 
 export function questionnaireScore(questionnaire, answers = {}) {
@@ -120,6 +144,7 @@ export function parseQuestionnaireCsv(text, idFactory = createId) {
 }
 
 export const PRESETS = {
+  sam_dominance: () => ({ question_id: createId('question'), type: 'sam_dominance', required: true, prompt_i18n: { zh: '此刻您的控制感如何？', ja: '現在の支配感・コントロール感を教えてください。', en: 'How much control do you feel right now?' }, scale_min: 1, scale_max: 9 }),
   sam_valence: () => ({ question_id: createId('question'), type: 'sam_valence', required: true, prompt_i18n: { zh: '此刻您的愉悦程度如何？', ja: '現在の快・不快の程度を教えてください。', en: 'How pleasant do you feel right now?' }, scale_min: 1, scale_max: 9 }),
   sam_arousal: () => ({ question_id: createId('question'), type: 'sam_arousal', required: true, prompt_i18n: { zh: '此刻您的唤醒程度如何？', ja: '現在の覚醒度を教えてください。', en: 'How aroused do you feel right now?' }, scale_min: 1, scale_max: 9 }),
   likert5: () => ({ question_id: createId('question'), type: 'likert', required: true, prompt_i18n: { zh: '请评价', ja: '評価してください', en: 'Please rate' }, scale_min: 1, scale_max: 5, min_label_i18n: { zh: '非常不同意', ja: '全く同意しない', en: 'Strongly disagree' }, max_label_i18n: { zh: '非常同意', ja: '強く同意する', en: 'Strongly agree' } }),

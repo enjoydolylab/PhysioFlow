@@ -113,14 +113,30 @@ export class DeviceConnectorSession {
     }
   }
 
+  async readBatch() {
+    if (this.status !== 'connected') throw new Error('Device is not connected');
+    requirePermission(this.connector, 'device.read');
+    try {
+      const samples = await this.adapter.readBatch();
+      return samples.map(sample => {
+        const channel = this.connector.channels.find(item => item.id === sample.channelId && item.direction === 'input');
+        if (!channel) throw new Error(`Unknown input channel ${sample.channelId}`);
+        return this.emit('device_sample_received', { channelId: channel.id, value: sample.value, deviceTimestamp: sample.timestamp, sampleSequence: sample.sampleSequence, runId: sample.runId, unit: channel.unit || null, dataType: channel.dataType });
+      });
+    } catch (error) {
+      this.emit('device_read_failed', { message: error.message || String(error) });
+      throw error;
+    }
+  }
+
   async write(channelId, value) {
     if (this.status !== 'connected') throw new Error('Device is not connected');
     requirePermission(this.connector, 'device.write');
     const channel = (this.connector.channels || []).find(item => item.id === channelId && item.direction === 'output');
     if (!channel) throw new Error(`Unknown output channel ${channelId}`);
     try {
-      await this.adapter.write(channelId, structuredClone(value));
-      return this.emit('device_marker_sent', { channelId, value: structuredClone(value), unit: channel.unit || null, dataType: channel.dataType });
+      const acknowledgement = await this.adapter.write(channelId, structuredClone(value));
+      return this.emit('device_marker_sent', { channelId, acknowledgement: acknowledgement ?? null, value: structuredClone(value), unit: channel.unit || null, dataType: channel.dataType });
     } catch (error) {
       this.emit('device_write_failed', { channelId, value: structuredClone(value), message: error.message || String(error) });
       throw error;

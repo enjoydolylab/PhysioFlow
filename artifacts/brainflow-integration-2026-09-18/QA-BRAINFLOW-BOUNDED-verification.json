@@ -1,0 +1,13 @@
+{
+  "samples": 20425,
+  "connectionRuns": [
+    "fec6a306-ca2f-4263-a277-a3828db6de8c"
+  ],
+  "failures": [],
+  "lastDeviceEvent": "device_disconnected",
+  "previewPolicy": {
+    "maxSamples": 20000,
+    "droppedSamples": 7007,
+    "source": "BrainFlow agent samples.jsonl"
+  }
+}

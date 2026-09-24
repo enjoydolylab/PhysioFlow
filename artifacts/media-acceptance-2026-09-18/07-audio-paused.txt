@@ -1,0 +1,13 @@
+- main:
+  - toolbar:
+    - generic: QA audio video playback
+    - generic: QA audio · display.media
+    - status: Paused · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Resume" [active]
+    - button "Retry" [disabled]
+    - button "Skip" [disabled]
+  - region "Participant view":
+    - generic: Paused
+    - heading "Stimulus" [level=1]

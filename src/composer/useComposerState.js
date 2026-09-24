@@ -253,7 +253,6 @@ export function useComposerState({ protocol, onChange }) {
         return [id, { x: target.layout.x, y: target.layout.y }];
       })),
     };
-    onChange(protocol, true);
     try { event.currentTarget.setPointerCapture(event.pointerId); } catch { /* 指针捕获不可用时忽略 */ }
   };
   const dragNode = event => {
@@ -261,6 +260,11 @@ export function useComposerState({ protocol, onChange }) {
     if (!drag) return;
     const dx = (event.clientX - drag.startX) / zoom;
     const dy = (event.clientY - drag.startY) / zoom;
+    if (!drag.recorded) {
+      if (Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+      onChange(protocol, true);
+      drag.recorded = true;
+    }
     const snap = value => (snapEnabled ? Math.round(value / 24) * 24 : value);
     const raw = Object.fromEntries(drag.ids.map(id => {
       const origin = drag.origins[id];

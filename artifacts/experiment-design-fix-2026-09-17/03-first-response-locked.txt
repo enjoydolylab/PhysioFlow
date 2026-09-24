@@ -1,0 +1,18 @@
+- main:
+  - toolbar:
+    - generic: QA nested 2 x 3 - locked responses
+    - generic: response · input.response
+    - status: Running · Checkpoint saved
+    - generic: 0 completed visits · 0 skipped
+    - button "⌄ Inspect"
+    - button "Pause"
+    - button "Retry"
+    - button "Skip"
+  - region "Participant view":
+    - paragraph: Press y, then n. First response must stay yes.
+    - paragraph:
+      - text: Pressed
+      - strong: "y"
+      - text: — yes
+    - generic: 247 ms
+    - button "Continue"

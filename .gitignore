@@ -33,3 +33,11 @@ npm-debug.log*
 # Editor
 .vscode/settings.json
 .vscode/launch.json
+
+# Local physiological recordings and Python bridge environment
+brainflow-recordings/
+tools/brainflow/.venv/
+__pycache__/
+
+# Large synthetic QA recordings retained locally
+artifacts/brainflow-integration-2026-09-18/QA-BRAINFLOW*_session_bundle.zip

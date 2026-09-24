@@ -19,9 +19,9 @@ export default function Header({ s, onSave, onBack, onExport, onPreview, onFreez
       <button aria-pressed={codeView} className={codeView ? 'active' : ''} onClick={() => codeView ? closeCodeView() : openCodeView()}>{'{ } ' + t('Code')}</button>
     </div>
     <div className="header-tools">
-      <button disabled={!canUndo} onClick={onUndo}>↩ {t('Undo')}</button>
-      <button disabled={!canRedo} onClick={onRedo}>↪ {t('Redo')}</button>
-      <button disabled={!validation.valid} onClick={onPreview}>{t('Preview run')}</button>
+      <button disabled={locked || !canUndo} onClick={onUndo}>↩ {t('Undo')}</button>
+      <button disabled={locked || !canRedo} onClick={onRedo}>↪ {t('Redo')}</button>
+      <button disabled={!validation.valid} onClick={onPreview}>{t(locked ? 'Prepare collection' : 'Preview run')}</button>
       {migrationReviewRequired && !locked && <button onClick={actions.markMigrationReviewed}>Mark migration reviewed</button>}
       {locked ? <button onClick={onCreateDraft}>Create editable version</button> : <button disabled={!validation.valid || migrationReviewRequired} onClick={onFreeze}>{t('Freeze version')}</button>}
       <button className="bio-btn" onClick={onBioDB} disabled={locked}>BioDB</button>
