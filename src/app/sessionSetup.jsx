@@ -23,7 +23,7 @@ export function GraphSessionSetup({ protocol: p, onBack, onStart, storageInfo, o
   const [participantLanguage, setParticipantLanguage] = useState(language);
   const [sessionId, setSessionId] = useState(() => crypto.randomUUID());
   const isFormal = protocolStatusOf(p) === 'frozen';
-  const storageBlocked = isFormal && !storageInfo?.selected;
+  const storageBlocked = isFormal && (!storageInfo?.selected || storageInfo.permission !== 'granted');
   const check = validateProtocolGraphConfiguration(p, createProjectComponentRegistry(p));
   let groupExecution = null, groupError = '';
   if (p.groupRandomization?.enabled) {
@@ -108,7 +108,7 @@ export function SessionSetup({ protocol: p, onBack, onStart, storageInfo, onChoo
   const [manualText, setManualText] = useState({});
   const [sync, setSync] = useState({ sync_method: 'same_computer_clock', offset_ms: 0, device_time_column: '', device_time_format: 'epoch_ms', timezone: 'Asia/Tokyo', sampling_rate: '' });
   const isFormal = p.status === 'frozen';
-  const storageBlocked = isFormal && !storageInfo?.selected;
+  const storageBlocked = isFormal && (!storageInfo?.selected || storageInfo.permission !== 'granted');
 
   const manualOrders = Object.fromEntries(p.blocks.map(block => [block.block_id, (manualText[block.block_id] || '').split(',').map(token => token.trim()).filter(Boolean).map(token => { const position = Number(token); return Number.isInteger(position) && position > 0 ? block.trials[position - 1]?.trial_id : token; }).filter(id => block.trials.some(trial => trial.trial_id === id))]));
 

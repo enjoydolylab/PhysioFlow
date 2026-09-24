@@ -2,7 +2,7 @@ use serde::Serialize;
 use std::{
     env, fs,
     fs::OpenOptions,
-    io::Write,
+    io::{Read, Seek, SeekFrom, Write},
     path::{Component, Path, PathBuf},
     process::Command,
     sync::atomic::{AtomicU64, Ordering},
@@ -76,6 +76,10 @@ fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), String> {
         return Err(error);
     }
 
+    replace_file(&temporary, path)
+}
+
+fn replace_file(temporary: &Path, path: &Path) -> Result<(), String> {
     #[cfg(not(target_os = "windows"))]
     {
         fs::rename(&temporary, path).map_err(|err| { let _ = fs::remove_file(&temporary); err.to_string() })?;
@@ -169,6 +173,64 @@ fn write_binary(path: String, bytes: Vec<u8>) -> Result<bool, String> {
     Ok(true)
 }
 
+const BINARY_CHUNK_SIZE: usize = 1024 * 1024;
+
+fn upload_path(path: &Path, upload_id: &str) -> Result<PathBuf, String> {
+    if upload_id.len() != 36 || !upload_id.chars().all(|c| c.is_ascii_hexdigit() || c == '-') {
+        return Err("Invalid upload identifier".into());
+    }
+    let name = path.file_name().and_then(|s| s.to_str()).ok_or("Invalid filename")?;
+    Ok(path.with_file_name(format!(".{name}.{upload_id}.upload")))
+}
+
+fn write_chunk(path: &Path, upload_id: &str, offset: u64, bytes: &[u8], final_chunk: bool) -> Result<bool, String> {
+    if bytes.len() > BINARY_CHUNK_SIZE { return Err("Binary chunk too large".into()); }
+    let temporary = upload_path(path, upload_id)?;
+    if let Some(parent) = path.parent() { fs::create_dir_all(parent).map_err(|e| e.to_string())?; }
+    let mut options = OpenOptions::new();
+    options.write(true);
+    if offset == 0 { options.create_new(true); }
+    let mut file = options.open(&temporary).map_err(|e| e.to_string())?;
+    if file.metadata().map_err(|e| e.to_string())?.len() != offset { return Err("Upload offset mismatch".into()); }
+    file.seek(SeekFrom::Start(offset)).map_err(|e| e.to_string())?;
+    file.write_all(bytes).map_err(|e| e.to_string())?;
+    if final_chunk {
+        file.sync_all().map_err(|e| e.to_string())?;
+        drop(file);
+        replace_file(&temporary, path)?;
+    }
+    Ok(true)
+}
+
+#[tauri::command]
+fn binary_size(path: String) -> Result<Option<u64>, String> {
+    let file = safe_join(&path)?;
+    if !file.exists() { return Ok(None); }
+    Ok(Some(fs::metadata(file).map_err(|e| e.to_string())?.len()))
+}
+
+#[tauri::command]
+fn read_binary_chunk(path: String, offset: u64, length: usize) -> Result<Vec<u8>, String> {
+    if length > BINARY_CHUNK_SIZE { return Err("Binary chunk too large".into()); }
+    let mut file = fs::File::open(safe_join(&path)?).map_err(|e| e.to_string())?;
+    file.seek(SeekFrom::Start(offset)).map_err(|e| e.to_string())?;
+    let mut bytes = vec![0; length];
+    file.read_exact(&mut bytes).map_err(|e| e.to_string())?;
+    Ok(bytes)
+}
+
+#[tauri::command]
+fn write_binary_chunk(path: String, upload_id: String, offset: u64, bytes: Vec<u8>, final_chunk: bool) -> Result<bool, String> {
+    write_chunk(&safe_join(&path)?, &upload_id, offset, &bytes, final_chunk)
+}
+
+#[tauri::command]
+fn abort_binary_upload(path: String, upload_id: String) -> Result<bool, String> {
+    let temporary = upload_path(&safe_join(&path)?, &upload_id)?;
+    if temporary.exists() { fs::remove_file(temporary).map_err(|e| e.to_string())?; }
+    Ok(true)
+}
+
 #[tauri::command]
 fn list_files(path: String) -> Result<Vec<String>, String> {
     let dir = safe_join(&path)?;
@@ -227,6 +289,10 @@ pub fn run() {
             write_text,
             read_binary,
             write_binary,
+            binary_size,
+            read_binary_chunk,
+            write_binary_chunk,
+            abort_binary_upload,
             list_files,
             list_directories,
             remove_entry,
@@ -237,7 +303,7 @@ pub fn run() {
 
 #[cfg(test)]
 mod tests {
-    use super::atomic_write;
+    use super::{atomic_write, write_chunk, upload_path, BINARY_CHUNK_SIZE};
     use std::fs;
 
     #[test]
@@ -247,6 +313,23 @@ mod tests {
         atomic_write(&path, b"first complete value").unwrap();
         atomic_write(&path, b"replacement").unwrap();
         assert_eq!(fs::read(&path).unwrap(), b"replacement");
+        fs::remove_file(path).unwrap();
+    }
+
+    #[test]
+    fn chunked_upload_commits_only_complete_content() {
+        let path = std::env::temp_dir().join(format!("physioflow-chunks-{}.bin", std::process::id()));
+        let upload = "00000000-0000-4000-8000-000000000001";
+        let _ = fs::remove_file(upload_path(&path, upload).unwrap());
+        atomic_write(&path, b"original").unwrap();
+        write_chunk(&path, upload, 0, b"first", false).unwrap();
+        assert_eq!(fs::read(&path).unwrap(), b"original");
+        assert!(write_chunk(&path, upload, 2, b"bad", false).is_err());
+        assert!(write_chunk(&path, upload, 5, &vec![0; BINARY_CHUNK_SIZE + 1], false).is_err());
+        write_chunk(&path, upload, 5, b" second", true).unwrap();
+        assert_eq!(fs::read(&path).unwrap(), b"first second");
+        assert!(!upload_path(&path, upload).unwrap().exists());
+        assert!(upload_path(&path, "../bad").is_err());
         fs::remove_file(path).unwrap();
     }
 

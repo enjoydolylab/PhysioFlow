@@ -1,3 +1,4 @@
+import { fullscreenMediaInScreen, mediaPresentationMode } from './core/mediaPresentation.js';
 import { discreteScaleValues, responseValueError } from './core/inputValidation.js';
 import { ScreenFrame } from './participantUi/ScreenFrame.jsx';
 import { useMemo, useState } from 'react';
@@ -15,6 +16,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
   const theme = useMemo(() => resolveTheme(normalized), [normalized]);
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
+  const viewportMedia = !preview && fullscreenMediaInScreen(normalized.root);
   const inputs = [];
   const collect = element => { if (element.type === 'Input') inputs.push(element); (element.children || []).forEach(collect); };
   collect(normalized.root);
@@ -58,7 +60,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
       ...(isUiSize(props.height) ? { height: props.height, minHeight: 0, boxSizing: 'border-box' } : {}),
     };
     const freeLayout = props.free ? { position: positioned.position || 'relative', minHeight: props.height != null ? 0 : 'min(78vh, 620px)', overflow: 'auto' } : {};
-    if (element.type === 'Screen') return <div key={element.id} className="participant-ui-screen" style={{ ...style, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
+    if (element.type === 'Screen') return <div key={element.id} className={`participant-ui-screen${viewportMedia && element.id === normalized.root.id ? ' media-viewport-screen' : ''}`} style={{ ...style, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
     if (element.type === 'Layout') return <div key={element.id} className={`participant-ui-layout ${props.direction || 'column'}`} style={{ ...style, gap: style.gap ?? 16, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
     if (element.type === 'Text') {
       const text = boundProp(element, 'text', context) ?? '';
@@ -67,7 +69,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     }
     if (element.type === 'Media') {
       const source = boundProp(element, 'sourceUrl', context) || '';
-      return <span key={element.id} className="ui-media-wrap" style={positioned}><ParticipantMedia source={source} disabled={disabled} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={props.autoPlay} alt={props.alt || ''} fit={props.fit || 'contain'} style={(props.width != null || props.height != null) ? {width:props.width != null ? '100%' : undefined, height:props.height != null ? '100%' : undefined, maxHeight:'none', margin:0, boxSizing:'border-box'} : undefined} onMediaEvent={(eventType, payload) => onMediaEvent?.(eventType, { elementId: element.id, ...payload })} /></span>;
+      return <span key={element.id} className={`ui-media-wrap${viewportMedia?.id === element.id ? ' media-viewport-wrap' : ''}`} style={positioned}><ParticipantMedia source={source} presentationMode={mediaPresentationMode(element)} disabled={disabled} mediaType={props.mediaType || 'image'} controls={props.controls !== false} autoPlay={props.autoPlay} alt={props.alt || ''} fit={props.fit || 'contain'} style={(props.width != null || props.height != null) ? {width:props.width != null ? '100%' : undefined, height:props.height != null ? '100%' : undefined, maxHeight:'none', margin:0, boxSizing:'border-box'} : undefined} onMediaEvent={(eventType, payload) => onMediaEvent?.(eventType, { elementId: element.id, ...payload })} /></span>;
     }
     if (element.type === 'Progress') {
       const value = Number(boundProp(element, 'value', context) ?? 0), max = Number(boundProp(element, 'max', context) ?? 100);
@@ -111,7 +113,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
   };
 
   const content = <div className="participant-ui-renderer">{render(normalized.root)}</div>;
-  return normalized.root.props?.screenWidth && normalized.root.props?.screenHeight
+  return !viewportMedia && normalized.root.props?.screenWidth && normalized.root.props?.screenHeight
     ? <ScreenFrame width={normalized.root.props.screenWidth} height={normalized.root.props.screenHeight}>{content}</ScreenFrame>
     : content;
 }

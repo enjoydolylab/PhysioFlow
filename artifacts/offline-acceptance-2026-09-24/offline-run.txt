@@ -1,0 +1,107 @@
+
+> physioflow-app@0.6.0-beta.5 test:e2e:offline
+> node tests/e2e-offline.mjs
+
+PASS Placeholder binding retains asset ID and workspace bytes; different-content overwrite rejected
+PASS 64 MiB workspace save/read/content verification without full-file arrayBuffer
+PASS Formal setup permission gate, natural video completion, test-control isolation, folder persistence and export integrity
+PASS Missing local media blocks formal run and rebind/check-again recovers
+PASS Preview back, cancel exit, failed checkpoint deletion stays on page, retry exits with unchanged protocol
+PASS Final write failure is visible, blocks exit, and retries complete data successfully
+Full-structure progress: 12/12
+
+驚き(Surprise)
+
+1
+2
+3
+4
+5
+6
+7
+← Previous
+Submit
+Full-structure progress: 3/3
+
+Rate dominance.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+← Previous
+Submit
+Full-structure progress: 8/12
+
+恐怖(Fear)
+
+1
+2
+3
+4
+5
+6
+7
+← Previous
+Next →
+Full-structure progress: 7/12
+
+興奮(Excitement)
+
+1
+2
+3
+4
+5
+6
+7
+Required
+← Previous
+Next →
+Full-structure progress: 
+Full-structure progress: 1/12
+
+面白さ(Amusement)
+
+1
+2
+3
+4
+5
+6
+7
+Required
+Next →
+Full-structure progress: 1/12
+
+面白さ(Amusement)
+
+1
+2
+3
+4
+5
+6
+7
+Next →
+Full-structure progress: 9/12
+
+喜び(Joy)
+
+1
+2
+3
+4
+5
+6
+7
+← Previous
+Next →
+PASS Original 210-node structure: 40 unique assignments, 120 questionnaire submissions, all 208 participant nodes completed
+PASS BrainFlow Synthetic browser run: wrong-token rejection, preview, pause/resume, agent restart/new-token reconnect, raw value/marker verification and secret-free export
+PASS Actual Synthetic raw file → browser PhysioDB panel → local HTTP contract: exact values/timestamps, schema rejection, partial failure without retry

@@ -1,0 +1,56 @@
+{
+  "sdkVersion": "1.0.0",
+  "connectorId": "org.physioflow.brainflow",
+  "version": "1.0.0",
+  "name": "BrainFlow board -1",
+  "transport": "network",
+  "permissions": [
+    "device.connect",
+    "device.read",
+    "device.write"
+  ],
+  "channels": [
+    {
+      "id": "eeg_1",
+      "direction": "input",
+      "dataType": "number",
+      "unit": "uV",
+      "sampleRateHz": 250
+    },
+    {
+      "id": "eeg_2",
+      "direction": "input",
+      "dataType": "number",
+      "unit": "uV",
+      "sampleRateHz": 250
+    },
+    {
+      "id": "eeg_3",
+      "direction": "input",
+      "dataType": "number",
+      "unit": "uV",
+      "sampleRateHz": 250
+    },
+    {
+      "id": "eeg_4",
+      "direction": "input",
+      "dataType": "number",
+      "unit": "uV",
+      "sampleRateHz": 250
+    },
+    {
+      "id": "marker",
+      "direction": "output",
+      "dataType": "string"
+    }
+  ],
+  "brainflow": {
+    "boardId": -1,
+    "previewRows": [
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+}

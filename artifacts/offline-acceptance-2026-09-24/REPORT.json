@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "testMediaOnly": true,
+  "originalDurationAcceptance": false,
+  "checks": [
+    "Placeholder binding retains asset ID and workspace bytes; different-content overwrite rejected",
+    "64 MiB workspace save/read/content verification without full-file arrayBuffer",
+    "Formal setup permission gate, natural video completion, test-control isolation, folder persistence and export integrity",
+    "Missing local media blocks formal run and rebind/check-again recovers",
+    "Preview back, cancel exit, failed checkpoint deletion stays on page, retry exits with unchanged protocol",
+    "Final write failure is visible, blocks exit, and retries complete data successfully",
+    "Original 210-node structure: 40 unique assignments, 120 questionnaire submissions, all 208 participant nodes completed",
+    "BrainFlow Synthetic browser run: wrong-token rejection, preview, pause/resume, agent restart/new-token reconnect, raw value/marker verification and secret-free export",
+    "Actual Synthetic raw file → browser PhysioDB panel → local HTTP contract: exact values/timestamps, schema rejection, partial failure without retry"
+  ],
+  "largeFile": {
+    "bytes": 67108864,
+    "valid": true,
+    "elapsedMs": 2228.6999999284744
+  },
+  "formal": {
+    "mode": "formal",
+    "status": "completed",
+    "hashMatches": true,
+    "files": [
+      "manifest.json",
+      "session.json",
+      "protocol_snapshot.json",
+      "runtime_snapshot.json",
+      "events.jsonl",
+      "responses.jsonl",
+      "device_events.jsonl",
+      "analysis_windows.csv",
+      "events.csv",
+      "responses.csv",
+      "device_events.csv",
+      "channel_dictionary.json",
+      "channel_dictionary.csv",
+      "data_dictionary.json",
+      "event_schema_registry.json",
+      "component_manifest.json",
+      "asset_manifest.json",
+      "quality_report.json"
+    ],
+    "events": [
+      "protocol_started",
+      "component_entered",
+      "media_started",
+      "media_ended",
+      "component_completed",
+      "component_entered",
+      "ui_action",
+      "component_completed",
+      "protocol_completed"
+    ]
+  },
+  "originalStructure": {
+    "nodes": 210,
+    "completedParticipantNodes": 208,
+    "questionnaireSubmissions": 120,
+    "verifiedQuestionAnswers": 1080,
+    "uniqueStimuli": 40,
+    "elapsedSeconds": 103.438,
+    "accelerated": true
+  },
+  "synthetic": {
+    "rawFrames": 1604,
+    "runIds": 2,
+    "previewSamples": 5444,
+    "allPreviewValuesAndTimestampsMatch": true,
+    "rawMarkers": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "physioDbContract": {
+    "samples": 742,
+    "batches": [
+      500,
+      242
+    ],
+    "cancelStopsFurtherBatches": true,
+    "timeoutReportsUncertainWrite": true
+  }
+}

@@ -1,0 +1,23 @@
+[2026-09-24 15:09:03.862] [board_logger] [info] incoming json: {
+    "file": "",
+    "file_anc": "",
+    "file_aux": "",
+    "ip_address": "",
+    "ip_address_anc": "",
+    "ip_address_aux": "",
+    "ip_port": 0,
+    "ip_port_anc": 0,
+    "ip_port_aux": 0,
+    "ip_protocol": 0,
+    "mac_address": "",
+    "master_board": -100,
+    "other_info": "",
+    "serial_number": "",
+    "serial_port": "",
+    "timeout": 0
+}
+.
+----------------------------------------------------------------------
+Ran 1 test in 1.910s
+
+OK

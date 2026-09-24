@@ -1,3 +1,4 @@
+import { verifyProtocolAssets } from './fsStorage.js';
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { applyThemeToDOM, resetThemeToDOM } from './theme.js';
 import { createNextProtocolVersion, duplicateProtocolAsProject, freezeProtocol, validateProtocol } from './domain';
@@ -395,13 +396,15 @@ export default function App() {
           }}
           onFreeze={async () => {
             try {
+              const media = await verifyProtocolAssets(current);
+              if (!media.valid) throw new Error(media.issues.map(issue => issue.message).join('\n'));
               const frozen = await freezeProtocolGraph(current, createProjectComponentRegistry(current));
               setCurrent(frozen);
               if (await handleSave(frozen)) showToast('Protocol Graph frozen');
             } catch (error) { setAlert({ title: 'Cannot freeze', message: error.message }); }
           }}
           onCreateDraft={() => addAndOpen(createNextGraphProtocolVersion(current, { existingProtocols: protocols }))}
-          onHostedRun={({ client, session, protocol: hostedProtocol, resources }) => {
+          onHostedRun={({ client, session, protocol: hostedProtocol, resources, groupExecutionSnapshot }) => {
             setRun({
               protocol: hostedProtocol || current,
               session: {
@@ -414,6 +417,7 @@ export default function App() {
                 protocol_hash: session.configHash,
                 protocol_name: protocolNameOf(hostedProtocol || current),
                 run_mode: 'hosted',
+                ...(groupExecutionSnapshot ? { group_execution_snapshot: groupExecutionSnapshot } : {}),
                 status: 'ready',
                 started_at: session.createdAt,
                 ended_at: null,
@@ -522,7 +526,16 @@ export default function App() {
     return <><SetupComponent
       protocol={run}
       onBack={() => setView(run.status === 'frozen' ? 'home' : 'builder')}
-      onStart={session => { setRun({ protocol: run, session }); setView('runner'); }}
+      onStart={async session => {
+        try {
+          if (session.run_mode === 'formal') {
+            const info = await getStorageInfo();
+            setStorageInfo(info);
+            if (!info.selected || info.permission !== 'granted') throw new Error('Select a writable data folder before formal collection.');
+          }
+          setRun({ protocol: run, session }); setView('runner');
+        } catch (error) { setAlert({ title: 'Cannot start session', message: error.message }); }
+      }}
       storageInfo={storageInfo}
       onChooseDataDirectory={chooseDataDirectory}
       onGuide={openGuide}
@@ -534,7 +547,7 @@ export default function App() {
 
   if (view === 'runner' && run?.protocol) {
     const RunnerComponent = isGraphProtocol(run.protocol) ? GraphRuntimeRunnerPage : RunnerPage;
-    return <Suspense fallback={<LoadingFallback />}><RunnerComponent data={run} onDone={handleRunDone} /></Suspense>;
+    return <Suspense fallback={<LoadingFallback />}><RunnerComponent data={run} onDone={handleRunDone} onExitTest={run.session.run_mode === 'preview' && !run.hosted ? async () => { if (!current || protocolIdOf(current) !== protocolIdOf(run.protocol)) { setCurrent(clone(run.protocol)); setUndoStack([]); setRedoStack([]); } setRecoverable(null); setRun(null); setView('builder'); } : undefined} /></Suspense>;
   }
 
   if (view === 'analytics') {

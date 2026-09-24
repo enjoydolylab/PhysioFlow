@@ -1,3 +1,5 @@
+import { presentationAssetReferences } from './runtime/mediaResources.js';
+import TestRunExitButton from './TestRunExitButton.jsx';
 import { recordTestVisit, previousTestVisit, supersedeTestResponses } from './runtime/testNavigation.js';
 import useOperatorControls from './runtime/useOperatorControls.js';
 import { restoreGroupExecutionSnapshot } from './core/groupSequence.js';
@@ -34,7 +36,7 @@ import { buildGraphBidsBundle, buildGraphSessionFiles } from './data/index.js';
 import { downloadBundle } from './exporter.js';
 import { createProjectComponentRegistry } from './sdk/index.js';
 import { HostedRuntimeSync } from './hosted/index.js';
-import { graphProtocolAssetReferences, loadAsset, verifyAssetContent } from './assetStore.js';
+import { loadAsset, verifyAssetContent, verifyGraphProtocolAssets } from './assetStore.js';
 
 function runtimeServices() {
   return {
@@ -60,7 +62,8 @@ function packagePermissions(protocol, node) {
 
 
 
-export default function GraphRuntimeRunnerPage({ data, onDone }) {
+export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
+  const exitingTest = useRef(false);
   const sourceProtocol = data.protocol;
   const protocol = useMemo(() => {
     if (!data.session.group_execution_snapshot) {
@@ -110,7 +113,8 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   const saveQueueRef = useRef(Promise.resolve());
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [localResources, setLocalResources] = useState(() => localResourceManifest(protocol.assets || []));
-  const [resourceLoad, setResourceLoad] = useState(() => data.hosted ? { status: 'ready', error: '' } : { status: 'loading', error: '' });
+  const [resourceLoad, setResourceLoad] = useState({ status: 'loading', error: '', key: null });
+  const verifiedMediaProtocol = useRef(null);
   const hostedSyncRef = useRef(null);
   if (data.hosted && !hostedSyncRef.current) hostedSyncRef.current = new HostedRuntimeSync(data.hosted);
   const [hostedStatus, setHostedStatus] = useState(() => hostedSyncRef.current?.status() || null);
@@ -135,6 +139,8 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   }, [protocol, runtime.randomSeed, runtime.completedNodeIds, runtime.skippedNodeIds, legacyStimulusOrder, stimulusShuffleVersion]);
   const currentStimulusAssignment = currentNode ? stimulusAssignments.get(currentNode.id) : null;
   const presentedNode = currentNode ? withStimulusAssignment(currentNode, currentStimulusAssignment) : null;
+  const resourceKey = JSON.stringify(presentationAssetReferences(protocol, presentedNode));
+  const mediaReady = Boolean(data.hosted) || (resourceLoad.status === 'ready' && resourceLoad.key === resourceKey);
   const currentDefinition = currentNode ? registry.get(currentNode.component.type, currentNode.component.version) : null;
   const currentPermissions = currentNode ? packagePermissions(protocol, currentNode) : null;
   const executableCount = protocol.graph.nodes.filter(node => registry.get(node.component.type, node.component.version)?.runtime?.kind === 'participant').length;
@@ -149,6 +155,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   const deviceRequired = protocol.graph.nodes.some(node => node.config?.deviceConnectorId && node.config.deviceRequired !== false);
 
   const apply = result => {
+    if (exitingTest.current) return;
     setNavigationError('');
     for (const connection of connectionsRef.current.filter(item => item.session.connector.connectorId === BRAINFLOW_CONNECTOR_ID)) {
       for (const event of result.events || []) {
@@ -167,6 +174,21 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
     if (result.events?.length) setEvents(current => [...current, ...result.events]);
   };
 
+  const exitTest = async () => {
+    if (!testRun || !onExitTest || starting || exitingTest.current) return;
+    if (runtimeRef.current.status === 'waiting') apply(pauseRuntime(runtimeRef.current, protocol, services.current));
+    exitingTest.current = true;
+    try {
+      for (const connection of connectionsRef.current) {
+        await connection.sampler?.stop(); await connection.markers;
+        await connection.session.disconnect('preview exited');
+      }
+      await saveQueueRef.current.catch(() => {});
+      await clearCurrentRun({ strict: true });
+      await onExitTest();
+    } catch (error) { exitingTest.current = false; throw error; }
+  };
+
   const previousPage = () => {
     if (!testRun || runtimeRef.current.status !== 'waiting' || testHistoryRef.current.length < 2) return;
     try {
@@ -179,7 +201,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   };
 
   const begin = async () => {
-    if (starting || resourceLoad.status !== 'ready') return;
+    if (starting || !mediaReady) return;
     setStarting(true);
     setStartError('');
     for (const connection of connectionsRef.current) { await connection.sampler?.stop(); await connection.markers; await connection.session.disconnect('reconnect').catch(() => {}); }
@@ -251,7 +273,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   const complete = result => {
     const activeRuntime = runtimeRef.current;
     const activeNode = activeRuntime.currentNodeId ? nodes.get(activeRuntime.currentNodeId) : null;
-    if (!activeNode || activeRuntime.status !== 'waiting' || `${activeRuntime.currentNodeId}:${activeRuntime.attempts?.[activeRuntime.currentNodeId] || 0}` !== attemptKey || !started || resourceLoad.status !== 'ready') return;
+    if (!activeNode || activeRuntime.status !== 'waiting' || `${activeRuntime.currentNodeId}:${activeRuntime.attempts?.[activeRuntime.currentNodeId] || 0}` !== attemptKey || !started || !mediaReady) return;
     const values = result?.values || {};
     const nodeDurationMs = Math.max(0, Math.round(performance.now() - nodeEnteredAt.current));
     // An explicit null means an omission, not a request to substitute dwell time.
@@ -292,7 +314,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
 
   const record = (eventType, payload) => {
     const active = runtimeRef.current;
-    if (!started || resourceLoad.status !== 'ready' || active.status !== 'waiting' || `${active.currentNodeId}:${active.attempts?.[active.currentNodeId] || 0}` !== attemptKey) return;
+    if (!started || !mediaReady || active.status !== 'waiting' || `${active.currentNodeId}:${active.attempts?.[active.currentNodeId] || 0}` !== attemptKey) return;
     if (currentPermissions && eventType === 'ui_action' && !currentPermissions.has('events.emit')) return;
     apply(recordRuntimeEvent(runtimeRef.current, protocol, services.current, eventType, { payload }));
   };
@@ -305,8 +327,8 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   }, [events, runtime]);
 
   useEffect(() => {
-    if (currentNode?.id && started && resourceLoad.status === 'ready') { nodeEnteredAt.current = performance.now(); nodePausedAt.current = null; }
-  }, [currentNode?.id, attemptKey, started, resourceLoad.status]);
+    if (currentNode?.id && started && mediaReady) { nodeEnteredAt.current = performance.now(); nodePausedAt.current = null; }
+  }, [currentNode?.id, attemptKey, started, mediaReady]);
 
   useEffect(() => {
     if (runtime.status === 'paused') nodePausedAt.current = performance.now();
@@ -314,29 +336,39 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   }, [runtime.status]);
 
   useEffect(() => {
-    if (data.hosted) { setResourceLoad({ status: 'ready', error: '' }); return undefined; }
+    if (data.hosted) return undefined;
     let active = true;
     const objectUrls = [];
     setResourceLoad({ status: 'loading', error: '' });
     const assetsById = new Map((protocol.assets || []).map(asset => [asset.id || asset.assetId, asset]));
-    Promise.all(graphProtocolAssetReferences(protocol).map(async reference => {
+    (async () => {
+      if (verifiedMediaProtocol.current !== protocol) {
+        const result = await verifyGraphProtocolAssets(protocol);
+        if (!active) return [];
+        if (!result.valid) throw new Error(result.issues.map(issue => issue.message).join('\n'));
+        verifiedMediaProtocol.current = protocol;
+      }
+      return Promise.all(JSON.parse(resourceKey).map(async reference => {
       const asset = assetsById.get(reference.asset_id);
       if (!asset) throw new Error(`Asset ${reference.asset_id} is referenced but missing from the media library`);
       if (reference.source_url) return null;
       const assetId = reference.asset_id;
       const stored = await loadAsset(assetId);
+      if (!active) return null;
       if (!stored?.file) throw new Error(`Missing local asset ${asset.name || assetId}`);
       if (!(await verifyAssetContent(stored, asset.checksum || asset.hash))) throw new Error(`Checksum mismatch for ${asset.name || assetId}`);
+      if (!active) return null;
       const url = URL.createObjectURL(stored.file);
       objectUrls.push(url);
       return { assetId, nodeId: null, name: asset.name || stored.name || assetId, mediaType: asset.mediaType || stored.type?.split('/')[0] || null, checksum: asset.checksum || stored.checksum || null, status: 'ready', delivery: { url } };
-    })).then(loaded => {
+    }));
+    })().then(loaded => {
       if (!active) return;
       setLocalResources([...localResourceManifest(protocol.assets || []), ...loaded.filter(Boolean)]);
-      setResourceLoad({ status: 'ready', error: '' });
+      setResourceLoad({ status: 'ready', error: '', key: resourceKey });
     }).catch(error => { if (active) setResourceLoad({ status: 'error', error: error.message || String(error) }); });
     return () => { active = false; objectUrls.forEach(url => URL.revokeObjectURL(url)); };
-  }, [data.hosted, protocol]);
+  }, [data.hosted, protocol, resourceKey]);
 
   useEffect(() => {
     if (!started || runtime.status !== 'waiting' || !currentStimulusAssignment || !currentNode) return;
@@ -359,7 +391,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
   }, [runtime.status, started]);
 
   useEffect(() => {
-    if (!started || resourceLoad.status !== 'ready' || !currentNode || runtime.status !== 'waiting') return undefined;
+    if (!started || !mediaReady || !currentNode || runtime.status !== 'waiting') return undefined;
     const duration = currentDefinition?.runtime?.completion === 'durationMs'
       ? currentNode.config?.durationMs
       : currentNode.config?.completion?.mode === 'fixed' ? currentNode.config.completion.durationMs : null;
@@ -369,16 +401,16 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
     durationRef.current.runningAt = clockStart;
     const timer = setTimeout(() => complete({}), durationRef.current.remaining);
     return () => { clearTimeout(timer); durationRef.current.remaining = Math.max(0, durationRef.current.remaining - (performance.now() - clockStart)); durationRef.current.runningAt = null; };
-  }, [attemptKey, runtime.status, started, resourceLoad.status]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [attemptKey, runtime.status, started, mediaReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!started || resourceLoad.status !== 'ready' || ['completed', 'failed'].includes(runtime.status)) return;
+    if (exitingTest.current || !started || !mediaReady || ['completed', 'failed'].includes(runtime.status)) return;
     const snapshot = structuredClone({ session: data.session, protocol: sourceProtocol, runtime: snapshotRuntime(runtime), test_navigation_history: testRun ? testHistoryRef.current : undefined, stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1', stimulus_shuffle_version: stimulusShuffleVersion, recovery_timing: captureTiming(), events, responses, device_preview_policy: hasBrainflow ? previewPolicy.current : undefined, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 });
     setRecoverySave({ status: 'saving', error: '' });
     const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot));
     saveQueueRef.current = queued;
     queued.then(() => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'saved', error: '' }); }).catch(error => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'error', error: error.message || String(error) }); });
-  }, [data.session, events, protocol, sourceProtocol, responses, resourceLoad.status, runtime, started, checkpointTick, legacyStimulusOrder, hasBrainflow, stimulusShuffleVersion, testRun]);
+  }, [data.session, events, protocol, sourceProtocol, responses, mediaReady, runtime, started, checkpointTick, legacyStimulusOrder, hasBrainflow, stimulusShuffleVersion, testRun]);
 
   useEffect(() => {
     if (!started || ['completed', 'failed'].includes(runtime.status)) return undefined;
@@ -415,8 +447,8 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
     Promise.all([saveQueueRef.current.catch(() => {}), closeDevices]).then(() => persistFinishedSession({ ...finished, device_events: deviceEventsRef.current }, { saveSession, clearCurrentRun: () => clearCurrentRun({ strict: true }) })).then(result => { setSaved(true); setCleanupError(result.cleanupError); }).catch(error => setSaved(error.message || 'Save failed'));
   }, [data.session, data.hosted, events, protocol, sourceProtocol, responses, runtime, saveAttempt, legacyStimulusOrder, hasBrainflow, stimulusShuffleVersion, endedAt]);
 
-  if (resourceLoad.status !== 'ready') return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">MEDIA PREFLIGHT</span><h1>{resourceLoad.status === 'loading' ? 'Preparing media…' : 'Media needs attention'}</h1><p>{resourceLoad.error || 'Loading referenced local files and checking their integrity.'}</p>{resourceLoad.status === 'error' && <button onClick={onDone}>Return to protocol</button>}</div></main>;
-  if (!started) return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">RUNTIME V2 READY</span><h1>{protocolNameOf(protocol)}</h1><p>{data.session.participant_id} · {executableCount} participant components</p>{deviceNode && <p>{deviceRequired ? 'A device connection is required before this run can start.' : 'Device connection is optional for this run.'}</p>}{hasBrainflow && <fieldset disabled={starting}><legend>BrainFlow local agent</legend><label>Agent URL<input aria-label="BrainFlow agent URL" value={brainflowEndpoint} onChange={event => setBrainflowEndpoint(event.target.value)} /></label><label>Agent token<input aria-label="BrainFlow agent token" type="password" autoComplete="off" value={brainflowToken} onChange={event => setBrainflowToken(event.target.value)} /></label><p>Start the acquisition agent first. Raw recording continues independently of this browser. The token is not saved in the protocol or exports.</p></fieldset>}{startError && <div className="setup-note error" role="alert">{startError}</div>}<p>Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.</p><button className="primary" disabled={starting} onClick={begin}>{starting ? 'Connecting…' : startError ? 'Retry device and begin' : 'Begin experiment'}</button></div></main>;
+  if (!mediaReady) return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">MEDIA PREFLIGHT</span><h1>{resourceLoad.status !== 'error' ? 'Preparing media…' : 'Media needs attention'}</h1><p>{resourceLoad.error || 'Loading referenced local files and checking their integrity.'}</p>{resourceLoad.status === 'error' && <button onClick={onDone}>Return to protocol</button>}</div></main>;
+  if (!started) return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">RUNTIME V2 READY</span><h1>{protocolNameOf(protocol)}</h1><p>{data.session.participant_id} · {executableCount} participant components</p>{deviceNode && <p>{deviceRequired ? 'A device connection is required before this run can start.' : 'Device connection is optional for this run.'}</p>}{hasBrainflow && <fieldset disabled={starting}><legend>BrainFlow local agent</legend><label>Agent URL<input aria-label="BrainFlow agent URL" value={brainflowEndpoint} onChange={event => setBrainflowEndpoint(event.target.value)} /></label><label>Agent token<input aria-label="BrainFlow agent token" type="password" autoComplete="off" value={brainflowToken} onChange={event => setBrainflowToken(event.target.value)} /></label><p>Start the acquisition agent first. Raw recording continues independently of this browser. The token is not saved in the protocol or exports.</p></fieldset>}{startError && <div className="setup-note error" role="alert">{startError}</div>}<p>Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.</p><button className="primary" disabled={starting} onClick={begin}>{starting ? 'Connecting…' : startError ? 'Retry device and begin' : 'Begin experiment'}</button>{testRun && !starting && <TestRunExitButton onExit={onExitTest && exitTest} />}</div></main>;
   if (runtime.status === 'completed') {
     const hostedReady = !hostedSyncRef.current || hostedStatus?.completed;
     const deviceSampleCount = deviceEventsRef.current.filter(event => event.eventType === 'device_sample_received').length;
@@ -432,6 +464,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone }) {
       <button className={inspectorOpen ? 'active' : ''} onClick={() => setInspectorOpen(open => !open)} title="Live variables, outputs and flow state">⌄ Inspect</button>
       {deviceStatus?.error && <button disabled={starting} onClick={begin}>Reconnect devices</button>}
       <button disabled={runtime.status === 'paused' && deviceRequired && deviceStatus?.connected !== true} onClick={() => apply(runtime.status === 'paused' ? resumeRuntime(runtimeRef.current, protocol, services.current) : pauseRuntime(runtimeRef.current, protocol, services.current))}>{runtime.status === 'paused' ? 'Resume' : 'Pause'}</button>
+      {testRun && <TestRunExitButton onExit={onExitTest && exitTest} />}
       {testRun && <button disabled={runtime.status !== 'waiting' || testHistoryRef.current.length < 2} onClick={previousPage}>Previous page (test)</button>}
       {navigationError && <span role="alert">{navigationError}</span>}
       <button disabled={runtime.status !== 'waiting'} onClick={() => apply(retryCurrentNode(runtimeRef.current, protocol, services.current, 'operator retry'))}>Retry</button>

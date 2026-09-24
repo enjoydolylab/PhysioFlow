@@ -1,3 +1,4 @@
+import TestRunExitButton from './TestRunExitButton.jsx';
 import useOperatorControls from './runtime/useOperatorControls.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createLogger } from './engine';
@@ -22,7 +23,7 @@ const checkCompat = () => {
   return issues;
 };
 
-export default function RuntimeRunnerPage({ data, onDone }) {
+export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
   const protocol = data.protocol;
   const initial = useMemo(() => data.restore?.runtime ? restoreRuntime(data.restore.runtime, protocol, data.session) : createRuntime(protocol, data.session), [protocol, data.session, data.restore]);
   const units = initial.units;
@@ -99,11 +100,23 @@ export default function RuntimeRunnerPage({ data, onDone }) {
     setTimeout(() => setSaveFlash(false), 800);
   }, []);
 
+  const exitingTest = useRef(false);
+  const exitTest = async () => {
+    if (data.session.run_mode !== 'preview' || !onExitTest || exitingTest.current) return;
+    exitingTest.current = true;
+    clearTimeout(timer.current); setPaused(true);
+    try {
+      await saveQueueRef.current.catch(() => {});
+      await clearCurrentRun({ strict: true });
+      await onExitTest();
+    } catch (error) { exitingTest.current = false; throw error; }
+  };
   // persist always uses refs to get the latest state values
   const persist = useCallback((nextRuntime, nextResponses, nextSession, runnerOverrides = {}) => {
     const rt = nextRuntime ?? runtimeRef.current;
     const rsp = nextResponses ?? responsesRef.current;
     const ses = nextSession ?? sessionRef.current;
+    if (exitingTest.current) return;
     const rs = captureRunnerState(timing.current, { paused, awaiting_start: awaitingStart, timed_out: timedOut, media_ended: mediaEnded, active_marker: activeMarker, current_step_entered: true, ...runnerOverrides }, performance.now());
     const snapshot = { session: ses, protocol, runtime: rt, runner_state: rs, events: logger.current.snapshot(), responses: rsp, saved_at: new Date().toISOString() };
     const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot));
@@ -142,6 +155,7 @@ export default function RuntimeRunnerPage({ data, onDone }) {
   };
 
   const finish = (status = 'completed', nextResponses, finalRuntime) => {
+    if (exitingTest.current) return;
     const rsp = nextResponses ?? responsesRef.current;
     const rt = finalRuntime ?? runtimeRef.current;
     clearTimeout(timer.current);
@@ -180,6 +194,7 @@ export default function RuntimeRunnerPage({ data, onDone }) {
   };
 
   const completeCurrent = (answers = [], sourceRuntime, sourceResponses, completionMetadata = {}) => {
+    if (exitingTest.current) return;
     const sr = sourceRuntime ?? runtimeRef.current;
     const srs = sourceResponses ?? responsesRef.current;
     const cur = currentRuntimeItem(sr, units);
@@ -402,6 +417,7 @@ export default function RuntimeRunnerPage({ data, onDone }) {
       <h1>{session.participant_id}</h1>
       <p>{data.restore ? 'A saved runtime snapshot and its append-only event history were found.' : `${units.length} trial instances · runtime branching enabled · dual-clock logging enabled`}</p>
       <p>Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.</p><button className="primary" onClick={begin}>{data.restore ? 'Resume experiment' : 'Begin experiment'}</button>
+      {data.session.run_mode === 'preview' && <TestRunExitButton onExit={onExitTest && exitTest} />}
       {data.restore && <button style={{ marginTop: '.5rem' }} onClick={() => setConfirmAbort({ title: 'Discard recovery?', message: 'This will delete the recovery snapshot.', confirmLabel: 'Discard', danger: true, onConfirm: () => { setConfirmAbort(null); onDone(); }, onCancel: () => setConfirmAbort(null) })}>Cancel & return</button>}
     </div>
   </main>;
@@ -470,6 +486,7 @@ export default function RuntimeRunnerPage({ data, onDone }) {
         <button onClick={togglePause} aria-label={paused ? 'Resume' : 'Pause'}>{paused ? <><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5l11 7-11 7V5z" /></svg>Resume</> : <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 5v14" /><path d="M15 5v14" /></svg>Pause</>}</button>
         <button onClick={retry} disabled={!step.allow_retry} aria-label="Retry step"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 12a8 8 0 1 1-2.34-5.66" /><path d="M20 4v4h-4" /></svg>Retry</button>
         <button onClick={skip} disabled={!step.allow_skip} aria-label="Skip step"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 5l10 7-10 7V5z" /><path d="M18 5v14" /></svg>Skip</button>
+        {data.session.run_mode === 'preview' && <TestRunExitButton onExit={onExitTest && exitTest} />}
         <button onClick={() => setConfirmAbort({ title: 'Abort session?', message: 'This will mark the session as aborted. All data so far will be preserved.', confirmLabel: 'Abort', danger: true, onConfirm: () => { setConfirmAbort(null); finish('aborted'); }, onCancel: () => setConfirmAbort(null) })} title="Abort session"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="6" y="6" width="12" height="12" rx="2" /></svg>Abort</button>
       </div>
     </div>

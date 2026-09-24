@@ -45,7 +45,7 @@ export default function PhysioDBUpload() {
     } catch (failure) {
       if (mounted.current) {
         const progress = failure.progress;
-        setError(`${failure.message}${Number.isInteger(failure.cause?.status) ? ` HTTP ${failure.cause.status}.` : ''}${progress ? ` Confirmed: ${progress.confirmedSamples} samples through sequence ${progress.confirmedThroughSequence ?? 'none'}.` : ''}${progress?.uncertainBatch ? ` Verify sequences ${progress.uncertainBatch.fromSequence}–${progress.uncertainBatch.throughSequence} on the server before retrying.` : ''}`);
+        setError(`${failure.message}${failure.cause?.name === 'TimeoutError' ? ' Request timed out.' : ''}${Number.isInteger(failure.cause?.status) ? ` HTTP ${failure.cause.status}.` : ''}${progress ? ` Confirmed: ${progress.confirmedSamples} samples through sequence ${progress.confirmedThroughSequence ?? 'none'}.` : ''}${progress?.uncertainBatch ? ` Verify sequences ${progress.uncertainBatch.fromSequence}–${progress.uncertainBatch.throughSequence} on the server before retrying.` : ''}`);
         setMessage('Stopped.');
       }
     } finally { if (mounted.current) setBusy(false); }

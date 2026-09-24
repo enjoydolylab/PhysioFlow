@@ -1,3 +1,4 @@
+import { matchUploadedMedia } from '../core/mediaReadiness.js';
 import { useMemo, useRef, useState } from 'react';
 import { createId } from '../core/index.js';
 import { createProtocolChangeSet, mergeProtocolChangeSet } from '../collaboration/index.js';
@@ -273,7 +274,7 @@ export function DeploymentCatalog({ protocol, onHostedRun, onMessage }) {
       {hostedSession && <><small>Session {hostedSession.sessionId} · {hostedSession.status} · revision {hostedSession.revision}</small>{hostedBootstrap && <small>Bootstrap verified · {hostedBootstrap.resources.filter(item => item.status === 'ready').length}/{hostedBootstrap.resources.length} resources ready</small>}<button disabled={!hostedBootstrap} onClick={() => {
         const session = structuredClone(hostedSession);
         delete session.participantAccessToken;
-        onHostedRun?.({ client: participantClientRef.current, session, protocol: hostedBootstrap.protocol, resources: hostedBootstrap.resources });
+        onHostedRun?.({ client: participantClientRef.current, session, protocol: hostedBootstrap.protocol, resources: hostedBootstrap.resources, groupExecutionSnapshot: hostedBootstrap.groupExecutionSnapshot });
       }}>Run hosted session</button></>}
     </article>}
   </section>;
@@ -419,35 +420,53 @@ export function VisualAngleCalculator() {
 export function AssetLibrary({ assets, stimulusPools = [], locked, onUpdate }) {
   const [draft, setDraft] = useState({ name: '', mediaType: 'image', url: '' });
   const [uploadError, setUploadError] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const uploadBusy = useRef(false);
+  const [uploadProgress, setUploadProgress] = useState('');
   const add = () => {
     if (!draft.name.trim() && !draft.url.trim()) return;
     onUpdate([...(assets || []), { id: createId('asset'), name: draft.name || draft.url, mediaType: draft.mediaType, sourceUrl: draft.url, checksum: null }]);
     setDraft({ name: '', mediaType: 'image', url: '' });
   };
   const remove = id => onUpdate((assets || []).filter(asset => (asset.id || asset.assetId) !== id));
-  const upload = async file => {
-    if (!file) return;
+  const upload = async (files, targetId = null) => {
+    if (!files?.length || locked || uploadBusy.current) return;
+    uploadBusy.current = true; setUploading(true); setUploadError('');
+    let next = [...assets];
+    let completed = 0;
     try {
-      const saved = await saveAsset(file);
-      const mediaType = file.type.startsWith('audio/') ? 'audio' : file.type.startsWith('video/') ? 'video' : 'image';
-      onUpdate([...(assets || []), { id: saved.asset_id, name: file.name, mediaType, fileName: saved.file_name, mimeType: saved.mime_type, size: saved.file_size, checksum: saved.checksum, sourceMode: 'upload' }]);
-      setUploadError('');
-    } catch (error) { setUploadError(error.message || String(error)); }
+      for (const file of files) {
+        setUploadProgress(`Uploading ${completed + 1}/${files.length}: ${file.name}`);
+        const target = matchUploadedMedia(next, file, targetId);
+        const saved = await saveAsset(file, target ? target.id || target.assetId : null, target?.checksum || target?.hash);
+        const entry = { ...target, id: saved.asset_id, name: target?.name || file.name, mediaType: file.type.split('/')[0], fileName: saved.file_name, mimeType: saved.mime_type, size: saved.file_size, checksum: saved.checksum, sourceMode: 'upload', sourceUrl: '', url: '' };
+        next = target ? next.map(asset => asset === target ? entry : asset) : [...next, entry];
+        completed++;
+      }
+      onUpdate(next);
+      setUploadProgress(`${completed} file(s) ready`);
+    } catch (error) {
+      if (completed) onUpdate(next);
+      setUploadProgress(`${completed} file(s) ready`);
+      setUploadError(error.message || String(error));
+    } finally { uploadBusy.current = false; setUploading(false); }
   };
   return <details className="asset-library"><summary>Media library ({assets.length})</summary>
     {(assets || []).map(asset => <div key={asset.id || asset.assetId} className="asset-row">
       <span>{asset.name || asset.fileName || asset.id}</span>
-      <small>{asset.mediaType || asset.type || ''}</small>
-      <button disabled={locked || stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId))} title={stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId)) ? 'Remove this asset from its stimulus pool first' : 'Delete asset'} onClick={() => remove(asset.id || asset.assetId)}>×</button>
+      <small>{asset.mediaType || asset.type || ''}{asset.sourceMode === 'manifest' ? ' · Upload required' : ''}</small>
+      {!asset.sourceUrl && !asset.url && <label>Bind file<input aria-label={`Bind file for ${asset.name || asset.fileName || asset.id}`} type="file" disabled={locked || uploading} accept="image/*,audio/*,video/*" onChange={event => { upload(Array.from(event.target.files || []), asset.id || asset.assetId); event.target.value = ''; }} /></label>}
+      <button disabled={locked || uploading || stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId))} title={stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId)) ? 'Remove this asset from its stimulus pool first' : 'Delete asset'} onClick={() => remove(asset.id || asset.assetId)}>×</button>
     </div>)}
     <div className="asset-add">
       <input aria-label="Asset name" placeholder="Name" value={draft.name} onChange={event => setDraft(s => ({ ...s, name: event.target.value }))} />
       <select aria-label="Asset type" value={draft.mediaType} onChange={event => setDraft(s => ({ ...s, mediaType: event.target.value }))}><option>image</option><option>audio</option><option>video</option></select>
       <input aria-label="Asset URL" placeholder="URL" value={draft.url} onChange={event => setDraft(s => ({ ...s, url: event.target.value }))} />
-      <button disabled={locked} onClick={add}>Add</button>
+      <button disabled={locked || uploading} onClick={add}>Add</button>
     </div>
-    <label className="asset-upload">Upload local media<input type="file" disabled={locked} accept="image/*,audio/*,video/*" onChange={event => { upload(event.target.files?.[0]); event.target.value = ''; }} /></label>
-    {uploadError && <small className="package-error">{uploadError}</small>}
+    <label className="asset-upload">Upload local media<input type="file" multiple disabled={locked || uploading} accept="image/*,audio/*,video/*" onChange={event => { upload(Array.from(event.target.files || [])); event.target.value = ''; }} /></label>
+    {uploadProgress && <small role="status">{uploadProgress}</small>}
+    {uploadError && <small role="alert" className="package-error">{uploadError}</small>}
   </details>;
 }
 

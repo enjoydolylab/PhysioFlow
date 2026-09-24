@@ -1,0 +1,33 @@
+
+> physioflow-app@0.6.0-beta.6 package:web
+> node build-web.cjs
+
+=== PhysioFlow Lightweight Web Build ===
+vite v8.1.0 building client environment for production...
+[2Ktransforming...✓ 259 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                            1.02 kB │ gzip:   0.57 kB
+dist/style--QtTB0Rc.css                  244.10 kB │ gzip:  43.58 kB
+dist/SamFigure-CvVkX_8V.js                 0.53 kB │ gzip:   0.35 kB
+dist/rolldown-runtime-Bh1tDfsg.js          0.56 kB │ gzip:   0.36 kB
+dist/useOperatorControls-Zd7ADZri.js       1.32 kB │ gzip:   0.76 kB
+dist/core-SwWLTXZB.js                      2.70 kB │ gzip:   1.05 kB
+dist/ParticipantLaunchPage-5Q26IRN8.js     3.15 kB │ gzip:   1.35 kB
+dist/replayRuntime-Cho7EE2C.js             3.59 kB │ gzip:   1.24 kB
+dist/GuidePanel-VimnmO6q.js                4.79 kB │ gzip:   1.54 kB
+dist/SessionManager-CFyXlEFZ.js           21.84 kB │ gzip:   7.12 kB
+dist/RuntimeContent-BdLgfdZi.js           25.83 kB │ gzip:   8.33 kB
+dist/Analytics-CBnIxnJX.js                27.13 kB │ gzip:   8.07 kB
+dist/RuntimeRunnerPage-isyI-9UI.js        32.45 kB │ gzip:  10.49 kB
+dist/GraphRuntimeRunnerPage-CNsklbyf.js   48.59 kB │ gzip:  14.29 kB
+dist/visualAngle-Zt_tHysl.js              95.48 kB │ gzip:  27.22 kB
+dist/FlowWorkspaceOverlay-fvoeWcir.js    133.19 kB │ gzip:  34.22 kB
+dist/react-vendor-CepXLKLB.js            189.64 kB │ gzip:  59.65 kB
+dist/ComposerV2-CL-60mEP.js              206.37 kB │ gzip:  60.51 kB
+dist/index-J3DQOhTH.js                   499.04 kB │ gzip: 149.37 kB
+
+✓ built in 163ms
+Web folder: /Users/mac/Downloads/shibaura开题相关/physioflow-app/release-web/PhysioFlow-Web-v0.6.0-beta.6 (1.7 MB)
+Web ZIP:    /Users/mac/Downloads/shibaura开题相关/physioflow-app/release-web/PhysioFlow-Web-v0.6.0-beta.6.zip (651.8 KB)
+=== Done ===

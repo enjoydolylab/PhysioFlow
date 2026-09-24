@@ -104,7 +104,8 @@ export async function activeWorkspace({ request = false } = {}) {
   if (tauriStorage.isTauriRuntime()) return { kind: 'tauri' };
   const handle = await loadHandle();
   if (!handle) return null;
-  return await permission(handle, request) === 'granted' ? handle : null;
+  if (await permission(handle, request) !== 'granted') throw new Error('Data folder permission was lost. Select the data folder again before continuing.');
+  return handle;
 }
 
 export async function ensureDir(path) {
@@ -176,7 +177,7 @@ export async function removeEntry(path) {
     if (!target) return false;
     await target.dir.removeEntry(target.filename, { recursive: true });
     return true;
-  } catch { return false; }
+  } catch (error) { if (error.name === 'NotFoundError') return false; throw error; }
 }
 
 export async function listFiles(path) {

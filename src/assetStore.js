@@ -1,3 +1,5 @@
+import { pendingMediaIssues } from './core/mediaReadiness.js';
+import { checksumBlob } from './assetChecksum.js';
 import { activeWorkspace, readBlob, readText, writeBlob, writeText } from './localWorkspace.js';
 
 const DB_NAME = 'physioflow-assets-v1';
@@ -17,26 +19,24 @@ function openDb() {
   return dbPromise;
 }
 
-export async function saveAsset(file) {
-  if (!file || !(file instanceof File)) throw new Error('Invalid file');
+export async function saveAsset(file, preferredId = null, expectedChecksum = null) {
+  if (preferredId !== null && !/^[a-zA-Z0-9_-]{1,128}$/.test(preferredId)) throw new Error('Invalid asset identifier');
+  if (!file || !(file instanceof File) || file.size === 0) throw new Error('Choose a non-empty media file');
+  const checksum = await checksumBlob(file);
+  if (expectedChecksum && checksum !== expectedChecksum.toLowerCase()) throw new Error('File checksum does not match the protocol. Choose the original file, or add a new asset and reassign it in a draft.');
+  if (preferredId) {
+    const existing = await loadAsset(preferredId);
+    if (existing?.file && await checksumBlob(existing.file) !== checksum) throw new Error('This asset ID already stores different media. Add a new asset to preserve existing protocols.');
+  }
   if (await activeWorkspace({ request: false })) {
-    const id = `asset_${crypto.randomUUID()}`;
-    const buffer = await file.arrayBuffer();
-    const digest = await crypto.subtle.digest('SHA-256', buffer);
-    const checksum = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+    const id = preferredId || `asset_${crypto.randomUUID()}`;
     const meta = { id, name: file.name, type: file.type, size: file.size, checksum, updated_at: new Date().toISOString() };
-    await writeBlob(`assets/${id}.bin`, new Blob([buffer], { type: file.type }));
+    await writeBlob(`assets/${id}.bin`, file);
     await writeText(`assets/${id}.meta.json`, JSON.stringify(meta, null, 2));
     return { asset_id: id, file_name: file.name, mime_type: file.type, file_size: file.size, checksum };
   }
   const db = await openDb();
-  const id = `asset_${crypto.randomUUID()}`;
-  let checksum = '';
-  try {
-    const buffer = await file.arrayBuffer();
-    const digest = await crypto.subtle.digest('SHA-256', buffer);
-    checksum = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
-  } catch (err) { console.warn('Could not compute SHA-256 for', file.name, err); }
+  const id = preferredId || `asset_${crypto.randomUUID()}`;
 
   return new Promise((resolve, reject) => {
     try {
@@ -108,13 +108,12 @@ export function graphProtocolAssetReferences(protocol) {
 
 export async function verifyAssetContent(asset, expectedChecksum) {
   if (!expectedChecksum) return true;
-  const digest = await crypto.subtle.digest('SHA-256', await asset.file.arrayBuffer());
-  const checksum = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  const checksum = await checksumBlob(asset.file);
   return checksum === expectedChecksum.toLowerCase();
 }
 
 export async function verifyGraphProtocolAssets(protocol, loader = loadAsset) {
-  const issues = [];
+  const issues = pendingMediaIssues(protocol);
   for (const reference of graphProtocolAssetReferences(protocol)) {
     if (reference.metadata_missing) {
       issues.push({ asset_id: reference.asset_id, type: 'metadata_missing', message: `Asset ${reference.asset_id} is referenced but missing from the media library` });

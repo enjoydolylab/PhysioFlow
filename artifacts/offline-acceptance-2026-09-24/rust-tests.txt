@@ -1,0 +1,10 @@
+   Compiling physioflow v0.6.0-beta.6 (/Users/mac/Downloads/shibaura开题相关/physioflow-app/src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.49s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/physioflow_lib-3dc0af3aa59f4244)
+
+running 2 tests
+test tests::atomic_write_creates_and_replaces_complete_content ... ok
+test tests::chunked_upload_commits_only_complete_content ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

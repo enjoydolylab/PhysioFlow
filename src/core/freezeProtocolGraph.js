@@ -1,3 +1,4 @@
+import { pendingMediaIssues } from './mediaReadiness.js';
 import { discreteScaleValues } from './inputValidation.js';
 import { serializeProtocolGraph } from './serialization.js';
 import { validateProtocolGraph } from './validateProtocolGraph.js';
@@ -207,7 +208,7 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
 
 export function validateProtocolGraphForFreeze(protocol, registry) {
   const result = validateProtocolGraphConfiguration(protocol, registry);
-  const errors = [...result.errors];
+  const errors = [...result.errors, ...pendingMediaIssues(protocol)];
   if (protocol?.legacy?.migrationReport?.formalRunAllowed === false) errors.push({ code: 'migration.review_required', message: 'Migration review must be acknowledged before freezing', path: 'legacy.migrationReport' });
   return { valid: errors.length === 0, errors, warnings: result.warnings };
 }

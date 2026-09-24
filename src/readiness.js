@@ -112,9 +112,9 @@ export function assessProtocolReadiness(protocol, { sessions = [], storageInfo =
     {
       id: 'storage',
       label: 'Local data storage',
-      passed: Boolean(storageInfo?.selected),
+      passed: Boolean(storageInfo?.selected && storageInfo.permission === 'granted'),
       severity: protocolStatusOf(protocol) === 'frozen' ? 'error' : 'warning',
-      detail: storageInfo?.selected ? `Folder: ${storageInfo.name || 'selected'}` : 'No local data folder selected.',
+      detail: storageInfo?.selected && storageInfo.permission === 'granted' ? `Folder: ${storageInfo.name || 'selected'}` : 'No local data folder selected.',
       action: protocolStatusOf(protocol) === 'frozen'
         ? 'Formal collection requires the desktop app or a selected local data folder.'
         : 'Use the desktop app or select a local folder before formal collection.',

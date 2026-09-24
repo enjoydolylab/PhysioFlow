@@ -184,7 +184,7 @@ export default function PreRunChecklist({ protocol, storageInfo, onChooseDataDir
   const stimuli = protocol.stimuli || [];
   const questionnaires = protocol.questionnaires || [];
   const requiresLocalStorage = protocol.status === 'frozen';
-  const storageBlocked = requiresLocalStorage && !storageInfo?.selected;
+  const storageBlocked = requiresLocalStorage && (!storageInfo?.selected || storageInfo.permission !== 'granted');
 
   const stepIssues = [];
   protocol.blocks.forEach((block, bi) => {

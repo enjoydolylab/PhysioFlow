@@ -1,3 +1,4 @@
+import { materializePlaceholderMedia } from './core/mediaReadiness.js';
 import { formatDateTime } from './analysis/charts.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LanguageToggle, DarkModeToggle } from './i18n';
@@ -94,7 +95,8 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
 
   const importFile = async file => {
     try {
-      const candidate = JSON.parse(await file.text());
+      const parsed = JSON.parse(await file.text());
+      const candidate = isGraphProtocol(parsed) ? materializePlaceholderMedia(parsed) : parsed;
       const graphCandidate = isGraphProtocol(candidate);
       const check = graphCandidate
         ? validateProtocolGraphConfiguration(candidate, createProjectComponentRegistry(candidate))

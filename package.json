@@ -1,7 +1,7 @@
 {
   "name": "physioflow-app",
   "private": true,
-  "version": "0.6.0-beta.5",
+  "version": "0.6.0-beta.6",
   "description": "Visual experiment workflow system for behavioral and physiological research",
   "author": "PhysioFlow",
   "type": "module",
@@ -28,9 +28,11 @@
     "audit:i18n": "node scripts/audit-i18n.mjs",
     "migrate:v1": "node scripts/migrate-protocol-v1.mjs",
     "quality:refactor": "npm test && npm run build && npm run lint -- --max-warnings=0",
-    "quality:release": "npm run quality:refactor && npm run test:e2e && npm run test:e2e:refactor-browser && npm run test:e2e:participant-public"
+    "quality:release": "npm run quality:refactor && npm run test:e2e && npm run test:e2e:refactor-browser && npm run test:e2e:participant-public",
+    "test:e2e:offline": "node tests/e2e-offline.mjs"
   },
   "dependencies": {
+    "@noble/hashes": "2.0.1",
     "@tauri-apps/api": "^2.11.1",
     "@vitejs/plugin-react": "^6.0.1",
     "react": "^19.2.6",

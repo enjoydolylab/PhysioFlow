@@ -20,7 +20,6 @@ import {
   selectWorkspaceDirectory,
   supportsLocalWorkspace,
   workspaceInfo,
-  writeBlob,
   writeText,
 } from './localWorkspace.js';
 
@@ -276,18 +275,8 @@ export async function clearCurrentRun() {
 }
 
 // ── Assets ──
-export async function saveAsset(file) {
-  if (!file || !(file instanceof File)) throw new Error('Invalid file');
-  if (!(await hasWorkspace())) return idbSaveAsset(file);
-
-  const id = `asset_${crypto.randomUUID()}`;
-  const buffer = await file.arrayBuffer();
-  const digest = await crypto.subtle.digest('SHA-256', buffer);
-  const checksum = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
-  const meta = { id, name: file.name, type: file.type, size: file.size, checksum, updated_at: new Date().toISOString() };
-  await writeBlob(`assets/${id}.bin`, new Blob([buffer], { type: file.type }));
-  await writeText(`assets/${id}.meta.json`, JSON.stringify(meta, null, 2));
-  return { asset_id: id, file_name: file.name, mime_type: file.type, file_size: file.size, checksum };
+export async function saveAsset(file, preferredId = null, expectedChecksum = null) {
+  return idbSaveAsset(file, preferredId, expectedChecksum);
 }
 
 export async function loadAssetFile(id) {

@@ -27,14 +27,33 @@ export async function writeText(path, text) {
   return invoke('write_text', { path, text });
 }
 
+const BINARY_CHUNK_SIZE = 1024 * 1024;
+
 export async function readBlob(path) {
-  const bytes = await invoke('read_binary', { path });
-  return bytes ? new Blob([new Uint8Array(bytes)]) : null;
+  const size = await invoke('binary_size', { path });
+  if (size === null) return null;
+  const chunks = [];
+  for (let offset = 0; offset < size; offset += BINARY_CHUNK_SIZE) {
+    const length = Math.min(BINARY_CHUNK_SIZE, size - offset);
+    const bytes = await invoke('read_binary_chunk', { path, offset, length });
+    if (bytes.length !== length) throw new Error('Incomplete media read');
+    chunks.push(new Uint8Array(bytes));
+  }
+  return new Blob(chunks);
 }
 
 export async function writeBlob(path, blob) {
-  const bytes = Array.from(new Uint8Array(await blob.arrayBuffer()));
-  return invoke('write_binary', { path, bytes });
+  const uploadId = crypto.randomUUID();
+  try {
+    for (let offset = 0; offset < blob.size || offset === 0; offset += BINARY_CHUNK_SIZE) {
+      const bytes = Array.from(new Uint8Array(await blob.slice(offset, offset + BINARY_CHUNK_SIZE).arrayBuffer()));
+      await invoke('write_binary_chunk', { path, uploadId, offset, bytes, finalChunk: offset + bytes.length >= blob.size });
+    }
+    return true;
+  } catch (error) {
+    await invoke('abort_binary_upload', { path, uploadId }).catch(() => {});
+    throw error;
+  }
 }
 
 export async function removeEntry(path) {

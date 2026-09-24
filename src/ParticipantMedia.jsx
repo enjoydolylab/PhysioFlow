@@ -6,7 +6,9 @@ import { youtubeEmbedUrl } from './core/mediaUrl.js';
 // play). YouTube fires media_started / media_ended / media_error through the IFrame
 // API so completion.mode === 'media-ended' still advances when playback finishes.
 
-export default function ParticipantMedia({ source, mediaType = 'image', controls = true, autoPlay = false, disabled = false, alt = '', fit = 'contain', style, className = '', onMediaEvent }) {
+export default function ParticipantMedia({ source, mediaType = 'image', controls = true, autoPlay = false, disabled = false, alt = '', fit = 'contain', presentationMode = 'standard', style, className = '', onMediaEvent }) {
+  const viewport = presentationMode === 'fullscreen-contain' && ['video', 'image'].includes(mediaType);
+  const mediaClass = `participant-ui-media${viewport ? ' viewport-contain' : ''} ${className}`;
   const mediaRef = useRef(null);
   const youtubeRef = useRef(null);
   const youtubePlaying = useRef(false);
@@ -46,9 +48,9 @@ export default function ParticipantMedia({ source, mediaType = 'image', controls
     return () => window.removeEventListener('message', handler);
   }, [youtubeUrl]);
 
-  if (!source) return <div className={`participant-ui-media missing ${className}`} style={style}>Media source not configured</div>;
-  if (youtubeUrl) return <div className={`participant-ui-media embed ${className}`} style={style}><iframe ref={youtubeRef} src={youtubeUrl} title="Stimulus" style={style?.height ? { width: '100%', height: '100%', border: 0 } : undefined} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /></div>;
-  if (mediaType === 'video') return <video ref={mediaRef} className={`participant-ui-media ${className}`} style={{ objectFit: fit, ...style }} src={source} controls={controls} autoPlay={autoPlay} playsInline onPlay={() => onMediaEvent?.('media_started', { mediaType: 'video' })} onEnded={() => onMediaEvent?.('media_ended', { mediaType: 'video' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'video' })} />;
-  if (mediaType === 'audio') return <audio ref={mediaRef} className={`participant-ui-media ${className}`} style={style} src={source} controls={controls} autoPlay={autoPlay} onPlay={() => onMediaEvent?.('media_started', { mediaType: 'audio' })} onEnded={() => onMediaEvent?.('media_ended', { mediaType: 'audio' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'audio' })} />;
-  return <img className={`participant-ui-media ${className}`} src={source} alt={alt || ''} style={{ objectFit: fit, ...style }} onLoad={() => onMediaEvent?.('media_loaded', { mediaType: 'image' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'image' })} />;
+  if (!source) return <div className={`${mediaClass} missing`} style={style}>Media source not configured</div>;
+  if (youtubeUrl) return <div className={`${mediaClass} embed`} style={style}><iframe ref={youtubeRef} src={youtubeUrl} title="Stimulus" style={style?.height ? { width: '100%', height: '100%', border: 0 } : undefined} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /></div>;
+  if (mediaType === 'video') return <video ref={mediaRef} className={mediaClass} style={{ ...style, objectFit: viewport ? 'contain' : fit }} src={source} controls={controls} autoPlay={autoPlay} playsInline onPlay={() => onMediaEvent?.('media_started', { mediaType: 'video' })} onEnded={() => onMediaEvent?.('media_ended', { mediaType: 'video' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'video' })} />;
+  if (mediaType === 'audio') return <audio ref={mediaRef} className={mediaClass} style={style} src={source} controls={controls} autoPlay={autoPlay} onPlay={() => onMediaEvent?.('media_started', { mediaType: 'audio' })} onEnded={() => onMediaEvent?.('media_ended', { mediaType: 'audio' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'audio' })} />;
+  return <img className={mediaClass} src={source} alt={alt || ''} style={{ ...style, objectFit: viewport ? 'contain' : fit }} onLoad={() => onMediaEvent?.('media_loaded', { mediaType: 'image' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'image' })} />;
 }
