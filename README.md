@@ -1,53 +1,55 @@
 # PhysioFlow
 
-当前开发候选与对接进度（2026-09-24）：[已完成／进行中／未完成](docs/PROGRESS_REPORT_2026-09-24.md)。最新完整质量检查：437 项测试通过，构建、Lint 和三个浏览器套件通过；尚未发布新版安装包。下方旧日期记录保留作历史基线。
+実験の設計、参加者への刺激・質問の提示、セッションの記録、データのエクスポートを行う、ローカルでの利用を基本としたツールです。新規実験には Composer V2 を使用します。従来の Block / Trial 形式の実験プロトコルも読み込み・実行できます。
 
-本地优先的实验设计、参与者呈现、会话记录与数据导出工具。新建实验默认使用 Composer V2；旧 Block / Trial 协议仍可读取和运行。
+**開発状況（2026-09-24）**：[実装済み・対応中・未完了の一覧](docs/PROGRESS_REPORT_2026-09-24.md)。最新の品質チェックでは、437 件のテスト、ビルド、Lint、3 種類のブラウザテストスイートが通過しました。これらの変更を含む新しいインストーラーは、まだ公開していません。
 
-## 下载
+## ダウンロード
 
-当前发布版本：[v0.6.0-beta.4（研究测试版）](https://github.com/kyzzz22/physioflow-app/releases/tag/v0.6.0-beta.4)，2026-09-06 发布，源码提交 `68a3451`。
+公開済みのバージョンは [v0.6.0-beta.4（研究用テスト版）](https://github.com/kyzzz22/physioflow-app/releases/tag/v0.6.0-beta.4) です。2026-09-06 公開、ソースコードのコミットは `68a3451` です。
 
-- [Windows x64 安装包](https://github.com/kyzzz22/physioflow-app/releases/download/v0.6.0-beta.4/PhysioFlow_0.6.0-beta.4_x64-setup.exe)
-- [SHA-256 校验文件](https://github.com/kyzzz22/physioflow-app/releases/download/v0.6.0-beta.4/SHA256SUMS.txt)
-- [发布说明](docs/RELEASE_NOTES_beta.4.md)
+- [Windows x64 インストーラー](https://github.com/kyzzz22/physioflow-app/releases/download/v0.6.0-beta.4/PhysioFlow_0.6.0-beta.4_x64-setup.exe)
+- [SHA-256 チェックサム](https://github.com/kyzzz22/physioflow-app/releases/download/v0.6.0-beta.4/SHA256SUMS.txt)
+- [リリースノート](docs/RELEASE_NOTES_beta.4.md)
 
-安装包未签名，按当前 Windows 用户安装，支持英语、日语、简体中文安装界面。需要 WebView2；缺少运行环境时可能需要联网安装。当前没有已发布的 macOS / Linux 安装包。
+インストーラーは未署名で、現在の Windows ユーザー用にインストールされます。インストール画面は英語・日本語・簡体字中国語に対応しています。実行には WebView2 が必要で、未導入の場合はオンラインでのインストールが必要になることがあります。macOS / Linux 向けのインストーラーは未公開です。
 
-## 从哪里开始
+## はじめに
 
-| 你的任务 | 文档 |
+リンク先のドキュメントには、中国語または英語で記載されたものがあります。
+
+| 目的 | ドキュメント |
 | --- | --- |
-| 理解系统如何组织实验 | [业务流程与能力边界](docs/BUSINESS_WORKFLOW.md) |
-| 创建、预览、运行和导出实验 | [研究人员使用指南](docs/USER_GUIDE.md) |
-| 确认版本和验证范围 | [当前实现状态](docs/refactor/IMPLEMENTATION_STATUS.md) |
-| 查看下一轮体验优化 | [优化路线图](docs/refactor/OPTIMIZATION_PLAN.md) |
-| 开发、构建和发布 | [开发指南](docs/DEVELOPMENT.md) |
-| 查阅全部文档 | [文档导航](docs/README.md) |
+| 実験の構成と対応範囲を理解する | [実験の流れと機能の対応範囲](docs/BUSINESS_WORKFLOW.md) |
+| 実験を作成・プレビュー・実行し、データを出力する | [研究者向け利用ガイド](docs/USER_GUIDE.md) |
+| バージョンと検証範囲を確認する | [実装状況](docs/refactor/IMPLEMENTATION_STATUS.md) |
+| 今後の改善予定を確認する | [改善ロードマップ](docs/refactor/OPTIMIZATION_PLAN.md) |
+| 開発・ビルド・リリースを行う | [開発ガイド](docs/DEVELOPMENT.md) |
+| ドキュメント全体を探す | [ドキュメント一覧](docs/README.md) |
 
-## 核心流程
+## 基本的な流れ
 
-设计协议 → 配置刺激与问卷 → 预览检查 → 冻结版本 → 运行会话 → 检查与导出数据。
+実験プロトコルの設計 → 刺激・質問紙の設定 → プレビューで確認 → バージョンの凍結 → セッションの実行 → データの確認・エクスポート。
 
-这是业务顺序，当前应用尚未实现六阶段向导。Composer 的 Quick / Design / Advanced 是同一 Graph 的配置视图；旧 Block / Trial 编辑器是另一条兼容路径。Graph 分组不等同于可执行 Block。
+これは実験作業の順序を示したものです。現在のアプリには、この6段階を順番に進めるウィザードはありません。Composer の Quick / Design / Advanced は、同じ Graph を設定するための表示切り替えです。従来の Block / Trial エディターは、旧形式との互換性を維持するために用意されています。Graph のグループは、実行単位としての Block と同一ではありません。
 
-beta.4 改善了暂停恢复、保存重试、刺激池随机分配、多尺寸编辑和自定义元素呈现，并修正了受约束的旧 Block 随机排序及新生成 Stroop 试次。完整改动见 [CHANGELOG](CHANGELOG.md)。
+beta.4 では、一時停止・再開、保存の再試行、刺激プールのランダム割り当て、複数の画面サイズでの編集、カスタム要素の表示を改善しました。また、旧形式の Block における制約付きランダム順序と、新規生成される Stroop 試行を修正しました。詳細は [CHANGELOG](CHANGELOG.md) を参照してください。
 
-当前开发版进一步整理了首页、实验自定义和[画布编辑](docs/refactor/CANVAS_EDITING.md)，包括明确的自由/自动布局、多选拖动和分组属性面板。这些改动尚未包含在上述 beta.4 安装包中。
+現在の開発版では、ホーム画面、実験のカスタマイズ、[キャンバス編集](docs/refactor/CANVAS_EDITING.md)をさらに改善しています。自由配置・自動配置の区別、複数選択によるドラッグ、グループのプロパティパネルなどが含まれます。これらの変更は、上記の beta.4 インストーラーには含まれていません。
 
-## 数据与运行环境
+## データと実行環境
 
-桌面端数据目录为当前用户的 `Documents/PhysioFlow Data`，可从首页打开。浏览器端存储与桌面端不同；正式运行前应确认所用存储方式并保存导出副本。Hosted 是可选的自托管服务，详见 [部署指南](docs/refactor/SELF_HOSTING.md)。
+デスクトップ版のデータは、現在のユーザーの `Documents/PhysioFlow Data` に保存されます。このフォルダーはホーム画面から開けます。ブラウザ版とデスクトップ版では保存方式が異なるため、本番の実験前に保存先を確認し、エクスポートしたコピーを保管してください。必要に応じて、セルフホスト型の Hosted サービスも利用できます。詳細は[デプロイガイド](docs/refactor/SELF_HOSTING.md)を参照してください。
 
-外部媒体、外部问卷和设备服务可能发生网络通信；“本地优先”不代表所有配置都离线。Graph 与旧协议的导出结构不同，应以包内清单和数据字典为准。
+外部メディア、外部質問紙、デバイスサービスの利用時には、ネットワーク通信が発生する場合があります。すべての設定がオフラインで動作するわけではありません。Graph と旧形式のプロトコルではエクスポート構造が異なるため、出力パッケージ内のマニフェストとデータ辞書を確認してください。
 
-## 开发启动
+## 開発環境での起動
 
 ```sh
 npm ci
 npm run dev
 ```
 
-开发页面默认使用 5174 端口。桌面构建需要 Rust 和平台构建工具，运行 `npm run desktop:build`。验证命令与环境说明见 [开发指南](docs/DEVELOPMENT.md)。
+開発サーバーの既定ポートは `5174` です。デスクトップ版をビルドするには、Rust と各プラットフォームのビルドツールを用意し、`npm run desktop:build` を実行します。検証コマンドと環境の詳細は[開発ガイド](docs/DEVELOPMENT.md)を参照してください。
 
-研究人员实测、Windows 系统缩放和真实设备同步仍待验收；当前版本为预发布版本。
+現在はプレリリース版です。研究者による実操作、Windows の表示倍率、実機デバイスの同期については、引き続き検証が必要です。
