@@ -103,3 +103,52 @@ test('participant bootstrap carries a consistent hosted recovery checkpoint', as
   assert.equal(bootstrap.recovery.runtime.eventSequence, started.state.eventSequence);
   assert.deepEqual(bootstrap.recovery.events, started.events);
 });
+
+test('hosted randomized groups keep a session-specific verified plan across bootstrap refreshes', async () => {
+  const { insertNodeOnControlEdge, hashProtocolGraph } = await import('../src/core/index.js');
+  const { restoreGroupExecutionSnapshot } = await import('../src/core/groupSequence.js');
+  const { completeCurrentNode } = await import('../src/runtime/index.js');
+  const registry = createCoreComponentRegistry();
+  let source = createProtocolGraph();
+  const nodeIds = [];
+  for (const label of ['Quiet A', 'Question A', 'Quiet B', 'Question B']) {
+    const edge = source.graph.edges.find(item => source.graph.nodes.find(node => node.id === item.target.nodeId)?.component.type === 'core.end');
+    const added = insertNodeOnControlEdge(source, edge.id, 'display.screen', { label, config: registry.get('display.screen').defaultConfig });
+    source = added.protocol;
+    nodeIds.push(added.node.id);
+  }
+  source.graph.groups = ['A', 'B'].map((id, index) => ({ id, name: id, kind: 'container', nodeIds: nodeIds.slice(index * 2, index * 2 + 2), parameters: [], metadata: {} }));
+  source.groupRandomization = { enabled: true, groupIds: ['A', 'B'] };
+  const frozen = await freezeProtocolGraph(source, registry);
+  const bundle = await createDeploymentBundle(frozen);
+  const service = new LocalHostedExecutionService(serviceOptions());
+  const owner = new HostedExecutionClient(service, 'bootstrap-owner-token');
+  const deployment = await owner.publish(bundle, { idempotencyKey: 'group-publish' });
+  owner.processNextDeployment();
+  const session = await owner.createSession(deployment.deploymentId, { participantId: 'GROUPS', idempotencyKey: 'group-session' });
+  const participant = new HostedExecutionClient(service, session.participantAccessToken);
+  const first = await participant.bootstrap(session.sessionId);
+  const refreshed = await participant.bootstrap(session.sessionId);
+  assert.deepEqual(first.groupExecutionSnapshot, refreshed.groupExecutionSnapshot);
+  assert.deepEqual(await validateParticipantBootstrap(first), { valid: true, errors: [] });
+  assert.equal(await hashProtocolGraph(first.protocol), frozen.freeze.configHash);
+  const execution = restoreGroupExecutionSnapshot(first.groupExecutionSnapshot, registry).protocol;
+  const services = { idFactory: createSequentialIdFactory(), clock: { now: () => ({ epochMs: 1001, monotonicMs: 1, iso: new Date(1001).toISOString() }) } };
+  let state = startRuntime(createRuntimeState(execution, { sessionId: session.sessionId, runMode: 'hosted', startedAtEpochMs: 1000, startedAtMonotonicMs: 0 }), execution, registry, services).state;
+  const visits = [];
+  while (state.status === 'waiting' && visits.length < 10) {
+    visits.push(state.currentNodeId);
+    state = completeCurrentNode(state, execution, registry, services, {}).state;
+  }
+  assert.equal(state.status, 'completed');
+  assert.deepEqual(visits, first.groupExecutionSnapshot.plan.nodeOrder);
+  const missing = structuredClone(first);
+  delete missing.groupExecutionSnapshot;
+  assert.match((await validateParticipantBootstrap(missing)).errors.join('\n'), /group execution plan/i);
+  const anotherSession = await owner.createSession(deployment.deploymentId, { participantId: 'GROUPS-2', idempotencyKey: 'group-session-2' });
+  const another = await owner.bootstrap(anotherSession.sessionId);
+  assert.notEqual(first.groupExecutionSnapshot.plan.seed, another.groupExecutionSnapshot.plan.seed);
+  const swapped = structuredClone(first);
+  swapped.groupExecutionSnapshot = another.groupExecutionSnapshot;
+  assert.match((await validateParticipantBootstrap(swapped)).errors.join('\n'), /group execution plan does not match/i);
+});

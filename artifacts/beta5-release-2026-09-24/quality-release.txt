@@ -1,0 +1,2734 @@
+
+> physioflow-app@0.6.0-beta.5 quality:release
+> npm run quality:refactor && npm run test:e2e && npm run test:e2e:refactor-browser && npm run test:e2e:participant-public
+
+
+> physioflow-app@0.6.0-beta.5 quality:refactor
+> npm test && npm run build && npm run lint -- --max-warnings=0
+
+
+> physioflow-app@0.6.0-beta.5 test
+> node --test tests/*.test.js
+
+TAP version 13
+# Subtest: gap filling interpolates between neighbours and holds the edges
+ok 1 - gap filling interpolates between neighbours and holds the edges
+  ---
+  duration_ms: 0.802875
+  type: 'test'
+  ...
+# Subtest: resampling changes the length by the rate ratio
+ok 2 - resampling changes the length by the rate ratio
+  ---
+  duration_ms: 0.631875
+  type: 'test'
+  ...
+# Subtest: moving median removes a single spike that a mean would only smear
+ok 3 - moving median removes a single spike that a mean would only smear
+  ---
+  duration_ms: 0.198542
+  type: 'test'
+  ...
+# Subtest: detrend removes a slow drift and keeps the oscillation
+ok 4 - detrend removes a slow drift and keeps the oscillation
+  ---
+  duration_ms: 1.662958
+  type: 'test'
+  ...
+# Subtest: artefact rejection replaces outliers but reports how many it touched
+ok 5 - artefact rejection replaces outliers but reports how many it touched
+  ---
+  duration_ms: 0.295958
+  type: 'test'
+  ...
+# Subtest: FFT and PSD recover the frequency of a pure tone
+ok 6 - FFT and PSD recover the frequency of a pure tone
+  ---
+  duration_ms: 1.522917
+  type: 'test'
+  ...
+# Subtest: FFT rejects a non power-of-two length instead of silently truncating
+ok 7 - FFT rejects a non power-of-two length instead of silently truncating
+  ---
+  duration_ms: 0.066708
+  type: 'test'
+  ...
+# Subtest: peak detection and RR intervals recover the simulated heart rate
+ok 8 - peak detection and RR intervals recover the simulated heart rate
+  ---
+  duration_ms: 257.712208
+  type: 'test'
+  ...
+# Subtest: HRV separates a regular from an irregular rhythm
+ok 9 - HRV separates a regular from an irregular rhythm
+  ---
+  duration_ms: 271.611625
+  type: 'test'
+  ...
+# Subtest: EDA separates the slow tonic level from phasic responses
+ok 10 - EDA separates the slow tonic level from phasic responses
+  ---
+  duration_ms: 16.891084
+  type: 'test'
+  ...
+# Subtest: channel dispatch picks the right feature family
+ok 11 - channel dispatch picks the right feature family
+  ---
+  duration_ms: 118.168875
+  type: 'test'
+  ...
+# Subtest: statistics: correlation, Welch t-test and effect size
+ok 12 - statistics: correlation, Welch t-test and effect size
+  ---
+  duration_ms: 0.665416
+  type: 'test'
+  ...
+# Subtest: ridge regression recovers a known linear relationship
+ok 13 - ridge regression recovers a known linear relationship
+  ---
+  duration_ms: 1.727
+  type: 'test'
+  ...
+# Subtest: kmeans finds the planted clusters and is deterministic
+ok 14 - kmeans finds the planted clusters and is deterministic
+  ---
+  duration_ms: 0.336584
+  type: 'test'
+  ...
+# Subtest: pipeline reads the BioDB columnar shape and estimates the sample rate
+ok 15 - pipeline reads the BioDB columnar shape and estimates the sample rate
+  ---
+  duration_ms: 4.091583
+  type: 'test'
+  ...
+# Subtest: pipeline reports missing samples instead of hiding them
+ok 16 - pipeline reports missing samples instead of hiding them
+  ---
+  duration_ms: 0.297958
+  type: 'test'
+  ...
+# Subtest: pipeline still works when the sample rate is unknown
+ok 17 - pipeline still works when the sample rate is unknown
+  ---
+  duration_ms: 0.084125
+  type: 'test'
+  ...
+# Subtest: analyseChannels honours an explicit channel whitelist
+ok 18 - analyseChannels honours an explicit channel whitelist
+  ---
+  duration_ms: 4.492459
+  type: 'test'
+  ...
+# Subtest: compact returns the surviving values with their original indices
+ok 19 - compact returns the surviving values with their original indices
+  ---
+  duration_ms: 0.124375
+  type: 'test'
+  ...
+# Subtest: graph responses retain zero, resolve question metadata, and separate same names across nodes
+ok 20 - graph responses retain zero, resolve question metadata, and separate same names across nodes
+  ---
+  duration_ms: 0.440042
+  type: 'test'
+  ...
+# Subtest: legacy questionnaire IDs still resolve
+ok 21 - legacy questionnaire IDs still resolve
+  ---
+  duration_ms: 0.195167
+  type: 'test'
+  ...
+# Subtest: SAM pairs only matching submissions and never fills missing dimensions with zero
+ok 22 - SAM pairs only matching submissions and never fills missing dimensions with zero
+  ---
+  duration_ms: 0.523417
+  type: 'test'
+  ...
+# Subtest: choice charts support array responses, legacy separators, string labels and zero options
+ok 23 - choice charts support array responses, legacy separators, string labels and zero options
+  ---
+  duration_ms: 9.184
+  type: 'test'
+  ...
+# Subtest: choice labels and counts use the participant language
+ok 24 - choice labels and counts use the participant language
+  ---
+  duration_ms: 0.128625
+  type: 'test'
+  ...
+# Subtest: superseded test answers remain excluded from response analysis
+ok 25 - superseded test answers remain excluded from response analysis
+  ---
+  duration_ms: 0.059791
+  type: 'test'
+  ...
+# Subtest: all terminal sessions including runtime failures are reviewable
+ok 26 - all terminal sessions including runtime failures are reviewable
+  ---
+  duration_ms: 0.767917
+  type: 'test'
+  ...
+# Subtest: graph timeline matches exact node IDs, preserves zero starts and does not mutate events
+ok 27 - graph timeline matches exact node IDs, preserves zero starts and does not mutate events
+  ---
+  duration_ms: 1.509042
+  type: 'test'
+  ...
+# Subtest: graph analysis windows pair repeated component visits and flag skips and pauses
+ok 28 - graph analysis windows pair repeated component visits and flag skips and pauses
+  ---
+  duration_ms: 1.341875
+  type: 'test'
+  ...
+# Subtest: snap rounds onto the 8px grid (and honours a custom step)
+ok 29 - snap rounds onto the 8px grid (and honours a custom step)
+  ---
+  duration_ms: 0.748833
+  type: 'test'
+  ...
+# Subtest: elementHeight prefers an explicit height and falls back to per-type estimates
+ok 30 - elementHeight prefers an explicit height and falls back to per-type estimates
+  ---
+  duration_ms: 0.106625
+  type: 'test'
+  ...
+# Subtest: contentXOf reflects a Screen padding and is 0 for a free Layout
+ok 31 - contentXOf reflects a Screen padding and is 0 for a free Layout
+  ---
+  duration_ms: 0.103833
+  type: 'test'
+  ...
+# Subtest: tidyStack lays children into a non-overlapping, grid-aligned column
+ok 32 - tidyStack lays children into a non-overlapping, grid-aligned column
+  ---
+  duration_ms: 0.123208
+  type: 'test'
+  ...
+# Subtest: nextFreeSlot returns a grid slot below the tallest existing child
+ok 33 - nextFreeSlot returns a grid slot below the tallest existing child
+  ---
+  duration_ms: 0.957625
+  type: 'test'
+  ...
+# Subtest: media preflight detects modified bytes even when saved metadata checksum matches
+ok 34 - media preflight detects modified bytes even when saved metadata checksum matches
+  ---
+  duration_ms: 4.444792
+  type: 'test'
+  ...
+# Subtest: balanced halves preserve every asset and categorical 2/3 allocation across session seeds
+ok 35 - balanced halves preserve every asset and categorical 2/3 allocation across session seeds
+  ---
+  duration_ms: 969.398792
+  type: 'test'
+  ...
+# Subtest: invalid balanced-half metadata and missing category fail explicitly
+ok 36 - invalid balanced-half metadata and missing category fail explicitly
+  ---
+  duration_ms: 0.429375
+  type: 'test'
+  ...
+# Subtest: constrained block order never silently repeats when a valid order exists
+ok 37 - constrained block order never silently repeats when a valid order exists
+  ---
+  duration_ms: 11.351083
+  type: 'test'
+  ...
+# Subtest: impossible block constraints and fractional repeats are rejected before freezing
+ok 38 - impossible block constraints and fractional repeats are rejected before freezing
+  ---
+  duration_ms: 7.748417
+  type: 'test'
+  ...
+# Subtest: condition constraints agree with an independent exhaustive feasibility oracle
+ok 39 - condition constraints agree with an independent exhaustive feasibility oracle
+  ---
+  duration_ms: 23.971083
+  type: 'test'
+  ...
+# Subtest: Block repeat and Trial repeat retain their documented execution nesting
+ok 40 - Block repeat and Trial repeat retain their documented execution nesting
+  ---
+  duration_ms: 1.785625
+  type: 'test'
+  ...
+# Subtest: BrainFlow batches preserve timestamps and sequence, and consume using cursor
+ok 41 - BrainFlow batches preserve timestamps and sequence, and consume using cursor
+  ---
+  duration_ms: 5.675791
+  type: 'test'
+  ...
+# Subtest: BrainFlow refuses buffer gaps, restarted agents and invalid sequences
+ok 42 - BrainFlow refuses buffer gaps, restarted agents and invalid sequences
+  ---
+  duration_ms: 0.554875
+  type: 'test'
+  ...
+# Subtest: BrainFlow only accepts loopback URLs and requires a runtime credential
+ok 43 - BrainFlow only accepts loopback URLs and requires a runtime credential
+  ---
+  duration_ms: 0.106209
+  type: 'test'
+  ...
+# Subtest: batch sampler keeps provenance and stop waits for in-flight batch
+ok 44 - batch sampler keeps provenance and stop waits for in-flight batch
+  ---
+  duration_ms: 0.812958
+  type: 'test'
+  ...
+# Subtest: bounded preview retains lifecycle events and newest samples
+ok 45 - bounded preview retains lifecycle events and newest samples
+  ---
+  duration_ms: 0.215458
+  type: 'test'
+  ...
+# Subtest: recording reader handles split chunks, CRLF and a final row without newline
+ok 46 - recording reader handles split chunks, CRLF and a final row without newline
+  ---
+  duration_ms: 9.159833
+  type: 'test'
+  ...
+# Subtest: malformed, blank, oversized and preview rows fail with a line number
+ok 47 - malformed, blank, oversized and preview rows fail with a line number
+  ---
+  duration_ms: 1.218916
+  type: 'test'
+  ...
+# Subtest: early termination cancels the file reader and abort prevents reading
+ok 48 - early termination cancels the file reader and abort prevents reading
+  ---
+  duration_ms: 2.553625
+  type: 'test'
+  ...
+# Subtest: recording reader feeds bounded transfer without losing sample order
+ok 49 - recording reader feeds bounded transfer without losing sample order
+  ---
+  duration_ms: 19.84
+  type: 'test'
+  ...
+# Subtest: channel dictionary extracts dataType/unit/sampleRate from legacy deviceConnectors
+ok 50 - channel dictionary extracts dataType/unit/sampleRate from legacy deviceConnectors
+  ---
+  duration_ms: 0.791959
+  type: 'test'
+  ...
+# Subtest: channel dictionary follows V2 graph device-connector nodes
+ok 51 - channel dictionary follows V2 graph device-connector nodes
+  ---
+  duration_ms: 0.5695
+  type: 'test'
+  ...
+# Subtest: dictionary payload keeps input channels only in BioDB shape
+ok 52 - dictionary payload keeps input channels only in BioDB shape
+  ---
+  duration_ms: 0.218917
+  type: 'test'
+  ...
+# Subtest: graph session export bundles channel_dictionary.json and updates manifest counts
+ok 53 - graph session export bundles channel_dictionary.json and updates manifest counts
+  ---
+  duration_ms: 6.922625
+  type: 'test'
+  ...
+# Subtest: generic exporter bundle includes channel_dictionary.json
+ok 54 - generic exporter bundle includes channel_dictionary.json
+  ---
+  duration_ms: 0.963625
+  type: 'test'
+  ...
+# Subtest: change sets apply portable field-level and entity additions with audit provenance
+ok 55 - change sets apply portable field-level and entity additions with audit provenance
+  ---
+  duration_ms: 9.783125
+  type: 'test'
+  ...
+# Subtest: independent local and incoming fields merge without a conflict
+ok 56 - independent local and incoming fields merge without a conflict
+  ---
+  duration_ms: 3.335
+  type: 'test'
+  ...
+# Subtest: same-field collaboration conflicts require an explicit local or incoming resolution
+ok 57 - same-field collaboration conflicts require an explicit local or incoming resolution
+  ---
+  duration_ms: 2.493
+  type: 'test'
+  ...
+# Subtest: change sets reject frozen, cross-version and unsafe inputs
+ok 58 - change sets reject frozen, cross-version and unsafe inputs
+  ---
+  duration_ms: 2.719916
+  type: 'test'
+  ...
+# Subtest: all 22 core components register with valid contracts
+ok 59 - all 22 core components register with valid contracts
+  ---
+  duration_ms: 7.751125
+  type: 'test'
+  ...
+# Subtest: participant components declare a completion strategy that the runner can honor
+ok 60 - participant components declare a completion strategy that the runner can honor
+  ---
+  duration_ms: 6.401333
+  type: 'test'
+  ...
+# Subtest: every participant component renders a valid participant UI via schemaForNode
+ok 61 - every participant component renders a valid participant UI via schemaForNode
+  ---
+  duration_ms: 6.484041
+  type: 'test'
+  ...
+# Subtest: a linear graph of every participant component executes end-to-end
+ok 62 - a linear graph of every participant component executes end-to-end
+  ---
+  duration_ms: 16.127708
+  type: 'test'
+  ...
+# Subtest: a graph containing every component passes formal validation
+ok 63 - a graph containing every component passes formal validation
+  ---
+  duration_ms: 12.363
+  type: 'test'
+  ...
+# Subtest: control components (condition/loop/random/value-switch/start/end) execute
+ok 64 - control components (condition/loop/random/value-switch/start/end) execute
+  ---
+  duration_ms: 2.23925
+  type: 'test'
+  ...
+# Subtest: component SDK validates and permission-gates a declarative package
+ok 65 - component SDK validates and permission-gates a declarative package
+  ---
+  duration_ms: 3.297708
+  type: 'test'
+  ...
+# Subtest: SDK rejects executable control components and protects installed packages in use
+ok 66 - SDK rejects executable control components and protects installed packages in use
+  ---
+  duration_ms: 1.993083
+  type: 'test'
+  ...
+# Subtest: installed SDK component validates and executes through the project registry
+ok 67 - installed SDK component validates and executes through the project registry
+  ---
+  duration_ms: 3.555625
+  type: 'test'
+  ...
+# Subtest: graph validation enforces SDK variable-read permission
+ok 68 - graph validation enforces SDK variable-read permission
+  ---
+  duration_ms: 3.066958
+  type: 'test'
+  ...
+# Subtest: trusted custom control handler routes through a declared component port
+ok 69 - trusted custom control handler routes through a declared component port
+  ---
+  duration_ms: 3.419709
+  type: 'test'
+  ...
+# Subtest: control handlers receive a deeply frozen copy and cannot mutate runtime state
+ok 70 - control handlers receive a deeply frozen copy and cannot mutate runtime state
+  ---
+  duration_ms: 0.338958
+  type: 'test'
+  ...
+# Subtest: control handler registry rejects async execution and undeclared events
+ok 71 - control handler registry rejects async execution and undeclared events
+  ---
+  duration_ms: 0.110167
+  type: 'test'
+  ...
+# Subtest: runtime rejects a control handler branch that is not declared by its component
+ok 72 - runtime rejects a control handler branch that is not declared by its component
+  ---
+  duration_ms: 1.508375
+  type: 'test'
+  ...
+# Subtest: new protocol graph has one start, one end and a valid control edge
+ok 73 - new protocol graph has one start, one end and a valid control edge
+  ---
+  duration_ms: 2.119541
+  type: 'test'
+  ...
+# Subtest: graph versions preserve projects while duplicates receive isolated project identities
+ok 74 - graph versions preserve projects while duplicates receive isolated project identities
+  ---
+  duration_ms: 0.317666
+  type: 'test'
+  ...
+# Subtest: Protocol Graph freeze is immutable and a new version creates an editable draft
+ok 75 - Protocol Graph freeze is immutable and a new version creates an editable draft
+  ---
+  duration_ms: 8.729292
+  type: 'test'
+  ...
+# Subtest: unreviewed migrated graph cannot be frozen for formal collection
+ok 76 - unreviewed migrated graph cannot be frozen for formal collection
+  ---
+  duration_ms: 2.685583
+  type: 'test'
+  ...
+# Subtest: formal configuration validation rejects incomplete participant components
+ok 77 - formal configuration validation rejects incomplete participant components
+  ---
+  duration_ms: 10.02
+  type: 'test'
+  ...
+# Subtest: condition branches must both be connected before a graph is runnable
+ok 78 - condition branches must both be connected before a graph is runnable
+  ---
+  duration_ms: 1.059041
+  type: 'test'
+  ...
+# Subtest: random split requires two branches and a valid probability
+ok 79 - random split requires two branches and a valid probability
+  ---
+  duration_ms: 1.493208
+  type: 'test'
+  ...
+# Subtest: component definitions reject duplicate and invalid ports
+ok 80 - component definitions reject duplicate and invalid ports
+  ---
+  duration_ms: 0.29325
+  type: 'test'
+  ...
+# Subtest: registry isolates stored definitions from callers
+ok 81 - registry isolates stored definitions from callers
+  ---
+  duration_ms: 0.346708
+  type: 'test'
+  ...
+# Subtest: graph commands are immutable and remove attached edges with a node
+ok 82 - graph commands are immutable and remove attached edges with a node
+  ---
+  duration_ms: 1.270875
+  type: 'test'
+  ...
+# Subtest: inline node duplication preserves config and rewires the linear flow
+ok 83 - inline node duplication preserves config and rewires the linear flow
+  ---
+  duration_ms: 2.091084
+  type: 'test'
+  ...
+# Subtest: typed variable commands rename bindings and protect referenced variables
+ok 84 - typed variable commands rename bindings and protect referenced variables
+  ---
+  duration_ms: 0.548916
+  type: 'test'
+  ...
+# Subtest: graph validation rejects undeclared variable bindings
+ok 85 - graph validation rejects undeclared variable bindings
+  ---
+  duration_ms: 0.725959
+  type: 'test'
+  ...
+# Subtest: node groups are validated, serialized with the graph, and never duplicate membership
+ok 86 - node groups are validated, serialized with the graph, and never duplicate membership
+  ---
+  duration_ms: 0.410083
+  type: 'test'
+  ...
+# Subtest: graph validation rejects missing and multiply grouped nodes
+ok 87 - graph validation rejects missing and multiply grouped nodes
+  ---
+  duration_ms: 1.325375
+  type: 'test'
+  ...
+# Subtest: parameterized subflow boundaries and contracts are validated
+ok 88 - parameterized subflow boundaries and contracts are validated
+  ---
+  duration_ms: 1.439042
+  type: 'test'
+  ...
+# Subtest: reusable subflow templates create isolated mapped graph instances
+ok 89 - reusable subflow templates create isolated mapped graph instances
+  ---
+  duration_ms: 1.654417
+  type: 'test'
+  ...
+# Subtest: validation reports unknown components and missing edge endpoints
+ok 90 - validation reports unknown components and missing edge endpoints
+  ---
+  duration_ms: 0.660167
+  type: 'test'
+  ...
+# Subtest: data edges enforce port data types
+ok 91 - data edges enforce port data types
+  ---
+  duration_ms: 0.699792
+  type: 'test'
+  ...
+# Subtest: required data ports can be satisfied by a variable binding
+ok 92 - required data ports can be satisfied by a variable binding
+  ---
+  duration_ms: 0.676208
+  type: 'test'
+  ...
+# Subtest: protocol graph serialization is canonical
+ok 93 - protocol graph serialization is canonical
+  ---
+  duration_ms: 0.121084
+  type: 'test'
+  ...
+# Subtest: legacy inspection identifies non-linear semantics and custom code
+ok 94 - legacy inspection identifies non-linear semantics and custom code
+  ---
+  duration_ms: 0.165375
+  type: 'test'
+  ...
+# Subtest: legacy migration preserves every step payload and creates a safe linear draft
+ok 95 - legacy migration preserves every step payload and creates a safe linear draft
+  ---
+  duration_ms: 1.946792
+  type: 'test'
+  ...
+# Subtest: drafts from historical graph versions allocate after all existing project versions
+ok 96 - drafts from historical graph versions allocate after all existing project versions
+  ---
+  duration_ms: 0.313417
+  type: 'test'
+  ...
+# Subtest: Runtime V2 event schema registry validates standard envelopes
+ok 97 - Runtime V2 event schema registry validates standard envelopes
+  ---
+  duration_ms: 2.061917
+  type: 'test'
+  ...
+# Subtest: graph export includes raw records, normalized tables, manifests, dictionary, and quality report
+ok 98 - graph export includes raw records, normalized tables, manifests, dictionary, and quality report
+  ---
+  duration_ms: 5.43675
+  type: 'test'
+  ...
+# Subtest: graph integrity rejects sequence gaps and backwards monotonic time
+ok 99 - graph integrity rejects sequence gaps and backwards monotonic time
+  ---
+  duration_ms: 1.929417
+  type: 'test'
+  ...
+# Subtest: normalized event rows retain complete payload objects for CSV JSON projection
+ok 100 - normalized event rows retain complete payload objects for CSV JSON projection
+  ---
+  duration_ms: 0.472084
+  type: 'test'
+  ...
+# Subtest: deployment asset coordinator uploads every workspace dependency and confirms readiness
+ok 101 - deployment asset coordinator uploads every workspace dependency and confirms readiness
+  ---
+  duration_ms: 0.84125
+  type: 'test'
+  ...
+# Subtest: deployment asset coordinator stops on missing or mismatched local content
+ok 102 - deployment asset coordinator stops on missing or mismatched local content
+  ---
+  duration_ms: 0.248792
+  type: 'test'
+  ...
+# Subtest: deployment bundles normalize legacy asset fields and require workspace integrity
+ok 103 - deployment bundles normalize legacy asset fields and require workspace integrity
+  ---
+  duration_ms: 5.971208
+  type: 'test'
+  ...
+# Subtest: deployment bundle preserves frozen protocol identity, dependencies and integrity
+ok 104 - deployment bundle preserves frozen protocol identity, dependencies and integrity
+  ---
+  duration_ms: 6.471125
+  type: 'test'
+  ...
+# Subtest: deployment data retention is opt-in and bounded
+ok 105 - deployment data retention is opt-in and bounded
+  ---
+  duration_ms: 4.048042
+  type: 'test'
+  ...
+# Subtest: deployment bundle rejects drafts and detects protocol or manifest tampering
+ok 106 - deployment bundle rejects drafts and detects protocol or manifest tampering
+  ---
+  duration_ms: 5.271333
+  type: 'test'
+  ...
+# Subtest: execution providers are validated, registered and receive portable bundles
+ok 107 - execution providers are validated, registered and receive portable bundles
+  ---
+  duration_ms: 4.192625
+  type: 'test'
+  ...
+# Subtest: device connector installation requires explicit permissions
+ok 108 - device connector installation requires explicit permissions
+  ---
+  duration_ms: 1.189958
+  type: 'test'
+  ...
+# Subtest: device session records connected I/O with complete provenance
+ok 109 - device session records connected I/O with complete provenance
+  ---
+  duration_ms: 1.190583
+  type: 'test'
+  ...
+# Subtest: device recovery logs failed attempts and restored provenance
+ok 110 - device recovery logs failed attempts and restored provenance
+  ---
+  duration_ms: 0.340625
+  type: 'test'
+  ...
+# Subtest: device session blocks unapproved read and write operations
+ok 111 - device session blocks unapproved read and write operations
+  ---
+  duration_ms: 0.226083
+  type: 'test'
+  ...
+# Subtest: sampling failure reports channel and exception and stops further reads
+ok 112 - sampling failure reports channel and exception and stops further reads
+  ---
+  duration_ms: 22.469375
+  type: 'test'
+  ...
+# Subtest: resolveDeviceConnector finds an installed connector by node config
+ok 113 - resolveDeviceConnector finds an installed connector by node config
+  ---
+  duration_ms: 0.400959
+  type: 'test'
+  ...
+# Subtest: maxInputSampleRateHz picks the highest input channel rate with a default
+ok 114 - maxInputSampleRateHz picks the highest input channel rate with a default
+  ---
+  duration_ms: 0.155625
+  type: 'test'
+  ...
+# Subtest: createDeviceSampler drives read at the declared rate and stops
+ok 115 - createDeviceSampler drives read at the declared rate and stops
+  ---
+  duration_ms: 343.106083
+  type: 'test'
+  ...
+# Subtest: emotion template reconstructs five trials and requires real media before freeze
+ok 116 - emotion template reconstructs five trials and requires real media before freeze
+  ---
+  duration_ms: 6.786042
+  type: 'test'
+  ...
+# Subtest: validation rejects an empty hierarchy
+ok 117 - validation rejects an empty hierarchy
+  ---
+  duration_ms: 0.085834
+  type: 'test'
+  ...
+# Subtest: image steps default to fixed duration instead of media-ended completion
+ok 118 - image steps default to fixed duration instead of media-ended completion
+  ---
+  duration_ms: 0.085292
+  type: 'test'
+  ...
+# Subtest: operator interaction nodes include concrete runtime defaults
+ok 119 - operator interaction nodes include concrete runtime defaults
+  ---
+  duration_ms: 0.357167
+  type: 'test'
+  ...
+# Subtest: latin square rotates deterministically
+ok 120 - latin square rotates deterministically
+  ---
+  duration_ms: 0.488625
+  type: 'test'
+  ...
+# Subtest: random order is reproducible for a participant
+ok 121 - random order is reproducible for a participant
+  ---
+  duration_ms: 0.095583
+  type: 'test'
+  ...
+# Subtest: manual order follows stored trial identifiers
+ok 122 - manual order follows stored trial identifiers
+  ---
+  duration_ms: 0.134375
+  type: 'test'
+  ...
+# Subtest: visual flow compiles a bounded loop
+ok 123 - visual flow compiles a bounded loop
+  ---
+  duration_ms: 0.305875
+  type: 'test'
+  ...
+# Subtest: condition rules support numeric comparison
+ok 124 - condition rules support numeric comparison
+  ---
+  duration_ms: 0.230375
+  type: 'test'
+  ...
+# Subtest: duplicating hierarchy remaps IDs and flow references
+ok 125 - duplicating hierarchy remaps IDs and flow references
+  ---
+  duration_ms: 1.42775
+  type: 'test'
+  ...
+# Subtest: duplicating questionnaire makes independently editable question IDs
+ok 126 - duplicating questionnaire makes independently editable question IDs
+  ---
+  duration_ms: 0.27475
+  type: 'test'
+  ...
+# Subtest: moveItem preserves data and respects boundaries
+ok 127 - moveItem preserves data and respects boundaries
+  ---
+  duration_ms: 0.070208
+  type: 'test'
+  ...
+# Subtest: validation resolves a questionnaire linked from the shared library
+ok 128 - validation resolves a questionnaire linked from the shared library
+  ---
+  duration_ms: 0.319584
+  type: 'test'
+  ...
+# Subtest: external questionnaires require a URL and manual completion
+ok 129 - external questionnaires require a URL and manual completion
+  ---
+  duration_ms: 0.212583
+  type: 'test'
+  ...
+# Subtest: external questionnaire context sync requires at least one parameter name
+ok 130 - external questionnaire context sync requires at least one parameter name
+  ---
+  duration_ms: 0.134208
+  type: 'test'
+  ...
+# Subtest: response nodes require a variable and usable options
+ok 131 - response nodes require a variable and usable options
+  ---
+  duration_ms: 0.213459
+  type: 'test'
+  ...
+# Subtest: duplicating a project isolates protocol, hierarchy and library IDs
+ok 132 - duplicating a project isolates protocol, hierarchy and library IDs
+  ---
+  duration_ms: 1.694958
+  type: 'test'
+  ...
+# Subtest: protocol diff detects structural changes but ignores identity metadata
+ok 133 - protocol diff detects structural changes but ignores identity metadata
+  ---
+  duration_ms: 0.868458
+  type: 'test'
+  ...
+# Subtest: asset verification detects missing and mismatched uploads
+ok 134 - asset verification detects missing and mismatched uploads
+  ---
+  duration_ms: 0.419917
+  type: 'test'
+  ...
+# Subtest: graph asset verification follows fixed, UI and used-pool references
+ok 135 - graph asset verification follows fixed, UI and used-pool references
+  ---
+  duration_ms: 0.457542
+  type: 'test'
+  ...
+# Subtest: graph asset verification reports references missing from the library
+ok 136 - graph asset verification reports references missing from the library
+  ---
+  duration_ms: 0.249542
+  type: 'test'
+  ...
+# Subtest: freezing hashes the executable config while archival metadata stays outside it
+ok 137 - freezing hashes the executable config while archival metadata stays outside it
+  ---
+  duration_ms: 15.221667
+  type: 'test'
+  ...
+# Subtest: unfreezing restores draft status and clears frozen metadata
+ok 138 - unfreezing restores draft status and clears frozen metadata
+  ---
+  duration_ms: 0.188584
+  type: 'test'
+  ...
+# Subtest: unfreezing a non-frozen protocol returns it unchanged
+ok 139 - unfreezing a non-frozen protocol returns it unchanged
+  ---
+  duration_ms: 0.045458
+  type: 'test'
+  ...
+# Subtest: flow validation rejects duplicate branch exits and invalid loop limits
+ok 140 - flow validation rejects duplicate branch exits and invalid loop limits
+  ---
+  duration_ms: 0.388
+  type: 'test'
+  ...
+# Subtest: validation blocks media and questionnaire configurations that cannot complete safely
+ok 141 - validation blocks media and questionnaire configurations that cannot complete safely
+  ---
+  duration_ms: 0.294708
+  type: 'test'
+  ...
+# Subtest: nested 2 x 3 loop survives pause/restore and replay keeps every visit
+ok 142 - nested 2 x 3 loop survives pause/restore and replay keeps every visit
+  ---
+  duration_ms: 8.405417
+  type: 'test'
+  ...
+# Subtest: nested 3 x 2 loop survives pause/restore and replay keeps every visit
+ok 143 - nested 3 x 2 loop survives pause/restore and replay keeps every visit
+  ---
+  duration_ms: 2.379
+  type: 'test'
+  ...
+# Subtest: an inner until rule can exit early and starts fresh on next activation
+ok 144 - an inner until rule can exit early and starts fresh on next activation
+  ---
+  duration_ms: 1.154667
+  type: 'test'
+  ...
+# Subtest: legacy checkpoint without loopStack retains its original run semantics
+ok 145 - legacy checkpoint without loopStack retains its original run semantics
+  ---
+  duration_ms: 0.421041
+  type: 'test'
+  ...
+# Subtest: control fanout is blocked by editing, imported graph validation and freeze
+ok 146 - control fanout is blocked by editing, imported graph validation and freeze
+  ---
+  duration_ms: 1.417917
+  type: 'test'
+  ...
+# Subtest: replay applies accepted variable changes, not raw submitted response fields
+ok 147 - replay applies accepted variable changes, not raw submitted response fields
+  ---
+  duration_ms: 1.300291
+  type: 'test'
+  ...
+# Subtest: fixed block order keeps item order
+ok 148 - fixed block order keeps item order
+  ---
+  duration_ms: 0.68575
+  type: 'test'
+  ...
+# Subtest: random block order is seeded and deterministic
+ok 149 - random block order is seeded and deterministic
+  ---
+  duration_ms: 0.227042
+  type: 'test'
+  ...
+# Subtest: latin square block order rotates deterministically by seed row
+ok 150 - latin square block order rotates deterministically by seed row
+  ---
+  duration_ms: 0.122959
+  type: 'test'
+  ...
+# Subtest: manual block order preserves the given sequence and appends missing items
+ok 151 - manual block order preserves the given sequence and appends missing items
+  ---
+  duration_ms: 0.056458
+  type: 'test'
+  ...
+# Subtest: no_immediate_repeat constraint breaks consecutive duplicates
+ok 152 - no_immediate_repeat constraint breaks consecutive duplicates
+  ---
+  duration_ms: 0.090125
+  type: 'test'
+  ...
+# Subtest: jittered duration is deterministic and respects the distribution
+ok 153 - jittered duration is deterministic and respects the distribution
+  ---
+  duration_ms: 0.111917
+  type: 'test'
+  ...
+# Subtest: independent export validator accepts a complete contiguous package
+ok 154 - independent export validator accepts a complete contiguous package
+  ---
+  duration_ms: 14.286208
+  type: 'test'
+  ...
+# Subtest: independent export validator rejects sequence gaps
+ok 155 - independent export validator rejects sequence gaps
+  ---
+  duration_ms: 6.898666
+  type: 'test'
+  ...
+# Subtest: external form URLs append participant and session context
+ok 156 - external form URLs append participant and session context
+  ---
+  duration_ms: 0.521875
+  type: 'test'
+  ...
+# Subtest: external form URLs support Google Forms prefill entry parameter names
+ok 157 - external form URLs support Google Forms prefill entry parameter names
+  ---
+  duration_ms: 0.082667
+  type: 'test'
+  ...
+# Subtest: external form URL context appending can be disabled
+ok 158 - external form URL context appending can be disabled
+  ---
+  duration_ms: 0.056917
+  type: 'test'
+  ...
+# Subtest: mergeFlowSnapshot upserts by id and caps at the maximum
+ok 159 - mergeFlowSnapshot upserts by id and caps at the maximum
+  ---
+  duration_ms: 0.472958
+  type: 'test'
+  ...
+# Subtest: withoutFlowSnapshot removes a snapshot by id
+ok 160 - withoutFlowSnapshot removes a snapshot by id
+  ---
+  duration_ms: 0.727917
+  type: 'test'
+  ...
+# Subtest: renameFlowSnapshot renames in place and ignores unknown ids / blank names
+ok 161 - renameFlowSnapshot renames in place and ignores unknown ids / blank names
+  ---
+  duration_ms: 0.191666
+  type: 'test'
+  ...
+# Subtest: BIDS bundle projects graph events into BIDS events files
+ok 162 - BIDS bundle projects graph events into BIDS events files
+  ---
+  duration_ms: 1.127125
+  type: 'test'
+  ...
+# Subtest: TSV preserves commas and escapes tabs/newlines without creating extra rows
+ok 163 - TSV preserves commas and escapes tabs/newlines without creating extra rows
+  ---
+  duration_ms: 0.200084
+  type: 'test'
+  ...
+# Subtest: session manager exporters route Graph sessions to Graph data without legacy blocks
+ok 164 - session manager exporters route Graph sessions to Graph data without legacy blocks
+  ---
+  duration_ms: 11.237792
+  type: 'test'
+  ...
+# Subtest: updateNode leaves the previous snapshot untouched
+ok 165 - updateNode leaves the previous snapshot untouched
+  ---
+  duration_ms: 2.44075
+  type: 'test'
+  ...
+# Subtest: moveNodes leaves the previous snapshot untouched
+ok 166 - moveNodes leaves the previous snapshot untouched
+  ---
+  duration_ms: 0.955708
+  type: 'test'
+  ...
+# Subtest: untouched nodes are shared, which is what makes the edit cheap
+ok 167 - untouched nodes are shared, which is what makes the edit cheap
+  ---
+  duration_ms: 0.204375
+  type: 'test'
+  ...
+# Subtest: the edited node is a new object, not the shared original
+ok 168 - the edited node is a new object, not the shared original
+  ---
+  duration_ms: 0.286375
+  type: 'test'
+  ...
+# Subtest: moving a node replaces its layout without touching the original
+ok 169 - moving a node replaces its layout without touching the original
+  ---
+  duration_ms: 0.198917
+  type: 'test'
+  ...
+# Subtest: a patch object the caller keeps mutating cannot leak into the protocol
+ok 170 - a patch object the caller keeps mutating cannot leak into the protocol
+  ---
+  duration_ms: 0.2015
+  type: 'test'
+  ...
+# Subtest: a changes() function may mutate its draft without touching the stored node
+ok 171 - a changes() function may mutate its draft without touching the stored node
+  ---
+  duration_ms: 0.275667
+  type: 'test'
+  ...
+# Subtest: sequential edits do not leak between snapshots
+ok 172 - sequential edits do not leak between snapshots
+  ---
+  duration_ms: 0.249042
+  type: 'test'
+  ...
+# Subtest: a shared protocol still survives commands that clone defensively
+ok 173 - a shared protocol still survives commands that clone defensively
+  ---
+  duration_ms: 0.47675
+  type: 'test'
+  ...
+# Subtest: editing after addNode and removeNode keeps snapshots independent
+ok 174 - editing after addNode and removeNode keeps snapshots independent
+  ---
+  duration_ms: 0.43775
+  type: 'test'
+  ...
+# Subtest: audit is updated on the new object without mutating the old one
+ok 175 - audit is updated on the new object without mutating the old one
+  ---
+  duration_ms: 0.118417
+  type: 'test'
+  ...
+# Subtest: selected questionnaire batch keeps target IDs, remaps conditions and leaves other nodes intact
+ok 176 - selected questionnaire batch keeps target IDs, remaps conditions and leaves other nodes intact
+  ---
+  duration_ms: 1.875834
+  type: 'test'
+  ...
+# Subtest: incompatible batch target is rejected without a partial mutation
+ok 177 - incompatible batch target is rejected without a partial mutation
+  ---
+  duration_ms: 0.284667
+  type: 'test'
+  ...
+# Subtest: frozen questionnaires reject edits at the command boundary
+ok 178 - frozen questionnaires reject edits at the command boundary
+  ---
+  duration_ms: 0.069
+  type: 'test'
+  ...
+# Subtest: media batch retains target identity bindings and timing while copying appearance
+ok 179 - media batch retains target identity bindings and timing while copying appearance
+  ---
+  duration_ms: 1.570417
+  type: 'test'
+  ...
+# Subtest: prepared group sequence executes through the runtime and survives a serialized pause checkpoint
+ok 180 - prepared group sequence executes through the runtime and survives a serialized pause checkpoint
+  ---
+  duration_ms: 12.048
+  type: 'test'
+  ...
+# Subtest: randomized group exports retain the original frozen hash and a separately verifiable execution plan
+ok 181 - randomized group exports retain the original frozen hash and a separately verifiable execution plan
+  ---
+  duration_ms: 16.024
+  type: 'test'
+  ...
+# Subtest: group schedules preserve execution order within groups, visit each once and replay from seed
+ok 182 - group schedules preserve execution order within groups, visit each once and replay from seed
+  ---
+  duration_ms: 12.469541
+  type: 'test'
+  ...
+# Subtest: group schedules reject gaps, overlapping membership and missing seeds
+ok 183 - group schedules reject gaps, overlapping membership and missing seeds
+  ---
+  duration_ms: 0.386708
+  type: 'test'
+  ...
+# Subtest: prepared graphs execute the planned group order and preserve every internal node and source
+ok 184 - prepared graphs execute the planned group order and preserve every internal node and source
+  ---
+  duration_ms: 2.622834
+  type: 'test'
+  ...
+# Subtest: cross-group data dependencies are rejected instead of silently changing their meaning
+ok 185 - cross-group data dependencies are rejected instead of silently changing their meaning
+  ---
+  duration_ms: 0.11025
+  type: 'test'
+  ...
+# Subtest: stored group plans restore independently of the editor and reject mismatched execution edges
+ok 186 - stored group plans restore independently of the editor and reject mismatched execution edges
+  ---
+  duration_ms: 0.665625
+  type: 'test'
+  ...
+# Subtest: group wait duration preserves zero, content and out-of-group waits
+ok 187 - group wait duration preserves zero, content and out-of-group waits
+  ---
+  duration_ms: 2.636083
+  type: 'test'
+  ...
+# Subtest: invalid duration and frozen protocol cannot be batch modified
+ok 188 - invalid duration and frozen protocol cannot be batch modified
+  ---
+  duration_ms: 0.214708
+  type: 'test'
+  ...
+# Subtest: hosted backup creates a private verified inventory and restores only to new targets
+ok 189 - hosted backup creates a private verified inventory and restores only to new targets
+  ---
+  duration_ms: 29.349958
+  type: 'test'
+  ...
+# Subtest: hosted backup verification rejects content tampering and symbolic-link assets
+ok 190 - hosted backup verification rejects content tampering and symbolic-link assets
+  ---
+  duration_ms: 16.837958
+  type: 'test'
+  ...
+# Subtest: hosted credential protection hashes lookup keys and seals every recoverable token
+ok 191 - hosted credential protection hashes lookup keys and seals every recoverable token
+  ---
+  duration_ms: 3.332084
+  type: 'test'
+  ...
+# Subtest: hosted credential keys rotate by reading old ciphertext and rewriting with the new primary
+ok 192 - hosted credential keys rotate by reading old ciphertext and rewriting with the new primary
+  ---
+  duration_ms: 0.940584
+  type: 'test'
+  ...
+# Subtest: persistent hosted startup eagerly replaces a legacy plaintext state
+ok 193 - persistent hosted startup eagerly replaces a legacy plaintext state
+  ---
+  duration_ms: 2.416625
+  type: 'test'
+  ...
+# Subtest: hosted audit integrity detects content changes, reordering, and anchored truncation
+ok 194 - hosted audit integrity detects content changes, reordering, and anchored truncation
+  ---
+  duration_ms: 2.34575
+  type: 'test'
+  ...
+# Subtest: hosted credential protection rejects ciphertext tampering and unsafe key configuration
+ok 195 - hosted credential protection rejects ciphertext tampering and unsafe key configuration
+  ---
+  duration_ms: 1.393625
+  type: 'test'
+  ...
+# Subtest: Hosted HTTP API carries a complete Runtime V2 session with stable errors and bearer authorization
+ok 196 - Hosted HTTP API carries a complete Runtime V2 session with stable errors and bearer authorization
+  ---
+  duration_ms: 31.577
+  type: 'test'
+  ...
+# Subtest: Hosted HTTP API grants CORS only to configured participant application origins
+ok 197 - Hosted HTTP API grants CORS only to configured participant application origins
+  ---
+  duration_ms: 0.429375
+  type: 'test'
+  ...
+# Subtest: persistent hosted state restores deployments, scoped sessions and data after service restart
+ok 198 - persistent hosted state restores deployments, scoped sessions and data after service restart
+  ---
+  duration_ms: 5.996833
+  type: 'test'
+  ...
+# Subtest: public launch token survives persistence and enforces anonymous redemption and deployment shutdown over HTTP
+ok 199 - public launch token survives persistence and enforces anonymous redemption and deployment shutdown over HTTP
+  ---
+  duration_ms: 5.968125
+  type: 'test'
+  ...
+# Subtest: Node hosted server persists its service, serves the participant app, and delivers signed assets
+ok 200 - Node hosted server persists its service, serves the participant app, and delivers signed assets
+  ---
+  duration_ms: 156.928792
+  type: 'test'
+  ...
+# Subtest: Node hosted server applies bounded source rate limits without trusting forwarded addresses
+ok 201 - Node hosted server applies bounded source rate limits without trusting forwarded addresses
+  ---
+  duration_ms: 6.817042
+  type: 'test'
+  ...
+# Subtest: file hosted state store rejects corrupt or insecurely edited state content
+ok 202 - file hosted state store rejects corrupt or insecurely edited state content
+  ---
+  duration_ms: 4.329791
+  type: 'test'
+  ...
+# Subtest: hosted retention requires an owner plan and irreversibly pseudonymizes all live-state copies
+ok 203 - hosted retention requires an owner plan and irreversibly pseudonymizes all live-state copies
+  ---
+  duration_ms: 35.761542
+  type: 'test'
+  ...
+# Subtest: hosted retention stays disabled when a deployment declares no policy
+ok 204 - hosted retention stays disabled when a deployment declares no policy
+  ---
+  duration_ms: 4.45925
+  type: 'test'
+  ...
+# Subtest: hosted service enforces roles, queues deployments and honors publish idempotency
+ok 205 - hosted service enforces roles, queues deployments and honors publish idempotency
+  ---
+  duration_ms: 13.297375
+  type: 'test'
+  ...
+# Subtest: hosted tenant capacity is isolated, observable, and enforced without charging idempotent retries
+ok 206 - hosted tenant capacity is isolated, observable, and enforced without charging idempotent retries
+  ---
+  duration_ms: 7.104417
+  type: 'test'
+  ...
+# Subtest: hosted participant sessions ingest contiguous idempotent batches with revision control
+ok 207 - hosted participant sessions ingest contiguous idempotent batches with revision control
+  ---
+  duration_ms: 6.662458
+  type: 'test'
+  ...
+# Subtest: Runtime V2 sync retries lost acknowledgements and completes the hosted session exactly once
+ok 208 - Runtime V2 sync retries lost acknowledgements and completes the hosted session exactly once
+  ---
+  duration_ms: 4.290708
+  type: 'test'
+  ...
+# Subtest: hosted session state resumes from pause and records a terminal runtime failure
+ok 209 - hosted session state resumes from pause and records a terminal runtime failure
+  ---
+  duration_ms: 3.318458
+  type: 'test'
+  ...
+# Subtest: launch links are idempotent, revocable and constrained by link and deployment quotas
+ok 210 - launch links are idempotent, revocable and constrained by link and deployment quotas
+  ---
+  duration_ms: 7.13675
+  type: 'test'
+  ...
+# Subtest: hosted resources, queues, idempotency and audit are isolated by tenant
+ok 211 - hosted resources, queues, idempotency and audit are isolated by tenant
+  ---
+  duration_ms: 33.4745
+  type: 'test'
+  ...
+# Subtest: hosted state 1.1 migrates into the default tenant without breaking idempotency
+ok 212 - hosted state 1.1 migrates into the default tenant without breaking idempotency
+  ---
+  duration_ms: 5.607875
+  type: 'test'
+  ...
+# Subtest: hosted actor configuration rejects malformed tenant IDs
+ok 213 - hosted actor configuration rejects malformed tenant IDs
+  ---
+  duration_ms: 0.341875
+  type: 'test'
+  ...
+# Subtest: zero is accepted, empty required values and nonfinite numbers are rejected
+ok 214 - zero is accepted, empty required values and nonfinite numbers are rejected
+  ---
+  duration_ms: 0.439292
+  type: 'test'
+  ...
+# Subtest: required text, checkbox and multiple selection cannot be blank
+ok 215 - required text, checkbox and multiple selection cannot be blank
+  ---
+  duration_ms: 0.096917
+  type: 'test'
+  ...
+# Subtest: discrete scales include zero and reject fractional, reversed, unsafe or oversized ranges
+ok 216 - discrete scales include zero and reject fractional, reversed, unsafe or oversized ranges
+  ---
+  duration_ms: 0.381583
+  type: 'test'
+  ...
+# Subtest: integrity rejects an entered questionnaire without a terminal event
+ok 217 - integrity rejects an entered questionnaire without a terminal event
+  ---
+  duration_ms: 3.049
+  type: 'test'
+  ...
+# Subtest: skipped and retried attempts are terminal but remain integrity warnings
+ok 218 - skipped and retried attempts are terminal but remain integrity warnings
+  ---
+  duration_ms: 0.228708
+  type: 'test'
+  ...
+# Subtest: bundle contains required raw files and integrity report
+ok 219 - bundle contains required raw files and integrity report
+  ---
+  duration_ms: 1.505375
+  type: 'test'
+  ...
+# Subtest: session integrity is normalized before storage or review save
+ok 220 - session integrity is normalized before storage or review save
+  ---
+  duration_ms: 0.198083
+  type: 'test'
+  ...
+# Subtest: analysis windows pair repeated node occurrences in sequence
+ok 221 - analysis windows pair repeated node occurrences in sequence
+  ---
+  duration_ms: 0.539041
+  type: 'test'
+  ...
+# Subtest: analysis pairing does not require terminal events to repeat node metadata
+ok 222 - analysis pairing does not require terminal events to repeat node metadata
+  ---
+  duration_ms: 0.098375
+  type: 'test'
+  ...
+# Subtest: stimulus manifest includes media configured directly on a step
+ok 223 - stimulus manifest includes media configured directly on a step
+  ---
+  duration_ms: 0.175542
+  type: 'test'
+  ...
+# Subtest: media analysis windows use actual playback events
+ok 224 - media analysis windows use actual playback events
+  ---
+  duration_ms: 0.162375
+  type: 'test'
+  ...
+# Subtest: YouTube analysis windows are exported as unverified presentation time
+ok 225 - YouTube analysis windows are exported as unverified presentation time
+  ---
+  duration_ms: 0.296084
+  type: 'test'
+  ...
+# Subtest: complete export is packaged as one valid zip archive
+ok 226 - complete export is packaged as one valid zip archive
+  ---
+  duration_ms: 0.757541
+  type: 'test'
+  ...
+# Subtest: zip archive sanitizes traversal and reserved filename characters
+ok 227 - zip archive sanitizes traversal and reserved filename characters
+  ---
+  duration_ms: 0.233416
+  type: 'test'
+  ...
+# Subtest: analysis windows include overlapping marker intervals
+ok 228 - analysis windows include overlapping marker intervals
+  ---
+  duration_ms: 0.14525
+  type: 'test'
+  ...
+# Subtest: integrity warns about an unclosed marker interval
+ok 229 - integrity warns about an unclosed marker interval
+  ---
+  duration_ms: 0.086209
+  type: 'test'
+  ...
+# Subtest: columnar sensor payload flattens to rectangular rows keeping gaps empty
+ok 230 - columnar sensor payload flattens to rectangular rows keeping gaps empty
+  ---
+  duration_ms: 0.822333
+  type: 'test'
+  ...
+# Subtest: empty sensor payload yields a header-only CSV, not a broken file
+ok 231 - empty sensor payload yields a header-only CSV, not a broken file
+  ---
+  duration_ms: 0.111917
+  type: 'test'
+  ...
+# Subtest: channels for export come from the connector, falling back to device event payloads
+ok 232 - channels for export come from the connector, falling back to device event payloads
+  ---
+  duration_ms: 0.506833
+  type: 'test'
+  ...
+# Subtest: joint export merges both legs and records provenance
+ok 233 - joint export merges both legs and records provenance
+  ---
+  duration_ms: 2.790666
+  type: 'test'
+  ...
+# Subtest: a failed BioDB leg still archives the PF session and says why
+ok 234 - a failed BioDB leg still archives the PF session and says why
+  ---
+  duration_ms: 1.042167
+  type: 'test'
+  ...
+# Subtest: an empty or experiment-less BioDB response is reported, not hidden
+ok 235 - an empty or experiment-less BioDB response is reported, not hidden
+  ---
+  duration_ms: 0.751209
+  type: 'test'
+  ...
+# Subtest: joint data dictionary describes the added files
+ok 236 - joint data dictionary describes the added files
+  ---
+  duration_ms: 0.141708
+  type: 'test'
+  ...
+# Subtest: joint export carries the D7 analysis and lifts its warnings
+ok 237 - joint export carries the D7 analysis and lifts its warnings
+  ---
+  duration_ms: 2.976542
+  type: 'test'
+  ...
+# Subtest: joint export without analysis reports it as absent
+ok 238 - joint export without analysis reports it as absent
+  ---
+  duration_ms: 1.156167
+  type: 'test'
+  ...
+# Subtest: legacy history allocates a new version after archived and graph versions of the same project
+ok 239 - legacy history allocates a new version after archived and graph versions of the same project
+  ---
+  duration_ms: 4.389917
+  type: 'test'
+  ...
+# Subtest: node media sources suppress only the primary element warning, retaining missing extra media and invalid pool errors
+ok 240 - node media sources suppress only the primary element warning, retaining missing extra media and invalid pool errors
+  ---
+  duration_ms: 9.358292
+  type: 'test'
+  ...
+# Subtest: playback-ended completion rejects images and accepts audio/video
+ok 241 - playback-ended completion rejects images and accepts audio/video
+  ---
+  duration_ms: 5.614833
+  type: 'test'
+  ...
+# Subtest: playback-ended removes nested advance actions without changing stored UI or unrelated controls
+ok 242 - playback-ended removes nested advance actions without changing stored UI or unrelated controls
+  ---
+  duration_ms: 3.009583
+  type: 'test'
+  ...
+# Subtest: balanced pool configuration blocks malformed schedules before setup or freeze
+ok 243 - balanced pool configuration blocks malformed schedules before setup or freeze
+  ---
+  duration_ms: 2.164208
+  type: 'test'
+  ...
+# Subtest: preview loads selected and fullscreen node references, including nested UI and shared pools
+ok 244 - preview loads selected and fullscreen node references, including nested UI and shared pools
+  ---
+  duration_ms: 0.676709
+  type: 'test'
+  ...
+# Subtest: emotion representative protocol migrates with at least 90% native coverage
+ok 245 - emotion representative protocol migrates with at least 90% native coverage
+  ---
+  duration_ms: 9.454708
+  type: 'test'
+  ...
+# Subtest: stroop representative protocol migrates with at least 90% native coverage
+ok 246 - stroop representative protocol migrates with at least 90% native coverage
+  ---
+  duration_ms: 6.911042
+  type: 'test'
+  ...
+# Subtest: go/no-go representative protocol migrates with at least 90% native coverage
+ok 247 - go/no-go representative protocol migrates with at least 90% native coverage
+  ---
+  duration_ms: 16.826958
+  type: 'test'
+  ...
+# Subtest: 12-bit unpacking round-trips the values the headset packs
+ok 248 - 12-bit unpacking round-trips the values the headset packs
+  ---
+  duration_ms: 1.482875
+  type: 'test'
+  ...
+# Subtest: EEG samples are converted to microvolts around the 0x800 midpoint
+ok 249 - EEG samples are converted to microvolts around the 0x800 midpoint
+  ---
+  duration_ms: 0.30425
+  type: 'test'
+  ...
+# Subtest: EEG notification carries a uint16 packet index plus 12 samples
+ok 250 - EEG notification carries a uint16 packet index plus 12 samples
+  ---
+  duration_ms: 0.380375
+  type: 'test'
+  ...
+# Subtest: telemetry, accelerometer and gyroscope notifications decode with their scales
+ok 251 - telemetry, accelerometer and gyroscope notifications decode with their scales
+  ---
+  duration_ms: 0.4165
+  type: 'test'
+  ...
+# Subtest: control commands use the length-prefixed frame the headset expects
+ok 252 - control commands use the length-prefixed frame the headset expects
+  ---
+  duration_ms: 0.594167
+  type: 'test'
+  ...
+# Subtest: muse connector passes device connector validation
+ok 253 - muse connector passes device connector validation
+  ---
+  duration_ms: 0.342
+  type: 'test'
+  ...
+# Subtest: adapter streams notification samples through read() in order
+ok 254 - adapter streams notification samples through read() in order
+  ---
+  duration_ms: 0.655334
+  type: 'test'
+  ...
+# Subtest: adapter starts the headset with the muse-js command sequence
+ok 255 - adapter starts the headset with the muse-js command sequence
+  ---
+  duration_ms: 0.122041
+  type: 'test'
+  ...
+# Subtest: adapter rejects Athena firmware instead of mis-decoding it
+ok 256 - adapter rejects Athena firmware instead of mis-decoding it
+  ---
+  duration_ms: 0.2895
+  type: 'test'
+  ...
+# Subtest: markers are recorded locally because the headset has no hardware marker input
+ok 257 - markers are recorded locally because the headset has no hardware marker input
+  ---
+  duration_ms: 0.364583
+  type: 'test'
+  ...
+# Subtest: the queue is bounded so a slow sampler cannot grow memory without limit
+ok 258 - the queue is bounded so a slow sampler cannot grow memory without limit
+  ---
+  duration_ms: 0.213041
+  type: 'test'
+  ...
+# Subtest: installed muse channels feed the D4 channel dictionary end to end
+ok 259 - installed muse channels feed the D4 channel dictionary end to end
+  ---
+  duration_ms: 1.217167
+  type: 'test'
+  ...
+# Subtest: navigation schema accepts a prior range and rejects incomplete, future and inverted ranges
+ok 260 - navigation schema accepts a prior range and rejects incomplete, future and inverted ranges
+  ---
+  duration_ms: 0.506
+  type: 'test'
+  ...
+# Subtest: replay rolls back logical state at navigation and keeps raw frames intact
+ok 261 - replay rolls back logical state at navigation and keeps raw frames intact
+  ---
+  duration_ms: 2.732333
+  type: 'test'
+  ...
+# Subtest: timeline marks replaced visits and pairs the new visit with its own completion
+ok 262 - timeline marks replaced visits and pairs the new visit with its own completion
+  ---
+  duration_ms: 0.972875
+  type: 'test'
+  ...
+# Subtest: back navigation invalidates old windows and closes abandoned visits before later re-entry
+ok 263 - back navigation invalidates old windows and closes abandoned visits before later re-entry
+  ---
+  duration_ms: 2.939167
+  type: 'test'
+  ...
+# Subtest: participant bootstrap verifies the frozen protocol and exposes only safe resource delivery metadata
+ok 264 - participant bootstrap verifies the frozen protocol and exposes only safe resource delivery metadata
+  ---
+  duration_ms: 18.433042
+  type: 'test'
+  ...
+# Subtest: render resolver serves blob object URLs and falls back to a directly typed source URL
+ok 265 - render resolver serves blob object URLs and falls back to a directly typed source URL
+  ---
+  duration_ms: 0.200417
+  type: 'test'
+  ...
+# Subtest: anonymous HTTP launch redemption yields a scoped client that downloads a valid bootstrap
+ok 266 - anonymous HTTP launch redemption yields a scoped client that downloads a valid bootstrap
+  ---
+  duration_ms: 19.651375
+  type: 'test'
+  ...
+# Subtest: participant bootstrap carries a consistent hosted recovery checkpoint
+ok 267 - participant bootstrap carries a consistent hosted recovery checkpoint
+  ---
+  duration_ms: 7.651833
+  type: 'test'
+  ...
+# Subtest: hosted randomized groups keep a session-specific verified plan across bootstrap refreshes
+ok 268 - hosted randomized groups keep a session-specific verified plan across bootstrap refreshes
+  ---
+  duration_ms: 49.82025
+  type: 'test'
+  ...
+# Subtest: participant entry uses fragment credentials and rejects an unsafe API origin
+ok 269 - participant entry uses fragment credentials and rejects an unsafe API origin
+  ---
+  duration_ms: 1.314875
+  type: 'test'
+  ...
+# Subtest: standalone participant preparation redeems idempotently and validates its bootstrap
+ok 270 - standalone participant preparation redeems idempotently and validates its bootstrap
+  ---
+  duration_ms: 29.114709
+  type: 'test'
+  ...
+# Subtest: switching layout preserves measured positions and restores original responsive sizing
+ok 271 - switching layout preserves measured positions and restores original responsive sizing
+  ---
+  duration_ms: 0.828917
+  type: 'test'
+  ...
+# Subtest: experiment presets are valid screens with independent element identities
+ok 272 - experiment presets are valid screens with independent element identities
+  ---
+  duration_ms: 0.737292
+  type: 'test'
+  ...
+# Subtest: fixation bounding box is centered on the design screen without paragraph margins
+ok 273 - fixation bounding box is centered on the design screen without paragraph margins
+  ---
+  duration_ms: 0.099208
+  type: 'test'
+  ...
+# Subtest: instruction, media, and form participant UI templates are valid
+ok 274 - instruction, media, and form participant UI templates are valid
+  ---
+  duration_ms: 1.031417
+  type: 'test'
+  ...
+# Subtest: experiment-design default frameworks are valid participant UI templates
+ok 275 - experiment-design default frameworks are valid participant UI templates
+  ---
+  duration_ms: 0.326875
+  type: 'test'
+  ...
+# Subtest: experiment-design components register with valid defaults
+ok 276 - experiment-design components register with valid defaults
+  ---
+  duration_ms: 2.046875
+  type: 'test'
+  ...
+# Subtest: participant UI tree commands append, update, and remove elements immutably
+ok 277 - participant UI tree commands append, update, and remove elements immutably
+  ---
+  duration_ms: 0.479667
+  type: 'test'
+  ...
+# Subtest: participant UI validation reports duplicate IDs and invalid input configuration
+ok 278 - participant UI validation reports duplicate IDs and invalid input configuration
+  ---
+  duration_ms: 0.483542
+  type: 'test'
+  ...
+# Subtest: participant UI bindings resolve runtime context paths
+ok 279 - participant UI bindings resolve runtime context paths
+  ---
+  duration_ms: 0.353375
+  type: 'test'
+  ...
+# Subtest: moveUiElement reorders within the same parent immutably
+ok 280 - moveUiElement reorders within the same parent immutably
+  ---
+  duration_ms: 0.565917
+  type: 'test'
+  ...
+# Subtest: moveUiElement moves across parents and nests into containers
+ok 281 - moveUiElement moves across parents and nests into containers
+  ---
+  duration_ms: 0.309584
+  type: 'test'
+  ...
+# Subtest: moveUiElement rejects invalid moves
+ok 282 - moveUiElement rejects invalid moves
+  ---
+  duration_ms: 0.928083
+  type: 'test'
+  ...
+# Subtest: moveUiElement clamps the insert index to the moved array
+ok 283 - moveUiElement clamps the insert index to the moved array
+  ---
+  duration_ms: 0.717
+  type: 'test'
+  ...
+# Subtest: participant UI theme and style validate
+ok 284 - participant UI theme and style validate
+  ---
+  duration_ms: 0.464416
+  type: 'test'
+  ...
+# Subtest: participant UI theme validation reports invalid and unsafe keys
+ok 285 - participant UI theme validation reports invalid and unsafe keys
+  ---
+  duration_ms: 0.658667
+  type: 'test'
+  ...
+# Subtest: participant UI style validation reports bad values and unknown keys
+ok 286 - participant UI style validation reports bad values and unknown keys
+  ---
+  duration_ms: 0.319875
+  type: 'test'
+  ...
+# Subtest: legacy participant UI schemas without theme or style stay valid
+ok 287 - legacy participant UI schemas without theme or style stay valid
+  ---
+  duration_ms: 0.154708
+  type: 'test'
+  ...
+# Subtest: resolveUiStyle maps legacy props and resolves token references
+ok 288 - resolveUiStyle maps legacy props and resolves token references
+  ---
+  duration_ms: 0.617667
+  type: 'test'
+  ...
+# Subtest: resolveUiStyle precedence: style overrides props, binding overrides both
+ok 289 - resolveUiStyle precedence: style overrides props, binding overrides both
+  ---
+  duration_ms: 0.268791
+  type: 'test'
+  ...
+# Subtest: resolveTheme merges schema theme over defaults
+ok 290 - resolveTheme merges schema theme over defaults
+  ---
+  duration_ms: 0.163667
+  type: 'test'
+  ...
+# Subtest: questionnaire library upserts and removes questionnaires purely
+ok 291 - questionnaire library upserts and removes questionnaires purely
+  ---
+  duration_ms: 0.26175
+  type: 'test'
+  ...
+# Subtest: questionnaire validation rejects missing schema, duplicate IDs, bad types and inverted scales
+ok 292 - questionnaire validation rejects missing schema, duplicate IDs, bad types and inverted scales
+  ---
+  duration_ms: 0.529917
+  type: 'test'
+  ...
+# Subtest: questionnaire shuffle is deterministic and scoring is exported as structured metadata
+ok 293 - questionnaire shuffle is deterministic and scoring is exported as structured metadata
+  ---
+  duration_ms: 0.572292
+  type: 'test'
+  ...
+# Subtest: questionnaire defaults are immediately valid instead of displaying an unsaved phantom question
+ok 294 - questionnaire defaults are immediately valid instead of displaying an unsaved phantom question
+  ---
+  duration_ms: 0.059458
+  type: 'test'
+  ...
+# Subtest: formal graph validation blocks a malformed questionnaire before freeze
+ok 295 - formal graph validation blocks a malformed questionnaire before freeze
+  ---
+  duration_ms: 2.981042
+  type: 'test'
+  ...
+# Subtest: questionnaire CSV import supports quoted commas and rejects unknown types
+ok 296 - questionnaire CSV import supports quoted commas and rejects unknown types
+  ---
+  duration_ms: 0.755333
+  type: 'test'
+  ...
+# Subtest: media component exposes a media-ended completion mode in the inspector schema
+ok 297 - media component exposes a media-ended completion mode in the inspector schema
+  ---
+  duration_ms: 0.887917
+  type: 'test'
+  ...
+# Subtest: fixation schemaForNode renders the configured shape and pulse flag
+ok 298 - fixation schemaForNode renders the configured shape and pulse flag
+  ---
+  duration_ms: 1.032833
+  type: 'test'
+  ...
+# Subtest: device-check schemaForNode renders one required checkbox per checklist item
+ok 299 - device-check schemaForNode renders one required checkbox per checklist item
+  ---
+  duration_ms: 0.867834
+  type: 'test'
+  ...
+# Subtest: manual-event requireNote renders a required note input only when enabled
+ok 300 - manual-event requireNote renders a required note input only when enabled
+  ---
+  duration_ms: 1.219167
+  type: 'test'
+  ...
+# Subtest: media schemaForNode removes the advance button in media-ended mode
+ok 301 - media schemaForNode removes the advance button in media-ended mode
+  ---
+  duration_ms: 0.838375
+  type: 'test'
+  ...
+# Subtest: participant UI edits synchronize specialized runtime configuration
+ok 302 - participant UI edits synchronize specialized runtime configuration
+  ---
+  duration_ms: 0.209667
+  type: 'test'
+  ...
+# Subtest: builder commit keeps a typed media source when the UI element omits it
+ok 303 - builder commit keeps a typed media source when the UI element omits it
+  ---
+  duration_ms: 0.0645
+  type: 'test'
+  ...
+# Subtest: display.screen maps the inspector content field into the rendered heading
+ok 304 - display.screen maps the inspector content field into the rendered heading
+  ---
+  duration_ms: 0.79875
+  type: 'test'
+  ...
+# Subtest: display.screen builder heading syncs back into content and stays visible
+ok 305 - display.screen builder heading syncs back into content and stays visible
+  ---
+  duration_ms: 0.768875
+  type: 'test'
+  ...
+# Subtest: fixation inspector exposes manual/fixed completion modes
+ok 306 - fixation inspector exposes manual/fixed completion modes
+  ---
+  duration_ms: 0.995833
+  type: 'test'
+  ...
+# Subtest: fixation manual mode injects a Continue button when the schema has none
+ok 307 - fixation manual mode injects a Continue button when the schema has none
+  ---
+  duration_ms: 0.70025
+  type: 'test'
+  ...
+# Subtest: formal validation rejects unsupported media completion modes and fixation shapes
+ok 308 - formal validation rejects unsupported media completion modes and fixation shapes
+  ---
+  duration_ms: 2.970334
+  type: 'test'
+  ...
+# Subtest: media URL validation rejects malformed URLs and accepts valid schemes
+ok 309 - media URL validation rejects malformed URLs and accepts valid schemes
+  ---
+  duration_ms: 2.604083
+  type: 'test'
+  ...
+# Subtest: legacy.step exposes content editor fields
+ok 310 - legacy.step exposes content editor fields
+  ---
+  duration_ms: 0.730584
+  type: 'test'
+  ...
+# Subtest: media nodes resolve protocol assets in local (non-hosted) runs
+ok 311 - media nodes resolve protocol assets in local (non-hosted) runs
+  ---
+  duration_ms: 0.776542
+  type: 'test'
+  ...
+# Subtest: local resource manifest ignores assets without a usable URL
+ok 312 - local resource manifest ignores assets without a usable URL
+  ---
+  duration_ms: 0.060959
+  type: 'test'
+  ...
+# Subtest: participant UI elements support free-layout x/y positioning
+ok 313 - participant UI elements support free-layout x/y positioning
+  ---
+  duration_ms: 0.075292
+  type: 'test'
+  ...
+# Subtest: youtube embed URL handles watch, youtu.be, shorts and embed links
+ok 314 - youtube embed URL handles watch, youtu.be, shorts and embed links
+  ---
+  duration_ms: 0.178875
+  type: 'test'
+  ...
+# Subtest: performance gate: validate and edit a 500-node Protocol Graph
+ok 315 - performance gate: validate and edit a 500-node Protocol Graph
+  ---
+  duration_ms: 82.002125
+  type: 'test'
+  ...
+# Subtest: performance gate: 500-node drag move frames stay within interaction budget
+ok 316 - performance gate: 500-node drag move frames stay within interaction budget
+  ---
+  duration_ms: 49.944666
+  type: 'test'
+  ...
+# Subtest: performance gate: 500-node label edits stay within interaction budget
+ok 317 - performance gate: 500-node label edits stay within interaction budget
+  ---
+  duration_ms: 25.099375
+  type: 'test'
+  ...
+# Subtest: performance gate: export a 10,000-event graph session
+ok 318 - performance gate: export a 10,000-event graph session
+  ---
+  duration_ms: 66.006125
+  type: 'test'
+  ...
+# Subtest: PhysioDB uses direct bearer auth, v1 paths and raw sample arrays with 204 support
+ok 319 - PhysioDB uses direct bearer auth, v1 paths and raw sample arrays with 204 support
+  ---
+  duration_ms: 15.071542
+  type: 'test'
+  ...
+# Subtest: PhysioDB failures expose status without echoing data and are never retried automatically
+ok 320 - PhysioDB failures expose status without echoing data and are never retried automatically
+  ---
+  duration_ms: 1.218625
+  type: 'test'
+  ...
+# Subtest: PhysioDB times out stalled response bodies without retrying writes
+ok 321 - PhysioDB times out stalled response bodies without retrying writes
+  ---
+  duration_ms: 22.159791
+  type: 'test'
+  ...
+# Subtest: PhysioDB forwards caller cancellation to the request
+ok 322 - PhysioDB forwards caller cancellation to the request
+  ---
+  duration_ms: 0.888166
+  type: 'test'
+  ...
+# Subtest: PhysioDB event mapping preserves provenance, submillisecond timestamp text and navigation ranges
+ok 323 - PhysioDB event mapping preserves provenance, submillisecond timestamp text and navigation ranges
+  ---
+  duration_ms: 1.535625
+  type: 'test'
+  ...
+# Subtest: mapping rejects untraceable events and ambiguous timestamps before any request
+ok 324 - mapping rejects untraceable events and ambiguous timestamps before any request
+  ---
+  duration_ms: 9.308584
+  type: 'test'
+  ...
+# Subtest: raw sample conversion preserves explicit channel order and microsecond time resolution
+ok 325 - raw sample conversion preserves explicit channel order and microsecond time resolution
+  ---
+  duration_ms: 1.870709
+  type: 'test'
+  ...
+# Subtest: raw transfer batches all samples and reports only acknowledged writes
+ok 326 - raw transfer batches all samples and reports only acknowledged writes
+  ---
+  duration_ms: 1.97075
+  type: 'test'
+  ...
+# Subtest: cross-batch gaps stop before sending invalid data; acknowledged batches stay explicit
+ok 327 - cross-batch gaps stop before sending invalid data; acknowledged batches stay explicit
+  ---
+  duration_ms: 0.679
+  type: 'test'
+  ...
+# Subtest: network failures are not retried and identify the uncertain batch
+ok 328 - network failures are not retried and identify the uncertain batch
+  ---
+  duration_ms: 0.421667
+  type: 'test'
+  ...
+# Subtest: cancellation prevents subsequent batches without claiming in-flight cancellation
+ok 329 - cancellation prevents subsequent batches without claiming in-flight cancellation
+  ---
+  duration_ms: 0.444583
+  type: 'test'
+  ...
+# Subtest: verified transfer refuses schema or participant mismatches before the first write
+ok 330 - verified transfer refuses schema or participant mismatches before the first write
+  ---
+  duration_ms: 0.918041
+  type: 'test'
+  ...
+# Subtest: failed download dispatch releases its blob and propagates failure to the export alert
+ok 331 - failed download dispatch releases its blob and propagates failure to the export alert
+  ---
+  duration_ms: 1.160584
+  type: 'test'
+  ...
+# Subtest: consecutive successful downloads keep independent data, filenames and delayed cleanup
+ok 332 - consecutive successful downloads keep independent data, filenames and delayed cleanup
+  ---
+  duration_ms: 3.781
+  type: 'test'
+  ...
+# Subtest: import comparison detects configuration outside the graph and future fields
+ok 333 - import comparison detects configuration outside the graph and future fields
+  ---
+  duration_ms: 0.9325
+  type: 'test'
+  ...
+# Subtest: import comparison ignores version bookkeeping and object key order, but preserves array order
+ok 334 - import comparison ignores version bookkeeping and object key order, but preserves array order
+  ---
+  duration_ms: 0.173459
+  type: 'test'
+  ...
+# Subtest: hiding a branch also hides descendants even when old answers remain
+ok 335 - hiding a branch also hides descendants even when old answers remain
+  ---
+  duration_ms: 0.759167
+  type: 'test'
+  ...
+# Subtest: unanswered predecessor does not satisfy not-equals; zero remains a valid answer
+ok 336 - unanswered predecessor does not satisfy not-equals; zero remains a valid answer
+  ---
+  duration_ms: 0.10975
+  type: 'test'
+  ...
+# Subtest: matrix requires explicit layout and uniform scales without timers or conditional visibility
+ok 337 - matrix requires explicit layout and uniform scales without timers or conditional visibility
+  ---
+  duration_ms: 0.456
+  type: 'test'
+  ...
+# Subtest: SAM matrix requires all three unique 1–9 dimensions and preserves question identities
+ok 338 - SAM matrix requires all three unique 1–9 dimensions and preserves question identities
+  ---
+  duration_ms: 0.437542
+  type: 'test'
+  ...
+# Subtest: Protocol Graph readiness uses nodes, connections, and graph validation
+ok 339 - Protocol Graph readiness uses nodes, connections, and graph validation
+  ---
+  duration_ms: 4.956667
+  type: 'test'
+  ...
+# Subtest: draft protocol readiness exposes blocking content and handoff warnings
+ok 340 - draft protocol readiness exposes blocking content and handoff warnings
+  ---
+  duration_ms: 2.58975
+  type: 'test'
+  ...
+# Subtest: missing media makes a protocol blocked for lab readiness
+ok 341 - missing media makes a protocol blocked for lab readiness
+  ---
+  duration_ms: 0.250708
+  type: 'test'
+  ...
+# Subtest: a valid stimulus pool counts as configured graph media
+ok 342 - a valid stimulus pool counts as configured graph media
+  ---
+  duration_ms: 1.933041
+  type: 'test'
+  ...
+# Subtest: frozen protocol with source, analysis window, pilot session, and local storage is ready
+ok 343 - frozen protocol with source, analysis window, pilot session, and local storage is ready
+  ---
+  duration_ms: 1.308125
+  type: 'test'
+  ...
+# Subtest: frozen protocol without local storage is blocked for formal collection
+ok 344 - frozen protocol without local storage is blocked for formal collection
+  ---
+  duration_ms: 0.613625
+  type: 'test'
+  ...
+# Subtest: workspace readiness summarizes active protocol states
+ok 345 - workspace readiness summarizes active protocol states
+  ---
+  duration_ms: 0.641042
+  type: 'test'
+  ...
+# Subtest: refactor E2E: compose, validate, freeze, run, restore, and export
+ok 346 - refactor E2E: compose, validate, freeze, run, restore, and export
+  ---
+  duration_ms: 17.161667
+  type: 'test'
+  ...
+# Subtest: repeat command preserves source and executes the chosen sequence exactly three times
+ok 347 - repeat command preserves source and executes the chosen sequence exactly three times
+  ---
+  duration_ms: 10.595708
+  type: 'test'
+  ...
+# Subtest: reject disconnected selections, nested repeating paths and invalid counts without mutation
+ok 348 - reject disconnected selections, nested repeating paths and invalid counts without mutation
+  ---
+  duration_ms: 1.159042
+  type: 'test'
+  ...
+# Subtest: hosted request limiter enforces independent fixed windows with bounded keys
+ok 349 - hosted request limiter enforces independent fixed windows with bounded keys
+  ---
+  duration_ms: 2.880708
+  type: 'test'
+  ...
+# Subtest: hosted source address ignores forwarding by default and honors only configured proxy hops
+ok 350 - hosted source address ignores forwarding by default and honors only configured proxy hops
+  ---
+  duration_ms: 3.374834
+  type: 'test'
+  ...
+# Subtest: hosted operational metrics expose aggregates without record identities
+ok 351 - hosted operational metrics expose aggregates without record identities
+  ---
+  duration_ms: 0.698375
+  type: 'test'
+  ...
+# Subtest: duplicate response names across nested containers are invalid
+ok 352 - duplicate response names across nested containers are invalid
+  ---
+  duration_ms: 0.71275
+  type: 'test'
+  ...
+# Subtest: insertion and nested copies use distinct names without changing originals
+ok 353 - insertion and nested copies use distinct names without changing originals
+  ---
+  duration_ms: 0.803625
+  type: 'test'
+  ...
+# Subtest: input.response registers with a valid definition and response-specific fields
+ok 354 - input.response registers with a valid definition and response-specific fields
+  ---
+  duration_ms: 5.358041
+  type: 'test'
+  ...
+# Subtest: input.response default config provides a usable baseline
+ok 355 - input.response default config provides a usable baseline
+  ---
+  duration_ms: 4.227792
+  type: 'test'
+  ...
+# Subtest: parseResponseOptions round-trips the line format
+ok 356 - parseResponseOptions round-trips the line format
+  ---
+  duration_ms: 0.404083
+  type: 'test'
+  ...
+# Subtest: parseResponseOptions handles labels without keys and plain values
+ok 357 - parseResponseOptions handles labels without keys and plain values
+  ---
+  duration_ms: 0.241292
+  type: 'test'
+  ...
+# Subtest: parseResponseOptions normalizes array input and skips blanks
+ok 358 - parseResponseOptions normalizes array input and skips blanks
+  ---
+  duration_ms: 0.247125
+  type: 'test'
+  ...
+# Subtest: serializeResponseOptions omits redundant labels and drops empty lines
+ok 359 - serializeResponseOptions omits redundant labels and drops empty lines
+  ---
+  duration_ms: 0.107667
+  type: 'test'
+  ...
+# Subtest: parseResponseOptionLine tolerates junk input
+ok 360 - parseResponseOptionLine tolerates junk input
+  ---
+  duration_ms: 0.196458
+  type: 'test'
+  ...
+# Subtest: legacy response steps migrate to input.response with options preserved
+ok 361 - legacy response steps migrate to input.response with options preserved
+  ---
+  duration_ms: 1.353458
+  type: 'test'
+  ...
+# Subtest: legacy response steps without explicit options keep free-form response
+ok 362 - legacy response steps without explicit options keep free-form response
+  ---
+  duration_ms: 0.879958
+  type: 'test'
+  ...
+# Subtest: input.response declares the runtime contract consumed by ResponseRunner
+ok 363 - input.response declares the runtime contract consumed by ResponseRunner
+  ---
+  duration_ms: 1.132375
+  type: 'test'
+  ...
+# Subtest: an input.response node completes end-to-end through the submit path
+ok 364 - an input.response node completes end-to-end through the submit path
+  ---
+  duration_ms: 5.531291
+  type: 'test'
+  ...
+# Subtest: active timers snapshot only their remaining duration
+ok 365 - active timers snapshot only their remaining duration
+  ---
+  duration_ms: 0.975959
+  type: 'test'
+  ...
+# Subtest: recovery schedules remaining non-media time and restarts media timing
+ok 366 - recovery schedules remaining non-media time and restarts media timing
+  ---
+  duration_ms: 0.121416
+  type: 'test'
+  ...
+# Subtest: runtime executes a linear graph with deterministic event envelopes
+ok 367 - runtime executes a linear graph with deterministic event envelopes
+  ---
+  duration_ms: 7.5445
+  type: 'test'
+  ...
+# Subtest: event replay reconstructs runtime variables, outputs and final state
+ok 368 - event replay reconstructs runtime variables, outputs and final state
+  ---
+  duration_ms: 2.082792
+  type: 'test'
+  ...
+# Subtest: runtime snapshot feeds the live inspector with variables, outputs and flow-state counters (W5)
+ok 369 - runtime snapshot feeds the live inspector with variables, outputs and flow-state counters (W5)
+  ---
+  duration_ms: 1.314416
+  type: 'test'
+  ...
+# Subtest: event replay rejects sequence gaps instead of inventing state
+ok 370 - event replay rejects sequence gaps instead of inventing state
+  ---
+  duration_ms: 1.664375
+  type: 'test'
+  ...
+# Subtest: subflow output parameters write through to mapped protocol variables
+ok 371 - subflow output parameters write through to mapped protocol variables
+  ---
+  duration_ms: 2.120167
+  type: 'test'
+  ...
+# Subtest: subflow input parameters resolve mapped variables at runtime
+ok 372 - subflow input parameters resolve mapped variables at runtime
+  ---
+  duration_ms: 1.932458
+  type: 'test'
+  ...
+# Subtest: a registered participant component runs without a runtime type branch
+ok 373 - a registered participant component runs without a runtime type branch
+  ---
+  duration_ms: 1.019584
+  type: 'test'
+  ...
+# Subtest: custom participant events share the deterministic runtime sequence
+ok 374 - custom participant events share the deterministic runtime sequence
+  ---
+  duration_ms: 1.49275
+  type: 'test'
+  ...
+# Subtest: condition follows a variable binding and records its evaluated inputs
+ok 375 - condition follows a variable binding and records its evaluated inputs
+  ---
+  duration_ms: 1.304125
+  type: 'test'
+  ...
+# Subtest: bounded loop exits after the configured number of body visits
+ok 376 - bounded loop exits after the configured number of body visits
+  ---
+  duration_ms: 1.140917
+  type: 'test'
+  ...
+# Subtest: seeded random split is reproducible and records its decision
+ok 377 - seeded random split is reproducible and records its decision
+  ---
+  duration_ms: 3.816833
+  type: 'test'
+  ...
+# Subtest: pause, resume, retry, skip and snapshot preserve explicit state
+ok 378 - pause, resume, retry, skip and snapshot preserve explicit state
+  ---
+  duration_ms: 2.071
+  type: 'test'
+  ...
+# Subtest: snapshot restore rejects a different protocol version
+ok 379 - snapshot restore rejects a different protocol version
+  ---
+  duration_ms: 0.3645
+  type: 'test'
+  ...
+# Subtest: condition compares a variable against another bound variable
+ok 380 - condition compares a variable against another bound variable
+  ---
+  duration_ms: 2.579167
+  type: 'test'
+  ...
+# Subtest: random split routes across three connected branches with normalized weights
+ok 381 - random split routes across three connected branches with normalized weights
+  ---
+  duration_ms: 2.655458
+  type: 'test'
+  ...
+# Subtest: loop exits when the until rule stops holding
+ok 382 - loop exits when the until rule stops holding
+  ---
+  duration_ms: 1.138583
+  type: 'test'
+  ...
+# Subtest: runtime evaluates a branch after questionnaire answers arrive
+ok 383 - runtime evaluates a branch after questionnaire answers arrive
+  ---
+  duration_ms: 5.126209
+  type: 'test'
+  ...
+# Subtest: runtime evaluates a branch after response node values arrive
+ok 384 - runtime evaluates a branch after response node values arrive
+  ---
+  duration_ms: 0.701
+  type: 'test'
+  ...
+# Subtest: runtime completes after final event
+ok 385 - runtime completes after final event
+  ---
+  duration_ms: 0.539959
+  type: 'test'
+  ...
+# Subtest: runtime expands block and trial repeat counts
+ok 386 - runtime expands block and trial repeat counts
+  ---
+  duration_ms: 0.369291
+  type: 'test'
+  ...
+# Subtest: runtime follows a bounded loop and exits deterministically
+ok 387 - runtime follows a bounded loop and exits deterministically
+  ---
+  duration_ms: 0.484917
+  type: 'test'
+  ...
+# Subtest: skip terminates an attempt and retry preserves the current node
+ok 388 - skip terminates an attempt and retry preserves the current node
+  ---
+  duration_ms: 0.304833
+  type: 'test'
+  ...
+# Subtest: restoring a runtime snapshot keeps the exact graph position
+ok 389 - restoring a runtime snapshot keeps the exact graph position
+  ---
+  duration_ms: 0.865834
+  type: 'test'
+  ...
+# Subtest: runtime reports trial and block boundaries across repeats
+ok 390 - runtime reports trial and block boundaries across repeats
+  ---
+  duration_ms: 0.368291
+  type: 'test'
+  ...
+# Subtest: failed final persistence retains the recovery checkpoint
+ok 391 - failed final persistence retains the recovery checkpoint
+  ---
+  duration_ms: 1.253333
+  type: 'test'
+  ...
+# Subtest: cleanup failure reports saved data separately from the stale checkpoint
+ok 392 - cleanup failure reports saved data separately from the stale checkpoint
+  ---
+  duration_ms: 0.666292
+  type: 'test'
+  ...
+# Subtest: successful final persistence removes the checkpoint after saving
+ok 393 - successful final persistence removes the checkpoint after saving
+  ---
+  duration_ms: 0.100667
+  type: 'test'
+  ...
+# Subtest: execution history consumes the complete pool with uneven sibling visits and stable retries
+ok 394 - execution history consumes the complete pool with uneven sibling visits and stable retries
+  ---
+  duration_ms: 1.909667
+  type: 'test'
+  ...
+# Subtest: stimulus pools keep fixed slots and assign assets reproducibly without replacement
+ok 395 - stimulus pools keep fixed slots and assign assets reproducibly without replacement
+  ---
+  duration_ms: 0.439792
+  type: 'test'
+  ...
+# Subtest: a retry re-presents the same stimulus; a completed forward re-entry draws the next
+ok 396 - a retry re-presents the same stimulus; a completed forward re-entry draws the next
+  ---
+  duration_ms: 0.197708
+  type: 'test'
+  ...
+# Subtest: session preview equals the runtime first-pass assignment (all occurrences ordinal 1)
+ok 397 - session preview equals the runtime first-pass assignment (all occurrences ordinal 1)
+  ---
+  duration_ms: 0.222375
+  type: 'test'
+  ...
+# Subtest: assigned media schema renders the selected asset and validation rejects undersized pools
+ok 398 - assigned media schema renders the selected asset and validation rejects undersized pools
+  ---
+  duration_ms: 8.643791
+  type: 'test'
+  ...
+# Subtest: createStimulusPool creates and binds a pool in one step
+ok 399 - createStimulusPool creates and binds a pool in one step
+  ---
+  duration_ms: 0.212625
+  type: 'test'
+  ...
+# Subtest: media display presets resolve to plain element geometry
+ok 400 - media display presets resolve to plain element geometry
+  ---
+  duration_ms: 0.985583
+  type: 'test'
+  ...
+# Subtest: four-item seeded pools can reach all permutations without low-bit exclusions
+ok 401 - four-item seeded pools can reach all permutations without low-bit exclusions
+  ---
+  duration_ms: 55.190125
+  type: 'test'
+  ...
+# Subtest: old checkpoints retain the original seeded order while new draws are reproducible
+ok 402 - old checkpoints retain the original seeded order while new draws are reproducible
+  ---
+  duration_ms: 0.618333
+  type: 'test'
+  ...
+# Subtest: creating or binding a pool cannot modify a frozen protocol
+ok 403 - creating or binding a pool cannot modify a frozen protocol
+  ---
+  duration_ms: 0.795666
+  type: 'test'
+  ...
+# Subtest: emotion template counterbalances five conditions with recovery and unique questionnaire IDs
+ok 404 - emotion template counterbalances five conditions with recovery and unique questionnaire IDs
+  ---
+  duration_ms: 25.228875
+  type: 'test'
+  ...
+# Subtest: Stroop labels match actual stimuli and both congruencies occur for every ink
+ok 405 - Stroop labels match actual stimuli and both congruencies occur for every ink
+  ---
+  duration_ms: 1.24675
+  type: 'test'
+  ...
+# Subtest: stroop generator is deterministic, balanced, jittered, and encodes actual color-word trials
+ok 406 - stroop generator is deterministic, balanced, jittered, and encodes actual color-word trials
+  ---
+  duration_ms: 0.763709
+  type: 'test'
+  ...
+# Subtest: stroop template changes with practice and jitter settings and passes formal configuration validation
+ok 407 - stroop template changes with practice and jitter settings and passes formal configuration validation
+  ---
+  duration_ms: 1.506208
+  type: 'test'
+  ...
+# Subtest: go/no-go generator honors go ratio and prevents long same-type runs
+ok 408 - go/no-go generator honors go ratio and prevents long same-type runs
+  ---
+  duration_ms: 0.870625
+  type: 'test'
+  ...
+# Subtest: go/no-go template applies go ratio, practice and jitter and validates task semantics
+ok 409 - go/no-go template applies go ratio, practice and jitter and validates task semantics
+  ---
+  duration_ms: 0.7205
+  type: 'test'
+  ...
+# Subtest: formal validation rejects malformed cognitive-task trials
+ok 410 - formal validation rejects malformed cognitive-task trials
+  ---
+  duration_ms: 0.497958
+  type: 'test'
+  ...
+# Subtest: return restores variables, loop/random state while events and attempts remain monotonic
+ok 411 - return restores variables, loop/random state while events and attempts remain monotonic
+  ---
+  duration_ms: 1.871583
+  type: 'test'
+  ...
+# Subtest: formal/hosted/unknown modes and first or finished pages reject previous
+ok 412 - formal/hosted/unknown modes and first or finished pages reject previous
+  ---
+  duration_ms: 0.511667
+  type: 'test'
+  ...
+# Subtest: repeated visits to the same loop node remain distinct and history cannot cross sessions
+ok 413 - repeated visits to the same loop node remain distinct and history cannot cross sessions
+  ---
+  duration_ms: 0.386834
+  type: 'test'
+  ...
+# Subtest: back navigation supersedes only matching-session response sequences without deleting raw answers
+ok 414 - back navigation supersedes only matching-session response sequences without deleting raw answers
+  ---
+  duration_ms: 0.361792
+  type: 'test'
+  ...
+# Subtest: restored history rejects stale visits and invalid ranges without changing runtime or answers
+ok 415 - restored history rejects stale visits and invalid ranges without changing runtime or answers
+  ---
+  duration_ms: 1.03425
+  type: 'test'
+  ...
+# Subtest: usability verifier accepts a complete study meeting every release threshold
+ok 416 - usability verifier accepts a complete study meeting every release threshold
+  ---
+  duration_ms: 0.859958
+  type: 'test'
+  ...
+# Subtest: usability verifier distinguishes incomplete evidence from failed metrics
+ok 417 - usability verifier distinguishes incomplete evidence from failed metrics
+  ---
+  duration_ms: 1.410541
+  type: 'test'
+  ...
+# Subtest: removing and restoring a frozen graph preserves identity, configuration and frozen hash
+ok 418 - removing and restoring a frozen graph preserves identity, configuration and frozen hash
+  ---
+  duration_ms: 5.213916
+  type: 'test'
+  ...
+# Subtest: HiDPI calibration uses CSS screen pixels without doubling stimulus size
+ok 419 - HiDPI calibration uses CSS screen pixels without doubling stimulus size
+  ---
+  duration_ms: 0.641084
+  type: 'test'
+  ...
+# Subtest: min/max decimation keeps the envelope instead of averaging peaks away
+ok 420 - min/max decimation keeps the envelope instead of averaging peaks away
+  ---
+  duration_ms: 0.708667
+  type: 'test'
+  ...
+# Subtest: decimation emits points in index order so the path never doubles back
+ok 421 - decimation emits points in index order so the path never doubles back
+  ---
+  duration_ms: 0.185542
+  type: 'test'
+  ...
+# Subtest: small series pass through decimation untouched
+ok 422 - small series pass through decimation untouched
+  ---
+  duration_ms: 0.328833
+  type: 'test'
+  ...
+# Subtest: extent ignores nulls and reports nothing for an empty series
+ok 423 - extent ignores nulls and reports nothing for an empty series
+  ---
+  duration_ms: 0.131209
+  type: 'test'
+  ...
+# Subtest: a flat series gets a symmetric band rather than a zero-height plot
+ok 424 - a flat series gets a symmetric band rather than a zero-height plot
+  ---
+  duration_ms: 0.074041
+  type: 'test'
+  ...
+# Subtest: combined extent spans every series so shared axes line up
+ok 425 - combined extent spans every series so shared axes line up
+  ---
+  duration_ms: 0.107375
+  type: 'test'
+  ...
+# Subtest: scales map the last sample onto the right edge and invert back
+ok 426 - scales map the last sample onto the right edge and invert back
+  ---
+  duration_ms: 0.107125
+  type: 'test'
+  ...
+# Subtest: nice ticks use a round step and stay inside the range
+ok 427 - nice ticks use a round step and stay inside the range
+  ---
+  duration_ms: 0.141917
+  type: 'test'
+  ...
+# Subtest: a gap in the data breaks the path instead of being drawn as zero
+ok 428 - a gap in the data breaks the path instead of being drawn as zero
+  ---
+  duration_ms: 0.266792
+  type: 'test'
+  ...
+# Subtest: area path closes back to the baseline
+ok 429 - area path closes back to the baseline
+  ---
+  duration_ms: 0.631916
+  type: 'test'
+  ...
+# Subtest: event markers snap to the nearest sample and drop out-of-window events
+ok 430 - event markers snap to the nearest sample and drop out-of-window events
+  ---
+  duration_ms: 0.152333
+  type: 'test'
+  ...
+# Subtest: time ticks span the window endpoints
+ok 431 - time ticks span the window endpoints
+  ---
+  duration_ms: 0.666458
+  type: 'test'
+  ...
+# Subtest: axis time formatting is stable and locale-independent
+ok 432 - axis time formatting is stable and locale-independent
+  ---
+  duration_ms: 0.050917
+  type: 'test'
+  ...
+# Subtest: normalisation puts mixed-unit channels on one comparable band
+ok 433 - normalisation puts mixed-unit channels on one comparable band
+  ---
+  duration_ms: 0.069875
+  type: 'test'
+  ...
+# Subtest: normalisation keeps a small-unit channel visible beside a large one
+ok 434 - normalisation keeps a small-unit channel visible beside a large one
+  ---
+  duration_ms: 0.04625
+  type: 'test'
+  ...
+# Subtest: affect points rescale the 1..9 SAM scale onto -1..1
+ok 435 - affect points rescale the 1..9 SAM scale onto -1..1
+  ---
+  duration_ms: 0.073375
+  type: 'test'
+  ...
+# Subtest: affect points accept an already-normalised source
+ok 436 - affect points accept an already-normalised source
+  ---
+  duration_ms: 0.032875
+  type: 'test'
+  ...
+# Subtest: quadrants follow the circumplex convention
+ok 437 - quadrants follow the circumplex convention
+  ---
+  duration_ms: 0.03425
+  type: 'test'
+  ...
+# Subtest: the D7 analysis result carries everything FeaturePanel renders
+ok 438 - the D7 analysis result carries everything FeaturePanel renders
+  ---
+  duration_ms: 137.880042
+  type: 'test'
+  ...
+1..438
+# tests 438
+# suites 0
+# pass 438
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1378.50875
+
+> physioflow-app@0.6.0-beta.5 build
+> npx vite build
+
+vite v8.1.0 building client environment for production...
+[2Ktransforming...✓ 250 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                            1.09 kB │ gzip:   0.59 kB
+dist/style-CKrPEt0M.css                  243.28 kB │ gzip:  43.45 kB
+dist/useOperatorControls-B7DMO0vI.js       0.43 kB │ gzip:   0.31 kB
+dist/SamFigure-Duvxf_D4.js                 0.53 kB │ gzip:   0.35 kB
+dist/core-SwWLTXZB.js                      2.70 kB │ gzip:   1.05 kB
+dist/ParticipantLaunchPage-CYbrmS27.js     3.15 kB │ gzip:   1.35 kB
+dist/replayRuntime-Cho7EE2C.js             3.59 kB │ gzip:   1.24 kB
+dist/GuidePanel-BPNb_vAk.js                4.75 kB │ gzip:   1.52 kB
+dist/constants-BMe6I0yL.js                14.26 kB │ gzip:   5.47 kB
+dist/SessionManager-Cnr7WA-o.js           21.83 kB │ gzip:   7.11 kB
+dist/RuntimeContent-Bsi-XKd3.js           25.83 kB │ gzip:   8.32 kB
+dist/Analytics-DNBoiFvI.js                27.12 kB │ gzip:   8.08 kB
+dist/RuntimeRunnerPage-f8U7QzeY.js        32.02 kB │ gzip:  10.37 kB
+dist/assetStore-Bzto0Ye6.js               43.71 kB │ gzip:  14.10 kB
+dist/GraphRuntimeRunnerPage-DOvroWlC.js   47.89 kB │ gzip:  14.03 kB
+dist/visualAngle-BiYiNZoK.js              94.95 kB │ gzip:  26.98 kB
+dist/FlowWorkspaceOverlay-Ch7OnWsi.js    133.19 kB │ gzip:  34.24 kB
+dist/react-vendor-Cngy7BuK.js            189.63 kB │ gzip:  59.65 kB
+dist/ComposerV2-B3ftWkk3.js              205.14 kB │ gzip:  60.18 kB
+dist/index-D3ttRxF9.js                   434.19 kB │ gzip: 127.65 kB
+
+✓ built in 170ms
+
+> physioflow-app@0.6.0-beta.5 lint
+> npx eslint src server --max-warnings=0
+
+
+> physioflow-app@0.6.0-beta.5 test:e2e
+> node tests/e2e-cdp.mjs
+
+{
+  "status": "passed",
+  "formal_gate": "blocked_without_local_folder",
+  "preview_participant": "E2E-PREVIEW",
+  "preview_events": 8,
+  "preview_integrity": "valid"
+}
+
+> physioflow-app@0.6.0-beta.5 test:e2e:refactor-browser
+> node tests/e2e-composer-v2-self-hosted.mjs
+
+{
+  "status": "passed",
+  "composer": "v2",
+  "nodes": 5,
+  "reusableSubflow": true,
+  "controlHandler": "core.value-switch@1.0.0",
+  "collaborationChangeSet": true,
+  "portableDeployment": true,
+  "hostedService": true,
+  "hostedSandboxLifecycle": true,
+  "hostedPublicLaunch": true,
+  "participantBootstrap": true,
+  "hostedRuntimeSync": true,
+  "sdkComponent": "example.reaction-button@1.0.0",
+  "deviceConnector": "org.physioflow.simulated-sensor@1.0.0"
+}
+Layout acceptance: 8 viewports x 3 editor contexts passed (CSS viewport simulation, not Windows DPI testing)
+Dashboard primary controls: 8 viewports passed (primary controls only)
+Session manager primary controls: 8 viewports passed (primary controls only)
+Analytics primary controls: 8 viewports passed (primary controls only)
+
+> physioflow-app@0.6.0-beta.5 test:e2e:participant-public
+> node tests/e2e-participant-public.mjs
+
+Questionnaire acceptance: changing gate hides descendants and excludes stale answers
+Questionnaire acceptance: hidden scoring and timed conditional follow-up passed
+Element acceptance: all 11 types, palette insertion, duplicate/delete/undo/redo passed
+Component acceptance: zero ratings, numeric validation and audio settings passed
+{
+  "status": "passed",
+  "publicParticipantEntry": true,
+  "bootstrapVerified": true,
+  "refreshRecovery": true,
+  "hostedRuntimeSync": true
+}

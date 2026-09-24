@@ -1,4 +1,6 @@
 import { hashProtocolGraph } from '../core/index.js';
+import { createGroupExecutionSnapshot, restoreGroupExecutionSnapshot } from '../core/groupSequence.js';
+import { createProjectComponentRegistry } from '../sdk/index.js';
 
 export const PARTICIPANT_BOOTSTRAP_SCHEMA_VERSION = '1.0.0';
 
@@ -121,6 +123,7 @@ export async function createParticipantBootstrap({ deployment, session, assetRes
       environment: deployment.environment,
     },
     protocol: clone(protocol),
+    ...(protocol.groupRandomization?.enabled ? { groupExecutionSnapshot: createGroupExecutionSnapshot(protocol, protocol.groupRandomization.groupIds, `${protocol.protocolId}:${protocol.version.number}:${session.sessionId}:groups`, createProjectComponentRegistry(protocol)) } : {}),
     dependencies: clone(deployment.bundle.dependencies || {}),
     resources,
     recovery: session.runtimeSnapshot && session.runtimeSnapshot.eventSequence === session.nextEventSequence - 1
@@ -142,6 +145,13 @@ export async function validateParticipantBootstrap(bootstrap) {
     const protocolHash = await hashProtocolGraph(bootstrap.protocol);
     if (protocolHash !== bootstrap.session?.configHash || bootstrap.protocol.freeze?.configHash !== bootstrap.session?.configHash) errors.push('Participant protocol hash does not match the session');
   }
+  if (bootstrap.protocol?.groupRandomization?.enabled) {
+    try {
+      const restored = restoreGroupExecutionSnapshot(bootstrap.groupExecutionSnapshot, createProjectComponentRegistry(bootstrap.protocol));
+      const expectedSeed = `${bootstrap.protocol.protocolId}:${bootstrap.protocol.version.number}:${bootstrap.session?.sessionId}:groups`;
+      if (JSON.stringify(canonical(restored.sourceProtocol)) !== JSON.stringify(canonical(bootstrap.protocol)) || restored.plan.seed !== expectedSeed || JSON.stringify(bootstrap.groupExecutionSnapshot.selectedGroupIds) !== JSON.stringify(bootstrap.protocol.groupRandomization.groupIds)) errors.push('Participant group execution plan does not match the session');
+    } catch (error) { errors.push(`Invalid participant group execution plan: ${error.message}`); }
+  } else if (bootstrap.groupExecutionSnapshot) errors.push('Unexpected participant group execution plan');
   const ids = new Set();
   for (const resource of bootstrap.resources || []) {
     if (!resource.resourceId || ids.has(resource.resourceId)) errors.push('Participant resource IDs must be present and unique');

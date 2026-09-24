@@ -24,6 +24,10 @@ if (!chrome) throw new Error('Chrome/Chromium is required; set CHROME_BIN to its
 const ids = createSequentialIdFactory();
 let protocol = createProtocolGraph({ idFactory: ids, name: 'Public participant E2E', now: '2026-08-23T00:00:00.000Z' });
 protocol = insertNodeOnControlEdge(protocol, protocol.graph.edges[0].id, 'display.screen', { idFactory: ids, label: 'Public welcome', config: { ui: participantUiTemplate('instruction'), completion: { mode: 'manual' } } }).protocol;
+const secondEdge = protocol.graph.edges.find(edge => protocol.graph.nodes.find(node => node.id === edge.target.nodeId)?.component.type === 'core.end');
+protocol = insertNodeOnControlEdge(protocol, secondEdge.id, 'display.screen', { idFactory: ids, label: 'Second welcome', config: { ui: participantUiTemplate('instruction'), completion: { mode: 'manual' } } }).protocol;
+protocol.graph.groups = protocol.graph.nodes.filter(node => node.component.type === 'display.screen').map((node, index) => ({ id: `public-group-${index}`, name: `Group ${index}`, kind: 'container', nodeIds: [node.id], parameters: [], metadata: {} }));
+protocol.groupRandomization = { enabled: true, groupIds: protocol.graph.groups.map(group => group.id) };
 protocol = await freezeProtocolGraph(protocol, createCoreComponentRegistry(), { now: '2026-08-23T01:00:00.000Z' });
 const bundle = await createDeploymentBundle(protocol, { bundleId: 'public_e2e_bundle', createdAt: '2026-08-23T02:00:00.000Z' });
 let hostedId = 0;
@@ -132,6 +136,13 @@ try {
   await evaluate(`new Promise((resolve, reject) => { const request = indexedDB.open('physioflow-data-v1', 1); request.onsuccess = () => { const transaction = request.result.transaction('current', 'readwrite'); transaction.objectStore('current').delete('active'); transaction.oncomplete = resolve; transaction.onerror = () => reject(transaction.error); }; request.onerror = () => reject(request.error); }).then(() => { localStorage.removeItem('physioflow.current-run-pointer.v2'); localStorage.setItem('physioflow.ui-language', 'en'); })`);
   await send('Page.reload', { ignoreCache: true });
   await waitFor(`document.body.textContent.includes('Welcome') && !document.body.textContent.includes('RUNTIME V2 READY') && [...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue') && !button.disabled)`, 'participant refresh recovery');
+  const groupBootstrap = await owner.bootstrap([...service.sessions.values()][0].sessionId);
+  const firstNodeId = [...service.sessions.values()][0].runtimeSnapshot.currentNodeId;
+  await clickText('Continue');
+  const advancedAt = Date.now();
+  while ([...service.sessions.values()][0].runtimeSnapshot.currentNodeId === firstNodeId && Date.now() - advancedAt < 5000) await new Promise(resolve => setTimeout(resolve, 50));
+  assert.notEqual([...service.sessions.values()][0].runtimeSnapshot.currentNodeId, firstNodeId);
+  await waitFor(`document.body.textContent.includes('Welcome') && [...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue') && !button.disabled)`, 'second randomized group');
   await clickText('Continue');
   await waitFor(`document.body.textContent.includes('SESSION COMPLETE') && document.body.textContent.includes('Hosted sync complete')`, 'public participant completion');
   assert.equal(service.launchLinks.get(link.launchLinkId).useCount, 1);
@@ -140,6 +151,7 @@ try {
   assert.equal(session.runtimeSnapshot.stimulus_shuffle_version, 'mulberry32-v2', 'hosted refresh preserves the shuffle algorithm');
   assert.equal(session.runtimeSnapshot.stimulus_assignment_policy, 'global-completion-v1', 'hosted refresh preserves pool consumption');
   assert.ok(session.eventCount >= 4);
+  assert.deepEqual(session.runtimeSnapshot.completedNodeIds, groupBootstrap.groupExecutionSnapshot.plan.nodeOrder);
   await verifyRuntimeScenarios(evaluate, waitFor, clickText);
   await verifyPreparationScenarios(evaluate, waitFor);
   await verifyComponentAcceptance(evaluate, waitFor);

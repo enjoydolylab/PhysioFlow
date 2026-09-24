@@ -1,0 +1,43 @@
+name: Windows candidate package
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - run: npm ci
+      - run: npm run desktop:build
+      - name: Checksum and upload package
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $files = Get-ChildItem src-tauri/target/release/bundle/nsis/*-setup.exe
+          if ($files.Count -ne 1) { throw 'Expected exactly one Windows installer' }
+          $file = $files[0]
+          $hash = (Get-FileHash $file.FullName -Algorithm SHA256).Hash.ToLower()
+          "$hash  $($file.Name)" | Set-Content -Encoding ascii SHA256SUMS-Windows.txt
+          if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            gh release upload $env:GITHUB_REF_NAME $file.FullName SHA256SUMS-Windows.txt
+            if ($LASTEXITCODE -ne 0) { throw 'Release upload failed' }
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PhysioFlow-Windows
+          path: |
+            src-tauri/target/release/bundle/nsis/*-setup.exe
+            SHA256SUMS-Windows.txt

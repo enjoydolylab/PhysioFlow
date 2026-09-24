@@ -31,6 +31,9 @@ if (build.status !== 0) process.exit(build.status || 1);
 fs.rmSync(OUT_ROOT, { recursive: true, force: true });
 fs.mkdirSync(APP_DIR, { recursive: true });
 fs.cpSync(DIST, APP_DIR, { recursive: true });
+const releaseNotes = path.join(ROOT, 'docs', `RELEASE_NOTES_${VERSION.split('-')[1]}.md`);
+if (fs.existsSync(releaseNotes)) fs.copyFileSync(releaseNotes, path.join(APP_DIR, 'RELEASE_NOTES.md'));
+fs.cpSync(path.join(ROOT, 'tools', 'brainflow'), path.join(APP_DIR, 'tools', 'brainflow'), { recursive: true, filter: source => !['.venv', '__pycache__'].includes(path.basename(source)) });
 fs.writeFileSync(path.join(APP_DIR, 'favicon.ico'), Buffer.from(
   'AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e7hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////w==',
   'base64'
@@ -81,7 +84,7 @@ fs.writeFileSync(path.join(APP_DIR, 'START_HERE.html'), [
   '      <li>Requires a selected local data folder before frozen formal sessions can start.</li>',
   '    </ul>',
   '    <h2>For easiest distribution</h2>',
-  '    <p>The desktop DMG/app is the most direct click-to-use option for non-technical operators. It opens by double-click and stores data in the local PhysioFlow data folder. Use this Web package when a lightweight browser-based copy is preferred.</p>',
+  '    <p>The Windows installer is available separately in the release. Use this Web package on macOS, Linux, or when a browser-based copy is preferred. Read RELEASE_NOTES.md for candidate status and validation limits.</p>',
   '  </main>',
   '</body>',
   '</html>',

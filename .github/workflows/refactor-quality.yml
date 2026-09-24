@@ -2,7 +2,7 @@ name: Refactor quality
 
 on:
   push:
-    branches: [demo]
+    branches: [main, demo]
   pull_request:
 
 jobs:

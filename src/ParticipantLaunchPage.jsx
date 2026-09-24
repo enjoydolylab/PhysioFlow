@@ -64,7 +64,7 @@ export default function ParticipantLaunchPage({ location = globalThis.location, 
         error: '',
         run: {
           protocol,
-          session: sessionData(prepared.session, protocol),
+          session: { ...sessionData(prepared.session, protocol), ...(prepared.bootstrap.groupExecutionSnapshot ? { group_execution_snapshot: prepared.bootstrap.groupExecutionSnapshot } : {}) },
           restore,
           hosted: { client: prepared.client, session: prepared.session, resources: prepared.bootstrap.resources },
         },
