@@ -1,0 +1,574 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "lab_meeting_02_nested_20260925",
+  "projectId": "lab_meeting_02_nested_20260925",
+  "metadata": {
+    "name": "QA｜入れ子ループと分岐",
+    "description": "会議用プロトタイプ。合成・操作デモ用。研究結果ではありません。",
+    "tags": [
+      "QA ONLY",
+      "lab-meeting"
+    ],
+    "demo": {
+      "estimatedPresentationMinutes": "5–8",
+      "testMediaOnly": true,
+      "requiresCurrentDevelopmentBuild": true
+    }
+  },
+  "biodb": {
+    "experimentId": "lab_meeting_02_nested_20260925",
+    "experimentLabel": "入れ子ループと分岐"
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-25T00:00:00.000Z",
+    "updatedAt": "2026-09-25T00:00:00.000Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_demo_1",
+    "nodes": [
+      {
+        "id": "node_demo_1",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_demo_2",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4650
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_ループ説明",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "A_ループ説明",
+        "config": {
+          "content": "同じ流れを、確実に 4 回。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_50",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_46",
+                  "type": "Text",
+                  "props": {
+                    "text": "GROUP A / NESTED LOOP"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_47",
+                  "type": "Text",
+                  "props": {
+                    "text": "同じ流れを、確実に 4 回。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_48",
+                  "type": "Text",
+                  "props": {
+                    "text": "2 回の外側ループ × 2 回の内側ループです。\n各回で A / B の質問をランダムに選びます。\nどちらの質問でも、1〜5 の値をひとつ選んでください。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_49",
+                  "type": "Button",
+                  "props": {
+                    "label": "次へ",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3255
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_外側2回",
+        "component": {
+          "type": "logic.loop",
+          "version": "1.0.0"
+        },
+        "label": "A_外側2回",
+        "config": {
+          "maxIterations": 2,
+          "untilRule": null
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3410
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_内側2回",
+        "component": {
+          "type": "logic.loop",
+          "version": "1.0.0"
+        },
+        "label": "A_内側2回",
+        "config": {
+          "maxIterations": 2,
+          "untilRule": null
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3565
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_質問分岐",
+        "component": {
+          "type": "logic.random",
+          "version": "1.0.0"
+        },
+        "label": "A_質問分岐",
+        "config": {
+          "probabilityA": 0.5,
+          "probabilityB": 0.5,
+          "probabilityC": null,
+          "probabilityD": null,
+          "seedSalt": ""
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3720
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_質問A",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "A_質問A",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "A_質問A_form",
+            "name": "ランダム分岐 A",
+            "questions": [
+              {
+                "question_id": "branch_a",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "【A】今、画面に集中できていますか？",
+                  "en": "【A】今、画面に集中できていますか？"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3875
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_質問B",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "A_質問B",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "A_質問B_form",
+            "name": "ランダム分岐 B",
+            "questions": [
+              {
+                "question_id": "branch_b",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "【B】操作の流れは分かりやすいですか？",
+                  "en": "【B】操作の流れは分かりやすいですか？"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4030
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_demo_52",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_ループ説明",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_外側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_53",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_外側2回",
+          "portId": "body"
+        },
+        "target": {
+          "nodeId": "A_内側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_54",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_内側2回",
+          "portId": "body"
+        },
+        "target": {
+          "nodeId": "A_質問分岐",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_55",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問分岐",
+          "portId": "a"
+        },
+        "target": {
+          "nodeId": "A_質問A",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_56",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問分岐",
+          "portId": "b"
+        },
+        "target": {
+          "nodeId": "A_質問B",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_57",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問A",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_内側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_58",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問B",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_内側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_59",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_内側2回",
+          "portId": "exit"
+        },
+        "target": {
+          "nodeId": "A_外側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "demo_enter",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_demo_1",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_ループ説明",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "demo_exit",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_外側2回",
+          "portId": "exit"
+        },
+        "target": {
+          "nodeId": "node_demo_2",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  },
+  "groupRandomization": {
+    "enabled": false,
+    "groupIds": []
+  }
+}

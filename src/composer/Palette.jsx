@@ -27,7 +27,7 @@ function PaletteGroup({ title, hint, defaultOpen = false, children }) {
   </details>;
 }
 
-export default function Palette({ s, onHostedRun }) {
+export default function Palette({ s, onHostedRun, sequence = false }) {
   const {
     t, locked, editorMode, paletteGroups, addComponent, actions,
     protocol, registry, collaborationBaseline, setMessage,
@@ -41,14 +41,14 @@ export default function Palette({ s, onHostedRun }) {
     <h2>{t('Components')}</h2>
     <p className="composer-mode-description">{modeDescription}</p>
 
-    <PaletteGroup title="Flow nodes" hint="Click or drag onto the canvas to insert" defaultOpen>
+    <PaletteGroup title="Flow nodes" hint={sequence ? t('Select a step, then click a component to insert') : 'Click or drag onto the canvas to insert'} defaultOpen>
       {paletteGroups.map(([category, definitions]) => <section key={category} className="palette-node-group">
         <h4>{category}</h4>
-        {definitions.map(definition => <button key={definition.type} disabled={locked} draggable={!locked} title="Drag onto the canvas" onClick={() => addComponent(definition)} onDragStart={event => { event.dataTransfer.setData('application/x-physioflow-node', definition.type); event.dataTransfer.effectAllowed = 'copy'; }}><b>{definition.label}</b><small>{definition.type}</small></button>)}
+        {definitions.map(definition => <button key={definition.type} disabled={locked} draggable={!locked && !sequence} title={sequence ? t('Add after the selected step') : 'Drag onto the canvas'} onClick={() => addComponent(definition)} onDragStart={event => { event.dataTransfer.setData('application/x-physioflow-node', definition.type); event.dataTransfer.effectAllowed = 'copy'; }}><b>{definition.label}</b><small>{definition.type}</small></button>)}
       </section>)}
     </PaletteGroup>
 
-    <PaletteGroup title="Media & stimuli" hint="Asset library and randomized pools" defaultOpen>
+    <PaletteGroup title="Media & stimuli" hint="Asset library and randomized pools" defaultOpen={editorMode !== 'quick'}>
       <AssetLibrary assets={protocol.assets || []} stimulusPools={protocol.stimulusPools || []} locked={locked} onUpdate={actions.updateAssets} />
       <StimulusPoolCatalog pools={protocol.stimulusPools || []} assets={protocol.assets || []} nodes={protocol.graph.nodes || []} locked={locked} onUpdate={actions.updateStimulusPools} />
     </PaletteGroup>

@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-07",
+  "source": "official SDK / live PhysioDB",
+  "sessionId": "acc2bcbe-1734-468b-9dc9-48d03c78c9f8",
+  "runId": "f3e9ee60-2378-4dfe-9f4e-7ace88e7bb5d",
+  "researchId": "01a11499-c1fe-7cf2-b879-8ced9d6d2be6",
+  "experimentId": "01a11499-c308-718a-8904-9e36ac5ec1c3",
+  "participantId": "01a11499-c400-754c-a789-518419686ed6",
+  "status": "verified",
+  "repeatedStatus": "verified",
+  "expectedEvents": 2,
+  "actualEvents": 2,
+  "eventsMatched": true,
+  "streams": [
+    {
+      "streamId": "01a11499-c50f-7895-8a94-4f6d8f5b1bad",
+      "key": "synthetic_probe",
+      "expected": 500,
+      "actual": 500,
+      "matched": true,
+      "fields": [
+        {
+          "name": "test_signal",
+          "type": "float",
+          "unit": "arbitrary"
+        }
+      ]
+    }
+  ],
+  "retained": true
+}

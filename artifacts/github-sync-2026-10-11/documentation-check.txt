@@ -1,0 +1,2 @@
+Documentation check passed: 73 Markdown files; 251 local links, 71 code references, 60 npm commands; all docs reachable from the index.
+External URLs, heading anchors, technical correctness and application acceptance are outside this check.

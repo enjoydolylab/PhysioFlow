@@ -1,0 +1,3084 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "lab_meeting_demo_20260925_bind",
+  "projectId": "lab_meeting_demo_20260925_bind",
+  "metadata": {
+    "name": "PhysioFlow｜映像・感情評価・復旧デモ｜素材登録版",
+    "description": "研究室報告用の操作デモ。合成テスト動画のみ。実際の感情誘発効果・実機・PhysioDB の検証ではありません。",
+    "tags": [
+      "DEMO ONLY",
+      "日本語",
+      "offline",
+      "lab-meeting"
+    ],
+    "demo": {
+      "estimatedPresentationMinutes": "5–8",
+      "testMediaOnly": true,
+      "requiresCurrentDevelopmentBuild": true
+    }
+  },
+  "biodb": {
+    "experimentId": "",
+    "experimentLabel": ""
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-25T00:00:00.000Z",
+    "updatedAt": "2026-09-25T00:00:00.000Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_demo_1",
+    "nodes": [
+      {
+        "id": "node_demo_1",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_demo_2",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4650
+        },
+        "metadata": {}
+      },
+      {
+        "id": "01_はじめに",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "01_はじめに",
+        "config": {
+          "content": "設計から記録まで、ひとつの流れで。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_8",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_4",
+                  "type": "Text",
+                  "props": {
+                    "text": "PHYSIOFLOW / LAB DEMO"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_5",
+                  "type": "Text",
+                  "props": {
+                    "text": "設計から記録まで、ひとつの流れで。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_6",
+                  "type": "Text",
+                  "props": {
+                    "text": "4 本のテスト動画を見て、SAM と短い質問票に回答します。\n続いて、ランダム化された 2 つの機能デモを行います。\n\nこれはソフトウェアの操作デモです。動画に感情誘発効果があることを示す実験ではありません。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_7",
+                  "type": "Button",
+                  "props": {
+                    "label": "デモを始める",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 310
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T1_注視",
+        "component": {
+          "type": "stimulus.fixation",
+          "version": "1.0.0"
+        },
+        "label": "T1_注視",
+        "config": {
+          "shape": "cross",
+          "sizePx": 48,
+          "color": "#17231d",
+          "pulse": false,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_a11b78e5-c035-438d-b08b-dec644dda167",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_faab861f-2ec5-4657-9ca1-dd360cbd34c8",
+                  "type": "Text",
+                  "props": {
+                    "text": "+",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": "80px",
+                    "textAlign": "center"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 700
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 465
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T1_映像",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "T1_映像",
+        "config": {
+          "mediaType": "video",
+          "assetId": null,
+          "stimulusPoolId": "demo_balanced",
+          "display": {
+            "preset": "auto"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_12",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#0d1926",
+                "color": "#17211b",
+                "padding": 0
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_11",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "autoPlay": true,
+                    "controls": false,
+                    "fit": "contain",
+                    "presentationMode": "fullscreen-contain",
+                    "alt": "QA テスト動画"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "media-ended"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 620
+        },
+        "metadata": {
+          "half": 1,
+          "trialIndex": 1,
+          "testMediaOnly": true
+        }
+      },
+      {
+        "id": "T1_SAM",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T1_SAM",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T1_SAM_form",
+            "name": "SAM 3 次元",
+            "questions": [
+              {
+                "question_id": "t1_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の気分の快・不快を選んでください。",
+                  "en": "今の気分の快・不快を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t1_arousal",
+                "type": "sam_arousal",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の覚醒度を選んでください。",
+                  "en": "今の覚醒度を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t1_dominance",
+                "type": "sam_dominance",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の支配感を選んでください。",
+                  "en": "今の支配感を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "sam-matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 775
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T1_印象",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T1_印象",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T1_印象_form",
+            "name": "映像の印象",
+            "questions": [
+              {
+                "question_id": "t1_calm",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：落ち着きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：落ち着きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t1_active",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：動きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：動きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t1_clear",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：画面は見やすかった",
+                  "en": "映像の印象を 1〜5 で評価してください：画面は見やすかった"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 930
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T2_注視",
+        "component": {
+          "type": "stimulus.fixation",
+          "version": "1.0.0"
+        },
+        "label": "T2_注視",
+        "config": {
+          "shape": "cross",
+          "sizePx": 48,
+          "color": "#17231d",
+          "pulse": false,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_a11b78e5-c035-438d-b08b-dec644dda167",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_faab861f-2ec5-4657-9ca1-dd360cbd34c8",
+                  "type": "Text",
+                  "props": {
+                    "text": "+",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": "80px",
+                    "textAlign": "center"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 700
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 1085
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T2_映像",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "T2_映像",
+        "config": {
+          "mediaType": "video",
+          "assetId": null,
+          "stimulusPoolId": "demo_balanced",
+          "display": {
+            "preset": "auto"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_18",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#0d1926",
+                "color": "#17211b",
+                "padding": 0
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_17",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "autoPlay": true,
+                    "controls": false,
+                    "fit": "contain",
+                    "presentationMode": "fullscreen-contain",
+                    "alt": "QA テスト動画"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "media-ended"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 1240
+        },
+        "metadata": {
+          "half": 1,
+          "trialIndex": 2,
+          "testMediaOnly": true
+        }
+      },
+      {
+        "id": "T2_SAM",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T2_SAM",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T2_SAM_form",
+            "name": "SAM 3 次元",
+            "questions": [
+              {
+                "question_id": "t2_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の気分の快・不快を選んでください。",
+                  "en": "今の気分の快・不快を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t2_arousal",
+                "type": "sam_arousal",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の覚醒度を選んでください。",
+                  "en": "今の覚醒度を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t2_dominance",
+                "type": "sam_dominance",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の支配感を選んでください。",
+                  "en": "今の支配感を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "sam-matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 1395
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T2_印象",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T2_印象",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T2_印象_form",
+            "name": "映像の印象",
+            "questions": [
+              {
+                "question_id": "t2_calm",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：落ち着きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：落ち着きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t2_active",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：動きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：動きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t2_clear",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：画面は見やすかった",
+                  "en": "映像の印象を 1〜5 で評価してください：画面は見やすかった"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 1550
+        },
+        "metadata": {}
+      },
+      {
+        "id": "前後半の切り替え",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "前後半の切り替え",
+        "config": {
+          "content": "後半へ進みます。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_26",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_22",
+                  "type": "Text",
+                  "props": {
+                    "text": "PART 01 / SECOND HALF"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_23",
+                  "type": "Text",
+                  "props": {
+                    "text": "後半へ進みます。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_24",
+                  "type": "Text",
+                  "props": {
+                    "text": "前半・後半に slow と pulse が各 1 本ずつ入るように割り当てています。\n同じ動画は、この 4 試行では重複しません。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_25",
+                  "type": "Button",
+                  "props": {
+                    "label": "次へ",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 1705
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T3_注視",
+        "component": {
+          "type": "stimulus.fixation",
+          "version": "1.0.0"
+        },
+        "label": "T3_注視",
+        "config": {
+          "shape": "cross",
+          "sizePx": 48,
+          "color": "#17231d",
+          "pulse": false,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_a11b78e5-c035-438d-b08b-dec644dda167",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_faab861f-2ec5-4657-9ca1-dd360cbd34c8",
+                  "type": "Text",
+                  "props": {
+                    "text": "+",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": "80px",
+                    "textAlign": "center"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 700
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 1860
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T3_映像",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "T3_映像",
+        "config": {
+          "mediaType": "video",
+          "assetId": null,
+          "stimulusPoolId": "demo_balanced",
+          "display": {
+            "preset": "auto"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_30",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#0d1926",
+                "color": "#17211b",
+                "padding": 0
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_29",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "autoPlay": true,
+                    "controls": false,
+                    "fit": "contain",
+                    "presentationMode": "fullscreen-contain",
+                    "alt": "QA テスト動画"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "media-ended"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 2015
+        },
+        "metadata": {
+          "half": 2,
+          "trialIndex": 3,
+          "testMediaOnly": true
+        }
+      },
+      {
+        "id": "T3_SAM",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T3_SAM",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T3_SAM_form",
+            "name": "SAM 3 次元",
+            "questions": [
+              {
+                "question_id": "t3_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の気分の快・不快を選んでください。",
+                  "en": "今の気分の快・不快を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t3_arousal",
+                "type": "sam_arousal",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の覚醒度を選んでください。",
+                  "en": "今の覚醒度を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t3_dominance",
+                "type": "sam_dominance",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の支配感を選んでください。",
+                  "en": "今の支配感を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "sam-matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 2170
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T3_印象",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T3_印象",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T3_印象_form",
+            "name": "映像の印象",
+            "questions": [
+              {
+                "question_id": "t3_calm",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：落ち着きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：落ち着きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t3_active",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：動きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：動きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t3_clear",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：画面は見やすかった",
+                  "en": "映像の印象を 1〜5 で評価してください：画面は見やすかった"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 2325
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T4_注視",
+        "component": {
+          "type": "stimulus.fixation",
+          "version": "1.0.0"
+        },
+        "label": "T4_注視",
+        "config": {
+          "shape": "cross",
+          "sizePx": 48,
+          "color": "#17231d",
+          "pulse": false,
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_a11b78e5-c035-438d-b08b-dec644dda167",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_faab861f-2ec5-4657-9ca1-dd360cbd34c8",
+                  "type": "Text",
+                  "props": {
+                    "text": "+",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": "80px",
+                    "textAlign": "center"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "fixed",
+            "durationMs": 700
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 2480
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T4_映像",
+        "component": {
+          "type": "display.media",
+          "version": "1.0.0"
+        },
+        "label": "T4_映像",
+        "config": {
+          "mediaType": "video",
+          "assetId": null,
+          "stimulusPoolId": "demo_balanced",
+          "display": {
+            "preset": "auto"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_36",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#0d1926",
+                "color": "#17211b",
+                "padding": 0
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_35",
+                  "type": "Media",
+                  "props": {
+                    "mediaType": "video",
+                    "autoPlay": true,
+                    "controls": false,
+                    "fit": "contain",
+                    "presentationMode": "fullscreen-contain",
+                    "alt": "QA テスト動画"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "media-ended"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 2635
+        },
+        "metadata": {
+          "half": 2,
+          "trialIndex": 4,
+          "testMediaOnly": true
+        }
+      },
+      {
+        "id": "T4_SAM",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T4_SAM",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T4_SAM_form",
+            "name": "SAM 3 次元",
+            "questions": [
+              {
+                "question_id": "t4_valence",
+                "type": "sam_valence",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の気分の快・不快を選んでください。",
+                  "en": "今の気分の快・不快を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t4_arousal",
+                "type": "sam_arousal",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の覚醒度を選んでください。",
+                  "en": "今の覚醒度を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t4_dominance",
+                "type": "sam_dominance",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "今の支配感を選んでください。",
+                  "en": "今の支配感を選んでください。"
+                },
+                "scale_min": 1,
+                "scale_max": 9,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "sam-matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 2790
+        },
+        "metadata": {}
+      },
+      {
+        "id": "T4_印象",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "T4_印象",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "T4_印象_form",
+            "name": "映像の印象",
+            "questions": [
+              {
+                "question_id": "t4_calm",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：落ち着きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：落ち着きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t4_active",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：動きを感じた",
+                  "en": "映像の印象を 1〜5 で評価してください：動きを感じた"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "t4_clear",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "映像の印象を 1〜5 で評価してください：画面は見やすかった",
+                  "en": "映像の印象を 1〜5 で評価してください：画面は見やすかった"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true,
+            "display_mode": "matrix"
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 2945
+        },
+        "metadata": {}
+      },
+      {
+        "id": "02_機能デモへ",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "02_機能デモへ",
+        "config": {
+          "content": "次は、実験の「動き」を見せます。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_44",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_40",
+                  "type": "Text",
+                  "props": {
+                    "text": "PART 02 / RECOVERY & FLOW"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_41",
+                  "type": "Text",
+                  "props": {
+                    "text": "次は、実験の「動き」を見せます。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_42",
+                  "type": "Text",
+                  "props": {
+                    "text": "A：2×2 の入れ子ループとランダム分岐\nB：入力途中の質問票を刷新して復元\n\nA と B の順番はセッションごとに決まり、途中で再開しても維持されます。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_43",
+                  "type": "Button",
+                  "props": {
+                    "label": "次へ",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3100
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_ループ説明",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "A_ループ説明",
+        "config": {
+          "content": "同じ流れを、確実に 4 回。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_50",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_46",
+                  "type": "Text",
+                  "props": {
+                    "text": "GROUP A / NESTED LOOP"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_47",
+                  "type": "Text",
+                  "props": {
+                    "text": "同じ流れを、確実に 4 回。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_48",
+                  "type": "Text",
+                  "props": {
+                    "text": "2 回の外側ループ × 2 回の内側ループです。\n各回で A / B の質問をランダムに選びます。\nどちらの質問でも、1〜5 の値をひとつ選んでください。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_49",
+                  "type": "Button",
+                  "props": {
+                    "label": "次へ",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3255
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_外側2回",
+        "component": {
+          "type": "logic.loop",
+          "version": "1.0.0"
+        },
+        "label": "A_外側2回",
+        "config": {
+          "maxIterations": 2,
+          "untilRule": null
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3410
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_内側2回",
+        "component": {
+          "type": "logic.loop",
+          "version": "1.0.0"
+        },
+        "label": "A_内側2回",
+        "config": {
+          "maxIterations": 2,
+          "untilRule": null
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3565
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_質問分岐",
+        "component": {
+          "type": "logic.random",
+          "version": "1.0.0"
+        },
+        "label": "A_質問分岐",
+        "config": {
+          "probabilityA": 0.5,
+          "probabilityB": 0.5,
+          "probabilityC": null,
+          "probabilityD": null,
+          "seedSalt": ""
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3720
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_質問A",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "A_質問A",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "A_質問A_form",
+            "name": "ランダム分岐 A",
+            "questions": [
+              {
+                "question_id": "branch_a",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "【A】今、画面に集中できていますか？",
+                  "en": "【A】今、画面に集中できていますか？"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 3875
+        },
+        "metadata": {}
+      },
+      {
+        "id": "A_質問B",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "A_質問B",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "A_質問B_form",
+            "name": "ランダム分岐 B",
+            "questions": [
+              {
+                "question_id": "branch_b",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "【B】操作の流れは分かりやすいですか？",
+                  "en": "【B】操作の流れは分かりやすいですか？"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4030
+        },
+        "metadata": {}
+      },
+      {
+        "id": "B_復元説明",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "B_復元説明",
+        "config": {
+          "content": "入力途中から、再開できる。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_64",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_60",
+                  "type": "Text",
+                  "props": {
+                    "text": "GROUP B / LOCAL RECOVERY"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_61",
+                  "type": "Text",
+                  "props": {
+                    "text": "入力途中から、再開できる。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_62",
+                  "type": "Text",
+                  "props": {
+                    "text": "次の質問票で 1 問目に「デモ」と入力し、2 問目に進んでください。\n操作バーの「Checkpoint saved」を確認後、ページを再読み込みして「実験を再開」を選びます。\n\n回答と現在の質問が保持されることを確認します。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_63",
+                  "type": "Button",
+                  "props": {
+                    "label": "次へ",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4185
+        },
+        "metadata": {}
+      },
+      {
+        "id": "B_途中復元質問票",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "B_途中復元質問票",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "B_途中復元質問票_form",
+            "name": "途中入力の復元",
+            "questions": [
+              {
+                "question_id": "demo_note",
+                "type": "short_text",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "復元を確認するため「デモ」と入力してください。",
+                  "en": "復元を確認するため「デモ」と入力してください。"
+                },
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "demo_confidence",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "この操作を、もう一度自分で実行できそうですか？",
+                  "en": "この操作を、もう一度自分で実行できそうですか？"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "demo_followup",
+                "type": "short_text",
+                "required": false,
+                "prompt_i18n": {
+                  "ja": "どこに説明が必要だと感じましたか？",
+                  "en": "どこに説明が必要だと感じましたか？"
+                },
+                "time_limit_sec": null,
+                "show_if": {
+                  "question_id": "demo_confidence",
+                  "operator": "less_than",
+                  "value": 3
+                },
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4340
+        },
+        "metadata": {}
+      },
+      {
+        "id": "03_データ確認",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "03_データ確認",
+        "config": {
+          "content": "実行の結果を、確認できる形へ。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_71",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_67",
+                  "type": "Text",
+                  "props": {
+                    "text": "PART 03 / TRACEABLE DATA"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_68",
+                  "type": "Text",
+                  "props": {
+                    "text": "実行の結果を、確認できる形へ。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_69",
+                  "type": "Text",
+                  "props": {
+                    "text": "これで操作デモは終了です。\n完了画面からデータパッケージを出力し、セッション管理でイベント・回答・実行順を確認します。\n\n元の実験動画・実機・実際の PhysioDB の検証は、環境が整い次第実施します。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_70",
+                  "type": "Button",
+                  "props": {
+                    "label": "完了して保存",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4495
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_demo_9",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_demo_1",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "01_はじめに",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_10",
+        "kind": "control",
+        "source": {
+          "nodeId": "01_はじめに",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T1_注視",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_13",
+        "kind": "control",
+        "source": {
+          "nodeId": "T1_注視",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T1_映像",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_14",
+        "kind": "control",
+        "source": {
+          "nodeId": "T1_映像",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T1_SAM",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_15",
+        "kind": "control",
+        "source": {
+          "nodeId": "T1_SAM",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T1_印象",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_16",
+        "kind": "control",
+        "source": {
+          "nodeId": "T1_印象",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T2_注視",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_19",
+        "kind": "control",
+        "source": {
+          "nodeId": "T2_注視",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T2_映像",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_20",
+        "kind": "control",
+        "source": {
+          "nodeId": "T2_映像",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T2_SAM",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_21",
+        "kind": "control",
+        "source": {
+          "nodeId": "T2_SAM",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T2_印象",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_27",
+        "kind": "control",
+        "source": {
+          "nodeId": "T2_印象",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "前後半の切り替え",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_28",
+        "kind": "control",
+        "source": {
+          "nodeId": "前後半の切り替え",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T3_注視",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_31",
+        "kind": "control",
+        "source": {
+          "nodeId": "T3_注視",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T3_映像",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_32",
+        "kind": "control",
+        "source": {
+          "nodeId": "T3_映像",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T3_SAM",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_33",
+        "kind": "control",
+        "source": {
+          "nodeId": "T3_SAM",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T3_印象",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_34",
+        "kind": "control",
+        "source": {
+          "nodeId": "T3_印象",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T4_注視",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_37",
+        "kind": "control",
+        "source": {
+          "nodeId": "T4_注視",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T4_映像",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_38",
+        "kind": "control",
+        "source": {
+          "nodeId": "T4_映像",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T4_SAM",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_39",
+        "kind": "control",
+        "source": {
+          "nodeId": "T4_SAM",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "T4_印象",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_45",
+        "kind": "control",
+        "source": {
+          "nodeId": "T4_印象",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "02_機能デモへ",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_51",
+        "kind": "control",
+        "source": {
+          "nodeId": "02_機能デモへ",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_ループ説明",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_52",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_ループ説明",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_外側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_53",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_外側2回",
+          "portId": "body"
+        },
+        "target": {
+          "nodeId": "A_内側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_54",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_内側2回",
+          "portId": "body"
+        },
+        "target": {
+          "nodeId": "A_質問分岐",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_55",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問分岐",
+          "portId": "a"
+        },
+        "target": {
+          "nodeId": "A_質問A",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_56",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問分岐",
+          "portId": "b"
+        },
+        "target": {
+          "nodeId": "A_質問B",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_57",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問A",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_内側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_58",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_質問B",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "A_内側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_59",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_内側2回",
+          "portId": "exit"
+        },
+        "target": {
+          "nodeId": "A_外側2回",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_65",
+        "kind": "control",
+        "source": {
+          "nodeId": "A_外側2回",
+          "portId": "exit"
+        },
+        "target": {
+          "nodeId": "B_復元説明",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_66",
+        "kind": "control",
+        "source": {
+          "nodeId": "B_復元説明",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "B_途中復元質問票",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_72",
+        "kind": "control",
+        "source": {
+          "nodeId": "B_途中復元質問票",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "03_データ確認",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_demo_73",
+        "kind": "control",
+        "source": {
+          "nodeId": "03_データ確認",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_demo_2",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": [
+      {
+        "id": "group_a",
+        "name": "A｜入れ子ループ・分岐",
+        "nodeIds": [
+          "A_ループ説明",
+          "A_外側2回",
+          "A_内側2回",
+          "A_質問分岐",
+          "A_質問A",
+          "A_質問B"
+        ],
+        "kind": "container",
+        "parameters": [],
+        "metadata": {
+          "demoOnly": true
+        }
+      },
+      {
+        "id": "group_b",
+        "name": "B｜質問票・復元",
+        "nodeIds": [
+          "B_復元説明",
+          "B_途中復元質問票"
+        ],
+        "kind": "container",
+        "parameters": [],
+        "metadata": {
+          "demoOnly": true
+        }
+      }
+    ]
+  },
+  "variables": [],
+  "assets": [
+    {
+      "id": "QA_SLOW_01",
+      "name": "QA_SLOW_01.mp4",
+      "fileName": "QA_SLOW_01.mp4",
+      "mediaType": "video",
+      "category": "slow",
+      "condition": "QA-only",
+      "sourceMode": "manifest",
+      "checksum": "0eeb8b6a6f3ac53eed082d4da43dff989ad972b3d8ec052b57ff2966ef6a5279"
+    },
+    {
+      "id": "QA_SLOW_02",
+      "name": "QA_SLOW_02.mp4",
+      "fileName": "QA_SLOW_02.mp4",
+      "mediaType": "video",
+      "category": "slow",
+      "condition": "QA-only",
+      "sourceMode": "manifest",
+      "checksum": "ed056dbc59f5292eda797e9ec76345bae413809e6cdb56658908ff60dd15b833"
+    },
+    {
+      "id": "QA_PULSE_01",
+      "name": "QA_PULSE_01.mp4",
+      "fileName": "QA_PULSE_01.mp4",
+      "mediaType": "video",
+      "category": "pulse",
+      "condition": "QA-only",
+      "sourceMode": "manifest",
+      "checksum": "10e4dbe1891caa337f5504bb346dd2109430887accbdc812f95920fe0b04c08a"
+    },
+    {
+      "id": "QA_PULSE_02",
+      "name": "QA_PULSE_02.mp4",
+      "fileName": "QA_PULSE_02.mp4",
+      "mediaType": "video",
+      "category": "pulse",
+      "condition": "QA-only",
+      "sourceMode": "manifest",
+      "checksum": "e8b21143d120df4fb5f0916bcb0874d5b0432bb3e0066141b4fb29dac52908ce"
+    }
+  ],
+  "stimulusPools": [
+    {
+      "id": "demo_balanced",
+      "name": "テスト動画｜前後半バランス",
+      "mediaType": "video",
+      "assetIds": [
+        "QA_SLOW_01",
+        "QA_SLOW_02",
+        "QA_PULSE_01",
+        "QA_PULSE_02"
+      ],
+      "randomizationMode": "balanced-halves"
+    }
+  ],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  },
+  "groupRandomization": {
+    "enabled": true,
+    "groupIds": [
+      "group_a",
+      "group_b"
+    ]
+  }
+}

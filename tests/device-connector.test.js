@@ -70,3 +70,13 @@ test('device session blocks unapproved read and write operations', async () => {
   await assert.rejects(() => session.read('signal'), /device.read is not approved/);
   await assert.rejects(() => session.write('marker', 'x'), /device.write is not approved/);
 });
+
+test('default simulated samples change with advancing acquisition timestamps', async () => {
+  const adapter = createSimulatedDeviceAdapter();
+  await adapter.connect();
+  const samples = await Promise.all(Array.from({length: 5}, () => adapter.read('signal')));
+  assert.ok(new Set(samples.map(sample => sample.value)).size > 1, 'default preview must not be falsely flat');
+  assert.ok(samples.every((sample, index) => index === 0 || sample.timestamp > samples[index - 1].timestamp));
+  await adapter.disconnect();
+  await assert.rejects(adapter.read('signal'), /disconnected/);
+});

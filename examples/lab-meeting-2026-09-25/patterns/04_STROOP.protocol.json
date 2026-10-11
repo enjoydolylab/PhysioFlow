@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "lab_meeting_04_stroop_20260925",
+  "projectId": "lab_meeting_04_stroop_20260925",
+  "metadata": {
+    "name": "QA｜Stroop：文字の色への反応",
+    "description": "会議用プロトタイプ。合成・操作デモ用。研究結果ではありません。",
+    "tags": [
+      "QA ONLY",
+      "lab-meeting"
+    ],
+    "experimentDesign": {
+      "paradigm": "stroop",
+      "seed": 25,
+      "practice": false,
+      "trials": 8,
+      "jitterMs": 0
+    }
+  },
+  "biodb": {
+    "experimentId": "lab_meeting_04_stroop_20260925",
+    "experimentLabel": "Stroop：文字の色への反応"
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-08-23T00:00:00.000Z",
+    "updatedAt": "2026-09-25T02:14:19.327Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_0001",
+    "nodes": [
+      {
+        "id": "node_0001",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_0002",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "task",
+        "component": {
+          "type": "experiment.cognitive-task",
+          "version": "1.0.0"
+        },
+        "label": "Stroop trials",
+        "config": {
+          "taskKind": "stroop",
+          "practice": false,
+          "seed": 25,
+          "goRatio": 70,
+          "jitterMs": 0,
+          "trials": [
+            {
+              "trialId": "stroop_008",
+              "word": "YELLOW",
+              "ink": "yellow",
+              "inkColor": "#c28b00",
+              "expectedKey": "y",
+              "congruent": true,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            },
+            {
+              "trialId": "stroop_003",
+              "word": "BLUE",
+              "ink": "blue",
+              "inkColor": "#1565c0",
+              "expectedKey": "b",
+              "congruent": true,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            },
+            {
+              "trialId": "stroop_001",
+              "word": "RED",
+              "ink": "red",
+              "inkColor": "#d32f2f",
+              "expectedKey": "r",
+              "congruent": true,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            },
+            {
+              "trialId": "stroop_002",
+              "word": "BLUE",
+              "ink": "green",
+              "inkColor": "#198754",
+              "expectedKey": "g",
+              "congruent": false,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            },
+            {
+              "trialId": "stroop_007",
+              "word": "RED",
+              "ink": "blue",
+              "inkColor": "#1565c0",
+              "expectedKey": "b",
+              "congruent": false,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            },
+            {
+              "trialId": "stroop_004",
+              "word": "RED",
+              "ink": "yellow",
+              "inkColor": "#c28b00",
+              "expectedKey": "y",
+              "congruent": false,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            },
+            {
+              "trialId": "stroop_006",
+              "word": "GREEN",
+              "ink": "green",
+              "inkColor": "#198754",
+              "expectedKey": "g",
+              "congruent": true,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            },
+            {
+              "trialId": "stroop_005",
+              "word": "BLUE",
+              "ink": "red",
+              "inkColor": "#d32f2f",
+              "expectedKey": "r",
+              "congruent": false,
+              "fixationMs": 300,
+              "responseWindowMs": 1800,
+              "itiMs": 500
+            }
+          ]
+        },
+        "bindings": {},
+        "layout": {
+          "x": 540,
+          "y": 180
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_131c2eb9-3cde-4eb8-974c-31be59bca6a9",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_0001",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "task",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_bfcc8319-d087-4e0d-8651-43858bf5aa65",
+        "kind": "control",
+        "source": {
+          "nodeId": "task",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_0002",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

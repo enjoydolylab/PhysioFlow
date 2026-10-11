@@ -9,7 +9,7 @@ import CrossSessionCompare from './analysis/CrossSessionCompare.jsx';
 import { formatDateTime, STATUS_COLORS } from './analysis/charts.js';
 
 // Analytics — Full-screen dashboard for session data visualization
-export default function Analytics({ onBack, initialSessions = [], initialSessionId = null, onGuide }) {
+export default function Analytics({ onBack, initialSessions = [], initialSessionId = null, onGuide, onRecord }) {
   const [sessions, setSessions] = useState(initialSessions || []);
   const [selectedId, setSelectedId] = useState(initialSessionId);
   const [detail, setDetail] = useState(null);
@@ -118,7 +118,7 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
                   </div>
                   <div className="analytics-session-actions">
                     <ValidityBadge validity={detail.integrity?.validity_status} />
-                    <button className="hint" onClick={handleExport}>Export ZIP</button>
+                    <button className="hint" onClick={handleExport}>Export ZIP</button>{onRecord && <button onClick={() => onRecord(detail.session_id)}>Review saved record</button>}
                   </div>
                 </div>
 

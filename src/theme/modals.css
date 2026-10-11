@@ -7,13 +7,18 @@
   display: grid;
   place-items: center;
   z-index: 1000;
-  padding: 1.5rem;
+  padding: clamp(12px, 3vw, 24px);
+  overflow-y: auto;
 }
 .modal-panel {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-xl);
-  padding: 2rem;
+  padding: clamp(16px, 4vw, 32px);
+  min-width: 0;
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  overflow-wrap: anywhere;
   max-width: 440px;
   width: 100%;
   box-shadow: var(--shadow-lg);
@@ -26,8 +31,8 @@
 }
 .modal-panel p { color: var(--muted); font-size: .92rem; line-height: 1.5; }
 .modal-icon { display: block; font-size: 2.4rem; margin-bottom: .3rem; }
-.modal-actions { display: flex; gap: .6rem; margin-top: 1.5rem; justify-content: flex-end; }
-.modal-actions button { min-width: 80px; }
+.modal-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; justify-content: flex-end; }
+.modal-actions button { min-width: min(80px, 100%); white-space: normal; overflow-wrap: anywhere; }
 .modal-prompt input {
   width: 100%;
   border: 1px solid var(--line);

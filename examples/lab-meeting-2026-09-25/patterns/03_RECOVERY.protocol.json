@@ -1,0 +1,354 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "lab_meeting_03_recovery_20260925",
+  "projectId": "lab_meeting_03_recovery_20260925",
+  "metadata": {
+    "name": "QA｜条件付き質問票と復元",
+    "description": "会議用プロトタイプ。合成・操作デモ用。研究結果ではありません。",
+    "tags": [
+      "QA ONLY",
+      "lab-meeting"
+    ],
+    "demo": {
+      "estimatedPresentationMinutes": "5–8",
+      "testMediaOnly": true,
+      "requiresCurrentDevelopmentBuild": true
+    }
+  },
+  "biodb": {
+    "experimentId": "lab_meeting_03_recovery_20260925",
+    "experimentLabel": "条件付き質問票と復元"
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-09-25T00:00:00.000Z",
+    "updatedAt": "2026-09-25T00:00:00.000Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_demo_1",
+    "nodes": [
+      {
+        "id": "node_demo_1",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_demo_2",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4650
+        },
+        "metadata": {}
+      },
+      {
+        "id": "B_復元説明",
+        "component": {
+          "type": "display.screen",
+          "version": "1.0.0"
+        },
+        "label": "B_復元説明",
+        "config": {
+          "content": "入力途中から、再開できる。",
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_demo_64",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 920,
+                "align": "center",
+                "background": "#f7faf9",
+                "color": "#142e2b",
+                "padding": 40
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_demo_60",
+                  "type": "Text",
+                  "props": {
+                    "text": "GROUP B / LOCAL RECOVERY"
+                  },
+                  "style": {
+                    "color": "#377c70",
+                    "fontSize": 14,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_61",
+                  "type": "Text",
+                  "props": {
+                    "text": "入力途中から、再開できる。",
+                    "variant": "heading"
+                  },
+                  "style": {
+                    "fontSize": 34,
+                    "fontWeight": 700
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_62",
+                  "type": "Text",
+                  "props": {
+                    "text": "次の質問票で 1 問目に「デモ」と入力し、2 問目に進んでください。\n操作バーの「Checkpoint saved」を確認後、ページを再読み込みして「実験を再開」を選びます。\n\n回答と現在の質問が保持されることを確認します。"
+                  },
+                  "style": {
+                    "fontSize": 20,
+                    "lineHeight": 1.8
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_demo_63",
+                  "type": "Button",
+                  "props": {
+                    "label": "次へ",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          },
+          "completion": {
+            "mode": "manual"
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4185
+        },
+        "metadata": {}
+      },
+      {
+        "id": "B_途中復元質問票",
+        "component": {
+          "type": "input.questionnaire",
+          "version": "1.0.0"
+        },
+        "label": "B_途中復元質問票",
+        "config": {
+          "questionnaire": {
+            "questionnaire_id": "B_途中復元質問票_form",
+            "name": "途中入力の復元",
+            "questions": [
+              {
+                "question_id": "demo_note",
+                "type": "short_text",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "復元を確認するため「デモ」と入力してください。",
+                  "en": "復元を確認するため「デモ」と入力してください。"
+                },
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "demo_confidence",
+                "type": "likert",
+                "required": true,
+                "prompt_i18n": {
+                  "ja": "この操作を、もう一度自分で実行できそうですか？",
+                  "en": "この操作を、もう一度自分で実行できそうですか？"
+                },
+                "scale_min": 1,
+                "scale_max": 5,
+                "time_limit_sec": null,
+                "show_if": null,
+                "shuffle": false
+              },
+              {
+                "question_id": "demo_followup",
+                "type": "short_text",
+                "required": false,
+                "prompt_i18n": {
+                  "ja": "どこに説明が必要だと感じましたか？",
+                  "en": "どこに説明が必要だと感じましたか？"
+                },
+                "time_limit_sec": null,
+                "show_if": {
+                  "question_id": "demo_confidence",
+                  "operator": "less_than",
+                  "value": 3
+                },
+                "shuffle": false
+              }
+            ],
+            "shuffle_questions": false,
+            "show_progress": true
+          },
+          "ui": {
+            "schemaVersion": "1.0.0",
+            "root": {
+              "id": "ui_86acc525-68b0-4f1e-b26a-3dfed81faa96",
+              "type": "Screen",
+              "props": {
+                "maxWidth": 800,
+                "align": "center",
+                "background": "#ffffff",
+                "color": "#17211b",
+                "padding": 32,
+                "screenWidth": 1280,
+                "screenHeight": 720
+              },
+              "bindings": {},
+              "actions": [],
+              "children": [
+                {
+                  "id": "ui_55b94723-70fe-4e77-aa93-7614a812f978",
+                  "type": "Text",
+                  "props": {
+                    "text": "How do you feel?",
+                    "variant": "heading"
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_b304d2f3-2239-43aa-8eab-9dbec1e344fc",
+                  "type": "Input",
+                  "props": {
+                    "name": "response",
+                    "inputType": "rating",
+                    "label": "Rating",
+                    "min": 1,
+                    "max": 7,
+                    "required": true
+                  },
+                  "bindings": {},
+                  "actions": [],
+                  "children": []
+                },
+                {
+                  "id": "ui_ba13bc5e-1a58-4a75-9fa5-9f1c758b8329",
+                  "type": "Button",
+                  "props": {
+                    "label": "Submit response",
+                    "variant": "primary"
+                  },
+                  "bindings": {},
+                  "actions": [
+                    {
+                      "event": "click",
+                      "action": "submit"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          }
+        },
+        "bindings": {},
+        "layout": {
+          "x": 120,
+          "y": 4340
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_demo_66",
+        "kind": "control",
+        "source": {
+          "nodeId": "B_復元説明",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "B_途中復元質問票",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "demo_enter",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_demo_1",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "B_復元説明",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "demo_exit",
+        "kind": "control",
+        "source": {
+          "nodeId": "B_途中復元質問票",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_demo_2",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  },
+  "groupRandomization": {
+    "enabled": false,
+    "groupIds": []
+  }
+}

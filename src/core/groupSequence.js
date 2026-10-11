@@ -1,4 +1,4 @@
-import { inspectRepeatSegment } from './repeatSegment.js';
+import { inspectGroupSegment } from './groupSegment.js';
 import { shuffle } from './stimulusRandomization.js';
 
 /** Build an explicit, reproducible schedule; does not mutate a protocol or run it. */
@@ -11,11 +11,11 @@ export function planGroupSequence(protocol, groupIds, seed, registry) {
     if (!group) throw new Error(`Unknown group: ${groupId}`);
     if (group.nodeIds.some(id => seen.has(id))) throw new Error('Randomized groups cannot overlap');
     group.nodeIds.forEach(id => seen.add(id));
-    const segment = inspectRepeatSegment(protocol, group.nodeIds, registry);
+    const segment = inspectGroupSegment(protocol, group.nodeIds, registry);
     if (!segment.valid) throw new Error(`${group.name}: ${segment.message}`);
     return { groupId, nodeIds: segment.ordered };
   });
-  const combined = inspectRepeatSegment(protocol, [...seen], registry);
+  const combined = inspectGroupSegment(protocol, [...seen], registry);
   if (!combined.valid) throw new Error('The groups must form one continuous sequence with no intervening steps');
   const ordered = shuffle(segments, seed);
   return {
@@ -33,8 +33,8 @@ export function prepareGroupSequence(protocol, groupIds, seed, registry) {
   if (protocol.graph.edges.some(edge => edge.kind === 'data' && owner.has(edge.source.nodeId) && owner.has(edge.target.nodeId) && owner.get(edge.source.nodeId) !== owner.get(edge.target.nodeId))) {
     throw new Error('Groups linked by data connections cannot be reordered independently');
   }
-  const whole = inspectRepeatSegment(protocol, plan.nodeOrder, registry);
-  const segments = plan.groups.map(group => inspectRepeatSegment(protocol, group.nodeIds, registry));
+  const whole = inspectGroupSegment(protocol, plan.nodeOrder, registry);
+  const segments = plan.groups.map(group => inspectGroupSegment(protocol, group.nodeIds, registry));
   const next = structuredClone(protocol);
   const edges = new Map(next.graph.edges.map(edge => [edge.id, edge]));
   edges.get(whole.incoming.id).target = structuredClone(segments[0].incoming.target);

@@ -125,9 +125,12 @@ try {
   await send('Page.addScriptToEvaluateOnNewDocument', { source: "try{localStorage.setItem('physioflow.ui-language','en')}catch(e){}" });
   await send('Page.reload', { ignoreCache: true });
   await send('Runtime.enable');
-  await waitFor(`document.body.textContent.includes('RUNTIME V2 READY') && document.body.textContent.includes('PUBLIC-E2E')`, 'verified participant runtime');
+  await waitFor(`!!document.querySelector('.pf-preflight') && document.body.textContent.includes('Public participant E2E')`, 'verified participant runtime');
+  assert.equal(await evaluate(`!!document.querySelector('a[href*="operator"], input[type="password"]')`), false, 'participant cannot open operator monitor or device credentials');
   await clickText('Begin experiment');
   await waitFor(`document.body.textContent.includes('Welcome') && document.body.textContent.includes('Continue')`, 'participant instruction');
+  await evaluate(`window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyO',ctrlKey:true,shiftKey:true,bubbles:true}))`);
+  assert.equal(await evaluate(`!!document.querySelector('[aria-label="Operator controls"]')`), false, 'operator shortcut is disabled in public participant mode');
   const syncStarted = Date.now();
   while (![...service.sessions.values()][0]?.runtimeSnapshot && Date.now() - syncStarted < 5000) await new Promise(resolve => setTimeout(resolve, 50));
   assert.ok([...service.sessions.values()][0]?.runtimeSnapshot, 'Hosted recovery snapshot was not synchronized');
@@ -135,7 +138,7 @@ try {
   assert.equal([...service.sessions.values()][0].runtimeSnapshot.stimulus_assignment_policy, 'global-completion-v1');
   await evaluate(`new Promise((resolve, reject) => { const request = indexedDB.open('physioflow-data-v1', 1); request.onsuccess = () => { const transaction = request.result.transaction('current', 'readwrite'); transaction.objectStore('current').delete('active'); transaction.oncomplete = resolve; transaction.onerror = () => reject(transaction.error); }; request.onerror = () => reject(request.error); }).then(() => { localStorage.removeItem('physioflow.current-run-pointer.v2'); localStorage.setItem('physioflow.ui-language', 'en'); })`);
   await send('Page.reload', { ignoreCache: true });
-  await waitFor(`document.body.textContent.includes('Welcome') && !document.body.textContent.includes('RUNTIME V2 READY') && [...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue') && !button.disabled)`, 'participant refresh recovery');
+  await waitFor(`document.body.textContent.includes('Welcome') && !document.querySelector('.pf-preflight') && [...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue') && !button.disabled)`, 'participant refresh recovery');
   const groupBootstrap = await owner.bootstrap([...service.sessions.values()][0].sessionId);
   const firstNodeId = [...service.sessions.values()][0].runtimeSnapshot.currentNodeId;
   await clickText('Continue');
@@ -144,7 +147,8 @@ try {
   assert.notEqual([...service.sessions.values()][0].runtimeSnapshot.currentNodeId, firstNodeId);
   await waitFor(`document.body.textContent.includes('Welcome') && [...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue') && !button.disabled)`, 'second randomized group');
   await clickText('Continue');
-  await waitFor(`document.body.textContent.includes('SESSION COMPLETE') && document.body.textContent.includes('Hosted sync complete')`, 'public participant completion');
+  await waitFor(`document.body.textContent.includes('Your experiment is finished. Please contact the operator.')`, 'public participant completion');
+  assert.equal(await evaluate(`[...document.querySelectorAll('button')].some(b => /Export|Return to projects/.test(b.textContent))`), false, 'participant completion has no exports or workspace controls');
   assert.equal(service.launchLinks.get(link.launchLinkId).useCount, 1);
   const session = [...service.sessions.values()][0];
   assert.equal(session.status, 'completed');

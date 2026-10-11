@@ -1,4 +1,6 @@
 import { createServer } from 'node:http';
+import { createPhysioDBTestRuns } from './physioDBTestRuns.mjs';
+import { createPhysioDBBindings } from './physioDBBindings.mjs';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
 import { createHostedHttpHandler, createPersistentHostedExecutionService } from '../src/hosted/index.js';
@@ -87,7 +89,7 @@ async function staticResponse(request, staticDirectory) {
   if (url.pathname === '/participant/') return new Response(null, { status: 308, headers: { location: '/participant' } });
   let pathname;
   try { pathname = decodeURIComponent(url.pathname); } catch { return new Response('Invalid path', { status: 400 }); }
-  const requested = pathname === '/' || pathname === '/participant' || pathname === '/participant/' ? 'index.html' : pathname.replace(/^\//, '');
+  const requested = pathname === '/' || pathname === '/participant' || pathname === '/participant/' || pathname === '/admin' || pathname === '/admin/' || pathname === '/operator' || pathname === '/operator/' ? 'index.html' : pathname.replace(/^\//, '');
   const root = resolve(staticDirectory);
   const file = resolve(root, requested);
   if (file !== root && !file.startsWith(`${root}${sep}`)) return new Response('Invalid path', { status: 400 });
@@ -117,6 +119,8 @@ export async function createHostedNodeServer(options = {}) {
   const assetDelivery = options.assetDirectory ? createFilesystemAssetDelivery({ rootDirectory: options.assetDirectory, secret: options.assetSecret, publicBaseUrl: () => baseUrl, ttlMs: options.assetTtlMs, maximumBytes: maximumAssetBytes, clock: options.epochClock }) : null;
   const store = options.store || new FileHostedStateStore(options.stateFile);
   const service = await createPersistentHostedExecutionService({ ...options.serviceOptions, actors: options.actors, store, stateProtector, assetResolver: assetDelivery?.resolve });
+  const dbBindings = options.physioDBBridge && options.stateFile ? await createPhysioDBBindings({ filePath: options.physioDBBindingFile || `${options.stateFile}.physiodb-bindings.json`, bridge: options.physioDBBridge }) : null;
+  const dbTestRuns = options.physioDBBridge && options.stateFile ? await createPhysioDBTestRuns({ filePath: `${options.stateFile}.physiodb-test-runs.json`, bridge: options.physioDBBridge }) : null;
   const hosted = createHostedHttpHandler(service, { maximumBodyBytes, allowedOrigins: options.allowedOrigins });
   const readiness = async () => {
     const checks = { state: { ready: false }, assets: { ready: false } };
@@ -173,6 +177,49 @@ export async function createHostedNodeServer(options = {}) {
         if (!['GET', 'HEAD'].includes(incoming.method)) return send(new Response('Method not allowed', { status: 405, headers: { allow: 'GET, HEAD', 'cache-control': 'no-store' } }));
         const result = await readiness();
         return send(new Response(JSON.stringify(result), { status: result.status === 'ready' ? 200 : 503, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' } }));
+      }
+      if (pathname === '/v1/devices/monitor') {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
+        if (incoming.method !== 'GET') return send(new Response('Method not allowed', { status: 405, headers: { allow: 'GET, OPTIONS' } }));
+        const actor = await service.authorize(accessContext(request), 'audit.read');
+        if (!options.deviceMonitorBridge) throw Object.assign(new Error('Device monitoring is not configured on the PF server.'), { status: 503 });
+        const kind = new URL(request.url).searchParams.get('source');
+        if (!['brainflow', 'koguchi'].includes(kind)) throw Object.assign(new Error('Invalid device monitor source'), { status: 400 });
+        return send(jsonResponse(await options.deviceMonitorBridge(actor, kind), 200, request, options.allowedOrigins));
+      }
+      if (['/v1/physiodb/test-runs/prepare', '/v1/physiodb/test-runs/complete'].includes(pathname)) {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
+        const actor = await service.authorize(accessContext(request), 'audit.read');
+        if (incoming.method !== 'POST') return send(new Response('Method not allowed', { status: 405 }));
+        if (!dbTestRuns) throw Object.assign(new Error('Database test runs are not configured'), { status: 503 });
+        let input; try { input = await request.json(); } catch { throw Object.assign(new Error('Invalid test run JSON'), { status: 400 }); }
+        const result = await dbTestRuns[pathname.endsWith('/prepare') ? 'prepare' : 'complete'](actor, input);
+        return send(jsonResponse({ result }, 200, request, options.allowedOrigins));
+      }
+      if (pathname === '/v1/physiodb/bindings') {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
+        const actor = await service.authorize(accessContext(request), 'audit.read');
+        if (!dbBindings) throw Object.assign(new Error('Database bindings are not configured'), { status: 503 });
+        if (incoming.method === 'GET') return send(jsonResponse({ bindings: await dbBindings.list(actor) }, 200, request, options.allowedOrigins));
+        if (incoming.method !== 'PUT') return send(new Response('Method not allowed', { status: 405, headers: { allow: 'GET, PUT, OPTIONS' } }));
+        let input;
+        try { input = await request.json(); } catch { throw Object.assign(new Error('Invalid binding JSON'), { status: 400 }); }
+        if (service.sessions.has(input?.sessionId)) {
+          const { session } = await service.authorizeSession(accessContext(request), 'session.read', input.sessionId);
+          if (session.protocolId !== input.protocolId || session.protocolVersion !== input.protocolVersion) throw Object.assign(new Error('Binding protocol does not match the hosted session'), { status: 400 });
+        }
+        return send(jsonResponse({ binding: await dbBindings.put(actor, input) }, 200, request, options.allowedOrigins));
+      }
+      if (pathname === '/v1/physiodb/rpc') {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
+        if (incoming.method !== 'POST') return send(new Response('Method not allowed', { status: 405, headers: { allow: 'POST, OPTIONS' } }));
+        const actor = await service.authorize(accessContext(request), 'audit.read');
+        if (!options.physioDBBridge) return send(jsonResponse({ error: { code: 'unavailable', message: 'PhysioDB SDK bridge is not configured' } }, 503, request, options.allowedOrigins));
+        let rpc;
+        try { rpc = await request.json(); } catch { throw Object.assign(new Error('Invalid PhysioDB request JSON'), { status: 400 }); }
+        if (!rpc || typeof rpc.operation !== 'string' || !rpc.args || typeof rpc.args !== 'object' || Array.isArray(rpc.args)) throw Object.assign(new Error('Invalid PhysioDB RPC'), { status: 400 });
+        const result = await options.physioDBBridge(actor, rpc.operation, rpc.args);
+        return send(jsonResponse({ result }, 200, request, options.allowedOrigins));
       }
       if (pathname === '/metrics') {
         if (!['GET', 'HEAD'].includes(incoming.method)) return send(new Response('Method not allowed', { status: 405, headers: { allow: 'GET, HEAD', 'cache-control': 'no-store' } }));

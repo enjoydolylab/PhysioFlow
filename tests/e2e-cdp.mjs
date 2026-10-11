@@ -77,12 +77,14 @@ socket.addEventListener('message', event => {
   const waiter = pending.get(message.id);
   if (!waiter) return;
   pending.delete(message.id);
+  clearTimeout(waiter.timer);
   message.error ? waiter.reject(new Error(message.error.message)) : waiter.resolve(message.result);
 });
 
 const send = (method, params = {}) => new Promise((resolve, reject) => {
   const id = ++sequence;
-  pending.set(id, { resolve, reject });
+  const timer = setTimeout(() => { pending.delete(id); reject(new Error(`Legacy browser command timed out: ${method}`)); }, 25000);
+  pending.set(id, { resolve, reject, timer });
   socket.send(JSON.stringify({ id, method, params }));
 });
 const evaluate = async expression => {
@@ -91,6 +93,7 @@ const evaluate = async expression => {
   return result.result.value;
 };
 const waitFor = async (expression, label, timeout = 8000) => {
+  console.log(`Legacy check: ${label}`);
   const started = Date.now();
   while (Date.now() - started < timeout) {
     if (await evaluate(expression)) return;
@@ -170,6 +173,7 @@ await send('Page.enable');
 await send('Runtime.enable');
 
 await navigateTo(appUrl);
+try {
 await resetWorkspace();
 await seedProtocol('E2E formal storage gate', true);
 // The project card reports readiness as a pill; a frozen protocol with no local
@@ -229,8 +233,6 @@ assert.equal(details[0].participant_id, 'E2E-PREVIEW');
 assert.equal(details[0].run_mode, 'preview');
 assert.ok(details[0].events.some(event => event.event_type === 'session_completed'));
 
-socket.close();
-await cleanup();
 console.log(JSON.stringify({
   status: 'passed',
   formal_gate: 'blocked_without_local_folder',
@@ -238,3 +240,5 @@ console.log(JSON.stringify({
   preview_events: details[0].events.length,
   preview_integrity: details[0].integrity?.validity_status,
 }, null, 2));
+
+} finally { socket.close(); await cleanup(); }

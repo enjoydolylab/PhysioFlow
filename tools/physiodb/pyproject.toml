@@ -1,0 +1,8 @@
+[project]
+name = "physioflow-physiodb-bridge"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["physiodb-client"]
+
+[tool.uv.sources]
+physiodb-client = { git = "https://github.com/enjoydolylab/physiodb-client-python.git", rev = "d34e07c5cb0010c7e526af70cb361aa085b4c1a8" }

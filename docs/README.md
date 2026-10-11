@@ -1,5 +1,7 @@
 # 文档导航
 
+当前工作区（2026-10-09）：[PF 重构完整验收](PF_REFACTOR_ACCEPTANCE_2026-10-09.md)、[持续上下文](PF_CONTEXT.md)、[流程与界面方案](PF_REDESIGN_2026-10-09.md)、[官方 PhysioDB 接入](PHYSIODB_INTEGRATION.md)。发布制品与开发代码的区别以[实现状态](refactor/IMPLEMENTATION_STATUS.md)为准，以下旧日期条目保留作历史记录。
+
 当前开发候选与对接进度（2026-09-24）：[已完成／进行中／未完成](PROGRESS_REPORT_2026-09-24.md)。最新完整质量检查：437 项测试通过，构建、Lint 和三个浏览器套件通过；尚未发布新版安装包。下方旧日期记录保留作历史基线。
 
 更新：2026-09-17。当前发布为 beta.4；画布与实验自定义新增功能属于开发版，尚未重新打包发布。应用版本事实以[实现状态](refactor/IMPLEMENTATION_STATUS.md)为准。
@@ -66,6 +68,9 @@
 
 ## 版本验证记录
 
+- [beta.5 发布说明](RELEASE_NOTES_beta.5.md)
+- [beta.6 发布说明](RELEASE_NOTES_beta.6.md)
+- [BrainFlow 合成板演示](BRAINFLOW_DEMO.md)
 - [UI / Block / Customization acceptance — 2026-09-05](ACCEPTANCE_REPORT_2026-09-05.md)
 - [Runtime reliability follow-up — 2026-09-05](refactor/RUNTIME_RELIABILITY_AUDIT_2026-09-05.md)
 
@@ -83,6 +88,9 @@
 
 ## 历史计划与审查
 
+- [旧 BioDB 对接方案](refactor/PF_BIODB_INTEGRATION.md)
+- [2026-08-23 组会实验标识记录](refactor/MEETING_2026-08-23_EXPERIMENT_ID.md)
+- [早期平台业务分析](refactor/PLATFORM_BUSINESS_ANALYSIS.md)
 - [组件体系与元素功能 · 验收审查报告](refactor/COMPONENT_ACCEPTANCE.md)
 - [Pilot Verification Report](refactor/PILOT_VERIFICATION_REPORT.md)
 - [Refactor Completion Audit](refactor/REFACTOR_COMPLETION_AUDIT.md)

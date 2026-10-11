@@ -157,7 +157,7 @@ export function useComposerState({ protocol, onChange }) {
   const addComponent = definition => {
     const controlIn = definition.ports.find(port => port.kind === 'control' && port.direction === 'input');
     const controlOut = definition.ports.find(port => port.kind === 'control' && port.direction === 'output');
-    const selectedNodeEdge = selectedNode && protocol.graph.edges.find(item => item.kind === 'control' && item.source.nodeId === selectedNode.id && item.source.portId === 'next');
+    const selectedNodeEdge = selectedNode && protocol.graph.edges.find(item => item.kind === 'control' && (selectedNode.component.type === 'core.end' ? item.target.nodeId === selectedNode.id : item.source.nodeId === selectedNode.id && item.source.portId === 'next'));
     const edge = selectedEdge?.kind === 'control' ? selectedEdge : selectedNodeEdge || protocol.graph.edges.find(item => item.kind === 'control' && item.source.nodeId === protocol.graph.entryNodeId);
     try {
       if (edge && controlIn && controlOut) {

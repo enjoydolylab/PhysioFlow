@@ -21,6 +21,10 @@ button {
   color: var(--ink);
   box-shadow: var(--shadow-sm);
   transition: border-color var(--transition-fast), background var(--transition-fast), transform .1s ease, box-shadow var(--transition-fast), color var(--transition-fast);
+  /* Baseline safety net only: inert unless a button is wider than its container.
+     min-width:0 / overflow-wrap are deliberately NOT global — they lower every
+     button's min-content and would let nowrap toolbars squeeze at desktop. */
+  max-width: 100%;
 }
 button:hover { border-color: var(--green); box-shadow: var(--ring); }
 button:active:not(:disabled) { transform: scale(.97); }
@@ -123,8 +127,8 @@ header {
 code { font-size: .84rem; color: var(--muted); font-family: var(--font-mono); }
 .version-history code, .setup-note code { display: block; }
 
-.toolbar { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
-.toolbar div { display: flex; gap: .5rem; }
+.toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.toolbar div { display: flex; flex-wrap: wrap; gap: .5rem; }
 
 .builder-grid { display: grid; grid-template-columns: 230px 1fr; gap: 1.5rem; }
 .builder-grid aside {

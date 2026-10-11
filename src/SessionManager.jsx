@@ -10,9 +10,10 @@ import { dictionaryPayload } from './data/channelDictionary.js';
 import { buildJointExportFiles, channelsForExport } from './data/jointExport.js';
 import { loadSettings } from './fsStorage.js';
 
+const PhysioDBTestResult = lazy(() => import('./PhysioDBTestResult.jsx'));
 const GuidePanel = lazy(() => import('./GuidePanel.jsx'));
 
-export default function SessionManager() {
+export default function SessionManager({ embedded = false, initialSessionId = null, onClose, onAnalyze }) {
   const [open, setOpen] = useState(false);
   const [summaries, setSummaries] = useState([]);
   const [detail, setDetail] = useState(null);
@@ -37,7 +38,15 @@ export default function SessionManager() {
     }
   }, []);
 
-  useEffect(() => { if (open) refreshSessions(); }, [open, refreshSessions]);
+  useEffect(() => { if (open || embedded) refreshSessions(); }, [open, embedded, refreshSessions]);
+
+  useEffect(() => {
+    if (!initialSessionId || !embedded) return;
+    let active = true;
+    setLoading(true);
+    loadSession(initialSessionId).then(data => { if (active) { setDetail(data); if (!data) setAlert({title:'Session missing',message:'The selected session could not be found in local storage.'}); } }).catch(error => { if (active) setAlert({title:'Session unavailable',message:error.message}); }).finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [embedded, initialSessionId]);
 
   const filteredSummaries = useMemo(() => {
     const query = filterText.trim().toLowerCase();
@@ -227,8 +236,8 @@ export default function SessionManager() {
   };
 
   return <>
-    <button className="manage-sessions" onClick={() => setOpen(true)}>☷ Manage sessions</button>
-    {open && <div className="session-manager">
+    {!embedded && <button className="manage-sessions" onClick={() => setOpen(true)}>☷ Manage sessions</button>}
+    {(open || embedded) && <div className={`session-manager${embedded ? ' session-manager-embedded' : ''}`}>
       <div className="session-manager-head">
         <div><span>SESSION DATA</span><b>Review, export and validate</b></div>
         <div>
@@ -236,7 +245,7 @@ export default function SessionManager() {
           <button onClick={() => setGuideTab('storage')}>Storage</button>
           <button disabled={!filteredSummaries.length || loading} onClick={exportAll}>Export filtered Sessions</button>
           <button disabled={listLoading} onClick={refreshSessions}>Refresh</button>
-          <button onClick={() => setOpen(false)}>Close</button>
+          <button onClick={() => { setOpen(false); onClose?.(); }}>Close</button>
         </div>
       </div>
       <div className="session-manager-body">
@@ -261,7 +270,7 @@ export default function SessionManager() {
           {filteredSummaries.map(item => (
             <button className={detail?.session_id === item.session_id ? 'selected' : ''} key={item.session_id} onClick={() => select(item)}>
               <span className={`session-dot ${item.integrity?.validity_status || item.status}`} />
-              <div><b>{item.participant_id}</b><small>{item.protocol_name} · {item.researcher_validity || item.integrity?.validity_status || 'unreviewed'} · v{item.protocol_version}</small></div>
+              <div><b>{item.participant_id}</b><small>{item.protocol_name} · {item.researcher_validity || item.integrity?.validity_status || 'unreviewed'} · v{item.protocol_version}{item.db_test_status && ` · PhysioDB: ${item.db_test_status}`}</small></div>
               <time>{item.ended_at?.slice(0, 10)}</time>
             </button>
           ))}
@@ -270,6 +279,7 @@ export default function SessionManager() {
           {!listLoading && Boolean(summaries.length) && !filteredSummaries.length && <p>No Sessions match the current filter.</p>}
         </aside>
         <section>
+          {detail && onAnalyze && <button className="primary" onClick={() => onAnalyze(detail.session_id)}>Analyze this session</button>}
           {loading ? <p>Loading Session…</p> : detail ? <SessionDetail detail={detail} setDetail={setDetail} onSave={saveReview} onExport={exportData} onExportSimple={exportSimple} onExportJoint={exportJoint} onDelete={remove} onPushBioDB={pushToBioDB} /> : <div className="session-placeholder"><b>Select a Session</b><p>The complete event history and answers are stored in the active local storage backend, separate from the lightweight dashboard index.</p></div>}
         </section>
       </div>
@@ -294,8 +304,7 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
       </div>
       <button className="primary" onClick={onExportSimple}>Export simplified data</button>
       <button onClick={onExport}>Export complete (advanced)</button>
-      <button className="bio-btn" onClick={onPushBioDB} title="Push device samples to BioDB (experiment/participant tags)">Push to BioDB</button>
-      <button className="bio-btn" onClick={onExportJoint} title="Export the PF session together with the BioDB time series, events and experiment metadata">Joint export (BioDB)</button>
+      <details><summary>Legacy BioDB connection</summary><button className="bio-btn" onClick={onPushBioDB}>Push to BioDB</button><button className="bio-btn" onClick={onExportJoint}>Joint export (BioDB)</button></details>
     </div>
     <div className="session-metrics">
       <div><b>{detail.events?.length || 0}</b><span>events</span></div>
@@ -322,6 +331,7 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
         <code>+{graphSession ? 16 : Math.max(0, OUTPUT_FILES.length - 6)} more</code>
       </div>
     </div>
+    {graphSession && detail.db_test_run && <Suspense fallback={null}><PhysioDBTestResult session={detail} protocol={detail.protocol_snapshot} events={detail.events || []} deviceEvents={detail.device_events || []} onReport={async report => { const next = { ...detail, db_test_report: report }; await saveSession(next); setDetail(next); }} /></Suspense>}
     {graphSession && <RuntimeReplayPanel protocol={detail.protocol_snapshot} events={detail.events || []} />}
     <label htmlFor="researcher-validity">Researcher validity
       <select id="researcher-validity" value={detail.researcher_validity || 'unreviewed'} onChange={e => setDetail({ ...detail, researcher_validity: e.target.value })}>

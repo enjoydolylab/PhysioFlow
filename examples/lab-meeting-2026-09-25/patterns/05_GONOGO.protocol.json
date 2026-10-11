@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "2.0.0-alpha.1",
+  "protocolId": "lab_meeting_05_gonogo_20260925",
+  "projectId": "lab_meeting_05_gonogo_20260925",
+  "metadata": {
+    "name": "QA｜Go/No-Go：反応と抑制",
+    "description": "会議用プロトタイプ。合成・操作デモ用。研究結果ではありません。",
+    "tags": [
+      "QA ONLY",
+      "lab-meeting"
+    ],
+    "experimentDesign": {
+      "paradigm": "gonogo",
+      "seed": 25,
+      "practice": false,
+      "trials": 10,
+      "jitterMs": 0,
+      "goRatio": 70
+    }
+  },
+  "biodb": {
+    "experimentId": "lab_meeting_05_gonogo_20260925",
+    "experimentLabel": "Go/No-Go：反応と抑制"
+  },
+  "version": {
+    "number": 1,
+    "label": "Draft 1",
+    "status": "draft"
+  },
+  "audit": {
+    "createdAt": "2026-08-23T00:00:00.000Z",
+    "updatedAt": "2026-09-25T02:14:19.327Z",
+    "frozenAt": null
+  },
+  "graph": {
+    "entryNodeId": "node_0001",
+    "nodes": [
+      {
+        "id": "node_0001",
+        "component": {
+          "type": "core.start",
+          "version": "1.0.0"
+        },
+        "label": "Start",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 80,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "node_0002",
+        "component": {
+          "type": "core.end",
+          "version": "1.0.0"
+        },
+        "label": "End",
+        "config": {},
+        "bindings": {},
+        "layout": {
+          "x": 560,
+          "y": 180
+        },
+        "metadata": {}
+      },
+      {
+        "id": "task",
+        "component": {
+          "type": "experiment.cognitive-task",
+          "version": "1.0.0"
+        },
+        "label": "Go/No-Go trials",
+        "config": {
+          "taskKind": "gonogo",
+          "practice": false,
+          "seed": 25,
+          "goRatio": 70,
+          "jitterMs": 0,
+          "trials": [
+            {
+              "trialId": "gonogo_003",
+              "stimulus": "X",
+              "trialType": "go",
+              "expectedKey": "space",
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_009",
+              "stimulus": "O",
+              "trialType": "nogo",
+              "expectedKey": null,
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_004",
+              "stimulus": "X",
+              "trialType": "go",
+              "expectedKey": "space",
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_007",
+              "stimulus": "X",
+              "trialType": "go",
+              "expectedKey": "space",
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_001",
+              "stimulus": "X",
+              "trialType": "go",
+              "expectedKey": "space",
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_010",
+              "stimulus": "O",
+              "trialType": "nogo",
+              "expectedKey": null,
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_002",
+              "stimulus": "X",
+              "trialType": "go",
+              "expectedKey": "space",
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_005",
+              "stimulus": "X",
+              "trialType": "go",
+              "expectedKey": "space",
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_008",
+              "stimulus": "O",
+              "trialType": "nogo",
+              "expectedKey": null,
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            },
+            {
+              "trialId": "gonogo_006",
+              "stimulus": "X",
+              "trialType": "go",
+              "expectedKey": "space",
+              "fixationMs": 300,
+              "responseWindowMs": 1000,
+              "itiMs": 500
+            }
+          ]
+        },
+        "bindings": {},
+        "layout": {
+          "x": 540,
+          "y": 180
+        },
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_2c3c26c6-1195-42f2-a261-810c76aced05",
+        "kind": "control",
+        "source": {
+          "nodeId": "node_0001",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "task",
+          "portId": "in"
+        },
+        "metadata": {}
+      },
+      {
+        "id": "edge_23ffc95b-905c-4de0-8500-62191218942a",
+        "kind": "control",
+        "source": {
+          "nodeId": "task",
+          "portId": "next"
+        },
+        "target": {
+          "nodeId": "node_0002",
+          "portId": "in"
+        },
+        "metadata": {}
+      }
+    ],
+    "groups": []
+  },
+  "variables": [],
+  "assets": [],
+  "stimulusPools": [],
+  "templates": [],
+  "subflowTemplates": [],
+  "componentPackages": [],
+  "deviceConnectors": [],
+  "participantUi": {
+    "theme": {}
+  },
+  "questionnaireLibrary": [],
+  "dataPolicy": {
+    "level": "standard",
+    "retainRawEvents": true
+  }
+}

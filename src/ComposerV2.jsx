@@ -6,14 +6,20 @@ import { UI_TEMPLATE_KIND } from './composer/toolbox.js';
 import { CodeView } from './composer/NodeInspector.jsx';
 import { useComposerState } from './composer/useComposerState.js';
 import Header from './composer/Header.jsx';
+import GuidePanel from './GuidePanel.jsx';
+import { useGuideCopy } from './TaskGuide.jsx';
 import { previewResourceIds } from './composer/mediaPerformance.js';
 import Palette from './composer/Palette.jsx';
 import Canvas from './composer/Canvas.jsx';
+import Sequence from './composer/Sequence.jsx';
+import { protocolSequence } from './composer/sequenceModel.js';
 import Inspector from './composer/Inspector.jsx';
 import ProtocolBioDBConfig from './ProtocolBioDBConfig.jsx';
 import { loadSettings, loadAssetFile } from './fsStorage.js';
 
 export default function ComposerV2({ protocol, onChange, onSave, onBack, onExport, onPreview, onFreeze, onCreateDraft, onHostedRun, onUndo, onRedo, canUndo, canRedo, hasUnsaved, saveAnim }) {
+  const [guideOpen, setGuideOpen] = useState(false);
+  const guide = useGuideCopy();
   const s = useComposerState({ protocol, onChange });
   const {
     locked, codeView, codeText, codeError,
@@ -21,6 +27,9 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
     previewNode, previewDefinition, previewEdit, setPreviewEdit, setPreviewNodeId,
     actions, setCodeText, applyCode, closeCodeView, formatCode, codeDirty,
   } = s;
+  const [flowView, setFlowView] = useState(null);
+  const ordered = protocolSequence(protocol);
+  const sequenceVisible = ordered && (flowView === 'sequence' || (!flowView && s.editorMode === 'quick'));
   const [bioDBOpen, setBioDBOpen] = useState(false);
   const [settings, setSettings] = useState(null);
   const previewIds = previewResourceIds(protocol, [s.selectedNode, previewNode]);
@@ -48,15 +57,17 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
   // edits would be discarded), so their full-screen editor is preview-only.
   const fullscreenUiEditable = previewNode && !['input.questionnaire', 'timing.wait'].includes(previewNode.component.type);
   return <main className={`composer-v2 ${locked ? 'locked' : ''}`}>
-    <Header s={s} onSave={onSave} onBack={onBack} onExport={onExport} onPreview={onPreview} onFreeze={onFreeze} onCreateDraft={onCreateDraft} onUndo={onUndo} onRedo={onRedo} canUndo={canUndo} canRedo={canRedo} hasUnsaved={hasUnsaved} saveAnim={saveAnim} onBioDB={() => setBioDBOpen(true)} />
+    <Header s={s} onSave={onSave} onBack={onBack} onExport={onExport} onPreview={onPreview} onFreeze={onFreeze} onCreateDraft={onCreateDraft} onUndo={onUndo} onRedo={onRedo} canUndo={canUndo} canRedo={canRedo} hasUnsaved={hasUnsaved} saveAnim={saveAnim} onGuide={() => setGuideOpen(true)} onBioDB={() => setBioDBOpen(true)} />
+    {!locked && protocol.graph.nodes.length <= 2 && <p className="composer-first-step">{guide.hint}</p>}
     {bioDBOpen && <ProtocolBioDBConfig protocol={protocol} settings={settings || {}} onChange={onChange} onClose={() => setBioDBOpen(false)} />}
     {deletePending && <div className="composer-delete-confirm">Delete {deletePending.ids.length} node(s)? You can undo this change.
       <button className="danger" onClick={confirmDelete}>Delete</button>
       <button onClick={cancelDelete}>Cancel</button>
     </div>}
+    {guideOpen && <GuidePanel onClose={() => setGuideOpen(false)} />}
     {codeView ? <CodeView text={codeText} error={codeError} locked={locked} dirty={codeDirty} onChange={setCodeText} onApply={applyCode} onFormat={formatCode} onClose={closeCodeView} /> : <div className="composer-layout">
-      <Palette s={s} onHostedRun={onHostedRun} />
-      <Canvas s={s} />
+      <Palette s={s} sequence={Boolean(sequenceVisible)} onHostedRun={onHostedRun} />
+      {sequenceVisible ? <Sequence s={s} ordered={ordered} onGraph={() => setFlowView('graph')} /> : <div className="composer-graph-view">{ordered && <button className="sequence-view-toggle" onClick={() => setFlowView('sequence')}>{s.t('Sequence view')}</button>}<Canvas s={s} /></div>}
       <Inspector s={s} resources={previewResources} />
     </div>}
     {previewNode && <div className="node-editor-fullscreen">

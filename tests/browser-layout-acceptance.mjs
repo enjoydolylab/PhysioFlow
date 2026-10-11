@@ -2,19 +2,76 @@ import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 
-export async function pageControlsAcceptance({send,evaluate}, selector, label) {
+/** Narrow phones through 4K; viewport pixels, not OS DPI emulation. */
+export const LAYOUT_VIEWPORTS = [[3840,2160],[2560,1440],[1920,1080],[1366,768],[1093,614],[911,512],[768,540],[683,384],[640,480],[568,320],[375,667],[320,568]];
+
+/** Every interactive control, not just the hand-picked header buttons. */
+export const ALL_CONTROLS = 'button, summary, [role="button"]';
+
+/**
+ * One measurement pass at the CURRENT viewport.
+ *
+ * Horizontal overflow is measured on the element's UNSCROLLED rect. The previous
+ * implementation called scrollIntoView first, which scrolls an ancestor
+ * overflow-x container into place and can leave the element at r.right <=
+ * innerWidth — hiding exactly the defect being looked for. Vertical keeps the
+ * historical scrolled-rect semantics so existing call sites are unaffected.
+ *
+ * An element that escapes horizontally but sits inside an ancestor that really
+ * can scroll to it (the SAM continuum, the matrix table) is reachable and is not
+ * reported, unless allowScrollReachable is false.
+ */
+export async function collectControlOverflow({evaluate}, selector, options = {}) {
+  const { includeHidden = false, allowScrollReachable = true } = options;
+  return evaluate(`(() => {
+    const visible = el => (el.checkVisibility?.({checkOpacity:true, checkVisibilityCSS:true})
+      ?? (el.offsetParent !== null || getComputedStyle(el).position === 'fixed'));
+    const scrollReachable = el => {
+      for (let p = el.parentElement; p; p = p.parentElement) {
+        const s = getComputedStyle(p);
+        if (/auto|scroll/.test(s.overflowX) && p.scrollWidth > p.clientWidth + 1) return true;
+      }
+      return false;
+    };
+    const out = [];
+    for (const el of document.querySelectorAll(${JSON.stringify(selector)})) {
+      if (!${includeHidden} && !visible(el)) continue;
+      const before = el.getBoundingClientRect();
+      if (!(before.width > 0)) continue;
+      const horizontal = before.left < -1 || before.right > innerWidth + 1;
+      el.scrollIntoView({block:'nearest', inline:'nearest'});
+      const after = el.getBoundingClientRect();
+      const vertical = after.width > 0 && (after.top < -1 || after.bottom > innerHeight + 1);
+      if ((horizontal && !(${allowScrollReachable} && scrollReachable(el))) || vertical)
+        out.push({label: (el.textContent || el.getAttribute('aria-label') || '').trim().slice(0, 56), horizontal, vertical});
+    }
+    return out;
+  })()`);
+}
+
+export async function pageControlsAcceptance({send,evaluate}, selector, label, options = {}) {
+  const { vertical = true, includeHidden = false, allowScrollReachable = true } = options;
   assert.ok(await evaluate(`document.querySelectorAll(${JSON.stringify(selector)}).length`), `Missing controls for ${label}`);
   const failures=[];
-  for (const [width,height] of [[2560,1440],[1920,1080],[1366,768],[1093,614],[911,512],[768,540],[640,480],[375,667]]) {
+  for (const [width,height] of LAYOUT_VIEWPORTS) {
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
     await evaluate(`new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
-    const bad=await evaluate(`(() => [...document.querySelectorAll(${JSON.stringify(selector)})].filter(el=>{el.scrollIntoView({block:'nearest',inline:'nearest'});const r=el.getBoundingClientRect();return r.width>0 && (r.left < -1 || r.right>innerWidth+1 || r.bottom>innerHeight+1 || r.top< -1);}).map(el=>el.textContent))()`);
-    if(bad.length) failures.push({width,height,buttons:bad});
+    let bad = await collectControlOverflow({evaluate}, selector, { includeHidden, allowScrollReachable });
+    if (!vertical) bad = bad.filter(item => item.horizontal);
+    if(bad.length) failures.push({width,height,buttons:bad.map(item=>item.label)});
   }
   await send('Emulation.clearDeviceMetricsOverride');
+  // Report-only mode: lets a before/after diff be captured without turning the
+  // run red, because the "before" tree is expected to fail these assertions.
+  if (process.env.LAYOUT_REPORT) { console.log(`LAYOUT_REPORT ${label} ${JSON.stringify(failures)}`); return; }
   assert.deepEqual(failures,[],label);
-  console.log(`${label}: 8 viewports passed (primary controls only)`);
+  console.log(`${label}: ${LAYOUT_VIEWPORTS.length} viewports passed (${selector})`);
 }
+
+/** All controls on the current screen, horizontal axis only (vertical is a
+ *  separate concern and already covered per-screen). */
+export const screenControlsAcceptance = (driver, label, options = {}) =>
+  pageControlsAcceptance(driver, ALL_CONTROLS, label, { vertical: false, ...options });
 
 export async function layoutAcceptance({ send, evaluate, waitFor }) {
   const artifacts = resolve('release-desktop/acceptance-2026-09-05');
@@ -89,4 +146,48 @@ export async function layoutAcceptance({ send, evaluate, waitFor }) {
   await send('Emulation.clearDeviceMetricsOverride');
   assert.deepEqual(failures, [], 'Authoring controls must remain within the available width');
   console.log('Layout acceptance: 8 viewports x 3 editor contexts passed (CSS viewport simulation, not Windows DPI testing)');
+}
+
+/** Verify layout text and controls do not clip horizontally inside their own boxes. */
+export async function readableLayoutAcceptance({send,evaluate}, root, label) {
+  const failures = [];
+  for (const [width,height] of LAYOUT_VIEWPORTS) {
+    await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
+    await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+    const clipped = await evaluate(`(() => {
+      const root = document.querySelector(${JSON.stringify(root)});
+      if (!root) return ['Missing page'];
+      const nodes = [...root.querySelectorAll('h1,h2,h3,p,button,summary,label')];
+      return nodes.filter(el => el.checkVisibility({checkVisibilityCSS:true}) && el.clientWidth > 0 && el.scrollWidth > el.clientWidth + 2)
+        .map(el => (el.textContent || '').trim().slice(0,80));
+    })()`);
+    if (clipped.length) failures.push({width,height,clipped});
+  }
+  await send('Emulation.clearDeviceMetricsOverride');
+  assert.deepEqual(failures,[],label);
+  console.log(`${label}: ${LAYOUT_VIEWPORTS.length} viewports passed (text and controls)`);
+}
+
+/** Visible controls must accept pointer clicks, including under sidebar layouts. */
+export async function reachableControlsAcceptance({send,evaluate},selector,label) {
+  const failures=[];
+  for (const [width,height] of LAYOUT_VIEWPORTS) {
+    await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
+    await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+    const covered=await evaluate(`(() => {
+      const bad=[];
+      for(const el of document.querySelectorAll(${JSON.stringify(selector)})) {
+        if(el.disabled || !el.checkVisibility({checkVisibilityCSS:true})) continue;
+        el.scrollIntoView({block:'center',inline:'nearest'});
+        const r=el.getBoundingClientRect();
+        const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+        if(!hit || !el.contains(hit)) bad.push({label:(el.textContent || el.getAttribute('aria-label') || '').slice(0,80),hit:hit?.className,top:r.top,bottom:r.bottom,scrollY});
+      }
+      return bad;
+    })()`);
+    if(covered.length) failures.push({width,height,covered});
+  }
+  await send('Emulation.clearDeviceMetricsOverride');
+  assert.deepEqual(failures,[],label);
+  console.log(`${label}: ${LAYOUT_VIEWPORTS.length} viewports passed (pointer reachability)`);
 }

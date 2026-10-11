@@ -75,7 +75,7 @@ export default function ParticipantLaunchPage({ location = globalThis.location, 
     return () => { active = false; };
   }, [apiBaseUrl, attempt, fetch, location]);
 
-  if (state.phase === 'ready') return <GraphRuntimeRunnerPage data={state.run} onDone={() => setState({ phase: 'complete', run: null, error: '' })} />;
+  if (state.phase === 'ready') return <GraphRuntimeRunnerPage data={{ ...state.run, participantOnly: true }} onDone={() => setState({ phase: 'complete', run: null, error: '' })} />;
   if (state.phase === 'complete') return <main className="participant-launch"><section><span className="eyebrow">SESSION CLOSED</span><h1>Thank you</h1><p>Your experiment record has been synchronized.</p></section></main>;
   if (state.phase === 'error') return <main className="participant-launch"><section role="alert"><span className="eyebrow">LINK UNAVAILABLE</span><h1>This experiment cannot be opened</h1><p>{state.error}</p><button onClick={() => setAttempt(value => value + 1)}>Try again</button></section></main>;
   return <main className="participant-launch"><section role="status" aria-live="polite"><span className="eyebrow">PHYSIOFLOW PARTICIPANT</span><h1>Preparing your experiment…</h1><p>Verifying the session and downloading its exact protocol.</p></section></main>;

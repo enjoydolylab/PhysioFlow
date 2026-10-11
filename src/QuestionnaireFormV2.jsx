@@ -1,3 +1,4 @@
+import { restoreQuestionnaireDraft } from './runtime/questionnaireCheckpoint.js';
 import { canUseMatrix, canUseSamMatrix, orderSamMatrixQuestions, splitMatrixPrompt } from './questionnaireMatrix.js';
 import { visibleQuestionnaireQuestions } from './core/questionnaireModel.js';
 import { discreteScaleValues, responseValueError } from './core/inputValidation.js';
@@ -29,17 +30,18 @@ function isMissing(value) { return value === undefined || value === '' || (Array
 
 function questionError(question, value) { return responseValueError(value, { required: question.required, type: question.type, min: question.scale_min, max: question.scale_max }); }
 
-export default function QuestionnaireFormV2({ questionnaire, language = 'en', randomSeed = '', displayMode, disabled = false, onSubmit }) {
+export default function QuestionnaireFormV2({ questionnaire, language = 'en', randomSeed = '', displayMode, disabled = false, initialDraft, onDraftChange, onSubmit }) {
   const questions = useMemo(() => questionnaire?.questions || [], [questionnaire?.questions]);
-  const [answers, setAnswers] = useState({});
-  const [current, setCurrent] = useState(0);
+  const [restored] = useState(() => restoreQuestionnaireDraft(questionnaire, randomSeed, initialDraft));
+  const [answers, setAnswers] = useState(restored.answers);
+  const [current, setCurrent] = useState(restored.current);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [timedOut, setTimedOut] = useState([]);
+  const [timedOut, setTimedOut] = useState(restored.timedOut);
   const [remaining, setRemaining] = useState(null);
   const deadlineRef = useRef(null);
   const matrixRowRefs = useRef(new Map());
-  const remainingRef = useRef({ id: null, ms: 0 });
+  const remainingRef = useRef(restored.timer);
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; }, [answers]);
   const msg = value => value?.[language] || value?.en || value?.zh || '';
@@ -120,8 +122,18 @@ export default function QuestionnaireFormV2({ questionnaire, language = 'en', ra
       if (current >= ordered.length - 1) finish(answersRef.current, nextTimeouts);
       else setCurrent(index => index + 1);
     }, 100);
-    return () => { clearInterval(timer); remainingRef.current.ms = Math.max(0, deadlineRef.current - performance.now()); };
+    return () => { clearInterval(timer); remainingRef.current.ms = Math.max(0, deadlineRef.current - performance.now()); deadlineRef.current = null; };
   }, [currentQ?.question_id, orderKey, current, disabled, submitted]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!onDraftChange || submitted) return undefined;
+    const capture = () => ({
+      version: 1, signature: restored.signature, answers, current, timedOut,
+      timer: { ...remainingRef.current, ms: deadlineRef.current === null ? remainingRef.current.ms : Math.max(0, deadlineRef.current - performance.now()) },
+    });
+    onDraftChange(capture);
+    return () => onDraftChange(null);
+  }, [answers, current, timedOut, disabled, submitted, restored.signature, onDraftChange]);
 
   const options = question => {
     const values = question.options_i18n?.[language] || question.options_i18n?.en || question.options_i18n?.zh || [];

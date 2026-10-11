@@ -4,6 +4,11 @@ All notable changes to PhysioFlow are documented in this file.
 
 ## [Unreleased]
 
+- Integrate the official PhysioDB Python client through a server-side uv bridge; add isolated test runs, sample/event read-back verification, database analysis and explicit recording upload.
+- Separate operator monitoring and participant presentation; add device signal preflight and reuse BrainFlow acquisition and predecessor monitor interfaces.
+- Unify project, preparation, saved-record and analysis navigation; add sequence/graph editing, responsive layouts across 12 viewport sizes, and task-based guides in Chinese, Japanese and English.
+- Add complex group execution, questionnaire checkpoint recovery, synthetic laboratory demos and integration regression coverage.
+
 - Simplify the dashboard and experiment authoring: structured response options, explicit trial generation and repeat-sequence configuration.
 - Make free positioning and automatic layout explicit; preserve element geometry during conversion and scale saved screen dimensions proportionally in the editor and preview.
 - Preserve multi-selection after dragging, support Escape to cancel a drag, and separate single-element properties from bulk selection actions. Position and size edits apply on Enter or blur; locked properties cannot be edited.

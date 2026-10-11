@@ -1,8 +1,10 @@
 /* i18n.css — Language toggle and localization UI */
 
-.header-tools { display: flex; align-items: center; gap: .75rem; }
+.header-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
 .language-toggle {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: var(--r-md);
   overflow: hidden;

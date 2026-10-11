@@ -41,3 +41,37 @@ test('bounded preview retains lifecycle events and newest samples',async()=>{
   const result=trimBrainFlowPreview([sample(1),marker,sample(2),sample(3)],2);
   assert.equal(result.dropped,1);assert.deepEqual(result.events,[marker,sample(2),sample(3)]);
 });
+
+test('unload detach is sent with keepalive; a normal disconnect is not',async()=>{
+  // A refresh or tab close must free the agent immediately, and only a keepalive
+  // request survives the document being torn down.
+  const {adapter,calls}=fixture({});
+  await adapter.connect();
+  await adapter.disconnect();
+  assert.match(calls.at(-1).url,/detach$/);
+  assert.equal(calls.at(-1).init.keepalive,undefined,'normal disconnect must not set keepalive');
+
+  const unload=fixture({});
+  await unload.adapter.connect();
+  await unload.adapter.disconnect({keepalive:true});
+  assert.match(unload.calls.at(-1).url,/detach$/);
+  assert.equal(unload.calls.at(-1).init.keepalive,true);
+
+  // A second detach after the adapter already released is a silent no-op.
+  const before=calls.length;
+  await adapter.disconnect({keepalive:true});
+  assert.equal(calls.length,before,'disconnect after release must not re-request');
+});
+
+test('detachOnUnload forwards keepalive and never throws or blocks unload',async()=>{
+  const calls=[];
+  const session=new DeviceConnectorSession({connector,sessionId:'s',adapter:{connect:async()=>({}),disconnect:async options=>{calls.push(options);}},services:{idFactory:()=>'1',clock:{now:()=>({epochMs:1,monotonicMs:1,iso:'now'})}},onEvent:()=>{}});
+  await session.detachOnUnload();
+  assert.deepEqual(calls,[{keepalive:true}]);
+  // A failing adapter must not produce an unhandled rejection from the handler.
+  const failing=new DeviceConnectorSession({connector,sessionId:'s',adapter:{connect:async()=>({}),disconnect:async()=>{throw new Error('agent unreachable');}},services:{idFactory:()=>'1',clock:{now:()=>({epochMs:1,monotonicMs:1,iso:'now'})}},onEvent:()=>{}});
+  await failing.detachOnUnload();
+  // An adapter with no disconnect at all is equally harmless.
+  const bare=new DeviceConnectorSession({connector,sessionId:'s',adapter:{connect:async()=>({})},services:{idFactory:()=>'1',clock:{now:()=>({epochMs:1,monotonicMs:1,iso:'now'})}},onEvent:()=>{}});
+  await bare.detachOnUnload();
+});

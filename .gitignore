@@ -5,6 +5,7 @@ node_modules/
 dist/
 release-web/
 release-desktop/
+release-demo/
 
 # Rust / Tauri
 src-tauri/target/
@@ -41,3 +42,11 @@ __pycache__/
 
 # Large synthetic QA recordings retained locally
 artifacts/brainflow-integration-2026-09-18/QA-BRAINFLOW*_session_bundle.zip
+# Generated from actual BrainFlow board metadata for local demonstrations
+examples/lab-meeting-2026-09-25/CONNECTED/
+
+# Official PhysioDB SDK runtime
+tools/physiodb/.venv/
+
+# Local experiment desk credentials and state
+.physioflow/

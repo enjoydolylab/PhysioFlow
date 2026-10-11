@@ -20,9 +20,11 @@
 .undo-toast {
   position: fixed; top: 5rem; left: 50%; translate: -50% 0;
   z-index: 1900;
+  max-width: calc(100vw - 2rem);
   background: var(--ink); color: white;
   padding: .6rem 1.2rem; border-radius: 99px;
-  display: flex; align-items: center; gap: 1rem;
+  display: flex; flex-wrap: wrap; justify-content: center; row-gap: .4rem;
+  align-items: center; gap: 1rem;
   font-size: .82rem; box-shadow: 0 6px 24px #00000030;
   animation: toast-in .25s ease-out;
 }
@@ -121,6 +123,11 @@
   font-weight: 600; font-size: .9rem;
 }
 .onboarding-hint button { white-space: nowrap; font-size: .78rem; padding: .35rem .8rem; }
+/* Gated: this is a 4-item row (emoji + h3 + ol + button), so wrapping it
+   unconditionally would reflow the hint at desktop widths too. */
+@media (max-width: 900px) {
+  .onboarding-hint { flex-wrap: wrap; row-gap: .5rem; }
+}
 
 /* Protocol summary in dashboard */
 .protocol-summary {

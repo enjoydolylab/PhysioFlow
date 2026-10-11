@@ -1,3 +1,4 @@
+import { pfUIStrings } from './pfUIStrings.js';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 // 日本語を既定の表示言語にする（研究室内の共通言語）。
@@ -262,6 +263,9 @@ export function LanguageProvider({ children }) {
   }, [language]);
   return <LanguageContext.Provider value={{ language, setLanguage }}><div ref={root}>{children}</div></LanguageContext.Provider>;
 }
+
+Object.assign(dictionaries.zh, pfUIStrings.zh);
+Object.assign(dictionaries.ja, pfUIStrings.ja);
 
 export function useLanguage() { return useContext(LanguageContext); }
 

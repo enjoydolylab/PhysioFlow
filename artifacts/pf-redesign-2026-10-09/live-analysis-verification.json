@@ -1,0 +1,26 @@
+{
+  "streamId": "01a11f04-9b58-76ce-871d-da51f1a90792",
+  "experimentId": "01a11f04-9933-7b39-ac0d-1184ea25a2a9",
+  "participantId": "01a11f04-9a3e-7eab-addc-390f867fdb6c",
+  "processing": "raw",
+  "count": 500,
+  "start": "2026-10-09T04:55:55.870000Z",
+  "end": "2026-10-09T04:55:57.866000Z",
+  "regular": true,
+  "sampleRateHz": 250,
+  "channels": [
+    {
+      "index": 0,
+      "name": "test_signal",
+      "unit": "arbitrary",
+      "n": 500,
+      "mean": 2.211772431870429e-17,
+      "sd": 0.7078149971481361,
+      "rms": 0.7071068278891394,
+      "min": -0.998027,
+      "max": 0.998027,
+      "missing": 0,
+      "dominantFrequencyHz": 9.765625
+    }
+  ]
+}

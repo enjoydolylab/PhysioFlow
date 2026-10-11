@@ -6,8 +6,10 @@ export function createBrainFlowAdapter({ endpoint = 'http://127.0.0.1:8765', tok
   if (!token?.trim()) throw new Error('Enter the BrainFlow agent token');
   const base = url.origin;
   let cursor = 0, runId = null, connected = false;
-  async function request(path, body) {
-    const response = await fetchImpl(base + path, { method: body ? 'POST' : 'GET', headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}), signal: globalThis.AbortSignal.timeout(5000), cache: 'no-store' });
+  async function request(path, body, options = {}) {
+    // keepalive lets the request outlive the document, which is what makes the
+    // unload-time /detach reliable; a plain fetch is cancelled when the page dies.
+    const response = await fetchImpl(base + path, { method: body ? 'POST' : 'GET', headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}), ...(options.keepalive ? { keepalive: true } : {}), signal: globalThis.AbortSignal.timeout(5000), cache: 'no-store' });
     const value = await response.json();
     if (!response.ok) throw new Error(value.error || `BrainFlow HTTP ${response.status}`);
     return value;
@@ -19,7 +21,7 @@ export function createBrainFlowAdapter({ endpoint = 'http://127.0.0.1:8765', tok
       if (JSON.stringify(status.manifest.channels) !== JSON.stringify(connector.channels) || status.boardId !== connector.brainflow?.boardId) throw new Error('Board metadata changed; import the agent connector.json again');
       const attached = await request('/attach', session);
       cursor = attached.cursor; runId = attached.runId; connected = true;
-      return { deviceId: runId, manufacturer: 'BrainFlow', boardId: attached.boardId, sampleRateHz: attached.sampleRateHz, timestampUnit: 'Unix seconds (BrainFlow)', rawRecording: 'acquisition agent samples.jsonl', previewOnly: true };
+      return { deviceId: runId, manufacturer: 'BrainFlow', boardId: attached.boardId, sampleRateHz: attached.sampleRateHz, timestampUnit: 'Unix seconds (BrainFlow)', rawRecording: 'acquisition agent samples.jsonl', previewOnly: true, recordingActive: attached.recordingActive === true };
     },
     async readBatch() {
       if (!connected) throw new Error('BrainFlow is disconnected');
@@ -41,10 +43,10 @@ export function createBrainFlowAdapter({ endpoint = 'http://127.0.0.1:8765', tok
       const event = JSON.parse(value);
       return request('/marker', { sessionId: session.sessionId, markerId: event.sequence, label: value, clientEpochMs: event.timestampEpochMs });
     },
-    async disconnect() {
+    async disconnect(options = {}) {
       if (!connected) return;
       connected = false;
-      await request('/detach', { sessionId: session.sessionId });
+      await request('/detach', { sessionId: session.sessionId }, options);
     },
   };
 }

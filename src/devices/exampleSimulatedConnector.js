@@ -21,7 +21,7 @@ export function createSimulatedDeviceAdapter(options = {}) {
   const markers = [];
   return {
     async connect() { if (options.failConnect?.()) throw new Error('Simulated connection failure'); connected = true; return { deviceId: options.deviceId || 'SIM-001', manufacturer: 'PhysioFlow', firmware: '1.0.0' }; },
-    async read(channelId) { if (!connected) throw new Error('Simulated device disconnected'); return { value: Number(options.samples?.[sampleIndex++] ?? sampleIndex), timestamp: options.clock?.() ?? sampleIndex * 10, channelId }; },
+    async read(channelId) { if (!connected) throw new Error('Simulated device disconnected'); const index = sampleIndex++; return { value: Number(options.samples?.[index] ?? sampleIndex), timestamp: options.clock?.() ?? sampleIndex * 10, channelId }; },
     async write(channelId, value) { if (!connected) throw new Error('Simulated device disconnected'); markers.push({ channelId, value }); },
     async disconnect() { connected = false; },
     markers,

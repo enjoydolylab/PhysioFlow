@@ -141,6 +141,7 @@ function sessionSummary(session, folder) {
     started_at: session.started_at,
     ended_at: session.ended_at,
     event_count: session.event_count,
+    db_test_status: session.db_test_report?.status || (session.db_test_run ? 'pending' : ''),
     integrity: session.integrity,
     notes: session.notes || '',
     researcher_validity: session.researcher_validity || 'unreviewed',

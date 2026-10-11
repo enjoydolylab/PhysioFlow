@@ -1,3 +1,5 @@
+import { createDeviceMonitorBridge } from './deviceMonitorBridge.mjs';
+import { createPhysioDBBridge } from './physioDBBridge.mjs';
 import { resolve } from 'node:path';
 import { createHostedNodeServer } from './createHostedNodeServer.mjs';
 
@@ -27,6 +29,8 @@ if (!Number.isInteger(trustedProxyHops) || trustedProxyHops < 0) throw new Error
 
 const hosted = await createHostedNodeServer({
   actors,
+  deviceMonitorBridge: createDeviceMonitorBridge({ sources: jsonEnvironment('PHYSIOFLOW_DEVICE_SOURCES_JSON', []) }),
+  physioDBBridge: createPhysioDBBridge({ credentials: jsonEnvironment('PHYSIOFLOW_PHYSIODB_ACTORS_JSON', []), uvCommand: process.env.PHYSIOFLOW_UV_COMMAND || 'uv' }),
   credentialKeys,
   primaryCredentialKeyId: process.env.PHYSIOFLOW_PRIMARY_CREDENTIAL_KEY_ID || credentialKeys[0].keyId,
   port,

@@ -1,5 +1,7 @@
 # PhysioFlow × BioDB 对接方案
 
+历史材料：2026-08-23 的旧 BioDB 设计，保留当时规划的路径与阶段记录；不代表当前 PhysioDB 官方 SDK 实现。当前接入见 [PhysioDB 接入手册](../PHYSIODB_INTEGRATION.md)。
+
 Date: 2026-08-23
 Authoritative plan: `.claude/plans/linked-prancing-floyd.md`
 

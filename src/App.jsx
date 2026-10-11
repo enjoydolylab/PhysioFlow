@@ -43,13 +43,13 @@ const ComposerV2 = lazy(() => import('./ComposerV2.jsx'));
 const FlowWorkspaceOverlay = lazy(() => import('./FlowWorkspaceOverlay.jsx'));
 const GraphRuntimeRunnerPage = lazy(() => import('./GraphRuntimeRunnerPage.jsx'));
 const RunnerPage = lazy(() => import('./RuntimeRunnerPage.jsx'));
-const SessionManager = lazy(() => import('./SessionManager.jsx'));
 
 const LoadingFallback = () => <div style={{ position:'fixed',inset:0,zIndex:2000,display:'grid',placeItems:'center',background:'var(--surface)' }}><span style={{ color:'var(--muted)',fontSize:'.9rem' }}>Loading…</span></div>;
 
 export default function App() {
   const t = useT();
   const [view, setView] = useState('home');
+  const [workspacePage, setWorkspacePage] = useState('projects');
   const [analyticsSessionId, setAnalyticsSessionId] = useState(null);
   const [viewMode, setViewMode] = useState('visual');
   const [protocols, setProtocols] = useState([]);
@@ -361,6 +361,13 @@ export default function App() {
     setRun(preRunCheck); setView('setup'); setPreRunCheck(null);
   }, [preRunCheck]);
 
+  const ensureFormalStorage = useCallback(async session => {
+    if (session.run_mode !== 'formal') return;
+    const info = await getStorageInfo();
+    setStorageInfo(info);
+    if (!info.selected || info.permission !== 'granted') throw new Error('Select a writable data folder before formal collection.');
+  }, []);
+
   const handleRunDone = useCallback(async () => {
     setRecoverable(null);
     try {
@@ -525,14 +532,12 @@ export default function App() {
     const SetupComponent = isGraphProtocol(run) ? GraphSessionSetup : SessionSetup;
     return <><SetupComponent
       protocol={run}
-      onBack={() => setView(run.status === 'frozen' ? 'home' : 'builder')}
+      onPrepare={ensureFormalStorage}
+      renderPreparedSession={isGraphProtocol(run) ? (session, renderPreparation) => <Suspense fallback={<LoadingFallback />}><GraphRuntimeRunnerPage data={{protocol:run, session}} beforeStart={ensureFormalStorage} renderPreparation={renderPreparation} onDone={handleRunDone} onExitTest={session.run_mode === 'preview' ? () => setView('builder') : undefined} /></Suspense> : undefined}
+      onBack={() => setView(protocolStatusOf(run) === 'frozen' ? 'home' : 'builder')}
       onStart={async session => {
         try {
-          if (session.run_mode === 'formal') {
-            const info = await getStorageInfo();
-            setStorageInfo(info);
-            if (!info.selected || info.permission !== 'granted') throw new Error('Select a writable data folder before formal collection.');
-          }
+          await ensureFormalStorage(session);
           setRun({ protocol: run, session }); setView('runner');
         } catch (error) { setAlert({ title: 'Cannot start session', message: error.message }); }
       }}
@@ -552,13 +557,15 @@ export default function App() {
 
   if (view === 'analytics') {
     return <>
-      <Suspense fallback={<LoadingFallback />}><Analytics onBack={() => setView('home')} initialSessions={sessions} initialSessionId={analyticsSessionId} onGuide={openGuide} /></Suspense>
+      <Suspense fallback={<LoadingFallback />}><Analytics onBack={() => { setWorkspacePage('sessions'); setView('home'); }} onRecord={sessionId => { setAnalyticsSessionId(sessionId); setWorkspacePage('sessions'); setView('home'); }} initialSessions={sessions} initialSessionId={analyticsSessionId} onGuide={openGuide} /></Suspense>
       {guideOpen && <Suspense fallback={null}><GuidePanel initialTab={guideTab} onClose={() => setGuideOpen(false)} /></Suspense>}
     </>;
   }
 
   return <>
     <Dashboard
+      initialPage={workspacePage}
+      initialSessionId={analyticsSessionId}
       protocols={protocols}
       sessions={sessions}
       onOpen={open}
@@ -567,7 +574,7 @@ export default function App() {
       onStroopTemplate={(cfg) => addAndOpen(createStroopGraphTemplate(cfg || {}))}
       onGonogoTemplate={(cfg) => addAndOpen(createGonogoGraphTemplate(cfg || {}))}
       onImport={addAndOpen}
-      onRun={value => { setPreRunCheck(value); }}
+      onRun={value => { if (isGraphProtocol(value)) { setRun(value); setView('setup'); } else setPreRunCheck(value); }}
       onNextVersion={value => addAndOpen(isGraphProtocol(value) ? createNextGraphProtocolVersion(value, { existingProtocols: protocols }) : createNextProtocolVersion(value, { existingProtocols: protocols }))}
       onDuplicate={value => addAndOpen(isGraphProtocol(value) ? duplicateGraphProtocolAsProject(value) : duplicateProtocolAsProject(value))}
       onArchive={archive}
@@ -581,7 +588,6 @@ export default function App() {
       onOpenDataFolder={openDataFolder}
       onGuide={openGuide}
     />
-    <Suspense fallback={null}><SessionManager /></Suspense>
     {recoverable && <ResumeBanner
       snapshot={recoverable}
       onResume={() => { setRun({ protocol: recoverable.protocol, session: recoverable.session, restore: recoverable }); setView('runner'); }}
@@ -601,6 +607,6 @@ export default function App() {
     {promptState && <PromptDialog {...promptState} />}
     {preRunCheck && <PreRunChecklist protocol={preRunCheck} storageInfo={storageInfo} onChooseDataDirectory={chooseDataDirectory} onClose={() => setPreRunCheck(null)} onContinue={handlePreRunContinue} onFix={focusPreRunIssue} />}
     {guideOpen && <Suspense fallback={null}><GuidePanel initialTab={guideTab} onClose={() => setGuideOpen(false)} /></Suspense>}
-    {onboardingOpen && <Onboarding onClose={() => setOnboardingOpen(false)} />}
+    {onboardingOpen && <Onboarding onClose={() => setOnboardingOpen(false)} onCreate={() => { setOnboardingOpen(false); addAndOpen(createProtocolGraph()); }} onExample={() => { setOnboardingOpen(false); addAndOpen(createEmotionGraphTemplate()); }} />}
   </>;
 }

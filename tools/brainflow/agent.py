@@ -15,7 +15,7 @@ from brainflow.board_shim import BoardShim, BrainFlowInputParams
 
 
 class Acquisition:
-    def __init__(self, board_id, params, directory):
+    def __init__(self, board_id, params, directory, owner_stale_seconds=30.0):
         self.board = BoardShim(board_id, params)
         self.board_id = board_id
         self.rate = BoardShim.get_sampling_rate(board_id)
@@ -30,6 +30,13 @@ class Acquisition:
         self.samples = deque(maxlen=self.rate * 30)
         self.sequence = 0
         self.owner = None
+        # A browser that is refreshed or closed mid-run never gets to call /detach,
+        # which used to wedge the agent until it was restarted by hand. The owner is
+        # now considered stale once it has been silent for owner_stale_seconds, and a
+        # different session may then take over. The browser polls every 250 ms while
+        # it is alive, so an active run is never released.
+        self.owner_stale_seconds = max(0.0, float(owner_stale_seconds))
+        self.owner_activity = 0.0
         self.error = None
         self.stop = threading.Event()
         self.started = False
@@ -76,8 +83,16 @@ class Acquisition:
 
     def request(self, path, body, query):
         with self.lock:
+            if path == '/monitor':
+                # Passive preview must never attach, release or refresh session ownership.
+                return dict(runId=self.run_id, boardId=self.board_id, sampleRateHz=self.rate,
+                            sequence=self.sequence, error=self.error, manifest=self.manifest,
+                            recordingActive=self.started and not self.stop.is_set() and not self.raw.closed and not self.error,
+                            lastSampleAgeMs=max(0, (time.monotonic()-self.last_sample)*1000),
+                            source='synthetic' if self.board_id < 0 else 'hardware',
+                            samples=list(self.samples)[-min(self.rate*2, 1000):])
             if path == '/status':
-                return dict(runId=self.run_id, boardId=self.board_id, sampleRateHz=self.rate, sequence=self.sequence, error=self.error, manifest=self.manifest)
+                return dict(runId=self.run_id, boardId=self.board_id, sampleRateHz=self.rate, sequence=self.sequence, error=self.error, manifest=self.manifest, recordingActive=self.started and not self.stop.is_set() and not self.raw.closed and not self.error)
             if self.error:
                 raise ValueError('Acquisition failed: ' + self.error)
             if path == '/attach':
@@ -85,13 +100,22 @@ class Acquisition:
                 if not isinstance(session, str) or not session or len(session) > 200:
                     raise ValueError('sessionId is required')
                 if self.owner and self.owner != session:
-                    raise ValueError('Another session owns acquisition; finish it or restart the agent')
+                    idle = time.monotonic() - self.owner_activity
+                    if idle <= self.owner_stale_seconds:
+                        raise ValueError('Another session owns acquisition; finish it or restart the agent')
+                    # The previous owner stopped polling (refresh, closed tab, crash).
+                    # Releasing it here is what makes the agent self-healing.
+                    self.event('session_owner_released', previousSessionId=self.owner, idleSeconds=round(idle, 1), reason='stale owner takeover', atSequence=self.sequence)
+                    self.owner = None
                 self.owner = session
+                self.owner_activity = time.monotonic()
                 self.event('session_attached', session=body, atSequence=self.sequence)
-                return dict(runId=self.run_id, cursor=self.sequence, boardId=self.board_id, sampleRateHz=self.rate)
+                return dict(runId=self.run_id, cursor=self.sequence, boardId=self.board_id, sampleRateHz=self.rate, recordingActive=self.started and not self.stop.is_set() and not self.raw.closed and not self.error)
             session = body.get('sessionId') or query.get('sessionId', [''])[0]
             if not self.owner or session != self.owner:
                 raise ValueError('Session does not own acquisition')
+            # Any authenticated request from the owner counts as liveness.
+            self.owner_activity = time.monotonic()
             if path == '/samples':
                 cursor = int(query.get('after', ['0'])[0])
                 if cursor < 0 or cursor > self.sequence:
@@ -112,6 +136,7 @@ class Acquisition:
             if path == '/detach':
                 self.event('session_detached', sessionId=session, atSequence=self.sequence)
                 self.owner = None
+                self.owner_activity = 0.0
                 return dict(detached=True, rawRecordingContinues=True)
             raise ValueError('Unknown route')
 
@@ -166,7 +191,7 @@ def make_handler(acquisition, token, origins):
                 if length < 0 or length > 16384:
                     raise ValueError('Request too large')
                 parsed = urlparse(self.path)
-                if (self.command == 'GET' and parsed.path not in ['/status','/samples']) or (self.command == 'POST' and parsed.path not in ['/attach','/marker','/detach']):
+                if (self.command == 'GET' and parsed.path not in ['/status','/samples','/monitor']) or (self.command == 'POST' and parsed.path not in ['/attach','/marker','/detach']):
                     raise ValueError('Unknown route or method')
                 body = json.loads(self.rfile.read(length)) if length else {}
                 if not isinstance(body, dict):
@@ -188,11 +213,12 @@ def main():
     parser.add_argument('--port', type=int, default=8765)
     parser.add_argument('--origin', action='append', default=[])
     parser.add_argument('--output', default='brainflow-recordings')
+    parser.add_argument('--owner-stale-seconds', type=float, default=30.0, help='Seconds of owner silence after which a different session may take over acquisition (default 30). The browser polls every 250 ms while alive, so an active run is never released.')
     args = parser.parse_args()
     params = BrainFlowInputParams()
     params.serial_port = args.serial_port
     token = secrets.token_urlsafe(32)
-    acquisition = Acquisition(args.board_id, params, args.output)
+    acquisition = Acquisition(args.board_id, params, args.output, args.owner_stale_seconds)
     server = ThreadingHTTPServer(('127.0.0.1', args.port), make_handler(acquisition, token, set(args.origin or ['http://127.0.0.1:5174','http://localhost:5174'])))
     try:
         acquisition.start()

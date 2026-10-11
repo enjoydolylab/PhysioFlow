@@ -1,4 +1,10 @@
+import { useT } from './i18n';
+import { experimentPreflight } from './operator/experimentPreflight.js';
+import { signalReadiness, canStartWithSignals } from './operator/signalReadiness.js';
+import useRuntimeMonitor from './operator/useRuntimeMonitor.js';
+import './admin-monitor.css';
 import { presentationAssetReferences } from './runtime/mediaResources.js';
+import PhysioDBTestResult from './PhysioDBTestResult.jsx';
 import TestRunExitButton from './TestRunExitButton.jsx';
 import { recordTestVisit, previousTestVisit, supersedeTestResponses } from './runtime/testNavigation.js';
 import useOperatorControls from './runtime/useOperatorControls.js';
@@ -11,6 +17,7 @@ import CognitiveTaskRunner from './CognitiveTaskRunner.jsx';
 import AttentionCheckRunner from './AttentionCheckRunner.jsx';
 import ResponseRunner from './ResponseRunner.jsx';
 import CalibrationRunner from './CalibrationRunner.jsx';
+import BrainFlowSignalChart from './analysis/BrainFlowSignalChart.jsx';
 import { protocolNameOf, protocolStatusOf, protocolVersionOf, resolveStimulusAssignments, withStimulusAssignment } from './core/index.js';
 import {
   completeCurrentNode,
@@ -30,7 +37,7 @@ import {
 } from './runtime/index.js';
 import { localResourceManifest, schemaForNode } from './runtime/nodeSchema.js';
 import { DeviceConnectorSession, createMuseDeviceAdapter, createSimulatedDeviceAdapter } from './devices/index.js';
-import { clearCurrentRun, saveCurrentRun, saveSession } from './storage.js';
+import { clearCurrentRun, saveCurrentRun, saveSession, loadSession } from './storage.js';
 import { persistFinishedSession } from './runtime/sessionPersistence.js';
 import { buildGraphBidsBundle, buildGraphSessionFiles } from './data/index.js';
 import { downloadBundle } from './exporter.js';
@@ -62,8 +69,12 @@ function packagePermissions(protocol, node) {
 
 
 
-export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
+export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, renderPreparation, beforeStart }) {
+  const t = useT();
+  const participantOnly = data.participantOnly === true;
   const exitingTest = useRef(false);
+  const deviceCheckedAt = useRef(Date.now());
+  const [signalChecks, setSignalChecks] = useState([]);
   const sourceProtocol = data.protocol;
   const protocol = useMemo(() => {
     if (!data.session.group_execution_snapshot) {
@@ -88,7 +99,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
   const testRunRef = useRef(testRun);
   const testHistoryRef = useRef(testRun && Array.isArray(data.restore?.test_navigation_history) ? data.restore.test_navigation_history : []);
   const [navigationError, setNavigationError] = useState('');
-  const operatorVisible = useOperatorControls(!['ready', 'completed', 'failed'].includes(runtime.status));
+  const operatorVisible = useOperatorControls(!participantOnly && !['ready', 'completed', 'failed'].includes(runtime.status));
   const [events, setEvents] = useState(data.restore?.events || []);
   const [responses, setResponses] = useState(data.restore?.responses || []);
   const deviceEventsRef = useRef(data.restore?.device_events || []);
@@ -100,6 +111,43 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
   const previewCount = useRef((data.restore?.device_events || []).filter(event => event.connector?.id === BRAINFLOW_CONNECTOR_ID && event.eventType === 'device_sample_received').length);
 
   const hasBrainflow = protocol.graph.nodes.some(node => node.config?.deviceConnectorId === BRAINFLOW_CONNECTOR_ID);
+
+  // BrainFlow live chart inputs. Channels and rate come from the installed connector
+  // manifest (the same manifest the sampler uses), so they stay in sync for free.
+  const brainflowConnector = protocol.deviceConnectors?.find(connector => connector.connectorId === BRAINFLOW_CONNECTOR_ID);
+  const brainflowChannels = useMemo(
+    () => (brainflowConnector?.channels || []).filter(channel => channel.direction === 'input').map(channel => channel.id),
+    [brainflowConnector],
+  );
+  const brainflowRate = brainflowConnector ? (maxInputSampleRateHz(brainflowConnector) || 250) : 250;
+  const BRAINFLOW_PREVIEW_WINDOW_SECONDS = 10;
+
+  // Reads the most recent preview window straight from the sample buffer ref. The
+  // chart wraps this in a 250 ms poll; this function must stay allocation-cheap and
+  // must never trigger a re-render of this page (it is a pure ref read).
+  const getBrainFlowWindow = useCallback(() => {
+    if (!brainflowChannels.length) return { times: [], values: {} };
+    const maxPerChannel = Math.max(2, Math.round(BRAINFLOW_PREVIEW_WINDOW_SECONDS * brainflowRate));
+    const values = Object.fromEntries(brainflowChannels.map(id => [id, []]));
+    const times = [];
+    let lastSequence = null;
+    // The buffer is mostly sample events, so twice the needed capacity is a safe
+    // margin for the handful of lifecycle events interleaved among them.
+    const tail = deviceEventsRef.current.slice(-(maxPerChannel * brainflowChannels.length * 2));
+    for (const event of tail) {
+      if (event.eventType !== 'device_sample_received' || event.connector?.id !== BRAINFLOW_CONNECTOR_ID) continue;
+      const payload = event.payload;
+      const list = values[payload?.channelId];
+      if (!list || !Number.isFinite(payload?.value)) continue;
+      list.push(payload.value);
+      if (payload.sampleSequence !== lastSequence) {
+        times.push(payload.deviceTimestamp ?? null);
+        lastSequence = payload.sampleSequence;
+      }
+    }
+    for (const id of brainflowChannels) values[id] = values[id].slice(-maxPerChannel);
+    return { times: times.slice(-maxPerChannel), values };
+  }, [brainflowChannels, brainflowRate]);
 
   const deviceSessionRef = useRef(null);
   const samplerRef = useRef(null);
@@ -141,6 +189,13 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
   const presentedNode = currentNode ? withStimulusAssignment(currentNode, currentStimulusAssignment) : null;
   const resourceKey = JSON.stringify(presentationAssetReferences(protocol, presentedNode));
   const mediaReady = Boolean(data.hosted) || (resourceLoad.status === 'ready' && resourceLoad.key === resourceKey);
+  const draftCapture = useRef(null);
+  const onQuestionnaireDraft = useCallback(capture => {
+    draftCapture.current = capture ? { key: attemptKey, capture } : null;
+    if (capture) setCheckpointTick(value => value + 1);
+  }, [attemptKey]);
+  const captureQuestionnaire = useCallback(() => draftCapture.current?.key === attemptKey
+    ? { key: attemptKey, draft: draftCapture.current.capture() } : null, [attemptKey]);
   const currentDefinition = currentNode ? registry.get(currentNode.component.type, currentNode.component.version) : null;
   const currentPermissions = currentNode ? packagePermissions(protocol, currentNode) : null;
   const executableCount = protocol.graph.nodes.filter(node => registry.get(node.component.type, node.component.version)?.runtime?.kind === 'participant').length;
@@ -153,6 +208,31 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
   const assignmentLoggedRef = useRef(new Set((data.restore?.events || []).filter(event => event.eventType === 'stimulus_assigned').map(event => `${event.nodeId}:${event.payload?.attempt || 1}`)));
   const deviceNode = protocol.graph?.nodes?.find(node => node.config?.deviceConnectorId);
   const deviceRequired = protocol.graph.nodes.some(node => node.config?.deviceConnectorId && node.config.deviceRequired !== false);
+
+  const signalChannels = useMemo(() => (protocol.deviceConnectors || []).flatMap(connector => {
+    const references = protocol.graph.nodes.filter(node => node.config?.deviceConnectorId === connector.connectorId);
+    if (!references.length) return [];
+    return connector.channels.filter(channel => channel.direction === 'input').map(channel => ({ ...channel, connectorId: connector.connectorId, required: references.some(node => node.config.deviceRequired !== false) }));
+  }), [protocol]);
+  const formalRun = data.session.run_mode === 'formal' || Boolean(data.hosted && data.session.run_mode !== 'preview');
+  const checkPreflight = () => experimentPreflight(protocol, checkSignals(), connectionsRef.current, { formal: formalRun });
+  const checkSignals = () => signalReadiness(deviceEventsRef.current.filter(event => event.timestampEpochMs >= deviceCheckedAt.current), signalChannels);
+  const monitorUrl = useRuntimeMonitor(participantOnly ? null : data.session.session_id, () => {
+    const preview = getBrainFlowWindow();
+    return { protocolName: protocolNameOf(protocol), status: runtimeRef.current.status, nodeLabel: nodes.get(runtimeRef.current.currentNodeId)?.label || '', completed: runtimeRef.current.completedNodeIds.length, total: executableCount, saveStatus: saved === true ? 'saved' : recoverySave.status, deviceError: deviceStatus?.error || deviceStatus?.markerError || '', signals: checkSignals().map(({ values: _values, ...signal }) => signal), preview: { times: preview.times.slice(-400).map(time => time * 1000), values: Object.fromEntries(Object.entries(preview.values).map(([id, values]) => [id, values.slice(-400)])) } };
+  }, command => {
+    if (command === 'pause' && runtimeRef.current.status === 'waiting') apply(pauseRuntime(runtimeRef.current, protocol, services.current));
+    if (command === 'resume' && runtimeRef.current.status === 'paused' && mediaReady && (!deviceRequired || (deviceStatus?.connected === true && checkPreflight().every(check => check.ready)))) apply(resumeRuntime(runtimeRef.current, protocol, services.current));
+  });
+  const readinessRef = useRef(null);
+  readinessRef.current = () => {
+    const checks = checkSignals(); setSignalChecks(checks);
+    if (started && deviceRequired && runtimeRef.current.status === 'waiting' && !canStartWithSignals(checks)) {
+      setDeviceStatus(current => ({ ...current, error: 'Required signal is stale, missing or flat. Check the operator monitor before resuming.' }));
+      apply(pauseRuntime(runtimeRef.current, protocol, services.current, 'Required signal unavailable'));
+    }
+  };
+  useEffect(() => { const timer = setInterval(() => readinessRef.current?.(), 500); return () => clearInterval(timer); }, []);
 
   const apply = result => {
     if (exitingTest.current) return;
@@ -200,12 +280,22 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
     }
   };
 
-  const begin = async () => {
+  const beginImpl = async (startExperiment = true) => {
     if (starting || !mediaReady) return;
+    if (participantOnly && deviceRequired) { setStartError('Ask the operator to prepare the required devices on the acquisition computer.'); return; }
+    if ((data.session.run_mode === 'formal' || (data.hosted && data.session.run_mode !== 'preview')) && signalChannels.some(channel => channel.required && protocol.deviceConnectors.some(connector => connector.connectorId === channel.connectorId && (connector.transport === 'simulated' || connector.brainflow?.boardId < 0)))) { setStartError('Simulated devices cannot start a formal experiment. Select real hardware or use a test run.'); return; }
+    if (startExperiment && connectionsRef.current.length && connectionsRef.current.every(connection => connection.session.status === 'connected')) {
+      const blocked = checkPreflight().find(check => !check.ready);
+      if (blocked) { setStartError(blocked.reason); return; }
+      setStartError(''); setStarted(true);
+      if (runtimeRef.current.status === 'ready') apply(startRuntime(runtimeRef.current, protocol, registry, services.current));
+      return;
+    }
     setStarting(true);
     setStartError('');
     for (const connection of connectionsRef.current) { await connection.sampler?.stop(); await connection.markers; await connection.session.disconnect('reconnect').catch(() => {}); }
     connectionsRef.current = [];
+    deviceCheckedAt.current = Date.now(); setSignalChecks([]);
     const deviceNodes = protocol.graph.nodes.filter(node => node.config?.deviceConnectorId);
     const uniqueDevices = [...new Map(deviceNodes.map(node => [`${node.config.deviceConnectorId}:${node.config.deviceConnectorVersion || ''}`, node])).values()];
     let required = deviceRequired;
@@ -265,9 +355,26 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
         return;
       }
     }
+    if (!startExperiment || checkPreflight().some(check => !check.ready)) { setStarting(false); return; }
     setStarted(true);
     if (runtimeRef.current.status === 'ready') apply(startRuntime(runtimeRef.current, protocol, registry, services.current));
     setStarting(false);
+  };
+
+  const beginLock = useRef(false);
+  const begin = async (startExperiment = true) => {
+    if (beginLock.current || starting || !mediaReady) return;
+    beginLock.current = true;
+    try {
+      if (startExperiment && beforeStart) { setStarting(true); await beforeStart(data.session); setStarting(false); }
+      await beginImpl(startExperiment);
+    } catch (error) { setStartError(error.message || String(error)); }
+    finally { beginLock.current = false; setStarting(false); }
+  };
+  const leavePreparation = async () => {
+    if (beginLock.current || starting) throw new Error('Wait for device preparation to finish.');
+    for (const connection of connectionsRef.current) { await connection.sampler?.stop(); await connection.markers; await connection.session.disconnect('preparation edited'); }
+    connectionsRef.current = [];
   };
 
   const complete = result => {
@@ -382,6 +489,17 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
     for (const connection of connectionsRef.current) { connection.sampler.stop().then(() => connection.markers).then(() => connection.session.disconnect('runner closed')).catch(() => {}); }
   }, []);
 
+  // Release the acquisition agent as soon as the page is torn down. Without this a
+  // refresh or tab close mid-run left the agent holding a session that would never
+  // poll again. pagehide (not visibilitychange) is the right event: switching tabs
+  // must not drop a running experiment. The agent's stale-owner timeout remains the
+  // fallback for a crash or force-quit, where no handler can run.
+  useEffect(() => {
+    const release = () => { for (const connection of connectionsRef.current) connection.session.detachOnUnload(); };
+    window.addEventListener('pagehide', release);
+    return () => window.removeEventListener('pagehide', release);
+  }, []);
+
   useEffect(() => {
     if (!started || !['waiting', 'paused'].includes(runtime.status)) return undefined;
     const timer = setInterval(() => {
@@ -405,12 +523,12 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
 
   useEffect(() => {
     if (exitingTest.current || !started || !mediaReady || ['completed', 'failed'].includes(runtime.status)) return;
-    const snapshot = structuredClone({ session: data.session, protocol: sourceProtocol, runtime: snapshotRuntime(runtime), test_navigation_history: testRun ? testHistoryRef.current : undefined, stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1', stimulus_shuffle_version: stimulusShuffleVersion, recovery_timing: captureTiming(), events, responses, device_preview_policy: hasBrainflow ? previewPolicy.current : undefined, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 });
+    const snapshot = structuredClone({ session: data.session, protocol: sourceProtocol, runtime: snapshotRuntime(runtime), test_navigation_history: testRun ? testHistoryRef.current : undefined, stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1', stimulus_shuffle_version: stimulusShuffleVersion, recovery_timing: captureTiming(), questionnaire_draft: captureQuestionnaire(), events, responses, device_preview_policy: hasBrainflow ? previewPolicy.current : undefined, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 });
     setRecoverySave({ status: 'saving', error: '' });
     const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot));
     saveQueueRef.current = queued;
     queued.then(() => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'saved', error: '' }); }).catch(error => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'error', error: error.message || String(error) }); });
-  }, [data.session, events, protocol, sourceProtocol, responses, mediaReady, runtime, started, checkpointTick, legacyStimulusOrder, hasBrainflow, stimulusShuffleVersion, testRun]);
+  }, [data.session, events, protocol, sourceProtocol, responses, mediaReady, runtime, started, checkpointTick, legacyStimulusOrder, hasBrainflow, stimulusShuffleVersion, testRun, captureQuestionnaire]);
 
   useEffect(() => {
     if (!started || ['completed', 'failed'].includes(runtime.status)) return undefined;
@@ -448,11 +566,23 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
   }, [data.session, data.hosted, events, protocol, sourceProtocol, responses, runtime, saveAttempt, legacyStimulusOrder, hasBrainflow, stimulusShuffleVersion, endedAt]);
 
   if (!mediaReady) return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">MEDIA PREFLIGHT</span><h1>{resourceLoad.status !== 'error' ? 'Preparing media…' : 'Media needs attention'}</h1><p>{resourceLoad.error || 'Loading referenced local files and checking their integrity.'}</p>{resourceLoad.status === 'error' && <button onClick={onDone}>Return to protocol</button>}</div></main>;
-  if (!started) return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">RUNTIME V2 READY</span><h1>{protocolNameOf(protocol)}</h1><p>{data.session.participant_id} · {executableCount} participant components</p>{deviceNode && <p>{deviceRequired ? 'A device connection is required before this run can start.' : 'Device connection is optional for this run.'}</p>}{hasBrainflow && <fieldset disabled={starting}><legend>BrainFlow local agent</legend><label>Agent URL<input aria-label="BrainFlow agent URL" value={brainflowEndpoint} onChange={event => setBrainflowEndpoint(event.target.value)} /></label><label>Agent token<input aria-label="BrainFlow agent token" type="password" autoComplete="off" value={brainflowToken} onChange={event => setBrainflowToken(event.target.value)} /></label><p>Start the acquisition agent first. Raw recording continues independently of this browser. The token is not saved in the protocol or exports.</p></fieldset>}{startError && <div className="setup-note error" role="alert">{startError}</div>}<p>Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.</p><button className="primary" disabled={starting} onClick={begin}>{starting ? 'Connecting…' : startError ? 'Retry device and begin' : 'Begin experiment'}</button>{testRun && !starting && <TestRunExitButton onExit={onExitTest && exitTest} />}</div></main>;
+  if (!started && participantOnly) return <main className="graph-runner"><section className="graph-runner-ready pf-preflight"><h1>{protocolNameOf(protocol)}</h1><p>{t('Please wait for the operator, then begin when instructed.')}</p>{deviceRequired && <p role="status">{t('Ask the operator to prepare the required devices on the acquisition computer.')}</p>}<button className="primary" disabled={starting || deviceRequired} onClick={() => begin(true)}>{t('Begin experiment')}</button>{startError && <p role="alert">{t(startError)}</p>}</section></main>;
+  if (!started) { const preparation = <div className="graph-runner-ready pf-preflight">
+    <span className="eyebrow">PREPARE</span><h1>{protocolNameOf(protocol)}</h1><p>{data.session.participant_id} · {executableCount} {t('steps')}</p><details><summary>{t('Session identifiers')}</summary><p>{t('PF session ID')}: {data.session.session_id}</p><p>{t('PF protocol ID')}: {protocol.protocolId} · v{protocol.version?.number}</p></details>
+    <ol className="pf-preflight-steps"><li><span>1</span><b>{t('Preparation')}</b><small>{t('Media checked')}</small></li><li><span>2</span><b>{t('Signal check')}</b><small>{deviceNode ? t('Check devices before starting') : t('No devices required')}</small></li><li><span>3</span><b>{t('Start experiment')}</b><small>{t('Participant display')}</small></li></ol>
+    {monitorUrl && <a className="pf-monitor-link" href={monitorUrl} target="_blank" rel="noreferrer">{t('Open operator monitor')} ↗</a>}
+    {hasBrainflow && <details open={!deviceStatus?.connected} className="pf-panel"><summary>{t('Device connection')}</summary><fieldset disabled={starting}><label>{t('Agent URL')}<input aria-label="BrainFlow agent URL" value={brainflowEndpoint} onChange={event => setBrainflowEndpoint(event.target.value)} /></label><label>{t('Agent token')}<input aria-label="BrainFlow agent token" type="password" autoComplete="off" value={brainflowToken} onChange={event => setBrainflowToken(event.target.value)} /></label></fieldset></details>}
+    {deviceNode && <><ul className="pf-event-list">{checkPreflight().map(check => <li key={check.connectorId}><b>{check.connectorId}</b><span>{t(check.reason || 'Destination verified')}</span><small>{check.channels} {t('Channel')} · {check.sampleRateHz ? `${check.sampleRateHz} Hz` : '—'} · {t(check.recordingActive ? 'Recording active' : 'Recording not confirmed')}</small></li>)}</ul><button disabled={starting} onClick={() => begin(false)}>{starting ? t('Connecting…') : t('Check signals')}</button><div className="pf-signal-grid">{signalChecks.map(check => <div key={`${check.connectorId}:${check.id}`} className="pf-signal-item"><b>{check.name}</b><span className={`pf-tag ${check.ready ? 'ready' : 'warning'}`}>{t(check.status)}</span><small>{check.value == null ? '—' : check.value.toFixed(2)} {check.unit}</small></div>)}</div>{hasBrainflow && deviceStatus?.connected && <BrainFlowSignalChart channels={brainflowChannels} sampleRateHz={brainflowRate} windowSeconds={BRAINFLOW_PREVIEW_WINDOW_SECONDS} getWindow={getBrainFlowWindow} />}</>}
+    {startError && <div className="setup-note error" role="alert">{t(startError)}</div>}
+    <p className="pf-muted">{t('Keep monitoring on the operator display. Only stimuli and questions appear during the experiment.')}</p>
+    <button className="primary" disabled={starting} onClick={() => begin(true)}>{starting ? t('Connecting…') : startError ? t('Retry device and begin') : t('Begin experiment')}</button>{testRun && !starting && <TestRunExitButton onExit={onExitTest && exitTest} />}
+  </div>; return renderPreparation ? renderPreparation(preparation, { busy: starting, leavePreparation }) : <main className="graph-runner">{preparation}</main>; }
+  if (participantOnly && ['completed', 'failed'].includes(runtime.status)) return <main className="graph-runner"><section className="graph-runner-ready"><h1>{t(runtime.status === 'completed' ? 'Thank you' : 'Experiment stopped')}</h1><p role="status">{t(saved === true && (!hostedSyncRef.current || hostedStatus?.completed) ? 'Your experiment is finished. Please contact the operator.' : 'Please wait while your experiment record is saved.')}</p>{(typeof saved === 'string' || hostedStatus?.error) && <p role="alert">{t('The operator needs to check data saving. Please keep this window open.')}</p>}{typeof saved === 'string' && <button onClick={() => { finishing.current = false; setSaved(false); setSaveAttempt(value => value + 1); }}>{t('Try saving again')}</button>}{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>{t('Try saving again')}</button>}</section></main>;
   if (runtime.status === 'completed') {
     const hostedReady = !hostedSyncRef.current || hostedStatus?.completed;
     const deviceSampleCount = deviceEventsRef.current.filter(event => event.eventType === 'device_sample_received').length;
-    return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">SESSION COMPLETE</span><h1>Thank you</h1><p>{events.length} events · {responses.length} responses · {deviceSampleCount} device samples · {Object.keys(exportFiles).length} export files</p><p role={typeof saved === 'string' ? 'alert' : 'status'}>{saved === true ? 'Session data saved.' : typeof saved === 'string' ? 'Session data not saved: ' + saved : 'Saving session data…'}</p>{cleanupError && <div role="alert" className="setup-note"><p>Session data is saved, but the recovery checkpoint could not be removed: {cleanupError}</p><button onClick={() => clearCurrentRun({ strict: true }).then(() => setCleanupError('')).catch(error => setCleanupError(error.message || String(error)))}>Retry checkpoint cleanup</button></div>}{hasBrainflow && <p>BrainFlow preview exported; full raw recording remains on the acquisition computer.</p>}{deviceStatus?.markerError && <p role="alert">Marker delivery failed: {deviceStatus.markerError}</p>}{hostedSyncRef.current && <p>{hostedStatus?.completed ? `Hosted sync complete · revision ${hostedStatus.revision}` : hostedStatus?.error ? `Hosted sync failed: ${hostedStatus.error}` : 'Syncing hosted session…'}</p>}{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>Retry hosted sync</button>}
+    return <main className="graph-runner"><div className="graph-runner-ready pf-completion"><span className="eyebrow">SESSION COMPLETE</span><h1>{t('Collection complete')}</h1><p>{data.session.participant_id} · {protocolNameOf(protocol)}</p><details className="setup-note"><summary>{t('Record details')}</summary><p>{events.length} events · {responses.length} responses · {deviceSampleCount} device samples · {Object.keys(exportFiles).length} export files</p></details><p role={typeof saved === 'string' ? 'alert' : 'status'}>{saved === true ? 'Session data saved.' : typeof saved === 'string' ? 'Session data not saved: ' + saved : 'Saving session data…'}</p>{cleanupError && <div role="alert" className="setup-note"><p>Session data is saved, but the recovery checkpoint could not be removed: {cleanupError}</p><button onClick={() => clearCurrentRun({ strict: true }).then(() => setCleanupError('')).catch(error => setCleanupError(error.message || String(error)))}>Retry checkpoint cleanup</button></div>}{hasBrainflow && <p>BrainFlow preview exported; full raw recording remains on the acquisition computer.</p>}{deviceStatus?.markerError && <p role="alert">Marker delivery failed: {deviceStatus.markerError}</p>}{hostedSyncRef.current && <p>{hostedStatus?.completed ? `Hosted sync complete · revision ${hostedStatus.revision}` : hostedStatus?.error ? `Hosted sync failed: ${hostedStatus.error}` : 'Syncing hosted session…'}</p>}{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>Retry hosted sync</button>}
+      {testRun && data.session.db_test_run && saved === true && <PhysioDBTestResult session={data.session} protocol={protocol} events={events} deviceEvents={deviceEventsRef.current} onReport={async report => { const local = await loadSession(data.session.session_id); if (!local) throw new Error('Local test session could not be loaded'); await saveSession({ ...local, db_test_report: report }); }} />}
       <button className="primary" disabled={saved !== true} onClick={() => downloadBundle(exportFiles, data.session.participant_id)}>Export complete data package</button>{typeof saved === 'string' && <button onClick={() => { finishing.current = false; setSaved(false); setSaveAttempt(value => value + 1); }}>Retry local save</button>}<button disabled={saved !== true || !hostedReady} onClick={onDone}>Return to projects</button></div></main>;
   }
   if (runtime.status === 'failed') return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">RUNTIME FAILED</span><h1>Experiment stopped</h1><p>{runtime.error}</p><p role={typeof saved === 'string' ? 'alert' : 'status'}>{saved === true ? 'Session data saved.' : typeof saved === 'string' ? 'Session data not saved: ' + saved : 'Saving session data…'}</p>{cleanupError && <div role="alert" className="setup-note"><p>Session data is saved, but the recovery checkpoint could not be removed: {cleanupError}</p><button onClick={() => clearCurrentRun({ strict: true }).then(() => setCleanupError('')).catch(error => setCleanupError(error.message || String(error)))}>Retry checkpoint cleanup</button></div>}<button onClick={() => downloadBundle(exportFiles, data.session.participant_id)}>Export failure data</button>{typeof saved === 'string' && <button onClick={() => { finishing.current = false; setSaved(false); setSaveAttempt(value => value + 1); }}>Retry local save</button>}{hostedSyncRef.current && <p>{hostedStatus?.completed ? `Hosted failure recorded · revision ${hostedStatus.revision}` : hostedStatus?.error ? `Hosted sync failed: ${hostedStatus.error}` : 'Recording hosted failure…'}</p>}{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>Retry hosted sync</button>}<button disabled={saved !== true || Boolean(hostedSyncRef.current && !hostedStatus?.completed)} onClick={onDone}>Return to projects</button></div></main>;
@@ -460,17 +590,18 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
 
   return <main className={`graph-runner${operatorVisible ? "" : " participant-only"}`}>
     {operatorVisible && <div className="graph-operator" role="toolbar" aria-label="Operator controls"><div><b>{protocolNameOf(protocol)}</b><span>{currentNode.label} · {currentNode.component.type}</span>{deviceStatus && <span>{deviceStatus.connected ? `Device connected · ${deviceStatus.sampleCount || 0} samples` : `Device warning · ${deviceStatus.error}`}</span>}<span role="status">{runtime.status === 'paused' ? 'Paused' : 'Running'} · {recoverySave.status === 'saved' ? 'Checkpoint saved' : recoverySave.status === 'saving' ? 'Saving checkpoint…' : recoverySave.status === 'idle' ? 'Awaiting first checkpoint' : 'Checkpoint not saved'}</span>{recoverySave.status === 'error' && <span role="alert">Recovery save failed · {recoverySave.error}</span>}</div><div>{runtime.completedNodeIds.length} completed visits · {runtime.skippedNodeIds.length} skipped</div><div>
-      {recoverySave.status === 'error' && <button onClick={() => { const snapshot = { session: data.session, protocol: sourceProtocol, runtime: snapshotRuntime(runtimeRef.current), test_navigation_history: testRun ? testHistoryRef.current : undefined, recovery_timing: captureTiming(), stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1', stimulus_shuffle_version: stimulusShuffleVersion, events, responses, device_preview_policy: hasBrainflow ? previewPolicy.current : undefined, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 }; setRecoverySave({ status: 'saving', error: '' }); const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot)); saveQueueRef.current = queued; queued.then(() => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'saved', error: '' }); }).catch(error => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'error', error: error.message || String(error) }); }); }}>Retry save</button>}
+      {recoverySave.status === 'error' && <button onClick={() => { const snapshot = { session: data.session, protocol: sourceProtocol, runtime: snapshotRuntime(runtimeRef.current), test_navigation_history: testRun ? testHistoryRef.current : undefined, recovery_timing: captureTiming(), questionnaire_draft: captureQuestionnaire(), stimulus_assignment_policy: legacyStimulusOrder ? 'legacy-stride' : 'global-completion-v1', stimulus_shuffle_version: stimulusShuffleVersion, events, responses, device_preview_policy: hasBrainflow ? previewPolicy.current : undefined, device_events: deviceEventsRef.current, saved_at: new Date().toISOString(), runtime_version: 2 }; setRecoverySave({ status: 'saving', error: '' }); const queued = saveQueueRef.current.catch(() => {}).then(() => saveCurrentRun(snapshot)); saveQueueRef.current = queued; queued.then(() => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'saved', error: '' }); }).catch(error => { if (saveQueueRef.current === queued) setRecoverySave({ status: 'error', error: error.message || String(error) }); }); }}>Retry save</button>}
+      {monitorUrl && <a href={monitorUrl} target="_blank" rel="noreferrer">{t('Open operator monitor')} ↗</a>}
       <button className={inspectorOpen ? 'active' : ''} onClick={() => setInspectorOpen(open => !open)} title="Live variables, outputs and flow state">⌄ Inspect</button>
-      {deviceStatus?.error && <button disabled={starting} onClick={begin}>Reconnect devices</button>}
-      <button disabled={runtime.status === 'paused' && deviceRequired && deviceStatus?.connected !== true} onClick={() => apply(runtime.status === 'paused' ? resumeRuntime(runtimeRef.current, protocol, services.current) : pauseRuntime(runtimeRef.current, protocol, services.current))}>{runtime.status === 'paused' ? 'Resume' : 'Pause'}</button>
+      {deviceStatus?.error && <button disabled={starting} onClick={() => begin(true)}>Reconnect devices</button>}
+      <button disabled={runtime.status === 'paused' && deviceRequired && (deviceStatus?.connected !== true || !canStartWithSignals(signalChecks))} onClick={() => apply(runtime.status === 'paused' ? resumeRuntime(runtimeRef.current, protocol, services.current) : pauseRuntime(runtimeRef.current, protocol, services.current))}>{runtime.status === 'paused' ? 'Resume' : 'Pause'}</button>
       {testRun && <TestRunExitButton onExit={onExitTest && exitTest} />}
       {testRun && <button disabled={runtime.status !== 'waiting' || testHistoryRef.current.length < 2} onClick={previousPage}>Previous page (test)</button>}
       {navigationError && <span role="alert">{navigationError}</span>}
       <button disabled={runtime.status !== 'waiting'} onClick={() => apply(retryCurrentNode(runtimeRef.current, protocol, services.current, 'operator retry'))}>Retry</button>
       <button disabled={runtime.status !== 'waiting'} onClick={() => apply(skipCurrentNode(runtimeRef.current, protocol, registry, services.current, 'operator skip'))}>Skip</button>
     </div></div>}
-    {operatorVisible && hasBrainflow && <aside className="setup-note" aria-label="BrainFlow live preview"><b>BrainFlow EEG preview (µV)</b><p>{Object.entries(latestDeviceValues.current).map(([key, value]) => `${key}: ${Number(value).toFixed(2)}`).join(' · ') || 'Waiting for samples'}</p><small>Preview channels only; browser retains about 20,000 recent channel samples. Complete raw recording stays on the acquisition computer.</small>{deviceStatus?.markerError && <p role="alert">Marker failed: {deviceStatus.markerError}</p>}{deviceStatus?.error && <div><label>Agent URL<input aria-label="BrainFlow agent URL" value={brainflowEndpoint} onChange={event => setBrainflowEndpoint(event.target.value)} /></label><label>Agent token<input aria-label="BrainFlow agent token" type="password" autoComplete="off" value={brainflowToken} onChange={event => setBrainflowToken(event.target.value)} /></label></div>}</aside>}
+    {operatorVisible && hasBrainflow && <aside className="setup-note" aria-label="BrainFlow live preview"><b>BrainFlow EEG preview (µV)</b><p>{Object.entries(latestDeviceValues.current).map(([key, value]) => `${key}: ${Number(value).toFixed(2)}`).join(' · ') || 'Waiting for samples'}</p>{brainflowChannels.length > 0 && <BrainFlowSignalChart channels={brainflowChannels} sampleRateHz={brainflowRate} windowSeconds={BRAINFLOW_PREVIEW_WINDOW_SECONDS} getWindow={getBrainFlowWindow} />}<small>Preview channels only; browser retains about 20,000 recent channel samples. Complete raw recording stays on the acquisition computer.</small>{deviceStatus?.markerError && <p role="alert">Marker failed: {deviceStatus.markerError}</p>}{deviceStatus?.error && <div><label>Agent URL<input aria-label="BrainFlow agent URL" value={brainflowEndpoint} onChange={event => setBrainflowEndpoint(event.target.value)} /></label><label>Agent token<input aria-label="BrainFlow agent token" type="password" autoComplete="off" value={brainflowToken} onChange={event => setBrainflowToken(event.target.value)} /></label></div>}</aside>}
     {operatorVisible && hostedSyncRef.current && <aside className="setup-note" aria-label="Server synchronization"><p role="status">{hostedStatus?.error ? `Server synchronization needs attention: ${hostedStatus.error}` : `Server acknowledged ${Math.max(0, (hostedStatus?.nextEventSequence || 1) - 1)} runtime events · ${events.length} recorded in this browser`}</p>{hostedStatus?.error && <button onClick={() => syncHosted().catch(() => {})}>Retry server synchronization</button>}{deviceNode && <p>Device samples are kept in this browser's session package; runtime synchronization does not upload the device sample stream.</p>}</aside>}
     {operatorVisible && inspectorOpen && <RuntimeInspector runtime={runtime} protocol={protocol} nodes={nodes} />}
     <section key={attemptKey} inert={runtime.status === 'paused'} className="graph-participant" aria-label="Participant view">
@@ -484,7 +615,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest }) {
         : currentNode.component.type === 'experiment.cognitive-task'
         ? <CognitiveTaskRunner config={currentNode.config} disabled={runtime.status === 'paused'} onSubmit={complete} onTrialEvent={(eventType, payload) => record(eventType, payload)} />
         : currentNode.component.type === 'input.questionnaire' && currentNode.config?.questionnaire?.questions?.length
-        ? <QuestionnaireForm questionnaire={currentNode.config.questionnaire} language={data.session.participant_language || 'en'} randomSeed={runtime.randomSeed} disabled={runtime.status === 'paused'} onSubmit={(answers, metadata) => {
+        ? <QuestionnaireForm initialDraft={data.restore?.questionnaire_draft?.key === attemptKey ? data.restore.questionnaire_draft.draft : undefined} onDraftChange={onQuestionnaireDraft} questionnaire={currentNode.config.questionnaire} language={data.session.participant_language || 'en'} randomSeed={runtime.randomSeed} disabled={runtime.status === 'paused'} onSubmit={(answers, metadata) => {
             const scoreValues = metadata?.score?.total > 0 ? {
               questionnaire_score_correct: metadata.score.correct,
               questionnaire_score_total: metadata.score.total,

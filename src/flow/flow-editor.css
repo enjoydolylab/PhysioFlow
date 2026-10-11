@@ -9,25 +9,32 @@
 }
 
 /* Flow overlay head — single-row compact toolbar */
+/* One row of content is ~30px, so min-height still yields exactly 64px at desktop.
+   Wrapping is what the <=760px block in flow-context.css already does; between 760
+   and ~1000px the nowrap row overflowed and the trailing buttons were unreachable. */
 .flow-overlay-head {
   position: relative;
   z-index: 40;
-  height: 64px;
+  height: auto;
+  min-height: 64px;
   display: flex;
   align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  row-gap: .35rem;
   gap: .5rem;
-  padding: 0 14px;
+  padding: 4px 14px;
   background: var(--paper);
   color: var(--ink);
   border-bottom: 1px solid var(--line);
   box-shadow: 0 1px 8px #12281c0a;
-  flex-wrap: nowrap;
   backdrop-filter: blur(10px);
 }
 .flow-overlay-head button {
   color: var(--muted-strong); border-color: var(--line);
   background: var(--paper); font-size: 14px; padding: 6px 10px;
   white-space: nowrap; line-height: 1.2;
+  max-width: 100%;
 }
 .flow-overlay-head button:hover { border-color: var(--green); color: var(--green); box-shadow: 0 0 0 3px #19745316; }
 .flow-overlay-head .primary {
@@ -104,7 +111,7 @@
   color: var(--ink); font-size: 14px;
 }
 .trial-switcher option { color: #17221d; }
-.flow-top-actions { display: flex; gap: 5px; align-items: center; margin-left: auto; flex-shrink: 0; }
+.flow-top-actions { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-left: auto; flex-shrink: 0; }
 
 /* Studio grid */
 .studio {
@@ -186,9 +193,14 @@
 }
 
 /* Canvas bar — single-row toolbar */
+/* overflow was hidden, which clipped the two trailing controls away AND made the
+   .snapshots-dropdown (CanvasToolbar.jsx:23, position:absolute; top:100%) unable to
+   paint at any width. Children are all far narrower than a line, so wrapping is
+   deterministic and the bar still measures 34px while it stays on one row. */
 .canvas-bar {
-  height: 34px; display: flex; align-items: center; gap: .4rem;
-  padding: 0 .5rem; overflow: hidden;
+  height: auto; min-height: 34px; display: flex; align-items: center;
+  align-content: center; flex-wrap: wrap; row-gap: .3rem;
+  gap: .4rem; padding: 4px .5rem; overflow: visible;
   background: var(--paper); border-bottom: 1px solid var(--line);
 }
 .canvas-bar > * { flex-shrink: 0; }

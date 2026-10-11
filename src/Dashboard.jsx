@@ -1,9 +1,8 @@
+import { useGuideCopy } from './TaskGuide.jsx';
 import { materializePlaceholderMedia } from './core/mediaReadiness.js';
-import { formatDateTime } from './analysis/charts.js';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { LanguageToggle, DarkModeToggle } from './i18n';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { LanguageToggle, DarkModeToggle, useT } from './i18n';
 import BioDBSettings from './BioDBSettings.jsx';
-import PhysioDBUpload from './PhysioDBUpload.jsx';
 import DataPanel from './DataPanel.jsx';
 import { loadSettings, saveSettings } from './fsStorage.js';
 import { createNextProtocolVersion, duplicateProtocolAsProject, hashProtocol, protocolDiff, validateProtocol } from './domain';
@@ -27,6 +26,8 @@ import {
 } from './core/index.js';
 import { createProjectComponentRegistry } from './sdk/index.js';
 import { protocolGraphDiff } from './core/protocolGraphDiff.js';
+
+const SessionManager = lazy(() => import('./SessionManager.jsx'));
 
 const groupProjects = protocols => Object.values(protocols
   .filter(item => protocolStatusOf(item) !== 'retired' && !protocolArchivedAtOf(item))
@@ -56,17 +57,17 @@ function formatDuration(ms) {
   return m > 0 ? `~${m}m ${s}s` : `~${s}s`;
 }
 
-export default function Dashboard({ protocols, sessions, onOpen, onNew, onTemplate, onImport, onRun, onNextVersion, onDuplicate, onArchive, onRemoveVersion, onRestoreVersion, onRenameProject, onMigrate, onAnalytics, storageInfo, onChooseDataDirectory, onOpenDataFolder, onGuide, onStroopTemplate, onGonogoTemplate }) {
+export default function Dashboard({ initialPage = 'projects', initialSessionId = null, protocols, sessions, onOpen, onNew, onTemplate, onImport, onRun, onNextVersion, onDuplicate, onArchive, onRemoveVersion, onRestoreVersion, onRenameProject, onMigrate, onAnalytics, storageInfo, onChooseDataDirectory, onOpenDataFolder, onGuide, onStroopTemplate, onGonogoTemplate }) {
+  const t = useT();
+  const guide = useGuideCopy();
   const input = useRef(null);
-  const [page, setPage] = useState('projects');
+  const [page, setPage] = useState(initialPage);
   const [projectSearch, setProjectSearch] = useState('');
   const projects = groupProjects(protocols);
+  const recentProject = projects.map(versions => versions.find(item => protocolStatusOf(item) === 'draft') || versions[0]).sort((a, b) => String(b.audit?.updatedAt || b.updated_at || '').localeCompare(String(a.audit?.updatedAt || a.updated_at || '')))[0];
   const frozenCount = protocols.filter(item => protocolStatusOf(item) === 'frozen').length;
   const workspaceReadiness = useMemo(() => summarizeWorkspaceReadiness(protocols, sessions, storageInfo), [protocols, sessions, storageInfo]);
   const statusTone = workspaceReadiness.blocked ? 'blocked' : workspaceReadiness.attention ? 'attention' : 'ready';
-  const [sessionFilter, setSessionFilter] = useState('');
-  const [debouncedFilter, setDebouncedFilter] = useState('');
-  const debounceRef = useRef(null);
   const [confirmState, setConfirm] = useState(null);
   const [alertState, setAlert] = useState(null);
   const [bioDBOpen, setBioDBOpen] = useState(false);
@@ -79,19 +80,6 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
     setBioDBSettings(next);
     saveSettings(next).catch(() => {});
   };
-
-  const handleFilterChange = value => {
-    setSessionFilter(value);
-    clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => setDebouncedFilter(value), 150);
-  };
-
-  const filteredSessions = useMemo(() => {
-    const q = debouncedFilter.toLowerCase().trim();
-    const all = [...sessions].reverse();
-    if (!q) return all;
-    return all.filter(s => (s.participant_id || '').toLowerCase().includes(q) || (s.protocol_name || '').toLowerCase().includes(q) || (s.run_mode || '').toLowerCase().includes(q) || String(s.protocol_version || '').includes(q));
-  }, [sessions, debouncedFilter]);
 
   const importFile = async file => {
     try {
@@ -156,16 +144,17 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
   };
 
   return <main className="dashboard dashboard-redesign">
-    <aside className="workspace-sidebar"><div className="workspace-wordmark"><span>pf.</span><b>PhysioFlow<small>RESEARCH WORKSPACE</small></b></div><nav aria-label="Workspace navigation">{[['projects', 'Projects', '01'], ['sessions', 'Sessions', '02'], ['tools', 'Data & settings', '03']].map(([id, label, number]) => <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => setPage(id)}><span>{number}</span>{label}{id === 'projects' && <small>{projects.length}</small>}</button>)}</nav><div className="sidebar-bottom"><span className="sidebar-dot" /> Local workspace<p>Your experiments.<br />Your research.</p><button onClick={() => onGuide?.('workflow')}>Help & documentation ↗</button></div></aside>
+    <aside className="workspace-sidebar"><div className="workspace-wordmark"><span>pf.</span><b>PhysioFlow<small>RESEARCH WORKSPACE</small></b></div><nav aria-label="Workspace navigation">{[['projects', 'Projects', '01'], ['sessions', 'Sessions', '02'], ['tools', 'Data & settings', '03']].map(([id, label, number]) => <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => setPage(id)}><span>{number}</span>{t(label)}{id === 'projects' && <small>{projects.length}</small>}</button>)}<a className="workspace-desk-link" href="/admin"><span>↗</span> {t('Devices & connections')}</a></nav><div className="sidebar-bottom"><span className="sidebar-dot" /> Local workspace<p>Your experiments.<br />Your research.</p><button onClick={() => onGuide?.('workflow')}>Help & documentation ↗</button></div></aside>
     <div className="workspace-content">
-    <header className="workspace-topbar"><span>Workspace <span className="breadcrumb-divider">/</span> <b>{page === 'projects' ? 'Projects' : page === 'sessions' ? 'Sessions' : 'Data & settings'}</b></span><div className="header-tools"><DarkModeToggle /><LanguageToggle /></div></header>
+    <header className="workspace-topbar"><span>Workspace <span className="breadcrumb-divider">/</span> <b>{page === 'projects' ? 'Projects' : page === 'sessions' ? 'Sessions' : 'Data & settings'}</b></span><div className="header-tools"><button onClick={() => onGuide?.('workflow')}>{guide.help}</button><button onClick={() => setPage('sessions')}>{t('Manage sessions')}</button><DarkModeToggle /><LanguageToggle /></div></header>
     {bioDBOpen && <BioDBSettings settings={bioDBSettings || {}} onSave={handleBioDBSave} onClose={() => setBioDBOpen(false)} />}
     {dataOpen && <DataPanel settings={bioDBSettings} onClose={() => setDataOpen(false)} />}
 
     {page === 'projects' && <>
-    <section className="workspace-intro"><div><span className="eyebrow">DESIGN · RUN · DISCOVER</span><h1>A space for<br /><i>your next experiment.</i></h1><p>Shape an idea into a study. Pick up where you left off.</p></div><div className="workspace-overview"><span><b>{projects.length}</b> projects</span><span><b>{frozenCount}</b> frozen versions</span><span><b>{sessions.length}</b> sessions</span></div></section>
-    <section className="workspace-create"><div className="create-symbol" aria-hidden="true">＋</div><div><h2>Build your next experiment</h2><p>Start with a blank flow, or make a template your own.</p></div><button className="primary" onClick={onNew}>New protocol <span aria-hidden="true">↗</span></button><button onClick={() => input.current.click()}>Import JSON</button><details className="workspace-templates"><summary>Start from a template</summary><div><button onClick={onTemplate}>Emotion</button>{onStroopTemplate && <TemplateButton label="Stroop" onCreate={onStroopTemplate} templateKey="stroop" />}{onGonogoTemplate && <TemplateButton label="Go/No-Go" onCreate={onGonogoTemplate} templateKey="gonogo" />}</div></details></section>
-    <input ref={input} hidden type="file" accept="application/json" onChange={ev => { const file = ev.target.files?.[0]; if (file) importFile(file); ev.target.value = ''; }} />
+    <section className="workspace-intro"><div><span className="eyebrow">PHYSIOFLOW</span><h1>{t('Experiment projects')}</h1><p>{t('Design your protocol, prepare a participant, then review the results.')}</p></div><div className="workspace-overview"><span><b>{projects.length}</b> projects</span><span><b>{frozenCount}</b> frozen versions</span><span><b>{sessions.length}</b> sessions</span></div></section>
+    {recentProject && <section className="workspace-resume" aria-label={t('Recent project')}><div><small>{t('Recent project')}</small><b>{protocolNameOf(recentProject)}</b></div><button onClick={() => onOpen(recentProject)}>{t(protocolStatusOf(recentProject) === 'draft' ? 'Continue editing' : 'Open project')}</button>{protocolStatusOf(recentProject) === 'frozen' && <button className="primary" onClick={() => onRun(recentProject)}>{t('Prepare collection')}</button>}</section>}
+    <section className="workspace-create"><div className="create-symbol" aria-hidden="true">＋</div><div><h2>Create an experiment</h2><p>Choose a blank protocol or a template.</p></div><button className="primary" onClick={onNew}>New protocol <span aria-hidden="true">↗</span></button><button onClick={() => input.current.click()}>Import JSON</button><details className="workspace-templates"><summary>Start from a template</summary><div><button onClick={onTemplate}>Emotion</button>{onStroopTemplate && <TemplateButton label="Stroop" onCreate={onStroopTemplate} templateKey="stroop" />}{onGonogoTemplate && <TemplateButton label="Go/No-Go" onCreate={onGonogoTemplate} templateKey="gonogo" />}</div></details></section>
+    <input ref={input} hidden type="file" accept="application/json,.json" onChange={ev => { const file = ev.target.files?.[0]; if (file) importFile(file); ev.target.value = ''; }} />
     <section>
       <div className="section-title">
         <h2>Your projects <small>{projects.length}</small></h2>
@@ -188,32 +177,7 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
     </details>
 
     </>}
-    {page === 'sessions' && <section className="workspace-sessions">
-      <div className="workspace-page-title"><span className="eyebrow">RESEARCH RECORDS</span><h1>Sessions</h1><p>Find a participant, review a run, and return to your data.</p></div>
-
-      <div className="section-title">
-        <h2>Sessions</h2>
-        <span>{sessions.length} total</span>
-      </div>
-      <div style={{ position: 'relative' }}>
-        <input className="session-search" placeholder="Search sessions..." value={sessionFilter} onChange={e => handleFilterChange(e.target.value)} />
-        {sessionFilter && <button onClick={() => handleFilterChange('')} style={{ position: 'absolute', right: 8, top: '50%', translate: '0 -50%', border: 0, background: 'transparent', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px', lineHeight: 1 }} title="Clear search">×</button>}
-      </div>
-      <div className="session-table">
-        {filteredSessions.length ? filteredSessions.slice(0, sessionFilter ? undefined : 20).map(item => (
-          <div key={item.session_id} className="session-row">
-            <span className={`session-status ${item.status}`} />
-            <b>{item.participant_id}</b>
-            <span>{item.protocol_name}</span>
-            <span>{item.run_mode || 'formal'} · v{item.protocol_version}</span>
-            <span>{item.event_count || 0} events</span>
-            <time dateTime={item.ended_at || undefined} title={item.ended_at || undefined}>{item.ended_at ? formatDateTime(item.ended_at) : 'in progress'}</time>
-            {item.integrity?.validity_status && <span className={`badge integrity-${item.integrity.validity_status}`}>{item.integrity.validity_status}</span>}
-            {onAnalytics && <button className="hint" aria-label={`Review ${item.participant_id}`} onClick={() => onAnalytics(item.session_id)}>Review ↗</button>}
-          </div>
-        )) : sessionFilter ? <p className="empty">No sessions match "{sessionFilter}"</p> : <p className="empty">Completed and aborted sessions will appear here.</p>}
-      </div>
-    </section>}
+    {page === 'sessions' && <section className="workspace-sessions"><div className="workspace-page-title"><span className="eyebrow">RESEARCH RECORDS</span><h1>{t('Experiment records')}</h1><p>{t('Review saved data, verify database results, and analyze this session.')}</p></div><Suspense fallback={<p>{t('Loading sessions...')}</p>}><SessionManager embedded initialSessionId={initialSessionId} onClose={() => setPage('projects')} onAnalyze={onAnalytics} /></Suspense></section>}
     {page === 'tools' && <section className="workspace-tools"><div className="workspace-page-title"><span className="eyebrow">WORKSPACE TOOLS</span><h1>Data & settings</h1><p>Keep storage, analysis and integrations in one place.</p></div>    <section className={`status-bar ${statusTone}`}>
       <span className="status-dot" />
       <div className="status-text">
@@ -227,7 +191,7 @@ export default function Dashboard({ protocols, sessions, onOpen, onNew, onTempla
       </div>
     </section>
 
-<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><button onClick={() => setBioDBOpen(true)}><span>03 / CONNECTION</span><b>BioDB settings ↗</b><p>Manage the database connection when you need it.</p></button></div><PhysioDBUpload /></section>}
+<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><details><summary>Legacy BioDB connection</summary><button onClick={() => setBioDBOpen(true)}>BioDB settings ↗</button><p>For the older JWT server.</p></details></div><div className="workspace-db-entry"><div><b>PhysioDB · Experiment desk</b><p>Check signals, read recorded data, and export analysis.</p></div><a href="/admin">Open experiment desk ↗</a></div></section>}
     <footer className="workspace-footer"><span>PhysioFlow · Experiment workspace</span><button onClick={() => setPage('tools')}>{storageInfo?.selected ? storageInfo.name || 'Local folder connected' : 'Storage settings'} ↗</button></footer>
     </div>
     {confirmState && <ConfirmDialog {...confirmState} />}

@@ -1,0 +1,17 @@
+{
+  "testMediaOnly": true,
+  "nodes": 30,
+  "assets": 4,
+  "groupIds": [
+    "group_a",
+    "group_b"
+  ],
+  "videoDurationSeconds": 6,
+  "randomizedGroups": "single entry/exit; bounded nested loops",
+  "requirements": "Current development build after beta.6; do not run this complex-group protocol in beta.6",
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "warnings": []
+  }
+}

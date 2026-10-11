@@ -7,6 +7,7 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
     const { createRoot } = ReactDOM;
     const { default: Runner } = await import('/src/GraphRuntimeRunnerPage.jsx');
     const core = await import('/src/core/index.js');
+    const { LanguageProvider } = await import('/src/i18n.jsx');
     const container = document.createElement('div'); container.id = 'runtime-regression'; document.body.append(container);
     window.mountScenario = async (steps, options = {}) => {
       window.scenarioRoot?.unmount();
@@ -28,7 +29,7 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
       if (options.missingDevice) protocol.graph.nodes[1].config.deviceConnectorId = 'missing-device';
       if (options.missingMedia) protocol.graph.nodes.find(node => node.component.type === 'display.media').config.assetId = 'missing-file';
       if (options.failAfter) protocol.graph.edges.find(edge => protocol.graph.nodes.find(node => node.id === edge.source.nodeId)?.component.type === 'display.screen').target.nodeId = 'missing-target';
-      window.scenarioRoot.render(React.createElement(Runner, { data, onDone: () => {} }));
+      window.scenarioRoot.render(React.createElement(LanguageProvider, null, React.createElement(Runner, { data, onDone: () => {} })));
     };
   })()`);
   const text = `document.querySelector('#runtime-regression')?.textContent || ''`;
@@ -77,7 +78,7 @@ export async function verifyRuntimeScenarios(evaluate, waitFor, clickText) {
   await waitFor(`(${text}).includes('Session data saved.')`, 'final local save can be retried');
 
   await evaluate(`mountScenario([['display.screen','Restored device',{completion:{mode:'fixed',durationMs:100}}]],{restore:true,missingDevice:true})`);
-  await waitFor(`(${text}).includes('RUNTIME V2 READY')`, 'restored device run requires preflight');
+  await waitFor(`!!document.querySelector('#runtime-regression .pf-preflight')`, 'restored device run requires preflight');
   await delay(300);
   assert.ok(await evaluate(`!(${text}).includes('SESSION COMPLETE')`));
   await clickText('Begin experiment');

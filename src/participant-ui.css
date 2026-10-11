@@ -32,16 +32,41 @@
 .participant-rating { display: flex; flex-wrap: wrap; gap: 8px; }
 .participant-rating button { min-width: 44px; min-height: 44px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--paper); cursor: pointer; }
 .participant-rating button.selected { border-color: var(--green); background: var(--green); color: var(--paper); }
-.participant-ui-button { min-width: 150px; margin-top: 20px; padding: 12px 22px; border: 0; border-radius: 9px; font: 650 1rem/1 inherit; cursor: pointer; }
+/* Labels here are protocol data (ParticipantRenderer props.label), so they can be
+   any length with no break opportunity. overflow-wrap:anywhere (not break-word)
+   is required: it lowers the button's min-content contribution, which is what
+   lets the surrounding grid/flex track shrink instead of spilling. */
+.participant-ui-button { min-width: 150px; max-width: 100%; margin-top: 20px; padding: 12px 22px; border: 0; border-radius: 9px; font: 650 1rem/1 inherit; cursor: pointer; white-space: normal; overflow-wrap: anywhere; }
 .participant-ui-button.primary { background: linear-gradient(180deg, var(--green), var(--green-strong)); color: var(--paper); }
 .participant-ui-button.secondary { background: var(--surface); color: var(--ink); }
 .participant-ui-progress { display: flex; flex-direction: column; gap: 5px; margin: 12px 0; font-size: .75rem; }
 .participant-ui-progress progress { width: 100%; }
 .participant-ui-error { margin: auto; padding: 20px; color: var(--danger); background: var(--paper-soft); border-radius: 8px; }
 .graph-runner { min-height: 100vh; min-height: 100dvh; background: #111721; }
+/* BrainFlow live chart on the dark runtime surface. The shared .viz-* styles
+   (questionnaire.css) are light-themed for analytics/DataPanel; these scoped
+   overrides adapt only the chart rendered inside the runtime. */
+.graph-runner .viz-svg { background: #0d1520; border-color: #26303f; }
+.graph-runner .viz-live-title { color: #f4f6f9; }
+.graph-runner .viz-readout { color: #b7c4d1; }
+.graph-runner .viz-readout-time { color: #8fa3bd; }
+.graph-runner .viz-block h5 { color: #b7c4d1; }
+.graph-runner .viz-bandbar { background: #26303f; }
+.graph-runner .viz-band-legend { color: #b7c4d1; }
 .graph-runner-ready { min-height: 100vh; min-height: 100dvh; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 30px; color: #f7f8fb; text-align: center; }
-.graph-operator { height: 64px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 15px; padding: 0 18px; background: #17202d; color: #f4f6f9; }
-.graph-operator > div:first-child { display: flex; flex-direction: column; }.graph-operator > div:last-child { justify-self: end; display: flex; gap: 6px; }
+/* place-content:center auto tracks are capped by the viewport, so these wrap rather
+   than spill, but they need a width cap so long copy and the exit label wrap early
+   enough to stay inside the screen. */
+.graph-runner-ready > * { max-width: 100%; }
+.graph-runner-ready button { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+/* TestRunExitButton.jsx:27 had no rule at all, so its 30-character label fell
+   through to the bare base.css button with no wrap or size guard. */
+.test-exit-button { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.test-exit-error { display: block; margin-top: .5rem; max-width: 100%; overflow-wrap: anywhere; }
+.graph-operator { box-sizing: border-box; min-height: 64px; height: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 18px; background: #17202d; color: #f4f6f9; }
+.graph-operator > div:first-child { flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; overflow-wrap: anywhere; }
+.graph-operator > div:last-child { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+.graph-operator button { flex: 0 0 auto; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 .graph-participant { position: relative; box-sizing: border-box; min-height: calc(100vh - 64px); min-height: calc(100dvh - 64px); display: grid; padding: clamp(20px, 5vw, 70px); background: #eef1f5; }
 
 /* Runtime V2 live inspector (W5) */
@@ -70,6 +95,11 @@
   .graph-participant .participant-ui-screen { width: 100%; }
   .cognitive-task { padding: 1.25rem; gap: 1.25rem; }
   .participant-rating button, .qf-scale-btn { min-width: 40px; min-height: 40px; }
+  /* .qf-nav wraps at this width (two 150px floors cannot share the row). A lone
+     item on a wrapped line sits at flex-start, so without this the nav reads as
+     two left-aligned buttons; full width makes the stack deliberate and is a
+     larger touch target. Also covers the single-button .qf-matrix-nav. */
+  .qf-nav > .participant-ui-button { flex: 1 1 100%; }
 }
 
 /* Questionnaire Form V2 (Runtime V2) */
@@ -87,7 +117,10 @@
 .qf-vas-value { text-align: center; font-size: 1rem; font-weight: 650; }
 .qf-text, .qf-textarea { padding: 12px; border: 1px solid var(--line); border-radius: 8px; font: inherit; width: 100%; }
 .qf-error { color: var(--danger); }
-.qf-nav { display: flex; justify-content: space-between; margin-top: 22px; }
+/* Two 150px-floor buttons cannot share a 375px screen, and because a flex item's
+   min-width floors the .graph-participant grid track, the whole screen box was
+   pushed past the viewport. Wrapping keeps the track at one button's width. */
+.qf-nav { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin-top: 22px; }
 
 .participant-ui-html { width: 100%; min-height: 120px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); margin: 12px 0; }
 .participant-ui-html.missing { padding: 24px; border-style: dashed; color: var(--muted); background: var(--paper-soft); }
@@ -189,6 +222,18 @@
   min-width: 0;
   max-width: 100%;
 }
+
+/* Same fix for every other screen: .graph-participant is display:grid with no
+   min-width:0 on its children, so a wide button inside a screen raises that
+   screen's min-content contribution and the grid track overflows the viewport. */
+.graph-participant > .participant-ui-screen,
+.graph-participant > .participant-ui-renderer,
+.graph-participant > .response-runner,
+.graph-participant > .cognitive-task,
+.graph-participant > .attention-check {
+  min-width: 0;
+  max-width: 100%;
+}
 .qf-matrix-scroll, .qf-sam-matrix-scroll { min-width: 0; max-width: 100%; }
 
 /* Opt-in lab media stage. Only the chosen media fills the participant viewport;
@@ -207,3 +252,8 @@
 }
 .graph-participant .media-viewport-wrap iframe { width: 100%; height: 100%; border: 0; }
 .graph-participant .media-viewport-screen > :not(.media-viewport-wrap) { z-index: 1; position: relative; }
+
+/* Ready/results use the workspace palette in light mode, including DB reports. */
+.light-mode .graph-runner-ready { color: var(--ink, #14211b); }
+.graph-runner-ready .setup-note { color: var(--ink, #14211b); }
+.graph-runner-ready [aria-label="PhysioDB test result"] { width: min(860px, 100%); text-align: left; }

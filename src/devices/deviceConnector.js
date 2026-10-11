@@ -149,6 +149,16 @@ export class DeviceConnectorSession {
     return this.emit('device_disconnected', { reason });
   }
 
+  // Best-effort release while the page is being torn down (refresh, tab close,
+  // navigation). Adapters that accept { keepalive: true } let the request outlive
+  // the document, so the acquisition agent frees its owner immediately instead of
+  // waiting for the stale-owner timeout. Never throws and never blocks unload:
+  // this runs from a pagehide handler where nothing can be awaited reliably.
+  detachOnUnload() {
+    try { return Promise.resolve(this.adapter?.disconnect?.({ keepalive: true })).catch(() => {}); }
+    catch { return Promise.resolve(); }
+  }
+
   async recover(config = {}, options = {}) {
     const maxAttempts = Math.max(1, Number(options.maxAttempts || 3));
     this.emit('device_recovery_started', { maxAttempts });
