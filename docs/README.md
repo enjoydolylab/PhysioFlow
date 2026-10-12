@@ -1,6 +1,6 @@
 # 文档导航
 
-交付候选beta.7：[一页交接说明](HANDOFF_beta.7.md)、[候选发布说明](RELEASE_NOTES_beta.7.md)。
+[beta.7 Web交付记录](DELIVERY_WEB_beta.7.md)。交付候选beta.7：[一页交接说明](HANDOFF_beta.7.md)、[候选发布说明](RELEASE_NOTES_beta.7.md)。
 
 当前交付前验收：[2026-10-12 验收与优化记录](DELIVERY_ACCEPTANCE_2026-10-12.md)（持续进行，包含未完成项）。
 
