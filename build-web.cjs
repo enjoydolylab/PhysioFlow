@@ -28,11 +28,18 @@ const build = spawnSync('npx', ['vite', 'build'], {
 });
 if (build.status !== 0) process.exit(build.status || 1);
 
-fs.rmSync(OUT_ROOT, { recursive: true, force: true });
+fs.rmSync(APP_DIR, { recursive: true, force: true });
 fs.mkdirSync(APP_DIR, { recursive: true });
 fs.cpSync(DIST, APP_DIR, { recursive: true });
+const commit = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' });
+const changes = spawnSync('git', ['status', '--porcelain', '--untracked-files=no'], { cwd: ROOT, encoding: 'utf8' });
+fs.writeFileSync(path.join(APP_DIR, 'BUILD_INFO.json'), JSON.stringify({ version: VERSION, sourceCommit: commit.status === 0 ? commit.stdout.trim() : null, trackedSourceDirty: changes.status !== 0 || Boolean(changes.stdout.trim()), builtAt: new Date().toISOString(), distribution: 'research-preview-static-web' }, null, 2) + '\n');
+const deliveryExample = path.join(ROOT, 'examples', 'handoff-beta7');
+if (fs.existsSync(deliveryExample)) fs.cpSync(deliveryExample, path.join(APP_DIR, 'example-design'), { recursive: true });
 const releaseNotes = path.join(ROOT, 'docs', `RELEASE_NOTES_${VERSION.split('-')[1]}.md`);
 if (fs.existsSync(releaseNotes)) fs.copyFileSync(releaseNotes, path.join(APP_DIR, 'RELEASE_NOTES.md'));
+const handoff = path.join(ROOT, 'docs', 'HANDOFF_beta.7.md');
+if (fs.existsSync(handoff)) fs.copyFileSync(handoff, path.join(APP_DIR, 'HANDOFF.md'));
 fs.cpSync(path.join(ROOT, 'tools', 'brainflow'), path.join(APP_DIR, 'tools', 'brainflow'), { recursive: true, filter: source => !['.venv', '__pycache__'].includes(path.basename(source)) });
 fs.writeFileSync(path.join(APP_DIR, 'favicon.ico'), Buffer.from(
   'AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e7hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////w==',

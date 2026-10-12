@@ -15,26 +15,42 @@ const PACKAGE_ID = /^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$/;
 
 export function validateComponentPackage(componentPackage) {
   const errors = [];
-  if (!componentPackage || typeof componentPackage !== 'object') return { valid: false, errors: ['Component package must be an object'] };
+  if (!componentPackage || typeof componentPackage !== 'object' || Array.isArray(componentPackage)) return { valid: false, errors: ['Component package must be an object'] };
   if (componentPackage.sdkVersion !== COMPONENT_SDK_VERSION) errors.push(`Unsupported component SDK version ${componentPackage.sdkVersion || '(missing)'}`);
   if (!PACKAGE_ID.test(componentPackage.packageId || '')) errors.push('Package ID must use lowercase dot/dash notation');
-  if (!componentPackage.version?.match(/^\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?$/)) errors.push('Package version must use semantic versioning');
-  if (!componentPackage.name?.trim()) errors.push('Package name is required');
-  const permissions = componentPackage.permissions || [];
+  if (typeof componentPackage.version !== 'string' || !componentPackage.version.match(/^\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?$/)) errors.push('Package version must use semantic versioning');
+  if (typeof componentPackage.name !== 'string' || !componentPackage.name.trim()) errors.push('Package name is required');
+  if (componentPackage.permissions != null && !Array.isArray(componentPackage.permissions)) errors.push('Package permissions must be an array');
+  const permissions = Array.isArray(componentPackage.permissions) ? componentPackage.permissions : [];
   if (new Set(permissions).size !== permissions.length) errors.push('Package permissions must be unique');
   permissions.filter(permission => !PERMISSIONS.has(permission)).forEach(permission => errors.push(`Unsupported package permission ${permission}`));
   if (!Array.isArray(componentPackage.components) || !componentPackage.components.length) errors.push('Package needs at least one component');
   const componentKeys = new Set();
-  for (const definition of componentPackage.components || []) {
-    const check = validateComponentDefinition(definition);
+  for (const definition of Array.isArray(componentPackage.components) ? componentPackage.components : []) {
+    if (!definition || typeof definition !== 'object' || Array.isArray(definition)) { errors.push('Component definition must be an object'); continue; }
+    let check;
+    try { check = validateComponentDefinition(definition); }
+    catch { errors.push('Component definition contains invalid field types'); continue; }
     check.errors.forEach(error => errors.push(`${definition?.type || 'component'}: ${error}`));
+    for (const field of ['events', 'dataFields']) {
+      if (definition[field] != null && (!Array.isArray(definition[field]) || definition[field].some(value => typeof value !== 'string' || !value.trim()))) errors.push(`${definition.type}: ${field} must be an array of non-empty strings`);
+    }
+    if (definition.editorFields != null && !Array.isArray(definition.editorFields)) errors.push(`${definition.type}: editorFields must be an array`);
+    for (const field of Array.isArray(definition.editorFields) ? definition.editorFields : []) {
+      if (!field || typeof field !== 'object' || typeof field.path !== 'string' || !field.path.trim() || typeof field.label !== 'string' || (field.type != null && typeof field.type !== 'string')) { errors.push(`${definition.type}: Invalid editor field`); continue; }
+      if (field.type === 'select' && (!Array.isArray(field.options) || field.options.some(value => !['string', 'number'].includes(typeof value)))) errors.push(`${definition.type}: Select editor fields need string or number options`);
+      if (field.showWhen != null && (!field.showWhen || typeof field.showWhen.path !== 'string')) errors.push(`${definition.type}: Invalid editor field condition`);
+    }
     const key = `${definition?.type}@${definition?.version}`;
     if (componentKeys.has(key)) errors.push(`Duplicate packaged component ${key}`);
     else componentKeys.add(key);
     if ((definition.runtime?.kind || 'participant') !== 'participant') errors.push(`${definition.type}: SDK packages may only declare sandboxed participant components`);
     if (definition.runtime?.uiAdapter && definition.runtime.uiAdapter !== 'schema') errors.push(`${definition.type}: SDK packages must use the schema UI adapter`);
     if (!definition.defaultConfig?.ui) errors.push(`${definition.type}: SDK components need a participant UI schema`);
-    else validateParticipantUi(definition.defaultConfig.ui).errors.forEach(error => errors.push(`${definition.type}: ${error.message}`));
+    else {
+      try { validateParticipantUi(definition.defaultConfig.ui).errors.forEach(error => errors.push(`${definition.type}: ${error.message}`)); }
+      catch { errors.push(`${definition.type}: Invalid participant UI structure`); }
+    }
   }
   return { valid: errors.length === 0, errors };
 }

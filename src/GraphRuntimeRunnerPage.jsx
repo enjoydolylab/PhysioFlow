@@ -219,10 +219,18 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
   const checkSignals = () => signalReadiness(deviceEventsRef.current.filter(event => event.timestampEpochMs >= deviceCheckedAt.current), signalChannels);
   const monitorUrl = useRuntimeMonitor(participantOnly ? null : data.session.session_id, () => {
     const preview = getBrainFlowWindow();
-    return { protocolName: protocolNameOf(protocol), status: runtimeRef.current.status, nodeLabel: nodes.get(runtimeRef.current.currentNodeId)?.label || '', completed: runtimeRef.current.completedNodeIds.length, total: executableCount, saveStatus: saved === true ? 'saved' : recoverySave.status, deviceError: deviceStatus?.error || deviceStatus?.markerError || '', signals: checkSignals().map(({ values: _values, ...signal }) => signal), preview: { times: preview.times.slice(-400).map(time => time * 1000), values: Object.fromEntries(Object.entries(preview.values).map(([id, values]) => [id, values.slice(-400)])) } };
-  }, command => {
-    if (command === 'pause' && runtimeRef.current.status === 'waiting') apply(pauseRuntime(runtimeRef.current, protocol, services.current));
-    if (command === 'resume' && runtimeRef.current.status === 'paused' && mediaReady && (!deviceRequired || (deviceStatus?.connected === true && checkPreflight().every(check => check.ready)))) apply(resumeRuntime(runtimeRef.current, protocol, services.current));
+    return { protocolName: protocolNameOf(protocol), status: runtimeRef.current.status, nodeId: runtimeRef.current.currentNodeId, attempt: runtimeRef.current.attempts?.[runtimeRef.current.currentNodeId] || 0, skipped: runtimeRef.current.skippedNodeIds.length, recentNotes: events.filter(event => event.eventType === 'operator_note').slice(-10).map(event => ({ id: event.eventId, text: event.payload.text, nodeLabel: nodes.get(event.nodeId)?.label || '', timestamp: event.timestampIso })), nodeLabel: nodes.get(runtimeRef.current.currentNodeId)?.label || '', completed: runtimeRef.current.completedNodeIds.length, total: executableCount, saveStatus: saved === true ? 'saved' : recoverySave.status, deviceError: deviceStatus?.error || deviceStatus?.markerError || '', signals: checkSignals().map(({ values: _values, ...signal }) => signal), preview: { times: preview.times.slice(-400).map(time => time * 1000), values: Object.fromEntries(Object.entries(preview.values).map(([id, values]) => [id, values.slice(-400)])) } };
+  }, (command, details) => {
+    const active = runtimeRef.current;
+    if (command === 'pause' && active.status === 'waiting') { apply(pauseRuntime(active, protocol, services.current)); return true; }
+    if (command === 'resume' && active.status === 'paused' && mediaReady && (!deviceRequired || (deviceStatus?.connected === true && checkPreflight().every(check => check.ready)))) { apply(resumeRuntime(active, protocol, services.current)); return true; }
+    if (!started || !['waiting', 'paused'].includes(active.status)) return false;
+    if (details.nodeId !== active.currentNodeId || details.attempt !== (active.attempts?.[active.currentNodeId] || 0)) return false;
+    if (command === 'note') { apply(recordRuntimeEvent(active, protocol, services.current, 'operator_note', { payload: { text: details.text, source: 'operator-monitor' } })); return true; }
+    if (active.status !== 'waiting' || !mediaReady) return false;
+    if (command === 'retry') { apply(retryCurrentNode(active, protocol, services.current, details.text)); return true; }
+    if (command === 'skip') { apply(skipCurrentNode(active, protocol, registry, services.current, details.text)); return true; }
+    return false;
   });
   const readinessRef = useRef(null);
   readinessRef.current = () => {
@@ -284,7 +292,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
     if (starting || !mediaReady) return;
     if (participantOnly && deviceRequired) { setStartError('Ask the operator to prepare the required devices on the acquisition computer.'); return; }
     if ((data.session.run_mode === 'formal' || (data.hosted && data.session.run_mode !== 'preview')) && signalChannels.some(channel => channel.required && protocol.deviceConnectors.some(connector => connector.connectorId === channel.connectorId && (connector.transport === 'simulated' || connector.brainflow?.boardId < 0)))) { setStartError('Simulated devices cannot start a formal experiment. Select real hardware or use a test run.'); return; }
-    if (startExperiment && connectionsRef.current.length && connectionsRef.current.every(connection => connection.session.status === 'connected')) {
+    if (startExperiment && deviceStatus?.connected === true && connectionsRef.current.length && connectionsRef.current.every(connection => connection.session.status === 'connected')) {
       const blocked = checkPreflight().find(check => !check.ready);
       if (blocked) { setStartError(blocked.reason); return; }
       setStartError(''); setStarted(true);
@@ -594,7 +602,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
       {monitorUrl && <a href={monitorUrl} target="_blank" rel="noreferrer">{t('Open operator monitor')} ↗</a>}
       <button className={inspectorOpen ? 'active' : ''} onClick={() => setInspectorOpen(open => !open)} title="Live variables, outputs and flow state">⌄ Inspect</button>
       {deviceStatus?.error && <button disabled={starting} onClick={() => begin(true)}>Reconnect devices</button>}
-      <button disabled={runtime.status === 'paused' && deviceRequired && (deviceStatus?.connected !== true || !canStartWithSignals(signalChecks))} onClick={() => apply(runtime.status === 'paused' ? resumeRuntime(runtimeRef.current, protocol, services.current) : pauseRuntime(runtimeRef.current, protocol, services.current))}>{runtime.status === 'paused' ? 'Resume' : 'Pause'}</button>
+      <button disabled={starting || !mediaReady || (runtime.status === 'paused' && deviceRequired && (deviceStatus?.connected !== true || !checkPreflight().every(check => check.ready)))} onClick={() => { if (runtimeRef.current.status === 'paused') { if (!mediaReady || (deviceRequired && (deviceStatus?.connected !== true || !checkPreflight().every(check => check.ready)))) return; apply(resumeRuntime(runtimeRef.current, protocol, services.current)); } else apply(pauseRuntime(runtimeRef.current, protocol, services.current)); }}>{runtime.status === 'paused' ? 'Resume' : 'Pause'}</button>
       {testRun && <TestRunExitButton onExit={onExitTest && exitTest} />}
       {testRun && <button disabled={runtime.status !== 'waiting' || testHistoryRef.current.length < 2} onClick={previousPage}>Previous page (test)</button>}
       {navigationError && <span role="alert">{navigationError}</span>}

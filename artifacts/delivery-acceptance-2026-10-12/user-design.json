@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "sourceSha256": "3c848fb7b8d3a48b3b7e83eac64a3393e55cf156e636778fc0d42008439de9cc",
+  "nodes": 210,
+  "sameGraphAsPassedRuntimeFixture": true,
+  "import": true,
+  "visualEditUndo": true,
+  "graphView": true,
+  "savedGraphAndMediaIdentityPreserved": true,
+  "missingMediaBlocked": true,
+  "originalFileUnchanged": true
+}

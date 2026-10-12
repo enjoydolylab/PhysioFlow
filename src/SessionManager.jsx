@@ -1,3 +1,4 @@
+import { useT } from './i18n';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { bundle, bundleSimple, downloadBundle } from './exporter';
 import { deleteSession, loadSession, loadSessions, saveSession } from './storage';
@@ -72,6 +73,8 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
       const loaded = await loadSession(summary.session_id);
       if (!loaded) setAlert({ title: 'Session missing', message: 'The selected session could not be found in local storage.' });
       setDetail(loaded);
+    } catch (error) {
+      setAlert({ title: 'Session unavailable', message: error.message || 'Could not load the selected session.' });
     } finally {
       setLoading(false);
     }
@@ -332,6 +335,7 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
       </div>
     </div>
     {graphSession && detail.db_test_run && <Suspense fallback={null}><PhysioDBTestResult session={detail} protocol={detail.protocol_snapshot} events={detail.events || []} deviceEvents={detail.device_events || []} onReport={async report => { const next = { ...detail, db_test_report: report }; await saveSession(next); setDetail(next); }} /></Suspense>}
+    {graphSession && <OperatorObservations detail={detail} />}
     {graphSession && <RuntimeReplayPanel protocol={detail.protocol_snapshot} events={detail.events || []} />}
     <label htmlFor="researcher-validity">Researcher validity
       <select id="researcher-validity" value={detail.researcher_validity || 'unreviewed'} onChange={e => setDetail({ ...detail, researcher_validity: e.target.value })}>
@@ -381,4 +385,20 @@ function RuntimeReplayPanel({ protocol, events }) {
     <details><summary>Outputs ({Object.keys(frame.state.outputs).length} nodes)</summary><pre>{JSON.stringify(frame.state.outputs, null, 2)}</pre></details>
     {frame.event && <details><summary>Event payload</summary><pre>{JSON.stringify(frame.event.payload, null, 2)}</pre></details>}
   </div>;
+}
+
+function OperatorObservations({ detail }) {
+  const t = useT();
+  const observations = (detail.events || []).filter(event => event.eventType === 'operator_note' || (['component_retried', 'component_skipped'].includes(event.eventType) && event.payload?.reason));
+  if (!observations.length) return null;
+  const nodes = new Map((detail.protocol_snapshot?.graph?.nodes || []).map(node => [node.id, node.label]));
+  return <section className="runtime-replay" aria-label={t('Operator observations')}>
+    <h3>{t('Operator observations')}</h3>
+    <p>{t('Recorded during the experiment. These records remain in the complete export.')}</p>
+    <ol>{observations.map(event => <li key={event.eventId} style={{ marginBottom: '1rem', overflowWrap: 'anywhere' }}>
+      <b>{nodes.get(event.nodeId) || event.nodeId || '—'}</b> · {t(event.eventType === 'operator_note' ? 'Observation' : event.eventType === 'component_retried' ? 'Retry' : 'Skip')}
+      <small> · #{event.sequence} · {event.timestampIso}</small>
+      <p style={{ whiteSpace: 'pre-wrap' }}>{event.eventType === 'operator_note' ? event.payload?.text : event.payload?.reason}</p>
+    </li>)}</ol>
+  </section>;
 }

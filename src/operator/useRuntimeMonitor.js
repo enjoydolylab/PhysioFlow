@@ -7,7 +7,7 @@ export default function useRuntimeMonitor(sessionId, getSnapshot, onCommand) {
   const [url, setUrl] = useState('');
   useEffect(() => {
     if (!globalThis.BroadcastChannel || !sessionId) return undefined;
-    const monitor = openRuntimeMonitor({ sessionId, getSnapshot: () => snapshot.current(), onCommand: value => command.current(value) });
+    const monitor = openRuntimeMonitor({ sessionId, getSnapshot: () => snapshot.current(), onCommand: (value, details) => command.current(value, details) });
     setUrl(monitor.url);
     const timer = setInterval(monitor.publish, 500); monitor.publish();
     return () => { clearInterval(timer); monitor.close(); };

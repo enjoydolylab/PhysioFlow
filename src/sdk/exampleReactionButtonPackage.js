@@ -5,7 +5,7 @@ export function exampleReactionButtonPackage() {
   const ui = createParticipantScreen({
     children: [
       createUiElement('Text', { props: { text: 'Respond when you are ready', variant: 'heading' } }),
-      createUiElement('Button', { props: { label: 'Respond', action: 'submit', value: true } }),
+      createUiElement('Button', { props: { label: 'Respond' }, actions: [{ event: 'click', action: 'setVariable', name: 'pressed', value: true }, { event: 'click', action: 'submit' }] }),
     ],
   });
   return {

@@ -1,13 +1,18 @@
 import { verifyOfflineExceptions } from './browser-offline-exceptions.mjs';
 import assert from 'node:assert/strict';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
 import { createServer } from 'node:http';
 import { join, resolve } from 'node:path';
 import { openTestBrowser } from './browser-harness.mjs';
 import { toPhysioDBSamples } from '../src/physioDBMapping.js';
 
-const out = resolve('artifacts/offline-acceptance-2026-09-24');
+const brainflowPython = process.env.BRAINFLOW_PYTHON || (existsSync('tools/brainflow/.venv/bin/python') ? resolve('tools/brainflow/.venv/bin/python') : null);
+if (!brainflowPython) throw new Error('Set BRAINFLOW_PYTHON to the Python environment containing tools/brainflow/requirements.txt');
+const brainflowCheck = spawnSync(brainflowPython, ['-c', 'import brainflow.board_shim'], { encoding: 'utf8' });
+if (brainflowCheck.status !== 0) throw new Error('BrainFlow Python environment is unavailable; verify BRAINFLOW_PYTHON before running offline acceptance.');
+
+const out = resolve(process.env.PHYSIOFLOW_OFFLINE_ARTIFACTS || 'artifacts/offline-acceptance-2026-09-24');
 mkdirSync(out, { recursive: true });
 const media = '/tmp/physioflow-offline-test.webm';
 const generated = spawnSync('ffmpeg', ['-y','-f','lavfi','-i','color=c=blue:s=320x180:r=10','-t','0.4','-an','-c:v','libvpx','-metadata','title=QA TEST MEDIA - NOT ORIGINAL STIMULUS',media], { encoding: 'utf8' });
@@ -18,7 +23,7 @@ const browser = await openTestBrowser();
 const { evaluate, waitFor, send, origin } = browser;
 let agent, dbServer;
 const delay = ms => new Promise(r => setTimeout(r, ms));
-const check = label => { report.checks.push(label); console.log('PASS', label); };
+const check = label => { report.checks.push(label); writeFileSync(join(out, 'REPORT.json'), JSON.stringify(report, null, 2) + '\n'); console.log('PASS', label); };
 const text = `document.querySelector('#offline')?.innerText || ''`;
 const click = async label => {
   await waitFor(`!![...document.querySelectorAll('button')].find(b => b.textContent.includes(${JSON.stringify(label)}) && !b.disabled)`, `Button ${label}`);
@@ -168,12 +173,11 @@ try {
   check('Original 210-node structure: 40 unique assignments, 120 questionnaire submissions, all 208 participant nodes completed');
 
   // Optional hardware-independent integration uses the real BrainFlow native library.
-  if(!process.env.BRAINFLOW_PYTHON) throw new Error('Set BRAINFLOW_PYTHON to the Python environment containing tools/brainflow/requirements.txt');
   const agentPort=Number(new URL(origin).port)+2;
   const agentRuns=[];
   const startSynthetic=async()=>{
     let output='',errors='',info;
-    agent=spawn(process.env.BRAINFLOW_PYTHON,['tools/brainflow/agent.py','--port',String(agentPort),'--origin',origin,'--output',join(out,'synthetic-raw')],{stdio:['ignore','pipe','pipe']});
+    agent=spawn(brainflowPython,['tools/brainflow/agent.py','--port',String(agentPort),'--origin',origin,'--output',join(out,'synthetic-raw')],{stdio:['ignore','pipe','pipe']});
     agent.stdout.on('data',chunk=>{output+=chunk.toString();for(const line of output.split('\n'))try{const value=JSON.parse(line);if(value.token&&value.directory)info=value;}catch{}});
     agent.stderr.on('data',chunk=>{errors+=chunk.toString();});
     for(let i=0;i<200&&!info;i++)await delay(100);
@@ -196,6 +200,8 @@ try {
   await waitFor(`!!document.querySelector('#offline [role="alert"]')`,'Wrong token rejected');
   await evaluate(`setField('[aria-label="BrainFlow agent token"]',${JSON.stringify(agentInfo.token)})`);
   await click('Retry device and begin');
+  await waitFor(`[...document.querySelectorAll('#offline .pf-signal-item .pf-tag')].length > 0 && [...document.querySelectorAll('#offline .pf-signal-item .pf-tag')].every(tag => tag.textContent.trim() === 'receiving')`, 'Synthetic signals ready');
+  await click('Begin experiment');
   await waitFor(`!!document.querySelector('#offline .graph-participant')`,'Synthetic connected');
   await delay(2000);
   await evaluate(`window.dispatchEvent(new KeyboardEvent('keydown',{key:'O',code:'KeyO',ctrlKey:true,shiftKey:true,bubbles:true}))`);
@@ -208,7 +214,9 @@ try {
   await evaluate(`setField('[aria-label="BrainFlow agent token"]',${JSON.stringify(agentInfo.token)})`);
   await click('Reconnect devices');
   await waitFor(`[...document.querySelectorAll('button')].some(b=>b.textContent==='Resume'&&!b.disabled)`,'Reconnected required device');
-  await click('Resume');await delay(2500);
+  await click('Resume');
+  await waitFor(`!document.querySelector('#offline .pause-overlay')`, 'Reconnected runtime resumed');
+  await delay(2500);
   await click('Continue');await waitFor(`(${text}).includes('Session data saved.')`,'Synthetic saved');
   const synthetic=await evaluate(`fs.loadSession(syntheticSession.session_id)`);
   assert.equal(JSON.stringify(synthetic).includes(agentInfo.token),false);
@@ -247,9 +255,9 @@ try {
   await new Promise(resolve=>dbServer.listen(0,'127.0.0.1',resolve));
   const dbUrl=`http://127.0.0.1:${dbServer.address().port}`;
   const recording=readFileSync(join(agentInfo.directory,'samples.jsonl'),'utf8');
-  await evaluate(`(async()=>{mount((await import('/src/PhysioDBUpload.jsx')).default);window.recordingFile=new File([${JSON.stringify(recording)}],'samples.jsonl',{type:'application/json'});})()`);
+  await evaluate(`(async()=>{const client=(await import('/src/physioDBClient.js')).createPhysioDBClient({baseUrl:${JSON.stringify(dbUrl)},token:'offline-test-token'});mount((await import('/src/PhysioDBUpload.jsx')).default,{client});window.recordingFile=new File([${JSON.stringify(recording)}],'samples.jsonl',{type:'application/json'});})()`);
   await waitFor(`!!document.querySelector('#offline textarea')`,'Upload panel');
-  const fields=[dbUrl,'offline-test-token',stream.experiment_id,stream.participant_id,stream.id];
+  const fields=[stream.experiment_id,stream.participant_id,stream.id];
   for(let i=0;i<fields.length;i++)await evaluate(`setField('#offline fieldset label:nth-of-type(${i+1}) input',${JSON.stringify(fields[i])})`);
   await evaluate(`setField('#offline textarea','1, EEG1, uV');setFile('#offline input[type="file"]',recordingFile)`);
   await click('Check recording locally');await waitFor(`(${text}).includes('No data was sent.')`,'Raw validation');assert.equal(posts,0);
@@ -271,6 +279,10 @@ try {
   report.physioDbContract.cancelStopsFurtherBatches=true;report.physioDbContract.timeoutReportsUncertainWrite=true;
   check('Actual Synthetic raw file → browser PhysioDB panel → local HTTP contract: exact values/timestamps, schema rejection, partial failure without retry');
   report.status='passed';writeFileSync(join(out,'REPORT.json'),JSON.stringify(report,null,2)+'\n');
+} catch (error) {
+  report.status = 'failed'; report.error = error.message || String(error);
+  writeFileSync(join(out, 'REPORT.json'), JSON.stringify(report, null, 2) + '\n');
+  throw error;
 } finally {
   agent?.kill('SIGINT');
   if(dbServer)await new Promise(resolve=>dbServer.close(resolve));

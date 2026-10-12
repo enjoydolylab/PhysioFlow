@@ -80,3 +80,9 @@ test('default simulated samples change with advancing acquisition timestamps', a
   await adapter.disconnect();
   await assert.rejects(adapter.read('signal'), /disconnected/);
 });
+
+
+test('malformed connector JSON reports errors without throwing', () => {
+  const example = exampleSimulatedConnector();
+  for (const value of [[], { ...example, connectorId: 4 }, { ...example, version: {} }, { ...example, name: false }, { ...example, permissions: {} }, { ...example, channels: {} }, { ...example, channels: [null] }, { ...example, channels: [{ id: 1 }] }]) assert.equal(validateDeviceConnector(value).valid, false);
+});

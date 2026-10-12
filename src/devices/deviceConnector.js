@@ -6,18 +6,21 @@ const DIRECTIONS = new Set(['input', 'output']);
 
 export function validateDeviceConnector(connector) {
   const errors = [];
-  if (!connector || typeof connector !== 'object') return { valid: false, errors: ['Device connector must be an object'] };
+  if (!connector || typeof connector !== 'object' || Array.isArray(connector)) return { valid: false, errors: ['Device connector must be an object'] };
   if (connector.sdkVersion !== DEVICE_CONNECTOR_SDK_VERSION) errors.push(`Unsupported device connector SDK version ${connector.sdkVersion || '(missing)'}`);
-  if (!connector.connectorId?.match(/^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$/)) errors.push('Connector ID must use lowercase dot/dash notation');
-  if (!connector.version?.match(/^\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?$/)) errors.push('Connector version must use semantic versioning');
-  if (!connector.name?.trim()) errors.push('Connector name is required');
+  if (typeof connector.connectorId !== 'string' || !connector.connectorId.match(/^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$/)) errors.push('Connector ID must use lowercase dot/dash notation');
+  if (typeof connector.version !== 'string' || !connector.version.match(/^\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?$/)) errors.push('Connector version must use semantic versioning');
+  if (typeof connector.name !== 'string' || !connector.name.trim()) errors.push('Connector name is required');
   if (!TRANSPORTS.has(connector.transport)) errors.push(`Unsupported connector transport ${connector.transport}`);
-  const permissions = connector.permissions || [];
+  if (connector.permissions != null && !Array.isArray(connector.permissions)) errors.push('Connector permissions must be an array');
+  const permissions = Array.isArray(connector.permissions) ? connector.permissions : [];
   if (new Set(permissions).size !== permissions.length) errors.push('Connector permissions must be unique');
   permissions.filter(permission => !PERMISSIONS.has(permission)).forEach(permission => errors.push(`Unsupported connector permission ${permission}`));
   const channelIds = new Set();
-  for (const channel of connector.channels || []) {
-    if (!channel.id?.match(/^[A-Za-z_][A-Za-z0-9_]*$/) || channelIds.has(channel.id)) errors.push('Device channel IDs must be valid and unique');
+  if (connector.channels != null && !Array.isArray(connector.channels)) errors.push('Connector channels must be an array');
+  for (const channel of Array.isArray(connector.channels) ? connector.channels : []) {
+    if (!channel || typeof channel !== 'object' || Array.isArray(channel)) { errors.push('Device channel must be an object'); continue; }
+    if (typeof channel.id !== 'string' || !channel.id.match(/^[A-Za-z_][A-Za-z0-9_]*$/) || channelIds.has(channel.id)) errors.push('Device channel IDs must be valid and unique');
     else channelIds.add(channel.id);
     if (!DIRECTIONS.has(channel.direction)) errors.push(`Channel ${channel.id} has invalid direction ${channel.direction}`);
     if (!channel.dataType) errors.push(`Channel ${channel.id} needs a data type`);

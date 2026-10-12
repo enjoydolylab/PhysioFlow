@@ -1,5 +1,9 @@
 # 文档导航
 
+交付候选beta.7：[一页交接说明](HANDOFF_beta.7.md)、[候选发布说明](RELEASE_NOTES_beta.7.md)。
+
+当前交付前验收：[2026-10-12 验收与优化记录](DELIVERY_ACCEPTANCE_2026-10-12.md)（持续进行，包含未完成项）。
+
 当前工作区（2026-10-09）：[PF 重构完整验收](PF_REFACTOR_ACCEPTANCE_2026-10-09.md)、[持续上下文](PF_CONTEXT.md)、[流程与界面方案](PF_REDESIGN_2026-10-09.md)、[官方 PhysioDB 接入](PHYSIODB_INTEGRATION.md)。发布制品与开发代码的区别以[实现状态](refactor/IMPLEMENTATION_STATUS.md)为准，以下旧日期条目保留作历史记录。
 
 当前开发候选与对接进度（2026-09-24）：[已完成／进行中／未完成](PROGRESS_REPORT_2026-09-24.md)。最新完整质量检查：437 项测试通过，构建、Lint 和三个浏览器套件通过；尚未发布新版安装包。下方旧日期记录保留作历史基线。

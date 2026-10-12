@@ -1,3 +1,5 @@
+import { validateDeviceConnector } from '../devices/index.js';
+import { validateComponentPackage } from '../sdk/index.js';
 import { matchUploadedMedia } from '../core/mediaReadiness.js';
 import { useMemo, useRef, useState } from 'react';
 import { createId } from '../core/index.js';
@@ -129,7 +131,7 @@ export function CollaborationCatalog({ protocol, baseline, locked, onSetBaseline
     <small>Baseline: v{baseline.version?.number} · {baseline.audit?.updatedAt || 'unknown time'}</small>
     <div className="collaboration-actions"><button disabled={locked} onClick={onSetBaseline}>Use current as baseline</button><button disabled={locked} onClick={exportChanges}>Export changes</button></div>
     <label className="collaboration-import">Import change set<input disabled={locked} type="file" accept="application/json,.json" onChange={readChangeSet} /></label>
-    {error && <small className="package-error">{error}</small>}
+    {error && <small className="package-error" role="alert" style={{ whiteSpace: 'pre-wrap' }}>{error}</small>}
     {preview?.error && <small className="package-error">{preview.error}</small>}
     {pending && !preview?.error && <article className="collaboration-preview">
       <b>{pending.summary || pending.id}</b>
@@ -292,6 +294,8 @@ export function ComponentPackageCatalog({ packages, locked, onInstallExample, on
       const file = event.target.files?.[0];
       if (!file) return;
       const parsed = JSON.parse(await file.text());
+      const check = validateComponentPackage(parsed);
+      if (!check.valid) throw new Error(check.errors.join('\n'));
       setPending(parsed);
       setApproved([]);
       setError('');
@@ -309,8 +313,8 @@ export function ComponentPackageCatalog({ packages, locked, onInstallExample, on
       <b>{pending.name || pending.packageId}</b><small>{pending.packageId}@{pending.version}</small>
       <p>Approve every requested capability before installation:</p>
       {!permissions.length && <small>No permissions requested.</small>}
-      {permissions.map(permission => <label key={permission}><input type="checkbox" checked={approved.includes(permission)} onChange={event => setApproved(current => event.target.checked ? [...current, permission] : current.filter(item => item !== permission))} />{permission}</label>)}
-      <div><button disabled={permissions.some(permission => !approved.includes(permission))} onClick={() => { onImport(pending); setPending(null); setApproved([]); }}>Approve and install</button><button onClick={() => setPending(null)}>Cancel</button></div>
+      {permissions.map(permission => <label key={permission}><input type="checkbox" disabled={locked} checked={approved.includes(permission)} onChange={event => setApproved(current => event.target.checked ? [...current, permission] : current.filter(item => item !== permission))} />{permission}</label>)}
+      <div><button disabled={locked || permissions.some(permission => !approved.includes(permission))} onClick={() => { try { if (onImport(pending) === false) { setError('Installation failed. Check the project message and retry.'); return; } setPending(null); setApproved([]); setError(''); } catch (cause) { setError(cause.message || String(cause)); } }}>Approve and install</button><button onClick={() => setPending(null)}>Cancel</button></div>
     </article>}
     {packages.map(componentPackage => <article key={`${componentPackage.packageId}@${componentPackage.version}`}>
       <div><b>{componentPackage.name}</b><small>{componentPackage.packageId}@{componentPackage.version} · {componentPackage.components.length} component(s)</small></div>
@@ -331,7 +335,10 @@ export function DeviceConnectorCatalog({ connectors, locked, onInstallExample, o
     try {
       const file = event.target.files?.[0];
       if (!file) return;
-      setPending(JSON.parse(await file.text()));
+      const parsed = JSON.parse(await file.text());
+      const check = validateDeviceConnector(parsed);
+      if (!check.valid) throw new Error(check.errors.join('\n'));
+      setPending(parsed);
       setApproved([]);
       setError('');
     } catch (nextError) { setError(nextError.message); setPending(null); }
@@ -343,12 +350,12 @@ export function DeviceConnectorCatalog({ connectors, locked, onInstallExample, o
     <p>Versioned adapters expose typed I/O channels with explicit connect/read/write permissions and provenance events.</p>
     <button disabled={locked || connectors.some(item => item.connectorId === 'org.physioflow.simulated-sensor')} onClick={onInstallExample}>Install simulated sensor</button>
     <label className="device-connector-import">Import connector manifest<input disabled={locked} type="file" accept="application/json,.json" onChange={readConnector} /></label>
-    {error && <small className="package-error">{error}</small>}
+    {error && <small className="package-error" role="alert" style={{ whiteSpace: 'pre-wrap' }}>{error}</small>}
     {pending && <article className="package-approval">
       <b>{pending.name || pending.connectorId}</b><small>{pending.connectorId}@{pending.version} · {pending.transport}</small>
       <p>Approve every requested device capability:</p>
-      {permissions.map(permission => <label key={permission}><input type="checkbox" checked={approved.includes(permission)} onChange={event => setApproved(current => event.target.checked ? [...current, permission] : current.filter(item => item !== permission))} />{permission}</label>)}
-      <div><button disabled={permissions.some(permission => !approved.includes(permission))} onClick={() => { onImport(pending); setPending(null); setApproved([]); }}>Approve and install</button><button onClick={() => setPending(null)}>Cancel</button></div>
+      {permissions.map(permission => <label key={permission}><input type="checkbox" disabled={locked} checked={approved.includes(permission)} onChange={event => setApproved(current => event.target.checked ? [...current, permission] : current.filter(item => item !== permission))} />{permission}</label>)}
+      <div><button disabled={locked || permissions.some(permission => !approved.includes(permission))} onClick={() => { try { if (onImport(pending) === false) { setError('Installation failed. Check the project message and retry.'); return; } setPending(null); setApproved([]); setError(''); } catch (cause) { setError(cause.message || String(cause)); } }}>Approve and install</button><button onClick={() => setPending(null)}>Cancel</button></div>
     </article>}
     {connectors.map(connector => <article key={`${connector.connectorId}@${connector.version}`}>
       <div><b>{connector.name}</b><small>{connector.connectorId}@{connector.version} · {connector.transport}</small></div>

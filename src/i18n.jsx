@@ -491,3 +491,39 @@ Object.assign(dictionaries.zh, {
 Object.assign(dictionaries.ja, {
   'raw response records': '元の応答レコード', 'effective response records': '有効な応答レコード', 'superseded response records': '置き換え済み応答レコード', 'Effective response records': '有効な応答レコード',
 });
+
+Object.assign(dictionaries.zh, {
+  "In-session actions": "实验途中操作",
+  "Retry restarts the current step. Skip advances without a response. Record a reason before either action.": "重试会重新开始当前步骤；跳过会在没有回答的情况下继续。操作前请填写原因。",
+  "Reason or observation": "操作原因或观察备注",
+  "Retry current step": "重试当前步骤",
+  "Skip current step": "跳过当前步骤",
+  "Save observation": "记录观察备注",
+  "Waiting for acknowledgement…": "等待实验端确认…",
+  "Action recorded.": "操作已记录。",
+  "Recent observations": "最近的观察备注",
+  "No acknowledgement received. Check the experiment before trying again.": "未收到确认，请先检查实验状态再尝试。",
+  "Enter a reason or note (up to 1,000 characters).": "请填写原因或备注（最多 1,000 字）。",
+  "This action is unavailable for the current experiment state.": "当前实验状态不允许此操作，请检查当前步骤和设备状态。"
+});
+
+Object.assign(dictionaries.ja, {
+  "In-session actions": "実験中の操作",
+  "Retry restarts the current step. Skip advances without a response. Record a reason before either action.": "再試行は現在のステップをやり直します。スキップは回答せずに進みます。操作前に理由を記入してください。",
+  "Reason or observation": "理由・観察メモ",
+  "Retry current step": "現在のステップを再試行",
+  "Skip current step": "現在のステップをスキップ",
+  "Save observation": "観察メモを記録",
+  "Waiting for acknowledgement…": "実験側の確認を待っています…",
+  "Action recorded.": "操作を記録しました。",
+  "Recent observations": "最近の観察メモ",
+  "No acknowledgement received. Check the experiment before trying again.": "確認が届きませんでした。実験の状態を確認してから再度操作してください。",
+  "Enter a reason or note (up to 1,000 characters).": "理由またはメモを1,000文字以内で記入してください。",
+  "This action is unavailable for the current experiment state.": "現在の実験状態では操作できません。ステップと機器の状態を確認してください。"
+});
+
+Object.assign(dictionaries.zh, { 'Defined steps': '定义步骤数', 'Completed visits': '完成次数', 'Skipped visits': '跳过次数' });
+Object.assign(dictionaries.ja, { 'Defined steps': '定義ステップ数', 'Completed visits': '完了回数', 'Skipped visits': 'スキップ回数' });
+
+Object.assign(dictionaries.zh, { 'Operator observations': '实验员观察与操作记录', 'Observation': '观察备注', 'Recorded during the experiment. These records remain in the complete export.': '实验过程中记录，完整导出包保留这些原始记录。' });
+Object.assign(dictionaries.ja, { 'Operator observations': '実験者の観察・操作記録', 'Observation': '観察メモ', 'Recorded during the experiment. These records remain in the complete export.': '実験中に記録された内容です。完全エクスポートにも原記録が含まれます。' });

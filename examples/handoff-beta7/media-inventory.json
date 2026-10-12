@@ -1,0 +1,369 @@
+{
+  "found": 40,
+  "matched": 0,
+  "assets": [
+    {
+      "id": "imgnobio_video_01",
+      "fileName": "01.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_02",
+      "fileName": "02.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_03",
+      "fileName": "03.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_04",
+      "fileName": "04.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_05",
+      "fileName": "05.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_11",
+      "fileName": "11.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_12",
+      "fileName": "12.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_13",
+      "fileName": "13.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_14",
+      "fileName": "14.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_15",
+      "fileName": "15.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_21",
+      "fileName": "21.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_22",
+      "fileName": "22.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_23",
+      "fileName": "23.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_24",
+      "fileName": "24.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_25",
+      "fileName": "25.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_31",
+      "fileName": "31.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_32",
+      "fileName": "32.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_33",
+      "fileName": "33.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_34",
+      "fileName": "34.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_35",
+      "fileName": "35.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_41",
+      "fileName": "41.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_42",
+      "fileName": "42.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_43",
+      "fileName": "43.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_44",
+      "fileName": "44.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_45",
+      "fileName": "45.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_51",
+      "fileName": "51.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_52",
+      "fileName": "52.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_53",
+      "fileName": "53.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_54",
+      "fileName": "54.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_55",
+      "fileName": "55.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_61",
+      "fileName": "61.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_62",
+      "fileName": "62.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_63",
+      "fileName": "63.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_64",
+      "fileName": "64.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_65",
+      "fileName": "65.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_71",
+      "fileName": "71.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_72",
+      "fileName": "72.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_73",
+      "fileName": "73.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_74",
+      "fileName": "74.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    },
+    {
+      "id": "imgnobio_video_75",
+      "fileName": "75.mp4",
+      "found": true,
+      "checksumMatches": false,
+      "gitLfsPointer": true,
+      "pointerOidMatchesDesign": true,
+      "playableOriginalAvailable": false
+    }
+  ],
+  "lfsPointers": 40,
+  "originalVideosAvailable": 0,
+  "sourceDirectoryLabel": "provided imgNoBio source archive / video directory"
+}

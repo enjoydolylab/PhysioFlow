@@ -64,3 +64,21 @@ test('graph validation enforces SDK variable-read permission', () => {
   const check = validateProtocolGraph(protocol, createProjectComponentRegistry(protocol));
   assert.ok(check.errors.some(error => error.code === 'sdk.permission_variable_read'));
 });
+
+
+test('malformed JSON package shapes report validation errors instead of throwing', () => {
+  const example = exampleReactionButtonPackage();
+  for (const value of [null, [], { ...example, version: 7 }, { ...example, name: {} }, { ...example, permissions: {} }, { ...example, components: {} }, { ...example, components: [null] }, { ...example, components: [{ type: 1, ports: {} }] }, { ...example, components: [{ ...example.components[0], defaultConfig: { ui: { root: null } } }] }]) {
+    assert.equal(validateComponentPackage(value).valid, false);
+  }
+});
+
+
+test('SDK metadata cannot install fields that crash the visual inspector', () => {
+  const base = exampleReactionButtonPackage();
+  for (const patch of [{ events: {} }, { events: [null] }, { dataFields: {} }, { editorFields: {} }, { editorFields: [null] }, { editorFields: [{ path: 1 }] }, { editorFields: [{ path: 'choice', label: 'Choice', type: 'select', options: {} }] }, { editorFields: [{ path: 'choice', label: 'Choice', showWhen: { path: 1 } }] }]) {
+    const value = { ...base, components: [{ ...base.components[0], ...patch }] };
+    assert.equal(validateComponentPackage(value).valid, false);
+    assert.throws(() => installComponentPackage(createProtocolGraph(), value, { approvedPermissions: ['events.emit'] }), /Invalid component package/);
+  }
+});

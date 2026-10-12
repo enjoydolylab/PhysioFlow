@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LanguageToggle, useT } from './i18n';
 import { OPERATOR_PROTOCOL } from './operator/runtimeMonitor.js';
 import SignalWaveform from './analysis/SignalWaveform.jsx';
@@ -11,6 +11,15 @@ export default function OperatorMonitorPage() {
   const [channel, setChannel] = useState(null);
   const [stale, setStale] = useState(true);
   const [error, setError] = useState('');
+  const [text, setText] = useState('');
+  const [pending, setPending] = useState(null);
+  const pendingRef = useRef(null);
+  const [result, setResult] = useState(null);
+  useEffect(() => {
+    if (!pending) return undefined;
+    const timer = setTimeout(() => { setResult({ ok: false, error: 'No acknowledgement received. Check the experiment before trying again.' }); pendingRef.current = null; setPending(null); }, 5000);
+    return () => clearTimeout(timer);
+  }, [pending]);
   useEffect(() => {
     const { session, key } = launch;
     if (!session || !key || !globalThis.BroadcastChannel) { setError('Open this monitor from experiment preparation on the same browser.'); return undefined; }
@@ -18,6 +27,15 @@ export default function OperatorMonitorPage() {
     let last = 0, revision = 0;
     connection.onmessage = event => {
       const next = event.data;
+      if (next?.protocol === OPERATOR_PROTOCOL && next.type === 'command-result') {
+        const current = pendingRef.current;
+        if (current?.id === next.id) {
+          setResult(next);
+          if (next.ok && ['note', 'retry', 'skip'].includes(current.command)) setText('');
+          pendingRef.current = null; setPending(null);
+        }
+        return;
+      }
       if (next?.protocol !== OPERATOR_PROTOCOL || next.type !== 'snapshot' || !Number.isSafeInteger(next.revision) || next.revision <= revision) return;
       revision = next.revision; last = Date.now(); setSnapshot(next); setStale(false);
     };
@@ -25,7 +43,13 @@ export default function OperatorMonitorPage() {
     const timer = setInterval(() => setStale(Date.now() - last > 3000), 1000);
     return () => { clearInterval(timer); connection.close(); };
   }, [launch]);
-  const send = command => channel?.postMessage({ protocol: OPERATOR_PROTOCOL, type: 'command', command, id: crypto.randomUUID(), sentAt: Date.now() });
+  const send = command => {
+    if (!channel || stale || pendingRef.current) return;
+    const id = crypto.randomUUID();
+    pendingRef.current = { id, command };
+    setResult(null); setPending(pendingRef.current);
+    channel.postMessage({ protocol: OPERATOR_PROTOCOL, type: 'command', command, id, sentAt: Date.now(), text, nodeId: snapshot?.nodeId, attempt: snapshot?.attempt });
+  };
   return <main className="admin-monitor"><section>
     <header className="pf-admin-header"><a href="/">pf. <span>PhysioFlow</span></a><LanguageToggle /></header>
     <span className="eyebrow">OPERATOR</span><h1>{t('Experiment monitor')}</h1>
@@ -33,8 +57,21 @@ export default function OperatorMonitorPage() {
     {error && <p role="alert">{t(error)}</p>}
     <div className="pf-section-heading"><h2>{snapshot?.protocolName || t('Waiting for experiment')}</h2><span className={`pf-tag ${stale ? 'warning' : 'ready'}`}>{stale ? t('Disconnected') : t(snapshot?.status || 'ready')}</span></div>
     {snapshot && <>
-      <div className="pf-metric-grid"><div><span>{t('Current step')}</span><b>{snapshot.nodeLabel || '—'}</b></div><div><span>{t('Progress')}</span><b>{snapshot.completed} / {snapshot.total}</b></div><div><span>{t('Checkpoint')}</span><b>{t(snapshot.saveStatus || 'idle')}</b></div></div>
-      <div className="pf-analysis-toolbar"><button className="primary" disabled={stale || !['waiting', 'paused'].includes(snapshot.status)} onClick={() => send(snapshot.status === 'paused' ? 'resume' : 'pause')}>{t(snapshot.status === 'paused' ? 'Resume' : 'Pause')}</button><span className="pf-muted">{t('The participant only sees the experiment and pause message.')}</span></div>
+      <div className="pf-metric-grid"><div><span>{t('Current step')}</span><b>{snapshot.nodeLabel || '—'}</b></div><div><span>{t('Defined steps')}</span><b>{snapshot.total}</b></div><div><span>{t('Completed visits')}</span><b>{snapshot.completed}</b></div><div><span>{t('Skipped visits')}</span><b>{snapshot.skipped ?? 0}</b></div><div><span>{t('Checkpoint')}</span><b>{t(snapshot.saveStatus || 'idle')}</b></div></div>
+      <div className="pf-analysis-toolbar"><button className="primary" disabled={stale || Boolean(pending) || !['waiting', 'paused'].includes(snapshot.status)} onClick={() => send(snapshot.status === 'paused' ? 'resume' : 'pause')}>{t(snapshot.status === 'paused' ? 'Resume' : 'Pause')}</button><span className="pf-muted">{t('The participant only sees the experiment and pause message.')}</span></div>
+      <section className="pf-panel" aria-label={t('In-session actions')}>
+        <h2>{t('In-session actions')}</h2>
+        <p className="pf-muted">{t('Retry restarts the current step. Skip advances without a response. Record a reason before either action.')}</p>
+        <label>{t('Reason or observation')}<textarea disabled={Boolean(pending)} rows={3} maxLength={1000} value={text} onChange={event => setText(event.target.value)} /></label>
+        <div className="pf-analysis-toolbar">
+          <button disabled={stale || Boolean(pending) || snapshot.status !== 'waiting' || !text.trim()} onClick={() => send('retry')}>{t('Retry current step')}</button>
+          <button disabled={stale || Boolean(pending) || snapshot.status !== 'waiting' || !text.trim()} onClick={() => send('skip')}>{t('Skip current step')}</button>
+          <button disabled={stale || Boolean(pending) || !['waiting', 'paused'].includes(snapshot.status) || !text.trim()} onClick={() => send('note')}>{t('Save observation')}</button>
+        </div>
+        {pending && <p role="status">{t('Waiting for acknowledgement…')}</p>}
+        {result && <p role={result.ok ? 'status' : 'alert'}>{t(result.ok ? 'Action recorded.' : result.error)}</p>}
+        {snapshot.recentNotes?.length > 0 && <><h3>{t('Recent observations')}</h3><ul className="pf-event-list">{snapshot.recentNotes.map(note => <li key={note.id}><b>{note.nodeLabel}</b><span>{note.text}</span><small>{new Date(note.timestamp).toLocaleTimeString()}</small></li>)}</ul></>}
+      </section>
       {snapshot.deviceError && <p className="pf-error" role="alert">{snapshot.deviceError}</p>}
       <div className="pf-signal-grid">{(snapshot.signals || []).map(signal => <article key={`${signal.connectorId}:${signal.id}`} className="pf-panel"><div className="pf-section-heading"><h3>{signal.name}</h3><span className={`pf-tag ${signal.ready && !stale ? 'ready' : 'warning'}`}>{t(stale ? 'stale' : signal.status)}</span></div><b>{Number.isFinite(signal.value) ? signal.value.toFixed(2) : '—'} <small>{signal.unit}</small></b></article>)}</div>
       {snapshot.preview?.times?.length > 0 && Object.entries(snapshot.preview.values || {}).map(([id, values]) => <SignalWaveform key={id} times={snapshot.preview.times} values={values} label={id} />)}

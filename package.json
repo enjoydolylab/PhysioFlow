@@ -1,7 +1,7 @@
 {
   "name": "physioflow-app",
   "private": true,
-  "version": "0.6.0-beta.6",
+  "version": "0.6.0-beta.7",
   "description": "Visual experiment workflow system for behavioral and physiological research",
   "author": "PhysioFlow",
   "type": "module",
@@ -30,10 +30,11 @@
     "audit:i18n": "node scripts/audit-i18n.mjs",
     "migrate:v1": "node scripts/migrate-protocol-v1.mjs",
     "quality:refactor": "npm test && npm run build && npm run lint -- --max-warnings=0",
-    "quality:release": "npm run quality:refactor && npm run test:e2e && npm run test:e2e:refactor-browser && npm run test:e2e:participant-public",
+    "quality:release": "npm run quality:refactor && npm run test:e2e && npm run test:e2e:refactor-browser && npm run test:e2e:participant-public && npm run test:e2e:sdk",
     "test:e2e:offline": "node tests/e2e-offline.mjs",
     "desk": "node scripts/localDesk.mjs",
-    "desk:configure-db": "node scripts/localDesk.mjs --db-token-stdin --configure-only"
+    "desk:configure-db": "node scripts/localDesk.mjs --db-token-stdin --configure-only",
+    "test:e2e:sdk": "node tests/browser-sdk-delivery.mjs"
   },
   "dependencies": {
     "@noble/hashes": "2.0.1",

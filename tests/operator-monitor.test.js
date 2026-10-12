@@ -15,7 +15,7 @@ test('required signal checks reject stale, missing and flat channels separately'
   assert(!canStartWithSignals(signalReadiness(samples, [...channels, { id: 'ecg', connectorId: 'heart', required: true }], 1010)));
 });
 
-test('operator commands are bounded, deduplicated and restricted to pause/resume', () => {
+test('operator commands are bounded, deduplicated and restricted to supported actions', () => {
   const commands = [], messages = [], channel = { postMessage: value => messages.push(value), close() {} };
   const monitor = openRuntimeMonitor({ sessionId: 'session', origin: 'https://pf.test', key: 'private-key', getSnapshot: () => ({ status: 'waiting' }), onCommand: c => commands.push(c), channelFactory: () => channel });
   assert.equal(new URL(monitor.url).pathname, '/operator'); assert.equal(new URL(monitor.url).search, '');
@@ -23,7 +23,7 @@ test('operator commands are bounded, deduplicated and restricted to pause/resume
   channel.onmessage({ data: message }); channel.onmessage({ data: message });
   channel.onmessage({ data: { ...message, id: '2', command: 'delete' } });
   channel.onmessage({ data: { ...message, id: '3', sentAt: Date.now() - 10000 } });
-  assert.deepEqual(commands, ['pause']); assert.equal(messages[0].status, 'waiting');
+  assert.deepEqual(commands, ['pause']); assert.equal(messages.find(message => message.type === 'snapshot').status, 'waiting');
 });
 
 test('passive signal normalization identifies synthetic data and stale readings', () => {
@@ -62,4 +62,20 @@ test('a fresh steady heart rate is valid while flat EEG is blocked', () => {
   const hr = { id: 'hr', connectorId: 'heart', unit: 'bpm', required: true };
   const samples = [{ eventType: 'device_sample_received', connector: { id: 'heart' }, timestampEpochMs: 1000, payload: { channelId: 'hr', value: 70 } }];
   assert.equal(signalReadiness(samples, [hr], 1010)[0].ready, true);
+});
+
+
+test('operator actions validate text and acknowledge rejection, errors and success', () => {
+  const messages = [], calls = [];
+  const channel = { postMessage: value => messages.push(value), close() {} };
+  openRuntimeMonitor({ sessionId: 's', origin: 'https://pf.test', key: 'k', getSnapshot: () => ({ status: 'waiting' }), channelFactory: () => channel,
+    onCommand: (command, details) => { calls.push({ command, details }); if (command === 'skip') return false; if (command === 'retry') throw new Error('Cannot retry'); return true; } });
+  const send = (id, command, text) => channel.onmessage({ data: { protocol: OPERATOR_PROTOCOL, type: 'command', id, command, text, nodeId: 'n', attempt: 2, sentAt: Date.now() } });
+  send('empty', 'note', ' '); send('long', 'note', 'x'.repeat(1001));
+  send('skip', 'skip', 'Equipment issue'); send('retry', 'retry', 'Equipment issue'); send('note', 'note', '  Movement observed  '); send('note', 'note', 'duplicate');
+  assert.equal(calls.length, 3);
+  assert.deepEqual(calls[2], { command: 'note', details: { text: 'Movement observed', nodeId: 'n', attempt: 2 } });
+  const results = messages.filter(message => message.type === 'command-result');
+  assert.deepEqual(results.map(result => result.ok), [false, false, false, false, true]);
+  assert.equal(results[3].error, 'Cannot retry');
 });
