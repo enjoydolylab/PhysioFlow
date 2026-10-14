@@ -1,0 +1,8 @@
+{
+  "productionAssets": true,
+  "syntheticDraft": true,
+  "zeroConnectedWeightBlocked": true,
+  "blankRestoresDefaultWeight": true,
+  "loopTypedNumberInput": true,
+  "loopZeroCorrection": true
+}
