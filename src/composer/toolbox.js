@@ -44,6 +44,9 @@ export function setPath(value, path, nextValue) {
 
 // zh-CN explanations for validation issue codes surfaced in the inspector.
 export const VALIDATION_MESSAGES_ZH = {
+  'config.condition_expected_number': '比较值须为有限数值，空值不能当作0。',
+  'config.condition_expected_boolean': '请选择真或假作为比较值。',
+  'config.condition_numeric_boolean': '布尔值不能使用大小比较，请改用等于或真/假判断。',
   'protocol.invalid': '协议文档结构无效',
   'protocol.id_missing': '协议缺少 ID',
   'protocol.name_missing': '协议缺少名称',
@@ -122,6 +125,9 @@ export const VALIDATION_MESSAGES_ZH = {
 };
 
 export const VALIDATION_MESSAGES_JA = {
+  'config.condition_expected_number': '比較値に有限の数値を入力してください。空値は0として扱いません。',
+  'config.condition_expected_boolean': '比較値として真または偽を選択してください。',
+  'config.condition_numeric_boolean': '真偽値には大小比較を使用できません。等価比較または真偽判定を選んでください。',
   'protocol.invalid': 'プロトコルのデータ構造が無効です',
   'protocol.id_missing': 'プロトコルIDがありません',
   'protocol.name_missing': 'プロトコル名を入力してください',

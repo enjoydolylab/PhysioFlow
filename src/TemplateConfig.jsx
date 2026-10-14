@@ -1,3 +1,4 @@
+import TemplateConfigPanel from './TemplateConfigPanel.jsx';
 import { useState } from 'react';
 import { useT } from './i18n.jsx';
 import { validateTemplateConfig } from './templateConfigValidation.js';
@@ -21,40 +22,37 @@ export default function TemplateButton({ label, onCreate, templateKey }) {
     finally { setCreating(false); }
   };
 
-  return <span style={{ position: 'relative', display: 'inline-block' }}>
-    <button onClick={() => setOpen(o => !o)}>{label}{open ? ' ▾' : ' ▸'}</button>
-    {open && <>
-      <div style={{ position:'fixed',inset:0,zIndex:80 }} onClick={() => setOpen(false)} />
-      <div style={{ position:'absolute',top:'100%',left:0,marginTop:4,zIndex:81,background:'var(--paper)',border:'1px solid var(--line)',borderRadius:8,padding:'.8rem',minWidth:220,boxShadow:'var(--shadow-md)',fontSize:'.78rem' }}>
+  return <span className="template-launch">
+    <button disabled={creating} aria-expanded={open} onClick={() => setOpen(o => !o)}>{label}{open ? ' ▾' : ' ▸'}</button>
+    {open && <TemplateConfigPanel title={label} busy={creating} onClose={() => setOpen(false)}>
         {templateKey === 'stroop' ? <>
-          <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
-            {t('Trials')} <input type="number" min={4} max={64} step={4} value={cfg.trials} onChange={e => setCfg(p => ({...p,trials:e.target.value}))} style={{ width:'100%',padding:'.3rem',border:'1px solid var(--line)',borderRadius:4 }} />
-            <small style={{color:'var(--muted)'}}>{t('Trials are balanced across four ink colors.')}</small>
+          <label>
+            {t('Trials')} <input disabled={creating} type="number" min={4} max={64} step={4} value={cfg.trials} onChange={e => setCfg(p => ({...p,trials:e.target.value}))} />
+            <small>{t('Trials are balanced across four ink colors.')}</small>
           </label>
         </> : <>
-          <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
-            {t('Trials')} <input type="number" min={10} max={100} step={10} value={cfg.trials} onChange={e => setCfg(p => ({...p,trials:e.target.value}))} style={{ width:'100%',padding:'.3rem',border:'1px solid var(--line)',borderRadius:4 }} />
+          <label>
+            {t('Trials')} <input disabled={creating} type="number" min={10} max={100} step={10} value={cfg.trials} onChange={e => setCfg(p => ({...p,trials:e.target.value}))} />
           </label>
-          <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
+          <label>
             {t('Go ratio')}: {cfg.goRatio}%
-            <input type="range" min={50} max={90} step={5} value={cfg.goRatio} onChange={e => setCfg(p => ({...p,goRatio:Number(e.target.value)}))} />
+            <input disabled={creating} type="range" min={50} max={90} step={5} value={cfg.goRatio} onChange={e => setCfg(p => ({...p,goRatio:Number(e.target.value)}))} />
           </label>
         </>}
-        <label style={{ display:'flex',alignItems:'center',gap:'.3rem',marginBottom:'.5rem',fontSize:'.75rem' }}>
-          <input type="checkbox" checked={cfg.practice} onChange={e => setCfg(p => ({...p,practice:e.target.checked}))} /> {t('Practice block')}
+        <label className="template-check">
+          <input disabled={creating} type="checkbox" checked={cfg.practice} onChange={e => setCfg(p => ({...p,practice:e.target.checked}))} /> {t('Practice block')}
         </label>
-        <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
+        <label>
           {t('ITI jitter')}: {cfg.jitter} ms
-          <input type="range" min={0} max={1000} step={50} value={cfg.jitter} onChange={e => setCfg(p => ({...p,jitter:Number(e.target.value)}))} />
+          <input disabled={creating} type="range" min={0} max={1000} step={50} value={cfg.jitter} onChange={e => setCfg(p => ({...p,jitter:Number(e.target.value)}))} />
         </label>
         {check.errors.map(message => <p role="alert" key={message}>{t(message)}</p>)}
         {creationError && <p role="alert">{creationError}</p>}
         {check.valid && <p role="status">{t('Main trials')}: {check.mainTrials} · {t('Practice trials')}: {check.practiceTrials}{check.goTrials !== null && <> · Go: {check.goTrials} / No-Go: {check.nogoTrials}</>}</p>}
-        <div style={{ display:'flex',gap:'.4rem',marginTop:'.6rem' }}>
-          <button className="primary" disabled={!check.valid || creating} onClick={handleCreate} style={{flex:1}}>{t(creating ? 'Creating…' : 'Create')}</button>
-          <button onClick={() => setOpen(false)}>{t('Cancel')}</button>
+        <div className="template-config-actions">
+          <button className="primary" disabled={!check.valid || creating} onClick={handleCreate}>{t(creating ? 'Creating…' : 'Create')}</button>
+          <button disabled={creating} onClick={() => setOpen(false)}>{t('Cancel')}</button>
         </div>
-      </div>
-    </>}
+    </TemplateConfigPanel>}
   </span>;
 }

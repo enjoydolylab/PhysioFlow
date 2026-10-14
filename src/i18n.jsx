@@ -607,3 +607,56 @@ Object.assign(dictionaries.zh, { 'Apply content within group':'在组内批量�
 Object.assign(dictionaries.ja, { 'Apply content within group':'グループ内にまとめて適用', 'Select the nodes to update':'更新するノードを選択', 'Clear selection':'選択を解除', 'Apply to selected nodes':'選択ノードに適用', 'Enter a valid wait duration before applying it to other nodes.':'他のノードに適用する前に、有効な待機時間を入力してください。' });
 Object.assign(dictionaries.zh, { 'Copy from':'复制来源', 'Wait duration':'等待时长', 'Questionnaire content':'问卷内容', 'Screen appearance':'界面外观', 'This questionnaire has no type tag. Select its targets explicitly.':'此问卷没有类型标签，请明确勾选目标。', 'Only the wait duration is copied. Display content is preserved.':'只复制等待时长，保留显示内容。', 'Question IDs remain specific to each target. Only matching questionnaire kinds are included.':'保留各目标的题目ID，只包含相同类型的问卷。', 'Each target keeps its own stimulus, timing and pool.':'每个目标保留自己的刺激、时序和素材池。', 'Other groups are unchanged. Undo restores the whole batch.':'其他组不受影响。撤销可恢复整个批次。' });
 Object.assign(dictionaries.ja, { 'Copy from':'コピー元', 'Wait duration':'待機時間', 'Questionnaire content':'質問票の内容', 'Screen appearance':'画面の外観', 'This questionnaire has no type tag. Select its targets explicitly.':'質問票に種類タグがありません。適用先を明示的に選択してください。', 'Only the wait duration is copied. Display content is preserved.':'待機時間のみをコピーし、表示内容を保持します。', 'Question IDs remain specific to each target. Only matching questionnaire kinds are included.':'各適用先の質問IDを保持します。同じ種類の質問票のみを対象にします。', 'Each target keeps its own stimulus, timing and pool.':'各適用先の刺激・時間設定・素材プールを保持します。', 'Other groups are unchanged. Undo restores the whole batch.':'他のグループは変更しません。元に戻す操作で一括変更を取り消せます。' });
+Object.assign(dictionaries.zh, { 'Blocking issue':'阻断问题' });
+Object.assign(dictionaries.ja, { 'Blocking issue':'実行を妨げる問題' });
+Object.assign(dictionaries.zh, { 'Configure before creating':'创建前配置' });
+Object.assign(dictionaries.ja, { 'Configure before creating':'作成前の設定' });
+Object.assign(dictionaries.zh, { 'Create':'创建' });
+Object.assign(dictionaries.ja, { 'Create':'作成' });
+Object.assign(dictionaries.ja, {
+ 'Quick':'基本','Design':'設計','Advanced':'詳細設定',
+ 'Quick mode: build the execution flow and set essential properties.':'実験の流れを組み立て、各ステップの基本設定を編集します。',
+ 'Design mode: manage media, random stimulus pools, variables, and participant screens.':'素材・ランダム提示・変数・参加者画面を設定します。',
+ 'Advanced mode: SDK packages, devices, collaboration, deployment, and raw configuration.':'追加機能・機器・共同編集・公開と詳細設定を管理します。',
+ 'Build the flow and edit essential node settings.':'実験の流れとステップの基本設定を編集します。',
+ 'Add media, stimulus pools, variables, groups, and participant screens.':'素材・素材プール・変数・グループ・参加者画面を設定します。',
+ 'Configure SDK packages, devices, collaboration, deployment, and raw node details.':'追加機能・機器・共同編集・公開・ノードの詳細を設定します。',
+ 'Click or drag onto the canvas to insert':'クリックまたはドラッグでフロー図に追加', 'Drag onto the canvas':'フロー図へドラッグ',
+ 'Media & stimuli':'素材と刺激','Asset library and randomized pools':'素材ライブラリとランダム提示',
+ 'Variables & structure':'変数と構造','Variables, groups, reusable subflows':'変数・グループ・再利用する手順',
+ 'SDK packages, devices, collaboration, deployment':'追加機能・機器・共同編集・公開',
+ 'presentation':'提示','interaction':'回答','timing':'時間','control':'分岐と反復',
+ 'Screen':'説明画面','Text Input':'テキスト回答','Custom HTML':'カスタム画面',
+ 'How long the participant waits before continuing.':'次のステップへ進むまでの待機時間です。',
+ 'How the input value is compared.':'入力値と比較値の判定方法を選びます。',
+ 'Compared against the input. Ignored when a compare variable or port is bound.':'入力値と比較します。比較先の変数またはポートを指定した場合、この値は使用しません。',
+ 'Input variable':'判定する変数','Compare with variable':'比較先の変数','Condition input variable':'判定する変数',
+ 'Choose a variable…':'変数を選択…','Use the configured comparison value':'設定した比較値を使う','Choose…':'選択…','True':'真','False':'偽',
+ 'Search projects':'プロジェクトを検索','Search projects…':'プロジェクトを検索…',
+ 'Your first study starts here':'最初の実験を作成しましょう',
+ 'Use “New protocol” above to create your first experiment.':'上の「新規プロトコル」から実験を作成できます。',
+ 'No projects match your search.':'検索条件に一致するプロジェクトはありません。'
+});
+Object.assign(dictionaries.zh, {
+ 'Quick':'基本','Design':'设计','Advanced':'高级',
+ 'Quick mode: build the execution flow and set essential properties.':'搭建实验流程，编辑各步骤的基本设置。',
+ 'Design mode: manage media, random stimulus pools, variables, and participant screens.':'配置素材、随机刺激池、变量和参与者界面。',
+ 'Advanced mode: SDK packages, devices, collaboration, deployment, and raw configuration.':'管理扩展功能、设备、协作、发布和详细配置。',
+ 'Build the flow and edit essential node settings.':'编辑实验流程及步骤基本设置。',
+ 'Add media, stimulus pools, variables, groups, and participant screens.':'配置素材、刺激池、变量、分组和参与者界面。',
+ 'Configure SDK packages, devices, collaboration, deployment, and raw node details.':'配置扩展功能、设备、协作、发布及节点详细信息。',
+ 'Click or drag onto the canvas to insert':'点击或拖入画布添加','Drag onto the canvas':'拖入画布',
+ 'Media & stimuli':'素材与刺激','Asset library and randomized pools':'素材库与随机提示',
+ 'Variables & structure':'变量与结构','Variables, groups, reusable subflows':'变量、分组与可复用流程',
+ 'SDK packages, devices, collaboration, deployment':'扩展功能、设备、协作与发布',
+ 'presentation':'展示','interaction':'回答','timing':'时序','control':'分支与循环',
+ 'Screen':'说明画面','Text Input':'文本回答','Custom HTML':'自定义画面',
+ 'How long the participant waits before continuing.':'进入下一步骤前的等待时间。','How the input value is compared.':'选择输入值与比较值的判定方法。',
+ 'Compared against the input. Ignored when a compare variable or port is bound.':'与输入值比较；指定比较变量或端口后，将不使用此值。',
+ 'Input variable':'判定变量','Compare with variable':'比较变量','Condition input variable':'判定变量','Choose a variable…':'选择变量…',
+ 'Use the configured comparison value':'使用配置的比较值','Choose…':'请选择…','True':'真','False':'假',
+ 'Search projects':'搜索项目','Search projects…':'搜索项目…','Your first study starts here':'创建第一个实验',
+ 'Use “New protocol” above to create your first experiment.':'从上方“新建协议”创建实验。','No projects match your search.':'没有符合搜索条件的项目。'
+});
+Object.assign(dictionaries.ja, { 'Timing':'時間設定', 'Logic':'判定設定', 'General':'基本設定', 'Measures component presentation time, including pauses; it does not measure physical stimulus onset.':'一時停止を含む画面提示時間を記録します。刺激が物理的に提示された時刻を測定するものではありません。' });
+Object.assign(dictionaries.zh, { 'Timing':'时序设置', 'Logic':'判定设置', 'General':'基本设置', 'Measures component presentation time, including pauses; it does not measure physical stimulus onset.':'记录包含暂停的画面呈现时间，不代表测得物理刺激实际出现的时刻。' });

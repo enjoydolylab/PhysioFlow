@@ -1,0 +1,12 @@
+{
+  "sharedDialogForAllTemplates": true,
+  "japaneseDesktopMobileLayout": true,
+  "focusEntryTrapAndReturn": true,
+  "escapeClose": true,
+  "pendingCreationProtected": true,
+  "invalidParametersBlocked": true,
+  "actualAppSaveFailureRetainsInput": true,
+  "tests": 515,
+  "build": true,
+  "lint": true
+}

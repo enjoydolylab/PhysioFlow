@@ -7,7 +7,7 @@ import {
 } from '../core/index.js';
 import { parseResponseOptions, serializeResponseOptions } from '../core/responseOptions.js';
 import { findUiElement, localResourceManifest, schemaForNode } from '../runtime/index.js';
-import { translate, useLanguage } from '../i18n.jsx';
+import { translate, useLanguage, useT } from '../i18n.jsx';
 import ParticipantRenderer from '../ParticipantRenderer.jsx';
 import QuestionnaireEditor from '../QuestionnaireEditorV2.jsx';
 import QuestionnaireForm from '../QuestionnaireFormV2.jsx';
@@ -97,6 +97,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
   }
 
   const renderField = field => {
+    if (node.component.type === 'logic.condition' && field.path === 'expected' && ['is_truthy', 'is_falsy'].includes(node.config.operator)) return null;
     if (node.component.type === 'input.response' && field.path === 'options') return <ResponseOptionsEditor key={field.path} value={node.config.options} onChange={options => onUpdate({ config: { ...node.config, options } })} />;
     if (field.showWhen && getPath(node.config, field.showWhen.path) !== field.showWhen.equals) return null;
     // Type-aware Expected value for conditions: follow the bound input variable's type
@@ -105,11 +106,11 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
       const boundType = boundValueType();
       const expected = node.config?.expected;
       if (boundType === 'number') {
-        return <label key={field.path}>{field.label}<input type="number" value={typeof expected === 'number' ? expected : expected !== '' && expected != null && Number.isFinite(Number(expected)) ? Number(expected) : ''} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? '' : Number(event.target.value)) })} />{field.help && <small className="field-help">{field.help}</small>}</label>;
+        return <label key={field.path}>{t(field.label)}<input type="number" value={typeof expected === 'number' ? expected : expected !== '' && expected != null && Number.isFinite(Number(expected)) ? Number(expected) : ''} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? '' : Number(event.target.value)) })} />{field.help && <small className="field-help">{t(field.help)}</small>}</label>;
       }
       if (boundType === 'boolean') {
         const boolValue = String(expected) === 'true' ? 'true' : String(expected) === 'false' ? 'false' : '';
-        return <label key={field.path}>{field.label}<select value={boolValue} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? null : event.target.value === 'true') })}><option value="">choose…</option><option value="true">true</option><option value="false">false</option></select>{field.help && <small className="field-help">{field.help}</small>}</label>;
+        return <label key={field.path}>{t(field.label)}<select value={boolValue} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? null : event.target.value === 'true') })}><option value="">{t('Choose…')}</option><option value="true">{t('True')}</option><option value="false">{t('False')}</option></select>{field.help && <small className="field-help">{t(field.help)}</small>}</label>;
       }
     }
     const value = getPath(node.config, field.path);
@@ -133,7 +134,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
     else if (field.type === 'variable') control = <select value={value ?? ''} onChange={event => change(event.target.value)}><option value="">— choose —</option>{variables.map(variable => <option key={variable.name} value={variable.name}>{variable.name} · {variable.type}</option>)}</select>;
     else if (field.type === 'boolean') control = <input type="checkbox" checked={Boolean(value)} onChange={event => change(event.target.checked)} />;
     else control = <input type={field.type || 'text'} min={field.min} max={field.max} step={field.step} value={value ?? ''} onChange={event => change(event.target.value)} />;
-    return <label key={field.path}>{field.label}{control}{field.help && <small className="field-help">{field.help}</small>}</label>;
+    return <label key={field.path}>{t(field.label)}{control}{field.help && <small className="field-help">{t(field.help)}</small>}</label>;
   };
 
   const emptyHint = node.component.type === 'display.media' && !node.config?.sourceUrl && !node.config?.assetId && !node.config?.stimulusPoolId && !node.config?.stimulusPool?.enabled
@@ -150,7 +151,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
     {definition?.runtime?.kind === 'participant' && <div className="content-fields">
       <label><input type="checkbox" checked={Boolean(node.config?.isAnalysisWindow)} onChange={event => onUpdate({ config: { ...node.config, isAnalysisWindow: event.target.checked } })} />Generate analysis window</label>
       {node.config?.isAnalysisWindow && <label>Window label<input aria-label="Window label" value={node.config.analysisLabel || ''} onChange={event => onUpdate({ config: { ...node.config, analysisLabel: event.target.value } })} /></label>}
-      <small>Measures component presentation time, including pauses; it does not measure physical stimulus onset.</small>
+      <small>{t('Measures component presentation time, including pauses; it does not measure physical stimulus onset.')}</small>
     </div>}
     {emptyHint && <div className="node-empty-hint">▶ {emptyHint}</div>}
     {node.component.type === 'logic.loop' && <div className="node-empty-hint"><b>{node.bindings?.until ? 'Conditional repetition' : 'Fixed repetition'}</b><p>{!Number.isInteger(node.config.maxIterations) || node.config.maxIterations < 1 ? 'Enter a positive whole number for Maximum iterations before running this protocol.' : node.bindings?.until ? 'The condition can end repetition early. Maximum iterations is the upper limit.' : `The body runs ${node.config.maxIterations} time(s) in total, including the first pass, then follows Exit.`}</p><small>Body starts the repeated sequence. Its last step returns to this Loop. Exit continues after repetition.</small></div>}
@@ -178,14 +179,14 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
           }} />}
       </>}
     </div>}
-    {fieldGroups.map(([group, fields], groupIndex) => <details key={group} className="field-group" open={group === 'General' || groupIndex === 0 || fieldGroups.length === 1}><summary>{group}</summary>{fields.map(renderField)}</details>)}
-    {node.component.type === 'logic.condition' && <label>Input variable<select aria-label="Condition input variable" value={bindingValue(node.bindings?.value)} onChange={event => { const binding = parseBindingValue(event.target.value); onUpdate({ bindings: binding ? { ...node.bindings, value: binding } : Object.fromEntries(Object.entries(node.bindings || {}).filter(([key]) => key !== 'value')) }); }}>
-      <option value="">Choose a variable…</option>
+    {fieldGroups.map(([group, fields], groupIndex) => <details key={group} className="field-group" open={group === 'General' || groupIndex === 0 || fieldGroups.length === 1}><summary>{t(group)}</summary>{fields.map(renderField)}</details>)}
+    {node.component.type === 'logic.condition' && <label>{t('Input variable')}<select aria-label={t('Condition input variable')} value={bindingValue(node.bindings?.value)} onChange={event => { const binding = parseBindingValue(event.target.value); onUpdate({ bindings: binding ? { ...node.bindings, value: binding } : Object.fromEntries(Object.entries(node.bindings || {}).filter(([key]) => key !== 'value')) }); }}>
+      <option value="">{t('Choose a variable…')}</option>
       <optgroup label="Protocol variables">{renderVariableOptions(true)}</optgroup>
       {(dataOutputOptions || []).length > 0 && <optgroup label="Node outputs (upstream)">{renderOutputOptions()}</optgroup>}
     </select></label>}
-    {node.component.type === 'logic.condition' && <label>Compare with variable<select aria-label="Condition compare variable" value={bindingValue(node.bindings?.compare)} onChange={event => { const binding = parseBindingValue(event.target.value); onUpdate({ bindings: binding ? { ...node.bindings, compare: binding } : Object.fromEntries(Object.entries(node.bindings || {}).filter(([key]) => key !== 'compare')) }); }}>
-      <option value="">— none (use Expected value) —</option>
+    {node.component.type === 'logic.condition' && <label>{t('Compare with variable')}<select aria-label="Condition compare variable" value={bindingValue(node.bindings?.compare)} onChange={event => { const binding = parseBindingValue(event.target.value); onUpdate({ bindings: binding ? { ...node.bindings, compare: binding } : Object.fromEntries(Object.entries(node.bindings || {}).filter(([key]) => key !== 'compare')) }); }}>
+      <option value="">{t('Use the configured comparison value')}</option>
       <optgroup label="Protocol variables">{renderVariableOptions(true)}</optgroup>
       {(dataOutputOptions || []).length > 0 && <optgroup label="Node outputs (upstream)">{renderOutputOptions()}</optgroup>}
     </select></label>}
@@ -214,10 +215,11 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
 }
 
 export function ContentField({ field, value, assets, onChange, invalid, hint }) {
-  if (field.type === 'select') return <label className={invalid ? 'field-invalid' : undefined}>{field.label}<select value={value ?? ''} onChange={event => onChange(event.target.value)}>{field.options.map(option => <option key={option} value={option}>{option}</option>)}</select>{invalid && hint && <small className="field-hint">{hint}</small>}</label>;
-  if (field.type === 'asset') return <label>{field.label}<select value={value ?? ''} onChange={event => onChange(event.target.value || null)}><option value="">— none / direct URL —</option>{(assets || []).map(asset => <option key={asset.id || asset.assetId} value={asset.id || asset.assetId}>{asset.name || asset.id}</option>)}</select></label>;
-  if (field.type === 'boolean') return <label className="checkbox-row"><input type="checkbox" checked={Boolean(value)} onChange={event => onChange(event.target.checked)} /> {field.label}</label>;
-  return <label className={invalid ? 'field-invalid' : undefined}>{field.label}<input type={field.type || 'text'} value={value ?? ''} onChange={event => onChange(field.type === 'number' ? (event.target.value === '' ? '' : Number(event.target.value)) : event.target.value)} />{invalid && hint && <small className="field-hint">{hint}</small>}</label>;
+  const t = useT();
+  if (field.type === 'select') return <label className={invalid ? 'field-invalid' : undefined}>{t(field.label)}<select value={value ?? ''} onChange={event => onChange(event.target.value)}>{field.options.map(option => <option key={option} value={option}>{option}</option>)}</select>{invalid && hint && <small className="field-hint">{hint}</small>}</label>;
+  if (field.type === 'asset') return <label>{t(field.label)}<select value={value ?? ''} onChange={event => onChange(event.target.value || null)}><option value="">— none / direct URL —</option>{(assets || []).map(asset => <option key={asset.id || asset.assetId} value={asset.id || asset.assetId}>{asset.name || asset.id}</option>)}</select></label>;
+  if (field.type === 'boolean') return <label className="checkbox-row"><input type="checkbox" checked={Boolean(value)} onChange={event => onChange(event.target.checked)} /> {t(field.label)}</label>;
+  return <label className={invalid ? 'field-invalid' : undefined}>{t(field.label)}<input type={field.type || 'text'} value={value ?? ''} onChange={event => onChange(field.type === 'number' ? (event.target.value === '' ? '' : Number(event.target.value)) : event.target.value)} />{invalid && hint && <small className="field-hint">{hint}</small>}</label>;
 }
 
 export function toHexColor(value) {

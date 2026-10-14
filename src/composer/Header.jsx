@@ -17,7 +17,7 @@ export default function Header({ s, onSave, onBack, onExport, onPreview, onFreez
     <div className="brand"><span>PF</span> Composer V2 {hasUnsaved && <small className="unsaved-dot">●</small>}</div>
     <input disabled={locked} className="composer-title" aria-label="Protocol name" value={protocolNameOf(protocol)} onChange={event => commit({ ...protocol, metadata: { ...protocol.metadata, name: event.target.value }, audit: { ...protocol.audit, updatedAt: new Date().toISOString() } })} />
     <div className="composer-mode-switch" aria-label={t('Editor mode')}>
-      {['quick', 'design', 'advanced'].map(mode => <button key={mode} title={MODE_HELP[mode]} aria-pressed={editorMode === mode && !codeView} className={editorMode === mode && !codeView ? 'active' : ''} onClick={() => { if (!codeView || closeCodeView()) setEditorMode(mode); }}>{mode[0].toUpperCase() + mode.slice(1)}</button>)}
+      {['quick', 'design', 'advanced'].map(mode => <button key={mode} title={t(MODE_HELP[mode])} aria-pressed={editorMode === mode && !codeView} className={editorMode === mode && !codeView ? 'active' : ''} onClick={() => { if (!codeView || closeCodeView()) setEditorMode(mode); }}>{t(mode[0].toUpperCase() + mode.slice(1))}</button>)}
       <button aria-pressed={codeView} className={codeView ? 'active' : ''} onClick={() => codeView ? closeCodeView() : openCodeView()}>{'{ } ' + t('Code')}</button>
     </div>
     <div className="header-tools">

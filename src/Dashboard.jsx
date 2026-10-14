@@ -159,12 +159,12 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
     <section>
       <div className="section-title">
         <h2>Your projects <small>{projects.length}</small></h2>
-        <input className="project-search" aria-label="Search projects" placeholder="Search projects…" value={projectSearch} onChange={event => setProjectSearch(event.target.value)} />
+        <input className="project-search" aria-label={t('Search projects')} placeholder={t('Search projects…')} value={projectSearch} onChange={event => setProjectSearch(event.target.value)} />
       </div>
       <div className="protocol-grid">
         {projects.filter(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())).map(versions => <ProjectCard key={projectIdOf(versions[0])} versions={versions} sessions={sessions} storageInfo={storageInfo} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRemoveVersion={onRemoveVersion} onRenameProject={onRenameProject} onMigrate={onMigrate} />)}
-        {projects.length > 0 && !projects.some(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())) && <p className="empty">No projects match your search.</p>}{!projects.length && <div className="empty">
-          <div className="empty-project-mark" aria-hidden="true">↗</div><h3 className="empty-title">Your first study starts here</h3><p>Use “New protocol” above to create your first experiment.</p>
+        {projects.length > 0 && !projects.some(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())) && <p className="empty">{t('No projects match your search.')}</p>}{!projects.length && <div className="empty">
+          <div className="empty-project-mark" aria-hidden="true">↗</div><h3 className="empty-title">{t('Your first study starts here')}</h3><p>{t('Use “New protocol” above to create your first experiment.')}</p>
         </div>}
       </div>
     </section>

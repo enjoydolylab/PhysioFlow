@@ -264,3 +264,38 @@
   .composer-code-toolbar { flex-wrap: wrap; }
   .composer-code-toolbar span { flex-basis: 100%; order: 2; }
 }
+/* Readable configuration and explicit batch scope. */
+@media (min-width:1280px) and (max-width:1679px) {
+  .composer-layout { grid-template-columns:220px minmax(0,1fr) 340px; }
+}
+.group-batch-editor { margin-top:18px; padding:14px; border:1px solid var(--border,#dfe3e8); border-radius:12px; background:var(--surface,#fff); }
+.group-batch-editor h3 { margin:0 0 10px; font-size:.9rem; }
+.group-batch-editor p { font-size:.76rem; line-height:1.65; overflow-wrap:anywhere; }
+.batch-selection-summary { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:14px 0 8px; font-size:.76rem; }
+.batch-selection-summary span { flex-shrink:0; padding:3px 9px; border-radius:20px; background:var(--bg,#f5f6f8); font-variant-numeric:tabular-nums; }
+.batch-selection-tools { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.batch-selection-tools button { margin:0; font-size:.75rem; }
+.batch-target-list { list-style:none; padding:0; margin:0; max-height:220px; overflow:auto; border:1px solid var(--border,#dfe3e8); border-radius:8px; }
+.batch-target-list li+li { border-top:1px solid var(--border,#dfe3e8); }
+.batch-target-list li label { display:flex; align-items:center; gap:9px; margin:0; padding:10px; min-height:38px; font-size:.78rem; overflow-wrap:anywhere; cursor:pointer; }
+.batch-target-list input[type=checkbox] { width:16px; height:16px; flex:0 0 16px; margin:0; padding:0; accent-color:var(--accent,#635bdb); }
+.group-batch-editor .batch-apply { width:100%; min-height:38px; margin-top:8px; font-size:.78rem; }
+.composer-validation .validation-issue { padding:11px; gap:7px; border:1px solid var(--border,#dfe3e8); border-left:3px solid #b7443b; font-size:.78rem; line-height:1.55; overflow-wrap:anywhere; }
+.composer-validation .validation-issue.warning { border-left-color:#ad791d; background:var(--surface,#fff); }
+.validation-issue-heading b { font-size:.7rem; letter-spacing:.02em; }
+.validation-issue.warning .validation-issue-heading b { color:#ad791d; }
+.validation-issue-code { opacity:.65; font-size:.62rem; overflow-wrap:anywhere; }
+.composer-validation input[type=checkbox] { width:16px; height:16px; margin:0 7px 0 0; vertical-align:middle; }
+.batch-target-list label:focus-within, .composer-validation .validation-issue:focus-visible { outline:2px solid var(--accent,#635bdb); outline-offset:-2px; }
+.group-batch-editor { gap:10px; }
+.group-batch-editor p { margin:0; }
+.batch-target-list li label { flex-direction:row; justify-content:flex-start; }
+.batch-selection-tools { margin-bottom:0; }
+.group-batch-editor .batch-selection-summary { margin:6px 0 0; }
+.composer-v2 { --text:var(--ink,#18251e); --border:var(--line,#d8e2dc); --bg:var(--surface,#edf3ef); }
+.composer-inspector .inspector-card label:has(> input[type=checkbox]) { flex-direction:row; flex-wrap:wrap; align-items:center; }
+.composer-inspector .inspector-card label>input[type=checkbox] { width:16px; height:16px; flex:0 0 16px; margin:0; }
+.composer-inspector .inspector-card label:has(> input[type=checkbox])>small { flex-basis:100%; }
+.dark-mode .composer-v2 button:not(.primary):not(.danger) { background:var(--paper,#18211d); color:var(--ink,#eef7f1); border-color:var(--line,#2b3a32); }
+.dark-mode .composer-v2 .composer-title { background:var(--paper,#18211d); color:var(--ink,#eef7f1); border-color:var(--line,#2b3a32); }
+.dark-mode .composer-v2 .composer-mode-switch button.active { background:var(--paper-soft,#203128); color:var(--green,#73d9ad); }

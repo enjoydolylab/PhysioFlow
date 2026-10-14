@@ -1,0 +1,23 @@
+.template-launch { display:inline-flex; }
+.template-config-overlay { position:fixed; inset:0; z-index:1200; background:#10231b88; display:flex; align-items:center; justify-content:center; padding:20px; }
+.template-config-panel.setup-note { box-sizing:border-box; width:min(520px,100%); max-height:calc(100dvh - 40px); overflow:auto; margin:0; padding:0; border:1px solid var(--line); border-radius:16px; background:var(--paper); color:var(--ink); box-shadow:0 20px 70px #07170f40; text-align:left; }
+.template-config-panel>header { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:20px 24px; border-bottom:1px solid var(--line); }
+.template-config-panel header small { color:var(--muted); font-size:12px; }
+.template-config-panel h2 { margin:4px 0 0; font-size:20px; }
+.template-config-panel header button { width:36px; height:36px; padding:0; font-size:24px; }
+.template-config-body { display:grid; gap:18px; padding:22px 24px; }
+.template-config-body>label { display:grid; gap:8px; font-size:13px; font-weight:600; }
+.template-config-body label.template-check { display:flex; align-items:center; gap:9px; }
+.template-config-body input:not([type=checkbox]):not([type=range]),.template-config-body select { box-sizing:border-box; min-width:0; width:100%; min-height:40px; border:1px solid var(--line); border-radius:8px; padding:9px 11px; background:var(--paper-soft); color:var(--ink); font:inherit; }
+.template-config-body input[type=range] { width:100%; accent-color:var(--green-600); }
+.template-config-body input[type=checkbox] { width:17px; height:17px; margin:0; accent-color:var(--green-600); }
+.template-config-body small,.template-config-body p { margin:0; font-size:12px; line-height:1.65; color:var(--muted); }
+.template-config-body [role=alert] { padding:10px 12px; border-left:3px solid var(--danger); background:var(--paper-soft); color:var(--danger); border-radius:6px; }
+.template-config-body [role=status] { padding:12px; border:1px solid var(--line); border-radius:8px; background:var(--paper-soft); color:var(--ink); }
+.template-config-actions { display:flex; gap:10px; padding-top:8px; border-top:1px solid var(--line); }
+.workspace-templates .template-config-panel button,.template-config-panel button { min-height:36px; font-size:13px; }
+.template-config-actions .primary { flex:1; }
+.template-config-panel :is(input,select,button):focus-visible { outline:2px solid var(--green-600); outline-offset:3px; }
+@media(max-width:600px) { .template-config-overlay{padding:12px;} .template-config-panel.setup-note{max-height:calc(100dvh - 24px);} .template-config-panel>header{padding:16px;} .template-config-body{padding:16px;gap:16px;} }
+.template-config-panel>header { flex-direction:row; text-align:left; }
+.template-config-body>label { margin:0; }

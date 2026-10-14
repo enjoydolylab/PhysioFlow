@@ -1,0 +1,13 @@
+{
+  "wideAndNarrowJapaneseUi": true,
+  "darkThemeVisuallyInspected": true,
+  "batchNoHorizontalOverflow": true,
+  "checkboxRowsCompact": true,
+  "blockingAndWarningStyles": true,
+  "conditionZeroCorrection": true,
+  "truthinessHidesExpectedValue": true,
+  "tests": 515,
+  "build": true,
+  "lint": true,
+  "editorBrowserRegression": true
+}

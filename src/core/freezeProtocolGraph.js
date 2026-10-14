@@ -1,3 +1,4 @@
+import { conditionExpectedError, conditionInputType } from './conditionConfig.js';
 import { pendingMediaIssues } from './mediaReadiness.js';
 import { discreteScaleValues } from './inputValidation.js';
 import { serializeProtocolGraph } from './serialization.js';
@@ -177,6 +178,10 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
     }
     if (node.component?.type === 'logic.loop' && (!Number.isInteger(Number(node.config?.maxIterations)) || Number(node.config.maxIterations) < 1)) {
       errors.push({ code: 'config.loop_limit_invalid', message: `${node.label} needs a positive integer iteration limit`, path, nodeId: node.id });
+    }
+    if (node.component?.type === 'logic.condition') {
+      const code = conditionExpectedError(node.config, conditionInputType(protocol, node, registry), { hasCompare: Boolean(node.bindings?.compare || protocol.graph.edges.some(edge => edge.kind === 'data' && edge.target.nodeId === node.id && edge.target.portId === 'compare')) });
+      if (code) errors.push({ code, message: `${node.label} needs a comparison value compatible with its input`, path: `${path}.expected`, nodeId: node.id });
     }
     if (node.component?.type === 'logic.condition' && !['equals', 'not_equals', 'contains', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'is_truthy', 'is_falsy'].includes(node.config?.operator)) {
       errors.push({ code: 'config.condition_operator_invalid', message: `${node.label} needs a supported condition operator`, path, nodeId: node.id });

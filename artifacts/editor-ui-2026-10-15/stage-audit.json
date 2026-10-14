@@ -1,0 +1,18 @@
+{
+  "configurationAndBatchLayout": true,
+  "severityLabels": true,
+  "editorDarkContrastVisuallyInspected": true,
+  "sharedTemplateDialogs": true,
+  "short375x568Bounds": true,
+  "templateDark375x667VisuallyInspected": true,
+  "focusTrapEscapeRestoreAndPendingGuard": true,
+  "localizedCopyAndAuthoredNamesPreserved": true,
+  "conditionZeroCorrectionAndBoundCompareValidation": true,
+  "actualAppSaveFailureRetainsInput": true,
+  "tests": 515,
+  "build": true,
+  "lint": true,
+  "multiviewportEditorRegression": true,
+  "humanTrial": false,
+  "hardwareAcceptance": false
+}

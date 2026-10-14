@@ -1,0 +1,11 @@
+{
+  "japaneseModeInstructions": true,
+  "modeTooltipsTranslated": true,
+  "componentNamesTranslated": true,
+  "authoredProjectTitlePreserved": true,
+  "wideNarrowDarkVisuallyChecked": true,
+  "multiViewportRegression": true,
+  "tests": 515,
+  "build": true,
+  "lint": true
+}
