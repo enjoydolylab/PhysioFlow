@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "appCommit": "9f75ae74ba41f7da0a8d0fe071d8e80ea2ba3b77",
+  "environment": {
+    "browser": "",
+    "viewport": "",
+    "observer": "",
+    "date": ""
+  },
+  "observations": [],
+  "defects": [],
+  "signoffs": {
+    "designer": {
+      "accepted": false,
+      "reviewer": ""
+    },
+    "operator": {
+      "accepted": false,
+      "reviewer": ""
+    },
+    "dataAnalyst": {
+      "accepted": false,
+      "reviewer": ""
+    }
+  },
+  "appVersion": "0.6.0-beta.18"
+}

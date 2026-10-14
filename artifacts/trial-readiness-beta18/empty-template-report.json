@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "complete": false,
+  "passed": false,
+  "appCommit": "9f75ae74ba41f7da0a8d0fe071d8e80ea2ba3b77",
+  "participantCount": 0,
+  "cohortCounts": {
+    "novice": 0,
+    "experienced": 0
+  },
+  "observationCount": 0,
+  "metrics": {
+    "task1MedianSeconds": null,
+    "task2MaximumOperations": null,
+    "successWithoutHelpRate": null,
+    "task3LocationsUnderstood": null,
+    "coreTasksSuccessful": null,
+    "unresolvedCriticalDefects": 0
+  },
+  "issues": [
+    "observations are required",
+    "novice cohort needs at least 5 participants",
+    "experienced cohort needs at least 5 participants",
+    "designer sign-off with reviewer is required",
+    "operator sign-off with reviewer is required",
+    "dataAnalyst sign-off with reviewer is required"
+  ],
+  "failures": []
+}
