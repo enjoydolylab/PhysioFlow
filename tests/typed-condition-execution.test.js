@@ -19,7 +19,7 @@ test('text and boolean equality retain existing interpretation',()=>{
  assert.equal(evaluateExpression({operator:'contains',expected:'2'},'12'),true);
 });
 test('numeric condition executes the true branch with a decimal string expected value',()=>{
- let protocol=createProtocolGraph();const start=protocol.graph.nodes.find(n=>n.component.type==='core.start');const end=protocol.graph.nodes.find(n=>n.component.type==='core.end');protocol.graph.edges=[];protocol.variables=[{name:'score',type:'number',scope:'protocol',defaultValue:2}];
+ let protocol=createProtocolGraph();const start=protocol.graph.nodes.find(n=>n.component.type==='core.start');const end=protocol.graph.nodes.find(n=>n.component.type==='core.end');protocol.graph.edges=[];protocol.variables=[{name:'score',type:'number',scope:'session',defaultValue:2}];
  let added=addNode(protocol,'logic.condition',{id:'condition',config:{operator:'equals',expected:'2.0'}});protocol=added.protocol;protocol.graph.nodes.find(n=>n.id==='condition').bindings={value:{kind:'variable',variable:'score'}};
  added=addNode(protocol,'display.screen',{id:'true_branch'});protocol=added.protocol;
  for(const [source,port,target] of [[start.id,'next','condition'],['condition','true','true_branch'],['condition','false',end.id],['true_branch','next',end.id]])protocol=connect(protocol,'control',{nodeId:source,portId:port},{nodeId:target,portId:'in'}).protocol;
@@ -39,7 +39,7 @@ test('numeric ordering rejects missing and coerced operands while keeping zero a
 });
 
 test('invalid dynamic numeric input records failure and does not enter either branch',()=>{
- let protocol=createProtocolGraph();const start=protocol.graph.nodes.find(n=>n.component.type==='core.start');const end=protocol.graph.nodes.find(n=>n.component.type==='core.end');protocol.graph.edges=[];protocol.variables=[{name:'score',type:'number',scope:'protocol',defaultValue:null}];
+ let protocol=createProtocolGraph();const start=protocol.graph.nodes.find(n=>n.component.type==='core.start');const end=protocol.graph.nodes.find(n=>n.component.type==='core.end');protocol.graph.edges=[];protocol.variables=[{name:'score',type:'number',scope:'session',defaultValue:null}];
  let added=addNode(protocol,'logic.condition',{id:'condition',config:{operator:'less_than',expected:1}});protocol=added.protocol;protocol.graph.nodes.find(n=>n.id==='condition').bindings={value:{kind:'variable',variable:'score'}};
  added=addNode(protocol,'display.screen',{id:'true_branch'});protocol=added.protocol;
  for(const [source,port,target] of [[start.id,'next','condition'],['condition','true','true_branch'],['condition','false',end.id],['true_branch','next',end.id]])protocol=connect(protocol,'control',{nodeId:source,portId:port},{nodeId:target,portId:'in'}).protocol;

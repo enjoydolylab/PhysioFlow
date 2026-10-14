@@ -1,0 +1,6 @@
+{
+  "productionAssets": true,
+  "syntheticDraft": true,
+  "invalidDynamicInputStopsRun": true,
+  "operatorGuidance": true
+}
