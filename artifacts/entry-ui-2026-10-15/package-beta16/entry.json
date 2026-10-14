@@ -1,0 +1,23 @@
+{
+  "productionAssets": true,
+  "participantLanguages": [
+    "ja",
+    "en",
+    "zh"
+  ],
+  "invalidLanguageFallback": true,
+  "icons": [
+    {
+      "status": 200,
+      "width": 192,
+      "height": 192,
+      "sizes": "192x192"
+    },
+    {
+      "status": 200,
+      "width": 512,
+      "height": 512,
+      "sizes": "512x512"
+    }
+  ]
+}
