@@ -182,3 +182,10 @@ test('file hosted state store rejects corrupt or insecurely edited state content
   await assert.rejects(() => createHostedNodeServer({ actors, stateFile: join(root, 'server.json'), assetDirectory: root, assetSecret: 'node-server-test-secret-at-least-32-characters', host: '0.0.0.0' }), /explicit HTTPS public base URL/);
   await assert.rejects(() => createHostedNodeServer({ actors, stateFile: join(root, 'server.json'), publicBaseUrl: 'http://experiments.example' }), /must use HTTPS/);
 });
+test('custom-origin admin metrics preflight succeeds while metrics remain owner-only',async t=>{
+ const root=await mkdtemp(join(tmpdir(),'pf-metrics-cors-'));t.after(()=>rm(root,{recursive:true,force:true}));
+ const origin='http://127.0.0.1:5174';const server=await createHostedNodeServer({...serverOptions(root,0),allowedOrigins:[origin]});const {baseUrl}=await server.listen(0);t.after(()=>server.close());
+ const preflight=await fetch(`${baseUrl}/metrics`,{method:'OPTIONS',headers:{origin,'access-control-request-method':'GET','access-control-request-headers':'authorization'}});assert.ok(preflight.ok);assert.equal(preflight.headers.get('access-control-allow-origin'),origin);
+ assert.equal((await fetch(`${baseUrl}/metrics`,{headers:{origin,authorization:'Bearer node-owner-token'}})).status,200);
+ assert.equal((await fetch(`${baseUrl}/metrics`,{headers:{origin,authorization:'Bearer node-viewer-token'}})).status,403);
+});

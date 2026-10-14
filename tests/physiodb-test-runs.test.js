@@ -15,7 +15,7 @@ function db() {
     if (op === 'researches') return research;
     if (op === 'createExperiment') return make(experiments, args.experiment);
     if (op === 'experiments') return experiments;
-    if (op === 'createParticipant') return make(participants, args.participant);
+    if (op === 'createParticipant') { assert.match(args.participant.code, /^pf-test-/); assert.equal('email' in args.participant, false); assert.equal('name' in args.participant, false); return make(participants, args.participant); }
     if (op === 'participants') return participants;
     if (op === 'createStream') { const s = make(streams, { ...args.stream, sample_count: 0 }); rows.set(s.id, []); return s; }
     if (op === 'streams') return streams;

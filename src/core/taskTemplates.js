@@ -1,4 +1,4 @@
-import { addNode, connect, createCoreComponentRegistry, createProtocolGraph, createSequentialIdFactory } from './index.js';
+import { addNode, connect, createCoreComponentRegistry, createProtocolGraph, createId } from './index.js';
 import { createBlockOrder, createJitteredDuration } from './experimentStructure.js';
 import { PRESETS } from './questionnaireModel.js';
 
@@ -18,8 +18,8 @@ function constrainRuns(items, category, maximum) {
 }
 
 function seedGraph(options, name) {
-  const idFactory = options.idFactory || createSequentialIdFactory();
-  const protocol = createProtocolGraph({ idFactory, name, now: options.now || '2026-08-23T00:00:00.000Z' });
+  const idFactory = options.idFactory || createId;
+  const protocol = createProtocolGraph({ idFactory, name, now: options.now || new Date().toISOString() });
   const startId = protocol.graph.entryNodeId;
   const endId = protocol.graph.nodes.find(node => node.component.type === 'core.end').id;
   const edges = protocol.graph.edges.filter(edge => !(edge.kind === 'control' && edge.source.nodeId === startId && edge.target.nodeId === endId));

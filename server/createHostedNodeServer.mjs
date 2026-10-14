@@ -1,3 +1,6 @@
+import { createPhysioDBRecordings } from './physioDBRecordings.mjs';
+import { createPhysioDBRunMapping } from '../src/physioDBRunMapping.js';
+import { createPhysioDBRuns } from './physioDBRuns.mjs';
 import { createServer } from 'node:http';
 import { createPhysioDBTestRuns } from './physioDBTestRuns.mjs';
 import { createPhysioDBBindings } from './physioDBBindings.mjs';
@@ -95,7 +98,8 @@ async function staticResponse(request, staticDirectory) {
   if (file !== root && !file.startsWith(`${root}${sep}`)) return new Response('Invalid path', { status: 400 });
   try {
     if (!(await stat(file)).isFile()) return null;
-    const content = await readFile(file);
+    const original = await readFile(file);
+    const content = requested === 'index.html' ? Buffer.from(original.toString('utf8').replace('<head>', '<head><base href="/">')) : original;
     return new Response(content, { headers: { 'content-type': STATIC_TYPES[extname(file).toLowerCase()] || 'application/octet-stream', 'content-length': String(content.length), 'cache-control': requested === 'index.html' ? 'no-cache' : 'public, max-age=31536000, immutable', 'x-content-type-options': 'nosniff' } });
   } catch (error) {
     if (error?.code === 'ENOENT') return null;
@@ -120,6 +124,8 @@ export async function createHostedNodeServer(options = {}) {
   const store = options.store || new FileHostedStateStore(options.stateFile);
   const service = await createPersistentHostedExecutionService({ ...options.serviceOptions, actors: options.actors, store, stateProtector, assetResolver: assetDelivery?.resolve });
   const dbBindings = options.physioDBBridge && options.stateFile ? await createPhysioDBBindings({ filePath: options.physioDBBindingFile || `${options.stateFile}.physiodb-bindings.json`, bridge: options.physioDBBridge }) : null;
+  const dbRuns = options.physioDBBridge && options.stateFile ? await createPhysioDBRuns({ filePath: `${options.stateFile}.physiodb-runs.json`, bridge: options.physioDBBridge }) : null;
+  const dbRecordings = dbRuns ? await createPhysioDBRecordings({ filePath: `${options.stateFile}.physiodb-recordings.json`, bridge: options.physioDBBridge, runs: dbRuns }) : null;
   const dbTestRuns = options.physioDBBridge && options.stateFile ? await createPhysioDBTestRuns({ filePath: `${options.stateFile}.physiodb-test-runs.json`, bridge: options.physioDBBridge }) : null;
   const hosted = createHostedHttpHandler(service, { maximumBodyBytes, allowedOrigins: options.allowedOrigins });
   const readiness = async () => {
@@ -187,6 +193,41 @@ export async function createHostedNodeServer(options = {}) {
         if (!['brainflow', 'koguchi'].includes(kind)) throw Object.assign(new Error('Invalid device monitor source'), { status: 400 });
         return send(jsonResponse(await options.deviceMonitorBridge(actor, kind), 200, request, options.allowedOrigins));
       }
+      if (pathname === '/v1/physiodb/recordings' || ['/v1/physiodb/recordings/begin', '/v1/physiodb/recordings/append', '/v1/physiodb/recordings/finish'].includes(pathname)) {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
+        const actor = await service.authorize(accessContext(request), 'audit.read');
+        if (!dbRecordings) throw Object.assign(new Error('Recording synchronization is not configured'), { status: 503 });
+        if (incoming.method === 'GET' && pathname === '/v1/physiodb/recordings') return send(jsonResponse({ recordings: await dbRecordings.list(actor) }, 200, request, options.allowedOrigins));
+        if (incoming.method !== 'POST' || pathname === '/v1/physiodb/recordings') return send(new Response('Method not allowed', { status: 405 }));
+        let input; try { input = await request.json(); } catch { throw Object.assign(new Error('Invalid recording JSON'), { status: 400 }); }
+        const action = pathname.split('/').at(-1);
+        return send(jsonResponse({ recording: await dbRecordings[action](actor, input) }, 200, request, options.allowedOrigins));
+      }
+      const runView = pathname.match(/^\/v1\/physiodb\/runs\/([^/]+)$/);
+      if (runView) {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
+        const actor = await service.authorize(accessContext(request), 'audit.read');
+        if (incoming.method !== 'GET') return send(new Response('Method not allowed', { status: 405 }));
+        if (!dbRuns) throw Object.assign(new Error('Run review is not configured'), { status: 503 });
+        return send(jsonResponse({ run: await dbRuns.snapshot(actor, decodeURIComponent(runView[1])) }, 200, request, options.allowedOrigins));
+      }
+      if (pathname === '/v1/physiodb/runs') {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
+        const actor = await service.authorize(accessContext(request), 'audit.read');
+        if (!dbRuns) throw Object.assign(new Error('Database run synchronization is not configured'), { status: 503 });
+        if (incoming.method === 'GET') return send(jsonResponse({ runs: await dbRuns.list(actor) }, 200, request, options.allowedOrigins));
+        if (incoming.method !== 'POST') return send(new Response('Method not allowed', { status: 405, headers: { allow: 'GET, POST, OPTIONS' } }));
+        let input;
+        try { input = await request.json(); } catch { throw Object.assign(new Error('Invalid run upload JSON'), { status: 400 }); }
+        if (service.sessions.has(input?.sessionId)) {
+          const { session } = await service.authorizeSession(accessContext(request), 'session.read', input.sessionId);
+          if (session.protocolId !== input.protocol?.protocolId || session.protocolVersion !== input.protocol?.version?.number) throw Object.assign(new Error('Upload design does not match the hosted session'), { status: 400 });
+          const deployed = service.deployments.get(session.deploymentId)?.bundle?.protocol?.snapshot;
+          if (!deployed || createPhysioDBRunMapping({ sessionId: session.sessionId, protocol: deployed }).provenance.protocol_sha256 !== createPhysioDBRunMapping(input).provenance.protocol_sha256) throw Object.assign(new Error('Upload design content does not match the hosted snapshot'), { status: 400 });
+
+        }
+        return send(jsonResponse({ run: await dbRuns.sync(actor, input) }, 200, request, options.allowedOrigins));
+      }
       if (['/v1/physiodb/test-runs/prepare', '/v1/physiodb/test-runs/complete'].includes(pathname)) {
         if (incoming.method === 'OPTIONS') return send(await hosted(request));
         const actor = await service.authorize(accessContext(request), 'audit.read');
@@ -222,6 +263,7 @@ export async function createHostedNodeServer(options = {}) {
         return send(jsonResponse({ result }, 200, request, options.allowedOrigins));
       }
       if (pathname === '/metrics') {
+        if (incoming.method === 'OPTIONS') return send(await hosted(request));
         if (!['GET', 'HEAD'].includes(incoming.method)) return send(new Response('Method not allowed', { status: 405, headers: { allow: 'GET, HEAD', 'cache-control': 'no-store' } }));
         const context = accessContext(request);
         const actor = await service.authorize(context, 'audit.read');

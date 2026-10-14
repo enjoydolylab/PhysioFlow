@@ -27,45 +27,48 @@ export function useUndoRedo({ current, setCurrent, setHasUnsaved }) {
   const scopeActive = useRef(false);
   const undoStackRef = useRef([]);
   undoStackRef.current = undoStack;
+  const redoStackRef = useRef([]);
+  redoStackRef.current = redoStack;
 
   const pushUndo = useCallback((val, pushRedo = true) => {
-    setUndoStack(prev => {
-      const next = [...prev, val];
-      return next.length > MAX_UNDO ? next.slice(-MAX_UNDO) : next;
-    });
-    if (pushRedo) setRedoStack([]);
+    const frames = [...undoStackRef.current, val];
+    const dropped = Math.max(0, frames.length - MAX_UNDO);
+    if (scopeActive.current && dropped) scopeBase.current = Math.max(0, scopeBase.current - dropped);
+    undoStackRef.current = frames.slice(-MAX_UNDO);
+    setUndoStack(undoStackRef.current);
+    if (pushRedo) { redoStackRef.current = []; setRedoStack([]); }
     setHasUnsaved(true);
   }, [setHasUnsaved]);
 
   const undo = useCallback(() => {
     if (current?.version?.status === 'frozen' || current?.status === 'frozen') return;
-    setUndoStack(prev => {
-      if (!prev.length) return prev;
-      // Never undo past the editor-session boundary
-      if (scopeActive.current && prev.length <= scopeBase.current) return prev;
-      const snapshot = prev[prev.length - 1];
-      setRedoStack(r => [...r, clone(current)]);
-      setCurrent(clone(snapshot));
-      setHasUnsaved(true);
-      return prev.slice(0, -1);
-    });
+    const previous = undoStackRef.current;
+    if (!previous.length || (scopeActive.current && previous.length <= scopeBase.current)) return;
+    const snapshot = previous.at(-1);
+    const nextUndo = previous.slice(0, -1), nextRedo = [...redoStackRef.current, clone(current)];
+    undoStackRef.current = nextUndo; redoStackRef.current = nextRedo;
+    setUndoStack(nextUndo); setRedoStack(nextRedo);
+    undoThrottle.current = 0;
+    setCurrent(clone(snapshot)); setHasUnsaved(true);
   }, [current, setCurrent, setHasUnsaved]);
 
   const redo = useCallback(() => {
     if (current?.version?.status === 'frozen' || current?.status === 'frozen') return;
-    setRedoStack(prev => {
-      if (!prev.length) return prev;
-      const snapshot = prev[prev.length - 1];
-      setUndoStack(u => [...u, clone(current)]);
-      setCurrent(clone(snapshot));
-      setHasUnsaved(true);
-      return prev.slice(0, -1);
-    });
+    const previous = redoStackRef.current;
+    if (!previous.length) return;
+    const snapshot = previous.at(-1);
+    const nextRedo = previous.slice(0, -1), nextUndo = [...undoStackRef.current, clone(current)].slice(-MAX_UNDO);
+    redoStackRef.current = nextRedo; undoStackRef.current = nextUndo;
+    setRedoStack(nextRedo); setUndoStack(nextUndo);
+    undoThrottle.current = 0;
+    setCurrent(clone(snapshot)); setHasUnsaved(true);
   }, [current, setCurrent, setHasUnsaved]);
 
   const resetUndo = useCallback(() => {
+    undoThrottle.current = 0;
     scopeBase.current = 0;
     scopeActive.current = false;
+    undoStackRef.current = []; redoStackRef.current = [];
     setUndoStack([]);
     setRedoStack([]);
   }, []);
@@ -73,8 +76,10 @@ export function useUndoRedo({ current, setCurrent, setHasUnsaved }) {
   /** Begin an editor session scope. Frames recorded after this point are
    *  owned by the editor and are discarded when `endScope()` is called. */
   const beginScope = useCallback(() => {
+    undoThrottle.current = 0;
     scopeBase.current = undoStackRef.current.length;
     scopeActive.current = true;
+    redoStackRef.current = [];
     setRedoStack([]);
   }, []);
 
@@ -82,8 +87,11 @@ export function useUndoRedo({ current, setCurrent, setHasUnsaved }) {
    *  they do not leak into global navigation history. */
   const endScope = useCallback(() => {
     if (!scopeActive.current) return;
+    undoThrottle.current = 0;
     scopeActive.current = false;
-    setUndoStack(prev => (prev.length > scopeBase.current ? prev.slice(0, scopeBase.current) : prev));
+    undoStackRef.current = undoStackRef.current.slice(0, scopeBase.current);
+    redoStackRef.current = [];
+    setUndoStack(undoStackRef.current);
     setRedoStack([]);
   }, []);
 

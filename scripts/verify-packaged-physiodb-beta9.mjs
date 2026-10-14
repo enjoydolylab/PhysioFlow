@@ -1,0 +1,51 @@
+/** Isolated local DB only; never reads the laboratory's saved credentials. */
+import assert from 'node:assert/strict';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { buildPhysioDBRunExport } from '../release-web/PhysioFlow-Server-v0.6.0-beta.9/src/physioDBRunExport.js';
+import { createPhysioDBBridge } from '../release-web/PhysioFlow-Server-v0.6.0-beta.9/server/physioDBBridge.mjs';
+import { createPhysioDBRuns } from '../release-web/PhysioFlow-Server-v0.6.0-beta.9/server/physioDBRuns.mjs';
+import { createCoreComponentRegistry, createProtocolGraph, createSequentialIdFactory, freezeProtocolGraph, insertNodeOnControlEdge, participantUiTemplate } from '../release-web/PhysioFlow-Server-v0.6.0-beta.9/src/core/index.js';
+import { createRuntimeState, startRuntime, completeCurrentNode } from '../release-web/PhysioFlow-Server-v0.6.0-beta.9/src/runtime/index.js';
+const credentialFile = process.env.PF_VALIDATION_CREDENTIAL;
+if (!credentialFile) throw new Error('Set PF_VALIDATION_CREDENTIAL to the isolated local credential file');
+const { token } = JSON.parse(await readFile(credentialFile, 'utf8'));
+const actor = { actorId: 'validation', tenantId: 'isolated' };
+const sdk = createPhysioDBBridge({ credentials: [{ ...actor, baseUrl: 'http://127.0.0.1:18080', token }] });
+const directory = resolve('artifacts/db-progression-2026-10-14/package-beta9-live'); await mkdir(directory, { recursive: true });
+const stamp = Date.now();
+const research = await sdk(actor, 'createResearch', { research: { name: `PF local validation ${stamp}`, metadata: { physioflow_validation: true } } });
+const experiment = await sdk(actor, 'createExperiment', { researchId: research.id, experiment: { name: 'Short flow validation' } });
+const participant = await sdk(actor, 'createParticipant', { researchId: research.id, participant: { code: 'SYNTHETIC-001' } });
+assert.equal(participant.code, 'SYNTHETIC-001');
+const registry = createCoreComponentRegistry(), ids = createSequentialIdFactory();
+let protocol = createProtocolGraph({ idFactory: ids, name: 'DB short flow', now: new Date(stamp).toISOString() });
+let edgeId = protocol.graph.edges[0].id;
+for (const label of ['Instructions', 'Rest', 'Stimulus', 'Rating']) {
+ const node = insertNodeOnControlEdge(protocol, edgeId, label === 'Rating' ? 'input.rating' : 'display.screen', { idFactory: ids, label, config: label === 'Rating' ? { min: 1, max: 7, required: true, ui: participantUiTemplate('form') } : { ui: participantUiTemplate('instruction'), completion: { mode: 'manual' } } });
+ protocol = node.protocol; edgeId = protocol.graph.edges.find(e => e.source.nodeId === node.node.id).id;
+}
+protocol = await freezeProtocolGraph(protocol, registry, { now: new Date(stamp).toISOString() });
+const sessionId = `live-${stamp}`;
+let tick = 0; const services = { idFactory: prefix => `${prefix}-${++tick}`, clock: { now: () => ({ epochMs: stamp + tick, monotonicMs: tick, iso: new Date(stamp + tick).toISOString() }) } };
+let result = startRuntime(createRuntimeState(protocol, { sessionId, startedAtEpochMs: stamp, startedAtMonotonicMs: 0 }), protocol, registry, services);
+const events = [...result.events];
+for (const label of ['Instructions', 'Rest', 'Stimulus', 'Rating']) { result = completeCurrentNode(result.state, protocol, registry, services, { outputs: label === 'Rating' ? { value: 5 } : { acknowledged: true } }); events.push(...result.events); }
+assert.equal(result.state.status, 'completed');
+const plan = { sessionId, protocol, destination: { researchId: research.id, experimentId: experiment.id, participantId: participant.id }, events, streams: [{ name: 'Synthetic EEG', fields: [{ name: 'C3', type: 'float', unit: 'uV' }], metadata: { synthetic: true, sample_rate_hz: 250 }, samples: Array.from({ length: 1200 }, (_, i) => ({ time: new Date(stamp + i * 4).toISOString(), values: [Math.sin(i / 10)] })) }] };
+let lost = false, sampleWrites = 0;
+const bridge = async (...args) => { const value = await sdk(...args); if (args[1] === 'appendSamples') { sampleWrites++; if (!lost) { lost = true; throw new Error('Injected lost response after real DB commit'); } } return value; };
+const options = { filePath: `${directory}/runs-${stamp}.json`, bridge };
+await assert.rejects((await createPhysioDBRuns(options)).sync(actor, plan), /Injected lost response/);
+const restored = await createPhysioDBRuns(options);
+const report = await restored.sync(actor, plan); assert.equal(report.status, 'verified'); assert.equal(sampleWrites, 3);
+assert.equal((await (await createPhysioDBRuns(options)).sync(actor, plan)).status, 'verified'); assert.equal(sampleWrites, 3);
+const repeated = structuredClone(plan); repeated.sessionId += '-repeat'; repeated.events.forEach(e => { e.sessionId = repeated.sessionId; e.eventId += '-repeat'; });
+assert.equal((await restored.sync(actor, repeated)).status, 'verified');
+const streams = await sdk(actor, 'streams', { experimentId: experiment.id, participantId: participant.id }); assert.equal(streams.length, 2); assert.ok(streams.every(s => s.sample_count === 1200));
+const exported = buildPhysioDBRunExport({ run: await restored.snapshot(actor, sessionId), events: await sdk(actor, 'events', { experimentId: experiment.id, participantId: participant.id }), retrievedAt: new Date().toISOString() });
+assert.equal(JSON.parse(exported['manifest.json']).counts.events, events.length);
+const output = { exportFromActualDatabase: true, packageVersion: '0.6.0-beta.9', packagedCode: true, serverCommit: 'a9a83d1', sdkCommit: 'f844fcf3', synthetic: true, productionServer: false, runtimeStatus: result.state.status, report, repeatedRun: repeated.sessionId, isolatedStreams: streams.length, lostResponseRecovered: true, duplicateSampleWrites: false };
+await writeFile(`${directory}/result-${stamp}.json`, JSON.stringify(output, null, 2));
+await writeFile(`${directory}/plan-${stamp}.json`, JSON.stringify(plan, null, 2));
+console.log(JSON.stringify(output, null, 2));

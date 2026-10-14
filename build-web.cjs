@@ -36,10 +36,16 @@ const changes = spawnSync('git', ['status', '--porcelain', '--untracked-files=no
 fs.writeFileSync(path.join(APP_DIR, 'BUILD_INFO.json'), JSON.stringify({ version: VERSION, sourceCommit: commit.status === 0 ? commit.stdout.trim() : null, trackedSourceDirty: changes.status !== 0 || Boolean(changes.stdout.trim()), builtAt: new Date().toISOString(), distribution: 'research-preview-static-web' }, null, 2) + '\n');
 const deliveryExample = path.join(ROOT, 'examples', 'handoff-beta7');
 if (fs.existsSync(deliveryExample)) fs.cpSync(deliveryExample, path.join(APP_DIR, 'example-design'), { recursive: true });
+const operatorGuide = path.join(ROOT, 'docs', `OPERATOR_GUIDE_${VERSION.split('-')[1]}_日本語.md`);
+if (fs.existsSync(operatorGuide)) fs.copyFileSync(operatorGuide, path.join(APP_DIR, 'OPERATOR_GUIDE_日本語.md'));
+const editorGuide = path.join(ROOT, 'docs', `EDITOR_GUIDE_${VERSION.split('-')[1]}_日本語.md`);
+if (fs.existsSync(editorGuide)) fs.copyFileSync(editorGuide, path.join(APP_DIR, 'EDITOR_GUIDE_日本語.md'));
 const releaseNotes = path.join(ROOT, 'docs', `RELEASE_NOTES_${VERSION.split('-')[1]}.md`);
 if (fs.existsSync(releaseNotes)) fs.copyFileSync(releaseNotes, path.join(APP_DIR, 'RELEASE_NOTES.md'));
-const handoff = path.join(ROOT, 'docs', 'HANDOFF_beta.7.md');
+const handoff = path.join(ROOT, 'docs', `HANDOFF_${VERSION.split('-')[1]}.md`);
 if (fs.existsSync(handoff)) fs.copyFileSync(handoff, path.join(APP_DIR, 'HANDOFF.md'));
+const trialGuide = path.join(ROOT, 'docs', 'USER_TRIAL_JA_2026-10-14.md');
+if (fs.existsSync(trialGuide)) fs.copyFileSync(trialGuide, path.join(APP_DIR, 'USER_TRIAL_日本語.md'));
 fs.cpSync(path.join(ROOT, 'tools', 'brainflow'), path.join(APP_DIR, 'tools', 'brainflow'), { recursive: true, filter: source => !['.venv', '__pycache__'].includes(path.basename(source)) });
 fs.writeFileSync(path.join(APP_DIR, 'favicon.ico'), Buffer.from(
   'AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e7hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wB72Ff/e9hX/3vYV/97uFf/e9hX/3vYV/////wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8Ae9hX/3vYV/97uFf/e9hX/3vYV/97uFf/////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////w==',
@@ -124,16 +130,33 @@ fs.writeFileSync(path.join(APP_DIR, 'README.txt'), [
 fs.writeFileSync(path.join(APP_DIR, 'start.py'), [
   '#!/usr/bin/env python3',
   'import http.server',
+  'import io',
   'import os',
   'import socketserver',
   'import sys',
   'import webbrowser',
+  'from urllib.parse import urlsplit',
   '',
   'HOST = "127.0.0.1"',
   'START_PORT = 8080',
   'MAX_PORT = 8099',
   '',
   'class Handler(http.server.SimpleHTTPRequestHandler):',
+  '    def send_head(self):',
+  '        if urlsplit(self.path).path.rstrip("/") in ("/admin", "/operator", "/participant"):',
+  '            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html"), "rb") as source:',
+  '                content = source.read().replace(b"<head>", b\'<head><base href="/">\', 1)',
+  '            self.send_response(200)',
+  '            self.send_header("Content-Type", "text/html; charset=utf-8")',
+  '            self.send_header("Content-Length", str(len(content)))',
+  '            self.end_headers()',
+  '            return io.BytesIO(content)',
+  '        return super().send_head()',
+
+  '    def translate_path(self, path):',
+  '        if urlsplit(path).path.rstrip("/") in ("/admin", "/operator", "/participant"):',
+  '            return os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")',
+  '        return super().translate_path(path)',
   '    def end_headers(self):',
   '        self.send_header("Cache-Control", "no-store")',
   '        super().end_headers()',

@@ -17,7 +17,7 @@ export default function OperatorMonitorPage() {
   const [result, setResult] = useState(null);
   useEffect(() => {
     if (!pending) return undefined;
-    const timer = setTimeout(() => { setResult({ ok: false, error: 'No acknowledgement received. Check the experiment before trying again.' }); pendingRef.current = null; setPending(null); }, 5000);
+    const timer = setTimeout(() => { setResult({ ok: false, error: 'No acknowledgement received. Check the experiment before trying again.' }); }, 5000);
     return () => clearTimeout(timer);
   }, [pending]);
   useEffect(() => {
@@ -27,6 +27,9 @@ export default function OperatorMonitorPage() {
     let last = 0, revision = 0;
     connection.onmessage = event => {
       const next = event.data;
+      if (next?.protocol === OPERATOR_PROTOCOL && next.type === 'command-status-result' && pendingRef.current?.id === next.id) {
+        setResult({ ok: false, error: 'The experiment has no recorded acknowledgement. Check the experiment window before continuing.' }); return;
+      }
       if (next?.protocol === OPERATOR_PROTOCOL && next.type === 'command-result') {
         const current = pendingRef.current;
         if (current?.id === next.id) {
@@ -68,10 +71,13 @@ export default function OperatorMonitorPage() {
           <button disabled={stale || Boolean(pending) || snapshot.status !== 'waiting' || !text.trim()} onClick={() => send('skip')}>{t('Skip current step')}</button>
           <button disabled={stale || Boolean(pending) || !['waiting', 'paused'].includes(snapshot.status) || !text.trim()} onClick={() => send('note')}>{t('Save observation')}</button>
         </div>
-        {pending && <p role="status">{t('Waiting for acknowledgement…')}</p>}
+        {pending && <><p role="status">{t('Waiting for acknowledgement…')}</p>{result && <button disabled={stale} onClick={() => channel.postMessage({ protocol: OPERATOR_PROTOCOL, type: 'command-status', id: pending.id })}>{t('Check action result')}</button>}{result && <button onClick={() => { pendingRef.current = null; setPending(null); setResult(null); }}>{t('I checked the experiment; clear waiting')}</button>}</>}
         {result && <p role={result.ok ? 'status' : 'alert'}>{t(result.ok ? 'Action recorded.' : result.error)}</p>}
         {snapshot.recentNotes?.length > 0 && <><h3>{t('Recent observations')}</h3><ul className="pf-event-list">{snapshot.recentNotes.map(note => <li key={note.id}><b>{note.nodeLabel}</b><span>{note.text}</span><small>{new Date(note.timestamp).toLocaleTimeString()}</small></li>)}</ul></>}
       </section>
+      {snapshot.saveError && <p role="alert" className="pf-error">{t('Saving needs attention. Keep the experiment window open and retry saving there.')} {snapshot.saveError}</p>}
+      {snapshot.hostedSaveStatus && <p>{t('Server save')}: {t(snapshot.hostedSaveStatus)}</p>}
+      {snapshot.hostedSaveError && <p role="alert" className="pf-error">{t('Server saving needs attention. Check the experiment window and retry synchronization there.')} {snapshot.hostedSaveError}</p>}
       {snapshot.deviceError && <p className="pf-error" role="alert">{snapshot.deviceError}</p>}
       <div className="pf-signal-grid">{(snapshot.signals || []).map(signal => <article key={`${signal.connectorId}:${signal.id}`} className="pf-panel"><div className="pf-section-heading"><h3>{signal.name}</h3><span className={`pf-tag ${signal.ready && !stale ? 'ready' : 'warning'}`}>{t(stale ? 'stale' : signal.status)}</span></div><b>{Number.isFinite(signal.value) ? signal.value.toFixed(2) : '—'} <small>{signal.unit}</small></b></article>)}</div>
       {snapshot.preview?.times?.length > 0 && Object.entries(snapshot.preview.values || {}).map(([id, values]) => <SignalWaveform key={id} times={snapshot.preview.times} values={values} label={id} />)}

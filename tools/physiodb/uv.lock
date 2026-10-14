@@ -84,7 +84,7 @@ wheels = [
 [[package]]
 name = "physiodb-client"
 version = "0.1.0"
-source = { git = "https://github.com/enjoydolylab/physiodb-client-python.git?rev=d34e07c5cb0010c7e526af70cb361aa085b4c1a8#d34e07c5cb0010c7e526af70cb361aa085b4c1a8" }
+source = { git = "https://github.com/enjoydolylab/physiodb-client-python.git?rev=f844fcf3c55afc5280b812e73ccc53c1ad0bd22c#f844fcf3c55afc5280b812e73ccc53c1ad0bd22c" }
 dependencies = [
     { name = "httpx2" },
     { name = "pydantic" },
@@ -99,7 +99,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "physiodb-client", git = "https://github.com/enjoydolylab/physiodb-client-python.git?rev=d34e07c5cb0010c7e526af70cb361aa085b4c1a8" }]
+requires-dist = [{ name = "physiodb-client", git = "https://github.com/enjoydolylab/physiodb-client-python.git?rev=f844fcf3c55afc5280b812e73ccc53c1ad0bd22c" }]
 
 [[package]]
 name = "pydantic"

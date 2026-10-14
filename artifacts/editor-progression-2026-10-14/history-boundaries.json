@@ -1,0 +1,7 @@
+{
+  "newBranchClearsRedo": true,
+  "strictModeAtomicUndoRedo": true,
+  "sixtyFrameCapScopeBoundary": true,
+  "scopeSwitchClearsRedo": true,
+  "actualAppBatchSaveReload": true
+}

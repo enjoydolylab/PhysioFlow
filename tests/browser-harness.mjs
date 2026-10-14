@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
-import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync } from 'node:fs';
+import { rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 export async function openTestBrowser() {
@@ -15,7 +16,7 @@ export async function openTestBrowser() {
     socket?.close();
     for (const child of children) child.kill('SIGKILL');
     await Promise.all(children.map(child => child.exitCode !== null ? null : new Promise(resolve => child.once('exit', resolve))));
-    rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+    await rm(profile, { recursive: true, force: true, maxRetries: 20, retryDelay: 200 });
   };
   try {
     children.push(spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', String(port)], { stdio: 'ignore' }));

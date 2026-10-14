@@ -24,7 +24,25 @@ export function createPhysioDBServiceClient({ baseUrl = globalThis.location?.ori
     if (!response.ok) throw Object.assign(new Error(body.error?.message || 'Database test failed'), { status: response.status });
     return body.result;
   };
+  const recordingRequest = async (action, input) => {
+    const response = await fetchImpl(new URL(`/v1/physiodb/recordings/${action}`, base), { method: 'POST', cache: 'no-store', headers: { Authorization: `Bearer ${accessToken.trim()}`, 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
+    const body = await response.json();
+    if (!response.ok) throw Object.assign(new Error(body.error?.message || 'Recording synchronization failed'), { status: response.status });
+    return body.recording;
+  };
   return {
+    recordings: async () => (await get('/v1/physiodb/recordings')).recordings,
+    beginRecording: input => recordingRequest('begin', input),
+    appendRecording: input => recordingRequest('append', input),
+    finishRecording: input => recordingRequest('finish', input),
+    runSnapshot: async sessionId => (await get(`/v1/physiodb/runs/${encodeURIComponent(sessionId)}`)).run,
+    runs: async () => (await get('/v1/physiodb/runs')).runs,
+    syncRun: async input => {
+      const response = await fetchImpl(new URL('/v1/physiodb/runs', base), { method: 'POST', cache: 'no-store', headers: { Authorization: `Bearer ${accessToken.trim()}`, 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
+      const body = await response.json();
+      if (!response.ok) throw Object.assign(new Error(body.error?.message || 'Run synchronization failed'), { status: response.status });
+      return body.run;
+    },
     prepareTestRun: input => testRequest('prepare', input),
     completeTestRun: input => testRequest('complete', input),
     bindings: async () => (await get('/v1/physiodb/bindings')).bindings,

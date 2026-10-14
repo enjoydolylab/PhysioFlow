@@ -212,3 +212,9 @@
 收尾修正文档入口与当前/历史状态区分；旧BioDB方案标记历史，补齐原有文档导航遗漏。`node scripts/check-docs.mjs` 通过73个Markdown、249个本地链接、71个源码引用和60个npm命令，`git diff --check` 通过。未提交/发布。正式自动离线入库、跨电脑控制、Windows实机DPI和硬件时间精度仍如最新验收中的边界，不以当前软件验收声称实现。完整原请求的本轮软件重构已经有逐项证据，可结束持续目标；后续新需求按最新状态继续，不重做旧待办。
 
 GitHub同步提交前验证（2026-10-11）：quality:release退出0，477/477单测、build、零警告lint及三个浏览器套件通过；文档检查73个Markdown通过。最新可提交日志保存在 artifacts/github-sync-2026-10-11/。合成CSV验收副本统一LF换行，数据内容不变。私人凭据精确匹配扫描无发现。
+
+## 当前设备条件澄清（2026-10-14）
+
+用户最新说明目前没有正式设备，正式设备相关代码以前辈系统为依据。历史实机验证表述不能作为本轮PF接入的实际设备验收证据。本轮启动 `imgNoBio_long_physiodb_connect_lab-main/src/monitoring` 的实际原代码，强制mock模式验证HTTP快照、PF代理、日语EEG/ECG预览与CSV保存；未执行正式设备或Windows驱动验证。正式刺激视频目录也尚未确认。
+
+最新版DB适配、显式运行同步、完整raw分段同步、按运行回看已在源码实现。优先阅读 docs/DB_SYSTEM_PROGRESSION_2026-10-14.md 与 docs/PHYSIODB_INTEGRATION.md，避免把早期限制误认为当前实现。旧beta.7 Web发布包尚未包含这轮更新。

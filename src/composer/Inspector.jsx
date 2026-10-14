@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { validationIssueTarget } from './validationNavigation.js';
 import GroupBatchEditor from './GroupBatchEditor.jsx';
 import { NodeInspector } from './NodeInspector.jsx';
 import { validationIssueMessage } from './toolbox.js';
@@ -5,6 +7,7 @@ import RepeatSequenceEditor from './RepeatSequenceEditor.jsx';
 import GroupSequenceEditor from './GroupSequenceEditor.jsx';
 
 export default function Inspector({ s, resources }) {
+  const [selectionOnly, setSelectionOnly] = useState(false);
   const {
     t, language, locked, editorMode, migrationReviewRequired,
     protocol, registry, selectedNode, selectedEdge,
@@ -17,7 +20,7 @@ export default function Inspector({ s, resources }) {
     <GroupSequenceEditor protocol={protocol} locked={locked} onChange={next => s.commit(next)} />
     {migrationReviewRequired && <div className="migration-review-warning"><b>Migration review required</b><span>{protocol.legacy.migrationReport.issues.length} item(s) must be checked before this draft can be frozen.</span></div>}
     {selectedNode && <fieldset disabled={locked} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}><NodeInspector deviceConnectors={protocol.deviceConnectors || []} node={selectedNode} definition={registry.get(selectedNode.component.type, selectedNode.component.version)} variables={protocol.variables || []} groups={protocol.graph.groups || []} mode={editorMode} onUpdate={updateSelected} onAssignGroup={actions.assignNodeToGroup} questionnaireLibrary={protocol.questionnaireLibrary || []} onLibraryChange={actions.updateLibrary} assets={protocol.assets || []} resources={resources} stimulusPools={protocol.stimulusPools || []} dataOutputOptions={dataOutputOptions} onCreateGroup={actions.createGroupFromSelection} onCreateStimulusPool={actions.createStimulusPool} onEditParticipantUi={() => { setPreviewNodeId(selectedNode.id); setPreviewEdit(true); }} /></fieldset>}
-    {!locked && selectedNode && <GroupBatchEditor key={`batch:${selectedNode.id}`} protocol={protocol} node={selectedNode} onApply={result => { s.commit(result.protocol); s.setMessage(`Updated ${result.count} nodes in this group`); }} />}
+    {!locked && selectedNode && <GroupBatchEditor key={`batch:${selectedNode.id}`} protocol={protocol} node={selectedNode} onApply={result => { s.commit(result.protocol, { separateUndo: true }); s.setMessage(`Updated ${result.count} nodes in this group`); }} />}
     {selectedEdge && <div className="inspector-card"><b>{selectedEdge.kind} connection</b><code>{selectedEdge.source.portId} → {selectedEdge.target.portId}</code><button className="danger" disabled={locked} onClick={deleteSelection}>Delete connection</button></div>}
     {!selectedNode && !selectedEdge && <p>{t('Select a node or connection to configure it.')}</p>}
     {!locked && selectedNode && !selectedEdge && registry.get(selectedNode.component.type, selectedNode.component.version)?.runtime?.kind === 'participant' && <RepeatSequenceEditor key={[...s.selectedSet()].sort().join(':')} protocol={protocol} registry={registry} selectedIds={[...s.selectedSet()]} onApply={result => { s.commit(result.protocol); s.setSelectedIds(new Set([result.node.id])); setSelectedNodeId(result.node.id); s.setMessage('Repeat sequence created. Edit Maximum iterations to change its total passes.'); }} />}
@@ -25,11 +28,13 @@ export default function Inspector({ s, resources }) {
     {!locked && selectedNode && selectedNode.component.type !== 'core.start' && <button className="danger" onClick={deleteSelection}>Delete node</button>}
     <section className={`composer-validation ${validation.valid ? 'valid' : 'invalid'}`}>
       <h3>{validation.valid ? `✓ ${t('Graph valid')}` : `${validation.errors.length} ${t('blocking issues')}`}</h3>
+      <label><input type="checkbox" checked={selectionOnly} onChange={event => { setSelectionOnly(event.target.checked); setShowAllValidation(false); }} />{t('Only issues for the current selection')}</label>
       {(() => {
-        const allIssues = [...validation.errors, ...validation.warnings];
+        const allIssues = [...validation.errors, ...validation.warnings].filter(issue => !selectionOnly || (selectedNode && (issue.nodeId === selectedNode.id || (protocol.graph.groups || []).some(group => group.id === issue.groupId && group.nodeIds.includes(selectedNode.id)))) || (selectedEdge && issue.edgeId === selectedEdge.id));
         const visible = showAllValidation ? allIssues : allIssues.slice(0, 8);
         return <>
-          {visible.map((issue, index) => <button key={`${issue.code}-${index}`} onClick={() => issue.nodeId && setSelectedNodeId(issue.nodeId)}><b>{issue.code}</b><span>{validationIssueMessage(issue, language, protocol)}</span></button>)}
+          {!allIssues.length && <p role="status">{t(selectionOnly ? 'No issues for the current selection' : 'No validation issues')}</p>}
+          {visible.map((issue, index) => <button key={`${issue.code}-${index}`} disabled={!validationIssueTarget(protocol, issue)} onClick={() => { const target = validationIssueTarget(protocol, issue); s.setSelectedEdgeId(target.edgeId); s.setSelectedIds(new Set(target.nodeId ? [target.nodeId] : [])); setSelectedNodeId(target.nodeId); if (target.nodeId) s.focusNode(target.nodeId); }}><b>{issue.code}</b><span>{validationIssueMessage(issue, language, protocol)}</span></button>)}
           {allIssues.length > 8 && <button className="composer-validation-more" onClick={() => setShowAllValidation(show => !show)}>{showAllValidation ? `− ${t('Show fewer')}` : `+ ${t('Show all')} (${allIssues.length})`}</button>}
         </>;
       })()}

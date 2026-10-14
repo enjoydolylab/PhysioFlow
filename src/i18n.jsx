@@ -527,3 +527,83 @@ Object.assign(dictionaries.ja, { 'Defined steps': '定義ステップ数', 'Comp
 
 Object.assign(dictionaries.zh, { 'Operator observations': '实验员观察与操作记录', 'Observation': '观察备注', 'Recorded during the experiment. These records remain in the complete export.': '实验过程中记录，完整导出包保留这些原始记录。' });
 Object.assign(dictionaries.ja, { 'Operator observations': '実験者の観察・操作記録', 'Observation': '観察メモ', 'Recorded during the experiment. These records remain in the complete export.': '実験中に記録された内容です。完全エクスポートにも原記録が含まれます。' });
+
+Object.assign(dictionaries.zh, {
+  'Save a completed run to PhysioDB': '将已完成运行保存到 PhysioDB',
+  'Choose a saved run to upload its events and answers. Raw signals require a run upload plan; browser previews are not raw recordings.': '选择已保存运行，上传事件和回答。原始信号需通过运行上传文件提供；浏览器预览不能替代原始记录。',
+  'Saved run': '已保存运行', 'Select a completed run': '选择已完成运行', 'Run upload plan': '运行上传文件',
+  'Uploading and verifying…': '正在上传并回读核对…', 'Upload and verify run': '上传并核对运行',
+  'Readback verified': '回读核对通过', 'Readback mismatch': '回读不一致', 'Upload incomplete': '上传未完成', 'Confirmed writes': '已确认写入',
+  'Write outcome uncertain. Keep local data and recheck using the same upload plan.': '写入结果尚不确定。保留本地数据，使用相同上传文件重新核对。',
+  'A completed graph session with its design snapshot is required': '请选择具有设计快照的已完成图流程运行',
+  'Upload plan is missing or too large': '上传文件缺失或过大', 'Invalid run upload plan': '运行上传文件格式无效'
+});
+Object.assign(dictionaries.ja, {
+  'Save a completed run to PhysioDB': '完了した実行を PhysioDB に保存',
+  'Choose a saved run to upload its events and answers. Raw signals require a run upload plan; browser previews are not raw recordings.': '保存済みの実行を選び、イベントと回答を送信します。原信号には実行アップロードファイルが必要です。ブラウザのプレビューは原記録ではありません。',
+  'Saved run': '保存済みの実行', 'Select a completed run': '完了した実行を選択', 'Run upload plan': '実行アップロードファイル',
+  'Uploading and verifying…': '送信・読み戻し確認中…', 'Upload and verify run': '実行を送信して確認',
+  'Readback verified': '読み戻し確認済み', 'Readback mismatch': '読み戻し不一致', 'Upload incomplete': '送信未完了', 'Confirmed writes': '確認済みの書き込み',
+  'Write outcome uncertain. Keep local data and recheck using the same upload plan.': '書き込み結果が不明です。ローカルデータを保持し、同じファイルで再確認してください。',
+  'A completed graph session with its design snapshot is required': '設計スナップショットを持つ完了済みグラフ実行を選んでください',
+  'Upload plan is missing or too large': 'アップロードファイルがないか、サイズが大きすぎます', 'Invalid run upload plan': '実行アップロードファイルの形式が無効です'
+});
+
+Object.assign(dictionaries.zh, {
+ 'Attach the complete raw recording':'附加完整原始记录',
+ 'Choose the original samples.jsonl file. Confirmed batches are retained; selecting the same file and mapping resumes verification without duplicating samples.':'选择原始 samples.jsonl 文件。已确认批次会保留；再次选择相同文件与通道映射即可恢复核对，不重复写入。',
+ 'Recording name':'记录名称', 'Raw recording file':'原始记录文件', 'Channel mapping: row, field, unit':'通道映射：行号、字段名、单位',
+ 'Checking and uploading recording…':'正在检查和上传记录…', 'Upload and verify raw recording':'上传并核对原始记录', 'Stop after the current batch':'当前批次完成后停止',
+ 'Recording transfer cancelled; confirmed data is retained':'传输已停止，已确认数据保留', 'Raw recording is empty':'原始记录为空'
+});
+Object.assign(dictionaries.ja, {
+ 'Attach the complete raw recording':'完全な原記録を追加',
+ 'Choose the original samples.jsonl file. Confirmed batches are retained; selecting the same file and mapping resumes verification without duplicating samples.':'元の samples.jsonl を選んでください。確認済みのバッチは保持されます。同じファイルとチャンネル対応で再開すると重複せず確認できます。',
+ 'Recording name':'記録名', 'Raw recording file':'原記録ファイル', 'Channel mapping: row, field, unit':'チャンネル対応：行番号、フィールド名、単位',
+ 'Checking and uploading recording…':'記録を確認・送信中…', 'Upload and verify raw recording':'原記録を送信して確認', 'Stop after the current batch':'現在のバッチ完了後に停止',
+ 'Recording transfer cancelled; confirmed data is retained':'転送を停止しました。確認済みデータは保持されています', 'Raw recording is empty':'原記録が空です'
+});
+
+Object.assign(dictionaries.zh, { 'Choose a saved run to upload its events and answers, then attach the complete raw recording below.': '选择已保存运行，上传事件和回答，再通过下方入口附加完整原始记录。' });
+Object.assign(dictionaries.ja, { 'Choose a saved run to upload its events and answers, then attach the complete raw recording below.': '保存済みの実行からイベントと回答を送信し、下の項目で完全な原記録を追加します。' });
+
+Object.assign(dictionaries.zh, { 'Filter by run':'按运行筛选', 'All runs':'全部运行', 'Run timeline and answers':'运行时间线与回答', 'Design fingerprint':'设计指纹', 'Superseded response':'已被替代的回答' });
+Object.assign(dictionaries.ja, { 'Filter by run':'実行で絞り込む', 'All runs':'すべての実行', 'Run timeline and answers':'実行のタイムラインと回答', 'Design fingerprint':'設計の識別ハッシュ', 'Superseded response':'置き換えられた回答' });
+
+Object.assign(dictionaries.zh, { 'Timed-out questions':'超时题目', 'None':'无' });
+Object.assign(dictionaries.ja, { 'Timed-out questions':'時間切れの設問', 'None':'なし' });
+
+Object.assign(dictionaries.zh, { 'Find a question or observation':'查找题目或观察备注', 'Answers only':'仅显示回答' });
+Object.assign(dictionaries.ja, { 'Find a question or observation':'設問・観察メモを検索', 'Answers only':'回答のみ表示' });
+
+Object.assign(dictionaries.zh, { 'component_entered':'步骤开始', 'component_completed':'步骤完成', 'response_submitted':'回答提交', 'protocol_started':'实验开始', 'protocol_completed':'实验完成', 'stimulus_assigned':'刺激分配', 'stimulus_presented':'刺激呈现', 'stimulus_ended':'刺激结束', 'session_paused':'实验暂停', 'session_resumed':'实验恢复', 'operator_note':'实验员观察', 'component_retried':'步骤重试', 'component_skipped':'步骤跳过', 'physioflow.response_recorded':'已保存回答' });
+Object.assign(dictionaries.ja, { 'component_entered':'ステップ開始', 'component_completed':'ステップ完了', 'response_submitted':'回答送信', 'protocol_started':'実験開始', 'protocol_completed':'実験完了', 'stimulus_assigned':'刺激の割り当て', 'stimulus_presented':'刺激提示', 'stimulus_ended':'刺激終了', 'session_paused':'実験の一時停止', 'session_resumed':'実験再開', 'operator_note':'実験員の観察', 'component_retried':'ステップ再試行', 'component_skipped':'ステップのスキップ', 'physioflow.response_recorded':'保存済み回答' });
+
+Object.assign(dictionaries.zh, { 'Sample order':'样本顺序' });
+Object.assign(dictionaries.ja, { 'Sample order':'サンプル順' });
+
+Object.assign(dictionaries.zh, { 'Recording contains dropped samples.':'记录中存在丢失的样本。' });
+Object.assign(dictionaries.ja, { 'Recording contains dropped samples.':'記録に欠落サンプルがあります。' });
+
+Object.assign(dictionaries.zh, { 'Export this run':'导出当前运行', 'Retrieving export data…':'正在读取导出数据…', 'Select a run to export all its events, answers and saved design. Search and pagination do not limit the export. Raw signals are exported separately.':'选择一次运行，导出全部事件、回答和保存的设计。搜索和分页不会限制导出内容。原始信号单独导出。', 'Saved design fingerprint does not match this run':'设计指纹与当前运行不一致', 'Database events do not match the selected run design':'数据库事件与所选运行设计不一致' });
+Object.assign(dictionaries.ja, { 'Export this run':'この実行をエクスポート', 'Retrieving export data…':'出力データを読み込み中…', 'Select a run to export all its events, answers and saved design. Search and pagination do not limit the export. Raw signals are exported separately.':'実行を選び、すべてのイベント・回答・保存済み設計を出力します。検索とページ表示は出力内容を制限しません。原信号は別途出力します。', 'Saved design fingerprint does not match this run':'設計の識別ハッシュが実行と一致しません', 'Database events do not match the selected run design':'DB イベントが選択した実行の設計と一致しません' });
+Object.assign(dictionaries.zh, { 'Download data package again':'再次下载数据包', 'Data package generated; download requested. Check your browser downloads.':'已生成数据包并请求下载。请查看浏览器下载列表。' });
+Object.assign(dictionaries.ja, { 'Download data package again':'データパッケージを再ダウンロード', 'Data package generated; download requested. Check your browser downloads.':'データパッケージを作成し、ダウンロードを要求しました。ブラウザのダウンロード一覧を確認してください。' });
+Object.assign(dictionaries.zh, { 'Check action result':'查询操作结果', 'The experiment has no recorded acknowledgement. Check the experiment window before continuing.':'实验窗口没有该操作的确认记录。请先检查实验窗口，再继续。' });
+Object.assign(dictionaries.ja, { 'Check action result':'操作結果を確認', 'The experiment has no recorded acknowledgement. Check the experiment window before continuing.':'実験側に操作の確認記録がありません。続行する前に実験ウィンドウを確認してください。' });
+Object.assign(dictionaries.zh, { 'I checked the experiment; clear waiting':'已检查实验窗口，解除等待' });
+Object.assign(dictionaries.ja, { 'I checked the experiment; clear waiting':'実験側を確認済み・待機を解除' });
+Object.assign(dictionaries.zh, { 'The experiment step has changed. Check the current step before trying again.':'实验步骤已变化。请确认当前步骤后再操作。' });
+Object.assign(dictionaries.ja, { 'The experiment step has changed. Check the current step before trying again.':'実験のステップが変わりました。現在のステップを確認してから操作してください。' });
+Object.assign(dictionaries.zh, { 'Server save':'服务端保存', 'Saving needs attention. Keep the experiment window open and retry saving there.':'保存需要处理。请保持实验窗口打开，并在该窗口重试保存。', 'Server saving needs attention. Check the experiment window and retry synchronization there.':'服务端保存需要处理。请检查实验窗口，并在该窗口重试同步。' });
+Object.assign(dictionaries.ja, { 'Server save':'サーバ保存', 'Saving needs attention. Keep the experiment window open and retry saving there.':'保存の確認が必要です。実験ウィンドウを開いたまま、そこで保存を再試行してください。', 'Server saving needs attention. Check the experiment window and retry synchronization there.':'サーバ保存の確認が必要です。実験ウィンドウを確認し、そこで同期を再試行してください。' });
+Object.assign(dictionaries.zh, { 'Only issues for the current selection':'仅显示当前选择的问题', 'No issues for the current selection':'当前选择没有校验问题', 'No validation issues':'没有校验问题' });
+Object.assign(dictionaries.ja, { 'Only issues for the current selection':'選択中の項目の問題のみ表示', 'No issues for the current selection':'選択中の項目に検証の問題はありません', 'No validation issues':'検証の問題はありません' });
+Object.assign(dictionaries.zh, { 'Trials':'试次数', 'Trials are balanced across four ink colors.':'试次均衡分配到四种墨色。', 'Go ratio':'Go 比例', 'Practice block':'练习块', 'ITI jitter':'试次间隔抖动', 'Main trials':'正式试次', 'Practice trials':'练习试次', 'Creating…':'正在创建…', 'Use 4–64 trials in multiples of 4.':'请输入4–64之间的4的倍数。', 'Use 10–100 trials in multiples of 10.':'请输入10–100之间的10的倍数。', 'Use an ITI jitter from 0 to 1,000 ms.':'间隔抖动须为0–1000毫秒。', 'Use a Go ratio from 50% to 90%.':'Go比例须为50%–90%。' });
+Object.assign(dictionaries.ja, { 'Trials':'試行数', 'Trials are balanced across four ink colors.':'4色のインク色に試行を均等配分します。', 'Go ratio':'Go の割合', 'Practice block':'練習ブロック', 'ITI jitter':'試行間隔のジッター', 'Main trials':'本試行', 'Practice trials':'練習試行', 'Creating…':'作成中…', 'Use 4–64 trials in multiples of 4.':'4～64の範囲で、4の倍数を入力してください。', 'Use 10–100 trials in multiples of 10.':'10～100の範囲で、10の倍数を入力してください。', 'Use an ITI jitter from 0 to 1,000 ms.':'ジッターは0～1000 msにしてください。', 'Use a Go ratio from 50% to 90%.':'Go の割合は50%～90%にしてください。' });
+Object.assign(dictionaries.zh, { 'Emotion':'情绪', 'Emotion template configuration':'情绪模板配置', 'Five conditions with SAM and emotion-label questions. Add a video for each condition before running.':'五个条件，包含SAM与情绪标签问卷。运行前须为每个条件添加视频。', 'Fixation duration (ms)':'注视时长（毫秒）', 'Recovery duration (ms)':'恢复间隔（毫秒）', 'Random seed':'随机种子', 'Condition order':'条件顺序', 'Fixed order':'固定顺序', 'Random order':'随机顺序', 'Latin square':'拉丁方', 'Use whole milliseconds from 0 to 3,600,000.':'请输入0–3600000之间的整数毫秒。', 'Choose a supported condition order.':'请选择支持的条件顺序。', 'Use a whole seed from 0 to 2,147,483,647.':'种子须为0–2147483647之间的整数。' });
+Object.assign(dictionaries.ja, { 'Emotion':'感情', 'Emotion template configuration':'感情テンプレート設定', 'Five conditions with SAM and emotion-label questions. Add a video for each condition before running.':'5条件にSAMと感情ラベルの質問を含みます。実行前に各条件の動画を追加してください。', 'Fixation duration (ms)':'注視時間（ms）', 'Recovery duration (ms)':'回復時間（ms）', 'Random seed':'乱数シード', 'Condition order':'条件の順序', 'Fixed order':'固定順序', 'Random order':'ランダム順序', 'Latin square':'ラテン方格', 'Use whole milliseconds from 0 to 3,600,000.':'0～3600000の整数ミリ秒を入力してください。', 'Choose a supported condition order.':'対応する条件順序を選択してください。', 'Use a whole seed from 0 to 2,147,483,647.':'0～2147483647の整数シードを入力してください。' });
+Object.assign(dictionaries.zh, { 'Apply content within group':'在组内批量应用', 'Select the nodes to update':'选择要更新的节点', 'Clear selection':'清空选择', 'Apply to selected nodes':'应用到所选节点', 'Enter a valid wait duration before applying it to other nodes.':'请先填写合法等待时长，再应用到其他节点。' });
+Object.assign(dictionaries.ja, { 'Apply content within group':'グループ内にまとめて適用', 'Select the nodes to update':'更新するノードを選択', 'Clear selection':'選択を解除', 'Apply to selected nodes':'選択ノードに適用', 'Enter a valid wait duration before applying it to other nodes.':'他のノードに適用する前に、有効な待機時間を入力してください。' });
+Object.assign(dictionaries.zh, { 'Copy from':'复制来源', 'Wait duration':'等待时长', 'Questionnaire content':'问卷内容', 'Screen appearance':'界面外观', 'This questionnaire has no type tag. Select its targets explicitly.':'此问卷没有类型标签，请明确勾选目标。', 'Only the wait duration is copied. Display content is preserved.':'只复制等待时长，保留显示内容。', 'Question IDs remain specific to each target. Only matching questionnaire kinds are included.':'保留各目标的题目ID，只包含相同类型的问卷。', 'Each target keeps its own stimulus, timing and pool.':'每个目标保留自己的刺激、时序和素材池。', 'Other groups are unchanged. Undo restores the whole batch.':'其他组不受影响。撤销可恢复整个批次。' });
+Object.assign(dictionaries.ja, { 'Copy from':'コピー元', 'Wait duration':'待機時間', 'Questionnaire content':'質問票の内容', 'Screen appearance':'画面の外観', 'This questionnaire has no type tag. Select its targets explicitly.':'質問票に種類タグがありません。適用先を明示的に選択してください。', 'Only the wait duration is copied. Display content is preserved.':'待機時間のみをコピーし、表示内容を保持します。', 'Question IDs remain specific to each target. Only matching questionnaire kinds are included.':'各適用先の質問IDを保持します。同じ種類の質問票のみを対象にします。', 'Each target keeps its own stimulus, timing and pool.':'各適用先の刺激・時間設定・素材プールを保持します。', 'Other groups are unchanged. Undo restores the whole batch.':'他のグループは変更しません。元に戻す操作で一括変更を取り消せます。' });

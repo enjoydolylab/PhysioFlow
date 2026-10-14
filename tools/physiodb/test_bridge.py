@@ -12,6 +12,19 @@ ID = '01999999-9999-7999-8999-999999999999'
 
 
 class BridgeTests(unittest.TestCase):
+    def test_current_participant_code_contract(self):
+        def handler(request):
+            body = json.loads(request.content)
+            self.assertEqual(body, {"code": "PF-SYNTHETIC-01", "metadata": {"physioflow": {"schema_version": 1}}})
+            return httpx2.Response(201, json={"id": ID, "research_id": ID, **body})
+
+        async def scenario():
+            async with ApiClient('https://db.test/api/v1', token='test', transport=httpx2.MockTransport(handler)) as client:
+                result = encode(await dispatch(client, 'createParticipant', {"researchId": ID, "participant": {"code": "PF-SYNTHETIC-01", "metadata": {"physioflow": {"schema_version": 1}}}}))
+                self.assertEqual(result['code'], 'PF-SYNTHETIC-01')
+                self.assertNotIn('email', result)
+        asyncio.run(scenario())
+
     def test_official_sdk_paths_models_and_compressed_samples(self):
         seen = []
 

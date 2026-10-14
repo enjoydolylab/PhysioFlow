@@ -1,3 +1,5 @@
+import PhysioDBRunReview from './PhysioDBRunReview.jsx';
+import { physioDBRunId } from './physioDBReview.js';
 import { useEffect, useRef, useState } from 'react';
 import { setPhysioDBConnection } from './physioDBConnection.js';
 import { createPhysioDBServiceClient } from './physioDBServiceClient.js';
@@ -6,6 +8,7 @@ import DeviceMonitorPanel from './DeviceMonitorPanel.jsx';
 import PhysioDBSessionBinding from './PhysioDBSessionBinding.jsx';
 import PhysioDBAnalysis from './PhysioDBAnalysis.jsx';
 import PhysioDBUpload from './PhysioDBUpload.jsx';
+import PhysioDBRunSync from './PhysioDBRunSync.jsx';
 import './admin-monitor.css';
 
 export default function AdminMonitorPage() {
@@ -19,7 +22,7 @@ export default function AdminMonitorPage() {
   const [experiments, setExperiments] = useState([]), [participants, setParticipants] = useState([]);
   const [experimentId, setExperimentId] = useState(''), [participantId, setParticipantId] = useState('');
   const [streams, setStreams] = useState([]), [events, setEvents] = useState([]);
-  const [streamId, setStreamId] = useState('');
+  const [streamId, setStreamId] = useState(''), [runId, setRunId] = useState('');
   const [uploadOpen, setUploadOpen] = useState(false);
   const [updated, setUpdated] = useState('');
   const [error, setError] = useState(''), [busy, setBusy] = useState(false);
@@ -31,7 +34,7 @@ export default function AdminMonitorPage() {
     catch (failure) { if (current === generation.current) setError(failure.message); }
     finally { if (current === generation.current) setBusy(false); }
   };
-  const resetRecords = () => { setStreams([]); setEvents([]); setStreamId(''); setUploadOpen(false); setUpdated(''); };
+  const resetRecords = () => { setStreams([]); setEvents([]); setStreamId(''); setRunId(''); setUploadOpen(false); setUpdated(''); };
   const disconnect = () => { setPhysioDBConnection(null); generation.current += 1; setClient(null); setMe(null); setToken(''); setResearches([]); setResearchId(''); setExperiments([]); setParticipants([]); setExperimentId(''); setParticipantId(''); resetRecords(); setError(''); setBusy(false); };
   const connect = () => run(async active => {
     const next = createPhysioDBServiceClient({ baseUrl, accessToken: token });
@@ -59,6 +62,8 @@ export default function AdminMonitorPage() {
     load(); return () => { stopped = true; };
   }, [client, experimentId, participantId]);
   const refresh = () => run(async active => { const [a, b] = await Promise.all([client.streams(experimentId, participantId), client.events(experimentId, participantId)]); if (active()) { setStreams(a); setEvents(b); setUpdated(new Date().toLocaleString()); } });
+  const runIds = [...new Set([...streams, ...events].map(physioDBRunId).filter(Boolean))];
+  const visibleStreams = streams.filter(s => !s.deleted_at && (!runId || physioDBRunId(s) === runId));
   const stream = streams.find(s => s.id === streamId);
   return <main className="admin-monitor"><section>
     <header className="pf-admin-header"><a href="/">pf. <span>PhysioFlow</span></a><div><DarkModeToggle /><LanguageToggle /></div></header>
@@ -74,14 +79,16 @@ export default function AdminMonitorPage() {
       {tab === 'signals' && <DeviceMonitorPanel client={client} />}
       {tab === 'data' && <>
         <section className="pf-panel"><div className="pf-section-heading"><h2>{t('Choose a recording')}</h2><a className="pf-muted" href="https://physiodb.jmessk.net" target="_blank" rel="noreferrer">PhysioDB Console ↗</a></div>
-          <fieldset disabled={busy} className="pf-recording-selectors"><label>{t('Research')}<select value={researchId} onChange={e => selectResearch(e.target.value)}><option value="">{t('Select research')}</option>{researches.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select></label><label>{t('Experiment')}<select value={experimentId} onChange={e => { setExperimentId(e.target.value); resetRecords(); }}><option value="">{t('Select experiment')}</option>{experiments.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select></label><label>{t('Participant')}<select value={participantId} onChange={e => { setParticipantId(e.target.value); resetRecords(); }}><option value="">{t('Select participant')}</option>{participants.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select></label></fieldset>
+          <fieldset disabled={busy} className="pf-recording-selectors"><label>{t('Research')}<select value={researchId} onChange={e => selectResearch(e.target.value)}><option value="">{t('Select research')}</option>{researches.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select></label><label>{t('Experiment')}<select value={experimentId} onChange={e => { setExperimentId(e.target.value); resetRecords(); }}><option value="">{t('Select experiment')}</option>{experiments.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select></label><label>{t('Participant')}<select value={participantId} onChange={e => { setParticipantId(e.target.value); resetRecords(); }}><option value="">{t('Select participant')}</option>{participants.map(r => <option key={r.id} value={r.id}>{r.code}</option>)}</select></label></fieldset>
           <div className="pf-analysis-toolbar"><span className="pf-muted">{busy ? t('Loading…') : updated ? `${t('Updated')} ${updated}` : t('Select an experiment and participant to see recordings.')}</span><button disabled={busy || !experimentId || !participantId} onClick={refresh}>{t('Refresh')}</button></div>
-          <div className="pf-stream-list">{streams.filter(s => !s.deleted_at).map(s => <button key={s.id} className={streamId === s.id ? 'selected' : ''} onClick={() => { setStreamId(s.id); setUploadOpen(false); }}><div><b>{s.name}</b><small>{s.fields.length} {t('fields')}</small></div><span>{s.sample_count.toLocaleString()} {t('samples')} →</span></button>)}</div>
+          {!!runIds.length && <label>{t('Filter by run')}<select value={runId} onChange={e => { setRunId(e.target.value); setStreamId(''); setUploadOpen(false); }}><option value="">{t('All runs')}</option>{runIds.map(id => <option key={id} value={id}>{id}</option>)}</select></label>}
+          <div className="pf-stream-list">{visibleStreams.map(s => <button key={s.id} className={streamId === s.id ? 'selected' : ''} onClick={() => { setStreamId(s.id); setUploadOpen(false); }}><div><b>{s.name}</b><small>{s.fields.length} {t('fields')}</small></div><span>{s.sample_count.toLocaleString()} {t('samples')} →</span></button>)}</div>
           {updated && !streams.length && <p className="pf-empty">{t('No recordings for this participant yet.')}</p>}
         </section>
+        {experimentId && participantId && <PhysioDBRunSync key={`${researchId}:${experimentId}:${participantId}`} client={client} destination={{ researchId, experimentId, participantId }} onUploaded={refresh} />}
         {stream && <PhysioDBSessionBinding client={client} destination={{ researchId, experimentId, participantId, streamId, streamName: stream.name }} />}
         {stream && <PhysioDBAnalysis key={stream.id} stream={stream} client={client} />}
-        {!!events.length && <details className="pf-panel"><summary>{t('Experiment events')} · {events.length}</summary><ul className="pf-event-list">{[...events].sort((a, b) => Date.parse(a.started_at) - Date.parse(b.started_at)).slice(-50).map(e => <li key={e.id}><time>{new Date(e.started_at).toLocaleString()}</time><b>{e.event_type}</b><span>{e.description}</span></li>)}</ul></details>}
+        {!!events.length && <PhysioDBRunReview key={`${experimentId}:${participantId}:${runId}`} events={events} runId={runId} client={client} />}
         {stream && <section className="pf-panel"><button onClick={() => setUploadOpen(!uploadOpen)}>{t(uploadOpen ? 'Close upload' : 'Upload raw recording')} {uploadOpen ? '−' : '+'}</button>{uploadOpen && <PhysioDBUpload key={`${experimentId}:${participantId}:${streamId}`} client={client} destination={{ experimentId, participantId, streamId }} />}</section>}
       </>}
     </>}

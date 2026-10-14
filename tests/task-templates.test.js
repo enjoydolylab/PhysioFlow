@@ -93,3 +93,13 @@ test('formal validation rejects malformed cognitive-task trials', () => {
   assert.ok(result.errors.some(error => error.code === 'config.cognitive_task_trial_id_invalid'));
   assert.ok(result.errors.some(error => error.code === 'config.stroop_trial_invalid'));
 });
+
+test('successive default templates have distinct project identities and current creation time',()=>{
+ const before=Date.now();
+ const templates=[createEmotionGraphTemplate(),createEmotionGraphTemplate(),createStroopGraphTemplate(),createGonogoGraphTemplate()];
+ assert.equal(new Set(templates.map(p=>p.protocolId)).size,4);
+ for(const p of templates)assert.ok(Date.parse(p.audit.createdAt)>=before);
+ const options=()=>({idFactory:createSequentialIdFactory(),now:'2026-01-01T00:00:00.000Z'});
+ const a=createEmotionGraphTemplate(options()),b=createEmotionGraphTemplate(options());
+ assert.deepEqual(a.graph.nodes.map(n=>n.id),b.graph.nodes.map(n=>n.id));assert.equal(a.protocolId,b.protocolId);assert.equal(a.audit.createdAt,'2026-01-01T00:00:00.000Z');
+});

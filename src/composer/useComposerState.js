@@ -131,7 +131,7 @@ export function useComposerState({ protocol, onChange }) {
 
   const locked = protocol.version?.status === 'frozen';
   const migrationReviewRequired = protocol.legacy?.migrationReport?.formalRunAllowed === false;
-  const commit = next => { if (!locked) onChange(next, true); };
+  const commit = (next, { separateUndo = false } = {}) => { if (!locked) onChange(next, true, separateUndo); };
   const openCodeView = () => { const serialized = serializeProtocolGraph(protocol, 2); setCodeText(serialized); setCodeOriginal(serialized); setCodeError(''); setCodeView(true); };
   const closeCodeView = () => {
     if (codeText !== codeOriginal && !window.confirm('Discard unapplied JSON changes?')) return false;
@@ -494,6 +494,7 @@ export function useComposerState({ protocol, onChange }) {
     setPan({ x: cx - (node.layout.x + 94) * zoom, y: cy - (node.layout.y + 56) * zoom });
     setSelectedIds(new Set([id]));
     setSelectedNodeId(id);
+    setSelectedEdgeId(null);
     setSearchQuery('');
   };
 

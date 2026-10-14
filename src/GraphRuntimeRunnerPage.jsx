@@ -1,3 +1,4 @@
+import { operatorSaveSummary } from './operator/saveSummary.js';
 import { useT } from './i18n';
 import { experimentPreflight } from './operator/experimentPreflight.js';
 import { signalReadiness, canStartWithSignals } from './operator/signalReadiness.js';
@@ -219,13 +220,13 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
   const checkSignals = () => signalReadiness(deviceEventsRef.current.filter(event => event.timestampEpochMs >= deviceCheckedAt.current), signalChannels);
   const monitorUrl = useRuntimeMonitor(participantOnly ? null : data.session.session_id, () => {
     const preview = getBrainFlowWindow();
-    return { protocolName: protocolNameOf(protocol), status: runtimeRef.current.status, nodeId: runtimeRef.current.currentNodeId, attempt: runtimeRef.current.attempts?.[runtimeRef.current.currentNodeId] || 0, skipped: runtimeRef.current.skippedNodeIds.length, recentNotes: events.filter(event => event.eventType === 'operator_note').slice(-10).map(event => ({ id: event.eventId, text: event.payload.text, nodeLabel: nodes.get(event.nodeId)?.label || '', timestamp: event.timestampIso })), nodeLabel: nodes.get(runtimeRef.current.currentNodeId)?.label || '', completed: runtimeRef.current.completedNodeIds.length, total: executableCount, saveStatus: saved === true ? 'saved' : recoverySave.status, deviceError: deviceStatus?.error || deviceStatus?.markerError || '', signals: checkSignals().map(({ values: _values, ...signal }) => signal), preview: { times: preview.times.slice(-400).map(time => time * 1000), values: Object.fromEntries(Object.entries(preview.values).map(([id, values]) => [id, values.slice(-400)])) } };
+    return { protocolName: protocolNameOf(protocol), status: runtimeRef.current.status, nodeId: runtimeRef.current.currentNodeId, attempt: runtimeRef.current.attempts?.[runtimeRef.current.currentNodeId] || 0, skipped: runtimeRef.current.skippedNodeIds.length, recentNotes: events.filter(event => event.eventType === 'operator_note').slice(-10).map(event => ({ id: event.eventId, text: event.payload.text, nodeLabel: nodes.get(event.nodeId)?.label || '', timestamp: event.timestampIso })), nodeLabel: nodes.get(runtimeRef.current.currentNodeId)?.label || '', completed: runtimeRef.current.completedNodeIds.length, total: executableCount, ...operatorSaveSummary({ runtimeStatus: runtimeRef.current.status, saved, recoverySave, hostedStatus }), deviceError: deviceStatus?.error || deviceStatus?.markerError || '', signals: checkSignals().map(({ values: _values, ...signal }) => signal), preview: { times: preview.times.slice(-400).map(time => time * 1000), values: Object.fromEntries(Object.entries(preview.values).map(([id, values]) => [id, values.slice(-400)])) } };
   }, (command, details) => {
     const active = runtimeRef.current;
+    if (details.nodeId !== active.currentNodeId || details.attempt !== (active.attempts?.[active.currentNodeId] || 0)) return false;
     if (command === 'pause' && active.status === 'waiting') { apply(pauseRuntime(active, protocol, services.current)); return true; }
     if (command === 'resume' && active.status === 'paused' && mediaReady && (!deviceRequired || (deviceStatus?.connected === true && checkPreflight().every(check => check.ready)))) { apply(resumeRuntime(active, protocol, services.current)); return true; }
     if (!started || !['waiting', 'paused'].includes(active.status)) return false;
-    if (details.nodeId !== active.currentNodeId || details.attempt !== (active.attempts?.[active.currentNodeId] || 0)) return false;
     if (command === 'note') { apply(recordRuntimeEvent(active, protocol, services.current, 'operator_note', { payload: { text: details.text, source: 'operator-monitor' } })); return true; }
     if (active.status !== 'waiting' || !mediaReady) return false;
     if (command === 'retry') { apply(retryCurrentNode(active, protocol, services.current, details.text)); return true; }

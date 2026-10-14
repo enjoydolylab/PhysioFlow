@@ -1,8 +1,8 @@
 # PhysioDB 官方客户端接入
 
-更新：2026-10-04（Asia/Tokyo）。
+更新：2026-10-14（Asia/Tokyo）。
 
-PF 浏览器通过 `/v1/physiodb/rpc` 调用 PF Hosted 服务；Hosted 使用 `uv` 运行官方 Python `ApiClient`。SDK 固定到 `d34e07c5cb0010c7e526af70cb361aa085b4c1a8`，依赖记录在 `tools/physiodb/uv.lock`。不复制 SDK，也不在浏览器配置 PhysioDB token。
+PF 浏览器通过 `/v1/physiodb/rpc` 调用 PF Hosted 服务；Hosted 使用 `uv` 运行官方 Python `ApiClient`。SDK 固定到 `f844fcf3c55afc5280b812e73ccc53c1ad0bd22c`，依赖记录在 `tools/physiodb/uv.lock`。不复制 SDK，也不在浏览器配置 PhysioDB token。
 
 ## 安装与配置
 
@@ -53,7 +53,7 @@ uv run --frozen --project tools/physiodb python -m unittest discover -s tools/ph
 
 官方 SDK 的网络请求和模型校验已使用本地测试 HTTP / MockTransport 验证。真实测试实例 `/api/v1/me` 匿名 GET 返回 401；随后使用用户提供的真实 API token，通过 PF Node 桥接和官方 SDK 完成认证及目录读取：账户已启用、角色 member，可访问 2 个研究、2 个实验、3 位参与者和 5 条数据流，样本计数合计 601,337。本轮另对示例 CPU 流读取了 9 个原始样本并完成统计；没有写入数据。凭据已配置于 Git 忽略、权限 600 的本机配置文件，常驻本机实验台已接通。
 
-PF 会话仍由原 Hosted 服务保存；本次提供独立数据库监控和显式原始记录上传。PF protocol/session 与 PhysioDB 对象的持久绑定、运行事件自动同步、离线补传、跨电脑实时监控尚待实现。当前已有独立双窗口监控及有限时间窗的数据回读图表。
+PF 会话仍由原 Hosted 服务保存；本次提供独立数据库监控和显式原始记录上传。已提供 PF session 与 PhysioDB 目标的持久绑定及完成后显式逐事件同步；自动实时同步、离线自动补传、跨电脑实时监控尚待实现。当前已有独立双窗口监控及有限时间窗的数据回读图表。
 
 官方来源：[客户端](https://github.com/enjoydolylab/physiodb-client-python)、[服务端文档](https://github.com/enjoydolylab/physiodb/tree/main/docs)。
 
@@ -83,3 +83,43 @@ npm run desk
 无设备样本时使用 500 点模拟信号验证真实 API。有设备时只上传数字预览，BrainFlow 按实际采集时间记录；不等同完整 raw 入库。最多 5 分钟、20000 样本、17 流及1000运行事件。运行事件归入单个 `physioflow.test_run` DB Event 的 data.events，严格核对内容与顺序。
 
 新增官方 SDK createResearch/createExperiment/createParticipant 操作，无删除或权限管理。服务端测试日志在 stateFile 后缀 `.physiodb-test-runs.json`，写入前记录 intent；未知结果只能先回读核对，不盲目重写。关闭/中断会保留独立测试记录。真实 API 和原 PF 浏览器流程均已通过合成测试；正式入库仍使用原有显式上传流程。
+
+## 新版兼容性推进（2026-10-14）
+
+对照服务端 `a9a83d1`，参与者改为 Research 内唯一 `code`，不再提交或显示 `name/email`。隔离测试运行使用 `pf-test-<runId>`；恢复未知创建结果时也按 code 查询。官方 SDK 已更新并锁定到上述提交。
+
+本地验证包括参与者创建请求与响应、gzip 样本、24 项 Node DB 测试，以及全量测试、构建和 lint。它们不代表当前线上实例已经部署相同版本；真实服务器闭环仍需单独验证。
+
+## 正式运行显式同步（2026-10-14）
+
+管理页选择 Research、Experiment 和参与者后，可选择已完成的本地 Graph session，点击上传并核对运行。会话携带自己的设计快照，事件逐条入库；独立响应记录作为 `physioflow.response_recorded` 事件保存，包括被替代的回答。参与者数据库目标由管理员选择，不根据姓名自动匹配。
+
+也可导入运行上传 JSON：`sessionId`、`protocol`（含保存版本）、`destination`、`streams`、`events`。Stream 包含 `name`、固定 `fields`、`samples`、可选 `metadata`；样本必须是真实录制转换结果，禁止用浏览器数字预览代替 raw。目标采用界面当前选择，上传前显示运行、事件数和样本数。当前单次文件上限 9 MiB、100000 样本、32 流、10000 事件，超出需要后续的完整录制分段同步；既有 raw 独立上传功能仍保留。
+
+`POST /v1/physiodb/runs` 显式同步，`GET` 获取当前管理员/租户的状态。服务端 `.physiodb-runs.json` 原子保存设计快照、上传内容与操作日志，权限 600。样本每批 500 点；未知写入结果只读回核对，不自动重复写入。重新提交相同文件可恢复已确认部分；更改设计、目标、已有事件或样本会冲突；可在原有数据流列表之后追加新的流，用于事件先入库后补充原始信号。状态核对时间表示上次回读结果，并非持续监控。
+
+本机隔离的最新版 DB（a9a83d1）与 TimescaleDB 完成真实 HTTP/SDK 测试：短 Graph 流程 1200 个模拟样本、10 个事件，重复运行隔离、丢失已提交响应后恢复、重启后幂等均通过。日语浏览器另验证本地会话答案和完整运行文件上传。未访问生产研究数据；此证据不是实际设备或真人试用结果。
+
+复现入口：`scripts/verify-physiodb-live.mjs` 与 `tests/browser-physiodb-runs.mjs`，仅连接 127.0.0.1:18080，并要求 `PF_VALIDATION_CREDENTIAL` 指向隔离凭据文件。凭据不写入报告。
+
+## 完整 raw 分段同步（2026-10-14）
+
+管理页的“附加完整原始记录”选择已核对运行、samples.jsonl、记录名称与明确的通道映射（行号、字段名、单位）。客户端逐行检查整份文件的序号和微秒时间连续性、计算文件 SHA-256，再按500点发送；保留原始值与顺序，不使用预览数据或插值。原始文件不受运行 JSON 的9MiB/100000点限制。
+
+接口 `/v1/physiodb/recordings` 列出当前管理员/租户的记录；`/begin`、`/append`、`/finish` 均 POST。目标与设计溯源来自已核对运行，客户端不能另外指定数据库目标。服务端每批最多5000点，固定源文件哈希、字段、总数和时间边界。`.physiodb-recordings.json` 原子持久保存：确认批次仅保留哈希、范围、数量；待核对批次暂存样本。未知写入只回读，不重写；确认前不前进offset。结束时逐段重读，并检查全流sample_count。
+
+停止在当前请求返回后生效，保留已确认数据。重新选择同一文件、记录名和映射可跳过已确认批次、核对不确定批次并继续；变更源文件或映射会被拒绝。管理界面重新打开仍可查看持久状态。
+
+真实隔离 TimescaleDB 验证：52,883,924字节合成raw、100501点、402秒、21次写入，提交响应丢失后重启恢复与全量回读通过；确认日志4586字节。证据 `artifacts/db-progression-2026-10-14/live/long-result-1791910715271.json`。日语浏览器验证10001点JSONL途中停止并续传，最终回读通过。所有这些信号均为合成数据，不能代替真实设备与真人试用。
+
+## 按运行回看与前辈采集代码（2026-10-14）
+
+管理页按run_id筛选数据流和事件，分页浏览完整时间线，可只看回答并搜索题目或备注。`GET /v1/physiodb/runs/<sessionId>` 返回当前管理员/租户的设计快照、版本和核对报告；事件与样本仍从DB读取，不以缓存报告冒充实时回读。保存的设计恢复节点/题目标签，回答零值、被替代回答与超时元记录均保留。
+
+当前用户没有正式设备。已有前辈采集代码支持 OpenBCI GUI UDP 与 myBeat SDK；PF仅复用其快照接口，不接管其采集控制。`tests/browser-koguchi-monitor.mjs` 启动实际原代码的强制mock模式，验证四路EEG、ECG预览、模拟标识和本地CSV保存。监控快照缺少可靠原始采样时刻，波形以样本顺序显示；myBeat ECG用源值显示，不推算心率或校准电压。前辈UDP监控CSV使用主机接收时间，不能视为OpenBCI原始板载时间记录；正式分析仍需保管GUI原记录和marker。
+
+### 按运行导出研究数据（2026-10-14）
+
+管理侧选择一次运行后，可在「実行タイムラインと回答」面板点击「この実行をエクスポート」。导出前重新读取该运行保存的设计及目标参与者的 DB 事件，不受当前搜索、仅回答筛选或分页限制。ZIP 包含 events.jsonl、events.csv、responses.json、responses.csv、protocol.json、manifest.json；CSV 带 UTF-8 BOM，保留数值零及负值，文本公式前缀转义。回答 JSON 保留原记录，包括替换历史。manifest 记录目标、设计来源、读取时间、数量及各数据文件 SHA-256；lastVerification 是此前同步验证报告，不代表此次重新验证全部原信号。原信号继续从信号导出功能单独取得。
+
+导出检查保存设计指纹、事件设计版本、唯一 DB ID 和运行序号；异常时显示错误，不生成混合设计的分析包。此功能在源码及本机构建中已加入；此前交付 ZIP 不包含本次增量，重新打包后方可分发。

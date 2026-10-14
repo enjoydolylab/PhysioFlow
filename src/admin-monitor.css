@@ -80,3 +80,6 @@
 .pf-waveform figcaption { flex-wrap:wrap; gap:8px; }
 .pf-signal-grid, .pf-metric-grid { grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr)); }
 @media (max-width:400px) { .pf-admin-header, .pf-analysis-toolbar { align-items:stretch; flex-direction:column; } }
+
+.pf-run-selectors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 720px) { .pf-run-selectors { grid-template-columns: 1fr; } }

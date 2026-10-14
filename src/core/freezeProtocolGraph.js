@@ -7,6 +7,10 @@ import { validateQuestionnaire } from './questionnaireModel.js';
 import { balancedHalfAssignments } from './stimulusRandomization.js';
 import { prepareGroupSequence } from './groupSequence.js';
 
+function validDuration(value) {
+  return (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')) && Number.isFinite(Number(value)) && Number(value) >= 0;
+}
+
 function hashableProtocol(protocol) {
   const next = structuredClone(protocol);
   delete next.freeze;
@@ -162,10 +166,10 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
       errors.push({ code: 'config.fixation_shape_invalid', message: `${node.label} has an unsupported fixation shape`, path: `${path}.shape`, nodeId: node.id });
     }
     const fixedDuration = node.config?.completion?.mode === 'fixed' ? node.config?.completion?.durationMs : undefined;
-    if (fixedDuration !== undefined && (!Number.isFinite(Number(fixedDuration)) || Number(fixedDuration) < 0)) {
+    if (node.config?.completion?.mode === 'fixed' && !validDuration(fixedDuration)) {
       errors.push({ code: 'config.duration_invalid', message: `${node.label} needs a non-negative fixed duration`, path, nodeId: node.id });
     }
-    if (node.component?.type === 'timing.wait' && (!Number.isFinite(Number(node.config?.durationMs)) || Number(node.config.durationMs) < 0)) {
+    if (node.component?.type === 'timing.wait' && !validDuration(node.config?.durationMs)) {
       errors.push({ code: 'config.wait_duration_invalid', message: `${node.label} needs a non-negative wait duration`, path, nodeId: node.id });
     }
     if (node.component?.type === 'input.rating' && !discreteScaleValues(node.config?.min, node.config?.max)) {

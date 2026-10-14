@@ -1,0 +1,8 @@
+{
+  "actualApp": true,
+  "twoBatchesInsideThrottleWindow": true,
+  "separateUndoRedo": true,
+  "newBranchClearsRedo": true,
+  "persistenceAndReload": true,
+  "unselectedTargetUnchanged": true
+}

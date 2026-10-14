@@ -38,7 +38,7 @@ export async function createPhysioDBTestRuns({ filePath, bridge }) {
     const unique = list => { const matches = list.filter(row => row.name === name); if (matches.length > 1) throw fail('Duplicate test targets require operator review'); return matches[0]; };
     const research = await operation(r, 'research', () => bridge(actor, 'createResearch', { research: { name, description: 'PhysioFlow isolated test run. Synthetic identity; never use for formal research.', metadata: meta } }), async () => unique(await bridge(actor, 'researches', {})));
     await operation(r, 'experiment', () => bridge(actor, 'createExperiment', { researchId: research.id, experiment: { name, metadata: meta } }), async () => unique(await bridge(actor, 'experiments', { researchId: research.id })));
-    await operation(r, 'participant', () => bridge(actor, 'createParticipant', { researchId: research.id, participant: { name, email: `pf-test-${r.runId}@example.com`, metadata: meta } }), async () => unique(await bridge(actor, 'participants', { researchId: research.id })));
+    await operation(r, 'participant', () => bridge(actor, 'createParticipant', { researchId: research.id, participant: { code: `pf-test-${r.runId}`, metadata: meta } }), async () => { const matches = (await bridge(actor, 'participants', { researchId: research.id })).filter(row => row.code === `pf-test-${r.runId}`); if (matches.length > 1) throw fail('Duplicate test targets require operator review'); return matches[0]; });
     if (!r.payload) r.status = 'ready'; await persist(); return result(r);
   });
   const complete = (actor, input) => serial(async () => {

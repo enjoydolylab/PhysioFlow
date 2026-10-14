@@ -223,12 +223,13 @@ export default function App() {
     return true;
   }, [persist, protocols, showProtocolSaveError]);
 
-  const addAndOpen = async value => {
+  const addAndOpen = async (value, propagateFailure = false) => {
     try {
       await persist([...protocols, value]);
       open(value);
     } catch (error) {
       showProtocolSaveError(error);
+      if (propagateFailure) throw error;
     }
   };
 
@@ -385,10 +386,10 @@ export default function App() {
       return <>
         <Suspense fallback={<LoadingFallback />}><ComposerV2
           protocol={current}
-          onChange={(next, shouldRecord = true) => {
+          onChange={(next, shouldRecord = true, separateUndo = false) => {
             if (shouldRecord) {
               const now = Date.now();
-              if (now - undoThrottle.current > 300) pushUndo(clone(current), true);
+              if (separateUndo || now - undoThrottle.current > 300) pushUndo(clone(current), true);
               undoThrottle.current = now;
             }
             setCurrent(next);
@@ -570,9 +571,9 @@ export default function App() {
       sessions={sessions}
       onOpen={open}
       onNew={() => addAndOpen(createProtocolGraph())}
-      onTemplate={() => addAndOpen(createEmotionGraphTemplate())}
-      onStroopTemplate={(cfg) => addAndOpen(createStroopGraphTemplate(cfg || {}))}
-      onGonogoTemplate={(cfg) => addAndOpen(createGonogoGraphTemplate(cfg || {}))}
+      onTemplate={config => addAndOpen(createEmotionGraphTemplate(config), true)}
+      onStroopTemplate={(cfg) => addAndOpen(createStroopGraphTemplate(cfg || {}), true)}
+      onGonogoTemplate={(cfg) => addAndOpen(createGonogoGraphTemplate(cfg || {}), true)}
       onImport={addAndOpen}
       onRun={value => { if (isGraphProtocol(value)) { setRun(value); setView('setup'); } else setPreRunCheck(value); }}
       onNextVersion={value => addAndOpen(isGraphProtocol(value) ? createNextGraphProtocolVersion(value, { existingProtocols: protocols }) : createNextProtocolVersion(value, { existingProtocols: protocols }))}

@@ -76,6 +76,36 @@ test('operator actions validate text and acknowledge rejection, errors and succe
   assert.equal(calls.length, 3);
   assert.deepEqual(calls[2], { command: 'note', details: { text: 'Movement observed', nodeId: 'n', attempt: 2 } });
   const results = messages.filter(message => message.type === 'command-result');
-  assert.deepEqual(results.map(result => result.ok), [false, false, false, false, true]);
+  assert.deepEqual(results.map(result => result.ok), [false, false, false, false, true, true]);
   assert.equal(results[3].error, 'Cannot retry');
+});
+test('legacy ECG uses actual y values without manufacturing sensor timestamps or heart rate',()=>{
+ const snapshot={mybeat:{source:'sdk',fresh:true,health:'warning',hr_fresh:false,ecg:Array.from({length:8},(_,i)=>({t:1000+i,y:i*2}))},openbci:{}};
+ const normalized=normalizeDeviceSnapshot({source:'koguchi',snapshot});const ecg=normalized.signals.find(s=>s.id==='ecg');
+ assert.deepEqual(ecg.values,[0,2,4,6,8,10,12,14]);assert.equal(ecg.times.length,0);assert.equal(ecg.unit,'raw');assert.equal(normalized.signals.find(s=>s.id==='heart_rate').ready,false);
+});
+
+test('lost acknowledgements can be queried or replayed without reexecuting an action',()=>{
+ const messages=[],calls=[],channel={postMessage:m=>messages.push(m),close(){}};
+ openRuntimeMonitor({sessionId:'s',origin:'https://pf.test',key:'k',getSnapshot:()=>({status:'waiting'}),channelFactory:()=>channel,onCommand:c=>{calls.push(c);return true;}});
+ const command={protocol:OPERATOR_PROTOCOL,type:'command',id:'lost',command:'note',text:'observation',sentAt:Date.now()};
+ channel.onmessage({data:command});
+ channel.onmessage({data:{protocol:OPERATOR_PROTOCOL,type:'command-status',id:'lost'}});
+ channel.onmessage({data:{...command,sentAt:0}});
+ assert.deepEqual(calls,['note']);assert.equal(messages.filter(m=>m.type==='command-result'&&m.ok).length,3);
+ channel.onmessage({data:{protocol:OPERATOR_PROTOCOL,type:'command-status',id:'never-sent'}});
+ assert.equal(messages.at(-2).found,false);assert.deepEqual(calls,['note']);
+});
+
+test('delayed pause and resume cannot affect a different step or a retried attempt',()=>{
+ const messages=[],calls=[],channel={postMessage:m=>messages.push(m),close(){}};
+ let snapshot={status:'waiting',nodeId:'step-1',attempt:1};
+ openRuntimeMonitor({sessionId:'s',origin:'https://pf.test',key:'k',getSnapshot:()=>snapshot,channelFactory:()=>channel,onCommand:c=>{calls.push(c);return true;}});
+ const send=(id,command,nodeId,attempt)=>channel.onmessage({data:{protocol:OPERATOR_PROTOCOL,type:'command',id,command,nodeId,attempt,sentAt:Date.now()}});
+ snapshot={status:'waiting',nodeId:'step-2',attempt:1};send('late-pause','pause','step-1',1);
+ snapshot={status:'paused',nodeId:'step-2',attempt:2};send('late-resume','resume','step-2',1);
+ assert.equal(calls.length,0);assert.equal(messages.filter(m=>m.type==='command-result'&&!m.ok).length,2);
+ send('current-resume','resume','step-2',2);assert.deepEqual(calls,['resume']);
+ channel.onmessage({data:{protocol:OPERATOR_PROTOCOL,type:'command-status',id:'late-resume'}});
+ assert.match(messages.at(-2).error,/step has changed/);assert.deepEqual(calls,['resume']);
 });

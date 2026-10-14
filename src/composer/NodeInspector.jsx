@@ -105,7 +105,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
       const boundType = boundValueType();
       const expected = node.config?.expected;
       if (boundType === 'number') {
-        return <label key={field.path}>{field.label}<input type="number" value={typeof expected === 'number' ? expected : Number.isFinite(Number(expected)) ? Number(expected) : ''} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? '' : Number(event.target.value)) })} />{field.help && <small className="field-help">{field.help}</small>}</label>;
+        return <label key={field.path}>{field.label}<input type="number" value={typeof expected === 'number' ? expected : expected !== '' && expected != null && Number.isFinite(Number(expected)) ? Number(expected) : ''} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? '' : Number(event.target.value)) })} />{field.help && <small className="field-help">{field.help}</small>}</label>;
       }
       if (boundType === 'boolean') {
         const boolValue = String(expected) === 'true' ? 'true' : String(expected) === 'false' ? 'false' : '';
@@ -114,7 +114,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
     }
     const value = getPath(node.config, field.path);
     const change = raw => {
-      const nextValue = field.type === 'number' ? Number(raw) : field.type === 'boolean' ? Boolean(raw) : raw;
+      const nextValue = field.type === 'number' ? (raw === '' ? '' : Number(raw)) : field.type === 'boolean' ? Boolean(raw) : raw;
       const patch = setPath(node.config, field.path, nextValue);
       if (field.type === 'asset' && raw && field.path === 'assetId') {
         const asset = (assets || []).find(item => (item.id || item.assetId) === raw);
@@ -217,7 +217,7 @@ export function ContentField({ field, value, assets, onChange, invalid, hint }) 
   if (field.type === 'select') return <label className={invalid ? 'field-invalid' : undefined}>{field.label}<select value={value ?? ''} onChange={event => onChange(event.target.value)}>{field.options.map(option => <option key={option} value={option}>{option}</option>)}</select>{invalid && hint && <small className="field-hint">{hint}</small>}</label>;
   if (field.type === 'asset') return <label>{field.label}<select value={value ?? ''} onChange={event => onChange(event.target.value || null)}><option value="">— none / direct URL —</option>{(assets || []).map(asset => <option key={asset.id || asset.assetId} value={asset.id || asset.assetId}>{asset.name || asset.id}</option>)}</select></label>;
   if (field.type === 'boolean') return <label className="checkbox-row"><input type="checkbox" checked={Boolean(value)} onChange={event => onChange(event.target.checked)} /> {field.label}</label>;
-  return <label className={invalid ? 'field-invalid' : undefined}>{field.label}<input type={field.type || 'text'} value={value ?? ''} onChange={event => onChange(field.type === 'number' ? Number(event.target.value) : event.target.value)} />{invalid && hint && <small className="field-hint">{hint}</small>}</label>;
+  return <label className={invalid ? 'field-invalid' : undefined}>{field.label}<input type={field.type || 'text'} value={value ?? ''} onChange={event => onChange(field.type === 'number' ? (event.target.value === '' ? '' : Number(event.target.value)) : event.target.value)} />{invalid && hint && <small className="field-hint">{hint}</small>}</label>;
 }
 
 export function toHexColor(value) {
