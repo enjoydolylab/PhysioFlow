@@ -233,6 +233,14 @@ Object.assign(dictionaries.ja,{
 
 const LanguageContext = createContext(null);
 Object.assign(dictionaries.ja, {
+  'The actual comparison value must be a finite number. Check the input variable or upstream response.':'比較対象は有限の数値である必要があります。入力変数または前のステップの回答を確認してください。',
+  'The expected comparison value must be a finite number. Check the comparison configuration or bound value.':'比較値は有限の数値である必要があります。比較設定または接続した値を確認してください。',
+});
+Object.assign(dictionaries.zh, {
+  'The actual comparison value must be a finite number. Check the input variable or upstream response.':'实际比较值必须是有限数值，请检查输入变量或上游回答。',
+  'The expected comparison value must be a finite number. Check the comparison configuration or bound value.':'期望比较值必须是有限数值，请检查比较配置或绑定值。',
+});
+Object.assign(dictionaries.ja, {
   'Until rule':'繰り返し条件', 'Until rule operator':'繰り返し条件の演算子', 'Until rule value':'繰り返し条件の比較値',
   'Loop body repeats while this rule holds for the bound until variable; the loop exits when it fails. Ignored without an until variable.':'接続したuntil変数で条件が成立する間、ループ本体を繰り返します。不成立になると終了します。until変数がない場合、この条件は使用しません。',
 });
