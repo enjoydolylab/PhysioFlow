@@ -1,5 +1,6 @@
 import { createRuntimeEvent } from './eventEnvelope.js';
 import { evaluateExpression, resolveBinding } from './expression.js';
+import { randomBranchWeights } from '../core/randomBranchWeights.js';
 
 export const RUNTIME_STATE_SCHEMA_VERSION = '1.0.0';
 const MAX_AUTOMATIC_TRANSITIONS = 10000;
@@ -215,20 +216,11 @@ function advanceAutomatic(initialState, protocol, registry, services, startNodeI
         continue;
       }
       if (runtimeKind === 'random') {
-        const probabilityA = Number(node.config?.probabilityA ?? 0.5);
+        const { probabilityA, candidates, weighted, totalWeight } = randomBranchWeights(protocol, node);
         const draw = drawRandom(state, node.config?.seedSalt || '');
         state = draw.state;
-        const weightOf = portId => {
-          const key = `probability${portId.toUpperCase()}`;
-          if (node.config?.[key] != null) return Math.max(0, Number(node.config[key]));
-          if (portId === 'b') return Math.max(0, 1 - probabilityA);
-          return 0.5;
-        };
-        const candidates = ['a', 'b', 'c', 'd'].filter(portId => outgoingControlEdges(protocol, node.id).some(edge => edge.source.portId === portId));
         if (!candidates.length) throw new Error(`Node ${node.id} needs at least one connected random branch`);
-        const weighted = candidates.map(portId => ({ portId, weight: weightOf(portId) }));
-        const totalWeight = weighted.reduce((sum, item) => sum + item.weight, 0);
-        if (!(totalWeight > 0)) throw new Error(`Node ${node.id} random branches need a positive total weight`);
+        if (!Number.isFinite(totalWeight) || !(totalWeight > 0)) throw new Error(`Node ${node.id} random branches need a positive total weight`);
         let selectedPort = candidates[candidates.length - 1];
         let cumulative = 0;
         for (const item of weighted) {

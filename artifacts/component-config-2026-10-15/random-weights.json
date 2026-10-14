@@ -1,0 +1,8 @@
+{
+  "actualComposer": true,
+  "blankOptionalWeightStoredNull": true,
+  "explicitZeroRetained": true,
+  "zeroConnectedTotalBlocked": true,
+  "unconnectedPositiveWeightIgnored": true,
+  "positiveConnectedWeightClearsIssue": true
+}

@@ -41,9 +41,8 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
   const t = key => translate(key, language);
   const [poolEditorOpen, setPoolEditorOpen] = useState(false);
   const currentGroup = groups.find(group => group.nodeIds.includes(node.id));
-  const boundValueType = () => {
-    if (node.component.type !== 'logic.condition') return null;
-    const binding = node.bindings?.value;
+  const boundValueType = (portId = 'value') => {
+    const binding = node.bindings?.[portId];
     if (!binding) return null;
     if (binding.kind === 'variable') return variables.find(variable => variable.name === binding.variable)?.type || null;
     if (binding.kind === 'output') {
@@ -97,25 +96,26 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
   }
 
   const renderField = field => {
-    if (node.component.type === 'logic.condition' && field.path === 'expected' && ['is_truthy', 'is_falsy'].includes(node.config.operator)) return null;
+    const expectedField = node.component.type === 'logic.condition' && field.path === 'expected' ? { portId: 'value', rule: node.config } : node.component.type === 'logic.loop' && field.path === 'untilRule.expected' ? { portId: 'until', rule: node.config.untilRule } : null;
+    if (expectedField && ['is_truthy', 'is_falsy'].includes(expectedField.rule?.operator)) return null;
     if (node.component.type === 'input.response' && field.path === 'options') return <ResponseOptionsEditor key={field.path} value={node.config.options} onChange={options => onUpdate({ config: { ...node.config, options } })} />;
     if (field.showWhen && getPath(node.config, field.showWhen.path) !== field.showWhen.equals) return null;
     // Type-aware Expected value for conditions: follow the bound input variable's type
     // (protocol variable or upstream node output).
-    if (node.component.type === 'logic.condition' && field.path === 'expected' && node.bindings?.value?.kind) {
-      const boundType = boundValueType();
-      const expected = node.config?.expected;
+    if (expectedField && node.bindings?.[expectedField.portId]?.kind) {
+      const boundType = boundValueType(expectedField.portId);
+      const expected = expectedField.rule?.expected;
       if (boundType === 'number') {
-        return <label key={field.path}>{t(field.label)}<input type="number" value={typeof expected === 'number' ? expected : expected !== '' && expected != null && Number.isFinite(Number(expected)) ? Number(expected) : ''} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? '' : Number(event.target.value)) })} />{field.help && <small className="field-help">{t(field.help)}</small>}</label>;
+        return <label key={field.path}>{t(field.label)}<input type="number" value={typeof expected === 'number' ? expected : expected !== '' && expected != null && Number.isFinite(Number(expected)) ? Number(expected) : ''} onChange={event => onUpdate({ config: setPath(node.config, field.path, event.target.value === '' ? '' : Number(event.target.value)) })} />{field.help && <small className="field-help">{t(field.help)}</small>}</label>;
       }
       if (boundType === 'boolean') {
         const boolValue = String(expected) === 'true' ? 'true' : String(expected) === 'false' ? 'false' : '';
-        return <label key={field.path}>{t(field.label)}<select value={boolValue} onChange={event => onUpdate({ config: setPath(node.config, 'expected', event.target.value === '' ? null : event.target.value === 'true') })}><option value="">{t('Choose…')}</option><option value="true">{t('True')}</option><option value="false">{t('False')}</option></select>{field.help && <small className="field-help">{t(field.help)}</small>}</label>;
+        return <label key={field.path}>{t(field.label)}<select value={boolValue} onChange={event => onUpdate({ config: setPath(node.config, field.path, event.target.value === '' ? null : event.target.value === 'true') })}><option value="">{t('Choose…')}</option><option value="true">{t('True')}</option><option value="false">{t('False')}</option></select>{field.help && <small className="field-help">{t(field.help)}</small>}</label>;
       }
     }
     const value = getPath(node.config, field.path);
     const change = raw => {
-      const nextValue = field.type === 'number' ? (raw === '' ? '' : Number(raw)) : field.type === 'boolean' ? Boolean(raw) : raw;
+      const nextValue = field.type === 'number' ? (raw === '' ? (field.emptyValue !== undefined ? field.emptyValue : '') : Number(raw)) : field.type === 'boolean' ? Boolean(raw) : raw;
       const patch = setPath(node.config, field.path, nextValue);
       if (field.type === 'asset' && raw && field.path === 'assetId') {
         const asset = (assets || []).find(item => (item.id || item.assetId) === raw);

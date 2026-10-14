@@ -325,9 +325,9 @@ export function createCoreComponentRegistry() {
     defaultConfig: { probabilityA: 0.5, probabilityB: null, probabilityC: null, probabilityD: null, seedSalt: '' },
     editorFields: [
       { path: 'probabilityA', label: 'Probability of A', type: 'number', min: 0, max: 1, step: 0.05, group: 'Logic', help: 'Relative weight for branch A. Probabilities are normalized across the branches actually connected.' },
-      { path: 'probabilityB', label: 'Probability of B', type: 'number', min: 0, max: 1, step: 0.05, group: 'Logic', help: 'Defaults to 1 − A when connected and left empty.' },
-      { path: 'probabilityC', label: 'Probability of C', type: 'number', min: 0, max: 1, step: 0.05, group: 'Logic', help: 'Only used when branch C is connected.' },
-      { path: 'probabilityD', label: 'Probability of D', type: 'number', min: 0, max: 1, step: 0.05, group: 'Logic', help: 'Only used when branch D is connected.' },
+      { path: 'probabilityB', emptyValue: null, label: 'Probability of B', type: 'number', min: 0, max: 1, step: 0.05, group: 'Logic', help: 'Defaults to 1 − A when connected and left empty.' },
+      { path: 'probabilityC', emptyValue: null, label: 'Probability of C', type: 'number', min: 0, max: 1, step: 0.05, group: 'Logic', help: 'Only used when branch C is connected.' },
+      { path: 'probabilityD', emptyValue: null, label: 'Probability of D', type: 'number', min: 0, max: 1, step: 0.05, group: 'Logic', help: 'Only used when branch D is connected.' },
       { path: 'seedSalt', label: 'Seed salt', type: 'text', group: 'Advanced', help: 'Vary this to change the deterministic draw sequence.' },
     ],
     events: ['randomization_evaluated'],

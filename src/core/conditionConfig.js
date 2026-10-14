@@ -12,10 +12,10 @@ export function conditionExpectedError(config, inputType, { hasCompare = false }
  if(inputType==='boolean'&&['equals','not_equals'].includes(config?.operator)&&typeof value!=='boolean'&&!['true','false'].includes(value))return 'config.condition_expected_boolean';
  return null;
 }
-export function conditionInputType(protocol,node,registry) {
- const binding=node.bindings?.value;
+export function conditionInputType(protocol,node,registry,portId='value') {
+ const binding=node.bindings?.[portId];
  if(binding?.kind==='variable')return protocol.variables?.find(v=>v.name===binding.variable)?.type;
- const edge=protocol.graph.edges?.find(e=>e.kind==='data'&&e.target.nodeId===node.id&&e.target.portId==='value');
+ const edge=protocol.graph.edges?.find(e=>e.kind==='data'&&e.target.nodeId===node.id&&e.target.portId===portId);
  const endpoint=binding?.kind==='output'?{nodeId:binding.nodeId,portId:binding.portId}:edge?.source;
  const source=protocol.graph.nodes.find(n=>n.id===endpoint?.nodeId);
  return source&&registry?.get(source.component.type,source.component.version)?.ports.find(p=>p.id===endpoint.portId)?.dataType;

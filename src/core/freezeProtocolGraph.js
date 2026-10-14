@@ -1,4 +1,5 @@
 import { conditionExpectedError, conditionInputType } from './conditionConfig.js';
+import { randomBranchWeights } from './randomBranchWeights.js';
 import { pendingMediaIssues } from './mediaReadiness.js';
 import { discreteScaleValues } from './inputValidation.js';
 import { serializeProtocolGraph } from './serialization.js';
@@ -91,9 +92,9 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
       const trialIds = new Set();
       for (const [index, trial] of (Array.isArray(trials) ? trials : []).entries()) {
         const trialPath = `${path}.trials.${index}`;
-        if (!trial?.trialId?.trim() || trialIds.has(trial.trialId)) errors.push({ code: 'config.cognitive_task_trial_id_invalid', message: `${node.label} has a missing or duplicate trial ID`, path: `${trialPath}.trialId`, nodeId: node.id });
+        if ((typeof trial?.trialId !== 'string' || !trial.trialId.trim()) || trialIds.has(trial.trialId)) errors.push({ code: 'config.cognitive_task_trial_id_invalid', message: `${node.label} has a missing or duplicate trial ID`, path: `${trialPath}.trialId`, nodeId: node.id });
         else trialIds.add(trial.trialId);
-        for (const field of ['fixationMs', 'responseWindowMs', 'itiMs']) if (!Number.isFinite(Number(trial?.[field])) || Number(trial[field]) < 0 || (field === 'responseWindowMs' && Number(trial[field]) === 0)) errors.push({ code: 'config.cognitive_task_timing_invalid', message: `${node.label} trial ${index + 1} has invalid ${field}`, path: `${trialPath}.${field}`, nodeId: node.id });
+        for (const field of ['fixationMs', 'responseWindowMs', 'itiMs']) if (!validDuration(trial?.[field]) || (field === 'responseWindowMs' && Number(trial[field]) === 0)) errors.push({ code: 'config.cognitive_task_timing_invalid', message: `${node.label} trial ${index + 1} has invalid ${field}`, path: `${trialPath}.${field}`, nodeId: node.id });
         if (taskKind === 'stroop' && (!trial?.word || !trial?.inkColor || !['r', 'g', 'b', 'y'].includes(trial?.expectedKey))) errors.push({ code: 'config.stroop_trial_invalid', message: `${node.label} trial ${index + 1} needs a word, ink color, and valid response key`, path: trialPath, nodeId: node.id });
         if (taskKind === 'gonogo' && (!['go', 'nogo'].includes(trial?.trialType) || (trial.trialType === 'go' && trial.expectedKey !== 'space') || (trial.trialType === 'nogo' && trial.expectedKey !== null))) errors.push({ code: 'config.gonogo_trial_invalid', message: `${node.label} trial ${index + 1} has invalid Go/No-Go semantics`, path: trialPath, nodeId: node.id });
       }
@@ -176,7 +177,7 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
     if (node.component?.type === 'input.rating' && !discreteScaleValues(node.config?.min, node.config?.max)) {
       errors.push({ code: 'config.rating_range_invalid', message: `${node.label} needs increasing integer bounds and at most 1000 choices`, path, nodeId: node.id });
     }
-    if (node.component?.type === 'logic.loop' && (!Number.isInteger(Number(node.config?.maxIterations)) || Number(node.config.maxIterations) < 1)) {
+    if (node.component?.type === 'logic.loop' && (!validDuration(node.config?.maxIterations) || !Number.isInteger(Number(node.config.maxIterations)) || Number(node.config.maxIterations) < 1)) {
       errors.push({ code: 'config.loop_limit_invalid', message: `${node.label} needs a positive integer iteration limit`, path, nodeId: node.id });
     }
     if (node.component?.type === 'logic.condition') {
@@ -189,13 +190,21 @@ export function validateProtocolGraphConfiguration(protocol, registry) {
     if (node.component?.type === 'logic.random') {
       for (const key of ['probabilityA', 'probabilityB', 'probabilityC', 'probabilityD']) {
         if (node.config?.[key] == null) continue;
-        if (!Number.isFinite(Number(node.config[key])) || Number(node.config[key]) < 0 || Number(node.config[key]) > 1) {
+        if (!validDuration(node.config[key]) || Number(node.config[key]) > 1) {
           errors.push({ code: 'config.random_probability_invalid', message: `${node.label} ${key} must be between 0 and 1`, path: `${path}.${key}`, nodeId: node.id });
         }
+      }
+      const weights = randomBranchWeights(protocol, node);
+      if (weights.candidates.length && Number.isFinite(weights.totalWeight) && weights.totalWeight <= 0) {
+        errors.push({ code: 'config.random_weight_total_invalid', message: `${node.label} needs a positive total weight across its connected branches`, path, nodeId: node.id });
       }
     }
     if (node.component?.type === 'logic.loop' && node.config?.untilRule?.operator && !['equals', 'not_equals', 'contains', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'is_truthy', 'is_falsy'].includes(node.config.untilRule.operator)) {
       errors.push({ code: 'config.loop_until_operator_invalid', message: `${node.label} has an unsupported until-rule operator`, path: `${path}.untilRule.operator`, nodeId: node.id });
+    }
+    if (node.component?.type === 'logic.loop' && node.config?.untilRule?.operator && (node.bindings?.until || protocol.graph.edges.some(edge => edge.kind === 'data' && edge.target.nodeId === node.id && edge.target.portId === 'until'))) {
+      const code = conditionExpectedError(node.config.untilRule, conditionInputType(protocol, node, registry, 'until'));
+      if (code) errors.push({ code, message: `${node.label} needs an until-rule comparison value compatible with its input`, path: `${path}.untilRule.expected`, nodeId: node.id });
     }
   }
   for (const [group, entries] of stimulusGroups) {

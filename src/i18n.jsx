@@ -233,6 +233,14 @@ Object.assign(dictionaries.ja,{
 
 const LanguageContext = createContext(null);
 Object.assign(dictionaries.ja, {
+  'Until rule':'繰り返し条件', 'Until rule operator':'繰り返し条件の演算子', 'Until rule value':'繰り返し条件の比較値',
+  'Loop body repeats while this rule holds for the bound until variable; the loop exits when it fails. Ignored without an until variable.':'接続したuntil変数で条件が成立する間、ループ本体を繰り返します。不成立になると終了します。until変数がない場合、この条件は使用しません。',
+});
+Object.assign(dictionaries.zh, {
+  'Until rule':'循环条件', 'Until rule operator':'循环条件比较符', 'Until rule value':'循环条件比较值',
+  'Loop body repeats while this rule holds for the bound until variable; the loop exits when it fails. Ignored without an until variable.':'绑定的until变量满足条件时重复循环体，不满足时退出。未绑定until变量时忽略此条件。',
+});
+Object.assign(dictionaries.ja, {
   'MEDIA PREFLIGHT':'素材の事前確認', 'Preparing media…':'素材を準備しています…',
   'Media needs attention':'素材の確認が必要です',
   'Loading referenced local files and checking their integrity.':'参照するローカルファイルを読み込み、整合性を確認しています。',
