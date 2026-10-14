@@ -232,13 +232,62 @@ Object.assign(dictionaries.ja,{
 });
 
 const LanguageContext = createContext(null);
+Object.assign(dictionaries.ja, {
+  'MEDIA PREFLIGHT':'素材の事前確認', 'Preparing media…':'素材を準備しています…',
+  'Media needs attention':'素材の確認が必要です',
+  'Loading referenced local files and checking their integrity.':'参照するローカルファイルを読み込み、整合性を確認しています。',
+  'Restore the required local files, then check again. To change media references, return to the protocol.':'必要なローカルファイルを復元してから再確認してください。素材の参照を変更する場合は、実験手順に戻ってください。',
+  'Check media again':'素材を再確認', 'Return to protocol':'実験手順に戻る',
+});
+Object.assign(dictionaries.zh, {
+  'MEDIA PREFLIGHT':'素材预检查', 'Preparing media…':'正在准备素材…',
+  'Media needs attention':'需要检查素材',
+  'Loading referenced local files and checking their integrity.':'正在加载引用的本地文件并检查完整性。',
+  'Restore the required local files, then check again. To change media references, return to the protocol.':'恢复所需本地文件后重新检查。若要修改素材引用，请返回实验方案。',
+  'Check media again':'重新检查素材', 'Return to protocol':'返回实验方案',
+});
+Object.assign(dictionaries.ja, {
+  'The displayed values are the last received update. Keep the experiment window open in this browser; actions will unlock when updates resume.':'表示値は最後に受信した状態です。同じブラウザーで実験ウィンドウを開いたままにしてください。更新が再開すると操作できます。',
+  'Enter a reason or observation to enable retry, skip or save.':'理由または観察メモを入力すると、再試行・スキップ・記録を操作できます。',
+  'Start the prepared experiment in the other window on this browser. Its current step will appear here.':'同じブラウザーの別ウィンドウで準備した実験を開始してください。現在のステップがここに表示されます。',
+});
+Object.assign(dictionaries.zh, {
+  'The displayed values are the last received update. Keep the experiment window open in this browser; actions will unlock when updates resume.':'当前显示的是最后收到的状态。请保持同一浏览器中的实验窗口打开，更新恢复后即可操作。',
+  'Enter a reason or observation to enable retry, skip or save.':'输入原因或观察记录后，即可重试、跳过或保存记录。',
+  'Start the prepared experiment in the other window on this browser. Its current step will appear here.':'请在同一浏览器的另一个窗口开始已准备的实验，当前步骤会显示在这里。',
+});
+Object.assign(dictionaries.ja, {
+  'SESSION CLOSED':'セッション終了', 'LINK UNAVAILABLE':'リンクを開けません',
+  'PHYSIOFLOW PARTICIPANT':'PHYSIOFLOW 参加者',
+  'This experiment cannot be opened':'この実験を開けません',
+  'Your experiment record has been synchronized.':'実験記録を同期しました。',
+  'Preparing your experiment…':'実験を準備しています…',
+  'Verifying the session and downloading its exact protocol.':'セッションを確認し、対応する実験手順を読み込んでいます。',
+  'Try again':'再試行',
+  'The participant link could not be opened':'参加者リンクを開けませんでした。',
+  'This participant link is missing its launch token':'参加者リンクに必要な情報がありません。',
+  'Check your connection and try again. If the link still does not open, ask the experimenter to check it.':'接続を確認して再試行してください。開けない場合は、実験担当者にリンクの確認を依頼してください。',
+});
+Object.assign(dictionaries.zh, {
+  'SESSION CLOSED':'实验记录已关闭', 'LINK UNAVAILABLE':'链接无法打开',
+  'PHYSIOFLOW PARTICIPANT':'PHYSIOFLOW 参与者',
+  'This experiment cannot be opened':'无法打开此实验',
+  'Your experiment record has been synchronized.':'实验记录已同步。',
+  'Preparing your experiment…':'正在准备实验…',
+  'Verifying the session and downloading its exact protocol.':'正在验证实验记录并加载对应的实验方案。',
+  'Try again':'重试',
+  'The participant link could not be opened':'无法打开参与者链接。',
+  'This participant link is missing its launch token':'参与者链接缺少必要信息。',
+  'Check your connection and try again. If the link still does not open, ask the experimenter to check it.':'请检查网络连接并重试。如果仍无法打开，请联系实验员检查链接。',
+});
 const translationState = new WeakMap();
 
 export function LanguageProvider({ children }) {
-  const [language, setLanguageState] = useState(() => localStorage.getItem('physioflow.ui-language') || DEFAULT_LANGUAGE);
+  const [language, setLanguageState] = useState(() => ['ja', 'zh', 'en'].includes(localStorage.getItem('physioflow.ui-language')) ? localStorage.getItem('physioflow.ui-language') : DEFAULT_LANGUAGE);
   const root = useRef(null);
   const setLanguage = next => { localStorage.setItem('physioflow.ui-language', next); setLanguageState(next); };
   useEffect(() => {
+    document.documentElement.lang = language === 'zh' ? 'zh-CN' : language;
     const translate = () => {
       if (!root.current) return;
       const walker = document.createTreeWalker(root.current, NodeFilter.SHOW_TEXT);
@@ -249,7 +298,7 @@ export function LanguageProvider({ children }) {
         if (!raw || (!dictionaries.zh[raw] && !dictionaries.ja[raw])) continue;
         const leading = node.nodeValue.match(/^\s*/)?.[0] || '';
         const trailing = node.nodeValue.match(/\s*$/)?.[0] || '';
-        const rendered=dictionaries[language][raw]||raw,nextValue=leading+rendered+trailing;
+        const rendered=dictionaries[language]?.[raw]||raw,nextValue=leading+rendered+trailing;
         translationState.set(node,{raw,rendered});
         if (node.nodeValue !== nextValue) node.nodeValue = nextValue;
       }

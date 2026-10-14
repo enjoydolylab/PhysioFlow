@@ -1,0 +1,7 @@
+{
+  "syntheticMedia": true,
+  "missingBlocked": true,
+  "wrongBytesBlockedAfterRetry": true,
+  "originalBytesRestorePreparation": true,
+  "noNavigationOrStart": true
+}

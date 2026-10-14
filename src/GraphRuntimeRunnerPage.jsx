@@ -163,6 +163,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [localResources, setLocalResources] = useState(() => localResourceManifest(protocol.assets || []));
   const [resourceLoad, setResourceLoad] = useState({ status: 'loading', error: '', key: null });
+  const [resourceAttempt, setResourceAttempt] = useState(0);
   const verifiedMediaProtocol = useRef(null);
   const hostedSyncRef = useRef(null);
   if (data.hosted && !hostedSyncRef.current) hostedSyncRef.current = new HostedRuntimeSync(data.hosted);
@@ -484,7 +485,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
       setResourceLoad({ status: 'ready', error: '', key: resourceKey });
     }).catch(error => { if (active) setResourceLoad({ status: 'error', error: error.message || String(error) }); });
     return () => { active = false; objectUrls.forEach(url => URL.revokeObjectURL(url)); };
-  }, [data.hosted, protocol, resourceKey]);
+  }, [data.hosted, protocol, resourceKey, resourceAttempt]);
 
   useEffect(() => {
     if (!started || runtime.status !== 'waiting' || !currentStimulusAssignment || !currentNode) return;
@@ -574,7 +575,7 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
     Promise.all([saveQueueRef.current.catch(() => {}), closeDevices]).then(() => persistFinishedSession({ ...finished, device_events: deviceEventsRef.current }, { saveSession, clearCurrentRun: () => clearCurrentRun({ strict: true }) })).then(result => { setSaved(true); setCleanupError(result.cleanupError); }).catch(error => setSaved(error.message || 'Save failed'));
   }, [data.session, data.hosted, events, protocol, sourceProtocol, responses, runtime, saveAttempt, legacyStimulusOrder, hasBrainflow, stimulusShuffleVersion, endedAt]);
 
-  if (!mediaReady) return <main className="graph-runner"><div className="graph-runner-ready"><span className="eyebrow">MEDIA PREFLIGHT</span><h1>{resourceLoad.status !== 'error' ? 'Preparing media…' : 'Media needs attention'}</h1><p>{resourceLoad.error || 'Loading referenced local files and checking their integrity.'}</p>{resourceLoad.status === 'error' && <button onClick={onDone}>Return to protocol</button>}</div></main>;
+  if (!mediaReady) return <main className="graph-runner"><div className="graph-runner-ready" role={resourceLoad.status === 'error' ? 'alert' : 'status'}><span className="eyebrow">{t('MEDIA PREFLIGHT')}</span><h1>{t(resourceLoad.status !== 'error' ? 'Preparing media…' : 'Media needs attention')}</h1><p>{resourceLoad.error || t('Loading referenced local files and checking their integrity.')}</p>{resourceLoad.status === 'error' && <><p>{t('Restore the required local files, then check again. To change media references, return to the protocol.')}</p><button onClick={() => { verifiedMediaProtocol.current = null; setResourceLoad({ status: 'loading', error: '', key: null }); setResourceAttempt(value => value + 1); }}>{t('Check media again')}</button><button onClick={onDone}>{t('Return to protocol')}</button></>}</div></main>;
   if (!started && participantOnly) return <main className="graph-runner"><section className="graph-runner-ready pf-preflight"><h1>{protocolNameOf(protocol)}</h1><p>{t('Please wait for the operator, then begin when instructed.')}</p>{deviceRequired && <p role="status">{t('Ask the operator to prepare the required devices on the acquisition computer.')}</p>}<button className="primary" disabled={starting || deviceRequired} onClick={() => begin(true)}>{t('Begin experiment')}</button>{startError && <p role="alert">{t(startError)}</p>}</section></main>;
   if (!started) { const preparation = <div className="graph-runner-ready pf-preflight">
     <span className="eyebrow">PREPARE</span><h1>{protocolNameOf(protocol)}</h1><p>{data.session.participant_id} · {executableCount} {t('steps')}</p><details><summary>{t('Session identifiers')}</summary><p>{t('PF session ID')}: {data.session.session_id}</p><p>{t('PF protocol ID')}: {protocol.protocolId} · v{protocol.version?.number}</p></details>

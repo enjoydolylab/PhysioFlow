@@ -1,0 +1,8 @@
+{
+  "synthetic": true,
+  "initialWaitDistinctFromDisconnected": true,
+  "reasonGuidance": true,
+  "staleGuidanceAndLock": true,
+  "recoveryUnlock": true,
+  "narrowNoOverflow": true
+}

@@ -53,12 +53,14 @@ export default function OperatorMonitorPage() {
     setResult(null); setPending(pendingRef.current);
     channel.postMessage({ protocol: OPERATOR_PROTOCOL, type: 'command', command, id, sentAt: Date.now(), text, nodeId: snapshot?.nodeId, attempt: snapshot?.attempt });
   };
-  return <main className="admin-monitor"><section>
+  const connectionLabel = error ? 'Disconnected' : !snapshot ? 'Waiting for experiment' : stale ? 'Disconnected' : snapshot.status || 'ready';
+  return <main className="admin-monitor operator-monitor"><section>
     <header className="pf-admin-header"><a href="/">pf. <span>PhysioFlow</span></a><LanguageToggle /></header>
     <span className="eyebrow">OPERATOR</span><h1>{t('Experiment monitor')}</h1>
     <p className="pf-muted">{t('This window stays with the operator. Keep the experiment window on the participant display.')}</p>
     {error && <p role="alert">{t(error)}</p>}
-    <div className="pf-section-heading"><h2>{snapshot?.protocolName || t('Waiting for experiment')}</h2><span className={`pf-tag ${stale ? 'warning' : 'ready'}`}>{stale ? t('Disconnected') : t(snapshot?.status || 'ready')}</span></div>
+    <div className="pf-section-heading"><h2>{snapshot?.protocolName || t('Waiting for experiment')}</h2><span role="status" aria-live="polite" className={`pf-tag ${stale ? 'warning' : 'ready'}`}>{t(connectionLabel)}</span></div>
+    {snapshot && stale && <p role="status" className="pf-operator-notice">{t('The displayed values are the last received update. Keep the experiment window open in this browser; actions will unlock when updates resume.')}</p>}
     {snapshot && <>
       <div className="pf-metric-grid"><div><span>{t('Current step')}</span><b>{snapshot.nodeLabel || '—'}</b></div><div><span>{t('Defined steps')}</span><b>{snapshot.total}</b></div><div><span>{t('Completed visits')}</span><b>{snapshot.completed}</b></div><div><span>{t('Skipped visits')}</span><b>{snapshot.skipped ?? 0}</b></div><div><span>{t('Checkpoint')}</span><b>{t(snapshot.saveStatus || 'idle')}</b></div></div>
       <div className="pf-analysis-toolbar"><button className="primary" disabled={stale || Boolean(pending) || !['waiting', 'paused'].includes(snapshot.status)} onClick={() => send(snapshot.status === 'paused' ? 'resume' : 'pause')}>{t(snapshot.status === 'paused' ? 'Resume' : 'Pause')}</button><span className="pf-muted">{t('The participant only sees the experiment and pause message.')}</span></div>
@@ -66,6 +68,7 @@ export default function OperatorMonitorPage() {
         <h2>{t('In-session actions')}</h2>
         <p className="pf-muted">{t('Retry restarts the current step. Skip advances without a response. Record a reason before either action.')}</p>
         <label>{t('Reason or observation')}<textarea disabled={Boolean(pending)} rows={3} maxLength={1000} value={text} onChange={event => setText(event.target.value)} /></label>
+        {!pending && !stale && snapshot.status === 'waiting' && !text.trim() && <p className="pf-muted">{t('Enter a reason or observation to enable retry, skip or save.')}</p>}
         <div className="pf-analysis-toolbar">
           <button disabled={stale || Boolean(pending) || snapshot.status !== 'waiting' || !text.trim()} onClick={() => send('retry')}>{t('Retry current step')}</button>
           <button disabled={stale || Boolean(pending) || snapshot.status !== 'waiting' || !text.trim()} onClick={() => send('skip')}>{t('Skip current step')}</button>
@@ -83,6 +86,6 @@ export default function OperatorMonitorPage() {
       {snapshot.preview?.times?.length > 0 && Object.entries(snapshot.preview.values || {}).map(([id, values]) => <SignalWaveform key={id} times={snapshot.preview.times} values={values} label={id} />)}
       {['completed', 'failed'].includes(snapshot.status) && <p role="status">{t('The experiment has ended. This monitor remains open for review.')}</p>}
     </>}
-    {!snapshot && !error && <div className="pf-empty">{t('Waiting for experiment')}</div>}
+    {!snapshot && !error && <div className="pf-empty">{t('Waiting for experiment')}<p>{t('Start the prepared experiment in the other window on this browser. Its current step will appear here.')}</p></div>}
   </section></main>;
 }

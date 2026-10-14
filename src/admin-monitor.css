@@ -1,5 +1,11 @@
 .admin-monitor { min-height: 100dvh; padding: clamp(20px, 5vw, 64px); background: var(--surface, #f7f8fa); color: var(--text, #17231d); font-family: inherit; }
 .admin-monitor > section { max-width: 1120px; margin: 0 auto; }
+.operator-monitor { color: var(--ink, #17231d); --border: var(--line, #e2e7e4); --surface-raised: var(--paper, #fff); }
+.operator-monitor .pf-panel, .operator-monitor .pf-metric-grid > div { min-width: 0; overflow-wrap: anywhere; }
+.operator-monitor textarea { display: block; width: 100%; margin-top: 8px; min-height: 96px; resize: vertical; }
+.operator-monitor button { min-height: 44px; }
+.operator-monitor button:focus-visible { outline: 3px solid var(--accent, #197453); outline-offset: 3px; }
+.pf-operator-notice { padding: 14px 18px; border-left: 3px solid #b38b3d; background: var(--paper, #fff); border-radius: 8px; }
 .pf-admin-header, .pf-admin-header > div, .pf-admin-title, .pf-section-heading, .pf-analysis-toolbar, .pf-connection { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .pf-admin-header { justify-content: space-between; margin-bottom: 56px; }
 .pf-admin-header > a { font-size: 36px; font-weight: 800; text-decoration: none; color: inherit; letter-spacing: -.08em; }

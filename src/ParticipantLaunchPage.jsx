@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useT } from './i18n';
 import GraphRuntimeRunnerPage from './GraphRuntimeRunnerPage.jsx';
 import { protocolNameOf } from './core/index.js';
 import { loadCurrentRunAsync } from './storage.js';
@@ -40,6 +41,7 @@ function responsesFromEvents(events, session, protocol) {
 }
 
 export default function ParticipantLaunchPage({ location = globalThis.location, fetch, apiBaseUrl }) {
+  const t = useT();
   const [attempt, setAttempt] = useState(0);
   const [state, setState] = useState({ phase: 'loading', run: null, error: '' });
 
@@ -76,7 +78,7 @@ export default function ParticipantLaunchPage({ location = globalThis.location, 
   }, [apiBaseUrl, attempt, fetch, location]);
 
   if (state.phase === 'ready') return <GraphRuntimeRunnerPage data={{ ...state.run, participantOnly: true }} onDone={() => setState({ phase: 'complete', run: null, error: '' })} />;
-  if (state.phase === 'complete') return <main className="participant-launch"><section><span className="eyebrow">SESSION CLOSED</span><h1>Thank you</h1><p>Your experiment record has been synchronized.</p></section></main>;
-  if (state.phase === 'error') return <main className="participant-launch"><section role="alert"><span className="eyebrow">LINK UNAVAILABLE</span><h1>This experiment cannot be opened</h1><p>{state.error}</p><button onClick={() => setAttempt(value => value + 1)}>Try again</button></section></main>;
-  return <main className="participant-launch"><section role="status" aria-live="polite"><span className="eyebrow">PHYSIOFLOW PARTICIPANT</span><h1>Preparing your experiment…</h1><p>Verifying the session and downloading its exact protocol.</p></section></main>;
+  if (state.phase === 'complete') return <main className="participant-launch"><section><span className="eyebrow">{t('SESSION CLOSED')}</span><h1>{t('Thank you')}</h1><p>{t('Your experiment record has been synchronized.')}</p></section></main>;
+  if (state.phase === 'error') return <main className="participant-launch"><section role="alert"><span className="eyebrow">{t('LINK UNAVAILABLE')}</span><h1>{t('This experiment cannot be opened')}</h1><p>{t(state.error)}</p><p>{t('Check your connection and try again. If the link still does not open, ask the experimenter to check it.')}</p><button onClick={() => setAttempt(value => value + 1)}>{t('Try again')}</button></section></main>;
+  return <main className="participant-launch"><section role="status" aria-live="polite"><span className="eyebrow">{t('PHYSIOFLOW PARTICIPANT')}</span><h1>{t('Preparing your experiment…')}</h1><p>{t('Verifying the session and downloading its exact protocol.')}</p></section></main>;
 }
