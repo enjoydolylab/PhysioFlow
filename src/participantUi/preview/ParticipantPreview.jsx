@@ -1,22 +1,21 @@
+import {previewExampleContext} from '../bindingExamples.js';
 import { BindingChecks } from './BindingChecks.jsx';
 import { isJsonValue } from '../../core/jsonValue.js';
 import ParticipantRenderer from '../../ParticipantRenderer.jsx';
 import { useState } from 'react';
 import { useT } from '../../i18n';
 
-export function ParticipantPreview({ schema, width, onLocate }) {
-  return <PreviewSession key={JSON.stringify(schema)} schema={schema} width={width} onLocate={onLocate} />;
+export function ParticipantPreview({ schema, width, onLocate, variables }) {
+  return <PreviewSession key={JSON.stringify({schema,variables})} schema={schema} width={width} onLocate={onLocate} variables={variables} />;
 }
 
-const EXAMPLE_CONTEXT = { participant: { participant_id: 'PREVIEW' }, variables: { score: 0 }, outputs: {}, progress: { percent: 40 }, timer: { elapsedMs: 0 } };
-
-function PreviewSession({ schema, width, onLocate }) {
+function PreviewSession({ schema, width, onLocate, variables }) {
   const t = useT();
   const [interactive, setInteractive] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [submission, setSubmission] = useState(null);
-  const [context, setContext] = useState(() => structuredClone(EXAMPLE_CONTEXT));
-  const [contextText, setContextText] = useState(() => JSON.stringify(EXAMPLE_CONTEXT, null, 2));
+  const [context, setContext] = useState(() => previewExampleContext(variables));
+  const [contextText, setContextText] = useState(() => JSON.stringify(previewExampleContext(variables), null, 2));
   const [contextError, setContextError] = useState(false);
   const [contextApplied, setContextApplied] = useState(false);
   const reset = () => { setSubmission(null); setAttempt(value => value + 1); };
@@ -28,6 +27,7 @@ function PreviewSession({ schema, width, onLocate }) {
     </section>
     <details className="ui-preview-context">
       <summary>{t('Preview binding data')}</summary>
+      {Array.isArray(variables) && <p>{t('The example starts from declared variable defaults, not actual run values.')}</p>}
       <p>{t('Use example participant, variables, outputs, progress and timer data to check bindings. This data is temporary and is not saved in the plan or experiment records.')}</p>
       <label>{t('Example context (JSON)')}<textarea aria-label="Preview context JSON" value={contextText} aria-invalid={contextError} onChange={event => { setContextText(event.target.value); setContextError(false); setContextApplied(false); }} /></label>
       <button type="button" onClick={() => {
@@ -36,7 +36,7 @@ function PreviewSession({ schema, width, onLocate }) {
         if (!next || Array.isArray(next) || typeof next !== 'object' || !isJsonValue(next)) { setContextError(true); return; }
         setContext(next); setContextError(false); setContextApplied(true); reset();
       }}>{t('Apply preview data')}</button>
-      <button type="button" onClick={() => { const next = structuredClone(EXAMPLE_CONTEXT); setContext(next); setContextText(JSON.stringify(next, null, 2)); setContextError(false); setContextApplied(true); reset(); }}>{t('Restore example data')}</button>
+      <button type="button" onClick={() => { const next = previewExampleContext(variables); setContext(next); setContextText(JSON.stringify(next, null, 2)); setContextError(false); setContextApplied(true); reset(); }}>{t('Restore example data')}</button>
       {contextError && <p role="alert">{t('Preview context must be a JSON object with finite numbers. The previous preview data is kept.')}</p>}
       {contextApplied && <p role="status">{t('Preview data applied. Preview answers were reset.')}</p>}
     </details>

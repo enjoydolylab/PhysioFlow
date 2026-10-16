@@ -35,8 +35,7 @@ function appendEvent(state, protocol, type, services, options = {}) {
 }
 
 function initializeVariables(protocol, initialValues = {}) {
-  const values = {};
-  for (const variable of protocol.variables || []) values[variable.name] = structuredClone(variable.defaultValue ?? null);
+  const values = Object.fromEntries((protocol.variables || []).map(variable => [variable.name, structuredClone(variable.defaultValue ?? null)]));
   return { ...values, ...structuredClone(initialValues) };
 }
 

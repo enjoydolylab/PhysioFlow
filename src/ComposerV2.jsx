@@ -79,7 +79,7 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
         <button className="node-editor-close" onClick={() => setPreviewNodeId(null)}>✕ Done</button>
       </div>
       {previewEdit && fullscreenUiEditable && previewNode.config?.ui
-        ? <ParticipantUiBuilder schema={schemaForNode(previewNode, previewDefinition, previewResources)} defaultTemplate={UI_TEMPLATE_KIND[previewNode.component.type] || 'instruction'} onChange={actions.updatePreviewUi} />
+        ? <ParticipantUiBuilder variables={protocol.variables || []} schema={schemaForNode(previewNode, previewDefinition, previewResources)} defaultTemplate={UI_TEMPLATE_KIND[previewNode.component.type] || 'instruction'} onChange={actions.updatePreviewUi} />
         : <div className="node-editor-preview"><ParticipantRenderer schema={schemaForNode(previewNode, previewDefinition, previewResources)} preview /></div>}
     </div>}
   </main>;

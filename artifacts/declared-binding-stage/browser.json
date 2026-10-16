@@ -1,0 +1,16 @@
+{
+  "actualComposer": true,
+  "japaneseUI": true,
+  "typedDeclaredDefaults": true,
+  "temporaryOverrideRestore": true,
+  "declaredVariablePicker": true,
+  "bindingPathSaved": true,
+  "protocolDefaultsUnchanged": true,
+  "literalRuntimeVariableInitialization": true,
+  "widths": [
+    375,
+    1280
+  ],
+  "automatedTests": 552,
+  "fullBrowserRegression": true
+}

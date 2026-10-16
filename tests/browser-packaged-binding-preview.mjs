@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
-import {createProtocolGraph,insertNodeOnControlEdge,participantUiTemplate,createUiElement} from '../src/core/index.js';
+import {createProtocolGraph,insertNodeOnControlEdge,participantUiTemplate,createUiElement,addVariable} from '../src/core/index.js';
 import {openTestBrowser} from './browser-harness.mjs';
 const origin=process.env.PF_PACKAGE_ORIGIN;if(!origin)throw Error('Package origin required');
 const ui=participantUiTemplate('instruction');ui.root.props={...ui.root.props,screenWidth:1280,screenHeight:720};ui.root.children.find(e=>e.type==='Text'&&e.props.variant==='heading').bindings={text:'variables.score'};ui.root.children.find(e=>e.type==='Text'&&e.props.variant!=='heading').bindings={text:'variables.bundle'};ui.root.children.push(createUiElement('Text',{bindings:{text:'variables.flag'}}),createUiElement('Input',{props:{name:'trial_answer',label:'Trial answer',inputType:'text'}}));
-let protocol=createProtocolGraph();const added=insertNodeOnControlEdge(protocol,protocol.graph.edges[0].id,'display.screen',{config:{ui,completion:{mode:'manual'}}});protocol=added.protocol;
+let protocol=createProtocolGraph();protocol=addVariable(protocol,{name:'score',type:'number',scope:'session',defaultValue:0});const added=insertNodeOnControlEdge(protocol,protocol.graph.edges[0].id,'display.screen',{config:{ui,completion:{mode:'manual'}}});protocol=added.protocol;
 const b=await openTestBrowser();
 try{
  await b.send('Page.navigate',{url:origin});await b.waitFor(`!!document.querySelector('main')`,'production app');await b.evaluate(`localStorage.setItem('physioflow.protocols.v1',${JSON.stringify(JSON.stringify([protocol]))});localStorage.setItem('physioflow.ui-language','ja');localStorage.setItem('physioflow.guide-seen.v1','1');location.reload()`);

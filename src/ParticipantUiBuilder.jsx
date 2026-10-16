@@ -20,7 +20,7 @@ import { StructureTree } from './participantUi/tree/StructureTree.jsx';
 import { ParticipantPreview } from './participantUi/preview/ParticipantPreview.jsx';
 import { useParticipantUiState } from './participantUi/useParticipantUiState.js';
 
-export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate }) {
+export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate, variables }) {
   const t = useT();
   const [boundsIssues, setBoundsIssues] = useState([]);
   const [libraryTab, setLibraryTab] = useState('elements');
@@ -137,7 +137,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
       <button className="ui-preview-btn" onClick={() => setPreview(value => !value)}>{preview ? '✎ Edit' : '▶ Preview'}</button>
     </div>
 
-    {preview ? <ParticipantPreview schema={normalized} width={deviceWidth} onLocate={locateIssue} />
+    {preview ? <ParticipantPreview variables={variables} schema={normalized} width={deviceWidth} onLocate={locateIssue} />
       : <div className="ui-canvas-layout">
         <div className="ui-element-library">
           <div className="ui-library-tabs" role="tablist" aria-label="Library panels">
@@ -239,7 +239,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
           </details>}
           <StyleEditor element={selected} theme={theme} onSetStyle={setStyle} forceOpen={styleForceOpen} onToggle={open => { if (!open) s.setStyleForceOpen(false); }} />
           <details className="ui-advanced"><summary>Bindings and actions</summary>
-          <RuntimeBindingsEditor element={selected} onChange={bindings => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings })))} />
+          <RuntimeBindingsEditor variables={variables} element={selected} onChange={bindings => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings })))} />
           {selected.type === 'Button' && <ButtonActionsEditor key={selected.id} actions={selected.actions} onChange={actions => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions })))} />}
           </details>
           </fieldset>
