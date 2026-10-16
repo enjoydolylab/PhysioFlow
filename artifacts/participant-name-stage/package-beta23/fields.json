@@ -1,0 +1,8 @@
+{
+  "productionAssets": true,
+  "syntheticDraft": true,
+  "multipleIssuesOnOneElement": true,
+  "duplicateNameAndRangeCorrection": true,
+  "rawNamesAndValuesInJapanese": true,
+  "configureFromPreview": true
+}
