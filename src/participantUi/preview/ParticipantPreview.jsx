@@ -18,7 +18,7 @@ function PreviewSession({ schema, width }) {
       <button type="button" aria-pressed={interactive} onClick={() => { setInteractive(value => !value); reset(); }}>{t(interactive ? 'Appearance only' : 'Try answering')}</button>
       {interactive && <button type="button" onClick={reset}>{t('Reset answers')}</button>}
     </section>
-    <div style={{ width: '100%', maxWidth: width, margin: 'auto' }}><ParticipantRenderer key={attempt} schema={schema} context={{ progress: { percent: 40 } }} preview previewInteractions={interactive} onSubmit={setSubmission} onValueChange={() => setSubmission(null)} /></div>
+    <div style={{ width: '100%', maxWidth: width, margin: 'auto' }}><ParticipantRenderer key={attempt} schema={schema} context={{ progress: { percent: 40 } }} preview previewInteractions={interactive} onSubmit={setSubmission} onAction={() => setSubmission(null)} onValueChange={() => setSubmission(null)} /></div>
     {submission && <section className="ui-preview-result" aria-label={t('Preview response values')}><p role="status">{t('Preview submission accepted')}</p><pre>{JSON.stringify(submission.values, null, 2)}</pre></section>}
   </div>;
 }

@@ -1,0 +1,16 @@
+{
+  "literalActionNamesPreserved": true,
+  "objectTypesPreserved": true,
+  "actionOnlyChangeClearsResult": true,
+  "resubmitReset": true,
+  "untouchedCheckboxUnchecked": true,
+  "noInheritedErrors": true,
+  "requiredValidation": true,
+  "optionalMultiChoiceEmptyArray": true,
+  "syntheticActualRun": true,
+  "savedResponsesReadback": true,
+  "eventReadback": true,
+  "jsonlExport": true,
+  "fullBrowserRegression": true,
+  "automatedTests": 538
+}
