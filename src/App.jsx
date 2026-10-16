@@ -1,7 +1,7 @@
 import { verifyProtocolAssets } from './fsStorage.js';
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { applyThemeToDOM, resetThemeToDOM } from './theme.js';
-import { createNextProtocolVersion, duplicateProtocolAsProject, freezeProtocol, validateProtocol } from './domain';
+import { createNextProtocolVersion, duplicateProtocolAsProject } from './domain';
 import { clearCurrentRun, getStorageInfo, loadCurrentRunAsync, loadProtocols, loadSessions, openDataDirectory, saveProtocols, selectDataDirectory } from './storage';
 import Dashboard from './Dashboard.jsx';
 import { ConfirmDialog, AlertDialog, PromptDialog } from './Modal.jsx';
@@ -31,7 +31,6 @@ import { createProjectComponentRegistry } from './sdk/index.js';
 import { migrateLegacyProtocolV1 } from './legacy/migrateProtocolV1.js';
 import { useGlobalShortcuts } from './app/useGlobalShortcuts.js';
 import { useUndoRedo } from './app/useUndoRedo.js';
-import { Builder } from './app/legacyBuilder.jsx';
 import { GraphSessionSetup, ResumeBanner, SessionSetup } from './app/sessionSetup.jsx';
 import { useT } from './i18n.jsx';
 import { clone, saveFile, showToast } from './app/uiHelpers.js';
@@ -40,7 +39,6 @@ import { clone, saveFile, showToast } from './app/uiHelpers.js';
 const Analytics = lazy(() => import('./Analytics.jsx'));
 const GuidePanel = lazy(() => import('./GuidePanel.jsx'));
 const ComposerV2 = lazy(() => import('./ComposerV2.jsx'));
-const FlowWorkspaceOverlay = lazy(() => import('./FlowWorkspaceOverlay.jsx'));
 const GraphRuntimeRunnerPage = lazy(() => import('./GraphRuntimeRunnerPage.jsx'));
 const RunnerPage = lazy(() => import('./RuntimeRunnerPage.jsx'));
 
@@ -51,7 +49,6 @@ export default function App() {
   const [view, setView] = useState('home');
   const [workspacePage, setWorkspacePage] = useState('projects');
   const [analyticsSessionId, setAnalyticsSessionId] = useState(null);
-  const [viewMode, setViewMode] = useState('visual');
   const [protocols, setProtocols] = useState([]);
   const [current, setCurrent] = useState(null);
   const [saveAnim, setSaveAnim] = useState(false);
@@ -62,7 +59,6 @@ export default function App() {
   const [storageInfo, setStorageInfo] = useState({ supported: false, selected: false, name: '', permission: 'missing' });
   const [guideOpen, setGuideOpen] = useState(false);
   const [guideTab, setGuideTab] = useState('workflow');
-  const [builderFocusTarget, setBuilderFocusTarget] = useState(null);
 
   // Undo/redo
   const [hasUnsaved, setHasUnsaved] = useState(false);
@@ -307,13 +303,21 @@ export default function App() {
     });
   };
 
+  const migrationInFlight = useRef(false);
+  const [migrationPending, setMigrationPending] = useState(false);
   const migrateProtocol = async value => {
+    if (migrationInFlight.current) return;
+    migrationInFlight.current = true;
+    setMigrationPending(true);
     try {
       const { protocol: migrated, report } = migrateLegacyProtocolV1(value, { idFactory: createId });
-      await addAndOpen(migrated);
+      await addAndOpen(migrated, true);
       setAlert({ title: 'Migration complete', message: `${report.counts.steps} steps inspected · ${report.coverage.mappedPercent}% mapped to native V2 components · ${report.issues.length} review item(s). The migrated version remains a safe editable draft until reviewed.` });
     } catch (error) {
       setAlert({ title: 'Migration failed', message: error.message });
+    } finally {
+      migrationInFlight.current = false;
+      setMigrationPending(false);
     }
   };
 
@@ -350,12 +354,10 @@ export default function App() {
     setGuideOpen(true);
   }, []);
 
-  const focusPreRunIssue = useCallback(target => {
+  const focusPreRunIssue = useCallback(() => {
     if (preRunCheck) setCurrent(preRunCheck);
     setPreRunCheck(null);
-    setViewMode('visual');
     setView('builder');
-    setBuilderFocusTarget({ ...target, nonce: Date.now() });
   }, [preRunCheck]);
 
   const handlePreRunContinue = useCallback(() => {
@@ -446,87 +448,14 @@ export default function App() {
         {promptState && <PromptDialog {...promptState} />}
       </>;
     }
-    if (viewMode === 'visual') {
-      return <div className="visual-editor-shell">
-        <Suspense fallback={<LoadingFallback />}><FlowWorkspaceOverlay
-          protocol={current} onChange={(cv, shouldRecord = true) => {
-            if (shouldRecord) {
-              const now = Date.now();
-              if (now - undoThrottle.current > 300) pushUndo(clone(current), true);
-              undoThrottle.current = now;
-            }
-            setCurrent(cv);
-          }} onSave={handleSave}
-          onBack={handleBackFromBuilder}
-          onExport={handleProtocolExport}
-          onFreeze={current.status !== 'frozen' ? async () => {
-            const check = validateProtocol(current);
-            if (check.valid) {
-              try {
-                const frozen = await freezeProtocol(current);
-                setCurrent(frozen);
-                if (await handleSave(frozen)) showToast('Protocol frozen — now immutable');
-              } catch (err) {
-                showToast('Cannot freeze: ' + err.message);
-              }
-            } else { setPreRunCheck(current); }
-          } : null}
-          onUnfreeze={current.status === 'frozen' ? () => addAndOpen(createNextProtocolVersion(current, { existingProtocols: protocols })) : null}
-          onTestRun={() => {
-            const check = validateProtocol(current);
-            if (check.valid && current.status !== 'frozen') { setRun(current); setView('setup'); } else { setPreRunCheck(current); }
-          }}
-          onSwitchText={() => setViewMode('text')}
-          hasUnsaved={hasUnsaved}
-          canUndo={undoStack.length > 0}
-          canRedo={redoStack.length > 0}
-          onUndo={undo}
-          onRedo={redo}
-          saveAnim={saveAnim}
-          onGuide={openGuide}
-          focusTarget={builderFocusTarget}
-        /></Suspense>
-        {deleteConfirm && <ConfirmDialog {...deleteConfirm} />}
-        {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}
-        {promptState && <PromptDialog {...promptState} />}
-        {guideOpen && <Suspense fallback={null}><GuidePanel initialTab={guideTab} onClose={() => setGuideOpen(false)} /></Suspense>}
-        {preRunCheck && <PreRunChecklist protocol={preRunCheck} storageInfo={storageInfo} onChooseDataDirectory={chooseDataDirectory} onClose={() => setPreRunCheck(null)} onContinue={handlePreRunContinue} onFix={focusPreRunIssue} />}
-      </div>;
-    } else {
-      return <>
-        <Builder
-          value={current}
-          onChange={(cv, shouldRecord = true) => {
-            if (shouldRecord) {
-              const now = Date.now();
-              if (now - undoThrottle.current > 300) pushUndo(clone(current), true);
-              undoThrottle.current = now;
-            }
-            setCurrent(cv);
-          }}
-          onSave={handleSave}
-          onBack={handleBackFromBuilder}
-          onRun={value => {
-            const check = validateProtocol(value);
-            if (check.valid && value.status !== 'frozen') { setRun(value); setView('setup'); } else { setPreRunCheck(value); }
-          }}
-          undo={undo}
-          redo={redo}
-          canUndo={undoStack.length > 0}
-          canRedo={redoStack.length > 0}
-          saveAnim={saveAnim}
-          hasUnsaved={hasUnsaved}
-          onSwitchToVisual={() => setViewMode('visual')}
-          onGuide={openGuide}
-          onUnfreeze={current.status === 'frozen' ? () => addAndOpen(createNextProtocolVersion(current, { existingProtocols: protocols })) : null}
-        />
-        {deleteConfirm && <ConfirmDialog {...deleteConfirm} />}
-        {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}
-        {promptState && <PromptDialog {...promptState} />}
-        {guideOpen && <Suspense fallback={null}><GuidePanel initialTab={guideTab} onClose={() => setGuideOpen(false)} /></Suspense>}
-        {preRunCheck && <PreRunChecklist protocol={preRunCheck} storageInfo={storageInfo} onChooseDataDirectory={chooseDataDirectory} onClose={() => setPreRunCheck(null)} onContinue={handlePreRunContinue} onFix={focusPreRunIssue} />}
-      </>;
-    }
+    return <main className="legacy-migration-notice">
+      <h1>{t('Legacy experiment plan')}</h1>
+      <p>{t('Convert this plan to edit it in the current editor. A new draft will be created while preserving the original. Review the converted content and validation results before running.')}</p>
+      <button onClick={handleBackFromBuilder}>{t('Back to projects')}</button>
+      <button className="primary" disabled={migrationPending} onClick={() => migrateProtocol(current)}>{t(migrationPending ? 'Converting…' : 'Convert and edit')}</button>
+      {deleteConfirm && <ConfirmDialog {...deleteConfirm} />}
+      {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}
+    </main>;
   }
 
   if (view === 'setup' && run) {

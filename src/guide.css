@@ -1,90 +1,5 @@
-/* Dark grid dots */
-.dark-mode .clean-canvas {
-  background-color: #0f1713;
-  background-image:
-    linear-gradient(#1d2a24 1px, transparent 1px),
-    linear-gradient(90deg, #1d2a24 1px, transparent 1px);
-}
-/* Node drag — uses style.css base + flow-specific augment */
-.dark-mode .studio-inspector { background: #18231e; border-color: var(--line); }
-.dark-mode .inspector-help { background: #111a16; color: var(--muted); }
-.dark-mode .resource-library-backdrop { background: #0a0a0ccc; }
-.dark-mode .resource-library { background: #18231e; border-color: var(--line); }
-.dark-mode .palette-tip,
-.dark-mode .node-guide {
-  background: #111a16;
-  border-color: var(--line);
-}
-.dark-mode .resource-library h2, .dark-mode .resource-library p { color: var(--ink); }
-.dark-mode .resource-list article { background: #111a16; border-color: var(--line); }
-.dark-mode .hierarchy-list > article { background: #111a16; border-color: var(--line); }
-.dark-mode .hierarchy-trials > div { background: #18231e; border-color: var(--line); }
-.dark-mode .trial-open { background: #1a3328; color: var(--green); }
-.dark-mode .questionnaire-library-list > article { background: #111a16; border-color: var(--line); }
-.dark-mode .questionnaire-library .questionnaire-designer,
-.dark-mode .questionnaire-library .questionnaire-designer article {
-  background: #111a16;
-  border-color: var(--line);
-}
-.dark-mode .resource-list article input,
-.dark-mode .resource-list article select,
-.dark-mode .hierarchy-list input,
-.dark-mode .hierarchy-list select,
-.dark-mode .questionnaire-library input,
-.dark-mode .questionnaire-library select,
-.dark-mode .questionnaire-library textarea {
-  background: #18231e;
-  border-color: var(--line);
-  color: var(--ink);
-}
-.dark-mode .flow-status.valid { background: #1a3328; color: var(--green); border-color: #315743; }
-.dark-mode .flow-status.invalid { background: #2a1918; color: #ff8a83; border-color: #61302c; }
-.dark-mode .connection-hint.focus-warning { color: #f0bf68; background: #2a2416; border-color: #5b4a24; }
-.dark-mode .unplaced-step-panel {
-  background: #2a2416;
-  border-color: #5b4a24;
-  color: #f1d58a;
-}
-.dark-mode .unplaced-step-panel > span {
-  color: #cdb675;
-}
-.dark-mode .unplaced-step-panel article {
-  background: #1b2119;
-  border-color: #5b4a24;
-}
-.dark-mode .unplaced-step-panel i {
-  background: #3a321d;
-  color: #f1d58a;
-}
-.dark-mode .unplaced-step-panel strong {
-  color: var(--ink);
-}
-.dark-mode .inspector-issues { background: #111a16; border-color: var(--line); }
-.dark-mode .inspector-issues.error { background: #2a1918; border-color: #61302c; }
-.dark-mode .inspector-issues.warning { background: #2a2416; border-color: #5b4a24; }
-.dark-mode .paste-ghost { color: var(--green); }
+/* Guide panel styles retained from the retired flow editor. */
 
-/* Overflow menu */
-.overflow-menu { position: relative; }
-.overflow-backdrop { position: fixed; inset: 0; z-index: 90; }
-.overflow-dropdown {
-  position: absolute; right: 0; top: 100%; margin-top: 4px; z-index: 100;
-  background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
-  padding: 4px; min-width: 180px;
-  box-shadow: 0 8px 24px #00000020;
-}
-.overflow-dropdown button {
-  display: block; width: 100%; text-align: left;
-  padding: 7px 10px; font-size: 14px;
-  border: 0; background: transparent; color: var(--ink);
-  border-radius: 4px;
-}
-.overflow-dropdown button:hover { background: #f0f4ee; }
-.dark-mode .overflow-dropdown { background: #18231e; border-color: var(--line); box-shadow: 0 12px 32px #00000044; }
-.dark-mode .overflow-dropdown button { color: var(--ink); }
-.dark-mode .overflow-dropdown button:hover { background: #223129; }
-
-/* Shared guide panel */
 .guide-backdrop {
   position: fixed;
   inset: 0;
@@ -96,7 +11,6 @@
   backdrop-filter: blur(6px);
   animation: guide-fade .2s ease;
 }
-@keyframes guide-fade { from { opacity: 0; } to { opacity: 1; } }
 .guide-panel {
   width: min(1080px, 100%);
   max-height: min(88vh, 820px);
@@ -107,7 +21,6 @@
   box-shadow: var(--shadow-lg);
   animation: guide-in .24s cubic-bezier(.4, 0, .2, 1);
 }
-@keyframes guide-in { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
 .guide-head {
   height: auto;
   margin: 0;
@@ -378,4 +291,16 @@
   background: #1a3328;
   border-color: #315743;
   color: var(--green);
+}
+@media (max-width: 900px) {
+  .guide-backdrop { padding: 10px; }
+}
+@media (max-width: 900px) {
+  .guide-head { flex-direction: column; }
+}
+@media (max-width: 900px) {
+  .guide-head button { align-self: flex-end; }
+}
+@media (max-width: 900px) {
+  .guide-table div { grid-template-columns: 1fr; }
 }

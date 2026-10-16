@@ -143,3 +143,7 @@
 @media (max-width:640px), (max-width:1000px) and (max-height:480px) {
   .composer-more > div { position:static; width:auto; }
 }
+
+.legacy-migration-notice { width: min(680px, calc(100% - 32px)); margin: 10vh auto; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); overflow-wrap: anywhere; }
+.legacy-migration-notice p { line-height: 1.7; }
+.legacy-migration-notice button { margin: 8px 8px 0 0; white-space: normal; }

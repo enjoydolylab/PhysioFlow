@@ -7,7 +7,7 @@ import { useEffect } from 'react';
  * (or Ctrl+Y) undo/redo while a builder view is active. Shortcuts are ignored
  * while the participant UI builder is focused or an editable element has
  * focus. Escape is intentionally NOT handled here — inside the editors it
- * means "cancel/deselect" (ComposerV2/FlowCanvas), not "leave". Leaving has
+ * means "cancel/deselect" (ComposerV2), not "leave". Leaving has
  * an explicit ← Projects button so an accidental Escape never discards work.
  *
  * @param {object} params
