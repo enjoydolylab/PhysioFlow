@@ -1,0 +1,13 @@
+{
+  "productionAssets": true,
+  "focusedFieldShortcutSave": true,
+  "reloadPreservesEdit": true,
+  "nativeTextUndoPreserved": true,
+  "uppercaseRedo": true,
+  "fullscreenSaveAndStatus": true,
+  "headerWidths": [
+    375,
+    1280
+  ],
+  "saveAndLeave": true
+}

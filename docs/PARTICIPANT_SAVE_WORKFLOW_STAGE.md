@@ -1,6 +1,6 @@
 # Participant screen save workflow
 
-Source stage after beta.25; no new package or remote push yet.
+Source stage after beta.25, now included in beta.26. See DELIVERY_WEB_beta.26.md for production package evidence.
 
 The app save shortcut previously returned early whenever an input, textarea, select or contenteditable field had focus. Ctrl/Cmd+S now saves the current protocol from these fields and prevents the browser Save Page action. Composition and already-handled events are ignored. Native text undo remains with the focused field; screen undo remains owned by the participant builder.
 
@@ -20,4 +20,4 @@ Actual browser OPFS verification (tests/browser-save-race.mjs): hold the first f
 
 The unsaved-changes dialog now offers Save & Leave, Discard & Leave and Cancel. Save is the primary action. Duplicate save clicks are blocked while persistence is running; discard is unavailable during that write. Cancel remains available and explicitly explains that writing continues while navigation is cancelled. The navigation request is invalidated on cancel, so save completion cannot unexpectedly take the user away. Failed writes leave the editor and its modifications available for retry.
 
-The OPFS browser test also verifies all three leave choices, failed Save & Leave, cancellation during a delayed save, and dialog control layout at 375/1280 pixels. No new package has been built from this stage yet.
+The OPFS browser test also verifies all three leave choices, failed Save & Leave, cancellation during a delayed save, and dialog control layout at 375/1280 pixels. The beta.26 package separately verifies the normal production save and exit path.
