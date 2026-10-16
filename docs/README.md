@@ -1,6 +1,6 @@
 # 文档导航
 
-当前本地研究试用版本 **0.6.0-beta.20**：[实现与发布状态](refactor/IMPLEMENTATION_STATUS.md)、[按顺序验收与剩余工作](ACCEPTANCE_STATUS_beta.18.md)、[交付记录](DELIVERY_WEB_beta.20.md)。真人、正式设备和原刺激素材验收未完成。以下日期与旧版本条目仅作历史记录。
+当前本地研究试用版本 **0.6.0-beta.21**：[实现与发布状态](refactor/IMPLEMENTATION_STATUS.md)、[按顺序验收与剩余工作](ACCEPTANCE_STATUS_beta.18.md)、[交付记录](DELIVERY_WEB_beta.21.md)。真人、正式设备和原刺激素材验收未完成。以下日期与旧版本条目仅作历史记录。
 
 [beta.7 Web交付记录](DELIVERY_WEB_beta.7.md)。交付候选beta.7：[一页交接说明](HANDOFF_beta.7.md)、[候选发布说明](RELEASE_NOTES_beta.7.md)。
 
