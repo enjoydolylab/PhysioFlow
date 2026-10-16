@@ -1,0 +1,10 @@
+{
+  "overflowDraftPreservesPriorValue": true,
+  "invalidStoredValueVisible": true,
+  "exactActionValueFocus": true,
+  "repairToZero": true,
+  "templateAndProtocolRejectOverflow": true,
+  "jsonTypesPreserved": true,
+  "automatedTests": 542,
+  "fullBrowserRegression": true
+}

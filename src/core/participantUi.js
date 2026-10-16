@@ -1,3 +1,4 @@
+import { isJsonValue } from './jsonValue.js';
 import { discreteScaleValues, numericBoundsError } from './inputValidation.js';
 import { createId } from './ids.js';
 import { choiceOptionsError } from './choiceInput.js';
@@ -198,6 +199,7 @@ export function validateParticipantUi(schema) {
     for (const [index, action] of (element?.actions || []).entries()) {
       if (!['submit', 'setVariable', 'next'].includes(action.action)) errors.push({ code: 'ui.action_unknown', message: `Unknown UI action ${action.action}`, path: `${path}.actions.${index}`, elementId: element.id });
       if (action.action === 'setVariable' && (typeof action.name !== 'string' || !action.name.trim())) errors.push({ code: 'ui.action_variable_missing', message: 'setVariable action needs a variable name', path: `${path}.actions.${index}.name`, elementId: element.id });
+      if (action.action === 'setVariable' && !isJsonValue(action.value)) errors.push({ code: 'ui.action_value_invalid', message: 'Button variable values must be valid JSON with finite numbers', path: `${path}.actions.${index}.value`, elementId: element.id });
     }
     (element?.children || []).forEach((child, index) => visit(child, `${path}.children.${index}`));
   };

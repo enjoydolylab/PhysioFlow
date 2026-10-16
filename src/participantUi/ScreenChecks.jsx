@@ -12,7 +12,7 @@ const INPUT_ISSUES = {
 export function ScreenChecks({ elements, boundsIssues, fixedSize, preview, onLocate, onPreview, validationErrors = [] }) {
   const t = useT();
   const inputIssues = validationErrors.filter(issue => Object.hasOwn(INPUT_ISSUES, issue.code));
-  const actionIssues = validationErrors.filter(issue => ['ui.action_unknown', 'ui.action_variable_missing'].includes(issue.code));
+  const actionIssues = validationErrors.filter(issue => ['ui.action_unknown', 'ui.action_variable_missing', 'ui.action_value_invalid'].includes(issue.code));
   const media = elements.filter(({element}) => element.type === 'Media' && !String(element.props?.sourceUrl || '').trim() && !element.bindings?.sourceUrl);
   const overflow = elements.filter(({element}) => boundsIssues.includes(element.id));
   const label = element => elementLabel(element) || element.props?.alt || `${element.type} ${elements.findIndex(item => item.element.id === element.id) + 1}`;
@@ -27,7 +27,7 @@ export function ScreenChecks({ elements, boundsIssues, fixedSize, preview, onLoc
     {actionIssues.map(issue => {
       const index = Number(issue.path?.match(/\.actions\.(\d+)/)?.[1] || 0);
       const target = elements.find(item => item.element.id === issue.elementId)?.element;
-      const field = issue.code === 'ui.action_variable_missing' ? `Action variable ${index + 1}` : `Button action ${index + 1}`;
+      const field = issue.code === 'ui.action_variable_missing' ? `Action variable ${index + 1}` : issue.code === 'ui.action_value_invalid' ? `Action value JSON ${index + 1}` : `Button action ${index + 1}`;
       return <div className="ui-check-row" data-issue-code={issue.code} key={`action-${issue.path}-${issue.code}`}><div><b>{t('Button action needs attention')}{target && ` · ${label(target)}`} · {index + 1}</b><small>{t(issue.message)}</small></div><button type="button" onClick={() => onLocate(issue.elementId, field)}>{t('Locate and fix')}</button></div>;
     })}
     {!fixedSize && <p>This is a responsive screen. Choose a Screen size above so the editor and the run share the same fixed resolution.</p>}

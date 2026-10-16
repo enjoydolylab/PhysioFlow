@@ -6,6 +6,7 @@ try {
  await b.waitFor(`!!document.querySelector('[data-ui-id="'+buttonId+'"]')`,'button canvas');await b.evaluate(`document.querySelector('[data-ui-id="'+buttonId+'"]').click()`);await b.waitFor(`document.querySelectorAll('.ui-button-action').length===3`,'complete action list');await b.evaluate(`document.querySelector('.ui-button-actions').closest('details').open=true`);
  const enter=async value=>b.evaluate(`(()=>{const f=document.querySelector('.ui-button-action textarea');Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(f,${JSON.stringify(value)});f.dispatchEvent(new Event('input',{bubbles:true}))})()`);
  await enter('42');await b.waitFor(`actions()[0].value===42`,'number preserved');assert.deepEqual(await b.evaluate('actions().slice(1)'),[{event:'click',action:'setVariable',name:'answer',value:false},{event:'click',action:'submit'}]);assert.equal(await b.evaluate('actions()[0].annotation'),'keep');
+ await enter('1e309');await b.waitFor(`!!document.querySelector('.ui-button-action [role=alert]')`,'overflow warning');assert.equal(await b.evaluate('actions()[0].value'),42);await enter('42');
  await enter('{');await b.waitFor(`!!document.querySelector('.ui-button-action [role=alert]')`,'invalid JSON warning');assert.equal(await b.evaluate('actions()[0].value'),42);await enter('42');
  await enter('{"count":0,"flag":false}');await b.waitFor(`typeof actions()[0].value==='object'&&actions()[0].value.count===0`,'object value');assert.deepEqual(await b.evaluate('actions()[0].value'),{count:0,flag:false});
  await enter('[0,false,"0"]');await b.waitFor(`Array.isArray(actions()[0].value)`,'array value');assert.deepEqual(await b.evaluate('actions()[0].value'),[0,false,'0']);await enter('42');await b.waitFor(`actions()[0].value===42`,'restore number');
@@ -25,5 +26,10 @@ try {
  assert.ok(await b.evaluate(`document.querySelector('.ui-button-actions').closest('details').open`),'action section opened');
  await b.evaluate(`(()=>{const f=document.activeElement;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(f,'second_answer');f.dispatchEvent(new Event('input',{bubbles:true}))})()`);
  await b.waitFor(`document.querySelectorAll('[data-issue-code="ui.action_variable_missing"]').length===1`,'one error remains');
+ await b.evaluate(`screenSchema=structuredClone(screenSchema);screenSchema.root.children.find(e=>e.id===buttonId).actions[0].value=Infinity;renderScreen()`);
+ await b.waitFor(`!!document.querySelector('[data-issue-code="ui.action_value_invalid"]')`,'imported invalid value');
+ await b.evaluate(`document.querySelector('.ui-screen-checks').open=true;document.querySelector('[data-issue-code="ui.action_value_invalid"] button').click()`);
+ await b.waitFor(`document.activeElement?.getAttribute('aria-label')==='Action value JSON 1'`,'locate action value');
+ await enter('0');await b.waitFor(`!document.querySelector('[data-issue-code="ui.action_value_invalid"]')&&actions()[0].value===0`,'repair invalid value');
  console.log('Button actions: full list, metadata preservation, typed number/boolean, invalid JSON, reorder/undo/redo, preview order, add/remove, 375/1280 layout passed');
 }finally{await b.close();}

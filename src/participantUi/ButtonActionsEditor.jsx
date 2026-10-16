@@ -1,19 +1,29 @@
 import { useEffect, useState } from 'react';
+import { isJsonValue } from '../core/jsonValue.js';
 import { useT } from '../i18n';
 
-function ActionValue({ value, onChange }) {
+function valueText(value) {
+  if (isJsonValue(value)) return JSON.stringify(value);
+  return typeof value === 'number' ? String(value) : '';
+}
+
+function ActionValue({ value, index, onChange }) {
   const t = useT();
-  const [draft, setDraft] = useState(() => JSON.stringify(value ?? null));
-  const [invalid, setInvalid] = useState(false);
-  useEffect(() => { setDraft(JSON.stringify(value ?? null)); setInvalid(false); }, [value]);
-  return <label>{t('Value (JSON)')}<textarea aria-label="Action value JSON" value={draft} onChange={event => {
+  const invalidValue = 'Use a JSON value with finite numbers. The last valid value is kept.';
+  const [draft, setDraft] = useState(() => valueText(value));
+  const [error, setError] = useState(() => isJsonValue(value) ? null : invalidValue);
+  useEffect(() => { setDraft(valueText(value)); setError(isJsonValue(value) ? null : invalidValue); }, [value]);
+  return <label>{t('Value (JSON)')}<textarea aria-label={`Action value JSON ${index + 1}`} value={draft} onChange={event => {
     const text = event.target.value;
     setDraft(text);
-    try { const next = JSON.parse(text); setInvalid(false); onChange(next); }
-    catch { setInvalid(true); }
-  }} aria-invalid={invalid} />
+    let next;
+    try { next = JSON.parse(text); }
+    catch { setError('Invalid JSON. The last valid value is kept.'); return; }
+    if (!isJsonValue(next)) { setError(invalidValue); return; }
+    setError(null); onChange(next);
+  }} aria-invalid={Boolean(error)} />
     <small>{t('Use 0 for a number, false for a boolean, or "yes" for text.')}</small>
-    {invalid && <small role="alert">{t('Invalid JSON. The last valid value is kept.')}</small>}
+    {error && <small role="alert">{t(error)}</small>}
   </label>;
 }
 
@@ -34,7 +44,7 @@ export function ButtonActionsEditor({ actions = [], onChange }) {
         {['submit', 'next', 'setVariable'].map(type => <option key={type} value={type}>{type}</option>)}
       </select></label>
       {action.action === 'setVariable' && <><label>{t('Variable name')}<input aria-label={`Action variable ${index + 1}`} value={action.name || ''} onChange={event => update(index, { name: event.target.value })} /></label>
-        <ActionValue value={action.value} onChange={value => update(index, { value })} />
+        <ActionValue index={index} value={action.value} onChange={value => update(index, { value })} />
       </>}
       <div className="ui-action-order">
         <button type="button" disabled={index === 0} aria-label={t('Move action up')} onClick={() => move(index, -1)}>↑</button>
