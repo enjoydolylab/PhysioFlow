@@ -499,6 +499,7 @@ export default function ParticipantUiCanvas({
       const common = {
         'data-ui-id': element.id,
         className: `ui-slot${selectedClass(element)}${editing ? ' editing' : ''}`,
+        translate: element.bindings?.text ? 'no' : undefined,
         style: { ...style, ...positioned, ...anchorStyle },
         ref: registerRef(element.id),
         onMouseDown: event => beginPointerDrag(event, element),

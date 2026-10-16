@@ -79,7 +79,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     if (element.type === 'Text') {
       const text = formatUiText(boundProp(element, 'text', context));
       const className = props.pulse ? 'participant-pulse' : undefined;
-      return props.variant === 'heading' ? <h1 key={element.id} className={className} style={{ ...style, ...positioned }}>{text}</h1> : <p key={element.id} className={className} style={{ ...style, ...positioned }}>{text}</p>;
+      return props.variant === 'heading' ? <h1 key={element.id} translate={element.bindings?.text ? 'no' : undefined} className={className} style={{ ...style, ...positioned }}>{text}</h1> : <p key={element.id} translate={element.bindings?.text ? 'no' : undefined} className={className} style={{ ...style, ...positioned }}>{text}</p>;
     }
     if (element.type === 'Media') {
       const source = boundProp(element, 'sourceUrl', context) || '';
