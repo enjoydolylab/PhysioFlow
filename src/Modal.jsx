@@ -42,18 +42,19 @@ export function Modal({ open = true, onClose, children }) {
   );
 }
 
-export function ConfirmDialog({ open = true, title, message, confirmLabel = 'Confirm', secondaryLabel, onSecondary, danger, onConfirm, onCancel }) {
+export function ConfirmDialog({ open = true, title, message, confirmLabel = 'Confirm', secondaryLabel, onSecondary, busy = false, busyMessage, danger, onConfirm, onCancel }) {
   const ref = useModalFocus(() => onCancel?.());
   if (!open) return null;
   return createPortal(
     <div className="modal-backdrop" onClick={(e) => { if (e.target === e.currentTarget) onCancel?.(); }} role="alertdialog" aria-modal="true" aria-label={title}>
-      <div className="modal-panel modal-confirm" ref={ref}>
+      <div className="modal-panel modal-confirm" ref={ref} aria-busy={busy}>
         <span className="modal-icon">{danger ? '⚠' : '?'}</span>
         <h3>{title}</h3>
         <p>{message}</p>
+        {busy && busyMessage && <p role="status">{busyMessage}</p>}
         <div className="modal-actions">
-          <button className={danger ? 'danger' : 'primary'} onClick={onConfirm} autoFocus={danger}>{confirmLabel}</button>
-          {secondaryLabel && onSecondary && <button onClick={onSecondary}>{secondaryLabel}</button>}
+          <button className={danger ? 'danger' : 'primary'} onClick={onConfirm} disabled={busy} autoFocus={danger}>{confirmLabel}</button>
+          {secondaryLabel && onSecondary && <button onClick={onSecondary} disabled={busy}>{secondaryLabel}</button>}
           <button onClick={onCancel}>Cancel</button>
         </div>
       </div>

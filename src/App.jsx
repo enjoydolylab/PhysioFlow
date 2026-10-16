@@ -131,20 +131,6 @@ export default function App() {
     return () => window.removeEventListener('beforeunload', handler);
   }, [hasUnsaved]);
 
-  const handleBackFromBuilder = useCallback(() => {
-    if (hasUnsaved) {
-      setDeleteConfirm({
-        title: 'Unsaved changes',
-        message: 'You have unsaved changes. Discard them and return to projects?',
-        confirmLabel: 'Discard & Leave',
-        danger: true,
-        onConfirm: () => { setCurrent(null); setView('home'); setHasUnsaved(false); setUndoStack([]); setRedoStack([]); setDeleteConfirm(null); },
-        onCancel: () => setDeleteConfirm(null),
-      });
-    } else {
-      setView('home');
-    }
-  }, [hasUnsaved, setUndoStack, setRedoStack]);
 
   // Keyboard shortcuts — refs to avoid stale closures
   const viewRef = useRef(view);
@@ -167,10 +153,15 @@ export default function App() {
     });
   }, []);
 
-  const persist = useCallback(async items => {
-    await saveProtocols(items);
-    setProtocols(items);
-    lastSaved.current = clone(items);
+  const persistenceQueue = useRef(Promise.resolve());
+  const persist = useCallback(items => {
+    const write = persistenceQueue.current.then(async () => {
+      await saveProtocols(items);
+      setProtocols(items);
+      lastSaved.current = clone(items);
+    });
+    persistenceQueue.current = write.catch(() => {});
+    return write;
   }, []);
 
   const open = value => {
@@ -209,15 +200,44 @@ export default function App() {
       showProtocolSaveError(error);
       return false;
     }
-    setCurrent(value);
-    setHasUnsaved(false);
-    lastSaved.current = clone(next);
-    setSaveAnim(true);
+    const savedCurrent = JSON.stringify(currentRef.current) === JSON.stringify(value);
+    if (savedCurrent) setHasUnsaved(false);
+    setSaveAnim(savedCurrent);
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => setSaveAnim(false), 1500);
-    showToast('Protocol saved');
-    return true;
+    showToast(savedCurrent ? 'Protocol saved' : 'Previous changes saved. Newer edits still need saving.');
+    return savedCurrent;
   }, [persist, protocols, showProtocolSaveError]);
+
+  const leaveRequest = useRef(0);
+  const handleBackFromBuilder = useCallback(() => {
+    const request = ++leaveRequest.current;
+    const leave = () => {
+      setCurrent(null); setView('home'); setHasUnsaved(false);
+      setUndoStack([]); setRedoStack([]); setDeleteConfirm(null);
+    };
+    if (!hasUnsaved) { leave(); return; }
+    let saving = false;
+    setDeleteConfirm({
+      title: 'Unsaved changes',
+      message: 'Save your changes before returning to projects?',
+      confirmLabel: 'Save & Leave',
+      busyMessage: 'Saving… Cancel keeps the editor open; saving will continue.',
+      secondaryLabel: 'Discard & Leave',
+      onConfirm: async () => {
+        if (saving) return;
+        saving = true;
+        setDeleteConfirm(dialog => dialog && { ...dialog, busy: true });
+        const saved = await handleSave(current);
+        saving = false;
+        if (leaveRequest.current !== request) return;
+        if (saved) leave();
+        else setDeleteConfirm(dialog => dialog && { ...dialog, busy: false });
+      },
+      onSecondary: leave,
+      onCancel: () => { leaveRequest.current += 1; setDeleteConfirm(null); },
+    });
+  }, [hasUnsaved, current, handleSave, setUndoStack, setRedoStack]);
 
   const addAndOpen = async (value, propagateFailure = false) => {
     try {

@@ -1,0 +1,19 @@
+{
+  "automatedTests": 535,
+  "failedTests": 0,
+  "build": true,
+  "zeroWarningLint": true,
+  "fullBrowserRegression": true,
+  "focusedFieldSaveAndReload": true,
+  "fullscreenSaveStatus": true,
+  "orderedOPFSWrites": true,
+  "newerEditsRetained": true,
+  "simulatedWriteFailureAndRetry": true,
+  "leaveCancelSaveDiscard": true,
+  "cancelPendingLeavePreventsNavigation": true,
+  "leaveDialogWidths": [
+    375,
+    1280
+  ],
+  "humanTrial": false
+}

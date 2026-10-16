@@ -421,3 +421,13 @@
 .palette-group-body { display: flex; flex-direction: column; gap: 10px; padding: 10px 11px; }
 .palette-node-group h4 { margin: 0 0 5px; font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #94a0ad; }
 .palette-node-group button { width: 100%; }
+
+.node-editor-header { flex-wrap: wrap; }
+.node-editor-header b { overflow-wrap: anywhere; min-width: 0; }
+.node-editor-save-state { font-size: .72rem; color: #e3ebe6; }
+.node-editor-header .node-editor-save { border-color: #86c7aa; }
+@media (max-width: 600px) {
+  .node-editor-header { gap: 8px; padding: 10px; }
+  .node-editor-header b { flex: 1 1 100%; }
+  .node-editor-header small { flex: 1 1 100%; overflow-wrap: anywhere; }
+}

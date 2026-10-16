@@ -74,6 +74,8 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
       <div className="node-editor-header">
         <b>{previewNode.label}</b><small>{previewNode.component.type}@{previewNode.component.version}</small>
         {fullscreenUiEditable && <button disabled={locked} onClick={() => setPreviewEdit(value => !value)}>{previewEdit ? 'View' : '✎ Edit'}</button>}
+        <span className="node-editor-save-state" role="status">{s.t(hasUnsaved ? 'Unsaved changes' : 'Saved')}</span>
+        <button type="button" className="node-editor-save" onClick={() => onSave(protocol)}>{s.t('Save')}</button>
         <button className="node-editor-close" onClick={() => setPreviewNodeId(null)}>✕ Done</button>
       </div>
       {previewEdit && fullscreenUiEditable && previewNode.config?.ui
