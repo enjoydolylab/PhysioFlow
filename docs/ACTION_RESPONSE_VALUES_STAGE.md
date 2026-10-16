@@ -1,6 +1,6 @@
 # Action and response value integrity
 
-Source work after beta.27; not packaged or pushed yet.
+Source stage after beta.27, included in beta.28. See DELIVERY_WEB_beta.28.md for production evidence.
 
 Button assignments now create literal own properties, preserving names such as __proto__ without changing the response object's prototype. Renderer lookups only consider actual own response/error properties. An untouched checkbox called constructor therefore starts unchecked, required validation blocks it, and an optional multi-choice called __proto__ defaults to an empty array.
 

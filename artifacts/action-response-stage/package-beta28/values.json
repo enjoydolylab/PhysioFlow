@@ -1,0 +1,10 @@
+{
+  "productionAssets": true,
+  "literalNamesPreserved": true,
+  "nestedTypesPreserved": true,
+  "untouchedRequiredCheckboxUnchecked": true,
+  "noInheritedError": true,
+  "requiredBlocks": true,
+  "actionOnlyClearsOldResult": true,
+  "resubmitReset": true
+}
