@@ -1,0 +1,8 @@
+{
+  "productionAssets": true,
+  "syntheticDraft": true,
+  "keyboardNumberInput": true,
+  "directChoiceAndMultiChoice": true,
+  "uniqueNames": true,
+  "previewPayloadTypes": true
+}
