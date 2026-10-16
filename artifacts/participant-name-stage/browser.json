@@ -1,0 +1,10 @@
+{
+  "actualBuilder": true,
+  "sameElementMultipleIssues": true,
+  "japaneseGuidance": true,
+  "locateFromPreview": true,
+  "missingAndDuplicateCorrection": true,
+  "otherFieldIssueRetained": true,
+  "originalInputUnchanged": true,
+  "undoRedo": true
+}

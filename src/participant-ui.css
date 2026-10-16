@@ -20,6 +20,16 @@
 .participant-ui-input { display: flex; flex-direction: column; gap: 9px; margin: 20px 0; text-align: left; }
 .participant-ui-input > span { font-weight: 650; }
 .participant-ui-input > label { font-weight: 650; }
+.ui-response-fields { margin: 12px 0; }
+.ui-response-fields summary { cursor: pointer; padding: 8px 0; }
+.ui-response-fields p { font-size: 13px; line-height: 1.6; }
+.ui-response-field-list { max-height: 360px; overflow: auto; }
+.ui-response-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 12px; margin: 8px 0; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.ui-response-field small { display: block; margin-top: 5px; }
+.ui-response-field code { white-space: pre-wrap; overflow-wrap: anywhere; }
+.ui-response-field button { align-self: start; min-height: 44px; }
+.ui-response-values { grid-column: 1 / -1; max-height: 120px; overflow: auto; }
+.ui-response-values code { display: inline-block; margin: 4px 8px 0 0; padding: 3px 6px; background: var(--surface); border-radius: 4px; }
 .participant-multi-choice { display: flex; flex-direction: column; gap: 10px; }
 .participant-multi-choice > label { display: flex; align-items: center; gap: 10px; min-height: 44px; overflow-wrap: anywhere; }
 .participant-multi-choice input[type="checkbox"] { flex: 0 0 auto; width: 20px; height: 20px; }

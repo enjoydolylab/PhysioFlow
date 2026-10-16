@@ -1,0 +1,9 @@
+{
+  "actualBuilder": true,
+  "inputNamesTypesAndOptions": true,
+  "rawNamesAndRecordedValuesAcrossThreeLanguages": true,
+  "noSchemaMutationByViewing": true,
+  "configureFromPreview": true,
+  "liveNameUpdates": true,
+  "narrowNoOverflow": true
+}

@@ -228,4 +228,4 @@ export const MAX_UNDO = 60;
 export const MAX_CONTROL_TRANSITIONS = 10000;
 export const MAX_FLOW_TRANSITIONS = 5000;
 
-export const APP_VERSION = '0.6.0-beta.22';
+export const APP_VERSION = '0.6.0-beta.23';

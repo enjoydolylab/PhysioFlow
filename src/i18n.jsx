@@ -232,6 +232,14 @@ Object.assign(dictionaries.ja,{
 });
 
 const LanguageContext = createContext(null);
+Object.assign(dictionaries.ja, { 'Configure':'設定' });
+Object.assign(dictionaries.zh, { 'Configure':'配置' });
+Object.assign(dictionaries.ja, { 'Response fields':'回答フィールド', 'These are input fields on this screen. Button actions may submit additional values.':'この画面の入力フィールドです。ボタンの動作によって追加の値が提出される場合があります。', 'Unnamed response':'未設定の回答名', 'Optional':'任意', 'Needs attention':'確認が必要です', 'Configure response {name}':'回答フィールド{name}を設定', 'Recorded values':'記録値', 'Array response':'配列の回答', 'Add an input to define a response field.':'入力部品を追加すると回答フィールドを定義できます。', 'Checkbox':'チェックボックス' });
+Object.assign(dictionaries.zh, { 'Response fields':'回答字段', 'These are input fields on this screen. Button actions may submit additional values.':'这里列出当前画面的输入字段，按钮动作还可能提交其他值。', 'Unnamed response':'未命名回答', 'Optional':'可选', 'Needs attention':'需要检查', 'Configure response {name}':'配置回答字段{name}', 'Recorded values':'记录值', 'Array response':'数组回答', 'Add an input to define a response field.':'添加输入控件后即可定义回答字段。', 'Checkbox':'复选框' });
+Object.assign(dictionaries.ja, { 'Response name':'回答名' });
+Object.assign(dictionaries.zh, { 'Response name':'回答名称' });
+Object.assign(dictionaries.ja, { 'Response name needs attention':'回答名の確認が必要です', 'Enter a response name':'回答名を入力してください', 'Each input needs a unique response name':'入力ごとに異なる回答名を設定してください' });
+Object.assign(dictionaries.zh, { 'Response name needs attention':'需要检查回答名称', 'Enter a response name':'请输入回答名称', 'Each input needs a unique response name':'每个输入控件须使用不同的回答名称' });
 Object.assign(dictionaries.ja, { 'Number input':'数値入力', 'Numeric response with optional bounds':'任意の上下限を持つ数値回答', 'Choose one recorded value':'記録値を1つ選択', 'Choose several recorded values':'複数の記録値を選択' });
 Object.assign(dictionaries.zh, { 'Number input':'数字输入', 'Numeric response with optional bounds':'可配置上下限的数值回答', 'Choose one recorded value':'选择一个记录值', 'Choose several recorded values':'选择多个记录值' });
 Object.assign(dictionaries.ja, { 'Multiple choice':'複数選択', 'Choose only listed options':'一覧の選択肢から選んでください' });
@@ -363,6 +371,7 @@ export function LanguageProvider({ children }) {
       const walker = document.createTreeWalker(root.current, NodeFilter.SHOW_TEXT);
       let node;
       while ((node = walker.nextNode())) {
+        if (node.parentElement?.closest('[translate="no"]')) continue;
         const current=node.nodeValue.trim(),known=translationState.get(node);
         const raw=known&&current===known.rendered?known.raw:current;
         if (!raw || (!dictionaries.zh[raw] && !dictionaries.ja[raw])) continue;

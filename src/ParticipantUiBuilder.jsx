@@ -1,6 +1,7 @@
 import { useT } from './i18n';
 import { useEffect, useRef, useState } from 'react';
 import { ScreenChecks } from './participantUi/ScreenChecks.jsx';
+import { ResponseFields } from './participantUi/ResponseFields.jsx';
 import { PositionFields } from './participantUi/PositionFields.jsx';
 import { SelectionInspector } from './participantUi/SelectionInspector.jsx';
 import { pathTo } from './participantUi/tree.js';
@@ -238,6 +239,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
       </div>}
 
     <ScreenChecks elements={elements} boundsIssues={boundsIssues} fixedSize={Boolean(normalized.root.props?.screenWidth)} preview={preview} onLocate={locateIssue} onPreview={() => setPreview(value => !value)} validationErrors={validation.errors} />
+    <ResponseFields elements={elements} validationErrors={validation.errors} onLocate={locateIssue} />
     {elements.some(item => item.element.props?.free) && normalized.root.props?.screenWidth && <p className="ui-layout-notice" role="note">Fixed screen {deviceWidth}×{deviceHeight}: the editor and the run scale identically; content outside the screen is clipped. Change the size under ⚙ Settings.</p>}
 
     <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} elements · schema valid` : validation.errors[0]?.message}</small>
