@@ -13,6 +13,9 @@ const VERSION = pkg.version || '0.2.0';
 const APP_DIR_NAME = `PhysioFlow-Web-v${VERSION}`;
 const APP_DIR = path.join(OUT_ROOT, APP_DIR_NAME);
 const ZIP_PATH = path.join(OUT_ROOT, `${APP_DIR_NAME}.zip`);
+if ((fs.existsSync(APP_DIR) || fs.existsSync(ZIP_PATH)) && process.env.PF_REPLACE_EXISTING_PACKAGE !== '1') {
+  throw new Error('Package already exists. Increment the version or explicitly set PF_REPLACE_EXISTING_PACKAGE=1.');
+}
 const crcTable = Array.from({ length: 256 }, (_, number) => {
   let value = number;
   for (let bit = 0; bit < 8; bit++) value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;

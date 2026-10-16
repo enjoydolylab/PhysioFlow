@@ -4,10 +4,13 @@ import json
 import hashlib
 import zipfile
 import shutil
+import os
 root = Path(__file__).resolve().parent.parent
 version = json.loads((root / 'package.json').read_text())['version']
 name = 'PhysioFlow-Server-v' + version
 out = root / 'release-web' / name
+if (out.exists() or Path(str(out) + '.zip').exists()) and os.environ.get('PF_REPLACE_EXISTING_PACKAGE') != '1':
+    raise SystemExit('Package already exists. Increment the version or explicitly set PF_REPLACE_EXISTING_PACKAGE=1.')
 if out.exists():
     shutil.rmtree(out)
 out.mkdir(parents=True)
