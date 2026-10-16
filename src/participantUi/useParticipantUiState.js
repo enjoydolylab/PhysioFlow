@@ -1,6 +1,6 @@
+import { createLibraryElement } from './libraryElement.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  createUiElement,
   insertUiElement,
   mapUiElement,
   moveUiElement,
@@ -11,7 +11,7 @@ import {
 } from '../core/index.js';
 import { measureLayout, freezeLayout, restoreFlow } from './layoutGeometry.js';
 import { useParticipantUiHistory } from './useParticipantUiHistory.js';
-import { CONTAINERS, defaults, DEVICES } from './constants.js';
+import { CONTAINERS, DEVICES } from './constants.js';
 import { duplicateElementTree, withUniqueResponseNames, findInTree, findParentAndIndex, flatten, mapTree, pathTo } from './tree.js';
 import { contentXOf, elementHeight, nextFreeSlot, snap, tidyStack } from './arrange.js';
 
@@ -125,8 +125,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     const parent = elements.find(item => item.element.id === parentId)?.element || normalized.root;
     const index = selectedParent ? (selectedParent.children || []).length : selectedLocation ? selectedLocation.index + 1 : (parent.children || []).length;
     const placement = parent.props?.free ? nextFreeSlot(parent.children || [], { x: contentXOf(parent), first: contentXOf(parent) }) : null;
-    const props = parent.props?.free ? { ...defaults[type], ...(placement || {}) } : defaults[type];
-    const element = withUniqueResponseNames(createUiElement(type, { props, actions: type === 'Button' ? [{ event: 'click', action: 'submit' }] : [] }), normalized.root);
+    const element = withUniqueResponseNames(createLibraryElement(type, placement), normalized.root);
     commit(insertUiElement(normalized, parentId, index, element));
     selectElement(element.id);
   };
@@ -141,8 +140,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     const slot = hasPoint
       ? { x: snap(Math.max(0, Number(x))), y: snap(Math.max(0, Number(y))) }
       : parentEl?.props?.free ? nextFreeSlot(parentEl.children || [], { x: contentXOf(parentEl), first: contentXOf(parentEl) }) : null;
-    const props = { ...defaults[type], ...(slot || {}) };
-    const element = withUniqueResponseNames(createUiElement(type, { props, actions: type === 'Button' ? [{ event: 'click', action: 'submit' }] : [] }), normalized.root);
+    const element = withUniqueResponseNames(createLibraryElement(type, slot), normalized.root);
     try {
       const index = CONTAINERS.has(target.type) ? (target.children || []).length : (findParentAndIndex(normalized.root, target.id)?.index || 0) + 1;
       commit(insertUiElement(normalized, parentId, index, element));

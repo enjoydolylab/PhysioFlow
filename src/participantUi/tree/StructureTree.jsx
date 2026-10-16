@@ -1,5 +1,7 @@
-import { createUiElement, insertUiElement, moveUiElement } from '../../core/index.js';
-import { CONTAINERS, defaults } from '../constants.js';
+import { createLibraryElement } from '../libraryElement.js';
+import { withUniqueResponseNames } from '../tree.js';
+import { insertUiElement, moveUiElement } from '../../core/index.js';
+import { CONTAINERS } from '../constants.js';
 import { elementLabel, findInTree } from '../tree.js';
 import { UiIcon } from '../UiIcon.jsx';
 
@@ -49,7 +51,7 @@ export function StructureTree({ s }) {
               ? (findInTree(normalized.root, dragOver.parentId)?.children?.length ?? 0)
               : dragOver.index;
             if (payload.action === 'add' && payload.type) {
-              const elementToAdd = createUiElement(payload.type, { props: defaults[payload.type], actions: payload.type === 'Button' ? [{ event: 'click', action: 'submit' }] : [] });
+              const elementToAdd = withUniqueResponseNames(createLibraryElement(payload.type), normalized.root);
               commit(insertUiElement(normalized, dragOver.parentId, dropIndex, elementToAdd));
               setSelectedId(elementToAdd.id);
             } else if (payload.action === 'move' && payload.elementId) {

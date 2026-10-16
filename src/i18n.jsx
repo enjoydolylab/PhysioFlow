@@ -232,6 +232,8 @@ Object.assign(dictionaries.ja,{
 });
 
 const LanguageContext = createContext(null);
+Object.assign(dictionaries.ja, { 'Number input':'数値入力', 'Numeric response with optional bounds':'任意の上下限を持つ数値回答', 'Choose one recorded value':'記録値を1つ選択', 'Choose several recorded values':'複数の記録値を選択' });
+Object.assign(dictionaries.zh, { 'Number input':'数字输入', 'Numeric response with optional bounds':'可配置上下限的数值回答', 'Choose one recorded value':'选择一个记录值', 'Choose several recorded values':'选择多个记录值' });
 Object.assign(dictionaries.ja, { 'Multiple choice':'複数選択', 'Choose only listed options':'一覧の選択肢から選んでください' });
 Object.assign(dictionaries.zh, { 'Multiple choice':'多选', 'Choose only listed options':'请仅选择列表中的选项' });
 Object.assign(dictionaries.ja, { 'invalid input configurations':'件の入力設定エラー' });

@@ -1,0 +1,10 @@
+{
+  "actualBuilder": true,
+  "keyboardInsert": true,
+  "clickInsert": true,
+  "canvasDrop": true,
+  "treeDrop": true,
+  "uniqueResponseNames": true,
+  "validInputSchemas": true,
+  "undoRedo": true
+}

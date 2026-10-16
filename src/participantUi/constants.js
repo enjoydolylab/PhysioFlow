@@ -19,16 +19,25 @@ export const SPACING_TOKENS = ['spacingUnit', 'radius', 'maxWidth'];
 
 export const LIBRARY_GROUPS = [
   { label: 'Content', types: ['Text', 'Media', 'Html'] },
-  { label: 'Form', types: ['Input', 'Button', 'Progress'] },
+  { label: 'Form', types: ['Input', 'NumberInput', 'SingleChoice', 'MultipleChoice', 'Button', 'Progress'] },
   { label: 'Layout', types: ['Layout', 'Divider'] },
   { label: 'Shapes', types: ['Rectangle', 'Ellipse'] },
 ];
+
+export const INPUT_LIBRARY_ITEMS = {
+  NumberInput: { label: 'Number input', props: { inputType: 'number', min: null, max: null } },
+  SingleChoice: { label: 'Single choice', props: { inputType: 'choice', options: [{ value: '1', label: 'Option 1' }, { value: '2', label: 'Option 2' }] } },
+  MultipleChoice: { label: 'Multiple choice', props: { inputType: 'multi_choice', options: [{ value: '1', label: 'Option 1' }, { value: '2', label: 'Option 2' }] } },
+};
 
 export const TYPE_HINTS = {
   Layout: 'Group children in a row or column',
   Text: 'Heading or body copy',
   Media: 'Image, audio or video',
   Input: 'Response field',
+  NumberInput: 'Numeric response with optional bounds',
+  SingleChoice: 'Choose one recorded value',
+  MultipleChoice: 'Choose several recorded values',
   Button: 'Continue / action button',
   Progress: 'Progress indicator',
   Html: 'Custom HTML fragment',

@@ -156,6 +156,8 @@
 .ui-library-label { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #94a0ad; margin-top: 4px; }
 .ui-library-block { display: grid; grid-template-columns: 18px minmax(0, 1fr); grid-template-rows: auto auto; gap: 0 6px; align-items: center; padding: 7px 8px; border: 1px solid var(--border, #dfe3e8); border-radius: 8px; background: var(--surface, #fff); cursor: grab; user-select: none; transition: border-color .15s, box-shadow .15s, transform .15s; }
 .ui-library-block:hover { border-color: var(--green, #197453); box-shadow: 0 2px 6px rgba(20, 40, 30, .08); transform: translateY(-1px); }
+.ui-library-block { width: 100%; text-align: left; font: inherit; }
+.ui-library-block:focus-visible { outline: 3px solid var(--green, #197453); outline-offset: 2px; }
 .ui-library-block:active { cursor: grabbing; transform: none; }
 .ui-library-block .ui-icon { grid-row: 1 / 3; color: var(--green, #197453); }
 .ui-library-name { font-weight: 600; font-size: .68rem; }

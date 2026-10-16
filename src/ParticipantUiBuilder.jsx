@@ -1,3 +1,4 @@
+import { useT } from './i18n';
 import { useEffect, useRef, useState } from 'react';
 import { ScreenChecks } from './participantUi/ScreenChecks.jsx';
 import { PositionFields } from './participantUi/PositionFields.jsx';
@@ -6,7 +7,7 @@ import { pathTo } from './participantUi/tree.js';
 import { SCREEN_PRESETS, createScreenPreset } from './participantUi/screenPresets.js';
 import ParticipantUiCanvas from './ParticipantUiCanvas.jsx';
 import { mapUiElement, participantUiTemplate, resolveUiStyle } from './core/index.js';
-import { LIBRARY_GROUPS, TEMPLATE_KINDS, TYPE_HINTS } from './participantUi/constants.js';
+import { INPUT_LIBRARY_ITEMS, LIBRARY_GROUPS, TEMPLATE_KINDS, TYPE_HINTS } from './participantUi/constants.js';
 import { ThemeEditor } from './participantUi/ThemeEditor.jsx';
 import { StyleEditor } from './participantUi/StyleEditor.jsx';
 import { UiPropertyEditor } from './participantUi/UiPropertyEditor.jsx';
@@ -16,6 +17,7 @@ import { ParticipantPreview } from './participantUi/preview/ParticipantPreview.j
 import { useParticipantUiState } from './participantUi/useParticipantUiState.js';
 
 export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate }) {
+  const t = useT();
   const [boundsIssues, setBoundsIssues] = useState([]);
   const [libraryTab, setLibraryTab] = useState('elements');
   const [focusRequest, setFocusRequest] = useState(null);
@@ -140,17 +142,17 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
             {LIBRARY_GROUPS.map(group => <div key={group.label} className="ui-library-group">
               <span className="ui-library-label">{group.label}</span>
               {group.types.map(type => (
-                <div key={type} className="ui-library-block" draggable
+                <button type="button" key={type} data-library-type={type} className="ui-library-block" draggable
                   onClick={() => addToRoot(type)}
                   onDragStart={event => {
                     event.dataTransfer.setData('application/x-physioflow-ui', JSON.stringify({ action: 'add', type }));
                     event.dataTransfer.effectAllowed = 'copy';
                   }}
-                  title={TYPE_HINTS[type]}>
-                  <UiIcon name={type} />
-                  <span className="ui-library-name">{type}</span>
-                  <small>{TYPE_HINTS[type]}</small>
-                </div>
+                  title={t(TYPE_HINTS[type])}>
+                  <UiIcon name={INPUT_LIBRARY_ITEMS[type] ? 'Input' : type} />
+                  <span className="ui-library-name">{t(INPUT_LIBRARY_ITEMS[type]?.label || type)}</span>
+                  <small>{t(TYPE_HINTS[type])}</small>
+                </button>
               ))}
             </div>)}
             <small className="ui-library-tip">Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove</small>
