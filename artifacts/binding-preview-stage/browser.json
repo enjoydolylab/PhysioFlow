@@ -1,0 +1,16 @@
+{
+  "exampleContextApplied": true,
+  "scalarStructuredBindingText": true,
+  "progressUpdates": true,
+  "invalidContextRetainsAnswerAndResult": true,
+  "applyResetsAnswersAndResult": true,
+  "restoreExample": true,
+  "widths": [
+    375,
+    1280
+  ],
+  "schemaUnchanged": true,
+  "recordStorageUnchanged": true,
+  "automatedTests": 545,
+  "fullBrowserRegression": true
+}

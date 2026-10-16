@@ -1,3 +1,4 @@
+import { formatUiText } from './core/uiText.js';
 import { parseResponseOptions } from './core/responseOptions.js';
 import { fullscreenMediaInScreen, mediaPresentationMode } from './core/mediaPresentation.js';
 import { discreteScaleValues, responseValueError } from './core/inputValidation.js';
@@ -76,7 +77,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     if (element.type === 'Screen') return <div key={element.id} className={`participant-ui-screen${viewportMedia && element.id === normalized.root.id ? ' media-viewport-screen' : ''}`} style={{ ...style, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
     if (element.type === 'Layout') return <div key={element.id} className={`participant-ui-layout ${props.direction || 'column'}`} style={{ ...style, gap: style.gap ?? 16, ...positioned, ...freeLayout }}>{element.children.map(render)}</div>;
     if (element.type === 'Text') {
-      const text = boundProp(element, 'text', context) ?? '';
+      const text = formatUiText(boundProp(element, 'text', context));
       const className = props.pulse ? 'participant-pulse' : undefined;
       return props.variant === 'heading' ? <h1 key={element.id} className={className} style={{ ...style, ...positioned }}>{text}</h1> : <p key={element.id} className={className} style={{ ...style, ...positioned }}>{text}</p>;
     }

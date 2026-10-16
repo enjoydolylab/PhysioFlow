@@ -310,5 +310,5 @@ export function insertUiElement(schema, parentId, index, element) {
 
 export function resolveUiBinding(binding, context = {}) {
   if (typeof binding !== 'string') return binding;
-  return binding.split('.').reduce((value, key) => value?.[key], context);
+  return binding.split('.').reduce((value, key) => value != null && Object.hasOwn(value, key) ? value[key] : undefined, context);
 }

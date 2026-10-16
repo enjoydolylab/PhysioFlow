@@ -1,3 +1,4 @@
+import { formatUiText } from './core/uiText.js';
 import { useT } from './i18n';
 import { parseResponseOptions } from './core/responseOptions.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -493,7 +494,7 @@ export default function ParticipantUiCanvas({
     if (element.type === 'Screen') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-screen ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{freeBlock && <span className="ui-free-hint">FREE · drag elements anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
     if (element.type === 'Layout') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-layout ${props.direction || 'column'} ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, gap: style.gap ?? 16, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{floatBar(element)}{freeBlock && <span className="ui-free-hint">FREE · drag anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
     if (element.type === 'Text') {
-      const text = boundProp(element, 'text', context) ?? '';
+      const text = formatUiText(boundProp(element, 'text', context));
       const editing = editingId === element.id;
       const common = {
         'data-ui-id': element.id,
