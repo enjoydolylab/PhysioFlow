@@ -1,0 +1,12 @@
+{
+  "productionAssets": true,
+  "multipleIssuesLocatedAndRepaired": true,
+  "fullList": true,
+  "invalidJSONWarning": true,
+  "reorderAndMetadataPreserved": true,
+  "typedValuesPersisted": true,
+  "previewSubmission": {
+    "second": false,
+    "answer": 42
+  }
+}

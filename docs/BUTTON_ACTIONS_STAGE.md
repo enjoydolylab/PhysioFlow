@@ -1,6 +1,6 @@
 # Participant button actions
 
-Source stage after beta.26; not packaged or pushed yet.
+Source stage after beta.26, included in beta.27. See DELIVERY_WEB_beta.27.md for production evidence.
 
 The former action editor showed only actions[0] and replaced the entire array during every edit. It also edited every variable value as a string. The editor now displays all actions, updates one action without dropping the others or its extra properties, and supports add/remove/reorder with the existing screen undo/redo history. An empty list is explicitly described as no action.
 

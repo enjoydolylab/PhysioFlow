@@ -1,5 +1,7 @@
 # beta.26 participant save workflow delivery
 
+Local beta.26 archives were subsequently rebuilt from the original clean source after an accidental replacement. The hashes below describe the original delivery; use [the recovery record](PACKAGE_RECOVERY_beta.26.md) and release-web/SHA256SUMS-beta.26.txt for the current rebuilt copies.
+
 Application source commit: 10b418a3e94a5b17171e1038f779ad2cd43d253d. BUILD_INFO records trackedSourceDirty=false.
 
 Includes focused-field Ctrl/Cmd+S, uppercase redo, full-screen participant Save and actual saved/unsaved state, ordered protocol writes, protection of newer edits during saving, and Save/Discard/Cancel exit choices. Cancelling navigation during a write leaves the editor open after persistence completes. Errors retain edits for retry.
