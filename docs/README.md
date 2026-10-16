@@ -1,6 +1,6 @@
 # 文档导航
 
-当前本地研究试用版本 **0.6.0-beta.28**：[实现与发布状态](refactor/IMPLEMENTATION_STATUS.md)、[交付记录](DELIVERY_WEB_beta.28.md)。本轮修复特殊回答字段名、未输入判定和操作预览结果更新。真人、正式设备和原刺激素材验收未完成。以下条目为历史记录。
+当前本地研究试用版本 **0.6.0-beta.29**：[实现与发布状态](refactor/IMPLEMENTATION_STATUS.md)、[交付记录](DELIVERY_WEB_beta.29.md)。本轮增加动作值保存一致性校验，避免溢出值被保存为 null。真人、正式设备和原刺激素材验收未完成。以下条目为历史记录。
 
 [beta.7 Web交付记录](DELIVERY_WEB_beta.7.md)。交付候选beta.7：[一页交接说明](HANDOFF_beta.7.md)、[候选发布说明](RELEASE_NOTES_beta.7.md)。
 

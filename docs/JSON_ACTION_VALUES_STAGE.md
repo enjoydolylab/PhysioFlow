@@ -1,6 +1,6 @@
 # JSON action value integrity
 
-Source stage after beta.28, not packaged or pushed yet.
+Source stage after beta.28, included in beta.29. See DELIVERY_WEB_beta.29.md for production evidence.
 
 JSON.parse accepts a number such as 1e309 as Infinity, while JSON storage later serializes it as null. Action editing now rejects unsupported/non-finite JSON values and keeps the last valid action value with a localized warning. Missing or invalid existing values are displayed as invalid instead of falsely appearing to be null.
 
