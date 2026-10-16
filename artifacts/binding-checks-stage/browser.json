@@ -1,0 +1,17 @@
+{
+  "japaneseUI": true,
+  "missingUnusedDistinct": true,
+  "literalPaths": true,
+  "exampleDataResolution": true,
+  "exactFieldFocus": true,
+  "unrelatedBindingsPreserved": true,
+  "removeUndoRedo": true,
+  "clearBinding": true,
+  "progressMaximumBinding": true,
+  "widths": [
+    375,
+    1280
+  ],
+  "automatedTests": 548,
+  "fullBrowserRegression": true
+}

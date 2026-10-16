@@ -1,15 +1,16 @@
+import { BindingChecks } from './BindingChecks.jsx';
 import { isJsonValue } from '../../core/jsonValue.js';
 import ParticipantRenderer from '../../ParticipantRenderer.jsx';
 import { useState } from 'react';
 import { useT } from '../../i18n';
 
-export function ParticipantPreview({ schema, width }) {
-  return <PreviewSession key={JSON.stringify(schema)} schema={schema} width={width} />;
+export function ParticipantPreview({ schema, width, onLocate }) {
+  return <PreviewSession key={JSON.stringify(schema)} schema={schema} width={width} onLocate={onLocate} />;
 }
 
 const EXAMPLE_CONTEXT = { participant: { participant_id: 'PREVIEW' }, variables: { score: 0 }, outputs: {}, progress: { percent: 40 }, timer: { elapsedMs: 0 } };
 
-function PreviewSession({ schema, width }) {
+function PreviewSession({ schema, width, onLocate }) {
   const t = useT();
   const [interactive, setInteractive] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -39,6 +40,7 @@ function PreviewSession({ schema, width }) {
       {contextError && <p role="alert">{t('Preview context must be a JSON object with finite numbers. The previous preview data is kept.')}</p>}
       {contextApplied && <p role="status">{t('Preview data applied. Preview answers were reset.')}</p>}
     </details>
+    <BindingChecks schema={schema} context={context} onLocate={onLocate} />
     <div style={{ width: '100%', maxWidth: width, margin: 'auto' }}><ParticipantRenderer key={attempt} schema={schema} context={context} preview previewInteractions={interactive} onSubmit={setSubmission} onAction={() => setSubmission(null)} onValueChange={() => setSubmission(null)} /></div>
     {submission && <section className="ui-preview-result" aria-label={t('Preview response values')}><p role="status">{t('Preview submission accepted')}</p><pre>{JSON.stringify(submission.values, null, 2)}</pre></section>}
   </div>;

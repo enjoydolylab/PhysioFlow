@@ -1,3 +1,4 @@
+import { RuntimeBindingsEditor } from './participantUi/RuntimeBindingsEditor.jsx';
 import { useT } from './i18n';
 import { useEffect, useRef, useState } from 'react';
 import { ButtonActionsEditor } from './participantUi/ButtonActionsEditor.jsx';
@@ -39,7 +40,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
     openContextMenu, removeSelected, duplicateSelected, alignSelected,
     marquee, contextMenu, elements, copySelected, pasteClipboard, clipboardRef,
     zOrderSelected, focusStyle, selected, crumbs, updateProps, toggleFree,
-    showPosition, setStyle, styleForceOpen, bindingTarget, validation,
+    showPosition, setStyle, styleForceOpen, validation,
     reorderFlow, arrangeContainer, selectedParentElement,
   } = s;
   const appearance = resolveUiStyle(selected, theme);
@@ -136,7 +137,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
       <button className="ui-preview-btn" onClick={() => setPreview(value => !value)}>{preview ? '✎ Edit' : '▶ Preview'}</button>
     </div>
 
-    {preview ? <ParticipantPreview schema={normalized} width={deviceWidth} />
+    {preview ? <ParticipantPreview schema={normalized} width={deviceWidth} onLocate={locateIssue} />
       : <div className="ui-canvas-layout">
         <div className="ui-element-library">
           <div className="ui-library-tabs" role="tablist" aria-label="Library panels">
@@ -238,7 +239,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
           </details>}
           <StyleEditor element={selected} theme={theme} onSetStyle={setStyle} forceOpen={styleForceOpen} onToggle={open => { if (!open) s.setStyleForceOpen(false); }} />
           <details className="ui-advanced"><summary>Bindings and actions</summary>
-          {bindingTarget && <label className="ui-binding-field">Runtime binding: {bindingTarget}<input value={selected.bindings?.[bindingTarget] || ''} placeholder="e.g. variables.score" onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings: { ...element.bindings, [bindingTarget]: event.target.value } })))} /></label>}
+          <RuntimeBindingsEditor element={selected} onChange={bindings => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings })))} />
           {selected.type === 'Button' && <ButtonActionsEditor key={selected.id} actions={selected.actions} onChange={actions => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions })))} />}
           </details>
           </fieldset>

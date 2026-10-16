@@ -116,7 +116,6 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     else delete copy.style;
     return copy;
   }));
-  const bindingTarget = { Text: 'text', Media: 'sourceUrl', Progress: 'value' }[selected.type];
 
   const addToRoot = type => {
     const selectedParent = CONTAINERS.has(selected.type) ? selected : null;
@@ -618,7 +617,7 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     snapEnabled, setSnapEnabled, contextMenu, setContextMenu, styleForceOpen, setStyleForceOpen,
     templateKind, setTemplateKind, viewportRef, panRef, marqueeRef,
     elements, selected, selectedParent, selectedParentElement, validation, showPosition, deviceWidth, deviceHeight, crumbs,
-    isLocked, mapUiElement, updateProps, toggleFree, setCanvasLayoutMode, setStyle, bindingTarget,
+    isLocked, mapUiElement, updateProps, toggleFree, setCanvasLayoutMode, setStyle,
     reorderFlow, arrangeContainer,
     addToRoot, dropElement, moveElement, moveStep, removeElement, duplicateElementById,
     clipboardRef, copySelected, pasteClipboard, resizeElement,
