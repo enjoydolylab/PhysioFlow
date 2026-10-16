@@ -1,0 +1,14 @@
+{
+  "productionAssets": true,
+  "japaneseUI": true,
+  "liveBindings": true,
+  "structuredAndBooleanText": true,
+  "invalidDataRetainsState": true,
+  "applyResetsState": true,
+  "restore": true,
+  "widths": [
+    375,
+    1280
+  ],
+  "planAndRecordsUnchanged": true
+}

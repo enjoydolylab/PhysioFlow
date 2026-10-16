@@ -1,6 +1,6 @@
 # Runtime binding preview data
 
-Source stage after beta.29, not packaged or pushed yet.
+Source stage after beta.29, included in beta.30. See DELIVERY_WEB_beta.30.md for production evidence.
 
 Participant preview now has a collapsible JSON example-context editor for participant, variables, outputs, progress and timer. It starts with clearly synthetic example data. Apply replaces only the preview context and resets trial answers/results; invalid JSON, non-object roots and non-finite numbers keep the existing preview. Restore returns to the synthetic example. Context is temporary component state and never changes the plan or saves experiment records.
 
