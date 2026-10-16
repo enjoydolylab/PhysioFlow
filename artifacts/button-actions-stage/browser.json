@@ -1,0 +1,20 @@
+{
+  "actualBuilder": true,
+  "allActionsEditable": true,
+  "metadataPreserved": true,
+  "numberBooleanPreserved": true,
+  "invalidJSONKeepsLastValidValue": true,
+  "reorderUndoRedo": true,
+  "previewExecutionOrder": true,
+  "addRemove": true,
+  "widths": [
+    375,
+    1280
+  ],
+  "objectArrayValuesPreserved": true,
+  "explicitNullDefault": true,
+  "multipleActionErrorsVisible": true,
+  "exactActionFocus": true,
+  "incrementalRepair": true,
+  "automatedTests": 536
+}

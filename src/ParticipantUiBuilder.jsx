@@ -1,5 +1,6 @@
 import { useT } from './i18n';
 import { useEffect, useRef, useState } from 'react';
+import { ButtonActionsEditor } from './participantUi/ButtonActionsEditor.jsx';
 import { ScreenChecks } from './participantUi/ScreenChecks.jsx';
 import { ScreenTemplateTools } from './participantUi/ScreenTemplateTools.jsx';
 import { ResponseFields } from './participantUi/ResponseFields.jsx';
@@ -56,6 +57,9 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
     const frame = requestAnimationFrame(() => {
       const inspector = builderRef.current?.querySelector('.ui-inspector');
       const field = inspector?.querySelector(`[aria-label="${focusRequest.field}"]`);
+      for (let parent = field?.parentElement; parent && parent !== inspector; parent = parent.parentElement) {
+        if (parent.tagName === 'DETAILS') parent.open = true;
+      }
       (field || inspector)?.scrollIntoView({block:'nearest', inline:'nearest'});
       field?.focus({preventScroll:true});
       field?.select?.();
@@ -235,10 +239,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
           <StyleEditor element={selected} theme={theme} onSetStyle={setStyle} forceOpen={styleForceOpen} onToggle={open => { if (!open) s.setStyleForceOpen(false); }} />
           <details className="ui-advanced"><summary>Bindings and actions</summary>
           {bindingTarget && <label className="ui-binding-field">Runtime binding: {bindingTarget}<input value={selected.bindings?.[bindingTarget] || ''} placeholder="e.g. variables.score" onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings: { ...element.bindings, [bindingTarget]: event.target.value } })))} /></label>}
-          {selected.type === 'Button' && <div className="ui-property-grid">
-            <label>Click action<select value={selected.actions?.[0]?.action || 'submit'} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...(element.actions?.[0] || { event: 'click' }), action: event.target.value }] })))}><option value="submit">submit</option><option value="next">next</option><option value="setVariable">setVariable</option></select></label>
-            {selected.actions?.[0]?.action === 'setVariable' && <><label>Variable name<input value={selected.actions[0].name || ''} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...element.actions[0], name: event.target.value }] })))} /></label><label>Value<input value={selected.actions[0].value ?? ''} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...element.actions[0], value: event.target.value }] })))} /></label></>}
-          </div>}
+          {selected.type === 'Button' && <ButtonActionsEditor key={selected.id} actions={selected.actions} onChange={actions => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions })))} />}
           </details>
           </fieldset>
           </>}

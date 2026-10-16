@@ -482,3 +482,11 @@ test('youtube embed URL handles watch, youtu.be, shorts and embed links', () => 
   assert.ok(isYoutubeSource('https://youtu.be/abc'));
   assert.equal(isYoutubeSource('https://example.com/clip.mp4'), false);
 });
+
+test('non-text button assignment names report validation errors without crashing', () => {
+  for (const name of [null, 0, false, {}, []]) {
+    const schema = participantUiTemplate('instruction');
+    schema.root.children.find(element => element.type === 'Button').actions = [{ event: 'click', action: 'setVariable', name, value: null }];
+    assert.ok(validateParticipantUi(schema).errors.some(issue => issue.code === 'ui.action_variable_missing'));
+  }
+});

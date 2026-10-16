@@ -282,3 +282,9 @@
 .light-mode .graph-runner-ready { color: var(--ink, #14211b); }
 .graph-runner-ready .setup-note { color: var(--ink, #14211b); }
 .graph-runner-ready [aria-label="PhysioDB test result"] { width: min(860px, 100%); text-align: left; }
+
+.ui-button-action { min-width: 0; margin: 10px 0; padding: 8px; border: 1px solid var(--line); border-radius: 6px; }
+.ui-button-action label { display: grid; gap: 5px; margin: 8px 0; }
+.ui-button-action textarea, .ui-button-action input, .ui-button-action select { width: 100%; min-width: 0; box-sizing: border-box; }
+.ui-button-action small { overflow-wrap: anywhere; }
+.ui-action-order { display: flex; flex-wrap: wrap; gap: 6px; }
