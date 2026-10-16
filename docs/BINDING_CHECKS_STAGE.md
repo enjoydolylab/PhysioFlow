@@ -1,6 +1,6 @@
 # Binding checks and editing
 
-Source stage after beta.30, not packaged or pushed yet.
+Source stage after beta.30, included with declared-variable integration in beta.31. See DELIVERY_WEB_beta.31.md for production evidence.
 
 Preview now lists unresolved supported binding paths against its current example context, and distinguishes properties that the renderer does not use. False, zero and explicit null count as existing values. These preview checks do not make a protocol invalid or claim that real-run values are missing. Paths are displayed literally in Japanese UI.
 

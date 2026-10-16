@@ -1,6 +1,6 @@
 # 文档导航
 
-当前本地研究试用版本 **0.6.0-beta.30**：[实现与发布状态](refactor/IMPLEMENTATION_STATUS.md)、[交付记录](DELIVERY_WEB_beta.30.md)。本轮新增临时绑定数据预览，保留动态内容原值。真人、正式设备和原刺激素材验收未完成。以下条目为历史记录。
+当前本地研究试用版本 **0.6.0-beta.31**：[实现与发布状态](refactor/IMPLEMENTATION_STATUS.md)、[交付记录](DELIVERY_WEB_beta.31.md)。本轮合并绑定问题定位、完整属性编辑、方案变量选择及默认值预览。真人、正式设备和原刺激素材验收未完成。以下条目为历史记录。
 
 [beta.7 Web交付记录](DELIVERY_WEB_beta.7.md)。交付候选beta.7：[一页交接说明](HANDOFF_beta.7.md)、[候选发布说明](RELEASE_NOTES_beta.7.md)。
 

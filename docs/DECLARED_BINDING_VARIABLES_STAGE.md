@@ -1,6 +1,6 @@
 # Declared variables in participant bindings
 
-Source work after beta.30; combines with the preceding binding-check stage before the next package.
+Source stage after beta.30, combined with binding checks in beta.31. See DELIVERY_WEB_beta.31.md for production evidence.
 
 Composer now passes project variable declarations into participant-screen editing. Each supported binding field offers declared variable paths and standard participant/progress/timer paths while retaining manual input. Variable names are displayed literally. Choosing one updates only that binding through existing screen history.
 

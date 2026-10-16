@@ -1,0 +1,16 @@
+{
+  "productionAssets": true,
+  "japaneseUI": true,
+  "typedDeclaredDefaults": true,
+  "temporaryOverrideRestore": true,
+  "progressMaximumBinding": true,
+  "variablePicker": true,
+  "bindingSaved": true,
+  "defaultsPreserved": true,
+  "unusedBindingRemoved": true,
+  "missingBindingLocatedRepaired": true,
+  "widths": [
+    375,
+    1280
+  ]
+}
