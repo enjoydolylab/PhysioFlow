@@ -11,6 +11,10 @@ export function responseValueError(value, { required = false, type = 'text', min
   const missing = value == null || value === '' || (typeof value === 'string' && !value.trim()) || (Array.isArray(value) && value.length === 0);
   if (required && (missing || (type === 'checkbox' && !value))) return 'Required';
   if (missing) return null;
+  if (type === 'multi_choice') {
+    const available = new Set(parseResponseOptions(options).map(option => option.value));
+    if (!Array.isArray(value) || new Set(value).size !== value.length || value.some(item => typeof item !== 'string' || !available.has(item))) return 'Choose only listed options';
+  }
   if (type === 'choice' && (typeof value !== 'string' || !parseResponseOptions(options).some(option => option.value === value))) return 'Choose a listed option';
   if (['number', 'rating', 'likert', 'vas_slider', 'sam_valence', 'sam_arousal', 'sam_dominance'].includes(type)) {
     if (typeof value !== 'number' || !Number.isFinite(value)) return 'Enter a valid number';

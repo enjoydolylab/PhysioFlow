@@ -232,6 +232,8 @@ Object.assign(dictionaries.ja,{
 });
 
 const LanguageContext = createContext(null);
+Object.assign(dictionaries.ja, { 'Multiple choice':'複数選択', 'Choose only listed options':'一覧の選択肢から選んでください' });
+Object.assign(dictionaries.zh, { 'Multiple choice':'多选', 'Choose only listed options':'请仅选择列表中的选项' });
 Object.assign(dictionaries.ja, { 'invalid input configurations':'件の入力設定エラー' });
 Object.assign(dictionaries.zh, { 'invalid input configurations':'个输入配置错误' });
 Object.assign(dictionaries.ja, {

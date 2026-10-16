@@ -28,6 +28,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
 
   const submit = (submittedValues = values) => {
     if (disabled || (preview && !previewInteractions)) return;
+    submittedValues = Object.fromEntries([...Object.entries(submittedValues), ...inputs.filter(input => input.props.inputType === 'multi_choice' && (submittedValues[input.props.name] == null || submittedValues[input.props.name] === '')).map(input => [input.props.name, []])]);
     const nextErrors = Object.fromEntries(inputs.map(input => [input.props.name, responseValueError(submittedValues[input.props.name], { ...input.props, type: input.props.inputType })]).filter(([, error]) => error));
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) {
@@ -115,9 +116,14 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
       const accessibility = { 'aria-invalid': Boolean(errors[name]), 'aria-describedby': errors[name] ? errorId : undefined };
       const remember = control => { if (control) inputRefs.current.set(name, control); else inputRefs.current.delete(name); };
       const common = { id: inputId, ref: remember, required: Boolean(props.required), ...accessibility, disabled, value: values[name] ?? '', onChange: event => changeValue(name, props.inputType === 'rating' || props.inputType === 'number' ? (event.target.value === '' ? '' : Number(event.target.value)) : event.target.value, element) };
-      return <div key={element.id} className="participant-ui-input" style={{ ...style, ...positioned }}><label id={labelId} htmlFor={props.inputType === 'rating' ? undefined : inputId}>{props.label || name}{props.required && ' *'}</label>
+      return <div key={element.id} className="participant-ui-input" style={{ ...style, ...positioned }}><label id={labelId} htmlFor={['rating', 'multi_choice'].includes(props.inputType) ? undefined : inputId}>{props.label || name}{props.required && ' *'}</label>
         {props.inputType === 'checkbox' ? <span className="participant-checkbox"><input id={inputId} ref={remember} required={Boolean(props.required)} {...accessibility} type="checkbox" checked={Boolean(values[name])} disabled={disabled} onChange={event => changeValue(name, event.target.checked ? 'yes' : '', element)} /></span>
           : props.inputType === 'rating' ? <div ref={remember} tabIndex={-1} role="group" aria-labelledby={labelId} {...accessibility} className="participant-rating">{(discreteScaleValues(props.min ?? 1, props.max ?? 7) || []).map(value => <button type="button" className={values[name] === value ? 'selected' : ''} aria-pressed={values[name] === value} disabled={disabled} key={value} onClick={() => changeValue(name, value, element)}>{value}</button>)}</div>
+            : props.inputType === 'multi_choice' ? <div ref={remember} tabIndex={-1} role="group" aria-labelledby={labelId} aria-required={Boolean(props.required)} {...accessibility} className="participant-multi-choice">{parseResponseOptions(props.options).map(option => <label key={option.value}><input type="checkbox" value={option.value} disabled={disabled} checked={Array.isArray(values[name]) && values[name].includes(option.value)} onChange={event => {
+              const selected = new Set(Array.isArray(values[name]) ? values[name] : []);
+              if (event.target.checked) selected.add(option.value); else selected.delete(option.value);
+              changeValue(name, parseResponseOptions(props.options).filter(item => selected.has(item.value)).map(item => item.value), element);
+            }} /><span>{option.label}</span></label>)}</div>
             : props.inputType === 'choice' ? <select {...common}><option value="">{props.placeholder || t('Choose an option')}</option>{parseResponseOptions(props.options).map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
             : props.inputType === 'textarea' ? <textarea {...common} placeholder={props.placeholder || ''} />
               : <input {...common} type={props.inputType || 'text'} placeholder={props.placeholder || ''} min={props.min} max={props.max} step={props.inputType === 'number' ? 'any' : undefined} />}

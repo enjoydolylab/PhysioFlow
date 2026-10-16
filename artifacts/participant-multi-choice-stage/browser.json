@@ -1,0 +1,11 @@
+{
+  "actualBuilder": true,
+  "emptyOptionsLocated": true,
+  "duplicateValuesBlocked": true,
+  "labelsWithPunctuationPreserved": true,
+  "noIrrelevantKeyField": true,
+  "requiredChoiceBlocked": true,
+  "recordedArraySubmitted": true,
+  "typeSwitchRestoresOptions": true,
+  "clearAllRestoresRequiredError": true
+}

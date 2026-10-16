@@ -1,4 +1,5 @@
 import { useT } from './i18n';
+import { parseResponseOptions } from './core/responseOptions.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
 import ParticipantMedia from './ParticipantMedia.jsx';
@@ -570,6 +571,7 @@ export default function ParticipantUiCanvas({
       return <label key={element.id} data-ui-id={element.id} className={`participant-ui-input ui-slot${selectedClass(element)}`} style={{ ...style, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)}>{floatBar(element)}{resizeHandle}<span>{props.label || name}{props.required && ' *'}</span>
         {props.inputType === 'rating'
           ? <div className="participant-rating">{Array.from({ length: Math.max(0, Number(props.max || 7) - Number(props.min || 1) + 1) }, (_, index) => Number(props.min || 1) + index).map(value => <span key={value} className="ui-rating-chip">{value}</span>)}</div>
+          : props.inputType === 'multi_choice' ? <div className="participant-multi-choice">{parseResponseOptions(props.options).map(option => <span key={option.value}><span className="ui-checkbox-ghost" /> {option.label}</span>)}</div>
           : props.inputType === 'choice' ? <span className="ui-input-ghost">{props.placeholder || t('Choose an option')} ▾</span>
           : props.inputType === 'checkbox' ? <span className="participant-checkbox"><span className="ui-checkbox-ghost" /></span>
             : <div className="ui-input-ghost" />}

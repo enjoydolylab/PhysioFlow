@@ -1,0 +1,12 @@
+{
+  "actualRunner": true,
+  "syntheticPreviewRun": true,
+  "requiredBlocks": true,
+  "savedAndReloaded": true,
+  "responseAndEventArray": true,
+  "jsonlArray": true,
+  "csvArrayCell": true,
+  "configuredOptionOrder": true,
+  "optionalUnansweredArray": true,
+  "optionLabelInProtocolSnapshot": true
+}

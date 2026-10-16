@@ -16,3 +16,11 @@ test('choice errors identify their input element for editor location',()=>{
  assert.equal(validateParticipantUi(schema).errors.find(e=>e.code==='ui.choice_options_invalid').elementId,input.id);
  input.props.options=[{value:'0',label:'Zero'}];assert.equal(validateParticipantUi(schema).valid,true);
 });
+
+test('multiple choice requires an array of unique listed string values',()=>{
+ const options=[{value:'0',label:'Zero'},{value:'yes',label:'Yes'}];
+ assert.equal(responseValueError(['0','yes'],{type:'multi_choice',options,required:true}),null);
+ assert.equal(responseValueError([],{type:'multi_choice',options,required:false}),null);
+ for(const value of [[],['unknown'],['0','0'],[0],'0'])assert.ok(responseValueError(value,{type:'multi_choice',options,required:true}));
+ const schema=participantUiTemplate('rating');const input=schema.root.children.find(e=>e.type==='Input');input.props={...input.props,inputType:'multi_choice',options};assert.equal(validateParticipantUi(schema).valid,true);
+});
