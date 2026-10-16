@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {openTestBrowser} from './browser-harness.mjs';
+const browser=await openTestBrowser();
+try {
+ await browser.evaluate(`(async()=>{localStorage.setItem('physioflow.ui-language','en');const React=(await import('/node_modules/.vite/deps/react.js')).default;const {createRoot}=(await import('/node_modules/.vite/deps/react-dom_client.js')).default;const {LanguageProvider}=await import('/src/i18n.jsx');const {default:Builder}=await import('/src/ParticipantUiBuilder.jsx');const core=await import('/src/core/index.js');window.choiceSchema=core.participantUiTemplate('rating');const input=choiceSchema.root.children.find(e=>e.type==='Input');input.props={name:'choice',label:'Pick one',inputType:'choice',required:true,options:[]};document.getElementById('root').style.display='none';const host=document.createElement('div');host.id='choice-test';document.body.append(host);const root=createRoot(host);window.renderChoice=()=>root.render(React.createElement(LanguageProvider,null,React.createElement(Builder,{schema:choiceSchema,onChange:next=>{choiceSchema=next;renderChoice()}})));renderChoice();})()`);
+ await browser.waitFor(`!!document.querySelector('.ui-screen-checks .ui-check-row button')`,'empty choice error');
+ await browser.evaluate(`document.querySelector('.ui-screen-checks').open=true;document.querySelector('.ui-screen-checks .ui-check-row button').click()`);
+ await browser.waitFor(`document.activeElement?.getAttribute('aria-label')==='Choice options'`,'options focus');
+ const add=()=>browser.evaluate(`document.querySelector('.ui-inspector .response-options-editor>button').click()`);
+ await add();await browser.waitFor(`!!document.querySelector('[aria-label="Option 1 value"]')`,'first option');
+ const enter=async(label,value)=>browser.evaluate(`(()=>{const input=document.querySelector('[aria-label="${label}"]');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,${JSON.stringify(value)});input.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+ await enter('Option 1 label','None, = zero');await enter('Option 1 value','0');await add();await enter('Option 2 value','0');
+ await browser.waitFor(`document.querySelector('.ui-screen-checks').textContent.includes('Choice recorded values must be unique')`,'duplicate rejected');
+ await enter('Option 2 value','yes');await browser.waitFor(`!document.querySelector('.ui-screen-checks').textContent.includes('Choice options need attention')`,'options corrected');
+ assert.equal(await browser.evaluate(`!!document.querySelector('[aria-label="Option 1 key"]')`),false);
+ assert.ok(await browser.evaluate(`document.querySelector('.ui-canvas-root .ui-input-ghost')?.textContent.includes('Choose an option')`),'canvas starts without a selection');
+ const setType=async type=>browser.evaluate(`(()=>{const select=[...document.querySelectorAll('.ui-inspector label')].find(l=>l.textContent.startsWith('Input type')).querySelector('select');select.value=${JSON.stringify(type)};select.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+ await setType('text');await browser.waitFor(`!document.querySelector('.ui-inspector .response-options-editor')`,'text hides choice fields');
+ await setType('choice');await browser.waitFor(`!!document.querySelector('[aria-label="Option 1 value"]')`,'choice restored');
+ assert.equal(await browser.evaluate(`document.querySelector('[aria-label="Option 1 value"]').value`),'0');
+ assert.equal(await browser.evaluate(`document.querySelector('[aria-label="Option 1 label"]').value`),'None, = zero');
+ await browser.evaluate(`document.querySelector('.ui-preview-btn').click()`);await browser.waitFor(`!!document.querySelector('.ui-preview-tools')`,'preview');
+ await browser.evaluate(`[...document.querySelectorAll('.ui-preview-tools button')].find(b=>b.textContent==='Try answering').click()`);
+ await browser.evaluate(`document.querySelector('.ui-builder-preview .participant-ui-button').click()`);
+ await browser.waitFor(`document.querySelector('.ui-builder-preview select').getAttribute('aria-invalid')==='true'`,'required choice');
+ await browser.evaluate(`(()=>{const select=document.querySelector('.ui-builder-preview select');select.value='0';select.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+ await browser.evaluate(`document.querySelector('.ui-builder-preview .participant-ui-button').click()`);
+ await browser.waitFor(`!!document.querySelector('.ui-preview-result pre')`,'submitted');
+ assert.equal(await browser.evaluate(`JSON.parse(document.querySelector('.ui-preview-result pre').textContent).choice`),'0');
+ assert.ok(await browser.evaluate(`JSON.stringify(choiceSchema).includes('None, = zero')`));
+ await mkdir('artifacts/participant-choice-stage',{recursive:true});await writeFile('artifacts/participant-choice-stage/browser.json',JSON.stringify({actualBuilder:true,emptyOptionsLocated:true,duplicateValuesBlocked:true,labelsWithPunctuationPreserved:true,noIrrelevantKeyField:true,requiredChoiceBlocked:true,recordedZeroStringSubmitted:true,typeSwitchRestoresOptions:true},null,2));
+ console.log('Single choice authoring, error correction and preview submission passed');
+}finally{await browser.close();}

@@ -1,3 +1,4 @@
+import { parseResponseOptions } from './responseOptions.js';
 // Shared runtime validation; zero is a real answer, blank is not.
 export function numericBoundsError(min, max) {
   const finite = value => (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')) && Number.isFinite(Number(value));
@@ -6,10 +7,11 @@ export function numericBoundsError(min, max) {
   return null;
 }
 
-export function responseValueError(value, { required = false, type = 'text', min, max } = {}) {
+export function responseValueError(value, { required = false, type = 'text', min, max, options } = {}) {
   const missing = value == null || value === '' || (typeof value === 'string' && !value.trim()) || (Array.isArray(value) && value.length === 0);
   if (required && (missing || (type === 'checkbox' && !value))) return 'Required';
   if (missing) return null;
+  if (type === 'choice' && (typeof value !== 'string' || !parseResponseOptions(options).some(option => option.value === value))) return 'Choose a listed option';
   if (['number', 'rating', 'likert', 'vas_slider', 'sam_valence', 'sam_arousal', 'sam_dominance'].includes(type)) {
     if (typeof value !== 'number' || !Number.isFinite(value)) return 'Enter a valid number';
     if ((min != null && value < Number(min)) || (max != null && value > Number(max))) return `Enter a value between ${min ?? '−∞'} and ${max ?? '∞'}`;

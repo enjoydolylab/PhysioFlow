@@ -1,0 +1,10 @@
+{
+  "actualBuilder": true,
+  "emptyOptionsLocated": true,
+  "duplicateValuesBlocked": true,
+  "labelsWithPunctuationPreserved": true,
+  "noIrrelevantKeyField": true,
+  "requiredChoiceBlocked": true,
+  "recordedZeroStringSubmitted": true,
+  "typeSwitchRestoresOptions": true
+}

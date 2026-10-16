@@ -1,3 +1,4 @@
+import { parseResponseOptions } from './core/responseOptions.js';
 import { fullscreenMediaInScreen, mediaPresentationMode } from './core/mediaPresentation.js';
 import { discreteScaleValues, responseValueError } from './core/inputValidation.js';
 import { ScreenFrame } from './participantUi/ScreenFrame.jsx';
@@ -117,6 +118,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
       return <div key={element.id} className="participant-ui-input" style={{ ...style, ...positioned }}><label id={labelId} htmlFor={props.inputType === 'rating' ? undefined : inputId}>{props.label || name}{props.required && ' *'}</label>
         {props.inputType === 'checkbox' ? <span className="participant-checkbox"><input id={inputId} ref={remember} required={Boolean(props.required)} {...accessibility} type="checkbox" checked={Boolean(values[name])} disabled={disabled} onChange={event => changeValue(name, event.target.checked ? 'yes' : '', element)} /></span>
           : props.inputType === 'rating' ? <div ref={remember} tabIndex={-1} role="group" aria-labelledby={labelId} {...accessibility} className="participant-rating">{(discreteScaleValues(props.min ?? 1, props.max ?? 7) || []).map(value => <button type="button" className={values[name] === value ? 'selected' : ''} aria-pressed={values[name] === value} disabled={disabled} key={value} onClick={() => changeValue(name, value, element)}>{value}</button>)}</div>
+            : props.inputType === 'choice' ? <select {...common}><option value="">{props.placeholder || t('Choose an option')}</option>{parseResponseOptions(props.options).map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
             : props.inputType === 'textarea' ? <textarea {...common} placeholder={props.placeholder || ''} />
               : <input {...common} type={props.inputType || 'text'} placeholder={props.placeholder || ''} min={props.min} max={props.max} step={props.inputType === 'number' ? 'any' : undefined} />}
         {errors[name] && <small id={errorId} role="alert">{errors[name].startsWith('Enter a value between ') ? t('Enter a value between {min} and {max}').replace('{min}', props.min ?? '−∞').replace('{max}', props.max ?? '∞') : t(errors[name])}</small>}

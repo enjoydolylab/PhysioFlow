@@ -1,5 +1,6 @@
 import { discreteScaleValues, numericBoundsError } from './inputValidation.js';
 import { createId } from './ids.js';
+import { choiceOptionsError } from './choiceInput.js';
 
 export const PARTICIPANT_UI_SCHEMA_VERSION = '1.0.0';
 export const PARTICIPANT_UI_TYPES = Object.freeze(['Screen', 'Layout', 'Text', 'Media', 'Input', 'Button', 'Progress', 'Html', 'Divider', 'Rectangle', 'Ellipse']);
@@ -182,6 +183,10 @@ export function validateParticipantUi(schema) {
       if (typeof name !== 'string' || !name.trim()) errors.push({ code: 'ui.input_name_missing', message: 'Input needs a response name', path: `${path}.props.name`, elementId: element.id });
       else if (responseNames.has(name)) errors.push({ code: 'ui.input_name_duplicate', message: `Duplicate response name ${name}; each input needs a unique name`, path: `${path}.props.name`, elementId: element.id });
       else responseNames.add(name);
+      if (element.props?.inputType === 'choice') {
+        const message = choiceOptionsError(element.props.options);
+        if (message) errors.push({ code: 'ui.choice_options_invalid', message, path: `${path}.props.options`, elementId: element.id });
+      }
       if (element.props?.inputType === 'number') {
         const message = numericBoundsError(element.props.min, element.props.max);
         if (message) errors.push({ code: 'ui.number_range_invalid', message, path: `${path}.props`, elementId: element.id });

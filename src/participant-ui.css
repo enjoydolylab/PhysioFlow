@@ -26,7 +26,7 @@
 .ui-preview-result pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 240px; overflow: auto; }
 .participant-ui-input [aria-invalid="true"] { outline: 2px solid var(--danger); outline-offset: 2px; }
 .participant-ui-input :focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
-.participant-ui-input input, .participant-ui-input textarea { padding: 12px; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
+.participant-ui-input input, .participant-ui-input textarea, .participant-ui-input select { padding: 12px; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
 .participant-ui-input small { color: var(--danger); }
 .participant-checkbox { display: inline-flex; align-items: center; }
 .participant-checkbox input[type="checkbox"] { width: 20px; height: 20px; padding: 0; cursor: pointer; }

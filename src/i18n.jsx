@@ -232,6 +232,24 @@ Object.assign(dictionaries.ja,{
 });
 
 const LanguageContext = createContext(null);
+Object.assign(dictionaries.ja, { 'invalid input configurations':'件の入力設定エラー' });
+Object.assign(dictionaries.zh, { 'invalid input configurations':'个输入配置错误' });
+Object.assign(dictionaries.ja, {
+  'Single choice':'単一選択', 'Choose an option':'選択してください', 'Choose a listed option':'一覧から選択してください',
+  'Choice options need attention':'選択肢の確認が必要です', 'Add at least one choice.':'選択肢を1つ以上追加してください。',
+  'Set the display label and recorded value for each choice. At least one choice is required.':'各選択肢の表示文字と記録値を設定してください。選択肢が1つ以上必要です。',
+  'Choice inputs need between 1 and 1000 options':'選択肢は1個以上1000個以内にしてください',
+  'Every choice needs a display label and recorded value':'すべての選択肢に表示文字と記録値が必要です',
+  'Choice recorded values must be unique':'選択肢の記録値は重複できません',
+});
+Object.assign(dictionaries.zh, {
+  'Single choice':'单选', 'Choose an option':'请选择', 'Choose a listed option':'请从列表中选择',
+  'Choice options need attention':'需要检查选项', 'Add at least one choice.':'请至少添加一个选项。',
+  'Set the display label and recorded value for each choice. At least one choice is required.':'设置每个选项的显示文字和记录值，至少添加一个选项。',
+  'Choice inputs need between 1 and 1000 options':'选项数量须为1到1000个',
+  'Every choice needs a display label and recorded value':'每个选项都需要显示文字和记录值',
+  'Choice recorded values must be unique':'选项记录值不能重复',
+});
 Object.assign(dictionaries.ja, {
   'Preview controls':'プレビュー操作', 'Try answering':'回答を試す', 'Appearance only':'表示確認に戻る', 'Reset answers':'回答をリセット',
   'Preview response values':'プレビューの回答値', 'Preview submission accepted':'プレビューの回答を確認しました',
