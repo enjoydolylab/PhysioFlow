@@ -232,6 +232,28 @@ Object.assign(dictionaries.ja,{
 });
 
 const LanguageContext = createContext(null);
+Object.assign(dictionaries.ja, { 'Responsive template now uses the current canvas size: {width} × {height}.':'レスポンシブ画面を現在の画面サイズ（{width} × {height}）に合わせました。' });
+Object.assign(dictionaries.zh, { 'Responsive template now uses the current canvas size: {width} × {height}.':'响应式模板已采用当前画布尺寸：{width} × {height}。' });
+Object.assign(dictionaries.ja, {
+  'Your screen templates':'画面テンプレートの再利用', 'Export screen template':'画面テンプレートを書き出す', 'Import screen template':'画面テンプレートを読み込む', 'Reading template…':'テンプレートを読み込み中…', 'Screen template file':'画面テンプレートファイル',
+  'Template files contain screen configuration. Media files and experiment variables are not included.':'ファイルには画面設定が含まれます。メディアファイルと実験変数は含まれません。',
+  'Replace the current screen with this template? You can undo this.':'現在の画面をこのテンプレートに置き換えますか？元に戻せます。',
+  'The file does not contain a valid participant screen.':'有効な参加者画面のファイルではありません。', 'The file is not valid JSON.':'JSONファイルの形式が正しくありません。',
+  'Fix the screen configuration before using it as a template.':'テンプレートとして使用する前に画面の設定エラーを修正してください。',
+  'Screen template files must be no larger than 5 MB.':'画面テンプレートのファイルは5 MB以内にしてください。',
+  'The screen changed while reading the file. Import again after finishing your edits.':'読み込み中に画面が変更されました。編集を終えてから再度読み込んでください。',
+  'Screen template imported. Review its media and bindings before running.':'画面テンプレートを読み込みました。実行前にメディアと変数接続を確認してください。',
+});
+Object.assign(dictionaries.zh, {
+  'Your screen templates':'复用画面模板', 'Export screen template':'导出画面模板', 'Import screen template':'导入画面模板', 'Reading template…':'正在读取模板…', 'Screen template file':'画面模板文件',
+  'Template files contain screen configuration. Media files and experiment variables are not included.':'文件包含画面配置，不包含媒体文件和实验变量。',
+  'Replace the current screen with this template? You can undo this.':'用此模板替换当前画面？之后可以撤销。',
+  'The file does not contain a valid participant screen.':'文件不包含有效的参与者画面。', 'The file is not valid JSON.':'文件不是有效的 JSON。',
+  'Fix the screen configuration before using it as a template.':'作为模板使用前，请先修复画面配置错误。',
+  'Screen template files must be no larger than 5 MB.':'画面模板文件不能大于5 MB。',
+  'The screen changed while reading the file. Import again after finishing your edits.':'读取文件期间画面已改变，请完成编辑后重新导入。',
+  'Screen template imported. Review its media and bindings before running.':'画面模板已导入，请在运行前核对媒体和变量绑定。',
+});
 Object.assign(dictionaries.ja, { 'Configure':'設定' });
 Object.assign(dictionaries.zh, { 'Configure':'配置' });
 Object.assign(dictionaries.ja, { 'Response fields':'回答フィールド', 'These are input fields on this screen. Button actions may submit additional values.':'この画面の入力フィールドです。ボタンの動作によって追加の値が提出される場合があります。', 'Unnamed response':'未設定の回答名', 'Optional':'任意', 'Needs attention':'確認が必要です', 'Configure response {name}':'回答フィールド{name}を設定', 'Recorded values':'記録値', 'Array response':'配列の回答', 'Add an input to define a response field.':'入力部品を追加すると回答フィールドを定義できます。', 'Checkbox':'チェックボックス' });

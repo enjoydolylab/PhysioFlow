@@ -1,0 +1,14 @@
+{
+  "actualBuilder": true,
+  "exportBlobMatchesConfiguration": true,
+  "invalidJsonPreservesScreen": true,
+  "cancelPreservesScreen": true,
+  "importPreservesThemeBindingsResolutionAndIds": true,
+  "singleUndoRedo": true,
+  "concurrentEditProtected": true,
+  "unmountedImportCancelled": true,
+  "responsiveSizeReported": true,
+  "responsiveImportSingleUndo": true,
+  "importedChoicePreview": true,
+  "narrowToolsNoOverflow": true
+}

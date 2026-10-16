@@ -20,6 +20,11 @@
 .participant-ui-input { display: flex; flex-direction: column; gap: 9px; margin: 20px 0; text-align: left; }
 .participant-ui-input > span { font-weight: 650; }
 .participant-ui-input > label { font-weight: 650; }
+.ui-template-tools { padding: 10px 0; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+.ui-template-tools h3 { font-size: 14px; margin: 4px 0 8px; }
+.ui-template-tools p, .ui-template-tools small { font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.ui-template-tools small { display: block; }
+.ui-template-tools button { width: 100%; min-height: 44px; margin: 4px 0; white-space: normal; }
 .ui-response-fields { margin: 12px 0; }
 .ui-response-fields summary { cursor: pointer; padding: 8px 0; }
 .ui-response-fields p { font-size: 13px; line-height: 1.6; }

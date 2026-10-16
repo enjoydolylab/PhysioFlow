@@ -1,6 +1,7 @@
 import { useT } from './i18n';
 import { useEffect, useRef, useState } from 'react';
 import { ScreenChecks } from './participantUi/ScreenChecks.jsx';
+import { ScreenTemplateTools } from './participantUi/ScreenTemplateTools.jsx';
 import { ResponseFields } from './participantUi/ResponseFields.jsx';
 import { PositionFields } from './participantUi/PositionFields.jsx';
 import { SelectionInspector } from './participantUi/SelectionInspector.jsx';
@@ -159,6 +160,12 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
             <small className="ui-library-tip">Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove</small>
           </div>}
           {libraryTab === 'presets' && <div className="ui-library-panel ui-library-presets">
+            <ScreenTemplateTools schema={normalized} valid={validation.valid} onImport={imported => {
+              const adapted = !(imported.root.props?.screenWidth && imported.root.props?.screenHeight);
+              const next = !adapted ? imported : mapUiElement(imported, imported.root.id, root => ({ ...root, props: { ...root.props, screenWidth: deviceWidth, screenHeight: deviceHeight } }));
+              commit(next); selectElement(next.root.id);
+              return { adapted, width: deviceWidth, height: deviceHeight };
+            }} />
             {SCREEN_PRESETS.map(preset => <button key={preset.id} type="button" className="ui-preset-btn" title={preset.hint} onClick={() => {
               if (!window.confirm('Replace this screen with “' + preset.label + '”? You can undo this.')) return;
               const next = createScreenPreset(preset.id); commit(next); selectElement(next.root.id);

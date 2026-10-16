@@ -1,0 +1,54 @@
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {openTestBrowser} from './browser-harness.mjs';
+const browser=await openTestBrowser();
+try {
+ await browser.evaluate(`(async()=>{localStorage.setItem('physioflow.ui-language','ja');const React=(await import('/node_modules/.vite/deps/react.js')).default;const {createRoot}=(await import('/node_modules/.vite/deps/react-dom_client.js')).default;const {LanguageProvider}=await import('/src/i18n.jsx');const {default:Builder}=await import('/src/ParticipantUiBuilder.jsx');window.core=await import('/src/core/index.js');window.templateSchema=core.participantUiTemplate('rating');window.importedSchema=core.participantUiTemplate('instruction');importedSchema.root.props.screenWidth=1280;importedSchema.root.props.screenHeight=720;importedSchema.theme={ink:'#123456'};importedSchema.root.children[0].bindings={text:'variables.caption'};document.getElementById('root').style.display='none';const host=document.createElement('div');host.id='template-files';document.body.append(host);const root=createRoot(host);window.renderTemplate=()=>root.render(React.createElement(LanguageProvider,null,React.createElement(Builder,{schema:templateSchema,onChange:next=>{templateSchema=next;renderTemplate()}})));renderTemplate();window.confirmAccept=true;window.confirmCalls=0;window.confirm=()=>{confirmCalls++;return confirmAccept};const click=HTMLAnchorElement.prototype.click;HTMLAnchorElement.prototype.click=function(){if(this.download==='PhysioFlow-screen.participant-ui.json'){window.exportPromise=fetch(this.href).then(r=>r.json());return;}return click.call(this)};window.uploadTemplate=(text,name='screen.json')=>{const transfer=new DataTransfer();transfer.items.add(new File([text],name,{type:'application/json'}));const input=document.querySelector('.ui-template-tools input[type=file]');input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));};})()`);
+ await browser.waitFor(`!!document.querySelector('.ui-library-tabs [role=tab]:nth-child(2)')&&!!templateSchema.root.props.screenWidth`,'builder');
+ await browser.evaluate(`document.querySelector('.ui-library-tabs [role=tab]:nth-child(2)').click()`);
+ await browser.waitFor(`!!document.querySelector('.ui-template-tools')`,'template tools');
+ await browser.evaluate(`window.templateBefore=JSON.stringify(templateSchema);document.querySelector('.ui-template-tools button').click()`);
+ assert.equal(await browser.evaluate(`(async()=>JSON.stringify(await exportPromise)===templateBefore)()`),true);
+ await browser.evaluate(`uploadTemplate('{')`);await browser.waitFor(`!!document.querySelector('.ui-template-tools [role=alert]')`,'invalid JSON error');assert.equal(await browser.evaluate('JSON.stringify(templateSchema)===templateBefore'),true);
+ await browser.evaluate(`confirmAccept=false;uploadTemplate(JSON.stringify(importedSchema))`);await browser.waitFor(`![...document.querySelectorAll('.ui-template-tools button')].some(b=>b.disabled)`,'cancel finished');assert.equal(await browser.evaluate('JSON.stringify(templateSchema)===templateBefore'),true);
+ await browser.evaluate(`confirmAccept=true;uploadTemplate(JSON.stringify(importedSchema))`);await browser.waitFor(`JSON.stringify(templateSchema)===JSON.stringify(importedSchema)`,'import exact config');
+ await browser.evaluate(`document.querySelector('[title="Undo (Ctrl+Z)"]').click()`);await browser.waitFor('JSON.stringify(templateSchema)===templateBefore','single undo returns original');
+ await browser.evaluate(`document.querySelector('[title="Redo (Ctrl+Shift+Z)"]').click()`);await browser.waitFor('JSON.stringify(templateSchema)===JSON.stringify(importedSchema)','redo import');
+ await browser.evaluate(`window.fileText=File.prototype.text;File.prototype.text=function(){if(this.name==='slow.json')return new Promise(resolve=>window.finishTemplateText=resolve);return fileText.call(this)};uploadTemplate(JSON.stringify(importedSchema),'slow.json')`);
+ await browser.waitFor(`typeof finishTemplateText==='function'`,'file read pending');
+ await browser.evaluate(`templateSchema=core.mapUiElement(templateSchema,templateSchema.root.id,root=>({...root,props:{...root.props,padding:91}}));renderTemplate()`);
+ await browser.waitFor('templateSchema.root.props.padding===91','edited while pending');
+ await browser.evaluate(`finishTemplateText(JSON.stringify(importedSchema))`);
+ await browser.waitFor(`document.querySelector('.ui-template-tools [role=alert]')?.textContent.includes('画面が変更')`,'stale read rejected');
+ assert.equal(await browser.evaluate('templateSchema.root.props.padding'),91);
+ await browser.evaluate(`window.beforeExit=JSON.stringify(templateSchema);window.finishTemplateText=undefined;uploadTemplate(JSON.stringify(importedSchema),'slow.json')`);
+ await browser.waitFor(`typeof finishTemplateText==='function'`,'pending read before exiting tools');
+ await browser.evaluate(`document.querySelector('.ui-library-tabs [role=tab]:first-child').click()`);
+ await browser.waitFor(`!document.querySelector('.ui-template-tools')`,'tools unmounted');
+ await browser.evaluate(`window.confirmBeforeExit=confirmCalls;finishTemplateText(JSON.stringify(importedSchema))`);
+ await browser.evaluate(`new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
+ assert.equal(await browser.evaluate('JSON.stringify(templateSchema)===beforeExit'),true);assert.equal(await browser.evaluate('confirmCalls===confirmBeforeExit'),true);
+ await browser.evaluate(`document.querySelector('.ui-library-tabs [role=tab]:nth-child(2)').click()`);await browser.waitFor(`!!document.querySelector('.ui-template-tools')`,'tools reopened');
+ await browser.evaluate(`window.beforeResponsive=JSON.stringify(templateSchema);window.responsiveSchema=core.participantUiTemplate('rating');delete responsiveSchema.root.props.screenWidth;delete responsiveSchema.root.props.screenHeight;responsiveSchema.root.children.find(e=>e.type==='Input').props={name:'reused_answer',label:'Reused choice',inputType:'choice',required:true,options:[{value:'0',label:'Zero'}]};uploadTemplate(JSON.stringify(responsiveSchema))`);
+ await browser.waitFor(`templateSchema.root.id===responsiveSchema.root.id&&!!templateSchema.root.props.screenWidth`,'responsive import');
+ assert.deepEqual(await browser.evaluate('[templateSchema.root.props.screenWidth,templateSchema.root.props.screenHeight]'),[1280,720]);
+ await browser.waitFor(`document.querySelector('.ui-template-tools [role=status]')?.textContent.includes('現在の画面サイズ')`,'adapted size reported');
+ await mkdir('artifacts/screen-template-stage',{recursive:true});
+ for(const width of [1280,375]) {
+  await browser.send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await browser.evaluate(`(async()=>{document.querySelector('.ui-template-tools [role=status]').scrollIntoView({block:'nearest'});await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));})()`);
+  assert.ok(await browser.evaluate(`(()=>{const panel=document.querySelector('.ui-template-tools');return panel.scrollWidth<=panel.clientWidth+1})()`),'template tools fit');
+  assert.ok(await browser.evaluate(`(()=>{const p=document.querySelector('.ui-template-tools [role=status]').getBoundingClientRect();const panel=document.querySelector('.ui-template-tools').closest('.ui-library-panel').getBoundingClientRect();return p.top>=panel.top-1&&p.bottom<=panel.bottom+1;})()`),'import feedback is visible in the library');
+  const layout=await browser.evaluate(`(()=>{const panel=document.querySelector('.ui-template-tools');return {width:panel.clientWidth,height:panel.clientHeight,scrollHeight:panel.scrollHeight,paragraphs:[...panel.querySelectorAll('p')].map(p=>({width:p.clientWidth,scrollWidth:p.scrollWidth,height:p.clientHeight,whiteSpace:getComputedStyle(p).whiteSpace,overflow:getComputedStyle(p).overflow,textOverflow:getComputedStyle(p).textOverflow}))};})()`);await writeFile(`artifacts/screen-template-stage/layout-${width}.json`,JSON.stringify(layout,null,2));
+  const shot=await browser.send('Page.captureScreenshot',{format:'png'});await writeFile(`artifacts/screen-template-stage/tools-${width}.png`,Buffer.from(shot.data,'base64'));
+ }
+ await browser.evaluate(`document.querySelector('[title="Undo (Ctrl+Z)"]').click()`);await browser.waitFor('JSON.stringify(templateSchema)===beforeResponsive','one undo for responsive import');
+ await browser.evaluate(`document.querySelector('[title="Redo (Ctrl+Shift+Z)"]').click()`);await browser.waitFor('templateSchema.root.id===responsiveSchema.root.id','redo responsive import');
+ await browser.evaluate(`document.querySelector('.ui-preview-btn').click()`);await browser.waitFor(`!!document.querySelector('.ui-preview-tools')`,'reused screen preview');
+ await browser.evaluate(`[...document.querySelectorAll('.ui-preview-tools button')].find(b=>b.textContent==='回答を試す').click()`);
+ await browser.evaluate(`(()=>{const select=document.querySelector('.ui-builder-preview select');select.value='0';select.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+ await browser.evaluate(`document.querySelector('.ui-builder-preview .participant-ui-button').click()`);await browser.waitFor(`!!document.querySelector('.ui-preview-result pre')`,'reused input submission');
+ assert.equal(await browser.evaluate(`JSON.parse(document.querySelector('.ui-preview-result pre').textContent).reused_answer`),'0');
+ await mkdir('artifacts/screen-template-stage',{recursive:true});await writeFile('artifacts/screen-template-stage/browser.json',JSON.stringify({actualBuilder:true,exportBlobMatchesConfiguration:true,invalidJsonPreservesScreen:true,cancelPreservesScreen:true,importPreservesThemeBindingsResolutionAndIds:true,singleUndoRedo:true,concurrentEditProtected:true,unmountedImportCancelled:true,responsiveSizeReported:true,responsiveImportSingleUndo:true,importedChoicePreview:true,narrowToolsNoOverflow:true},null,2));
+ console.log('Screen template export, import validation, cancel, undo/redo and stale-read protection passed');
+}finally{await browser.close();}
