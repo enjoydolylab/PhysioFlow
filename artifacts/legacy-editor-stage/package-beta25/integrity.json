@@ -1,0 +1,14 @@
+{
+  "Web": {
+    "zipCrc": true,
+    "privateCacheExcluded": true,
+    "sha256": "85926af60a37561d25570bc6285da325257c5c34d6c30fb1790d25f5d11e68e5"
+  },
+  "Server": {
+    "zipCrc": true,
+    "privateCacheExcluded": true,
+    "sha256": "4cba91c2b4cd005a7349707b912877607d3b9887504d34504c9211e412ae5ddf"
+  },
+  "serverManifestFiles": 333,
+  "serverToolsScriptsUnchangedFromBeta24": true
+}
