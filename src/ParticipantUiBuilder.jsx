@@ -235,7 +235,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
         </aside>
       </div>}
 
-    <ScreenChecks elements={elements} boundsIssues={boundsIssues} fixedSize={Boolean(normalized.root.props?.screenWidth)} preview={preview} onLocate={locateIssue} onPreview={() => setPreview(value => !value)} />
+    <ScreenChecks elements={elements} boundsIssues={boundsIssues} fixedSize={Boolean(normalized.root.props?.screenWidth)} preview={preview} onLocate={locateIssue} onPreview={() => setPreview(value => !value)} validationErrors={validation.errors} />
     {elements.some(item => item.element.props?.free) && normalized.root.props?.screenWidth && <p className="ui-layout-notice" role="note">Fixed screen {deviceWidth}×{deviceHeight}: the editor and the run scale identically; content outside the screen is clipped. Change the size under ⚙ Settings.</p>}
 
     <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} elements · schema valid` : validation.errors[0]?.message}</small>

@@ -1,7 +1,8 @@
 import { fullscreenMediaInScreen, mediaPresentationMode } from './core/mediaPresentation.js';
 import { discreteScaleValues, responseValueError } from './core/inputValidation.js';
 import { ScreenFrame } from './participantUi/ScreenFrame.jsx';
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
+import { useT } from './i18n';
 import { isUiSize, normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
 import ParticipantMedia from './ParticipantMedia.jsx';
 
@@ -10,7 +11,10 @@ function boundProp(element, name, context) {
   return binding ? resolveUiBinding(binding, context) : element.props?.[name];
 }
 
-export default function ParticipantRenderer({ schema, context = {}, onSubmit, onValueChange, onAction, onMediaEvent, disabled = false, preview = false }) {
+export default function ParticipantRenderer({ schema, context = {}, onSubmit, onValueChange, onAction, onMediaEvent, disabled = false, preview = false, previewInteractions = false }) {
+  const t = useT();
+  const fieldPrefix = useId();
+  const inputRefs = useRef(new Map());
   const normalized = useMemo(() => normalizeParticipantUi(schema), [schema]);
   const validation = useMemo(() => validateParticipantUi(normalized), [normalized]);
   const theme = useMemo(() => resolveTheme(normalized), [normalized]);
@@ -22,15 +26,20 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
   collect(normalized.root);
 
   const submit = (submittedValues = values) => {
-    if (disabled || preview) return;
+    if (disabled || (preview && !previewInteractions)) return;
     const nextErrors = Object.fromEntries(inputs.map(input => [input.props.name, responseValueError(submittedValues[input.props.name], { ...input.props, type: input.props.inputType })]).filter(([, error]) => error));
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length) return;
+    if (Object.keys(nextErrors).length) {
+      const first = inputs.find(input => nextErrors[input.props.name]);
+      requestAnimationFrame(() => inputRefs.current.get(first?.props.name)?.focus());
+      return;
+    }
     onSubmit?.({ values: structuredClone(submittedValues), outputs: structuredClone(submittedValues), variables: structuredClone(submittedValues) });
   };
 
   const changeValue = (name, value, element) => {
     setValues(current => ({ ...current, [name]: value }));
+    setErrors(current => current[name] ? { ...current, [name]: responseValueError(value, { ...element.props, type: element.props.inputType }) } : current);
     onValueChange?.({ name, value, elementId: element.id, inputType: element.props?.inputType || 'text' });
   };
 
@@ -99,16 +108,21 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     }
     if (element.type === 'Input') {
       const name = props.name;
-      const common = { disabled, value: values[name] ?? '', onChange: event => changeValue(name, props.inputType === 'rating' || props.inputType === 'number' ? (event.target.value === '' ? '' : Number(event.target.value)) : event.target.value, element) };
-      return <label key={element.id} className="participant-ui-input" style={{ ...style, ...positioned }}><span>{props.label || name}{props.required && ' *'}</span>
-        {props.inputType === 'checkbox' ? <span className="participant-checkbox"><input type="checkbox" checked={Boolean(values[name])} disabled={disabled} onChange={event => changeValue(name, event.target.checked ? 'yes' : '', element)} /></span>
-          : props.inputType === 'rating' ? <div className="participant-rating">{(discreteScaleValues(props.min ?? 1, props.max ?? 7) || []).map(value => <button type="button" className={values[name] === value ? 'selected' : ''} disabled={disabled} key={value} onClick={() => changeValue(name, value, element)}>{value}</button>)}</div>
+      const inputId = `${fieldPrefix}-${element.id}`;
+      const errorId = `${inputId}-error`;
+      const labelId = `${inputId}-label`;
+      const accessibility = { 'aria-invalid': Boolean(errors[name]), 'aria-describedby': errors[name] ? errorId : undefined };
+      const remember = control => { if (control) inputRefs.current.set(name, control); else inputRefs.current.delete(name); };
+      const common = { id: inputId, ref: remember, required: Boolean(props.required), ...accessibility, disabled, value: values[name] ?? '', onChange: event => changeValue(name, props.inputType === 'rating' || props.inputType === 'number' ? (event.target.value === '' ? '' : Number(event.target.value)) : event.target.value, element) };
+      return <div key={element.id} className="participant-ui-input" style={{ ...style, ...positioned }}><label id={labelId} htmlFor={props.inputType === 'rating' ? undefined : inputId}>{props.label || name}{props.required && ' *'}</label>
+        {props.inputType === 'checkbox' ? <span className="participant-checkbox"><input id={inputId} ref={remember} required={Boolean(props.required)} {...accessibility} type="checkbox" checked={Boolean(values[name])} disabled={disabled} onChange={event => changeValue(name, event.target.checked ? 'yes' : '', element)} /></span>
+          : props.inputType === 'rating' ? <div ref={remember} tabIndex={-1} role="group" aria-labelledby={labelId} {...accessibility} className="participant-rating">{(discreteScaleValues(props.min ?? 1, props.max ?? 7) || []).map(value => <button type="button" className={values[name] === value ? 'selected' : ''} aria-pressed={values[name] === value} disabled={disabled} key={value} onClick={() => changeValue(name, value, element)}>{value}</button>)}</div>
             : props.inputType === 'textarea' ? <textarea {...common} placeholder={props.placeholder || ''} />
-              : <input {...common} type={props.inputType || 'text'} placeholder={props.placeholder || ''} min={props.min} max={props.max} />}
-        {errors[name] && <small>{errors[name]}</small>}
-      </label>;
+              : <input {...common} type={props.inputType || 'text'} placeholder={props.placeholder || ''} min={props.min} max={props.max} step={props.inputType === 'number' ? 'any' : undefined} />}
+        {errors[name] && <small id={errorId} role="alert">{errors[name].startsWith('Enter a value between ') ? t('Enter a value between {min} and {max}').replace('{min}', props.min ?? '−∞').replace('{max}', props.max ?? '∞') : t(errors[name])}</small>}
+      </div>;
     }
-    if (element.type === 'Button') return <span key={element.id} className="participant-ui-button-wrap" style={positioned}><button type="button" disabled={disabled || preview} className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(props.width != null ? {width:'100%', minWidth:0} : {}), ...(props.height != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}} onClick={() => executeActions(element.actions)}>{props.label || 'Continue'}</button></span>;
+    if (element.type === 'Button') return <span key={element.id} className="participant-ui-button-wrap" style={positioned}><button type="button" disabled={disabled || (preview && !previewInteractions)} className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(props.width != null ? {width:'100%', minWidth:0} : {}), ...(props.height != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}} onClick={() => executeActions(element.actions)}>{props.label || 'Continue'}</button></span>;
     return null;
   };
 

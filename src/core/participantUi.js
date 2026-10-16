@@ -1,4 +1,4 @@
-import { discreteScaleValues } from './inputValidation.js';
+import { discreteScaleValues, numericBoundsError } from './inputValidation.js';
 import { createId } from './ids.js';
 
 export const PARTICIPANT_UI_SCHEMA_VERSION = '1.0.0';
@@ -182,6 +182,10 @@ export function validateParticipantUi(schema) {
       if (typeof name !== 'string' || !name.trim()) errors.push({ code: 'ui.input_name_missing', message: 'Input needs a response name', path: `${path}.props.name`, elementId: element.id });
       else if (responseNames.has(name)) errors.push({ code: 'ui.input_name_duplicate', message: `Duplicate response name ${name}; each input needs a unique name`, path: `${path}.props.name`, elementId: element.id });
       else responseNames.add(name);
+      if (element.props?.inputType === 'number') {
+        const message = numericBoundsError(element.props.min, element.props.max);
+        if (message) errors.push({ code: 'ui.number_range_invalid', message, path: `${path}.props`, elementId: element.id });
+      }
       if (element.props?.inputType === 'rating' && !discreteScaleValues(element.props.min ?? 1, element.props.max ?? 7)) errors.push({ code: 'ui.rating_range_invalid', message: 'Rating needs increasing integer bounds and at most 1000 choices', path: `${path}.props`, elementId: element.id });
     }
     if (element?.type === 'Media' && !element.props?.sourceUrl && !element.props?.assetId) warnings.push({ code: 'ui.media_source_missing', message: 'Media has no source yet', path: `${path}.props`, elementId: element.id });

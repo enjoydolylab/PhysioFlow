@@ -1,4 +1,11 @@
 // Shared runtime validation; zero is a real answer, blank is not.
+export function numericBoundsError(min, max) {
+  const finite = value => (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')) && Number.isFinite(Number(value));
+  if ((min != null && !finite(min)) || (max != null && !finite(max))) return 'Numeric bounds must be finite numbers or left unset';
+  if (min != null && max != null && Number(min) > Number(max)) return 'Minimum must not exceed maximum';
+  return null;
+}
+
 export function responseValueError(value, { required = false, type = 'text', min, max } = {}) {
   const missing = value == null || value === '' || (typeof value === 'string' && !value.trim()) || (Array.isArray(value) && value.length === 0);
   if (required && (missing || (type === 'checkbox' && !value))) return 'Required';

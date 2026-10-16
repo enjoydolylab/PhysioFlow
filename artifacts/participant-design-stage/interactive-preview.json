@@ -1,0 +1,10 @@
+{
+  "actualBuilder": true,
+  "defaultAppearanceOnly": true,
+  "requiredAndRangeValidation": true,
+  "zeroAndButtonVariables": true,
+  "resultClearsAfterEdit": true,
+  "resetAnswers": true,
+  "schemaUnchanged": true,
+  "noSavedSession": true
+}

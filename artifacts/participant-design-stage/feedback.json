@@ -1,0 +1,9 @@
+{
+  "actualRenderer": true,
+  "firstErrorFocus": true,
+  "linkedErrors": true,
+  "japaneseRangeMessage": true,
+  "immediateCorrectionFeedback": true,
+  "ratingKeyboardAndPressedState": true,
+  "zeroAndCheckboxPayloadPreserved": true
+}

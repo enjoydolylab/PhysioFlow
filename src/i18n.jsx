@@ -233,6 +233,38 @@ Object.assign(dictionaries.ja,{
 
 const LanguageContext = createContext(null);
 Object.assign(dictionaries.ja, {
+  'Preview controls':'プレビュー操作', 'Try answering':'回答を試す', 'Appearance only':'表示確認に戻る', 'Reset answers':'回答をリセット',
+  'Preview response values':'プレビューの回答値', 'Preview submission accepted':'プレビューの回答を確認しました',
+  'Preview answers stay here. They do not start a run or save experiment records.':'回答はこのプレビュー内だけで確認します。実験を開始したり、実験記録として保存したりしません。',
+});
+Object.assign(dictionaries.zh, {
+  'Preview controls':'预览操作', 'Try answering':'试填回答', 'Appearance only':'返回外观检查', 'Reset answers':'重置回答',
+  'Preview response values':'预览回答值', 'Preview submission accepted':'预览回答已通过校验',
+  'Preview answers stay here. They do not start a run or save experiment records.':'回答仅在当前预览中查看，不会启动实验或保存为实验记录。',
+});
+Object.assign(dictionaries.ja, {
+  'Enter a valid number':'有効な数値を入力してください',
+  'Enter a value between {min} and {max}':'{min}から{max}の範囲で入力してください',
+});
+Object.assign(dictionaries.zh, {
+  'Enter a valid number':'请输入有效数值',
+  'Enter a value between {min} and {max}':'请输入{min}到{max}之间的数值',
+});
+Object.assign(dictionaries.ja, {
+  'No minimum':'下限なし', 'No maximum':'上限なし', 'invalid input ranges':'件の入力範囲エラー',
+  'Input range needs attention':'入力範囲の確認が必要です',
+  'Numeric bounds must be finite numbers or left unset':'上下限には有限の数値を入力するか、未設定にしてください',
+  'Minimum must not exceed maximum':'下限は上限以下にしてください',
+  'Rating needs increasing integer bounds and at most 1000 choices':'評価範囲には昇順の整数を設定し、選択肢を1000個以内にしてください',
+});
+Object.assign(dictionaries.zh, {
+  'No minimum':'不限下限', 'No maximum':'不限上限', 'invalid input ranges':'个输入范围错误',
+  'Input range needs attention':'需要检查输入范围',
+  'Numeric bounds must be finite numbers or left unset':'上下限须为有限数值，或保持未设置',
+  'Minimum must not exceed maximum':'下限不能大于上限',
+  'Rating needs increasing integer bounds and at most 1000 choices':'量表须使用递增整数范围，且选项不超过1000个',
+});
+Object.assign(dictionaries.ja, {
   'The actual comparison value must be a finite number. Check the input variable or upstream response.':'比較対象は有限の数値である必要があります。入力変数または前のステップの回答を確認してください。',
   'The expected comparison value must be a finite number. Check the comparison configuration or bound value.':'比較値は有限の数値である必要があります。比較設定または接続した値を確認してください。',
 });
@@ -337,7 +369,7 @@ export function useLanguage() { return useContext(LanguageContext); }
 /** Returns a translate() bound to the current UI language — for attributes,
  *  placeholders, and dynamically-composed strings the DOM walker can't reach. */
 export function useT() {
-  const { language } = useLanguage();
+  const language = useLanguage()?.language || DEFAULT_LANGUAGE;
   return key => translate(key, language);
 }
 

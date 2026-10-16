@@ -1,0 +1,8 @@
+{
+  "actualBuilder": true,
+  "rangeErrorLocateAndFocus": true,
+  "clearOptionalBound": true,
+  "serializedSchemaRuntime": true,
+  "outOfRangeBlocked": true,
+  "zeroAndDecimalAccepted": true
+}
