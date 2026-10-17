@@ -78,6 +78,7 @@ Object.assign(dictionaries.zh,{
   'Connect a wire to here':'连接线到此','Drag to connect':'拖动连接','true':'真','false':'假','body':'循环体','exit':'退出','next':'下一个',
   'Add to flow':'添加到流程','Drag nodes to arrange':'拖动节点排列','Find node by name...':'按名称搜索节点...','match':'匹配','matches':'匹配',
   'Back to projects':'返回项目','Project name':'项目名称','Select trial to edit':'选择要编辑的 Trial','Node manual':'节点手册','Test run':'试运行','More actions':'更多操作',
+  'Frozen version · view only':'冻结版本 · 仅查看','View participant screen':'查看参与者界面','Create editable version':'创建可编辑版本',
   'Unsaved changes':'未保存的更改','Protocol saved':'方案已保存',
   // Builder
   'Experiment → Block → Trial → Step':'实验 → Block → Trial → Step','Step palette':'步骤面板','Start building your experiment':'开始构建你的实验',
@@ -183,6 +184,7 @@ Object.assign(dictionaries.ja,{
   'Connect a wire to here':'ここにワイヤを接続','Drag to connect':'ドラッグして接続','true':'真','false':'偽','body':'本体','exit':'終了','next':'次へ',
   'Add to flow':'フローに追加','Drag nodes to arrange':'ノードをドラッグして配置','Find node by name...':'名前でノードを検索...','match':'件一致','matches':'件一致',
   'Back to projects':'プロジェクトに戻る','Project name':'プロジェクト名','Select trial to edit':'編集するTrialを選択','Node manual':'ノードマニュアル','Test run':'テスト実行','More actions':'その他の操作',
+  'Frozen version · view only':'凍結済みバージョン・閲覧のみ','View participant screen':'参加者画面を表示','Create editable version':'編集可能なバージョンを作成',
   'Unsaved changes':'未保存の変更','Protocol saved':'プロトコル保存済',
   // Builder
   'Experiment → Block → Trial → Step':'実験 → Block → Trial → Step','Step palette':'ステップ一覧','Start building your experiment':'実験の構築を始めましょう',

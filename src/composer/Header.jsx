@@ -26,7 +26,7 @@ export default function Header({ s, onSave, onBack, onExport, onPreview, onFreez
       <button disabled={locked || !canRedo} onClick={onRedo}>↪ {t('Redo')}</button>
       <button className="primary" disabled={!validation.valid} onClick={onPreview}>{t(locked ? 'Prepare collection' : 'Preview run')}</button>
       {migrationReviewRequired && !locked && <button onClick={actions.markMigrationReviewed}>Mark migration reviewed</button>}
-      {locked ? <button onClick={onCreateDraft}>Create editable version</button> : <button disabled={!validation.valid || migrationReviewRequired} onClick={onFreeze}>{t('Freeze version')}</button>}
+      {locked ? <button onClick={onCreateDraft}>{t('Create editable version')}</button> : <button disabled={!validation.valid || migrationReviewRequired} onClick={onFreeze}>{t('Freeze version')}</button>}
       <details className="composer-more"><summary>{t('More actions')}</summary><div><button onClick={onExport}>{t('Export')}</button><button className="bio-btn" onClick={onBioDB} disabled={locked}>{t('Legacy BioDB connection')}</button></div></details>
       <button className={saveAnim ? 'saved' : ''} onClick={() => onSave(protocol)}>{saveAnim ? '✓ ' + t('Saved') : t('Save')}</button>
       <button onClick={onBack}>← {t('Projects')}</button>

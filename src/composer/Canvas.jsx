@@ -2,7 +2,7 @@ import { edgePath, groupBounds, portPosition } from './toolbox.js';
 
 export default function Canvas({ s }) {
   const {
-    protocol, t, registry,
+    protocol, t, registry, locked,
     canvasRef, canvasSize, pan, setPan, zoom, setZoom, marquee,
     snapEnabled, setSnapEnabled, autoLayout,
     snapshotsOpen, setSnapshotsOpen, snapshots, snapshotName, setSnapshotName,
@@ -72,7 +72,7 @@ export default function Canvas({ s }) {
         </svg>
         {protocol.graph.nodes.map(node => {
           const definition = registry.get(node.component.type, node.component.version);
-          return <article key={node.id} data-node-id={node.id} className={`composer-node ${selectedIds.has(node.id) ? 'selected' : ''}`} style={{ left: node.layout.x, top: node.layout.y }} onClick={event => selectNode(node, event)} onDoubleClick={() => { setPreviewNodeId(node.id); setPreviewEdit(true); }} onPointerDown={event => startDrag(event, node)} onPointerMove={dragNode} onPointerUp={endDrag}>
+          return <article key={node.id} data-node-id={node.id} className={`composer-node ${selectedIds.has(node.id) ? 'selected' : ''}`} style={{ left: node.layout.x, top: node.layout.y }} onClick={event => selectNode(node, event)} onDoubleClick={() => { setPreviewNodeId(node.id); setPreviewEdit(!locked); }} onPointerDown={event => startDrag(event, node)} onPointerMove={dragNode} onPointerUp={endDrag}>
             <span className="node-category">{definition?.category}</span>
             <b>{node.label}</b>
             <small>{node.component.type}</small>

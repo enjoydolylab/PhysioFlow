@@ -73,12 +73,12 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
     {previewNode && <div className="node-editor-fullscreen">
       <div className="node-editor-header">
         <b>{previewNode.label}</b><small>{previewNode.component.type}@{previewNode.component.version}</small>
-        {fullscreenUiEditable && <button disabled={locked} onClick={() => setPreviewEdit(value => !value)}>{previewEdit ? 'View' : '✎ Edit'}</button>}
-        <span className="node-editor-save-state" role="status">{s.t(hasUnsaved ? 'Unsaved changes' : 'Saved')}</span>
-        <button type="button" className="node-editor-save" onClick={() => onSave(protocol)}>{s.t('Save')}</button>
+        {!locked && fullscreenUiEditable && <button onClick={() => setPreviewEdit(value => !value)}>{previewEdit ? 'View' : '✎ Edit'}</button>}
+        <span className="node-editor-save-state" role="status">{s.t(locked ? 'Frozen version · view only' : hasUnsaved ? 'Unsaved changes' : 'Saved')}</span>
+        {locked ? <button type="button" className="node-editor-create-draft" onClick={onCreateDraft}>{s.t('Create editable version')}</button> : <button type="button" className="node-editor-save" onClick={() => onSave(protocol)}>{s.t('Save')}</button>}
         <button className="node-editor-close" onClick={() => setPreviewNodeId(null)}>✕ Done</button>
       </div>
-      {previewEdit && fullscreenUiEditable && previewNode.config?.ui
+      {!locked && previewEdit && fullscreenUiEditable && previewNode.config?.ui
         ? <ParticipantUiBuilder variables={protocol.variables || []} schema={schemaForNode(previewNode, previewDefinition, previewResources)} defaultTemplate={UI_TEMPLATE_KIND[previewNode.component.type] || 'instruction'} onChange={actions.updatePreviewUi} />
         : <div className="node-editor-preview"><ParticipantRenderer schema={schemaForNode(previewNode, previewDefinition, previewResources)} preview /></div>}
     </div>}
