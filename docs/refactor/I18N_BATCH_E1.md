@@ -1,0 +1,470 @@
+# i18n batch E1
+
+Scope: E bucket entries in src/core/**, src/domain.js and src/constants.js.
+
+Added unique dictionary keys: zh 198; ja 198. English remains the source/fallback (0 new English dictionary keys). 198 display keys supplied, including 18 parameterized diagnostics.
+
+No code, type, id, enum value, property name, exported header, CSV column, JSON key or filename changed. All src/core/**, src/domain.js and src/constants.js files are byte-for-byte unchanged. No commit created.
+
+## Render-site translations
+
+- GuidePanel: palette groups/labels, STEP_GUIDE and CONTROL_NODE_GUIDE summaries/setup/output, output/data-format descriptions and storage descriptions. Filename code elements remain English.
+- Inspector and flowCanvas/NodeCard: domain stepContentIssues messages and hover titles.
+- app/legacyBuilder: protocol errors/warnings and step issue hover titles.
+- app/sessionSetup: pure graph configuration validation and media readiness diagnostics.
+- QuestionnaireEditorV2 CsvImport: parseQuestionnaireCsv errors.
+- composer/GroupBatchEditor and RepeatSequenceEditor: pure command errors. Existing Composer Sequence uses t(message), RepeatSequenceEditor uses t(segment.message), and Composer validation uses its existing issue-code translation catalog.
+- i18nMessage is display-only: questionnaire question/index/type/duplicate-ID/CSV diagnostics and indexed domain option/prompt diagnostics match anchored templates. Original diagnostic objects remain unchanged. Legacy Block/Trial/Step location prefixes remain technical context.
+- PreRunChecklist raw technical diagnostics intentionally remain original in the explicitly labelled raw-message disclosure; its actionable advice is separate UI copy.
+
+## Verification
+
+- npm test: 534 pass, 0 fail, 1 skipped (535 tests).
+- npm run lint -- --max-warnings=0: passed.
+- npm run build: passed.
+- node scripts/audit-i18n.mjs with empty stdin: passed; all remaining in-scope missing candidates are individually listed below. Audit also scans other batches.
+
+## E1 bucket entries intentionally retained as data
+
+- "✓ Response detected" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "✓ 反応を検出しました" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "✓ 已检测到响应" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "✗ No response detected" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "✗ 応答が検出されませんでした" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "✗ 未检测到响应" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Choose (multiple allowed)" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Choose one" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Choose the closest emotion label" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Choose the emotion closest to your current feeling" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Draft 1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Drag the slider" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Emotion (SAM) template" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Emotion template v1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Enter a number" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Extremely likely" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Five-condition emotion physiology experiment" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Go (press space)" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Go/No-Go inhibition task" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Go/No-Go main task" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Go/No-Go practice" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Go/No-Go template" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Go/No-Go template v1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Go/No-Go trials" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "How aroused do you feel right now?" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "How likely are you to recommend to a friend?" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "How much control do you feel right now?" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "How pleasant do you feel right now?" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Main emotion block" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "New block" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "New group" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "New trial" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "No-Go (withhold)" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Not at all likely" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Option 1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Option 2" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Option 3" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Please describe in detail" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Please enter" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Press the spacebar now" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "SAM and emotion label" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Strongly agree" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Strongly disagree" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Stroop color-word task" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Stroop main task" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Stroop practice" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Stroop template" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Stroop template v1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "Stroop trials" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "t*_" — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- "Untitled experiment" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "いいえ" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "スペースキーを押してください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "スライダーを動かしてください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "その他" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "黄 / 黄 / YELLOW" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "完全不可能" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "強く同意する" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "現在の快・不快の程度を教えてください。" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "現在の覚醒度を教えてください。" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "現在の感情に最も近いものを選んでください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "現在の支配感・コントロール感を教えてください。" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "此刻您的控制感如何？" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "此刻您的愉悦程度如何？" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "此刻您的唤醒程度如何？" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "最も近い感情ラベルを選んでください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "詳しく記述してください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "数値を入力してください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "選択してください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "選択してください（複数可）" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "選択肢 1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "選択肢 2" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "選択肢1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "選択肢2" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "選択肢3" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "全く勧めない" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "全く同意しない" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "入力してください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "悲しみ" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "非常に勧める" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "非常可能" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "非常同意" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "非常不同意" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "評価してください" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "友人に勧める可能性はどのくらいですか？" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "您向朋友推荐的可能性有多大？" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "红 / 赤 / RED" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "绿 / 緑 / GREEN" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "蓝 / 青 / BLUE" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请按空格键" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请拖动滑块" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请评价" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请详细描述" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请输入" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请输入数字" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请选择" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请选择（可多选）" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请选择最符合的情绪标签" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "请选择最符合当前感受的情绪" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "选项 1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "选项 2" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "选项1" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "选项2" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- "选项3" — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+
+## Every remaining in-scope audit skip (including candidates outside the input bucket)
+
+- `(missing)` — src\composer\Catalogs.jsx:87, src\core\questionnaireModel.js:35, src\core\validateProtocolGraph.js:101, src\core\validateProtocolGraph.js:102, src\core\validateProtocolGraph.js:24, src\core\validateProtocolGraph.js:243, src\data\graphIntegrity.js:16, src\deployment\deploymentBundle.js:107, src\deployment\deploymentBundle.js:120, src\deployment\deploymentBundle.js:91, src\devices\deviceConnector.js:10, src\hosted\hostedService.js:150, src\hosted\hostedService.js:31, src\hosted\hostedService.js:377, src\hosted\hostedService.js:514, src\hosted\hostedStateStore.js:116, src\hosted\hostedStateStore.js:120, src\hosted\hostedStateStore.js:122, src\hosted\hostedStateStore.js:40, src\hosted\hostedStateStore.js:52, src\hosted\hostedStateStore.js:53, src\hosted\hostedStateStore.js:62, src\hosted\hostedStateStore.js:63, src\hosted\hostedStateStore.js:65, src\hosted\hostedStateStore.js:66, src\hosted\hostedStateStore.js:88, src\hosted\hostedStateStore.js:89, src\hosted\hostedStateStore.js:90, src\hosted\hostedStateStore.js:96, src\hosted\participantBootstrap.js:140, src\hosted\participantBootstrap.js:159, src\hosted\participantBootstrap.js:160, src\sdk\componentPackage.js:19 — Technical diagnostic sentinel embedded with identifiers; original diagnostic payload retained.
+- `<div style="text-align:center"><h1>Custom HTML</h1></div>` — src\core\componentRegistry.js:274, src\core\participantUi.js:104 — Serialized default participant HTML; authored/exported payload, not system UI.
+- `✓ 反応を検出しました` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `✓ 已检测到响应` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `✓ Response detected` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `✗ 未检测到响应` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `✗ 応答が検出されませんでした` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `✗ No response detected` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `0.7rem` — src\Inspector.jsx:303, src\analysis\CrossSessionCompare.jsx:181, src\analysis\ResponseCharts.jsx:164, src\analysis\ResponseCharts.jsx:166, src\analysis\ResponseCharts.jsx:84, src\analysis\WindowCards.jsx:150, src\constants.js:221 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `1.5rem` — src\Inspector.jsx:303, src\MediaStep.jsx:134, src\RuntimeContent.jsx:101, src\RuntimeContent.jsx:123, src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:153, src\RuntimeContent.jsx:165, src\RuntimeContent.jsx:166, src\RuntimeRunnerPage.jsx:407, src\SessionManager.jsx:353, src\analysis\CrossSessionCompare.jsx:24, src\analysis\ResponseCharts.jsx:23, src\app\legacyBuilder.jsx:386, src\constants.js:223, src\flowCanvas\NodePreviewModal.jsx:47 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `1rem` — src\BioDBSettings.jsx:39, src\BioDBSettings.jsx:81, src\DataPanel.jsx:218, src\DataPanel.jsx:391, src\Inspector.jsx:303, src\ProtocolBioDBConfig.jsx:52, src\ProtocolBioDBConfig.jsx:92, src\SessionManager.jsx:353, src\ThemeSettings.jsx:42, src\ThemeSettings.jsx:75, src\analysis\WindowCards.jsx:16, src\constants.js:222, src\flowCanvas\NodePreviewModal.jsx:119, src\flowCanvas\NodePreviewModal.jsx:164, src\flowCanvas\NodePreviewModal.jsx:33, src\main.jsx:67 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `2.0.0-alpha.1` — src\GraphRuntimeRunnerPage.jsx:585, src\core\freezeProtocolGraph.js:224, src\core\protocolGraph.js:3, src\data\graphExport.js:8 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `2.5rem` — src\Inspector.jsx:303, src\app\legacyBuilder.jsx:113, src\domain.js:218, src\domain.js:248 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `2026-08-23T00:00:00.000Z` — src\core\taskTemplates.js:22 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `2rem` — src\Inspector.jsx:303, src\MediaStep.jsx:134, src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165, src\RuntimeContent.jsx:263, src\RuntimeContent.jsx:264, src\analysis\CrossSessionCompare.jsx:18, src\analysis\ResponseCharts.jsx:10, src\analysis\ResponseCharts.jsx:17, src\analysis\TimelineView.jsx:19, src\analysis\WindowCards.jsx:10, src\constants.js:224, src\main.jsx:56 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `3rem` — src\FlowWorkspaceOverlay.jsx:151, src\RuntimeContent.jsx:153, src\RuntimeContent.jsx:166, src\domain.js:299, src\domain.js:330 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `按键` — src\domain.js:296, src\domain.js:327 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `悲伤` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `悲しみ` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `此刻您的唤醒程度如何？` — src\core\questionnaireModel.js:149, src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `此刻您的控制感如何？` — src\core\questionnaireModel.js:147 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `此刻您的愉悦程度如何？` — src\core\questionnaireModel.js:148, src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `非常不同意` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:150 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `非常可能` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `非常同意` — src\core\questionnaireModel.js:13, src\core\questionnaireModel.js:150 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `非常に勧める` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `红 / 赤 / RED` — src\core\taskTemplates.js:72 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `黄 / 黄 / YELLOW` — src\core\taskTemplates.js:75 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `紧张` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `緊張` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `蓝 / 青 / BLUE` — src\core\taskTemplates.js:74 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `绿 / 緑 / GREEN` — src\core\taskTemplates.js:73 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `您向朋友推荐的可能性有多大？` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `平静` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `評価してください` — src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `其他` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `強く同意する` — src\core\questionnaireModel.js:13, src\core\questionnaireModel.js:150 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请按空格键` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请评价` — src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请输入` — src\core\questionnaireModel.js:156 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请输入数字` — src\core\questionnaireModel.js:158 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请拖动滑块` — src\core\questionnaireModel.js:153 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请详细描述` — src\core\questionnaireModel.js:157 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请选择` — src\core\questionnaireModel.js:154 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请选择（可多选）` — src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请选择最符合当前感受的情绪` — src\core\taskTemplates.js:39 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `请选择最符合的情绪标签` — src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `全く勧めない` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `全く同意しない` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:150 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `日本語` — src\Inspector.jsx:291, src\app\legacyBuilder.jsx:325, src\app\sessionSetup.jsx:164, src\app\sessionSetup.jsx:92, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59 — Native language selector name; intentionally language invariant.
+- `入力してください` — src\core\questionnaireModel.js:156 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `数値を入力してください` — src\core\questionnaireModel.js:158 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `完全不可能` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `喜び` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `現在の感情に最も近いものを選んでください` — src\core\taskTemplates.js:39 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `現在の覚醒度を教えてください。` — src\core\questionnaireModel.js:149, src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `現在の快・不快の程度を教えてください。` — src\core\questionnaireModel.js:148, src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `現在の支配感・コントロール感を教えてください。` — src\core\questionnaireModel.js:147 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `詳しく記述してください` — src\core\questionnaireModel.js:157 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `选项 1` — src\core\questionnaireModel.js:10 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `选项 2` — src\core\questionnaireModel.js:10 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `选项1` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `选项2` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `选项3` — src\core\questionnaireModel.js:154 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `選択肢 1` — src\core\questionnaireModel.js:10 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `選択肢 2` — src\core\questionnaireModel.js:10 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `選択肢1` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `選択肢2` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `選択肢3` — src\core\questionnaireModel.js:154 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `選択してください` — src\core\questionnaireModel.js:154 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `選択してください（複数可）` — src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `押す` — src\domain.js:296, src\domain.js:327 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `友人に勧める可能性はどのくらいですか？` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `愉快` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `中文` — src\Inspector.jsx:291, src\app\legacyBuilder.jsx:324, src\app\sessionSetup.jsx:164, src\app\sessionSetup.jsx:92, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59 — Native language selector name; intentionally language invariant.
+- `最低` — src\core\questionnaireModel.js:153 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `最高` — src\core\questionnaireModel.js:153 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `最も近い感情ラベルを選んでください` — src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Choose (multiple allowed)` — src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Choose one` — src\core\questionnaireModel.js:154 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Choose the closest emotion label` — src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Choose the emotion closest to your current feeling` — src\core\taskTemplates.js:39 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Draft 1` — src\core\protocolGraph.js:64, src\core\protocolSelectors.js:81, src\domain.js:11, src\domain.js:122 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Drag the slider` — src\core\questionnaireModel.js:153 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Emotion (SAM) template` — src\core\taskTemplates.js:48 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Emotion template v1` — src\domain.js:162 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Enter a number` — src\core\questionnaireModel.js:158 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Extremely likely` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Five-condition emotion physiology experiment` — src\domain.js:162 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Go (press space)` — src\domain.js:272 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Go/No-Go inhibition task` — src\domain.js:340 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Go/No-Go main task` — src\domain.js:309 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Go/No-Go practice` — src\domain.js:279 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Go/No-Go template` — src\core\taskTemplates.js:115 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Go/No-Go template v1` — src\domain.js:341 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Go/No-Go trials` — src\core\taskTemplates.js:129 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `group-fisher-yates-mulberry32-v1` — src\core\groupSequence.js:22 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `How aroused do you feel right now?` — src\core\questionnaireModel.js:149, src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `How likely are you to recommend to a friend?` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `How much control do you feel right now?` — src\core\questionnaireModel.js:147 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `How pleasant do you feel right now?` — src\core\questionnaireModel.js:148, src\domain.js:161 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `iso8601` — src\app\sessionSetup.jsx:172, src\constants.js:217 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `legacy-lcg-v1` — src\GraphRuntimeRunnerPage.jsx:92, src\core\stimulusRandomization.js:17 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `Main emotion block` — src\domain.js:162 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `mulberry32-v2` — src\GraphRuntimeRunnerPage.jsx:92, src\core\stimulusRandomization.js:12, src\core\stimulusRandomization.js:53, src\core\stimulusRandomization.js:96 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `New block` — src\domain.js:10 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `New group` — src\core\groupCommands.js:19 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `New trial` — src\domain.js:9 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `No-Go (withhold)` — src\domain.js:273 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Not at all likely` — src\core\questionnaireModel.js:152 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Option 1` — src\core\questionnaireModel.js:10, src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Option 2` — src\core\questionnaireModel.js:10, src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Option 3` — src\core\questionnaireModel.js:154 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Please describe in detail` — src\core\questionnaireModel.js:157 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Please enter` — src\core\questionnaireModel.js:156 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Press the spacebar now` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `SAM and emotion label` — src\domain.js:161, src\domain.js:162 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `SHA-256` — src\ResourceLibrary.jsx:50, src\core\freezeProtocolGraph.js:46, src\deployment\deploymentBundle.js:20, src\domain.js:13, src\hosted\participantBootstrap.js:17, src\hosted\participantLaunch.js:7 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `Strongly agree` — src\core\questionnaireModel.js:13, src\core\questionnaireModel.js:150 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Strongly disagree` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:150 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Stroop color-word task` — src\domain.js:257 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Stroop main task` — src\domain.js:227 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Stroop practice` — src\domain.js:197 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Stroop template` — src\core\taskTemplates.js:115 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Stroop template v1` — src\domain.js:258 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `Stroop trials` — src\core\taskTemplates.js:129 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `t*_` — src\core\sharedNodeEdits.js:97 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `Untitled experiment` — src\core\protocolGraph.js:53, src\core\protocolSelectors.js:17, src\domain.js:11 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx` — src\core\ids.js:4, src\domain.js:6 — Technical/CSS/schema/algorithm/hash/ID pattern; not display copy.
+- `いいえ` — src\constants.js:65 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `スペースキーを押してください` — src\constants.js:69 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `スライダーを動かしてください` — src\core\questionnaireModel.js:153 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `その他` — src\core\taskTemplates.js:40 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+- `はい` — src\constants.js:64 — Serialized experiment/template/default content (including localized prompt, option, feedback, checklist, title or version); selected via participant content language or editable as authored data and included in snapshots/exports. Preserve original value.
+
+## Display keys supplied
+
+- "«Custom HTML» is empty — add HTML content or this step will show a blank screen"
+- "«Duration» is 0ms — this step will end immediately unless you set a duration"
+- "«Expected key» is empty — set the key the participant must press (e.g. space)"
+- "«Prompt» is empty — the participant will not know what to do"
+- "(unknown)"
+- "(unnamed)"
+- "A group cannot contain an unknown node"
+- "A group needs at least one node"
+- "A Loop exit must leave its body."
+- "At least one block is required — click \"+ Add block\""
+- "Balanced halves require one node per asset and metadata.half = 1 or 2 on every media node"
+- "Both questionnaires must be configured."
+- "Brightness at comfortable level"
+- "Choose a non-empty group with distinct nodes."
+- "Choose a supported image, audio or video file."
+- "Component definition must be an object"
+- "Component label is required"
+- "Component type is required"
+- "Component version is required"
+- "Content is empty — fill in «Participant content» in at least one language for clearer participant guidance"
+- "Create a draft version before editing."
+- "CSV contains an unclosed quoted field"
+- "Cycles must return to a bounded Loop node."
+- "Display at native resolution"
+- "Edge ID is required"
+- "Enter a valid number"
+- "Enter a whole number of repetitions from 1 to 10,000."
+- "Every component port needs an ID"
+- "Every group node must be reachable from its entry."
+- "Every group node must have a path to its exit."
+- "Every stimulus pool needs a name"
+- "Every stimulus pool needs a unique ID"
+- "Expected a Protocol Graph"
+- "External form URL is empty — paste a Google Forms, Qualtrics, or survey link"
+- "Frozen protocols cannot be edited."
+- "Graph commands cannot change a node ID"
+- "Group ID is required"
+- "Group IDs cannot be changed"
+- "Groups may contain presentation, response, condition, random split and loop nodes."
+- "Handler runtime components need a handlerId"
+- "Impossible condition order: no valid continuation."
+- "Impossible condition order: reduce repetitions or relax the consecutive-condition constraint."
+- "Include the enclosing loop in the group before randomizing it."
+- "Loop return paths must stay within their enclosing loop."
+- "Loops need a finite maximum from 1 to 10,000 iterations."
+- "Measure viewing distance"
+- "Media entry no longer exists"
+- "Migration review must be acknowledged before freezing"
+- "No analysis window defined — enable «Generate analysis window» on at least one step to produce a per-trial time window in the exported CSV"
+- "No instruction text — the response buttons are the primary interface"
+- "No media source — enter a «Source URL» or upload a file"
+- "No questions — click «Add question» in the questionnaire designer"
+- "No response options — add at least one value/label/key row"
+- "Only a subflow group can become a reusable template"
+- "Protocol graph cannot contain circular references"
+- "Protocol name is required — enter a name at the top of the editor"
+- "Question shuffling cannot be combined with conditional display"
+- "Questionnaire configuration is required"
+- "Questionnaire needs a name"
+- "Questionnaire needs an ID"
+- "Questionnaire needs at least one question"
+- "Response variable is empty — set a name such as response or rating"
+- "Select a continuous region with a single entry and exit connection, including its complete branches and loops."
+- "Select a grouped wait node first."
+- "Select a library item saved for this questionnaire type."
+- "Select a questionnaire node first."
+- "Select a video node or image node first."
+- "Select the target nodes explicitly for an unclassified questionnaire."
+- "Start and End nodes cannot be duplicated"
+- "Start node cannot be removed"
+- "Subflow boundaries must be complete before publishing"
+- "Subflow parameter needs a valid name"
+- "Subflow template IDs must be present and unique"
+- "Target node IDs must be an array."
+- "Template parameter names must be valid and unique"
+- "The requested half sizes cannot balance these category counts"
+- "The same connection already exists"
+- "The source questionnaire has no questions."
+- "The source video screen has no Media element."
+- "Unsupported schema version"
+- "Variable names must start with a letter or underscore and contain only letters, numbers, and underscores"
+- "Wait duration must be a finite non-negative number."
+- "Web Crypto SHA-256 is unavailable"
+- "Add event nodes, connect ports, and use Condition/Loop nodes for branches and repeats."
+- "Arrange hierarchy"
+- "Assign a source and keep fixed duration unless the operator should advance manually."
+- "Assign a source and set volume, loop, controls, and duration behavior."
+- "Assign a source. Local files give the most reliable play/end events; YouTube timing is flagged for attention."
+- "At least one End node must be reachable from Start."
+- "Attach media, write instructions, configure questionnaires, and mark analysis windows."
+- "Browser fallback"
+- "Build the flow"
+- "Captures a single quick participant response with button or keyboard input."
+- "Catch trial to verify participant attention. Shows a prompt and expects a specific keypress within a time window."
+- "Chooses true or false path from participant fields, trial condition, or questionnaire answers."
+- "Collects participant responses with required/optional questions."
+- "Configure the checklist items that must be ticked before the run can continue."
+- "Configure the prompt, expected key, timeout duration, and pass/fail feedback text. Use in condition nodes with last_attention_passed to branch."
+- "Connect body and exit ports; keep the maximum finite to protect runs."
+- "Connect Start to the first event or control node."
+- "Create or import"
+- "Create or import a protocol, then organize Blocks and Trials before editing the visual flow."
+- "Data folders"
+- "Desktop app"
+- "Device connector"
+- "Displays a centered cross for baseline or gaze reset periods."
+- "Download the session ZIP and use the included data dictionary for downstream analysis."
+- "Enter participant and device sync metadata, preview the actual trial order, then start the session."
+- "Enter viewing distance and screen dimensions. The operator confirms display settings before the session proceeds."
+- "Entry point for the selected trial flow."
+- "Export data"
+- "Export the complete session ZIP. Keep the ZIP with the frozen protocol and external device files."
+- "Fill content"
+- "Fill participant content in at least one language, then choose fixed time or manual continue."
+- "If the web build cannot access a local folder, drafts and preview runs may fall back to browser storage. Formal collection is blocked until a local folder is selected."
+- "On macOS share the .dmg or .app from release-desktop. Build Windows and Linux installers on those systems for native one-click packages."
+- "One per line: value=label,key=1 (key is optional; empty means free-form keys are accepted)."
+- "Operator checkpoint for sensors, acquisition software, or room setup."
+- "Pauses the run until the operator confirms an external event."
+- "Plays local, uploaded, URL, or YouTube video stimuli."
+- "Plays sound stimuli while logging media lifecycle events."
+- "Please wait"
+- "Pre-experiment display calibration to measure screen dimensions and viewing distance for visual angle calculations."
+- "Presents a still image stimulus."
+- "Recovery period between trials or stimuli."
+- "Repeat sequence"
+- "Repeats a body path until a rule fails or the maximum iteration count is reached."
+- "Run the checklist, fix blocking errors, and freeze the version that will be used for formal data collection."
+- "Run the protocol check, select a local data folder, then freeze and start a formal session."
+- "Set a variable, comparison, and value; connect both true and false ports."
+- "Set the confirmation label and decide whether the operator must enter a note before continuing."
+- "Set the prompt, response variable, option values, labels, and optional keys. Use it for stimulus ratings, forced-choice tasks, and reaction-time responses."
+- "Shows a countdown without media or questionnaire content."
+- "Shows participant-facing text before or between tasks."
+- "Start from a blank protocol, the emotion template, or a validated protocol JSON file."
+- "Sticky note (not shown to participant)"
+- "Stops the current trial unit and advances to the next repeat, trial, or block."
+- "The click-to-use Tauri build stores protocols, sessions, recovery snapshots, and uploaded assets in ~/Documents/PhysioFlow Data. Use Open folder on the dashboard to reveal it."
+- "The Web ZIP is lightweight, but index.html must be served by the included start script because modern browsers block ES modules from file:// pages."
+- "Use Blocks & Trials for repeat order, latin-square/randomization, and trial conditions."
+- "Use fixed duration and mark as an analysis window when it is a baseline interval."
+- "Use fixed duration and role recovery when the interval should be analyzed."
+- "Use fixed duration for timed tasks, waiting screens, or short breaks."
+- "Use Sessions and Analytics to inspect integrity, responses, analysis windows, markers, and timing."
+- "Use the dashboard checklist to confirm structure, content, media, analysis windows, frozen version, pilot run, and local storage."
+- "Validate and freeze"
+- "Web package"
+- "Append-only event log for blocks, trials, graph nodes, steps, media, pauses, retries, skips, and markers."
+- "Automated checks for event continuity, missing ends, invalid windows, and timing attention flags."
+- "Automated quality report for missing terminal events, invalid windows, unclosed markers, and timing caveats."
+- "Built-in answers appear in responses.csv. External forms export open/confirmed timing events and the resolved form URL in events.csv."
+- "Column-level reference for the CSV files. Use this first when building analysis scripts."
+- "Creates an analysis_windows.csv row when analysis window is enabled."
+- "Derived analysis intervals for steps with Generate analysis window enabled."
+- "Derived intervals for baseline, stimulus, task, recovery, and custom windows. Join by session_id and trial/step identifiers."
+- "Exports attention_check_passed / attention_check_failed with reaction time, expected key, and actual key."
+- "Exports calibration measurements and calculated pixels-per-degree value for visual angle reference."
+- "Exports device_check_completed with item-level pass state, note, and setup timing."
+- "Exports manual_event_confirmed plus step timing, operator note, and confirmation label."
+- "Exports media events and stimulus_manifest.csv metadata."
+- "Exports media events, stimulus manifest rows, and optional stimulus analysis windows."
+- "Exports one responses.csv row with value, option label, response key, and reaction_time_ms. The response variable can drive Condition nodes."
+- "Exports step events and stimulus manifest metadata."
+- "Exports step_entered and step_completed events; no response row is created."
+- "Exports timing events and optional analysis windows."
+- "Frozen or draft protocol snapshot used for this session."
+- "Human-readable guide for the session export package."
+- "Machine-readable field descriptions for the exported CSV files."
+- "Machine-readable package manifest, protocol/session IDs, generation time, and record counts."
+- "Primary timeline table. Use session_id, event_type, block_id, trial_id, node_id, step_id, elapsed_ms, and timestamp_iso to align behavior with physiological recordings."
+- "Questionnaire answers: one row per submitted question answer."
+- "Session metadata, participant ID, sync settings, run status, and integrity summary."
+- "Stimulus provenance table. It records local asset IDs, filenames, MIME type, source URLs, checksums, and attention flags."
+- "Stimulus sources, upload IDs, filenames, checksums, and metadata."
+- "Useful for recovery windows in analysis_windows.csv."
+- "Scaling at 100% in OS settings"
+- "Small (0.7rem)"
+- "Medium (1rem)"
+- "Large (1.5rem)"
+- "Extra large (2rem)"
+- "Question {0} needs an ID"
+- "Question {0} has unsupported type {1}"
+- "Question {0} needs a prompt"
+- "Question {0} needs at least two options"
+- "Question {0} has duplicate options"
+- "Question {0} maximum must be greater than minimum"
+- "Question {0} needs an integer scale of at most 21 values"
+- "Question {0} time limit must be positive"
+- "Question {0} condition references a missing question"
+- "Question {0} condition must reference an earlier question"
+- "Question {0} has an unsupported condition operator"
+- "Question {0} option shuffle only applies to choice questions"
+- "Duplicate question ID {0}"
+- "CSV row {0} has unsupported type {1}"
+- "Option {0}: value is empty"
+- "Option {0}: label is empty"
+- "Q{0}: «Prompt» is empty — add a question title in at least one language"
+- "Q{0}: «Options» are empty — add at least one choice option"

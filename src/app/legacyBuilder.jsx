@@ -1,3 +1,4 @@
+import { useT } from '../i18n.jsx';
 import { useEffect, useState } from 'react';
 import { STEP_TYPES, block, freezeProtocol, moveItem, step, stepContentIssues, trial, validateProtocol } from '../domain';
 import { STEP_DEFAULTS } from '../constants.js';
@@ -8,6 +9,7 @@ import Header from './AppHeader.jsx';
 import { clone, parseResponseOptions, responseOptionsText, saveFile, showToast, stepDefaultExtras } from './uiHelpers.js';
 
 export function Builder({ value, onChange, onSave, onBack, onRun, undo, redo, canUndo, canRedo, hasUnsaved, saveAnim, onSwitchToVisual, onUnfreeze, onGuide }) {
+  const translateIssue = useT();
   const p = value;
   const check = validateProtocol(p);
   const locked = p.status === 'frozen';
@@ -124,8 +126,8 @@ export function Builder({ value, onChange, onSave, onBack, onRun, undo, redo, ca
         {STEP_TYPES.map(t => <span className="type" key={t}>{t}</span>)}
         <div className="validation">
           <h3>Protocol check</h3>
-          {check.valid ? <p className="ok">✓ Ready to run</p> : check.errors.map(x => <p className="error" key={x}>! {x}</p>)}
-          {check.warnings.map(x => <p className="warn" key={x}>△ {x}</p>)}
+          {check.valid ? <p className="ok">✓ Ready to run</p> : check.errors.map(x => <p className="error" key={x}>! {translateIssue(x)}</p>)}
+          {check.warnings.map(x => <p className="warn" key={x}>△ {translateIssue(x)}</p>)}
           {check.valid && <TotalDuration protocol={p} />}
         </div>
       </aside>
@@ -250,6 +252,7 @@ export function Builder({ value, onChange, onSave, onBack, onRun, undo, redo, ca
 }
 
 function StepRow({ s, set, setMany, remove, locked, blockIndex: _bi, trialIndex: _ti, stepIndex, stepCount, moveUp, moveDown, onDragStart, onDragOver, onDrop, issues = [] }) {
+  const translateIssue = useT();
   const media = ['video', 'audio', 'image'].includes(s.type);
   const hasError = issues.some(i => i.kind === 'error');
   const hasWarn = issues.some(i => i.kind === 'warn');
@@ -279,8 +282,8 @@ function StepRow({ s, set, setMany, remove, locked, blockIndex: _bi, trialIndex:
     <div className="step">
       <span className="step-index" style={{ position: 'relative' }}>
         {s.type.slice(0, 2).toUpperCase()}
-        {hasError && <span style={{ position: 'absolute', top: -4, right: -4, background: '#a32e25', color: 'white', borderRadius: '50%', width: 14, height: 14, fontSize: 9, display: 'grid', placeItems: 'center', lineHeight: 1 }} title={issues.filter(i => i.kind === 'error').map(i => i.message).join('; ')}>!</span>}
-        {!hasError && hasWarn && <span style={{ position: 'absolute', top: -4, right: -4, background: '#f4d77e', color: '#111', borderRadius: '50%', width: 14, height: 14, fontSize: 9, display: 'grid', placeItems: 'center', lineHeight: 1 }} title={issues.map(i => i.message).join('; ')}>△</span>}
+        {hasError && <span style={{ position: 'absolute', top: -4, right: -4, background: '#a32e25', color: 'white', borderRadius: '50%', width: 14, height: 14, fontSize: 9, display: 'grid', placeItems: 'center', lineHeight: 1 }} title={issues.filter(i => i.kind === 'error').map(i => translateIssue(i.message)).join('; ')}>!</span>}
+        {!hasError && hasWarn && <span style={{ position: 'absolute', top: -4, right: -4, background: '#f4d77e', color: '#111', borderRadius: '50%', width: 14, height: 14, fontSize: 9, display: 'grid', placeItems: 'center', lineHeight: 1 }} title={issues.map(i => translateIssue(i.message)).join('; ')}>△</span>}
       </span>
       <select value={s.type} disabled={locked} onChange={e => changeType(e.target.value)}>
         {STEP_TYPES.map(x => <option key={x}>{x}</option>)}

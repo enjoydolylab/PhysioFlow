@@ -99,8 +99,8 @@ function NodeCard({
       {ruleText && <div className="rule-caption" title={ruleText}>{ruleText}</div>}
       {node.type === 'event' && <span className="event-kind">
         <span className="step-type-badge">{step?.type}</span>
-        {hasError && <span className="node-issue-dot error" title={nodeIssues.filter(i => i.kind === 'error').map(i => i.message).join('; ')}>!</span>}
-        {hasWarn && <span className="node-issue-dot warn" title={nodeIssues.map(i => i.message).join('; ')}>△</span>}
+        {hasError && <span className="node-issue-dot error" title={nodeIssues.filter(i => i.kind === 'error').map(i => t(i.message)).join('; ')}>!</span>}
+        {hasWarn && <span className="node-issue-dot warn" title={nodeIssues.map(i => t(i.message)).join('; ')}>△</span>}
       </span>}
       {branchesFor(node).length > 0 && <div className="node-outputs">
         {branchesFor(node).map(branch => <button className={activeBranch === branch ? 'active' : ''} key={branch} onPointerDown={e => onPortPointerDown(e, node, branch)} title={`${branch} → drag to connect`}>{branch}<i className={`branch-${branch}`} /></button>)}

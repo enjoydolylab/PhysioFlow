@@ -29,7 +29,7 @@ export function Inspector({ node, edge, trial, stimuli, questionnaires, updateNo
     {_stepIssues.length > 0 && (
       <div className={`inspector-issues ${_stepIssues.some(i => i.kind === 'error') ? 'error' : 'warning'}`}>
         <b>{_stepIssues.some(i => i.kind === 'error') ? t("Missing required content") : 'Needs attention'}</b>
-        {_stepIssues.map((iss, ii) => <div key={ii}>{iss.kind === 'error' ? 'Error' : 'Warning'} · {iss.message}</div>)}
+        {_stepIssues.map((iss, ii) => <div key={ii}>{iss.kind === 'error' ? 'Error' : 'Warning'} · {t(iss.message)}</div>)}
       </div>
     )}
     {/* Note node settings */}

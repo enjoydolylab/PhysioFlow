@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import { canUseMatrix, canUseSamMatrix } from './questionnaireMatrix.js';
 import { COMPARISON_OPS, LANGS, PRESETS, QUESTION_TYPES, createQuestionnaire, newQuestion, parseQuestionnaireCsv, removeQuestionnaireFromLibrary, saveQuestionnaireToLibrary } from './core/questionnaireModel.js';
@@ -83,12 +84,13 @@ export default function QuestionnaireEditorV2({ value, onChange, library = [], o
 }
 
 function CsvImport({ onImport }) {
+  const t = useT();
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   return <div className="qe-csv">
     <textarea rows={4} value={text} onChange={e => setText(e.target.value)} placeholder="type,en,options,min,max,answer&#10;likert,Rate your experience,Not at all|Very,1,5,5" />
     <small>Format: type, en, options (| separated), min, max, answer</small>
-    {error && <small className="qe-error">{error}</small>}
+    {error && <small className="qe-error">{t(error)}</small>}
     <button type="button" disabled={!text.trim()} onClick={() => { try { onImport(text); setText(''); setError(''); } catch (nextError) { setError(nextError.message); } }}>Import</button>
   </div>;
 }

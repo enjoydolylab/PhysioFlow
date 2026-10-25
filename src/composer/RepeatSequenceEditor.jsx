@@ -38,6 +38,6 @@ export default function RepeatSequenceEditor({ protocol, registry, selectedIds, 
       try { onApply(wrapRepeatSegment(protocol, ids, Number(count), registry)); setError(''); }
       catch (cause) { setError(cause.message || String(cause)); }
     }}>{t("Create repeat sequence")}</button>
-    {error && <p role="alert">{error}</p>}
+    {error && <p role="alert">{t(error)}</p>}
     </section>;
 }

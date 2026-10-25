@@ -45,11 +45,11 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
                   <article key={item.type}>
                     <i>{item.icon}</i>
                     <div>
-                      <small>{item.group}</small>
-                      <h3>{item.label}</h3>
-                      <p>{guide.summary}</p>
-                      <p><b>Setup:</b> {guide.setup}</p>
-                      <p><b>Export:</b> {guide.output}</p>
+                      <small>{t(item.group)}</small>
+                      <h3>{t(item.label)}</h3>
+                      <p>{t(guide.summary)}</p>
+                      <p><b>Setup:</b> {t(guide.setup)}</p>
+                      <p><b>Export:</b> {t(guide.output)}</p>
                     </div>
                   </article>
                 );
@@ -59,8 +59,8 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
               {Object.entries(CONTROL_NODE_GUIDE).map(([type, guide]) => (
                 <article key={type}>
                   <b>{type}</b>
-                  <p>{guide.summary}</p>
-                  <small>{guide.setup}</small>
+                  <p>{t(guide.summary)}</p>
+                  <small>{t(guide.setup)}</small>
                 </article>
               ))}
             </section>
@@ -77,7 +77,7 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
               {DATA_FORMAT_GUIDE.map(([file, description]) => (
                 <article key={file}>
                   <b>{file}</b>
-                  <p>{description}</p>
+                  <p>{t(description)}</p>
                 </article>
               ))}
             </section>
@@ -85,7 +85,7 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
               {OUTPUT_FILES.map(([file, description]) => (
                 <div key={file}>
                   <code>{file}</code>
-                  <span>{description}</span>
+                  <span>{t(description)}</span>
                 </div>
               ))}
             </div>
@@ -100,9 +100,9 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
             </div>
             <section className="guide-control-list guide-storage-list">
               {STORAGE_GUIDE.map(([title, description]) => (
-                <article key={title}>
-                  <b>{title}</b>
-                  <p>{description}</p>
+                <article key={t(title)}>
+                  <b>{t(title)}</b>
+                  <p>{t(description)}</p>
                 </article>
               ))}
             </section>
