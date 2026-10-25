@@ -277,9 +277,9 @@
 .node-editor-header small { color: #aab8b0; font-size: .7rem; flex: 1; }
 .node-editor-header button { padding: 5px 12px; border: 1px solid #3a4652; border-radius: 6px; background: transparent; color: #eef1f5; cursor: pointer; font-size: .72rem; }
 .node-editor-header .node-editor-close { background: var(--green, #197453); border-color: var(--green, #197453); color: #fff; }
-.node-editor-fullscreen .participant-ui-builder { flex: 1; overflow: auto; padding: 18px; border: 0; margin: 0; }
-.node-editor-fullscreen .ui-canvas-layout { min-height: calc(100vh - 120px); min-height: calc(100dvh - 120px); grid-template-columns: 180px minmax(0, 1fr) 280px; }
-.node-editor-fullscreen .ui-canvas-wrap { min-height: 420px; }
+.node-editor-fullscreen .participant-ui-builder { flex: 1; min-height: 0; overflow: hidden; padding: 12px; border: 0; margin: 0; display: flex; flex-direction: column; }
+.node-editor-fullscreen .ui-canvas-layout { height: 100%; min-height: 0; grid-template-rows: minmax(0, 1fr); grid-template-columns: 180px minmax(0, 1fr) 280px; }
+.node-editor-fullscreen .ui-canvas-wrap { min-height: 0; }
 
 /* Adapt to the editor's available space, including a narrow Inspector on a wide monitor. */
 .composer-v2 { display: flex; flex-direction: column; padding: 0; max-width: none; }
@@ -433,7 +433,23 @@
  .composer-v2 .composer-header .header-tools { order:4; }
 }
 
-.node-editor-body { flex: 1; min-height: 0; overflow: auto; }
+.node-editor-body { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
 .node-editor-body > .composer-inspector { width: min(900px, 100%); margin: auto; border: 0; }
 .node-editor-screen { border: 0; padding: 0; margin: 0; min-width: 0; }
 .node-editor-header [role="tab"][aria-selected="true"] { background: var(--green, #197453); color: white; }
+
+/* The modal owns its height; only workspace columns may scroll. */
+.node-editor-header { box-sizing: border-box; height: 56px; flex: 0 0 56px; }
+.node-editor-screen { display: flex; flex: 1; min-height: 0; overflow: hidden; }
+.node-editor-body > .composer-inspector { min-height: 0; overflow: auto; }
+.node-editor-fullscreen .ui-builder-toolbar { flex: 0 0 auto; }
+.node-editor-fullscreen .ui-canvas-layout { flex: 1; grid-template-columns: 150px minmax(0, 1fr) 250px; grid-template-rows: minmax(0, 1fr); }
+.ui-canvas-column { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+.ui-canvas-column > .ui-canvas-wrap { flex: 1; min-height: 420px; }
+.node-editor-fullscreen .ui-element-library, .node-editor-fullscreen .ui-inspector { min-height: 0; max-height: none; overflow: auto; }
+.node-editor-fullscreen .ui-canvas-wrap { min-height: 0; overflow: auto; }
+.ui-canvas-footer { flex: 0 0 auto; max-height: 130px; overflow: auto; font-size: .65rem; }
+.ui-canvas-footer .ui-screen-checks { padding: 4px 0; }
+.ui-canvas-footer .ui-layout-notice { margin: 3px 0; }
+.ui-canvas-footer .ui-advanced { margin: 3px 0; }
+.ui-inspector-empty { color: var(--muted, #667085); font-size: .72rem; line-height: 1.6; }

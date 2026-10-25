@@ -78,6 +78,11 @@ function NodeEditor({ s, node, definition, resources, editable, ordered, onSave,
   // A keyed editor owns its tabs; opening or navigating starts a fresh session.
   const [tab, setTab] = useState(() => (node.config?.ui && editable) ? 'screen' : 'settings');
   const { t, locked, protocol } = s;
+  useEffect(() => {
+    const close = event => { if (event.key === 'Escape' && !event.defaultPrevented) { event.preventDefault(); onClose(); } };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [onClose]);
   const index = ordered?.findIndex(item => item.id === node.id) ?? -1;
   const inspectorState = { ...s, selectedNode: node, selectedEdge: null,
     updateSelected: patch => s.commit(updateNode(protocol, node.id, patch)),
@@ -87,8 +92,8 @@ function NodeEditor({ s, node, definition, resources, editable, ordered, onSave,
     } };
   return <div className="node-editor-fullscreen" role="dialog" aria-modal="true" aria-label={node.label}>
     <div className="node-editor-header">
-      <button aria-label={t('Previous step')} disabled={index <= 0} onClick={() => s.setPreviewNodeId(ordered[index - 1].id)}>‹</button>
-      <button aria-label={t('Next step')} disabled={index < 0 || index >= ordered.length - 1} onClick={() => s.setPreviewNodeId(ordered[index + 1].id)}>›</button>
+      <button title={t('Previous step')} aria-label={t('Previous step')} disabled={index <= 0} onClick={() => s.setPreviewNodeId(ordered[index - 1].id)}>‹</button>
+      <button title={t('Next step')} aria-label={t('Next step')} disabled={index < 0 || index >= ordered.length - 1} onClick={() => s.setPreviewNodeId(ordered[index + 1].id)}>›</button>
       <b>{node.label}</b>
       <div role="tablist" aria-label={t('Node editor')}>
         <button role="tab" aria-selected={tab === 'settings'} onClick={() => setTab('settings')}>{t('Settings')}</button>

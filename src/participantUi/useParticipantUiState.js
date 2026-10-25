@@ -458,6 +458,11 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
   // Editor shortcuts: Ctrl/Cmd+Z undo, Ctrl+Shift+Z / Ctrl+Y redo, Ctrl+D duplicate,
   // Delete remove, arrow keys nudge a free-layout element (Shift = 10px).
   const onKeyDown = event => {
+    if (event.key === 'Escape') {
+      if (contextMenu) { event.preventDefault(); setContextMenu(null); }
+      else if (marqueeRef.current) { event.preventDefault(); handleMarqueeUp(); }
+      return;
+    }
     if (preview || event.target?.closest?.('.participant-ui-builder') !== viewportRef.current?.closest('.participant-ui-builder')) return;
     const target = event.target;
     const tag = target?.tagName;
@@ -472,7 +477,6 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     if (mod && key === ']') { event.preventDefault(); zOrderSelected('forward'); return; }
     if (mod && key === '[') { event.preventDefault(); zOrderSelected('backward'); return; }
     if (event.key === 'Delete' || event.key === 'Backspace') { event.preventDefault(); removeSelected(); return; }
-    if (event.key === 'Escape') { marqueeRef.current && handleMarqueeUp(); return; }
     if (event.key.startsWith('Arrow')) { event.preventDefault(); nudgeSelected(event.key, event.shiftKey && !mod); }
   };
   const keyHandlerRef = useRef(onKeyDown);
@@ -527,9 +531,12 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     const node = viewportRef.current;
     if (!node) return;
     autoFitRef.current = true;
+    const frame = requestAnimationFrame(() => fitViewRef.current());
+    const resize = () => fitViewRef.current();
+    window.addEventListener('resize', resize);
     const observer = new window.ResizeObserver(() => { if (autoFitRef.current) fitViewRef.current(); });
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener('resize', resize); };
   }, [deviceWidth, deviceHeight, preview]);
 
   // Marquee selection: press on canvas blank space and drag a rectangle.

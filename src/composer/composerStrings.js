@@ -1,5 +1,23 @@
 // Composer chrome, separate from experiment-authored content.
 export const composerCopy = `
+Free canvas: drag elements to position|自由布局：拖动元素放置位置|自由配置：要素をドラッグして配置
+Click elements on the left to insert; click an element on the screen to edit it here.|点击左侧元素插入，点击画面中的元素即可在此编辑。|左の要素をクリックで挿入。画面内の要素をクリックするとここで編集できます。
+Participant UI is invalid|参与者界面无效|参加者画面が無効です
+Paste video or image URL|粘贴视频或图片网址|動画または画像のURLを貼り付け
+Deselect|取消选择|選択を解除
+selected|已选择|選択中
+Remove (Del)|删除 (Del)|削除 (Del)
+Drag to resize|拖动调整大小|ドラッグしてサイズを変更
+Custom HTML|自定义 HTML|カスタム HTML
+Align left|左对齐|左揃え
+Align centers (horizontal)|水平居中|左右中央揃え
+Align right|右对齐|右揃え
+Align top|顶端对齐|上揃え
+Align middles (vertical)|垂直居中|上下中央揃え
+Align bottom|底端对齐|下揃え
+Distribute horizontally|水平分布|左右に均等配置
+Distribute vertically|垂直分布|上下に均等配置
+
 Quick|快速|クイック
 Design|设计|デザイン
 Advanced|高级|詳細設定

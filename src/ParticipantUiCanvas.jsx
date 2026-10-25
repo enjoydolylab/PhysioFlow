@@ -1,3 +1,4 @@
+import { useBuilderT } from './participantUi/useBuilderT.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { normalizeParticipantUi, resolveTheme, resolveUiBinding, resolveUiStyle, validateParticipantUi } from './core/index.js';
 import ParticipantMedia from './ParticipantMedia.jsx';
@@ -55,6 +56,7 @@ export default function ParticipantUiCanvas({
   onRemoveElement, onDuplicateElement, onMoveStep, onResizeElement, onUpdateText, onUpdateProp,
   onContextMenu, onRemoveSelected, onDuplicateSelected, onAlignSelected, onReorderFlow, onBoundsIssues, zoom = 1, snapEnabled = true, context = {},
 }) {
+  const t = useBuilderT();
   const normalized = useMemo(() => normalizeParticipantUi(schema), [schema]);
   const theme = useMemo(() => resolveTheme(normalized), [normalized]);
   const validation = useMemo(() => validateParticipantUi(normalized), [normalized]);
@@ -145,7 +147,7 @@ export default function ParticipantUiCanvas({
     window.addEventListener('pointerdown', closeOnPointer);
     return () => window.removeEventListener('pointerdown', closeOnPointer);
   }, []);
-  if (!validation.valid) return <div className="participant-ui-error">Participant UI is invalid: {validation.errors.map(error => error.message).join(' · ')}</div>;
+  if (!validation.valid) return <div className="participant-ui-error">{t('Participant UI is invalid')}: {validation.errors.map(error => error.message).join(' · ')}</div>;
 
   const registerRef = id => node => {
     if (node) nodeRefs.current.set(id, node);
@@ -445,10 +447,10 @@ export default function ParticipantUiCanvas({
   // Floating action bar for a single selected element (anchored to the element).
   const floatBar = element => selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Screen' && editingId !== element.id
     ? <span className="ui-float-bar" onMouseDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()}>
-      <button type="button" title="Move up" onClick={() => onMoveStepRef.current(element.id, -1)}>↑</button>
-      <button type="button" title="Move down" onClick={() => onMoveStepRef.current(element.id, 1)}>↓</button>
-      <button type="button" title="Duplicate (Ctrl+D)" onClick={() => onDuplicateRef.current(element.id)}>⧉</button>
-      <button type="button" className="danger" title="Remove (Del)" onClick={() => onRemoveRef.current(element.id)}>×</button>
+      <button type="button" title={t("Move up")} onClick={() => onMoveStepRef.current(element.id, -1)}>↑</button>
+      <button type="button" title={t("Move down")} onClick={() => onMoveStepRef.current(element.id, 1)}>↓</button>
+      <button type="button" title={t("Duplicate (Ctrl+D)")} onClick={() => onDuplicateRef.current(element.id)}>⧉</button>
+      <button type="button" className="danger" title={t("Remove (Del)")} onClick={() => onRemoveRef.current(element.id)}>×</button>
     </span>
     : null;
 
@@ -484,11 +486,11 @@ export default function ParticipantUiCanvas({
     // Resize handle only for free-positioned leaf elements sized in design pixels
     // (a length such as "100%" is driven by the container, not the handle).
     const showResize = Boolean(positioned.position) && selectedId === element.id && selectedIds?.size <= 1 && element.type !== 'Layout' && element.type !== 'Screen' && editingId !== element.id && Number.isFinite(w) && Number.isFinite(h);
-    const resizeHandle = showResize ? <span className="ui-resize-handle" title="Drag to resize" onMouseDown={event => beginResize(event, element)} /> : null;
+    const resizeHandle = showResize ? <span className="ui-resize-handle" title={t("Drag to resize")} onMouseDown={event => beginResize(event, element)} /> : null;
     const freeClass = props.free ? ' ui-free' : '';
     const freeBlock = props.free;
-    if (element.type === 'Screen') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-screen ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{freeBlock && <span className="ui-free-hint">FREE · drag elements anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
-    if (element.type === 'Layout') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-layout ${props.direction || 'column'} ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, gap: style.gap ?? 16, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{floatBar(element)}{freeBlock && <span className="ui-free-hint">FREE · drag anywhere</span>}{guideLayer(element)}{element.children.map(render)}</div>;
+    if (element.type === 'Screen') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-screen ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{freeBlock && <span className="ui-free-hint">{t("Free canvas: drag elements to position")}</span>}{guideLayer(element)}{element.children.map(render)}</div>;
+    if (element.type === 'Layout') return <div key={element.id} data-ui-id={element.id} className={`participant-ui-layout ${props.direction || 'column'} ui-slot${freeClass}${selectedClass(element)}`} style={{ ...style, gap: style.gap ?? 16, ...(freeBlock ? { position: 'relative', minHeight: props.height != null ? 0 : 'min(72vh, 560px)' } : {}), ...sized, ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)} {...dropProps(element)}>{floatBar(element)}{freeBlock && <span className="ui-free-hint">{t("Free canvas: drag elements to position")}</span>}{guideLayer(element)}{element.children.map(render)}</div>;
     if (element.type === 'Text') {
       const text = boundProp(element, 'text', context) ?? '';
       const editing = editingId === element.id;
@@ -524,7 +526,7 @@ export default function ParticipantUiCanvas({
       const editing = editingId === element.id;
       if (editing) {
         return <span key={element.id} data-ui-id={element.id} className={`ui-media-wrap ui-slot editing${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle, display: 'inline-block', minWidth: 180 }} ref={registerRef(element.id)} onMouseDown={event => event.stopPropagation()} {...a11yProps(element)}>{floatBar(element)}
-          <input className="ui-media-url-edit" defaultValue={source} placeholder="Paste video or image URL…" autoFocus spellCheck={false}
+          <input className="ui-media-url-edit" defaultValue={source} placeholder={t("Paste video or image URL")} autoFocus spellCheck={false}
             onKeyDown={event => {
               if (event.key === 'Escape') event.currentTarget.blur();
               if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); }
@@ -544,7 +546,7 @@ export default function ParticipantUiCanvas({
     }
     if (element.type === 'Html') {
       const html = boundProp(element, 'html', context) || '';
-      return <span key={element.id} data-ui-id={element.id} className={`ui-media-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle, display: 'inline-block' }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)}>{floatBar(element)}{resizeHandle}<iframe className="participant-ui-html" title="Custom HTML" srcDoc={html || '<div></div>'} /><div className="ui-edit-shield" /></span>;
+      return <span key={element.id} data-ui-id={element.id} className={`ui-media-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle, display: 'inline-block' }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)}>{floatBar(element)}{resizeHandle}<iframe className="participant-ui-html" title={t("Custom HTML")} srcDoc={html || '<div></div>'} /><div className="ui-edit-shield" /></span>;
     }
     if (element.type === 'Divider') {
       const orientation = props.orientation || 'horizontal';
@@ -572,25 +574,25 @@ export default function ParticipantUiCanvas({
             : <div className="ui-input-ghost" />}
       </label>;
     }
-    if (element.type === 'Button') return <span key={element.id} data-ui-id={element.id} className={`participant-ui-button-wrap ui-button-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)}>{floatBar(element)}{resizeHandle}<button type="button" className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(w != null ? {width:'100%', minWidth:0} : {}), ...(h != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}}>{props.label || 'Continue'}</button></span>;
+    if (element.type === 'Button') return <span key={element.id} data-ui-id={element.id} className={`participant-ui-button-wrap ui-button-wrap ui-slot${selectedClass(element)}`} style={{ ...positioned, ...anchorStyle }} ref={registerRef(element.id)} onMouseDown={event => beginPointerDrag(event, element)} {...a11yProps(element)} {...clickProps(element)}>{floatBar(element)}{resizeHandle}<button type="button" className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(w != null ? {width:'100%', minWidth:0} : {}), ...(h != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}}>{props.label || t('Continue')}</button></span>;
     return null;
   };
 
   return <div className="ui-canvas-root">
     {render(normalized.root)}
     {selectedIds?.size > 1 && <div className="ui-multi-bar" onMouseDown={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()}>
-      <b>{selectedIds.size} selected</b>
+      <b>{selectedIds.size} {t('selected')}</b>
       <span className="ui-align-group">
         {['left', 'centerX', 'right', 'top', 'centerY', 'bottom', 'distributeX', 'distributeY'].map(name => (
-          <button key={name} type="button" className="ui-align-btn" title={ALIGN_TITLES[name]} aria-label={ALIGN_TITLES[name]} onClick={() => onAlignSelectedRef.current(name)}>
+          <button key={name} type="button" className="ui-align-btn" title={t(ALIGN_TITLES[name])} aria-label={t(ALIGN_TITLES[name])} onClick={() => onAlignSelectedRef.current(name)}>
             <AlignIcon name={name} />
           </button>
         ))}
       </span>
       <span className="ui-multi-bar-sep" />
-      <button type="button" onClick={() => onDuplicateSelectedRef.current()}>Duplicate</button>
-      <button type="button" className="danger" onClick={() => onRemoveSelectedRef.current()}>Delete</button>
-      <button type="button" onClick={() => onSelect(normalized.root.id)}>Deselect</button>
+      <button type="button" onClick={() => onDuplicateSelectedRef.current()}>{t("Duplicate")}</button>
+      <button type="button" className="danger" onClick={() => onRemoveSelectedRef.current()}>{t("Delete")}</button>
+      <button type="button" onClick={() => onSelect(normalized.root.id)}>{t("Deselect")}</button>
     </div>}
   </div>;
 }

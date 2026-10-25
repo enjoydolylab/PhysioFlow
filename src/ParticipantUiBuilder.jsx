@@ -6,7 +6,7 @@ import { SelectionInspector } from './participantUi/SelectionInspector.jsx';
 import { pathTo } from './participantUi/tree.js';
 import { SCREEN_PRESETS, createScreenPreset } from './participantUi/screenPresets.js';
 import ParticipantUiCanvas from './ParticipantUiCanvas.jsx';
-import { mapUiElement, participantUiTemplate, resolveUiStyle } from './core/index.js';
+import { mapUiElement, participantUiTemplate, resolveUiStyle, UI_STYLE_KEYS } from './core/index.js';
 import { LIBRARY_GROUPS, TEMPLATE_KINDS, TYPE_HINTS } from './participantUi/constants.js';
 import { ThemeEditor } from './participantUi/ThemeEditor.jsx';
 import { StyleEditor } from './participantUi/StyleEditor.jsx';
@@ -165,6 +165,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
           </div>}
           {libraryTab === 'layers' && <div className="ui-library-panel ui-library-layers"><StructureTree s={s} /></div>}
         </div>
+        <div className="ui-canvas-column">
         <div className="ui-canvas-wrap" ref={viewportRef} onPointerDown={handleViewportPointerDown} onContextMenu={event => { if (event.target === event.currentTarget || !event.target.closest('[data-ui-id]')) closeContextMenu(); }}>
           <div className="ui-canvas-pan" ref={panRef} style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})` }}>
             <div className="ui-canvas-device" style={{ width: deviceWidth, height: deviceHeight }}>
@@ -191,6 +192,14 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
             </div>;
           })()}
         </div>
+        <footer className="ui-canvas-footer">
+    <ScreenChecks elements={elements} boundsIssues={boundsIssues} fixedSize={Boolean(normalized.root.props?.screenWidth)} preview={preview} onLocate={locateIssue} onPreview={() => setPreview(value => !value)} />
+    {elements.some(item => item.element.props?.free) && normalized.root.props?.screenWidth && <p className="ui-layout-notice" role="note">{t('Fixed screen')}: {deviceWidth}×{deviceHeight} · {t('Outside content is clipped. Change the size in Settings.')}</p>}
+
+    <details className="ui-advanced"><summary>{t('Technical information')}</summary><code>{selected.type}</code></details>
+    <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} ${t('elements · schema valid')}` : validation.errors[0]?.message}</small>
+        </footer>
+        </div>
         <aside className="ui-inspector">
           {selectedIds.size > 1 ? <SelectionInspector s={s} /> : <>
           <div className="ui-inspector-head">
@@ -215,32 +224,34 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
               {selected.type !== 'Screen' && <button type="button" className="ui-lock-btn" aria-pressed={Boolean(selected.props?.locked)} onClick={() => updateProps({locked: !selected.props?.locked})} title={t(selected.props?.locked ? 'Unlock element' : 'Lock element')}>{selected.props?.locked ? '🔒' : '🔓'}</button>}
             </div>;
           })()}
+          {selected.id === normalized.root.id && <p className="ui-inspector-empty">{t("Click elements on the left to insert; click an element on the screen to edit it here.")}</p>}
           <fieldset className="ui-editable-properties" disabled={s.isLocked(selected.id)}>
           {showPosition && <PositionFields key={selected.id} element={selected} onUpdate={updateProps} />}
-          <section className="ui-content-fields"><b>{t(['Screen', 'Layout'].includes(selected.type) ? 'Layout group' : 'Content')}</b><UiPropertyEditor element={selected} onUpdate={updateProps} onToggleFree={toggleFree} /></section>
+          <section className="ui-content-fields"><b>{t(['Screen', 'Layout'].includes(selected.type) ? 'Layout group' : 'Content')}</b><UiPropertyEditor showLayoutMode={false} element={selected} onUpdate={updateProps} onToggleFree={toggleFree} /></section>
           {selected.type !== 'Screen' && <details className="ui-advanced"><summary>{t("Appearance")}</summary>
             <div className="ui-property-grid">
               <label>{t("Color")}<input type="color" value={/^#[\da-f]{6}$/i.test(appearance.color || '') ? appearance.color : '#17231d'} onChange={event => setStyle({...selected.style, color:event.target.value})} /></label>
               <label>{t("Text alignment")}<select value={appearance.textAlign || 'center'} onChange={event => setStyle({...selected.style, textAlign:event.target.value})}><option value="left">{t("Left")}</option><option value="center">{t("Center")}</option><option value="right">{t("Right")}</option></select></label>
             </div>
           </details>}
-          <StyleEditor element={selected} theme={theme} onSetStyle={setStyle} forceOpen={styleForceOpen} onToggle={open => { if (!open) s.setStyleForceOpen(false); }} />
-          <details className="ui-advanced"><summary>{t("Bindings and actions")}</summary>
+          {(selected.id !== normalized.root.id || UI_STYLE_KEYS.some(key => key in (selected.style || {})) || styleForceOpen) && <StyleEditor element={selected} theme={theme} onSetStyle={setStyle} forceOpen={styleForceOpen} onToggle={open => { if (!open) s.setStyleForceOpen(false); }} />}
+          {(bindingTarget || selected.type === 'Button') && <details className="ui-advanced"><summary>{t("Bindings and actions")}</summary>
           {bindingTarget && <label className="ui-binding-field">{t('Runtime binding')}: {bindingTarget}<input value={selected.bindings?.[bindingTarget] || ''} placeholder={t("e.g. variables.score")} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, bindings: { ...element.bindings, [bindingTarget]: event.target.value } })))} /></label>}
           {selected.type === 'Button' && <div className="ui-property-grid">
             <label>{t("Click action")}<select value={selected.actions?.[0]?.action || 'submit'} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...(element.actions?.[0] || { event: 'click' }), action: event.target.value }] })))}><option value="submit">{t("submit")}</option><option value="next">{t("next")}</option><option value="setVariable">{t("setVariable")}</option></select></label>
             {selected.actions?.[0]?.action === 'setVariable' && <><label>{t("Variable name")}<input value={selected.actions[0].name || ''} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...element.actions[0], name: event.target.value }] })))} /></label><label>{t("Value")}<input value={selected.actions[0].value ?? ''} onChange={event => commit(mapUiElement(normalized, selected.id, element => ({ ...element, actions: [{ ...element.actions[0], value: event.target.value }] })))} /></label></>}
           </div>}
-          </details>
+          </details>}
           </fieldset>
           </>}
         </aside>
       </div>}
 
-    <ScreenChecks elements={elements} boundsIssues={boundsIssues} fixedSize={Boolean(normalized.root.props?.screenWidth)} preview={preview} onLocate={locateIssue} onPreview={() => setPreview(value => !value)} />
+
+    {preview && <div className="ui-preview-diagnostics">    <ScreenChecks elements={elements} boundsIssues={boundsIssues} fixedSize={Boolean(normalized.root.props?.screenWidth)} preview={preview} onLocate={locateIssue} onPreview={() => setPreview(value => !value)} />
     {elements.some(item => item.element.props?.free) && normalized.root.props?.screenWidth && <p className="ui-layout-notice" role="note">{t('Fixed screen')}: {deviceWidth}×{deviceHeight} · {t('Outside content is clipped. Change the size in Settings.')}</p>}
 
     <details className="ui-advanced"><summary>{t('Technical information')}</summary><code>{selected.type}</code></details>
-    <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} ${t('elements · schema valid')}` : validation.errors[0]?.message}</small>
+    <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} ${t('elements · schema valid')}` : validation.errors[0]?.message}</small></div>}
   </section>;
 }
