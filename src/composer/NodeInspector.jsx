@@ -146,7 +146,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
 
   return <div className="inspector-card">
     <label>{t('Label')}<input value={node.label} onChange={event => onUpdate({ label: event.target.value })} /></label>
-    <small>{node.component.type}@{node.component.version}</small>
+    {mode === 'advanced' && <small>{node.component.type}@{node.component.version}</small>}
     {definition?.runtime?.kind === 'participant' && <div className="content-fields">
       <label><input type="checkbox" checked={Boolean(node.config?.isAnalysisWindow)} onChange={event => onUpdate({ config: { ...node.config, isAnalysisWindow: event.target.checked } })} />Generate analysis window</label>
       {node.config?.isAnalysisWindow && <label>Window label<input aria-label="Window label" value={node.config.analysisLabel || ''} onChange={event => onUpdate({ config: { ...node.config, analysisLabel: event.target.value } })} /></label>}
@@ -209,7 +209,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
       <small>Events: {definition.events.join(', ')}</small>
       {definition.dataFields?.length > 0 && <small>Data columns: {definition.dataFields.join(', ')}</small>}
     </details>}
-    {mode === 'advanced' && <details className="field-group"><summary>Node raw data</summary><small>Node ID: <code>{node.id}</code></small><pre>{JSON.stringify(node, null, 2)}</pre></details>}
+    {<details className="field-group"><summary>{t('Technical information')}</summary><small>{node.component.type}@{node.component.version}</small><small>Node ID: <code>{node.id}</code></small><pre>{JSON.stringify(node, null, 2)}</pre></details>}
   </div>;
 }
 

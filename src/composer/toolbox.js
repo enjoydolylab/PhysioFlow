@@ -1,3 +1,4 @@
+import { humanizeIssueCode } from './labels.js';
 // Module-level geometry / validation helpers for the Composer V2 editor.
 // Pure functions — no React, no component state.
 
@@ -214,9 +215,9 @@ export function isValidMediaUrl(value) {
 
 export function validationIssueMessage(issue, language, protocol) {
   const messages = language === 'zh' ? VALIDATION_MESSAGES_ZH : language === 'ja' ? VALIDATION_MESSAGES_JA : null;
-  if (!messages) return issue.message;
-  const template = messages[issue.code];
-  if (!template) return issue.message;
+  if (!messages) return humanizeIssueCode(issue.message || issue.code, {}, language);
+  const template = messages[issue.code] || messages[issue.code?.replace('_', '.')];
+  if (!template) return humanizeIssueCode(issue.message || issue.code, messages, language);
   const node = protocol?.graph?.nodes?.find(item => item.id === issue.nodeId);
   return node?.label ? `「${node.label}」${language === 'ja' ? ': ' : ''}${template}` : template;
 }

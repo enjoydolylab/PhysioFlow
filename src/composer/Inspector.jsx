@@ -29,7 +29,8 @@ export default function Inspector({ s, resources }) {
         const allIssues = [...validation.errors, ...validation.warnings];
         const visible = showAllValidation ? allIssues : allIssues.slice(0, 8);
         return <>
-          {visible.map((issue, index) => <button key={`${issue.code}-${index}`} onClick={() => issue.nodeId && setSelectedNodeId(issue.nodeId)}><b>{issue.code}</b><span>{validationIssueMessage(issue, language, protocol)}</span></button>)}
+          {visible.map((issue, index) => <button key={`${issue.code}-${index}`} onClick={() => issue.nodeId && setSelectedNodeId(issue.nodeId)}><span>{validationIssueMessage(issue, language, protocol)}</span></button>)}
+          {!!visible.length && <details><summary>{t('Technical information')}</summary>{visible.map((issue, index) => <code key={index}>{issue.code}<br /></code>)}</details>}
           {allIssues.length > 8 && <button className="composer-validation-more" onClick={() => setShowAllValidation(show => !show)}>{showAllValidation ? `− ${t('Show fewer')}` : `+ ${t('Show all')} (${allIssues.length})`}</button>}
         </>;
       })()}

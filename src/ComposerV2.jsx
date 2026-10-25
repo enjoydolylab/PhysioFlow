@@ -72,7 +72,7 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
     </div>}
     {previewNode && <div className="node-editor-fullscreen">
       <div className="node-editor-header">
-        <b>{previewNode.label}</b><small>{previewNode.component.type}@{previewNode.component.version}</small>
+        <b>{previewNode.label}</b>{s.editorMode === 'advanced' && <small>{previewNode.component.type}@{previewNode.component.version}</small>}
         {fullscreenUiEditable && <button disabled={locked} onClick={() => setPreviewEdit(value => !value)}>{previewEdit ? 'View' : '✎ Edit'}</button>}
         <button className="node-editor-close" onClick={() => setPreviewNodeId(null)}>✕ Done</button>
       </div>

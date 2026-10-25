@@ -1,5 +1,13 @@
 // Compact, explicit translations for the experiment desk and signal workflow.
 const entries = [
+  ["Advanced settings", "详细设置", "詳細設定"],
+  ["Technical information", "技术信息", "技術情報"],
+  ["Create new version", "创建新版本", "新しいバージョンを作成"],
+  ["Usage guide", "使用方法", "使い方"],
+  ["Run preview", "预览运行", "プレビュー実行"],
+  ["Legacy BioDB connection", "旧 BioDB 连接", "旧 BioDB 接続"],
+  ["Freeze version", "冻结版本", "バージョン凍結"],
+  ["Review migrated settings before freezing this version.", "冻结前请检查迁移的设置。", "移行した設定の確認が済むと、このバージョンを凍結できます。"],
   ["Projects", "项目", "プロジェクト"],
   ["Devices", "设备", "デバイス"],
   ["Database", "数据库", "データベース"],

@@ -1,4 +1,3 @@
-import { useGuideCopy } from '../TaskGuide.jsx';
 import { protocolNameOf } from '../core/index.js';
 
 const MODE_HELP = {
@@ -8,28 +7,30 @@ const MODE_HELP = {
 };
 
 export default function Header({ s, onSave, onBack, onExport, onPreview, onFreeze, onCreateDraft, onUndo, onRedo, canUndo, canRedo, hasUnsaved, saveAnim, onBioDB, onGuide }) {
-  const guide = useGuideCopy();
   const {
     protocol, locked, t, validation, migrationReviewRequired, commit, actions,
     editorMode, setEditorMode, codeView, closeCodeView, openCodeView,
   } = s;
   return <header className="composer-header">
-    <div className="brand"><span>PF</span> Composer V2 {hasUnsaved && <small className="unsaved-dot">●</small>}</div>
+    <button onClick={onBack}>← {t('Projects')}</button>
     <input disabled={locked} className="composer-title" aria-label="Protocol name" value={protocolNameOf(protocol)} onChange={event => commit({ ...protocol, metadata: { ...protocol.metadata, name: event.target.value }, audit: { ...protocol.audit, updatedAt: new Date().toISOString() } })} />
+    {hasUnsaved && <small className="unsaved-dot">●</small>}
     <div className="composer-mode-switch" aria-label={t('Editor mode')}>
-      {['quick', 'design', 'advanced'].map(mode => <button key={mode} title={MODE_HELP[mode]} aria-pressed={editorMode === mode && !codeView} className={editorMode === mode && !codeView ? 'active' : ''} onClick={() => { if (!codeView || closeCodeView()) setEditorMode(mode); }}>{mode[0].toUpperCase() + mode.slice(1)}</button>)}
+      {['quick', 'design', 'advanced'].map(mode => <button key={mode} title={MODE_HELP[mode]} aria-pressed={editorMode === mode && !codeView} className={editorMode === mode && !codeView ? 'active' : ''} onClick={() => { if (!codeView || closeCodeView()) setEditorMode(mode); }}>{mode === 'advanced' ? t('Advanced settings') : mode[0].toUpperCase() + mode.slice(1)}</button>)}
       <button aria-pressed={codeView} className={codeView ? 'active' : ''} onClick={() => codeView ? closeCodeView() : openCodeView()}>{'{ } ' + t('Code')}</button>
     </div>
     <div className="header-tools">
-      <button onClick={onGuide}>{guide.help}</button>
-      <button disabled={locked || !canUndo} onClick={onUndo}>↩ {t('Undo')}</button>
-      <button disabled={locked || !canRedo} onClick={onRedo}>↪ {t('Redo')}</button>
-      <button className="primary" disabled={!validation.valid} onClick={onPreview}>{t(locked ? 'Prepare collection' : 'Preview run')}</button>
-      {migrationReviewRequired && !locked && <button onClick={actions.markMigrationReviewed}>Mark migration reviewed</button>}
-      {locked ? <button onClick={onCreateDraft}>Create editable version</button> : <button disabled={!validation.valid || migrationReviewRequired} onClick={onFreeze}>{t('Freeze version')}</button>}
-      <details className="composer-more"><summary>{t('More actions')}</summary><div><button onClick={onExport}>{t('Export')}</button><button className="bio-btn" onClick={onBioDB} disabled={locked}>{t('Legacy BioDB connection')}</button></div></details>
-      <button className={saveAnim ? 'saved' : ''} onClick={() => onSave(protocol)}>{saveAnim ? '✓ ' + t('Saved') : t('Save')}</button>
-      <button onClick={onBack}>← {t('Projects')}</button>
+      <button aria-label={t('Undo')} title={t('Undo')} disabled={locked || !canUndo} onClick={onUndo}>↩</button>
+      <button aria-label={t('Redo')} title={t('Redo')} disabled={locked || !canRedo} onClick={onRedo}>↪</button>
+      <button className={!hasUnsaved ? 'primary' : ''} disabled={!validation.valid} onClick={onPreview}>{t(locked ? 'Prepare collection' : 'Run preview')}</button>
+      <button className={[hasUnsaved ? 'primary' : '', saveAnim ? 'saved' : ''].filter(Boolean).join(' ')} onClick={() => onSave(protocol)}>{saveAnim ? '✓ ' + t('Saved') : t('Save')}</button>
+      <details className="composer-more"><summary aria-label={t('More actions')} title={t('More actions')}>⋯</summary><div>
+        {locked ? <button onClick={onCreateDraft}>{t('Create new version')}</button> : <button disabled={!validation.valid || migrationReviewRequired} onClick={onFreeze}>{t('Freeze version')}</button>}
+        <button onClick={onExport}>{t('Export')}</button>
+        <button className="bio-btn" onClick={onBioDB} disabled={locked}>{t('Legacy BioDB connection')}</button>
+        <button onClick={onGuide}>{t('Usage guide')}</button>
+        {migrationReviewRequired && !locked && <><button onClick={actions.markMigrationReviewed}>Mark migration reviewed</button><small className="pf-muted">{t('Review migrated settings before freezing this version.')}</small></>}
+      </div></details>
     </div>
   </header>;
 }

@@ -25,7 +25,7 @@
 .admin-monitor form { gap: 20px; }
 .admin-monitor fieldset { min-width: 0; border: 0; padding: 16px 0; }
 .admin-monitor input, .admin-monitor select, .admin-monitor textarea { box-sizing: border-box; width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid var(--border, #d9e2dc); border-radius: 8px; background: var(--surface-raised, #fff); color: inherit; font: inherit; }
-.pf-recording-selectors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.pf-recording-selectors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 16px; align-items:end; }
 .pf-stream-list { display: grid; gap: 8px; }
 .pf-stream-list > button { display: flex; justify-content: space-between; gap: 16px; padding: 16px; text-align: left; }
 .pf-stream-list > button div { display: grid; gap: 4px; }

@@ -419,3 +419,16 @@
 .palette-group-body { display: flex; flex-direction: column; gap: 10px; padding: 10px 11px; }
 .palette-node-group h4 { margin: 0 0 5px; font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #94a0ad; }
 .palette-node-group button { width: 100%; }
+
+/* Keep navigation, modes and actions on one desktop row. */
+.composer-v2 > .composer-header { flex-wrap:nowrap; gap:10px; }
+.composer-v2 .composer-header .header-tools { flex-wrap:nowrap; flex-basis:auto; margin-left:auto; flex-shrink:0; }
+.composer-header .composer-title { min-width:80px; width:clamp(100px,20vw,300px); flex:1; }
+.composer-header .composer-mode-switch { flex-shrink:0; border:0; border-inline:1px solid var(--border); border-radius:0; background:transparent; }
+.composer-header .composer-mode-switch button.active { background:transparent; color:var(--text); box-shadow:none; border-radius:0; border-bottom:2px solid currentColor; }
+.composer-header button, .composer-header summary { white-space:nowrap; }
+@media (max-width:900px) {
+ .composer-v2 > .composer-header { flex-wrap:wrap; }
+ .composer-header .composer-mode-switch { order:3; margin-left:0; }
+ .composer-v2 .composer-header .header-tools { order:4; }
+}
