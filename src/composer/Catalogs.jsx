@@ -128,12 +128,12 @@ export function CollaborationCatalog({ protocol, baseline, locked, onSetBaseline
     <h3>{t('Collaboration change sets')}</h3>
     <p>{t("Exchange auditable protocol changes without requiring a server. Independent fields merge automatically; same-field edits require an explicit choice.")}</p>
     <label>{t("Author ID")}<input value={author} onChange={event => setAuthor(event.target.value)} /></label>
-    <label>{t("Summary")}<input value={summary} onChange={event => setSummary(event.target.value)} placeholder="What changed?" /></label>
+    <label>{t("Summary")}<input value={summary} onChange={event => setSummary(event.target.value)} placeholder={t("What changed?")} /></label>
     <small>{t("Baseline: v")}{baseline.version?.number} · {baseline.audit?.updatedAt || 'unknown time'}</small>
     <div className="collaboration-actions"><button disabled={locked} onClick={onSetBaseline}>{t("Use current as baseline")}</button><button disabled={locked} onClick={exportChanges}>{t("Export changes")}</button></div>
     <label className="collaboration-import">{t("Import change set")}<input disabled={locked} type="file" accept="application/json,.json" onChange={readChangeSet} /></label>
-    {error && <small className="package-error">{error}</small>}
-    {preview?.error && <small className="package-error">{preview.error}</small>}
+    {error && <small className="package-error">{t(error)}</small>}
+    {preview?.error && <small className="package-error">{t(preview.error)}</small>}
     {pending && !preview?.error && <article className="collaboration-preview">
     <b>{pending.summary || pending.id}</b>
     <small>{pending.author?.name || pending.author?.id} · {pending.operations?.length || 0}{t("operation(s)")}</small>
@@ -262,10 +262,10 @@ export function DeploymentCatalog({ protocol, onHostedRun, onMessage }) {
     <button disabled={!frozen} onClick={publishToSandbox}>{t("Publish to local hosted sandbox")}</button>
     {!frozen && <small>{t("Freeze this protocol version before deployment.")}</small>}
     <label className="deployment-import">{t("Inspect deployment bundle")}<input type="file" accept="application/json,.json" onChange={inspectBundle} /></label>
-    {error && <small className="package-error">{error}</small>}
+    {error && <small className="package-error">{t(error)}</small>}
     {inspection && <article className={inspection.result.valid ? 'deployment-valid' : 'deployment-invalid'}>
-    <b>{inspection.result.valid ? 'Bundle integrity verified' : 'Bundle rejected'}</b>
-    <small>{inspection.bundle.bundleId || 'Unknown bundle'} · {inspection.bundle.target?.providerId || 'Unknown provider'}</small>
+    <b>{inspection.result.valid ? t("Bundle integrity verified") : t("Bundle rejected")}</b>
+    <small>{inspection.bundle.bundleId || t('Unknown bundle')} · {inspection.bundle.target?.providerId || t('Unknown provider')}</small>
     {inspection.result.errors.map(item => <small key={item}>{item}</small>)}
     </article>}
     {hostedDeployment && <article className="deployment-valid">
@@ -309,7 +309,7 @@ export function ComponentPackageCatalog({ packages, locked, onInstallExample, on
     <p>{t("SDK packages are declarative, versioned, permission-gated, and cannot inject JavaScript into Runtime V2.")}</p>
     <button disabled={locked || packages.some(item => item.packageId === 'org.physioflow.examples.reaction-button')} onClick={onInstallExample}>{t("Install Reaction Button example")}</button>
     <label className="component-package-import">{t("Import SDK package")}<input disabled={locked} type="file" accept="application/json,.json" onChange={readPackage} /></label>
-    {error && <small className="package-error">{error}</small>}
+    {error && <small className="package-error">{t(error)}</small>}
     {pending && <article className="package-approval">
     <b>{pending.name || pending.packageId}</b><small>{pending.packageId}@{pending.version}</small>
     <p>{t("Approve every requested capability before installation:")}</p>
@@ -319,7 +319,7 @@ export function ComponentPackageCatalog({ packages, locked, onInstallExample, on
     </article>}
     {packages.map(componentPackage => <article key={`${componentPackage.packageId}@${componentPackage.version}`}>
     <div><b>{componentPackage.name}</b><small>{componentPackage.packageId}@{componentPackage.version} · {componentPackage.components.length}{t("component(s)")}</small></div>
-    <small>{componentPackage.permissions?.length ? `Permissions: ${componentPackage.permissions.join(', ')}` : 'No permissions'}</small>
+    <small>{componentPackage.permissions?.length ? `Permissions: ${componentPackage.permissions.join(', ')}` : t("No permissions")}</small>
     <button disabled={locked} onClick={() => onRemove(componentPackage.packageId, componentPackage.version)}>{t("Uninstall")}</button>
     </article>)}
     </section>;
@@ -348,7 +348,7 @@ export function DeviceConnectorCatalog({ connectors, locked, onInstallExample, o
     <p>{t("Versioned adapters expose typed I/O channels with explicit connect/read/write permissions and provenance events.")}</p>
     <button disabled={locked || connectors.some(item => item.connectorId === 'org.physioflow.simulated-sensor')} onClick={onInstallExample}>{t("Install simulated sensor")}</button>
     <label className="device-connector-import">{t("Import connector manifest")}<input disabled={locked} type="file" accept="application/json,.json" onChange={readConnector} /></label>
-    {error && <small className="package-error">{error}</small>}
+    {error && <small className="package-error">{t(error)}</small>}
     {pending && <article className="package-approval">
     <b>{pending.name || pending.connectorId}</b><small>{pending.connectorId}@{pending.version} · {pending.transport}</small>
     <p>{t("Approve every requested device capability:")}</p>
@@ -357,7 +357,7 @@ export function DeviceConnectorCatalog({ connectors, locked, onInstallExample, o
     </article>}
     {connectors.map(connector => <article key={`${connector.connectorId}@${connector.version}`}>
     <div><b>{connector.name}</b><small>{connector.connectorId}@{connector.version} · {connector.transport}</small></div>
-    <small>{(connector.channels || []).map(channel => `${channel.direction} ${channel.id}:${channel.dataType}${channel.unit ? ` (${channel.unit})` : ''}`).join(' · ') || 'No channels'}</small>
+    <small>{(connector.channels || []).map(channel => `${channel.direction} ${channel.id}:${channel.dataType}${channel.unit ? ` (${channel.unit})` : ''}`).join(' · ') || t('No channels')}</small>
     <small>{t("Permissions:")}{(connector.approvedPermissions || []).join(', ') || 'none'}</small>
     <button disabled={locked} onClick={() => onRemove(connector.connectorId, connector.version)}>{t("Uninstall")}</button>
     </article>)}
@@ -463,7 +463,7 @@ export function AssetLibrary({ assets, stimulusPools = [], locked, onUpdate }) {
   return <details className="asset-library"><summary>{t("Media library (")}{assets.length})</summary>
     {(assets || []).map(asset => <div key={asset.id || asset.assetId} className="asset-row">
     <span>{asset.name || asset.fileName || asset.id}</span>
-    <small>{t(asset.mediaType || asset.type || '')}{asset.sourceMode === 'manifest' ? t(' · Upload required') : ''}</small>
+    <small>{t(asset.mediaType || asset.type || '')}{asset.sourceMode === 'manifest' ? <> {t('· Upload required')}</> : ''}</small>
     {!asset.sourceUrl && !asset.url && <label>{t("Bind file")}<input aria-label={`Bind file for ${asset.name || asset.fileName || asset.id}`} type="file" disabled={locked || uploading} accept="image/*,audio/*,video/*" onChange={event => { upload(Array.from(event.target.files || []), asset.id || asset.assetId); event.target.value = ''; }} /></label>}
     <button disabled={locked || uploading || stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId))} title={stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId)) ? t('Remove this asset from its stimulus pool first') : t('Delete asset')} onClick={() => remove(asset.id || asset.assetId)}>×</button>
     </div>)}
@@ -475,7 +475,7 @@ export function AssetLibrary({ assets, stimulusPools = [], locked, onUpdate }) {
     </div>
     <label className="asset-upload">{t("Upload local media")}<input type="file" multiple disabled={locked || uploading} accept="image/*,audio/*,video/*" onChange={event => { upload(Array.from(event.target.files || [])); event.target.value = ''; }} /></label>
     {uploadProgress && <small role="status">{uploadProgress}</small>}
-    {uploadError && <small role="alert" className="package-error">{uploadError}</small>}
+    {uploadError && <small role="alert" className="package-error">{t(uploadError)}</small>}
     </details>;
 }
 

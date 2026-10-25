@@ -53,7 +53,7 @@ logic|逻辑|条件と分岐
 experiment|实验|実験
 legacy|旧版|旧形式
 custom|自定义|カスタム
-Migration review required|需要检查迁移的设置|移行した設定の確認が必要です
+Review settings after migration|需要检查迁移的设置|移行した設定の確認が必要です
 Review {n} migration issues before freezing this draft.|冻结此草稿前请检查 {n} 项。|この下書きを凍結する前に {n} 件を確認してください。
 Mark migration reviewed|标记迁移已检查|移行した設定の確認を完了
 blocking issues|阻止运行的问题|実行を妨げる問題
@@ -336,6 +336,133 @@ Ln|行|行
 , Col|，列|、列
 characters|个字符|文字
 connection|连接|接続
+Auto layout applied|已应用自动布局|自動レイアウトを適用しました
+Bundle integrity verified|数据包完整性已验证|バンドルの整合性を確認しました
+Bundle rejected|数据包已拒绝|バンドルを拒否しました
+Choose 10–10,000 trials. The Go ratio is applied to this total and rounded to whole trials.|请选择 10–10,000 个试次。Go 比例应用于此总数，并四舍五入为整数试次。|10–10,000試行を選択してください。この合計にGo比率を適用し、試行数を整数に丸めます。
+Choose a multiple of 4 (4–10,000). Use a multiple of 8 for equal congruent/incongruent counts within each ink color.|请选择 4 的倍数（4–10,000）。使用 8 的倍数可使每种墨色内的一致与不一致试次数相等。|4の倍数（4–10,000）を選択してください。各文字色の一致・不一致の試行数を等しくするには8の倍数を使用してください。
+Collaboration baseline updated|协作基线已更新|共同編集の基準を更新しました
+Collaboration change set applied|协作变更集已应用|共同編集の変更セットを適用しました
+Condition compare variable|条件比较变量|条件の比較変数
+Condition input variable|条件输入变量|条件の入力変数
+Connection created|连接已创建|接続を作成しました
+Create an editable version before changing the sequence.|更改顺序前请创建可编辑版本。|順序を変更する前に編集可能なバージョンを作成してください。
+Discard unapplied JSON changes?|放弃尚未应用的 JSON 更改？|未適用のJSON変更を破棄しますか？
+Flow snapshot saved|流程快照已保存|フローのスナップショットを保存しました
+Generate trials|生成试次|試行を生成
+Generation uses the current paradigm, seed, jitter and Go ratio. Existing trials are replaced only when you click the button.|生成时使用当前范式、种子、抖动和 Go 比例。只有点击按钮后才会替换现有试次。|現在の課題、シード、ジッター、Go比率を使用して生成します。ボタンをクリックすると既存の試行が置き換わります。
+Installed Reaction Button example package|已安装反应按钮示例包|反応ボタンのサンプルパッケージをインストールしました
+Installed simulated physiology connector|已安装模拟生理信号连接器|模擬生理信号コネクタをインストールしました
+Local author|本地作者|ローカルの作成者
+Loop until variable|循环终止变量|反復終了条件の変数
+No changes exist relative to the current collaboration baseline|相对于当前协作基线没有更改|現在の共同編集の基準からの変更はありません
+No channels|无通道|チャンネルなし
+No permissions|无权限|権限なし
+Number of trials|试次数|試行数
+Please check this setting.|请检查此设置。|設定を確認してください。
+Port kinds must match|端口类型必须匹配|ポートの種類を一致させてください
+Preview saved trials|预览已保存的试次|保存した試行をプレビュー
+Recovery behavior|恢复方式|復旧時の動作
+Replace trials with generated set|用生成的试次替换|生成した試行に置き換え
+Search assets|搜索资源|メディア資源を検索
+Showing the first 20 of|显示前 20 个，总数为|先頭20件を表示・全件数：
+Snapshot renamed|快照已重命名|スナップショットの名前を変更しました
+Start and end stay in place.|开始和结束节点保持原位。|開始と終了は固定されます。
+Trial generation|试次生成|試行の生成
+Unknown bundle|未知数据包|不明なバンドル
+Unknown provider|未知提供方|不明な提供元
+Use the flow graph to edit branches or loops.|使用流程图编辑分支或循环。|分岐や反復はフローグラフで編集してください。
+What changed?|更改了什么？|変更内容
+Chinese title|中文标题|中国語タイトル
+Japanese title|日文标题|日本語タイトル
+Japanese|日语|日本語
+· Selected|· 已选择|・選択済み
+· Upload required|· 需要上传|・アップロードが必要
+trials currently saved|个试次已保存|試行を保存済み
+trials.|个试次。|試行。
+A non-empty group randomization seed is required|分组随机化种子不能为空|グループのランダム化には空でないシードが必要です
+Choose at least two distinct groups|请至少选择两个不同的分组|異なるグループを2つ以上選択してください
+Randomized groups cannot overlap|随机化分组不能重叠|ランダム化するグループは重複できません
+The groups must form one continuous sequence with no intervening steps|分组必须形成连续序列，中间不能有其他步骤|グループ間に他のステップを挟まず連続した順序にしてください
+Groups linked by data connections cannot be reordered independently|通过数据连接关联的分组不能独立重新排序|データ接続で結ばれたグループは個別に並べ替えできません
+Unsupported or incomplete group execution snapshot|不支持或不完整的分组执行快照|グループ実行のスナップショットが未対応または不完全です
+Group execution snapshot does not match its source, seed and plan|分组执行快照与其来源、种子和计划不匹配|グループ実行のスナップショットが元データ、シード、計画と一致しません
+Protocol must be an object|协议文档结构无效|プロトコルのデータ構造が無効です
+Protocol ID is required|协议缺少 ID|プロトコルIDがありません
+Protocol name is required|协议缺少名称|プロトコル名を入力してください
+Protocol graph needs nodes|协议流程为空，请先添加节点|フローが空です。ノードを追加してください
+Graph entry node is missing or invalid|流程缺少开始节点|開始ノードがありません
+Graph entry node must be a core.start component|入口节点不是 start 节点|入口はStartノードである必要があります
+Exactly one Start node is required|流程中存在多个开始节点|Startノードは1つだけ必要です
+Graph needs at least one End node|流程缺少结束节点|Endノードがありません
+No End node is reachable from Start|结束节点不可达（有节点未连到主路径）|Endノードに到達できません
+Node is unreachable from the flow|节点不可达，缺少输入边|このノードはフローから到達できません
+Node ID is required|节点缺少 ID|ノードIDがありません
+Node IDs must be unique|节点 ID 重复|ノードIDが重複しています
+Node component type and version are required|节点缺少组件类型|ノードのコンポーネント種別がありません
+Node component is not registered|未知的组件类型，请安装对应 SDK 包|未登録のコンポーネントです
+Connection source node is missing|连线缺少源节点|接続元ノードがありません
+Connection target node is missing|连线缺少目标节点|接続先ノードがありません
+Connection source port is missing|连线缺少源端口|接続元ポートがありません
+Connection target port is missing|连线缺少目标端口|接続先ポートがありません
+Edge source must be an output port|连线源方向错误（应从输出端口出发）|接続元の向きが正しくありません（出力ポートから出る必要があります）
+Edge target must be an input port|连线目标方向错误（应指向输入端口）|接続先の向きが正しくありません（入力ポートへ向かう必要があります）
+Edge kind must match both ports|连线类型与控制流端口不匹配|接続タイプとポートタイプが一致しません
+Input port cannot have multiple connections|控制端口已有多条连线，只能保留一条|この入力ポートには複数接続できません
+Required port has no variable binding|必需端口未绑定变量|必須ポートに変数が割り当てられていません
+Required port is not connected|必需端口未连接|必須ポートが接続されていません
+Referenced variable is missing|绑定的变量不存在|参照している変数がありません
+Variable and port types do not match|绑定变量的类型与端口不匹配|変数とポートの型が一致しません
+Variable name is required|变量缺少名称|変数名を入力してください
+Variable names must be unique|变量名称重复|変数名が重複しています
+Variable type is invalid|变量类型无效|変数の型が無効です
+Variable scope is invalid|变量作用域无效|変数のスコープが無効です
+Group name is required|分组缺少名称|グループ名を入力してください
+Group is empty|分组为空|グループが空です
+Group contains a missing node|分组中的节点不存在|グループ内のノードが見つかりません
+A node can belong to only one group|节点只能属于一个分组|1つのノードは1つのグループにのみ所属できます
+Subflow parameter mapping is missing|子流程参数映射缺失|サブフローのパラメータ対応がありません
+Subflow parameter mapping types do not match|子流程参数映射类型不匹配|サブフローのパラメータ対応の型が一致しません
+Subflow template is empty|子流程模板为空|サブフローのテンプレートが空です
+Subflow entry node is invalid|子流程入口节点无效|サブフローの入口ノードが無効です
+Subflow exit node is invalid|子流程出口节点无效|サブフローの出口ノードが無効です
+SDK permissions have not been approved|SDK 权限未批准|SDKの権限が承認されていません
+SDK lacks permission to read variables|SDK 缺少变量读取权限|SDKに変数の読み取り権限がありません
+SDK lacks permission to access network media|SDK 缺少网络媒体权限|SDKにネットワークメディアの権限がありません
+SDK lacks permission to read assets|SDK 缺少资产读取权限|SDKにアセットの読み取り権限がありません
+Device connector is not installed|未安装设备连接器|デバイスコネクタがインストールされていません
+Device connector is invalid|设备连接器无效|デバイスコネクタが無効です
+Device permissions have not been approved|设备权限未批准|デバイスの権限が承認されていません
+Set a media URL, asset or stimulus pool|媒体节点缺少 URL 或资产|メディアURL、アセット、または刺激プールを設定してください
+Media URL is invalid|媒体 URL 无效，请检查地址或改用资产|メディアURLが無効です
+Media completion mode is invalid|媒体完成模式无效|メディアの完了方法が無効です
+Stimulus pool ID is missing or duplicated|刺激池 ID 缺失或重复|刺激プールIDがないか重複しています
+Stimulus pool name is required|刺激池缺少名称|刺激プール名を入力してください
+Stimulus pool media type is invalid|刺激池媒体类型无效|刺激プールのメディア種別が無効です
+Selected stimulus pool is missing|节点引用的刺激池不存在|選択した刺激プールがありません
+Add stimuli to the stimulus pool|刺激池中还没有可用刺激|刺激プールに刺激を追加してください
+Stimulus pool media asset is missing|刺激池引用的媒体资源不存在|刺激プールのメディアが見つかりません
+Stimulus pool and Media node types do not match|刺激池与媒体节点的类型不一致|刺激プールとMediaノードの種別が一致しません
+Legacy embedded stimulus pool configuration is inconsistent|旧版内嵌刺激池配置不一致|旧形式の埋め込み刺激プール設定が一致していません
+Not enough stimuli for allocation without replacement|刺激数量不足以进行无放回分配|重複なしで割り当てるための刺激数が不足しています
+Participant screen is missing|界面模板为空|参加者画面がありません
+Screen binding references a missing variable|界面绑定引用了不存在的变量|画面のバインディングが存在しない変数を参照しています
+Participant screen has no input controls|界面缺少输入控件|参加者画面に入力項目がありません
+Manual completion requires a submit or continue button|手动完成模式需要界面中有提交按钮|手動完了には送信または次へボタンが必要です
+Display duration must be at least 0|持续时间无效（需为正数）|表示時間は0以上で指定してください
+Wait duration must be at least 0|等待时长无效（需为正数）|待機時間は0以上で指定してください
+Rating maximum must be greater than minimum|评分范围无效（min 需小于 max）|評価の最大値は最小値より大きくしてください
+Loop count must be an integer of at least 1|循环次数无效（需为正整数）|ループ回数は1以上の整数で指定してください
+Condition operator is invalid|条件运算符无效|条件演算子が無効です
+Loop termination operator is invalid|循环终止运算符无效|ループ終了条件の演算子が無効です
+Random branch probability is invalid|随机概率需在 0–100 之间|ランダム分岐の確率が無効です
+Fixation shape is invalid|注视点形状无效|注視点の形状が無効です
+Cognitive task type is invalid|认知任务类型无效|認知課題の種類が無効です
+Generate cognitive task trials first|认知任务没有试次，请先生成|認知課題に試行がありません。先に生成してください
+Cognitive task trial ID is invalid|认知任务试次 ID 无效|認知課題の試行IDが無効です
+Cognitive task trial timing is invalid|认知任务试次时长无效|認知課題の試行時間が無効です
+Review settings after migration|迁移后需要人工复核配置|移行後に設定を確認してください
+no response|无反应|反応なし
 `.trim().split('\n').filter(Boolean).map(line => line.split('|'));
 export const composerStrings = Object.fromEntries(['zh', 'ja'].map((language, index) => [language, Object.fromEntries(composerCopy.map(row => [row[0], row[index + 1]]))]));
 

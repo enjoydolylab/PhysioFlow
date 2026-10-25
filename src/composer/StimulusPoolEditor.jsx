@@ -1,3 +1,4 @@
+import { useComposerT as useT } from './translate.js';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { loadAsset } from '../assetStore.js';
@@ -9,6 +10,7 @@ import { loadAsset } from '../assetStore.js';
 const MEDIA_LABEL = { image: 'image', audio: 'audio', video: 'video' };
 
 export default function StimulusPoolEditor({ pool, assets = [], locked = false, onSave, onClose }) {
+  const t = useT();
   const mediaType = pool.mediaType || 'image';
   const [name, setName] = useState(pool.name || '');
   const [selected, setSelected] = useState(() => new Set(pool.assetIds || []));
@@ -58,13 +60,13 @@ export default function StimulusPoolEditor({ pool, assets = [], locked = false, 
       <header className="pool-editor-head">
         <div>
           <input className="pool-editor-name" aria-label="Pool name" disabled={locked} placeholder="Pool name" value={name} onChange={event => setName(event.target.value)} />
-          <small>{MEDIA_LABEL[mediaType] || mediaType} · Selected <b>{selected.size}</b> / {candidates.length}</small>
+          <small>{MEDIA_LABEL[mediaType] || mediaType} {t("· Selected")} <b>{selected.size}</b> / {candidates.length}</small>
         </div>
         <button type="button" className="pool-editor-close" onClick={onClose} aria-label="Close">✕</button>
       </header>
 
       <div className="pool-editor-toolbar">
-        <input aria-label="Search assets" placeholder="Search assets…" value={query} onChange={event => setQuery(event.target.value)} />
+        <input aria-label={t("Search assets")} placeholder="Search assets…" value={query} onChange={event => setQuery(event.target.value)} />
         <button type="button" disabled={locked || !filtered.length} onClick={() => setSelected(previous => new Set([...previous, ...filtered.map(assetIdOf)]))}>Select all{query.trim() ? ' · in results' : ''}</button>
         <button type="button" disabled={locked || !selected.size} onClick={() => setSelected(new Set())}>Clear</button>
       </div>

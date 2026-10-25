@@ -37,7 +37,7 @@ export default function Canvas({ s }) {
         <button title={t("Zoom in")} onClick={() => setZoom(z => Math.min(2.5, +(z * 1.25).toFixed(2)))}>＋</button>
         <button title={t("Reset view")} onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}>1:1</button>
       </span>
-      {message && <small>{message}</small>}
+      {message && <small>{t(message)}</small>}
     </div>
     {snapshotsOpen && <div className="composer-snapshots-panel">
       <div className="composer-snapshots-row"><input aria-label={t("Snapshot name")} placeholder={t("Snapshot name")} value={snapshotName} onChange={event => setSnapshotName(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') persistSnapshot(); else if (event.key === 'Escape') { event.currentTarget.blur(); event.stopPropagation(); } }} /><button onClick={persistSnapshot}>{t("Save")}</button></div>

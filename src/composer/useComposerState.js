@@ -211,13 +211,13 @@ export function useComposerState({ protocol, onChange }) {
       return;
     }
     if (!pendingPort) return;
-    if (pendingPort.kind !== port.kind) { setMessage('Port kinds must match'); return; }
+    if (pendingPort.kind !== port.kind) { setMessage(t("Port kinds must match")); return; }
     try {
       const result = connect(protocol, port.kind, pendingPort, { nodeId: node.id, portId: port.id });
       commit(result.protocol);
       setSelectedEdgeId(result.edge.id);
       setPendingPort(null);
-      setMessage('Connection created');
+      setMessage(t("Connection created"));
     } catch (error) { setMessage(error.message); }
   };
 
@@ -480,7 +480,7 @@ export function useComposerState({ protocol, onChange }) {
       positions[node.id] = { x: 80 + level * 220, y: 100 + count * 140 };
     });
     commit(moveNodes(protocol, positions));
-    setMessage('Auto layout applied');
+    setMessage(t("Auto layout applied"));
   };
 
   const searchResults = useMemo(() => {
@@ -504,7 +504,7 @@ export function useComposerState({ protocol, onChange }) {
     const snapshot = { id: `snap_${Date.now()}`, name: snapshotName.trim() || `Snapshot ${snapshots.length + 1}`, savedAt: new Date().toISOString(), graph: structuredClone(protocol.graph) };
     setSnapshots(saveFlowSnapshot(protocol.protocolId, snapshot));
     setSnapshotName('');
-    setMessage('Flow snapshot saved');
+    setMessage(t("Flow snapshot saved"));
   };
   const restoreSnapshot = snapshot => {
     if (snapshot.graph) {
@@ -521,7 +521,7 @@ export function useComposerState({ protocol, onChange }) {
     setRenameId(null);
     if (!trimmed || !snapshots.some(item => item.id === id)) return;
     setSnapshots(renameFlowSnapshot(protocol.protocolId, id, trimmed));
-    setMessage('Snapshot renamed');
+    setMessage(t("Snapshot renamed"));
   };
   const deleteSnapshot = id => setSnapshots(removeFlowSnapshot(protocol.protocolId, id));
 

@@ -1,3 +1,4 @@
+import { useComposerT as useT } from './translate.js';
 import {
   addVariable,
   assignNodeToGroup,
@@ -19,6 +20,7 @@ import { configFromParticipantUi } from '../runtime/index.js';
 // Catalog / inspector callbacks, pre-wired to commit so the view components
 // stay presentational. Kept adjacent to the state they mutate.
 export function useCatalogActions({ protocol, commit, setMessage, setSelectedNodeId, selectedNode, previewNode, setCollaborationBaseline }) {
+  const t = useT();
   const updatePreviewUi = ui => { if (previewNode) commit(updateNode(protocol, previewNode.id, { config: configFromParticipantUi(previewNode, ui) })); };
   return {
     updatePreviewUi,
@@ -29,14 +31,14 @@ export function useCatalogActions({ protocol, commit, setMessage, setSelectedNod
     updateGroup: (groupId, changes) => commit(updateNodeGroup(protocol, groupId, changes)),
     removeGroup: groupId => commit(removeNodeGroup(protocol, groupId)),
     publishGroup: groupId => { try { const result = createSubflowTemplate(protocol, groupId); commit(result.protocol); setMessage(`Published reusable subflow ${result.template.name}`); } catch (error) { setMessage(error.message); } },
-    installExamplePackage: () => { try { commit(installComponentPackage(protocol, exampleReactionButtonPackage(), { approvedPermissions: ['events.emit'] })); setMessage('Installed Reaction Button example package'); } catch (error) { setMessage(error.message); } },
+    installExamplePackage: () => { try { commit(installComponentPackage(protocol, exampleReactionButtonPackage(), { approvedPermissions: ['events.emit'] })); setMessage(t("Installed Reaction Button example package")); } catch (error) { setMessage(error.message); } },
     importPackage: componentPackage => { try { commit(installComponentPackage(protocol, componentPackage, { approvedPermissions: componentPackage.permissions || [] })); setMessage(`Installed ${componentPackage.name}`); } catch (error) { setMessage(error.message); } },
     removePackage: (packageId, version) => { try { commit(uninstallComponentPackage(protocol, packageId, version)); } catch (error) { setMessage(error.message); } },
-    installExampleConnector: () => { try { const connector = exampleSimulatedConnector(); commit(installDeviceConnector(protocol, connector, { approvedPermissions: connector.permissions })); setMessage('Installed simulated physiology connector'); } catch (error) { setMessage(error.message); } },
+    installExampleConnector: () => { try { const connector = exampleSimulatedConnector(); commit(installDeviceConnector(protocol, connector, { approvedPermissions: connector.permissions })); setMessage(t("Installed simulated physiology connector")); } catch (error) { setMessage(error.message); } },
     importConnector: connector => { try { commit(installDeviceConnector(protocol, connector, { approvedPermissions: connector.permissions || [] })); setMessage(`Installed ${connector.name}`); } catch (error) { setMessage(error.message); } },
     removeConnector: (connectorId, version) => { try { commit(uninstallDeviceConnector(protocol, connectorId, version)); } catch (error) { setMessage(error.message); } },
-    setBaseline: () => { setCollaborationBaseline(structuredClone(protocol)); setMessage('Collaboration baseline updated'); },
-    applyChangeSet: next => { commit(next); setCollaborationBaseline(structuredClone(next)); setMessage('Collaboration change set applied'); },
+    setBaseline: () => { setCollaborationBaseline(structuredClone(protocol)); setMessage(t("Collaboration baseline updated")); },
+    applyChangeSet: next => { commit(next); setCollaborationBaseline(structuredClone(next)); setMessage(t("Collaboration change set applied")); },
     instantiateSubflow: (templateId, parameterMappings) => { try { const result = instantiateSubflowTemplate(protocol, templateId, { parameterMappings, position: { x: 320, y: 180 + (protocol.graph.groups?.length || 0) * 170 } }); commit(result.protocol); setSelectedNodeId(result.group.entryNodeId); setMessage(`Created ${result.group.name}`); } catch (error) { setMessage(error.message); } },
     removeSubflowTemplate: templateId => { try { commit(removeSubflowTemplate(protocol, templateId)); } catch (error) { setMessage(error.message); } },
     assignNodeToGroup: groupId => commit(assignNodeToGroup(protocol, selectedNode.id, groupId)),

@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 import { stepContentIssues } from './domain';
 import { createQuestionnaire } from './QuestionnaireDesigner';
 import { MEDIA_TYPES, PALETTE, STEP_DEFAULTS } from './constants.js';
@@ -7,6 +8,7 @@ import { NodeGlyph, nodeBadgeStyle } from './flowIcons.jsx';
 const stepDefaultExtras = defaults => Object.fromEntries(Object.entries(defaults).filter(([key]) => !['name', 'duration_mode', 'planned_duration_ms', 'recovery_behavior'].includes(key)));
 
 export function Inspector({ node, edge, trial, stimuli, questionnaires, updateNode, updateStep, removeNode, deleteEdgeFromInspector, disabled, onCopyNode, onPasteNode, onDuplicateNode, hasClipboard, selectedCount, flow, updateFlow, onOpenQuestionnaireWorkspace }) {
+  const t = useT();
   if (edge) return <EdgeInspector edge={edge} flow={trial.flow} onDelete={deleteEdgeFromInspector} disabled={disabled} updateFlow={updateFlow} flowData={flow} />;
   if (!node) {
     if (selectedCount > 0) return <MultiSelectInspector count={selectedCount} hasClipboard={hasClipboard} onPasteNode={onPasteNode} />;
@@ -26,14 +28,13 @@ export function Inspector({ node, edge, trial, stimuli, questionnaires, updateNo
     <label>Label<input value={node.label || ''} disabled={disabled} onChange={e => updateNode({ label: e.target.value })} /></label>
     {_stepIssues.length > 0 && (
       <div className={`inspector-issues ${_stepIssues.some(i => i.kind === 'error') ? 'error' : 'warning'}`}>
-        <b>{_stepIssues.some(i => i.kind === 'error') ? 'Missing required content' : 'Needs attention'}</b>
+        <b>{_stepIssues.some(i => i.kind === 'error') ? t("Missing required content") : 'Needs attention'}</b>
         {_stepIssues.map((iss, ii) => <div key={ii}>{iss.kind === 'error' ? 'Error' : 'Warning'} · {iss.message}</div>)}
       </div>
     )}
     {/* Note node settings */}
     {node.type === 'note' && <>
-      <label>Note content
-        <textarea value={node.content || ''} disabled={disabled} rows={4} onChange={e => updateNode({ content: e.target.value })} style={{ fontFamily: '"Comic Sans MS", cursive', fontSize: '14px' }} />
+      <label>{t("Note content")} <textarea value={node.content || ''} disabled={disabled} rows={4} onChange={e => updateNode({ content: e.target.value })} style={{ fontFamily: '"Comic Sans MS", cursive', fontSize: '14px' }} />
       </label>
       <div style={{ display: 'flex', gap: '.5rem' }}>
         <label style={{ flex: 1 }}>Width<input type="number" min="120" max="400" value={node.width || 180} disabled={disabled} onChange={e => updateNode({ width: Number(e.target.value) })} /></label>
@@ -45,19 +46,17 @@ export function Inspector({ node, edge, trial, stimuli, questionnaires, updateNo
     {node.type === 'event' && resolvedItem && <EventFullSettings item={resolvedItem} trial={trial} stimuli={stimuli} questionnaires={questionnaires} disabled={disabled} updateStep={updateStep} questionVars={questionVars} onOpenQuestionnaireWorkspace={onOpenQuestionnaireWorkspace} />}
     {/* Condition/loop settings */}
     {['condition', 'loop'].includes(node.type) && (
-      <details className="inspector-section" open><summary className="inspector-summary"><h4>Rule settings</h4></summary>
+      <details className="inspector-section" open><summary className="inspector-summary"><h4>{t("Rule settings")}</h4></summary>
         <RuleFields node={node} questionVariables={questionVars} disabled={disabled} updateNode={updateNode} />
         {node.type === 'loop' && <label>Maximum iterations<input type="number" min="0" value={node.max_iterations ?? 1} disabled={disabled} onChange={e => updateNode({ max_iterations: Number(e.target.value) })} /></label>}
       </details>
     )}
     {/* Node color (all non-start/end types) */}
     {!['start', 'end'].includes(node.type) && node.type !== 'note' && (
-      <details className="inspector-section"><summary className="inspector-summary"><h4>Node style</h4></summary>
+      <details className="inspector-section"><summary className="inspector-summary"><h4>{t("Node style")}</h4></summary>
         <ColorField label="Node color" value={node.color} fallback="" disabled={disabled} onChange={v => updateNode({ color: v || null })} />
         <label className="check-row" style={{ marginTop: '.5rem' }}>
-          <input type="checkbox" checked={node.enabled !== false} disabled={disabled} onChange={e => updateNode({ enabled: e.target.checked })} />
-          Enabled (skip node when disabled)
-        </label>
+          <input type="checkbox" checked={node.enabled !== false} disabled={disabled} onChange={e => updateNode({ enabled: e.target.checked })} /> {t("Enabled (skip node when disabled)")} </label>
       </details>
     )}
     {/* Action buttons */}
@@ -73,17 +72,19 @@ export function Inspector({ node, edge, trial, stimuli, questionnaires, updateNo
 }
 
 function MultiSelectInspector({ count, hasClipboard: _hasClipboard, onPasteNode: _onPasteNode }) {
+  const t = useT();
   return <aside className="studio-inspector empty-inspector">
     <h3>{count} nodes selected</h3>
-    <p>Drag to move together · Delete to remove · Ctrl+D to duplicate</p>
+    <p>{t("Drag to move together · Delete to remove · Ctrl+D to duplicate")}</p>
   </aside>;
 }
 
 function EmptyInspector({ hasClipboard, onPasteNode }) {
+  const t = useT();
   return <aside className="studio-inspector empty-inspector">
-    <h3>No node selected</h3>
-    <p>Click a node to edit · Click an edge to delete</p>
-    {hasClipboard && <button className="paste-ghost" onClick={onPasteNode}>Paste (Ctrl+V)</button>}
+    <h3>{t("No node selected")}</h3>
+    <p>{t("Click a node to edit · Click an edge to delete")}</p>
+    {hasClipboard && <button className="paste-ghost" onClick={onPasteNode}>{t("Paste (Ctrl+V)")}</button>}
   </aside>;
 }
 
@@ -104,6 +105,7 @@ function EdgeInspector({ edge, flow: flowProp, onDelete, disabled, updateFlow, f
 }
 
 function EventFullSettings({ item, trial: _trial, stimuli, questionnaires, disabled, updateStep, onOpenQuestionnaireWorkspace }) {
+  const t = useT();
   const media = ['video', 'audio', 'image'].includes(item.type);
   const timed = ['video', 'audio'].includes(item.type);
   const names = item.name_i18n || { zh: '', ja: '', en: '' };
@@ -122,8 +124,8 @@ function EventFullSettings({ item, trial: _trial, stimuli, questionnaires, disab
         {PALETTE.flatMap(g => g.items).map(([t, , lbl]) => <option value={t} key={t}>{lbl}</option>)}
       </select>
     </label>
-    <details className="i18n-group"><summary>Participant title · 中 / 日 / EN</summary>
-      {[['zh', '中文标题'], ['ja', '日本語タイトル'], ['en', 'English title']].map(([lang, lbl]) => <label key={lang}>{lbl}<input value={names[lang] || ''} disabled={disabled} onChange={e => updateStep({ name_i18n: { ...names, [lang]: e.target.value } })} /></label>)}
+    <details className="i18n-group"><summary>{t("Participant title · 中 / 日 / EN")}</summary>
+      {[['zh', 'Chinese title'], ['ja', 'Japanese title'], ['en', 'English title']].map(([lang, lbl]) => <label key={lang}>{t(lbl)}<input value={names[lang] || ''} disabled={disabled} onChange={e => updateStep({ name_i18n: { ...names, [lang]: e.target.value } })} /></label>)}
     </details>
     {['instruction', 'response', 'manual_event', 'device_check'].includes(item.type) && <I18nContentEditor content={item.content_i18n || { zh: '', ja: '', en: '' }} disabled={disabled} updateStep={updateStep} />}
     <AppearanceOverrides item={item} disabled={disabled} updateStep={updateStep} />
@@ -140,8 +142,8 @@ function EventFullSettings({ item, trial: _trial, stimuli, questionnaires, disab
     </fieldset>
     <fieldset className="inspector-fieldset"><legend>Operator controls</legend>
       <div className="check-row-group">
-        <label className="check-row"><input type="checkbox" checked={item.allow_skip !== false} disabled={disabled} onChange={e => updateStep({ allow_skip: e.target.checked })} /> Allow skip</label>
-        <label className="check-row"><input type="checkbox" checked={Boolean(item.allow_retry)} disabled={disabled} onChange={e => updateStep({ allow_retry: e.target.checked })} /> Allow retry</label>
+        <label className="check-row"><input type="checkbox" checked={item.allow_skip !== false} disabled={disabled} onChange={e => updateStep({ allow_skip: e.target.checked })} /> {t("Allow skip")}</label>
+        <label className="check-row"><input type="checkbox" checked={Boolean(item.allow_retry)} disabled={disabled} onChange={e => updateStep({ allow_retry: e.target.checked })} /> {t("Allow retry")}</label>
       </div>
     </fieldset>
     {item.type === 'manual_event' && <ManualEventSettings item={item} disabled={disabled} updateStep={updateStep} />}
@@ -158,8 +160,7 @@ function EventFullSettings({ item, trial: _trial, stimuli, questionnaires, disab
           <label>Questionnaire</label>
           <button type="button" className="primary" style={{ width: '100%', marginTop: '.3rem' }}
             disabled={disabled}
-            onClick={() => onOpenQuestionnaireWorkspace?.(resolvedQ || createQuestionnaire(), q => updateStep({ questionnaire: q, questionnaire_id: q.questionnaire_id }))}>
-            Open full questionnaire editor ↗<br />
+            onClick={() => onOpenQuestionnaireWorkspace?.(resolvedQ || createQuestionnaire(), q => updateStep({ questionnaire: q, questionnaire_id: q.questionnaire_id }))}> {t("Open full questionnaire editor ↗")}<br />
             <small style={{ fontWeight: 400, opacity: .8 }}>{(resolvedQ || {}).questions?.length || 0} question{((resolvedQ || {}).questions?.length || 0) !== 1 ? 's' : ''}</small>
           </button>
         </div>
@@ -183,8 +184,9 @@ const parseResponseOptions = text => text.split('\n').map(line => line.trim()).f
 });
 
 function ResponseSettings({ item, disabled, updateStep }) {
+  const t = useT();
   const options = item.response_options || [];
-  return <fieldset className="inspector-fieldset"><legend>Response capture</legend>
+  return <fieldset className="inspector-fieldset"><legend>{t("Response capture")}</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
       <label>Response variable
         <input value={item.response_variable || 'response'} disabled={disabled} placeholder="response or rating" onChange={event => updateStep({ response_variable: event.target.value })} />
@@ -193,12 +195,12 @@ function ResponseSettings({ item, disabled, updateStep }) {
         <textarea rows={Math.max(3, options.length + 1)} value={responseOptionsText(options)} disabled={disabled} placeholder={'yes | Yes | 1\nno | No | 2'} onChange={event => updateStep({ response_options: parseResponseOptions(event.target.value) })} />
       </label>
       <div className="check-row-group">
-        <label className="check-row"><input type="checkbox" checked={item.response_required !== false} disabled={disabled} onChange={event => updateStep({ response_required: event.target.checked })} /> Required response</label>
-        <label className="check-row"><input type="checkbox" checked={item.response_auto_advance !== false} disabled={disabled} onChange={event => updateStep({ response_auto_advance: event.target.checked })} /> Continue immediately after response</label>
+        <label className="check-row"><input type="checkbox" checked={item.response_required !== false} disabled={disabled} onChange={event => updateStep({ response_required: event.target.checked })} /> {t("Required response")}</label>
+        <label className="check-row"><input type="checkbox" checked={item.response_auto_advance !== false} disabled={disabled} onChange={event => updateStep({ response_auto_advance: event.target.checked })} /> {t("Continue immediately after response")}</label>
       </div>
-      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>Keyboard keys are optional. The selected value is exported and can be used by Condition nodes.</small>
+      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>{t("Keyboard keys are optional. The selected value is exported and can be used by Condition nodes.")}</small>
       {/* Button appearance */}
-      <details style={{ marginTop: '.3rem' }}><summary style={{ fontSize: '.72rem', color: 'var(--green)', cursor: 'pointer', fontWeight: 600 }}>Button appearance</summary>
+      <details style={{ marginTop: '.3rem' }}><summary style={{ fontSize: '.72rem', color: 'var(--green)', cursor: 'pointer', fontWeight: 600 }}>{t("Button appearance")}</summary>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '.4rem', marginTop: '.4rem' }}>
           <label style={{ display: 'grid', gap: '.15rem', fontSize: '.68rem' }}>Size
             <select value={(item.response_config || {}).button_size || 'M'} disabled={disabled}
@@ -221,117 +223,106 @@ function ResponseSettings({ item, disabled, updateStep }) {
 }
 
 function QuestionnaireModeSettings({ item, disabled, updateStep }) {
+  const t = useT();
   const mode = item.questionnaire_mode || 'internal';
-  return <fieldset className="inspector-fieldset"><legend>Questionnaire mode</legend>
+  return <fieldset className="inspector-fieldset"><legend>{t("Questionnaire mode")}</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
       <label>Mode
         <select value={mode} disabled={disabled} onChange={event => updateStep({ questionnaire_mode: event.target.value, duration_mode: 'manual' })}>
-          <option value="internal">Built-in questions</option>
-          <option value="external">External form link</option>
+          <option value="internal">{t("Built-in questions")}</option>
+          <option value="external">{t("External form link")}</option>
         </select>
       </label>
       {mode === 'external' && <>
-        <label>External form URL
-          <input type="url" value={item.external_form_url || ''} disabled={disabled} placeholder="https://docs.google.com/forms/..." onChange={event => updateStep({ external_form_url: event.target.value })} />
+        <label>{t("External form URL")} <input type="url" value={item.external_form_url || ''} disabled={disabled} placeholder="https://docs.google.com/forms/..." onChange={event => updateStep({ external_form_url: event.target.value })} />
         </label>
-        <label>Open button label
-          <input value={item.external_open_label || ''} disabled={disabled} placeholder="Open external form" onChange={event => updateStep({ external_open_label: event.target.value })} />
+        <label>{t("Open button label")} <input value={item.external_open_label || ''} disabled={disabled} placeholder={t("Open external form")} onChange={event => updateStep({ external_open_label: event.target.value })} />
         </label>
-        <label>Completion checkbox label
-          <input value={item.external_completion_label || ''} disabled={disabled} placeholder="I completed the external form" onChange={event => updateStep({ external_completion_label: event.target.value })} />
+        <label>{t("Completion checkbox label")} <input value={item.external_completion_label || ''} disabled={disabled} placeholder={t("I completed the external form")} onChange={event => updateStep({ external_completion_label: event.target.value })} />
         </label>
         <label className="check-row">
-          <input type="checkbox" checked={Boolean(item.external_embed)} disabled={disabled} onChange={event => updateStep({ external_embed: event.target.checked })} />
-          Try embedded preview
-        </label>
+          <input type="checkbox" checked={Boolean(item.external_embed)} disabled={disabled} onChange={event => updateStep({ external_embed: event.target.checked })} /> {t("Try embedded preview")} </label>
         <label className="check-row">
-          <input type="checkbox" checked={item.external_append_context !== false} disabled={disabled} onChange={event => updateStep({ external_append_context: event.target.checked })} />
-          Append participant/session to URL
-        </label>
+          <input type="checkbox" checked={item.external_append_context !== false} disabled={disabled} onChange={event => updateStep({ external_append_context: event.target.checked })} /> {t("Append participant/session to URL")} </label>
         {item.external_append_context !== false && <div style={{ display: 'flex', gap: '.5rem' }}>
-          <label style={{ flex: 1 }}>Participant param
-            <input value={item.external_participant_param || ''} disabled={disabled} placeholder="participant_id or entry.xxxxx" onChange={event => updateStep({ external_participant_param: event.target.value })} />
+          <label style={{ flex: 1 }}>{t("Participant param")} <input value={item.external_participant_param || ''} disabled={disabled} placeholder={t("participant_id or entry.xxxxx")} onChange={event => updateStep({ external_participant_param: event.target.value })} />
           </label>
-          <label style={{ flex: 1 }}>Session param
-            <input value={item.external_session_param || ''} disabled={disabled} placeholder="session_id or entry.xxxxx" onChange={event => updateStep({ external_session_param: event.target.value })} />
+          <label style={{ flex: 1 }}>{t("Session param")} <input value={item.external_session_param || ''} disabled={disabled} placeholder={t("session_id or entry.xxxxx")} onChange={event => updateStep({ external_session_param: event.target.value })} />
           </label>
         </div>}
-        <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>External answers stay in the form service. PhysioFlow records opened/confirmed timing and the original/resolved URL in events.csv.</small>
+        <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>{t("External answers stay in the form service. PhysioFlow records opened/confirmed timing and the original/resolved URL in events.csv.")}</small>
       </>}
     </div>
   </fieldset>;
 }
 
 function ManualEventSettings({ item, disabled, updateStep }) {
-  return <fieldset className="inspector-fieldset"><legend>Manual event confirmation</legend>
+  const t = useT();
+  return <fieldset className="inspector-fieldset"><legend>{t("Manual event confirmation")}</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
-      <label>Confirmation label
-        <input value={item.operator_confirm_label || ''} disabled={disabled} placeholder="Confirm event" onChange={e => updateStep({ operator_confirm_label: e.target.value })} />
+      <label>{t("Confirmation label")} <input value={item.operator_confirm_label || ''} disabled={disabled} placeholder="Confirm event" onChange={e => updateStep({ operator_confirm_label: e.target.value })} />
       </label>
       <label className="check-row">
         <input type="checkbox" checked={Boolean(item.operator_note_required)} disabled={disabled} onChange={e => updateStep({ operator_note_required: e.target.checked })} />
         Require operator note
       </label>
-      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>The confirmation and note are written into the event log for audit and device-alignment records.</small>
+      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>{t("The confirmation and note are written into the event log for audit and device-alignment records.")}</small>
     </div>
   </fieldset>;
 }
 
 function DeviceCheckSettings({ item, disabled, updateStep }) {
+  const t = useT();
   const text = (item.device_checks || []).join('\n');
   return <fieldset className="inspector-fieldset"><legend>Device checklist</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
-      <label>Checklist items
-        <textarea rows={4} value={text} disabled={disabled} placeholder="One item per line" onChange={e => updateStep({ device_checks: e.target.value.split('\n').map(line => line.trim()).filter(Boolean) })} />
+      <label>{t("Checklist items")} <textarea rows={4} value={text} disabled={disabled} placeholder={t("One item per line")} onChange={e => updateStep({ device_checks: e.target.value.split('\n').map(line => line.trim()).filter(Boolean) })} />
       </label>
       <label className="check-row">
-        <input type="checkbox" checked={item.require_all_device_checks !== false} disabled={disabled} onChange={e => updateStep({ require_all_device_checks: e.target.checked })} />
-        Require all items before continuing
-      </label>
-      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>Each checked item is exported in device_check_completed metadata.</small>
+        <input type="checkbox" checked={item.require_all_device_checks !== false} disabled={disabled} onChange={e => updateStep({ require_all_device_checks: e.target.checked })} /> {t("Require all items before continuing")} </label>
+      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>{t("Each checked item is exported in device_check_completed metadata.")}</small>
     </div>
   </fieldset>;
 }
 
 function I18nContentEditor({ content, disabled, updateStep }) {
-  return <details className="i18n-group" open><summary>Participant content · 中 / 日 / EN</summary>
+  const t = useT();
+  return <details className="i18n-group" open><summary>{t("Participant content · 中 / 日 / EN")}</summary>
     {[['zh', '中文'], ['ja', '日本語'], ['en', 'English']].map(([lang, lbl]) => <label key={lang}>{lbl}<textarea value={content[lang] || ''} disabled={disabled} onChange={e => updateStep({ content_i18n: { ...content, [lang]: e.target.value } })} rows={2} /></label>)}
   </details>;
 }
 
 function AppearanceOverrides({ item, disabled, updateStep }) {
-  return <details className="inspector-section"><summary className="inspector-summary"><h4>Appearance overrides</h4></summary>
-    <small style={{ display: 'block', marginBottom: '.5rem', color: '#7b867f', fontSize: '.65rem' }}>Override trial-level appearance for this step only.</small>
+  const t = useT();
+  return <details className="inspector-section"><summary className="inspector-summary"><h4>{t("Appearance overrides")}</h4></summary>
+    <small style={{ display: 'block', marginBottom: '.5rem', color: '#7b867f', fontSize: '.65rem' }}>{t("Override trial-level appearance for this step only.")}</small>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
       <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Font size
         <input type="text" value={item.appearance?.font_size ?? ''} disabled={disabled} placeholder="e.g. 1.2rem, 18px" list="font-size-presets"
           onChange={e => updateStep({ appearance: { ...item.appearance, font_size: e.target.value || null } })} />
         <datalist id="font-size-presets"><option value="0.7rem" /><option value="0.85rem" /><option value="1rem" /><option value="1.2rem" /><option value="1.5rem" /><option value="2rem" /><option value="2.5rem" /></datalist>
       </label>
-      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Font weight
-        <select value={item.appearance?.font_weight ?? ''} disabled={disabled} onChange={e => updateStep({ appearance: { ...item.appearance, font_weight: e.target.value || null } })}>
-          <option value="">Trial default</option><option value="normal">Normal</option><option value="bold">Bold</option>
+      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>{t("Font weight")} <select value={item.appearance?.font_weight ?? ''} disabled={disabled} onChange={e => updateStep({ appearance: { ...item.appearance, font_weight: e.target.value || null } })}>
+          <option value="">{t("Trial default")}</option><option value="normal">Normal</option><option value="bold">Bold</option>
         </select>
       </label>
       <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Alignment
         <select value={item.appearance?.alignment ?? ''} disabled={disabled} onChange={e => updateStep({ appearance: { ...item.appearance, alignment: e.target.value || null } })}>
-          <option value="">Trial default</option><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option>
+          <option value="">{t("Trial default")}</option><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option>
         </select>
       </label>
       <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Padding
         <select value={item.appearance?.padding ?? ''} disabled={disabled} onChange={e => updateStep({ appearance: { ...item.appearance, padding: e.target.value || null } })}>
-          <option value="">Trial default</option><option value="compact">Compact</option><option value="normal">Normal</option><option value="spacious">Spacious</option>
+          <option value="">{t("Trial default")}</option><option value="compact">Compact</option><option value="normal">Normal</option><option value="spacious">Spacious</option>
         </select>
       </label>
-      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Border style
-        <select value={item.appearance?.border ?? ''} disabled={disabled} onChange={e => updateStep({ appearance: { ...item.appearance, border: e.target.value || null } })}>
+      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>{t("Border style")} <select value={item.appearance?.border ?? ''} disabled={disabled} onChange={e => updateStep({ appearance: { ...item.appearance, border: e.target.value || null } })}>
           <option value="">None</option><option value="card">Card</option><option value="solid">Solid</option>
         </select>
       </label>
       <ColorField label="Text color" value={item.appearance?.color} fallback="#17221d" disabled={disabled} onChange={v => updateStep({ appearance: { ...item.appearance, color: v } })} />
       <ColorField label="Background" value={item.appearance?.background} fallback="#fffef9" disabled={disabled} onChange={v => updateStep({ appearance: { ...item.appearance, background: v } })} />
-      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Custom CSS
-        <textarea rows={3} value={item.appearance?.custom_css || ''} disabled={disabled} placeholder=".instruction { font-family: Georgia, serif; }" style={{ fontFamily: 'monospace', fontSize: '.7rem' }} onChange={e => updateStep({ appearance: { ...item.appearance, custom_css: e.target.value || null } })} />
+      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>{t("Custom CSS")} <textarea rows={3} value={item.appearance?.custom_css || ''} disabled={disabled} placeholder=".instruction { font-family: Georgia, serif; }" style={{ fontFamily: 'monospace', fontSize: '.7rem' }} onChange={e => updateStep({ appearance: { ...item.appearance, custom_css: e.target.value || null } })} />
       </label>
     </div>
   </details>;
@@ -371,9 +362,10 @@ function TimingBehavior({ item, timed, disabled, updateStep }) {
 }
 
 function AnalysisSection({ item, disabled, updateStep }) {
+  const t = useT();
   return <fieldset className="inspector-fieldset"><legend>Analysis</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
-      <div className="check-row-group"><label className="check-row"><input type="checkbox" checked={item.required !== false} disabled={disabled} onChange={e => updateStep({ required: e.target.checked })} /> Required for valid session</label></div>
+      <div className="check-row-group"><label className="check-row"><input type="checkbox" checked={item.required !== false} disabled={disabled} onChange={e => updateStep({ required: e.target.checked })} /> {t("Required for valid session")}</label></div>
       <label className="check-row"><input type="checkbox" checked={Boolean(item.is_analysis_window)} disabled={disabled} onChange={e => updateStep({ is_analysis_window: e.target.checked })} /> Generate analysis window</label>
       {item.is_analysis_window && <div style={{ display: 'flex', gap: '.5rem' }}>
         <label style={{ flex: 1 }}>Role<select value={item.role || 'custom'} disabled={disabled} onChange={e => updateStep({ role: e.target.value })}>{['baseline', 'stimulus', 'recovery', 'task', 'exclude', 'custom'].map(r => <option value={r} key={r}>{r}</option>)}</select></label>
@@ -383,11 +375,12 @@ function AnalysisSection({ item, disabled, updateStep }) {
   </fieldset>;
 }
 function SharedResourceSelect({ item, stimuli, updateStep, disabled }) {
+  const t = useT();
   const compatible = stimuli.filter(r => r.type === item.type);
   if (!compatible.length) return null;
-  return <fieldset className="inspector-fieldset"><legend>Stimulus library</legend>
+  return <fieldset className="inspector-fieldset"><legend>{t("Stimulus library")}</legend>
     <label>Reusable resource<select value={item.stimulus_id || ''} disabled={disabled} onChange={e => updateStep({ stimulus_id: e.target.value })}><option value="">None</option>{compatible.map(r => <option value={r.stimulus_id} key={r.stimulus_id}>{r.name}</option>)}</select></label>
-    {item.stimulus_id && <small>Node URL/upload overrides the shared resource.</small>}
+    {item.stimulus_id && <small>{t("Node URL/upload overrides the shared resource.")}</small>}
   </fieldset>;
 }
 
@@ -399,27 +392,29 @@ function SharedQuestionnaireSelect({ item, questionnaires, updateStep, disabled 
 }
 
 function RuleFields({ node, questionVariables, updateNode, disabled }) {
+  const t = useT();
   const listId = `rule-vars-${node.id}`;
   return <>
     <div className="rule-caption">Continue when</div>
-    <label>Variable<input list={listId} value={node.rule?.variable || ''} disabled={disabled} placeholder="Participant field or question ID" onChange={e => updateNode({ rule: { ...node.rule, variable: e.target.value } })} />
+    <label>Variable<input list={listId} value={node.rule?.variable || ''} disabled={disabled} placeholder={t("Participant field or question ID")} onChange={e => updateNode({ rule: { ...node.rule, variable: e.target.value } })} />
       <datalist id={listId}><option value="participant_language" /><option value="participant_id" /><option value="order_row" /><option value="condition" />{questionVariables.map(v => <option value={v} key={v} />)}</datalist>
-      <small>Question IDs from this Trial are listed automatically.</small>
+      <small>{t("Question IDs from this Trial are listed automatically.")}</small>
     </label>
-    <label>Comparison<select value={node.rule?.operator || 'equals'} disabled={disabled} onChange={e => updateNode({ rule: { ...node.rule, operator: e.target.value } })}><option value="equals">Equals</option><option value="not_equals">Does not equal</option><option value="contains">Contains</option><option value="greater_than">Greater than</option><option value="less_than">Less than</option></select></label>
+    <label>Comparison<select value={node.rule?.operator || 'equals'} disabled={disabled} onChange={e => updateNode({ rule: { ...node.rule, operator: e.target.value } })}><option value="equals">Equals</option><option value="not_equals">{t("Does not equal")}</option><option value="contains">Contains</option><option value="greater_than">{t("Greater than")}</option><option value="less_than">{t("Less than")}</option></select></label>
     <label>Value<input value={node.rule?.value || ''} disabled={disabled} onChange={e => updateNode({ rule: { ...node.rule, value: e.target.value } })} /></label>
   </>;
 }
 
 // ── Fixation config ──
 function FixationConfig({ item, disabled, updateStep }) {
+  const t = useT();
   const cfg = item.fixation_config || {};
   const set = (k, v) => updateStep({ fixation_config: { ...cfg, [k]: v } });
-  return <fieldset className="inspector-fieldset"><legend>Fixation appearance</legend>
+  return <fieldset className="inspector-fieldset"><legend>{t("Fixation appearance")}</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
       <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Shape
         <select value={cfg.shape || 'cross'} disabled={disabled} onChange={e => set('shape', e.target.value)}>
-          <option value="cross">Cross (+)</option><option value="dot">Dot (•)</option><option value="diamond">Diamond (◇)</option>
+          <option value="cross">{t("Cross (+)")}</option><option value="dot">{t("Dot (•)")}</option><option value="diamond">{t("Diamond (◇)")}</option>
         </select>
       </label>
       <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Size (px)
@@ -433,27 +428,28 @@ function FixationConfig({ item, disabled, updateStep }) {
 
 // ── Timer config ──
 function TimerConfig({ item, disabled, updateStep }) {
+  const t = useT();
   const cfg = item.timer_config || {};
   const set = (k, v) => updateStep({ timer_config: { ...cfg, [k]: v } });
-  return <fieldset className="inspector-fieldset"><legend>Timer appearance</legend>
+  return <fieldset className="inspector-fieldset"><legend>{t("Timer appearance")}</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
-      <ColorField label="Ring color" value={cfg.ring_color} fallback="var(--green)" disabled={disabled} onChange={v => set('ring_color', v)} />
-      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>Ring thickness (px)
-        <input type="number" min={1} max={12} value={cfg.ring_width ?? 3} disabled={disabled} onChange={e => set('ring_width', Number(e.target.value))} />
+      <ColorField label={t("Ring color")} value={cfg.ring_color} fallback="var(--green)" disabled={disabled} onChange={v => set('ring_color', v)} />
+      <label style={{ display: 'grid', gap: '.25rem', fontSize: '.72rem', fontWeight: 600 }}>{t("Ring thickness (px)")} <input type="number" min={1} max={12} value={cfg.ring_width ?? 3} disabled={disabled} onChange={e => set('ring_width', Number(e.target.value))} />
       </label>
-      <label className="check-row"><input type="checkbox" checked={cfg.show_ms || false} disabled={disabled} onChange={e => set('show_ms', e.target.checked)} /> Show milliseconds</label>
+      <label className="check-row"><input type="checkbox" checked={cfg.show_ms || false} disabled={disabled} onChange={e => set('show_ms', e.target.checked)} /> {t("Show milliseconds")}</label>
     </div>
   </fieldset>;
 }
 
 // ── Custom HTML step ──
 function CustomHtmlSettings({ item, disabled, updateStep }) {
+  const t = useT();
   return <fieldset className="inspector-fieldset"><legend>Custom HTML</legend>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
       <label>HTML / CSS / JS
         <textarea rows={12} value={item.html || ''} disabled={disabled} placeholder={'<h1>Hello</h1>\n<style>h1{color:#197453;font-family:Georgia}</style>'} style={{ fontFamily: "'SF Mono', 'Cascadia Code', monospace", fontSize: '.78rem' }} onChange={e => updateStep({ html: e.target.value })} />
       </label>
-      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>Rendered in a sandboxed iframe. Use fixed or manual end mode to control timing.</small>
+      <small style={{ color: 'var(--muted)', fontSize: '.72rem' }}>{t("Rendered in a sandboxed iframe. Use fixed or manual end mode to control timing.")}</small>
     </div>
   </fieldset>;
 }
