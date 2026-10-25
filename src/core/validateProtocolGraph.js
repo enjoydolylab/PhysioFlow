@@ -250,8 +250,8 @@ export function validateProtocolGraph(protocol, registry) {
     }
   }
 
+  const reachable = new Set();
   if (protocol.graph?.entryNodeId && nodeById.has(protocol.graph.entryNodeId)) {
-    const reachable = new Set();
     const queue = [protocol.graph.entryNodeId];
     while (queue.length) {
       const nodeId = queue.shift();
@@ -263,6 +263,84 @@ export function validateProtocolGraph(protocol, registry) {
       if (!reachable.has(node.id)) warnings.push(issue('node.unreachable', `Node ${node.label || node.id} is not reachable from Start`, `graph.nodes.${node.id}`, { nodeId: node.id }));
     }
     if (!ends.some(node => reachable.has(node.id))) errors.push(issue('graph.end_unreachable', 'No End node is reachable from Start', 'graph'));
+  }
+
+  // Definite assignment. `binding.variable_missing` proves a variable is declared,
+  // not that it holds a value when a node reads it. A branch that only assigns on
+  // one side leaves the other side reading undefined, and nothing crashes — the
+  // experiment records a hole. Two levels:
+  //   never written anywhere            -> error
+  //   written, but not on every path    -> warning (a loop may legitimately read
+  //                                        the value its previous pass wrote)
+  if (reachable.size) {
+    const predecessors = new Map(nodes.map(node => [node.id, []]));
+    for (const edge of edges) {
+      if (edge?.kind !== 'control' || !edge.source?.nodeId || !edge.target?.nodeId) continue;
+      predecessors.get(edge.target.nodeId)?.push(edge.source.nodeId);
+    }
+
+    const everWritten = new Set();
+    const readsAt = new Map();
+    const writesAt = new Map();
+    for (const node of nodes) {
+      // An unreachable write does not make a variable assigned: the runtime never
+      // executes it, so counting it would hide a genuine hole.
+      if (!reachable.has(node.id)) continue;
+      const definition = registry?.get(node.component?.type, node.component?.version);
+      if (!definition) continue;
+      const reads = new Set();
+      const writes = new Set();
+      for (const [portId, binding] of Object.entries(node.bindings || {})) {
+        if (binding?.kind !== 'variable' || !binding.variable) continue;
+        const port = definition.ports.find(item => item.id === portId && item.kind === 'data');
+        if (!port) continue;
+        (port.direction === 'input' ? reads : writes).add(binding.variable);
+      }
+      readsAt.set(node.id, reads);
+      writesAt.set(node.id, writes);
+      for (const name of writes) everWritten.add(name);
+    }
+
+    // Forward pass to a fixed point: IN[n] = intersection of OUT[pred], OUT[n] = IN[n] + DEF[n].
+    const assigned = new Map(nodes.map(node => [node.id, reachable.has(node.id) ? new Set() : null]));
+    for (let pass = 0; pass < Math.max(4, nodes.length + 2); pass += 1) {
+      let changed = false;
+      for (const node of nodes) {
+        if (!reachable.has(node.id)) continue;
+        const preds = (predecessors.get(node.id) || []).filter(id => reachable.has(id));
+        let next;
+        if (node.id === protocol.graph.entryNodeId || !preds.length) {
+          next = new Set();
+        } else {
+          next = null;
+          for (const predId of preds) {
+            const out = assigned.get(predId);
+            if (!out) continue;
+            next = next === null ? new Set(out) : new Set([...next].filter(name => out.has(name)));
+          }
+          if (next === null) next = new Set();
+        }
+        for (const name of writesAt.get(node.id) || []) next.add(name);
+        const current = assigned.get(node.id);
+        if (!current || current.size !== next.size || [...next].some(name => !current.has(name))) {
+          assigned.set(node.id, next);
+          changed = true;
+        }
+      }
+      if (!changed) break;
+    }
+
+    for (const node of nodes) {
+      if (!reachable.has(node.id)) continue;
+      const available = assigned.get(node.id) || new Set();
+      for (const name of readsAt.get(node.id) || []) {
+        if (!everWritten.has(name)) {
+          errors.push(issue('variable.never_written', `${node.label || node.id} reads ${name}, but no node writes it`, `graph.nodes.${node.id}.bindings`, { nodeId: node.id, variable: name }));
+        } else if (!available.has(name)) {
+          warnings.push(issue('variable.maybe_unwritten', `${node.label || node.id} reads ${name} without a write on every path`, `graph.nodes.${node.id}.bindings`, { nodeId: node.id, variable: name }));
+        }
+      }
+    }
   }
 
   return { valid: errors.length === 0, errors, warnings };
