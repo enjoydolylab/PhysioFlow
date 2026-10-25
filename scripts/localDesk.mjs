@@ -11,7 +11,9 @@ await mkdir(directory, { recursive: true, mode: 0o700 });
 const secretsFile = join(directory, 'credentials.json');
 let credentials;
 try {
-  if ((await stat(secretsFile)).mode & 0o077) throw new Error('Local credentials must be readable only by their owner (chmod 600).');
+  // Windows reports synthetic POSIX modes (0666) regardless of ACLs, so the
+  // group/world-readable guard is only meaningful on POSIX filesystems.
+  if (process.platform !== 'win32' && (await stat(secretsFile)).mode & 0o077) throw new Error('Local credentials must be readable only by their owner (chmod 600).');
   credentials = JSON.parse(await readFile(secretsFile, 'utf8'));
 } catch (error) {
   if (error.code !== 'ENOENT') throw error;
