@@ -1,9 +1,11 @@
+import { useT } from '../i18n';
 import { isReviewableSession } from './sessionReview.js';
 import { useRef, useEffect, useMemo } from 'react';
 import { COLORS, STATUS_COLORS, formatMs } from './charts.js';
 
 // CrossSessionCompare — Compare multiple sessions side-by-side
 export default function CrossSessionCompare({ sessions, protocolId }) {
+  const t = useT();
   const relevant = useMemo(() => {
     if (!sessions?.length) return [];
     return sessions
@@ -14,13 +16,13 @@ export default function CrossSessionCompare({ sessions, protocolId }) {
 
   if (!relevant.length) {
     return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>
-      Select finished sessions to compare
+      {t("Select finished sessions to compare")}
     </div>;
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>Cross-Session Comparison ({relevant.length} sessions)</h3>
+      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>{t("Cross-Session Comparison (")}{relevant.length} {t("sessions)")}</h3>
 
       <ComparisonBarChart sessions={relevant} />
       <ComparisonTable sessions={relevant} />
@@ -29,6 +31,7 @@ export default function CrossSessionCompare({ sessions, protocolId }) {
 }
 
 function ComparisonBarChart({ sessions }) {
+  const t = useT();
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -64,7 +67,7 @@ function ComparisonBarChart({ sessions }) {
     ctx.font = '600 12px system-ui';
     ctx.fillStyle = COLORS.text;
     ctx.textAlign = 'center';
-    ctx.fillText('Session Metrics Comparison', width / 2, 20);
+    ctx.fillText(t("Session Metrics Comparison"), width / 2, 20);
 
     // Grid
     for (let i = 0; i <= 4; i++) {
@@ -112,7 +115,7 @@ function ComparisonBarChart({ sessions }) {
     });
 
     // Legend
-    const legendItems = ['Total events', 'Completed steps', 'Pauses'];
+    const legendItems = [t("Total events"), t("Completed steps"), 'Pauses'];
     const legendColors = [COLORS.blue, STATUS_COLORS.valid, STATUS_COLORS.attention];
     legendItems.forEach((item, i) => {
       const lx = pad.left + i * 110;
@@ -128,12 +131,13 @@ function ComparisonBarChart({ sessions }) {
     ctx.strokeStyle = COLORS.text;
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + chartH); ctx.lineTo(pad.left + chartW, pad.top + chartH); ctx.stroke();
-  }, [sessions]);
+  }, [sessions, t]);
 
   return <canvas ref={canvasRef} />;
 }
 
 function ComparisonTable({ sessions }) {
+  const t = useT();
   return (
     <table style={{ width: '100%', fontSize: '0.78rem', borderCollapse: 'collapse' }}>
       <thead>
@@ -141,7 +145,7 @@ function ComparisonTable({ sessions }) {
           <th style={{ padding: '6px 8px', textAlign: 'left', borderBottom: '2px solid var(--line)' }}>Participant</th>
           <th style={{ padding: '6px 8px', textAlign: 'center', borderBottom: '2px solid var(--line)' }}>Status</th>
           <th style={{ padding: '6px 8px', textAlign: 'center', borderBottom: '2px solid var(--line)' }}>Events</th>
-          <th style={{ padding: '6px 8px', textAlign: 'center', borderBottom: '2px solid var(--line)' }}>Steps done</th>
+          <th style={{ padding: '6px 8px', textAlign: 'center', borderBottom: '2px solid var(--line)' }}>{t("Steps done")}</th>
           <th style={{ padding: '6px 8px', textAlign: 'center', borderBottom: '2px solid var(--line)' }}>Pauses</th>
           <th style={{ padding: '6px 8px', textAlign: 'center', borderBottom: '2px solid var(--line)' }}>Skips</th>
           <th style={{ padding: '6px 8px', textAlign: 'center', borderBottom: '2px solid var(--line)' }}>Validity</th>

@@ -1,3 +1,4 @@
+import { useT } from './i18n';
 import { isReviewableSession } from './analysis/sessionReview.js';
 import { useEffect, useMemo, useState } from 'react';
 import { loadSessions, loadSession } from './storage';
@@ -10,6 +11,7 @@ import { formatDateTime, STATUS_COLORS } from './analysis/charts.js';
 
 // Analytics — Full-screen dashboard for session data visualization
 export default function Analytics({ onBack, initialSessions = [], initialSessionId = null, onGuide, onRecord }) {
+  const t = useT();
   const [sessions, setSessions] = useState(initialSessions || []);
   const [selectedId, setSelectedId] = useState(initialSessionId);
   const [detail, setDetail] = useState(null);
@@ -125,7 +127,7 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
                 <div className="analytics-metrics">
                   <Metric label="Events" value={detail.event_count || 0} />
                   <Metric label="Effective response records" value={(detail.responses || []).filter(row => !row.supersededByEventId).length} />
-                  <Metric label="Completed steps" value={detail.integrity?.facts?.components_completed ?? detail.integrity?.facts?.completed_steps ?? 0} />
+                  <Metric label={t("Completed steps")} value={detail.integrity?.facts?.components_completed ?? detail.integrity?.facts?.completed_steps ?? 0} />
                   <Metric label="Pauses" value={detail.integrity?.facts?.pauses || 0} />
                   <Metric label="Skips" value={detail.integrity?.facts?.skipped ?? detail.integrity?.facts?.skips ?? 0} />
                   <Metric label="Retries" value={detail.integrity?.facts?.retries || 0} />

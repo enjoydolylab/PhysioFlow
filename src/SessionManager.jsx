@@ -1,3 +1,4 @@
+import { useT } from './i18n';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { bundle, bundleSimple, downloadBundle } from './exporter';
 import { deleteSession, loadSession, loadSessions, saveSession } from './storage';
@@ -14,6 +15,7 @@ const PhysioDBTestResult = lazy(() => import('./PhysioDBTestResult.jsx'));
 const GuidePanel = lazy(() => import('./GuidePanel.jsx'));
 
 export default function SessionManager({ embedded = false, initialSessionId = null, onClose, onAnalyze }) {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const [summaries, setSummaries] = useState([]);
   const [detail, setDetail] = useState(null);
@@ -44,9 +46,9 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
     if (!initialSessionId || !embedded) return;
     let active = true;
     setLoading(true);
-    loadSession(initialSessionId).then(data => { if (active) { setDetail(data); if (!data) setAlert({title:'Session missing',message:'The selected session could not be found in local storage.'}); } }).catch(error => { if (active) setAlert({title:'Session unavailable',message:error.message}); }).finally(() => { if (active) setLoading(false); });
+    loadSession(initialSessionId).then(data => { if (active) { setDetail(data); if (!data) setAlert({title:'Session missing',message:'The selected session could not be found in local storage.'}); } }).catch(error => { if (active) setAlert({title:t("Session unavailable"),message:error.message}); }).finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, [embedded, initialSessionId]);
+  }, [embedded, initialSessionId, t]);
 
   const filteredSummaries = useMemo(() => {
     const query = filterText.trim().toLowerCase();
@@ -95,7 +97,7 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
     const settings = await loadSettings().catch(() => ({}));
     const cfg = (settings && settings.biodb) || {};
     if (!cfg.userId || !cfg.token) {
-      setAlert({ title: 'BioDB not configured', message: 'Open Dashboard → BioDB and enter user_id and long-term token first.' });
+      setAlert({ title: t("BioDB not configured"), message: t("Open Dashboard → BioDB and enter user_id and long-term token first.") });
       return;
     }
     setLoading(true);
@@ -115,14 +117,14 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
           ? ' / channel dictionary attached to experiment.'
           : ` / channel dictionary not attached (${result.dictionaryError || 'experiment not writable'} — register the experiment as admin or set the dictionary in the BioDB console).`;
       setAlert({
-        title: 'Pushed to BioDB',
+        title: t("Pushed to BioDB"),
         message: `${result.rows} sample rows (channels: ${result.channels.join(', ') || '—'}) for participant ${detail.participant_id}`
           + (result.experimentId ? ` / experiment ${result.experimentId}` : ' (no experiment — set it in the protocol BioDB dialog)') + dictNote + '.',
       });
     } catch (error) {
       setAlert({
-        title: 'BioDB push failed',
-        message: error.message === 'no_device_samples' ? 'No device samples found in this session.' : (error.message || String(error)),
+        title: t("BioDB push failed"),
+        message: error.message === 'no_device_samples' ? t("No device samples found in this session.") : (error.message || String(error)),
       });
     } finally {
       setLoading(false);
@@ -141,13 +143,13 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
       downloadBundle(buildJointExportFiles({
         sessionFiles: bundle(detail, detail.protocol_snapshot, detail.events || [], detail.responses || []),
         biodb: null,
-        meta: { sessionId: detail.session_id, participantId: detail.participant_id, experimentId: experimentIdOf(detail.protocol_snapshot), channels, biodbError: 'BioDB is not configured (user_id / token missing).' },
+        meta: { sessionId: detail.session_id, participantId: detail.participant_id, experimentId: experimentIdOf(detail.protocol_snapshot), channels, biodbError: t("BioDB is not configured (user_id / token missing).") },
       }).files, `${detail.participant_id}_joint`);
-      setAlert({ title: 'Exported without BioDB', message: 'BioDB credentials are missing, so only the PF session was archived. Configure Dashboard → BioDB and export again for the full joint package.' });
+      setAlert({ title: t("Exported without BioDB"), message: t("BioDB credentials are missing, so only the PF session was archived. Configure Dashboard → BioDB and export again for the full joint package.") });
       return;
     }
     if (!channels.length) {
-      setAlert({ title: 'Nothing to export', message: 'This session has no device channels, so there is nothing to read back from BioDB.' });
+      setAlert({ title: 'Nothing to export', message: t("This session has no device channels, so there is nothing to read back from BioDB.") });
       return;
     }
     setLoading(true);
@@ -183,11 +185,11 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
       });
       downloadBundle(files, `${detail.participant_id}_joint`);
       setAlert({
-        title: biodb ? 'Joint export complete' : 'Joint export (PF only)',
+        title: biodb ? t("Joint export complete") : t("Joint export (PF only)"),
         message: biodb
           ? (manifest.sources.biodb.sensorPoints
             ? `${manifest.sources.biodb.sensorPoints} sensor points across ${manifest.sources.biodb.sensorColumns.length} channel(s), ${manifest.sources.biodb.events ?? 0} event(s).`
-            : 'The PF session was exported, but BioDB returned no samples for this window. If you pushed it just now, wait a few seconds and export again.')
+            : t("The PF session was exported, but BioDB returned no samples for this window. If you pushed it just now, wait a few seconds and export again."))
           : `The PF session was archived, but the BioDB leg failed: ${biodbError}`,
       });
     } finally {
@@ -292,6 +294,7 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
 }
 
 function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, onExportJoint, onDelete, onPushBioDB }) {
+  const t = useT();
   const integrity = detail.integrity || {};
   const graphSession = isGraphProtocol(detail.protocol_snapshot);
   return <div className="session-detail">
@@ -299,12 +302,12 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
       <div>
         <span className={`integrity-badge ${integrity.validity_status}`}>{integrity.validity_status || 'not checked'}</span>
         <h2>{detail.participant_id}</h2>
-        <p>{detail.protocol_name} · Version {detail.protocol_version}</p>
-        <p>{detail.run_mode === 'hosted' ? 'Server session · local copy' : detail.run_mode === 'formal' ? 'Formal collection' : detail.run_mode === 'preview' ? 'Test run' : 'Run mode not recorded'} · Session: {detail.status} · Review: {detail.researcher_validity || 'unreviewed'}</p>
+        <p>{detail.protocol_name} {t("· Version")} {detail.protocol_version}</p>
+        <p>{detail.run_mode === 'hosted' ? t("Server session · local copy") : detail.run_mode === 'formal' ? t("Formal collection") : detail.run_mode === 'preview' ? 'Test run' : t("Run mode not recorded")} {t("· Session:")} {detail.status} {t("· Review:")} {detail.researcher_validity || 'unreviewed'}</p>
       </div>
       <button className="primary" onClick={onExportSimple}>Export simplified data</button>
       <button onClick={onExport}>Export complete (advanced)</button>
-      <details><summary>Legacy BioDB connection</summary><button className="bio-btn" onClick={onPushBioDB}>Push to BioDB</button><button className="bio-btn" onClick={onExportJoint}>Joint export (BioDB)</button></details>
+      <details><summary>Legacy BioDB connection</summary><button className="bio-btn" onClick={onPushBioDB}>{t("Push to BioDB")}</button><button className="bio-btn" onClick={onExportJoint}>{t("Joint export (BioDB)")}</button></details>
     </div>
     <div className="session-metrics">
       <div><b>{detail.events?.length || 0}</b><span>events</span></div>
@@ -318,13 +321,13 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
       <h3>Automatic integrity check</h3>
       {integrity.errors?.map(m => <p className="integrity-error" key={m}>× {m}</p>)}
       {integrity.warnings?.map(m => <p className="integrity-warning" key={m}>△ {m}</p>)}
-      {!integrity.validity_status ? <p>Integrity has not been checked. Review the session before using its data.</p> : !integrity.errors?.length && !integrity.warnings?.length && <p className="integrity-ok">✓ No integrity issue detected by automatic checks</p>}
-      <p>Automatic checks do not establish hardware timing accuracy or replace researcher review.</p>
+      {!integrity.validity_status ? <p>{t("Integrity has not been checked. Review the session before using its data.")}</p> : !integrity.errors?.length && !integrity.warnings?.length && <p className="integrity-ok">{t("✓ No integrity issue detected by automatic checks")}</p>}
+      <p>{t("Automatic checks do not establish hardware timing accuracy or replace researcher review.")}</p>
     </div>
     <div className="session-export-note">
       <div>
         <h3>Export package</h3>
-        <p>{graphSession ? 'The complete bundle includes raw events, responses, device samples, protocol and runtime snapshots, a quality report, data dictionaries and BIDS event files.' : 'The complete bundle includes raw events, responses, derived analysis windows, protocol snapshot, integrity report, and a data dictionary.'}</p>
+        <p>{graphSession ? t("The complete bundle includes raw events, responses, device samples, protocol and runtime snapshots, a quality report, data dictionaries and BIDS event files.") : 'The complete bundle includes raw events, responses, derived analysis windows, protocol snapshot, integrity report, and a data dictionary.'}</p>
       </div>
       <div className="session-export-files">
         {(graphSession ? ['manifest.json', 'protocol_snapshot.json', 'runtime_snapshot.json', 'events.csv', 'responses.csv', 'device_events.csv'] : OUTPUT_FILES.slice(0, 6).map(([file]) => file)).map(file => <code key={file}>{file}</code>)}
@@ -355,6 +358,7 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
 }
 
 function RuntimeReplayPanel({ protocol, events }) {
+  const t = useT();
   const [sequence, setSequence] = useState(events.length);
   const replay = useMemo(() => {
     try { return { value: createRuntimeReplay(protocol, events), error: null }; }
@@ -368,7 +372,7 @@ function RuntimeReplayPanel({ protocol, events }) {
   const decision = frame.state.decisions.at(-1);
   return <div className="runtime-replay">
     <div className="runtime-replay-head"><div><h3>Runtime replay</h3><p>Inspect the reconstructed state after any immutable event.</p></div><b>{frame.sequence}/{events.length}</b></div>
-    <input aria-label="Replay event sequence" type="range" min="0" max={events.length} value={frame.sequence} onChange={event => setSequence(Number(event.target.value))} />
+    <input aria-label={t("Replay event sequence")} type="range" min="0" max={events.length} value={frame.sequence} onChange={event => setSequence(Number(event.target.value))} />
     <div className="runtime-replay-controls"><button disabled={frame.sequence === 0} onClick={() => setSequence(value => Math.max(0, value - 1))}>Previous</button><button disabled={frame.sequence === events.length} onClick={() => setSequence(value => Math.min(events.length, value + 1))}>Next</button></div>
     <div className="runtime-replay-state">
       <div><small>Status</small><b>{frame.state.status}</b></div>
@@ -377,8 +381,8 @@ function RuntimeReplayPanel({ protocol, events }) {
       <div><small>Elapsed</small><b>{frame.event ? `${Math.round(frame.event.elapsedMonotonicMs)} ms` : '—'}</b></div>
     </div>
     {decision && <p className="runtime-replay-decision">Latest branch: <code>{decision.kind}</code> at <code>{protocol.graph.nodes.find(item => item.id === decision.nodeId)?.label || decision.nodeId}</code> → <b>{decision.selectedPort}</b></p>}
-    <details><summary>Variables ({Object.keys(frame.state.variables).length})</summary><pre>{JSON.stringify(frame.state.variables, null, 2)}</pre></details>
-    <details><summary>Outputs ({Object.keys(frame.state.outputs).length} nodes)</summary><pre>{JSON.stringify(frame.state.outputs, null, 2)}</pre></details>
+    <details><summary>{t("Variables (")}{Object.keys(frame.state.variables).length})</summary><pre>{JSON.stringify(frame.state.variables, null, 2)}</pre></details>
+    <details><summary>{t("Outputs (")}{Object.keys(frame.state.outputs).length} {t("nodes)")}</summary><pre>{JSON.stringify(frame.state.outputs, null, 2)}</pre></details>
     {frame.event && <details><summary>Event payload</summary><pre>{JSON.stringify(frame.event.payload, null, 2)}</pre></details>}
   </div>;
 }

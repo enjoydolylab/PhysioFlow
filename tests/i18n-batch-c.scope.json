@@ -1,0 +1,406 @@
+[
+ {
+  "text": "· Review:",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "· Session:",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "· Version",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "(no experiment — set it in the protocol BioDB dialog)",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "/ channel dictionary attached to experiment.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "✓ No integrity issue detected by automatic checks",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "1, EEG1, uV",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "A raw recording file is required",
+  "files": [
+   "src/brainFlowRecording.js"
+  ]
+ },
+ {
+  "text": "Automatic checks do not establish hardware timing accuracy or replace researcher review.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "BioDB credentials are missing, so only the PF session was archived. Configure Dashboard → BioDB and export again for the full joint package.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "BioDB is not configured (user_id / token missing).",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "BioDB not configured",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "BioDB push failed",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "BrainFlow samples.jsonl",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Cancel transfer",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Cancellation requested. Waiting for any current request to finish; no further batches will be sent.",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Cancelling…",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Channel mapping",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Check recording locally",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Checking the complete recording…",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Checking the destination and uploading the recording…",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Completed steps",
+  "files": [
+   "src/Analytics.jsx",
+   "src/analysis/CrossSessionCompare.jsx"
+  ]
+ },
+ {
+  "text": "Connect your PF operator key in the test run settings to verify this saved session.",
+  "files": [
+   "src/PhysioDBTestResult.jsx"
+  ]
+ },
+ {
+  "text": "Cross-Session Comparison (",
+  "files": [
+   "src/analysis/CrossSessionCompare.jsx"
+  ]
+ },
+ {
+  "text": "Device signal check",
+  "files": [
+   "src/DeviceMonitorPanel.jsx"
+  ]
+ },
+ {
+  "text": "Each mapping line must be: row number, field name, unit (leave unit empty if unknown).",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Experiment UUID",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Exported without BioDB",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Formal collection",
+  "files": [
+   "src/SessionManager.jsx",
+   "src/app/sessionSetup.jsx"
+  ]
+ },
+ {
+  "text": "Integrity has not been checked. Review the session before using its data.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Invalid recording line limit",
+  "files": [
+   "src/brainFlowRecording.js"
+  ]
+ },
+ {
+  "text": "Joint export (BioDB)",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Joint export (PF only)",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Joint export complete",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "No device samples found in this session.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "nodes)",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "One line per destination field: zero-based BrainFlow row, field name, unit. Use the recording metadata to identify rows; no unit conversion is performed.",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Open Dashboard → BioDB and enter user_id and long-term token first.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "OpenBCI GUI + myBeat",
+  "files": [
+   "src/DeviceMonitorPanel.jsx"
+  ]
+ },
+ {
+  "text": "Outputs (",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Participant UUID",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "PF server",
+  "files": [
+   "src/AdminMonitorPage.jsx"
+  ]
+ },
+ {
+  "text": "PhysioDB · BrainFlow recording",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "PhysioDB analysis",
+  "files": [
+   "src/PhysioDBAnalysis.jsx"
+  ]
+ },
+ {
+  "text": "PhysioDB Console ↗",
+  "files": [
+   "src/AdminMonitorPage.jsx"
+  ]
+ },
+ {
+  "text": "PhysioDB official SDK",
+  "files": [
+   "src/PhysioDBAnalysis.jsx"
+  ]
+ },
+ {
+  "text": "PhysioDB raw recording upload",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Push to BioDB",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Pushed to BioDB",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Recording read cancelled",
+  "files": [
+   "src/brainFlowRecording.js"
+  ]
+ },
+ {
+  "text": "Replay event sequence",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Request timed out.",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Run mode not recorded",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Select finished sessions to compare",
+  "files": [
+   "src/analysis/CrossSessionCompare.jsx"
+  ]
+ },
+ {
+  "text": "Server session · local copy",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Session Metrics Comparison",
+  "files": [
+   "src/analysis/CrossSessionCompare.jsx"
+  ]
+ },
+ {
+  "text": "Session unavailable",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "sessions)",
+  "files": [
+   "src/analysis/CrossSessionCompare.jsx"
+  ]
+ },
+ {
+  "text": "Steps done",
+  "files": [
+   "src/analysis/CrossSessionCompare.jsx"
+  ]
+ },
+ {
+  "text": "Stream UUID",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "The complete bundle includes raw events, responses, device samples, protocol and runtime snapshots, a quality report, data dictionaries and BIDS event files.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "The PF session was exported, but BioDB returned no samples for this window. If you pushed it just now, wait a few seconds and export again.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "The recording contains no samples.",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "This session has no device channels, so there is nothing to read back from BioDB.",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ },
+ {
+  "text": "Total events",
+  "files": [
+   "src/analysis/CrossSessionCompare.jsx"
+  ]
+ },
+ {
+  "text": "Upload recording to PhysioDB",
+  "files": [
+   "src/PhysioDBUpload.jsx"
+  ]
+ },
+ {
+  "text": "Variables (",
+  "files": [
+   "src/SessionManager.jsx"
+  ]
+ }
+]

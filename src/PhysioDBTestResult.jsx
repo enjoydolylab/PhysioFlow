@@ -13,7 +13,7 @@ export default function PhysioDBTestResult({ session, protocol, events, deviceEv
     flight.current = true; setBusy(true); setError('');
     try {
       const connection = getPhysioDBConnection();
-      if (!connection) throw new Error('Connect your PF operator key in the test run settings to verify this saved session.');
+      if (!connection) throw new Error(t("Connect your PF operator key in the test run settings to verify this saved session."));
       input.current ||= { sessionId: session.session_id, payload: buildTestRunPayload({ events, deviceEvents, protocol, startedAt: session.started_at }) };
       const response = await createPhysioDBServiceClient(connection).completeTestRun(input.current);
       setResult(response); await onReport?.(response);

@@ -54,7 +54,7 @@ export default function PhysioDBAnalysis({ client, stream }) {
     } catch (failure) { setError(t(failure.message)); }
     finally { setBusy(false); }
   };
-  return <section className="pf-panel" aria-label="PhysioDB analysis"><div className="pf-section-heading"><div><span className="eyebrow">PHYSIODB</span><h2>{stream.name}</h2></div><span className="pf-tag">{t('Read only')}</span></div>
+  return <section className="pf-panel" aria-label={t("PhysioDB analysis")}><div className="pf-section-heading"><div><span className="eyebrow">PHYSIODB</span><h2>{stream.name}</h2></div><span className="pf-tag">{t('Read only')}</span></div>
     <p className="pf-muted">{t('Choose a time window to view signals, calculate statistics and export data.')}</p>
     <form className="pf-window-form" onSubmit={e => { e.preventDefault(); read(); }}>
       <label>{t('From')}<input type="datetime-local" step="1" required disabled={busy} value={start} onChange={e => setStart(e.target.value)} /></label>
@@ -67,7 +67,7 @@ export default function PhysioDBAnalysis({ client, stream }) {
       <div className="pf-analysis-toolbar"><span>{analysis.count.toLocaleString()} {t('samples')} · {analysis.sampleRateHz ? `${number(analysis.sampleRateHz)} Hz` : t('Irregular or insufficient timestamps')}{quality && quality.verdict !== 'good' && <> · <b className={quality.verdict === 'unusable' ? 'pf-error' : undefined} title={quality.issues.map(item => item.title).join('; ')}>{verdictLabel(quality)}</b></>}</span>
         <label>{t('Processing')}<select value={processing} onChange={e => setProcessing(e.target.value)}><option value="raw">{t('Original values')}</option><option value="demean">{t('Remove mean')}</option></select></label>
         <button disabled={!analysis.count} onClick={() => download(physioDBWindowCSV(analysis), 'physiodb-window.csv', 'text/csv;charset=utf-8')}>{t('Export CSV')}</button>
-        <button disabled={!analysis.count} onClick={() => download(JSON.stringify({ schemaVersion: '1.0.0', source: 'PhysioDB official SDK', streamId: stream.id, experimentId: stream.experiment_id, participantId: stream.participant_id, requestedWindow: loaded.range, processing, retrievedAt: new Date().toISOString(), ...analysis, channels: analysis.channels.map(({ values: _values, ...channel }) => channel), times: undefined }, null, 2), 'physiodb-analysis.json', 'application/json')}>{t('Export summary')}</button>
+        <button disabled={!analysis.count} onClick={() => download(JSON.stringify({ schemaVersion: '1.0.0', source: t("PhysioDB official SDK"), streamId: stream.id, experimentId: stream.experiment_id, participantId: stream.participant_id, requestedWindow: loaded.range, processing, retrievedAt: new Date().toISOString(), ...analysis, channels: analysis.channels.map(({ values: _values, ...channel }) => channel), times: undefined }, null, 2), 'physiodb-analysis.json', 'application/json')}>{t('Export summary')}</button>
       </div>
       {!analysis.count ? <div className="pf-empty">{t('No samples in this window. Choose the time of your recording.')}</div> : <>
         {analysis.channels.slice(0, 8).map(channel => <SignalWaveform key={channel.index} times={analysis.times} values={channel.values} label={channel.name} unit={channel.unit} />)}

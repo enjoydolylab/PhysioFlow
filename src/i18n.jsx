@@ -1,5 +1,5 @@
 import { pfUIStrings } from './pfUIStrings.js';
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 // 日本語を既定の表示言語にする（研究室内の共通言語）。
 // UI 文言の原文は英語で JSX に埋め込み、ここで上書きする。
@@ -273,7 +273,7 @@ export function useLanguage() { return useContext(LanguageContext); }
  *  placeholders, and dynamically-composed strings the DOM walker can't reach. */
 export function useT() {
   const { language } = useLanguage();
-  return key => translate(key, language);
+  return useCallback(key => translate(key, language), [language]);
 }
 
 /** Translate a key to the current language. Falls back to the key itself. */
