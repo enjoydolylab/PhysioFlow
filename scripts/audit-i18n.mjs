@@ -7,7 +7,9 @@ import { promisify } from 'node:util';
 import { parse } from '@babel/parser';
 
 const globAsync = promisify(glob);
-const files = (await globAsync('src/**/*.{js,jsx}', { nodir: true })).filter(file => !['i18n.jsx', 'composerStrings.js', 'catalogLabels.js'].some(name => file.endsWith(name)));
+// Catalog files hold translations, not untranslated UI copy: scanning their
+// values would report every Japanese string as a missing candidate.
+const files = (await globAsync('src/**/*.{js,jsx}', { nodir: true })).filter(file => !['i18n.jsx', 'composerStrings.js', 'catalogLabels.js', 'pfUIStrings.js'].some(name => file.endsWith(name)));
 const source = await readFile('src/i18n.jsx', 'utf8');
 const dictionaryKeys = new Set([...source.matchAll(/(?:"([^"\n]{2,})"|'([^'\n]{2,})')\s*:/g)].map(match => match[1] ?? match[2]));
 // Display catalogs are translation sources, not untranslated UI candidates.
