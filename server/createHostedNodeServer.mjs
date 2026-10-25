@@ -89,7 +89,7 @@ async function staticResponse(request, staticDirectory) {
   if (url.pathname === '/participant/') return new Response(null, { status: 308, headers: { location: '/participant' } });
   let pathname;
   try { pathname = decodeURIComponent(url.pathname); } catch { return new Response('Invalid path', { status: 400 }); }
-  const requested = pathname === '/' || pathname === '/participant' || pathname === '/participant/' || pathname === '/admin' || pathname === '/admin/' || pathname === '/operator' || pathname === '/operator/' ? 'index.html' : pathname.replace(/^\//, '');
+  const requested = pathname === '/' || pathname === '/participant' || pathname === '/participant/' || pathname === '/admin' || pathname === '/admin/' || pathname === '/devices' || pathname === '/devices/' || pathname === '/database' || pathname === '/database/' || pathname === '/operator' || pathname === '/operator/' ? 'index.html' : pathname.replace(/^\//, '');
   const root = resolve(staticDirectory);
   const file = resolve(root, requested);
   if (file !== root && !file.startsWith(`${root}${sep}`)) return new Response('Invalid path', { status: 400 });

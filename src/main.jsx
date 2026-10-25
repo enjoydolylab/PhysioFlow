@@ -27,6 +27,17 @@ import './participant-ui.css';
 import './participant-launch.css';
 import './pf-workflow.css';
 
+// The experiment desk is reachable as /admin?view=devices|database (works on any
+// static host) and as /devices, /database for direct links.
+function isDeskLocation(location) {
+  return /^\/(admin|devices|database)\/?$/.test(location.pathname);
+}
+function deskPageOf(location) {
+  if (/^\/database\/?$/.test(location.pathname)) return 'database';
+  const view = new URLSearchParams(location.search).get('view');
+  return view === 'database' ? 'database' : 'devices';
+}
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -88,7 +99,7 @@ const AdminMonitorPage = React.lazy(() => import('./AdminMonitorPage.jsx'));
 const ParticipantLaunchPage = React.lazy(() => import('./ParticipantLaunchPage.jsx'));
 const entry = isParticipantEntryLocation(window.location)
   ? React.createElement(React.Suspense, { fallback: React.createElement('main', { className: 'participant-launch' }, React.createElement('section', null, 'Loading…')) }, React.createElement(ParticipantLaunchPage))
-  : React.createElement(React.Suspense, { fallback: React.createElement('main', null, 'Loading…') }, React.createElement(/^\/admin\/?$/.test(window.location.pathname) ? AdminMonitorPage : /^\/operator\/?$/.test(window.location.pathname) ? OperatorMonitorPage : App));
+  : React.createElement(React.Suspense, { fallback: React.createElement('main', null, 'Loading…') }, React.createElement(isDeskLocation(window.location) ? AdminMonitorPage : /^\/operator\/?$/.test(window.location.pathname) ? OperatorMonitorPage : App, { page: deskPageOf(window.location) }));
 
 createRoot(root).render(
   React.createElement(React.StrictMode, null,

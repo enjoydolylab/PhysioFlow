@@ -13,7 +13,7 @@
 .pf-tabs button { border: 0; border-radius: 0; background: transparent; padding: 16px 20px; white-space: nowrap; }
 .pf-tabs button span { margin-right: 12px; color: var(--muted, #6b7470); font-size: 11px; }
 .pf-tabs button[aria-current="page"] { border-bottom: 2px solid var(--accent, #356c54); color: var(--accent, #356c54); }
-.pf-panel { border: 1px solid var(--border, #e2e7e4); border-radius: 16px; padding: 24px; background: var(--surface-raised, #fff); margin: 20px 0; }
+.pf-panel { border: 1px solid var(--border, #e2e7e4); border-radius: 10px; padding: 20px; background: var(--surface-raised, #fff); margin: 16px 0; }
 .pf-panel summary { cursor: pointer; font-weight: 600; }
 .pf-workflow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .pf-workflow-grid .pf-panel { display: flex; flex-direction: column; }
@@ -35,11 +35,12 @@
 .admin-monitor table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
 .admin-monitor th, .admin-monitor td { padding: 12px; border-bottom: 1px solid var(--border, #d9e2dc); vertical-align: top; white-space: nowrap; }
 .admin-monitor small { overflow-wrap: anywhere; }
-.pf-tag { font-size: 12px; padding: 5px 10px; border-radius: 24px; background: var(--surface, #f0f3f1); }
+.pf-tag { font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--surface, #f0f3f1); }
 .pf-tag.ready { color: #227448; background: #e9f5ee; }
 .pf-tag.warning { color: #8f6118; background: #fff4dc; }
 .pf-error { color: var(--danger, #a32e25); }
 .pf-note { margin: 24px 0; padding: 20px; border-left: 3px solid var(--border, #d9e2dc); }
+.pf-note.pf-error { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 16px 0; padding: 12px 16px; }
 .pf-note p { margin-bottom: 0; }
 .pf-empty { padding: 28px 12px; text-align: center; color: var(--muted, #6b7470); }
 .pf-analysis-toolbar { margin: 20px 0; font-size: 13px; }

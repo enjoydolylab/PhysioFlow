@@ -1,15 +1,16 @@
-import { useGuideCopy } from './TaskGuide.jsx';
+import TemplateButton from './TemplateConfig.jsx';
+import WorkspaceShell from './WorkspaceShell.jsx';
 import { materializePlaceholderMedia } from './core/mediaReadiness.js';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { LanguageToggle, DarkModeToggle, useT } from './i18n';
+import { useT } from './i18n';
 import BioDBSettings from './BioDBSettings.jsx';
 import DataPanel from './DataPanel.jsx';
 import { loadSettings, saveSettings } from './fsStorage.js';
 import { createNextProtocolVersion, duplicateProtocolAsProject, hashProtocol, protocolDiff, validateProtocol } from './domain';
 import { verifyProtocolAssets } from './assetStore.js';
 import { ConfirmDialog, AlertDialog } from './Modal.jsx';
-import { assessProtocolReadiness, summarizeWorkspaceReadiness } from './readiness.js';
-import TemplateButton from './TemplateConfig.jsx';
+import { summarizeWorkspaceReadiness } from './readiness.js';
+import { projectStage } from './projectStage.js';
 import {
   createNextGraphProtocolVersion,
   duplicateGraphProtocolAsProject,
@@ -20,7 +21,6 @@ import {
   protocolIdOf,
   protocolNameOf,
   protocolStatusOf,
-  protocolVersionLabelOf,
   protocolVersionOf,
   validateProtocolGraphConfiguration,
 } from './core/index.js';
@@ -34,38 +34,13 @@ const groupProjects = protocols => Object.values(protocols
   .reduce((groups, item) => { (groups[projectIdOf(item)] ??= []).push(item); return groups; }, {}))
   .map(versions => versions.sort((left, right) => protocolVersionOf(right) - protocolVersionOf(left)));
 
-function estimateDuration(protocol) {
-  if (isGraphProtocol(protocol)) {
-    return protocol.graph.nodes.reduce((total, node) => {
-      const duration = node.config?.completion?.durationMs ?? node.config?.durationMs ?? 0;
-      return total + (Number(duration) || 0);
-    }, 0);
-  }
-  return protocol.blocks.reduce((sum, b) => {
-    const br = Math.max(0, Number(b.repeat_count ?? 1));
-    return sum + br * b.trials.reduce((ts, t) => {
-      const tr = Math.max(0, Number(t.repeat_count ?? 1));
-      return ts + tr * t.steps.reduce((ss, s) => ss + (s.duration_mode === 'fixed' ? (Number(s.planned_duration_ms) || 0) : 0), 0);
-    }, 0);
-  }, 0);
-}
-
-function formatDuration(ms) {
-  if (!ms) return '';
-  const m = Math.round(ms / 60000);
-  const s = Math.round((ms % 60000) / 1000);
-  return m > 0 ? `~${m}m ${s}s` : `~${s}s`;
-}
-
 export default function Dashboard({ initialPage = 'projects', initialSessionId = null, protocols, sessions, onOpen, onNew, onTemplate, onImport, onRun, onNextVersion, onDuplicate, onArchive, onRemoveVersion, onRestoreVersion, onRenameProject, onMigrate, onAnalytics, storageInfo, onChooseDataDirectory, onOpenDataFolder, onGuide, onStroopTemplate, onGonogoTemplate }) {
   const t = useT();
-  const guide = useGuideCopy();
+
   const input = useRef(null);
   const [page, setPage] = useState(initialPage);
   const [projectSearch, setProjectSearch] = useState('');
   const projects = groupProjects(protocols);
-  const recentProject = projects.map(versions => versions.find(item => protocolStatusOf(item) === 'draft') || versions[0]).sort((a, b) => String(b.audit?.updatedAt || b.updated_at || '').localeCompare(String(a.audit?.updatedAt || a.updated_at || '')))[0];
-  const frozenCount = protocols.filter(item => protocolStatusOf(item) === 'frozen').length;
   const workspaceReadiness = useMemo(() => summarizeWorkspaceReadiness(protocols, sessions, storageInfo), [protocols, sessions, storageInfo]);
   const statusTone = workspaceReadiness.blocked ? 'blocked' : workspaceReadiness.attention ? 'attention' : 'ready';
   const [confirmState, setConfirm] = useState(null);
@@ -143,42 +118,25 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
     }
   };
 
-  return <main className="dashboard dashboard-redesign">
-    <aside className="workspace-sidebar"><div className="workspace-wordmark"><span>pf.</span><b>PhysioFlow<small>RESEARCH WORKSPACE</small></b></div><nav aria-label="Workspace navigation">{[['projects', 'Projects', '01'], ['sessions', 'Sessions', '02'], ['tools', 'Data & settings', '03']].map(([id, label, number]) => <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => setPage(id)}><span>{number}</span>{t(label)}{id === 'projects' && <small>{projects.length}</small>}</button>)}<a className="workspace-desk-link" href="/admin"><span>↗</span> {t('Devices & connections')}</a></nav><div className="sidebar-bottom"><span className="sidebar-dot" /> Local workspace<p>Your experiments.<br />Your research.</p><button onClick={() => onGuide?.('workflow')}>Help & documentation ↗</button></div></aside>
-    <div className="workspace-content">
-    <header className="workspace-topbar"><span>Workspace <span className="breadcrumb-divider">/</span> <b>{page === 'projects' ? 'Projects' : page === 'sessions' ? 'Sessions' : 'Data & settings'}</b></span><div className="header-tools"><button onClick={() => onGuide?.('workflow')}>{guide.help}</button><button onClick={() => setPage('sessions')}>{t('Manage sessions')}</button><DarkModeToggle /><LanguageToggle /></div></header>
+  return <WorkspaceShell page={page} onNavigate={setPage} onGuide={onGuide} storageInfo={storageInfo}>
     {bioDBOpen && <BioDBSettings settings={bioDBSettings || {}} onSave={handleBioDBSave} onClose={() => setBioDBOpen(false)} />}
     {dataOpen && <DataPanel settings={bioDBSettings} onClose={() => setDataOpen(false)} />}
 
     {page === 'projects' && <>
-    <section className="workspace-intro"><div><span className="eyebrow">PHYSIOFLOW</span><h1>{t('Experiment projects')}</h1><p>{t('Design your protocol, prepare a participant, then review the results.')}</p></div><div className="workspace-overview"><span><b>{projects.length}</b> projects</span><span><b>{frozenCount}</b> frozen versions</span><span><b>{sessions.length}</b> sessions</span></div></section>
-    {recentProject && <section className="workspace-resume" aria-label={t('Recent project')}><div><small>{t('Recent project')}</small><b>{protocolNameOf(recentProject)}</b></div><button onClick={() => onOpen(recentProject)}>{t(protocolStatusOf(recentProject) === 'draft' ? 'Continue editing' : 'Open project')}</button>{protocolStatusOf(recentProject) === 'frozen' && <button className="primary" onClick={() => onRun(recentProject)}>{t('Prepare collection')}</button>}</section>}
-    <section className="workspace-create"><div className="create-symbol" aria-hidden="true">＋</div><div><h2>Create an experiment</h2><p>Choose a blank protocol or a template.</p></div><button className="primary" onClick={onNew}>New protocol <span aria-hidden="true">↗</span></button><button onClick={() => input.current.click()}>Import JSON</button><details className="workspace-templates"><summary>Start from a template</summary><div><button onClick={onTemplate}>Emotion</button>{onStroopTemplate && <TemplateButton label="Stroop" onCreate={onStroopTemplate} templateKey="stroop" />}{onGonogoTemplate && <TemplateButton label="Go/No-Go" onCreate={onGonogoTemplate} templateKey="gonogo" />}</div></details></section>
-    <input ref={input} hidden type="file" accept="application/json,.json" onChange={ev => { const file = ev.target.files?.[0]; if (file) importFile(file); ev.target.value = ''; }} />
-    <section>
-      <div className="section-title">
-        <h2>Your projects <small>{projects.length}</small></h2>
-        <input className="project-search" aria-label="Search projects" placeholder="Search projects…" value={projectSearch} onChange={event => setProjectSearch(event.target.value)} />
-      </div>
-      <div className="protocol-grid">
-        {projects.filter(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())).map(versions => <ProjectCard key={projectIdOf(versions[0])} versions={versions} sessions={sessions} storageInfo={storageInfo} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRemoveVersion={onRemoveVersion} onRenameProject={onRenameProject} onMigrate={onMigrate} />)}
-        {projects.length > 0 && !projects.some(versions => protocolNameOf(versions[0]).toLowerCase().includes(projectSearch.toLowerCase().trim())) && <p className="empty">No projects match your search.</p>}{!projects.length && <div className="empty">
-          <div className="empty-project-mark" aria-hidden="true">↗</div><h3 className="empty-title">Your first study starts here</h3><p>Use “New protocol” above to create your first experiment.</p>
-        </div>}
-      </div>
+    <section className="project-heading"><div><h1>{t('Experiment projects')}</h1><p>{projects.length} {t('projects')} · {sessions.length} {t('Records')} · {t('Storage')}: {storageInfo?.selected ? storageInfo.name || t('Local folder') : t('No folder selected')}</p></div>
+      <div className="project-heading-actions"><input className="project-search" aria-label={t('Search projects')} placeholder={t('Search projects')} value={projectSearch} onChange={event => setProjectSearch(event.target.value)} />
+      <details className="project-menu project-new"><summary className="primary">{t('New')} ▾</summary><div className="project-menu-pop">
+        <button onClick={onNew}>{t('Blank protocol')}</button><span>{t('From template')}</span><button onClick={onTemplate}>{t('Emotion')}</button>
+        {onStroopTemplate && <TemplateButton label={t('Stroop')} onCreate={onStroopTemplate} templateKey="stroop" />}
+        {onGonogoTemplate && <TemplateButton label={t('Go/No-Go')} onCreate={onGonogoTemplate} templateKey="gonogo" />}
+        <button onClick={() => input.current.click()}>{t('Import JSON')}</button>
+      </div></details></div>
     </section>
-    <details className="project-version-history">
-      <summary>Removed / archived versions ({protocols.filter(protocolArchivedAtOf).length})</summary>
-      <p>Removed versions remain recoverable. Session data is retained.</p>
-      {protocols.filter(protocolArchivedAtOf).map(version => <div className="card-actions" key={protocolIdOf(version)}>
-        <span>{protocolNameOf(version)} · v{protocolVersionOf(version)} · {protocolStatusOf(version)}</span>
-        <button onClick={() => onRestoreVersion(version)}>Restore {protocolNameOf(version)} v{protocolVersionOf(version)}</button>
-      </div>)}
-    </details>
-
+    <input ref={input} hidden type="file" accept="application/json,.json" onChange={ev => { const file = ev.target.files?.[0]; if (file) importFile(file); ev.target.value = ''; }} />
+    <ProjectList projects={projects} protocols={protocols} sessions={sessions} storageInfo={storageInfo} search={projectSearch} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRemoveVersion={onRemoveVersion} onRestoreVersion={onRestoreVersion} onRenameProject={onRenameProject} onMigrate={onMigrate} />
     </>}
     {page === 'sessions' && <section className="workspace-sessions"><div className="workspace-page-title"><span className="eyebrow">RESEARCH RECORDS</span><h1>{t('Experiment records')}</h1><p>{t('Review saved data, verify database results, and analyze this session.')}</p></div><Suspense fallback={<p>{t('Loading sessions...')}</p>}><SessionManager embedded initialSessionId={initialSessionId} onClose={() => setPage('projects')} onAnalyze={onAnalytics} /></Suspense></section>}
-    {page === 'tools' && <section className="workspace-tools"><div className="workspace-page-title"><span className="eyebrow">WORKSPACE TOOLS</span><h1>Data & settings</h1><p>Keep storage, analysis and integrations in one place.</p></div>    <section className={`status-bar ${statusTone}`}>
+    {page === 'tools' && <section className="workspace-tools"><div className="workspace-page-title"><span className="eyebrow">WORKSPACE TOOLS</span><h1>{t('Settings')}</h1><p>Keep storage, analysis and integrations in one place.</p></div>    <section className={`status-bar ${statusTone}`}>
       <span className="status-dot" />
       <div className="status-text">
         <b>{storageInfo?.selected ? storageInfo.name : storageInfo?.supported ? 'Choose a local data folder' : 'Formal storage needs Chrome, Edge, or the desktop app'}</b>
@@ -191,67 +149,42 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
       </div>
     </section>
 
-<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><details><summary>Legacy BioDB connection</summary><button onClick={() => setBioDBOpen(true)}>BioDB settings ↗</button><p>For the older JWT server.</p></details></div><div className="workspace-db-entry"><div><b>PhysioDB · Experiment desk</b><p>Check signals, read recorded data, and export analysis.</p></div><a href="/admin">Open experiment desk ↗</a></div></section>}
-    <footer className="workspace-footer"><span>PhysioFlow · Experiment workspace</span><button onClick={() => setPage('tools')}>{storageInfo?.selected ? storageInfo.name || 'Local folder connected' : 'Storage settings'} ↗</button></footer>
-    </div>
+<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><details><summary>Legacy BioDB connection</summary><button onClick={() => setBioDBOpen(true)}>BioDB settings ↗</button><p>For the older JWT server.</p></details></div></section>}
     {confirmState && <ConfirmDialog {...confirmState} />}
     {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}
-  </main>;
+  </WorkspaceShell>;
 }
 
-function ProjectCard({ versions, sessions, storageInfo, onOpen, onRun, onNextVersion, onDuplicate, onArchive, onRemoveVersion, onRenameProject, onMigrate }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const latest = versions[0], draft = versions.find(item => protocolStatusOf(item) === 'draft');
-  const activeProtocol = draft || latest;
-  const readiness = assessProtocolReadiness(activeProtocol, { sessions, storageInfo });
-  const graphProtocol = isGraphProtocol(latest);
-  const stepTypes = new Set(graphProtocol
-    ? latest.graph.nodes.map(node => node.component.type).filter(type => !type.startsWith('core.'))
-    : latest.blocks.flatMap(b => b.trials.flatMap(t => t.steps.map(s => s.type))));
-  const questionnaireCount = graphProtocol ? 0 : latest.blocks.reduce((c, b) => c + b.trials.reduce((tc, t) => tc + t.steps.filter(s => s.type === 'questionnaire').length, 0), 0);
-  const totalMs = estimateDuration(latest);
-  const missingMedia = graphProtocol
-    ? latest.graph.nodes.some(node => node.component.type === 'display.media' && !node.config?.assetId && !node.config?.sourceUrl && !node.config?.stimulusPoolId && !node.config?.stimulusPool?.enabled)
-    : latest.blocks.some(b => b.trials.some(t => t.steps.some(s => ['video', 'audio', 'image'].includes(s.type) && !s.source_url && !s.asset_id && !(latest.stimuli || []).some(r => r.stimulus_id === s.stimulus_id && (r.source_url || r.asset_id)))));
-  const status = protocolStatusOf(latest);
-  return <article className="protocol-card project-card">
-    <div className="protocol-card-top">
-      <span className={`badge ${status}`}>{status}</span>
-      <span className={`readiness-pill ${readiness.status}`}>{readiness.status === 'ready' ? 'Ready to run' : readiness.status === 'blocked' ? 'Needs setup' : 'Review setup'}</span>
-      <div className="card-menu-wrap">
-        <button className="card-menu" onClick={() => setMenuOpen(value => !value)} aria-label="Project actions">⋯</button>
-        {menuOpen && <div className="card-menu-pop">
-          <button onClick={() => onRenameProject(latest)}>Rename</button>
-          {!graphProtocol && onMigrate && <button onClick={() => onMigrate(latest)}>Migrate to Composer V2</button>}
-          <button onClick={() => onDuplicate(latest)}>Duplicate project</button>
-          <button onClick={() => onArchive(latest)}>Archive project</button>
-        </div>}
-      </div>
-    </div>
-    <button className="card-main" onClick={() => onOpen(activeProtocol)}>
-      <h3>{protocolNameOf(latest)}</h3>
-      <p>{graphProtocol ? `${latest.graph.nodes.length} nodes · ${latest.graph.edges.length} connections` : `${latest.blocks.length} blocks · ${latest.blocks.reduce((total, b) => total + b.trials.length, 0)} trials`}</p>
-      <div className="protocol-summary">
-        {[...stepTypes].slice(0, 5).map(t => <span key={t}>{t.replace(/^[^.]+\./, '').replaceAll('-', ' ')}</span>)}
-        {questionnaireCount > 0 && <span>☷ {questionnaireCount} Q</span>}
-        {formatDuration(totalMs) && <span>⏱ {formatDuration(totalMs)}</span>}
-        {missingMedia && <span style={{ background: '#ffe9e6', color: '#922b24' }}>⚠ missing media</span>}
-        {stepTypes.size > 5 && <span>+{stepTypes.size - 5} more</span>}
-      </div>
-      <small>{graphProtocol && <span className="composer-v2-tag">Composer V2 · </span>}v{protocolVersionOf(latest)} · {protocolVersionLabelOf(latest)} · {versions.length} version{versions.length > 1 ? 's' : ''}</small>
-    </button>
-    <div className="card-actions">
-      {draft ? <button className="primary" onClick={() => onOpen(draft)}>Edit draft</button>
-        : <button className="primary" onClick={() => (status === 'frozen' ? onRun(latest) : onOpen(latest))}>{status === 'frozen' ? 'Run latest' : 'Open'}</button>}
-      {!draft && <button onClick={() => onNextVersion(latest)}>New version</button>}
-    </div>
-    <details className="project-version-history">
-      <summary>Version history ({versions.length})</summary>
-      {versions.map(version => <div className="card-actions" key={`${protocolIdOf(version)}:${protocolVersionOf(version)}`}>
-        <span>v{protocolVersionOf(version)} · {protocolStatusOf(version)}</span>
-        <button onClick={() => onOpen(version)}>Open v{protocolVersionOf(version)}</button>
-        {onRemoveVersion && <button onClick={() => onRemoveVersion(version)}>Remove v{protocolVersionOf(version)}</button>}
-      </div>)}
-    </details>
-  </article>;
+function ProjectList({ projects, protocols, search, ...actions }) {
+  const t = useT();
+  const filtered = projects.filter(versions => protocolNameOf(versions[0]).toLowerCase().includes(search.toLowerCase().trim()));
+  const archived = protocols.filter(protocolArchivedAtOf);
+  return <section className="project-list">
+    <div className="project-list-header"><span>{t('Name')}</span><span>{t('State')}</span><span>{t('Last updated')}</span><span /></div>
+    {filtered.map(versions => <ProjectRow key={projectIdOf(versions[0])} versions={versions} {...actions} />)}
+    {!filtered.length && <div className="empty"><h2>{t(projects.length ? 'No projects match your search.' : 'No projects yet')}</h2>{!projects.length && <p>{t('Start with a blank protocol')}</p>}</div>}
+    {archived.length > 0 && <details className="project-archive"><summary>{t('Removed / archived versions')}</summary>{archived.map(version => <div key={protocolIdOf(version)}><span>{protocolNameOf(version)} · {protocolVersionOf(version)}</span><button onClick={() => actions.onRestoreVersion(version)}>{t('Restore')}</button></div>)}</details>}
+  </section>;
 }
+function ProjectRow({ versions, sessions, storageInfo, onOpen, onRun, onNextVersion, onDuplicate, onArchive, onRemoveVersion, onRenameProject, onMigrate }) {
+  const t = useT();
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const latest = versions[0];
+  const active = versions.find(item => protocolStatusOf(item) === 'draft') || latest;
+  const state = projectStage(active, { sessions, storageInfo });
+  const frozen = protocolStatusOf(active) === 'frozen';
+  const date = state.updatedAt ? state.updatedAt.slice(5, 10) : t('Unknown date');
+  return <div className="project-row-wrap"><div className="project-row">
+    <strong>{protocolNameOf(latest)}</strong>
+    <span className="project-state">{t({ preparing: 'preparing', ready: 'ready to run', recorded: 'recorded' }[state.stage])}{state.reason && <small> · {t(state.reason.label === 'Frozen reproducible version' ? 'not frozen' : state.reason.label)}</small>}</span>
+    <span className="project-updated">{date} · {state.sessions} {t('Records')}</span>
+    <div className="project-row-actions"><button className="primary" onClick={() => frozen ? onRun(active) : onOpen(active)}>{t(frozen ? 'Prepare collection' : 'Edit')}</button>
+      <details className="project-menu"><summary aria-label={t('Project actions')}>⋯</summary><div className="project-menu-pop" onClick={event => { if (event.target.closest('button')) event.currentTarget.closest('details').open = false; }}>
+        <button onClick={() => setHistoryOpen(value => !value)}>{t('Version history')}</button>
+        <button onClick={() => onNextVersion(active)}>{t('New version')}</button><button onClick={() => onRenameProject(latest)}>{t('Rename')}</button><button onClick={() => onDuplicate(latest)}>{t('Duplicate')}</button><button onClick={() => onArchive(latest)}>{t('Archive')}</button>
+        {!isGraphProtocol(active) && onMigrate && <button onClick={() => onMigrate(active)}>{t('Migrate to Composer V2')}</button>}
+      </div></details>
+    </div>
+  </div>{historyOpen && <div className="project-history" aria-label={t('Version history')}>{versions.map(version => <div key={protocolIdOf(version)}><span>{t('Version')} {protocolVersionOf(version)}</span><button onClick={() => onOpen(version)}>{t('Open')}</button>{onRemoveVersion && <button onClick={() => onRemoveVersion(version)}>{t('Remove')}</button>}</div>)}</div>}</div>;
+}
+
