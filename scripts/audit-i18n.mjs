@@ -1,12 +1,17 @@
+import { composerCopy } from '../src/composer/composerStrings.js';
+import { catalogCopy } from '../src/composer/catalogLabels.js';
+import { pfUIStrings } from '../src/pfUIStrings.js';
 import { readFile, writeFile } from 'node:fs/promises';
 import { glob } from 'node:fs';
 import { promisify } from 'node:util';
 import { parse } from '@babel/parser';
 
 const globAsync = promisify(glob);
-const files = (await globAsync('src/**/*.{js,jsx}', { nodir: true })).filter(file => !file.endsWith('i18n.jsx'));
+const files = (await globAsync('src/**/*.{js,jsx}', { nodir: true })).filter(file => !['i18n.jsx', 'composerStrings.js', 'catalogLabels.js'].some(name => file.endsWith(name)));
 const source = await readFile('src/i18n.jsx', 'utf8');
 const dictionaryKeys = new Set([...source.matchAll(/['"]([^'"\n]{2,})['"]\s*:/g)].map(match => match[1]));
+// Display catalogs are translation sources, not untranslated UI candidates.
+for (const key of [...Object.keys(pfUIStrings.ja), ...composerCopy.map(row => row[0]), ...catalogCopy.map(row => row[0])]) dictionaryKeys.add(key);
 const candidates = new Map();
 const ignored = /^(https?:|data:|application\/|text\/|#[0-9a-f]{3,8}$|[A-Z_./:-]+$|[a-z]+\.[a-z]+$|\d+(\.\d+)?(px|ms|vh|vw|%)?$)/i;
 const codeWords = /^(src|id|type|name|value|label|props|children|className|style|true|false|null|undefined|column|row|primary|secondary|image|audio|video|text|number|checkbox|rating|submit|next|free|flow|manual|automatic|desktop|phone|tablet|en|zh|ja)$/;

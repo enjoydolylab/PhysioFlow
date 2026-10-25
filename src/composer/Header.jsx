@@ -16,7 +16,7 @@ export default function Header({ s, onSave, onBack, onExport, onPreview, onFreez
     <input disabled={locked} className="composer-title" aria-label="Protocol name" value={protocolNameOf(protocol)} onChange={event => commit({ ...protocol, metadata: { ...protocol.metadata, name: event.target.value }, audit: { ...protocol.audit, updatedAt: new Date().toISOString() } })} />
     {hasUnsaved && <small className="unsaved-dot">●</small>}
     <div className="composer-mode-switch" aria-label={t('Editor mode')}>
-      {['quick', 'design', 'advanced'].map(mode => <button key={mode} title={MODE_HELP[mode]} aria-pressed={editorMode === mode && !codeView} className={editorMode === mode && !codeView ? 'active' : ''} onClick={() => { if (!codeView || closeCodeView()) setEditorMode(mode); }}>{mode === 'advanced' ? t('Advanced settings') : mode[0].toUpperCase() + mode.slice(1)}</button>)}
+      {['quick', 'design', 'advanced'].map(mode => <button key={mode} title={t(MODE_HELP[mode])} aria-pressed={editorMode === mode && !codeView} className={editorMode === mode && !codeView ? 'active' : ''} onClick={() => { if (!codeView || closeCodeView()) setEditorMode(mode); }}>{mode === 'advanced' ? t('Advanced settings') : t(mode[0].toUpperCase() + mode.slice(1))}</button>)}
       <button aria-pressed={codeView} className={codeView ? 'active' : ''} onClick={() => codeView ? closeCodeView() : openCodeView()}>{'{ } ' + t('Code')}</button>
     </div>
     <div className="header-tools">
@@ -29,7 +29,7 @@ export default function Header({ s, onSave, onBack, onExport, onPreview, onFreez
         <button onClick={onExport}>{t('Export')}</button>
         <button className="bio-btn" onClick={onBioDB} disabled={locked}>{t('Legacy BioDB connection')}</button>
         <button onClick={onGuide}>{t('Usage guide')}</button>
-        {migrationReviewRequired && !locked && <><button onClick={actions.markMigrationReviewed}>Mark migration reviewed</button><small className="pf-muted">{t('Review migrated settings before freezing this version.')}</small></>}
+        {migrationReviewRequired && !locked && <><button onClick={actions.markMigrationReviewed}>{t('Mark migration reviewed')}</button><small className="pf-muted">{t('Review migrated settings before freezing this version.')}</small></>}
       </div></details>
     </div>
   </header>;

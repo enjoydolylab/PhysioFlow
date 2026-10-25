@@ -82,7 +82,7 @@ test('Protocol Graph freeze is immutable and a new version creates an editable d
 
 test('unreviewed migrated graph cannot be frozen for formal collection', async () => {
   const protocol = buildGraph();
-  protocol.legacy = { migrationReport: { formalRunAllowed: false, issues: [] } };
+  protocol.legacy = { migrationReport: { formalRunAllowed: false, issues: [{ code: 'step.review' }] } };
   await assert.rejects(() => freezeProtocolGraph(protocol, createCoreComponentRegistry()), /Migration review/);
 });
 

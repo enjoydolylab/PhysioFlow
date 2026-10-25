@@ -22,7 +22,7 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
   const guide = useGuideCopy();
   const s = useComposerState({ protocol, onChange });
   const {
-    locked, codeView, codeText, codeError,
+    t, locked, codeView, codeText, codeError,
     deletePending, confirmDelete, cancelDelete,
     previewNode, previewDefinition, previewEdit, setPreviewEdit, setPreviewNodeId,
     actions, setCodeText, applyCode, closeCodeView, formatCode, codeDirty,
@@ -60,9 +60,9 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
     <Header s={s} onSave={onSave} onBack={onBack} onExport={onExport} onPreview={onPreview} onFreeze={onFreeze} onCreateDraft={onCreateDraft} onUndo={onUndo} onRedo={onRedo} canUndo={canUndo} canRedo={canRedo} hasUnsaved={hasUnsaved} saveAnim={saveAnim} onGuide={() => setGuideOpen(true)} onBioDB={() => setBioDBOpen(true)} />
     {!locked && protocol.graph.nodes.length <= 2 && <p className="composer-first-step">{guide.hint}</p>}
     {bioDBOpen && <ProtocolBioDBConfig protocol={protocol} settings={settings || {}} onChange={onChange} onClose={() => setBioDBOpen(false)} />}
-    {deletePending && <div className="composer-delete-confirm">Delete {deletePending.ids.length} node(s)? You can undo this change.
-      <button className="danger" onClick={confirmDelete}>Delete</button>
-      <button onClick={cancelDelete}>Cancel</button>
+    {deletePending && <div className="composer-delete-confirm">{t('Delete {n} node(s)? You can undo this change.').replace('{n}', deletePending.ids.length)}
+      <button className="danger" onClick={confirmDelete}>{t('Delete')}</button>
+      <button onClick={cancelDelete}>{t('Cancel')}</button>
     </div>}
     {guideOpen && <GuidePanel onClose={() => setGuideOpen(false)} />}
     {codeView ? <CodeView text={codeText} error={codeError} locked={locked} dirty={codeDirty} onChange={setCodeText} onApply={applyCode} onFormat={formatCode} onClose={closeCodeView} /> : <div className="composer-layout">
@@ -73,8 +73,8 @@ export default function ComposerV2({ protocol, onChange, onSave, onBack, onExpor
     {previewNode && <div className="node-editor-fullscreen">
       <div className="node-editor-header">
         <b>{previewNode.label}</b>{s.editorMode === 'advanced' && <small>{previewNode.component.type}@{previewNode.component.version}</small>}
-        {fullscreenUiEditable && <button disabled={locked} onClick={() => setPreviewEdit(value => !value)}>{previewEdit ? 'View' : '✎ Edit'}</button>}
-        <button className="node-editor-close" onClick={() => setPreviewNodeId(null)}>✕ Done</button>
+        {fullscreenUiEditable && <button disabled={locked} onClick={() => setPreviewEdit(value => !value)}>{t(previewEdit ? 'View' : '✎ Edit')}</button>}
+        <button className="node-editor-close" onClick={() => setPreviewNodeId(null)}>{t('✕ Done')}</button>
       </div>
       {previewEdit && fullscreenUiEditable && previewNode.config?.ui
         ? <ParticipantUiBuilder schema={schemaForNode(previewNode, previewDefinition, previewResources)} defaultTemplate={UI_TEMPLATE_KIND[previewNode.component.type] || 'instruction'} onChange={actions.updatePreviewUi} />

@@ -1,7 +1,12 @@
+import { nodeDisplayLabel } from './catalogLabels.js';
+import { useLanguage } from '../i18n.jsx';
+import { translateComposer as translate } from './translate.js';
 import { useState } from 'react';
 import { applyGroupWaitDuration, applyQuestionnaireToKind, applyVideoScreenToAll, getSharedQuestionnaireTargets, getSharedVideoTargets } from '../core/sharedNodeEdits.js';
 
 export default function GroupBatchEditor({ protocol, node, onApply }) {
+  const { language } = useLanguage();
+  const t = key => translate(key, language);
   const [error, setError] = useState('');
   const group = protocol.graph.groups?.find(item => item.nodeIds.includes(node.id));
   const wait = node.component.type === 'timing.wait';
@@ -17,12 +22,12 @@ export default function GroupBatchEditor({ protocol, node, onApply }) {
       setError('');
     } catch (failure) { setError(failure.message); }
   };
-  return <section className="inspector-card" aria-label="Apply content within group">
-    <h3>Apply content within group</h3>
-    <p>{group.name}: copy {wait ? `wait duration (${node.config.durationMs} ms)` : questionnaire ? 'questionnaire content' : 'screen appearance'} from {node.label} to {targets.length} compatible nodes.</p>
-    <ul>{targets.map(item => <li key={item.id}>{item.label}</li>)}</ul>
-    <p>{wait ? 'Only the wait duration is copied. Display content is preserved.' : questionnaire ? 'Question IDs remain specific to each target. Only matching questionnaire kinds are included.' : 'Each target keeps its own stimulus, timing and pool.'} Other groups are unchanged. Undo restores the whole batch.</p>
+  return <section className="inspector-card" aria-label={t("Apply content within group")}>
+    <h3>{t("Apply content within group")}</h3>
+    <p>{t('Copy {content} from {source} to {n} compatible nodes in {group}.').replace('{content}', wait ? t('wait duration ({n} ms)').replace('{n}', node.config.durationMs) : t(questionnaire ? 'questionnaire content' : 'screen appearance')).replace('{source}', nodeDisplayLabel(node, language)).replace('{n}', targets.length).replace('{group}', group.name)}</p>
+    <ul>{targets.map(item => <li key={item.id}>{nodeDisplayLabel(item, language)}</li>)}</ul>
+    <p>{t(wait ? 'Only the wait duration is copied. Display content is preserved.' : questionnaire ? 'Question IDs remain specific to each target. Only matching questionnaire kinds are included.' : 'Each target keeps its own stimulus, timing and pool.')}{t("Other groups are unchanged. Undo restores the whole batch.")}</p>
     {error && <p role="alert">{error}</p>}
-    <button disabled={!targets.length} onClick={apply}>Apply to {targets.length} nodes in this group</button>
-  </section>;
+    <button disabled={!targets.length} onClick={apply}>{t("Apply to")}{targets.length}{t("nodes in this group")}</button>
+    </section>;
 }

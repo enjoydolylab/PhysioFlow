@@ -1,8 +1,9 @@
+import { nodeDisplayLabel } from './catalogLabels.js';
 import { edgePath, groupBounds, portPosition } from './toolbox.js';
 
 export default function Canvas({ s }) {
   const {
-    protocol, t, registry,
+    protocol, t, language, editorMode, registry,
     canvasRef, canvasSize, pan, setPan, zoom, setZoom, marquee,
     snapEnabled, setSnapEnabled, autoLayout,
     snapshotsOpen, setSnapshotsOpen, snapshots, snapshotName, setSnapshotName,
@@ -17,37 +18,37 @@ export default function Canvas({ s }) {
   } = s;
   return <section className="composer-canvas-wrap">
     <div className="composer-canvas-toolbar">
-      <span>{protocol.graph.nodes.length} nodes · {protocol.graph.edges.length} connections</span>
+      <span>{t('{nodes} nodes · {edges} connections').replace('{nodes}', protocol.graph.nodes.length).replace('{edges}', protocol.graph.edges.length)}</span>
       <span className="composer-search">
-        <input ref={searchRef} aria-label="Search nodes" placeholder="Search nodes… (Ctrl+F)" value={searchQuery} onChange={event => setSearchQuery(event.target.value)} onKeyDown={event => {
+        <input ref={searchRef} aria-label={t("Search nodes")} placeholder={t("Search nodes… (Ctrl+F)")} value={searchQuery} onChange={event => setSearchQuery(event.target.value)} onKeyDown={event => {
           if (event.key === 'Enter') { const first = searchResults[0]; if (first) { event.preventDefault(); focusNode(first.id); } }
           else if (event.key === 'Escape') { setSearchQuery(''); event.currentTarget.blur(); event.stopPropagation(); }
         }} />
-        {searchQuery.trim() !== '' && <small className="composer-search-count">{searchResults.length} match{searchResults.length === 1 ? '' : 'es'}</small>}
-        {searchResults.length > 0 && <div className="composer-search-results">{searchResults.slice(0, 8).map(node => <button key={node.id} onClick={() => focusNode(node.id)}><b>{node.label}</b><small>{node.component.type}</small></button>)}</div>}
+        {searchQuery.trim() !== '' && <small className="composer-search-count">{t('{n} matches').replace('{n}', searchResults.length)}</small>}
+        {searchResults.length > 0 && <div className="composer-search-results">{searchResults.slice(0, 8).map(node => <button key={node.id} onClick={() => focusNode(node.id)}><b>{nodeDisplayLabel(node, language)}</b>{editorMode === 'advanced' && <small>{node.component.type}</small>}</button>)}</div>}
       </span>
-      <button title="Toggle snap to grid" className={snapEnabled ? 'active' : ''} onClick={() => setSnapEnabled(v => !v)}>Snap</button>
-      <button title="Auto layout" onClick={autoLayout}>Auto layout</button>
-      <button title="Flow snapshots" className={snapshotsOpen ? 'active' : ''} onClick={() => setSnapshotsOpen(v => !v)}>Snapshots ({snapshots.length})</button>
+      <button title={t("Toggle snap to grid")} className={snapEnabled ? 'active' : ''} onClick={() => setSnapEnabled(v => !v)}>{t("Snap")}</button>
+      <button title={t("Auto layout")} onClick={autoLayout}>{t("Auto layout")}</button>
+      <button title={t("Flow snapshots")} className={snapshotsOpen ? 'active' : ''} onClick={() => setSnapshotsOpen(v => !v)}>{t('Snapshots')} ({snapshots.length})</button>
       {pendingPort && <button onClick={() => { setPendingPort(null); setMessage(''); }}>{t('Cancel connection')}</button>}
       <span className="composer-zoom">
-        <button title="Zoom out" onClick={() => setZoom(z => Math.max(0.4, +(z * 0.8).toFixed(2)))}>−</button>
+        <button title={t("Zoom out")} onClick={() => setZoom(z => Math.max(0.4, +(z * 0.8).toFixed(2)))}>−</button>
         <span>{Math.round(zoom * 100)}%</span>
-        <button title="Zoom in" onClick={() => setZoom(z => Math.min(2.5, +(z * 1.25).toFixed(2)))}>＋</button>
-        <button title="Reset view" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}>1:1</button>
+        <button title={t("Zoom in")} onClick={() => setZoom(z => Math.min(2.5, +(z * 1.25).toFixed(2)))}>＋</button>
+        <button title={t("Reset view")} onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}>1:1</button>
       </span>
       {message && <small>{message}</small>}
     </div>
     {snapshotsOpen && <div className="composer-snapshots-panel">
-      <div className="composer-snapshots-row"><input aria-label="Snapshot name" placeholder="Snapshot name" value={snapshotName} onChange={event => setSnapshotName(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') persistSnapshot(); else if (event.key === 'Escape') { event.currentTarget.blur(); event.stopPropagation(); } }} /><button onClick={persistSnapshot}>Save</button></div>
-      {snapshots.length === 0 && <small>No snapshots yet. Save one to preserve the current graph state.</small>}
+      <div className="composer-snapshots-row"><input aria-label={t("Snapshot name")} placeholder={t("Snapshot name")} value={snapshotName} onChange={event => setSnapshotName(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') persistSnapshot(); else if (event.key === 'Escape') { event.currentTarget.blur(); event.stopPropagation(); } }} /><button onClick={persistSnapshot}>{t("Save")}</button></div>
+      {snapshots.length === 0 && <small>{t("No snapshots yet. Save one to preserve the current graph state.")}</small>}
       {snapshots.map(snapshot => <div key={snapshot.id} className="composer-snapshots-row">
         {renameId === snapshot.id
-          ? <input aria-label="Rename snapshot" defaultValue={snapshot.name} autoFocus onKeyDown={event => { if (event.key === 'Enter') commitRename(snapshot.id, event.currentTarget.value); else if (event.key === 'Escape') { setRenameId(null); event.stopPropagation(); } }} onBlur={event => commitRename(snapshot.id, event.currentTarget.value)} />
+          ? <input aria-label={t("Rename snapshot")} defaultValue={snapshot.name} autoFocus onKeyDown={event => { if (event.key === 'Enter') commitRename(snapshot.id, event.currentTarget.value); else if (event.key === 'Escape') { setRenameId(null); event.stopPropagation(); } }} onBlur={event => commitRename(snapshot.id, event.currentTarget.value)} />
           : <span>{snapshot.name}</span>}
         <small>{snapshot.savedAt}</small>
-        <button onClick={() => setRenameId(snapshot.id)}>Rename</button>
-        <button onClick={() => restoreSnapshot(snapshot)}>Restore</button>
+        <button onClick={() => setRenameId(snapshot.id)}>{t("Rename")}</button>
+        <button onClick={() => restoreSnapshot(snapshot)}>{t("Restore")}</button>
         <button className="danger" onClick={() => deleteSnapshot(snapshot.id)}>×</button>
       </div>)}
     </div>}
@@ -55,9 +56,9 @@ export default function Canvas({ s }) {
       <div className="composer-viewport" style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, transformOrigin: '0 0' }}>
         {(protocol.graph.groups || []).map(group => {
           const bounds = groupBounds(group, protocol.graph.nodes);
-          return bounds && <section key={group.id} className="composer-group" style={bounds}><b>{group.name}</b><small>{group.nodeIds.length} node(s)</small></section>;
+          return bounds && <section key={group.id} className="composer-group" style={bounds}><b>{group.name}</b><small>{t('{n} nodes').replace('{n}', group.nodeIds.length)}</small></section>;
         })}
-        <svg className="composer-wires" aria-label="Graph connections">
+        <svg className="composer-wires" aria-label={t("Graph connections")}>
           {protocol.graph.edges.map(edge => {
             const sourceNode = protocol.graph.nodes.find(node => node.id === edge.source.nodeId);
             const targetNode = protocol.graph.nodes.find(node => node.id === edge.target.nodeId);
@@ -73,9 +74,9 @@ export default function Canvas({ s }) {
         {protocol.graph.nodes.map(node => {
           const definition = registry.get(node.component.type, node.component.version);
           return <article key={node.id} data-node-id={node.id} className={`composer-node ${selectedIds.has(node.id) ? 'selected' : ''}`} style={{ left: node.layout.x, top: node.layout.y }} onClick={event => selectNode(node, event)} onDoubleClick={() => { setPreviewNodeId(node.id); setPreviewEdit(true); }} onPointerDown={event => startDrag(event, node)} onPointerMove={dragNode} onPointerUp={endDrag}>
-            <span className="node-category">{definition?.category}</span>
-            <b>{node.label}</b>
-            <small>{node.component.type}</small>
+            <span className="node-category">{t(definition?.category)}</span>
+            <b>{nodeDisplayLabel(node, language)}</b>
+            {editorMode === 'advanced' && <small>{node.component.type}</small>}
             {(definition?.ports || []).map(port => {
               const downstream = port.direction === 'output' && port.kind === 'data'
                 ? protocol.graph.edges.filter(edge => edge.kind === 'data' && edge.source.nodeId === node.id && edge.source.portId === port.id).map(edge => nodeLabelById.get(edge.target.nodeId) || edge.target.nodeId)
@@ -83,7 +84,7 @@ export default function Canvas({ s }) {
               const hint = downstream.length ? `${port.label} → ${downstream.join(', ')}` : `${port.label} · ${port.kind} ${port.direction}`;
               return <button key={port.id} data-port-id={port.id} title={hint} className={`composer-port ${port.direction} ${port.kind} ${pendingPort?.nodeId === node.id && pendingPort?.portId === port.id ? 'pending' : ''}`} style={{ top: portPosition({ layout: { x: 0, y: 0 } }, port, definition).y }} onPointerDown={event => startWire(event, node, port)} onClick={event => { event.stopPropagation(); if (suppressWireClickRef.current) return; selectPort(node, port); }}><span>{port.label}</span></button>;
             })}
-            {(definition?.dataFields || []).length > 0 && <span className="node-data-fields" title={`${t('Data columns')}: ${definition.dataFields.join(', ')}`}>{definition.dataFields.length} output{definition.dataFields.length > 1 ? 's' : ''}</span>}
+            {(definition?.dataFields || []).length > 0 && <span className="node-data-fields" title={`${t('Data columns')}: ${definition.dataFields.join(', ')}`}>{t('{n} outputs').replace('{n}', definition.dataFields.length)}</span>}
           </article>;
         })}
         {marquee && <div className="composer-marquee" style={{ left: Math.min(marquee.x0, marquee.x1), top: Math.min(marquee.y0, marquee.y1), width: Math.abs(marquee.x1 - marquee.x0), height: Math.abs(marquee.y1 - marquee.y0) }} />}

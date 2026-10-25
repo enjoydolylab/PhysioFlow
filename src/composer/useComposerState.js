@@ -1,3 +1,5 @@
+import { componentLabel, nodeDisplayLabel } from './catalogLabels.js';
+import { unreviewedMigrationIssues } from '../core/migrationReview.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   addNode,
@@ -18,7 +20,8 @@ import {
 import { createProjectComponentRegistry } from '../sdk/index.js';
 import { NODE_HEIGHT, NODE_WIDTH, computeGuides } from './toolbox.js';
 import { useCatalogActions } from './useCatalogActions.js';
-import { translate, useLanguage } from '../i18n.jsx';
+import { useLanguage } from '../i18n.jsx';
+import { translateComposer as translate } from './translate.js';
 
 function jsonErrorMessage(error, source) {
   const position = Number(error?.message?.match(/position\s+(\d+)/i)?.[1]);
@@ -130,7 +133,7 @@ export function useComposerState({ protocol, onChange }) {
   }, [protocol.protocolId, protocol.version?.number]);
 
   const locked = protocol.version?.status === 'frozen';
-  const migrationReviewRequired = protocol.legacy?.migrationReport?.formalRunAllowed === false;
+  const migrationReviewRequired = unreviewedMigrationIssues(protocol).length > 0;
   const commit = next => { if (!locked) onChange(next, true); };
   const openCodeView = () => { const serialized = serializeProtocolGraph(protocol, 2); setCodeText(serialized); setCodeOriginal(serialized); setCodeError(''); setCodeView(true); };
   const closeCodeView = () => {
@@ -175,7 +178,7 @@ export function useComposerState({ protocol, onChange }) {
         });
         commit(result.protocol);
         setSelectedNodeId(result.node.id);
-        setMessage(`Inserted ${definition.label} after ${sourceNode.label}`);
+        setMessage(t('Inserted {name} after {source}').replace('{name}', componentLabel(definition.type, language)).replace('{source}', nodeDisplayLabel(sourceNode, language)));
       } else {
         const result = addNode(protocol, definition.type, {
           config: definition.defaultConfig,
@@ -197,7 +200,7 @@ export function useComposerState({ protocol, onChange }) {
       commit(result.protocol);
       setSelectedIds(new Set([result.node.id]));
       setSelectedNodeId(result.node.id);
-      setMessage(`Added ${definition.label}`);
+      setMessage(t('Added {name}').replace('{name}', componentLabel(definition.type, language)));
     } catch (error) { setMessage(error.message); }
   };
 
