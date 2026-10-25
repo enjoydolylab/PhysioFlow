@@ -9,7 +9,7 @@ function StyleField({ propKey, value, theme, tokenNames, onChange }) {
   const literalValue = isToken ? '' : String(value ?? '');
   return <div className="ui-style-field">
     <span>{propKey}</span>
-    <select aria-label={`${propKey} source`} value={isToken ? `token:${tokenValue}` : 'literal'} onChange={event => {
+    <select aria-label={t('{name} source').replace('{name}', propKey)} value={isToken ? `token:${tokenValue}` : 'literal'} onChange={event => {
       if (event.target.value.startsWith('token:')) onChange({ $token: event.target.value.slice(6) });
       else onChange(literalValue || '');
     }}>
@@ -17,7 +17,7 @@ function StyleField({ propKey, value, theme, tokenNames, onChange }) {
       {tokenNames.map(name => <option key={name} value={`token:${name}`}>{name}</option>)}
     </select>
     {isToken ? <code>{theme[tokenValue] ?? tokenValue}</code> : <input value={literalValue} onChange={event => onChange(event.target.value)} />}
-    <button className="danger" aria-label={`Remove ${propKey} style`} onClick={() => onChange(undefined)}>×</button>
+    <button className="danger" aria-label={t('Remove {name} style').replace('{name}', propKey)} onClick={() => onChange(undefined)}>×</button>
   </div>;
 }
 

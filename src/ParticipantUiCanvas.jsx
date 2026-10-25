@@ -147,7 +147,7 @@ export default function ParticipantUiCanvas({
     window.addEventListener('pointerdown', closeOnPointer);
     return () => window.removeEventListener('pointerdown', closeOnPointer);
   }, []);
-  if (!validation.valid) return <div className="participant-ui-error">{t('Participant UI is invalid')}: {validation.errors.map(error => error.message).join(' · ')}</div>;
+  if (!validation.valid) return <div className="participant-ui-error">{t('Participant UI is invalid')}: {validation.errors.map(error => t(error.message)).join(' · ')}</div>;
 
   const registerRef = id => node => {
     if (node) nodeRefs.current.set(id, node);

@@ -1,16 +1,18 @@
+import { translate } from './i18n.jsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import MediaStep from './MediaStep';
 import QuestionnaireForm from './QuestionnaireForm';
 
 const FALLBACK = {
-  instruction: { zh: '请按照研究员给出的指示操作。', ja: '研究者の指示に従ってください。', en: 'Follow the instructions shown by the researcher.' },
-  manual_event: { zh: '等待操作员确认。', ja: 'オペレーターの確認を待っています。', en: 'Waiting for operator confirmation.' },
-  device_check: { zh: '设备检查中…请等待操作员。', ja: 'デバイスをチェックしています…', en: 'Device check in progress. Please wait for the operator.' },
+  instruction: 'Follow the instructions shown by the researcher.',
+  manual_event: 'Waiting for operator confirmation.',
+  device_check: 'Device check in progress. Please wait for the operator.',
 };
 
 export default function RuntimeContent({ step, session, language, timing: _timing, onComplete, onQuestionnaireSubmit, onQuestionnaireExternalEvent, onResponseSubmit, onMediaEvent, preview, fontSize }) {
+  const t = key => translate(key, language);
   const localized = step.content_i18n?.[language] || step.content || '';
-  const fb = FALLBACK[step.type]?.en || '';
+  const fb = t(FALLBACK[step.type] || '');
   const fixedMs = step.duration_mode === 'fixed' ? (Number(step.planned_duration_ms) || 0) : 0;
   const showRing = step.show_countdown_ring !== false && ['fixation','rest','timer'].includes(step.type);
 
@@ -85,7 +87,7 @@ export default function RuntimeContent({ step, session, language, timing: _timin
 
   // ── Custom HTML (sandboxed) ──
   if (step.type === 'custom_html') {
-    return <CustomHtml step={step} preview={preview} />;
+    return <CustomHtml step={step} preview={preview} language={language} />;
   }
 
   // ── Fixation ──
@@ -135,7 +137,7 @@ export default function RuntimeContent({ step, session, language, timing: _timin
 
   // ── Instruction ── multi-line text
   if (step.type === 'instruction') {
-    const text = localized || FALLBACK.instruction[language] || fb;
+    const text = localized || t(FALLBACK.instruction) || fb;
     return (
       <div className="instruction" style={preview ? { fontSize: '0.85rem', maxWidth: 400 } : { fontSize: fontSize || 'clamp(1.1rem, 2.5vw, 1.8rem)', maxWidth: 'min(800px, 90vw)', lineHeight: 1.6, textAlign: 'left', padding: '0 1rem' }} role="status">
         {text.split('\n').map((line, i) => <p key={i} style={{ margin: '.5rem 0' }}>{line}</p>)}
@@ -145,7 +147,7 @@ export default function RuntimeContent({ step, session, language, timing: _timin
 
   // ── Manual event ── operator confirmation needed
   if (step.type === 'manual_event') {
-    const text = localized || FALLBACK.manual_event[language] || fb;
+    const text = localized || t(FALLBACK.manual_event) || fb;
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', padding: '2rem' }}>
         <span style={{ fontSize: preview ? '1.5rem' : '3rem', opacity: 0.4 }}>◆</span>
@@ -158,7 +160,7 @@ export default function RuntimeContent({ step, session, language, timing: _timin
 
   // ── Device check ── distinct from manual_event: shows checklist icon
   if (step.type === 'device_check') {
-    const text = localized || FALLBACK.device_check[language] || fb;
+    const text = localized || t(FALLBACK.device_check) || fb;
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', padding: '2rem' }}>
         <span style={{ fontSize: preview ? '1.5rem' : '3rem', opacity: 0.4 }}>✓</span>
@@ -174,7 +176,7 @@ export default function RuntimeContent({ step, session, language, timing: _timin
   const tR = preview ? 38 : 68;
   const tC = 2 * Math.PI * tR;
   return (
-    <div className="timer-circle" style={preview ? { width: tSvgSize, height: tSvgSize } : {}} role="timer" aria-label={`Countdown: ${seconds} seconds remaining`}>
+    <div className="timer-circle" style={preview ? { width: tSvgSize, height: tSvgSize } : {}} role="timer" aria-label={t('Countdown: {count} seconds remaining').replace('{count}', seconds)}>
       {showRing && (
         <svg viewBox={`0 0 ${tSvgSize} ${tSvgSize}`} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', rotate: '-90deg' }}>
           <circle className="track" cx={tSvgSize / 2} cy={tSvgSize / 2} r={tR} fill="none" stroke="var(--ring-track, #e5ebe4)" strokeWidth="4" />
@@ -182,19 +184,20 @@ export default function RuntimeContent({ step, session, language, timing: _timin
         </svg>
       )}
       <span style={preview ? { fontSize: '1.4rem' } : fontSize ? { fontSize } : {}}>{seconds}</span>
-      <small>seconds</small>
+      <small>{t("seconds")}</small>
     </div>
   );
 }
 
 function ResponsePrompt({ step, language, onSubmit, preview, fontSize }) {
+  const t = key => translate(key, language);
   const startRef = useRef(performance.now());
   const [selected, setSelected] = useState(null);
   const options = step.response_options?.length ? step.response_options : [
-    { value: 'yes', key: '1', label_i18n: { en: 'Yes' } },
-    { value: 'no', key: '2', label_i18n: { en: 'No' } },
+    { value: 'yes', key: '1', label_i18n: { en: 'Yes', [language]: t('Yes') } },
+    { value: 'no', key: '2', label_i18n: { en: 'No', [language]: t('No') } },
   ];
-  const prompt = step.content_i18n?.[language] || step.content_i18n?.en || step.content || 'Choose a response.';
+  const prompt = step.content_i18n?.[language] || step.content_i18n?.en || step.content || t("Choose a response.");
   const variable = step.response_variable || 'response';
 
   useEffect(() => {
@@ -234,7 +237,7 @@ function ResponsePrompt({ step, language, onSubmit, preview, fontSize }) {
     return () => window.removeEventListener('keydown', handler);
   }, [options, preview, selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <div className="response-node" role="group" aria-label="Response options">
+  return <div className="response-node" role="group" aria-label={t("Response options")}>
     <p className="instruction" style={preview ? { fontSize: '0.85rem', maxWidth: 400 } : { fontSize: fontSize || '1.35rem', maxWidth: 'min(760px, 88vw)', textAlign: 'center' }}>{prompt}</p>
     <div className="response-options">
       {options.map(option => {
@@ -246,24 +249,25 @@ function ResponsePrompt({ step, language, onSubmit, preview, fontSize }) {
         </button>;
       })}
     </div>
-    {selected && step.response_auto_advance === false && <button className="primary" type="button" onClick={() => onSubmit?.([selected], { response_variable: variable, response_value: selected.value, option_label: selected.option_label, response_key: selected.response_key, reaction_time_ms: selected.reaction_time_ms })}>Continue →</button>}
+    {selected && step.response_auto_advance === false && <button className="primary" type="button" onClick={() => onSubmit?.([selected], { response_variable: variable, response_value: selected.value, option_label: selected.option_label, response_key: selected.response_key, reaction_time_ms: selected.reaction_time_ms })}>{t("Continue →")}</button>}
   </div>;
 }
 
 // ── Custom HTML step ── renders authored HTML/CSS in a sandboxed iframe.
 // Scripts stay disabled so legacy protocols follow the same safety model as V2.
-function CustomHtml({ step, preview }) {
+function CustomHtml({ step, preview, language }) {
+  const t = key => translate(key, language);
   const html = step.html || '';
   if (!html) {
     return (
       <div style={{ color: 'var(--muted)', textAlign: 'center', padding: '2rem' }}>
         <span style={{ fontSize: '2rem', opacity: 0.4 }}>⚙</span>
-        <p style={{ fontSize: '.85rem', margin: '.5rem 0 0' }}>{preview ? 'No HTML yet — edit this step to add custom HTML content.' : ''}</p>
+        <p style={{ fontSize: '.85rem', margin: '.5rem 0 0' }}>{preview ? t("No HTML yet — edit this step to add custom HTML content.") : ''}</p>
       </div>
     );
   }
   return <iframe
-    title="Custom HTML"
+    title={t("Custom HTML")}
     className="custom-html-frame"
     srcDoc={html}
     sandbox=""

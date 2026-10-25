@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 import { useEffect, useRef, useState } from 'react';
 
 const STROOP_KEYS = [
@@ -8,6 +9,7 @@ const STROOP_KEYS = [
 ];
 
 export default function CognitiveTaskRunner({ config, disabled = false, onSubmit, onTrialEvent }) {
+  const t = useT();
   const trials = config?.trials || [];
   const [phase, setPhase] = useState('instructions');
   const [index, setIndex] = useState(0);
@@ -112,15 +114,15 @@ export default function CognitiveTaskRunner({ config, disabled = false, onSubmit
     return () => window.removeEventListener('keydown', keydown);
   }, [disabled, kind, phase]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!trials.length) return <div className="cognitive-task"><p>Task has no trials.</p></div>;
-  if (phase === 'instructions') return <div className="cognitive-task instructions"><span className="eyebrow">{config?.practice ? 'PRACTICE' : 'TASK'}</span><h1>{kind === 'stroop' ? 'Color-word Stroop' : 'Go / No-Go'}</h1><p>{kind === 'stroop' ? 'Respond to the ink color, not the word. Use R, G, B, or Y.' : 'Press Space for X (Go). Do not press for O (No-Go).'}</p><button type="button" className="participant-ui-button primary" disabled={disabled} onClick={() => setPhase('fixation')}>Start {config?.practice ? 'practice' : 'task'}</button></div>;
-  if (phase === 'complete') return <div className="cognitive-task"><h1>✓</h1><p>Task complete</p></div>;
+  if (!trials.length) return <div className="cognitive-task"><p>{t("Task has no trials.")}</p></div>;
+  if (phase === 'instructions') return <div className="cognitive-task instructions"><span className="eyebrow">{config?.practice ? t("PRACTICE") : t("TASK")}</span><h1>{kind === 'stroop' ? t("Color-word Stroop") : t("Go / No-Go")}</h1><p>{kind === 'stroop' ? t("Respond to the ink color, not the word. Use R, G, B, or Y.") : t("Press Space for X (Go). Do not press for O (No-Go).")}</p><button type="button" className="participant-ui-button primary" disabled={disabled} onClick={() => setPhase('fixation')}>{t(config?.practice ? 'Start practice' : 'Start task')}</button></div>;
+  if (phase === 'complete') return <div className="cognitive-task"><h1>✓</h1><p>{t("Task complete")}</p></div>;
 
   return <div className="cognitive-task" aria-live="polite">
-    <div className="cognitive-progress">Trial {index + 1}/{trials.length}</div>
-    {phase === 'fixation' && <div className="cognitive-fixation" aria-label="Fixation">+</div>}
-    {phase === 'stimulus' && kind === 'stroop' && <><div className="stroop-word" style={{ color: trial.inkColor }}>{trial.word}</div><div className="cognitive-response-buttons">{STROOP_KEYS.map(item => <button key={item.key} type="button" disabled={disabled} style={{ borderColor: item.color }} onClick={() => resolveTrial(item.key)}>{item.label}</button>)}</div></>}
-    {phase === 'stimulus' && kind === 'gonogo' && <><div className="gonogo-stimulus">{trial.stimulus}</div><button type="button" className="participant-ui-button primary gonogo-response" disabled={disabled} onClick={() => resolveTrial('space')}>SPACE · Go</button></>}
-    {phase === 'iti' && <div className="cognitive-iti" aria-label="Inter-trial interval" />}
+    <div className="cognitive-progress">{t("Trial")} {index + 1}/{trials.length}</div>
+    {phase === 'fixation' && <div className="cognitive-fixation" aria-label={t("Fixation")}>+</div>}
+    {phase === 'stimulus' && kind === 'stroop' && <><div className="stroop-word" style={{ color: trial.inkColor }}>{trial.word}</div><div className="cognitive-response-buttons">{STROOP_KEYS.map(item => <button key={item.key} type="button" disabled={disabled} style={{ borderColor: item.color }} onClick={() => resolveTrial(item.key)}>{t(item.label)}</button>)}</div></>}
+    {phase === 'stimulus' && kind === 'gonogo' && <><div className="gonogo-stimulus">{trial.stimulus}</div><button type="button" className="participant-ui-button primary gonogo-response" disabled={disabled} onClick={() => resolveTrial('space')}>{t("SPACE · Go")}</button></>}
+    {phase === 'iti' && <div className="cognitive-iti" aria-label={t("Inter-trial interval")} />}
   </div>;
 }

@@ -9,15 +9,26 @@ import { parse } from '@babel/parser';
 const globAsync = promisify(glob);
 const files = (await globAsync('src/**/*.{js,jsx}', { nodir: true })).filter(file => !['i18n.jsx', 'composerStrings.js', 'catalogLabels.js'].some(name => file.endsWith(name)));
 const source = await readFile('src/i18n.jsx', 'utf8');
-const dictionaryKeys = new Set([...source.matchAll(/['"]([^'"\n]{2,})['"]\s*:/g)].map(match => match[1]));
+const dictionaryKeys = new Set([...source.matchAll(/(?:"([^"\n]{2,})"|'([^'\n]{2,})')\s*:/g)].map(match => match[1] ?? match[2]));
 // Display catalogs are translation sources, not untranslated UI candidates.
 for (const key of [...Object.keys(pfUIStrings.ja), ...composerCopy.map(row => row[0]), ...catalogCopy.map(row => row[0])]) dictionaryKeys.add(key);
 const candidates = new Map();
 const ignored = /^(https?:|data:|application\/|text\/|#[0-9a-f]{3,8}$|[A-Z_./:-]+$|[a-z]+\.[a-z]+$|\d+(\.\d+)?(px|ms|vh|vw|%)?$)/i;
 const codeWords = /^(src|id|type|name|value|label|props|children|className|style|true|false|null|undefined|column|row|primary|secondary|image|audio|video|text|number|checkbox|rating|submit|next|free|flow|manual|automatic|desktop|phone|tablet|en|zh|ja)$/;
+// Not UI copy: SVG path data, CSS attribute selectors, font stacks, CSS filters
+// and pure CSS functions. Kept separate from `ignored` because these patterns
+// need to start-anchor on the whole value.
+const nonCopy = [
+  /^M[\d.]/i,                                     // <path d="M4 12h16 …">
+  /^[MmLlHhVvCcSsQqTtAaZz][\d.,\s-]+$/,           // bare path data
+  /^\[[\w-]+.*\]$/,                               // [data-ui-id], [tree-drop-error]
+  /^(?:\d+\s+)?(?:grayscale|blur|brightness|contrast|saturate|drop-shadow|sepia|opacity)\(/i,
+  /^[a-z-]+\s*:\s*[^;]+;$/,                       // inline css declarations
+  /^(?:Georgia|Helvetica|Arial|Times|Inter|Roboto|Menlo|Consolas|system-ui)[\w\s,'-]*$/i,
+];
 function add(text, file, line, kind) {
   const value = text.replace(/\s+/g, ' ').trim();
-  if (!value || value.length < 2 || value.length > 180 || ignored.test(value) || codeWords.test(value) || !/[A-Za-z\u3040-\u30ff\u3400-\u9fff]/.test(value)) return;
+  if (!value || value.length < 2 || value.length > 180 || ignored.test(value) || codeWords.test(value) || nonCopy.some(pattern => pattern.test(value)) || !/[A-Za-z\u3040-\u30ff\u3400-\u9fff]/.test(value)) return;
   const item = candidates.get(value) || { value, files: new Set(), kinds: new Set(), lines: new Set() };
   item.files.add(file); item.kinds.add(kind); item.lines.add(`${file}:${line}`); candidates.set(value, item);
 }

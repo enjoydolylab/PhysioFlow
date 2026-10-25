@@ -134,9 +134,9 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
       : <div className="ui-canvas-layout">
         <div className="ui-element-library">
           <div className="ui-library-tabs" role="tablist" aria-label={t("Library panels")}>
-            <button type="button" role="tab" aria-selected={libraryTab === 'elements'} className={libraryTab === 'elements' ? 'active' : ''} onClick={() => setLibraryTab('elements')}>{t("Elements")}</button>
-            <button type="button" role="tab" aria-selected={libraryTab === 'presets'} className={libraryTab === 'presets' ? 'active' : ''} onClick={() => setLibraryTab('presets')}>{t("Presets")}</button>
-            <button type="button" role="tab" aria-selected={libraryTab === 'layers'} className={libraryTab === 'layers' ? 'active' : ''} onClick={() => { setLibraryTab('layers'); setStructureOpen(true); }}>{t("Layers")}</button>
+            <button type="button" role="tab" aria-selected={libraryTab === 'elements'} className={libraryTab === 'elements' ? "active" : ''} onClick={() => setLibraryTab('elements')}>{t("Elements")}</button>
+            <button type="button" role="tab" aria-selected={libraryTab === 'presets'} className={libraryTab === 'presets' ? "active" : ''} onClick={() => setLibraryTab('presets')}>{t("Presets")}</button>
+            <button type="button" role="tab" aria-selected={libraryTab === 'layers'} className={libraryTab === 'layers' ? "active" : ''} onClick={() => { setLibraryTab('layers'); setStructureOpen(true); }}>{t("Layers")}</button>
           </div>
           {libraryTab === 'elements' && <div className="ui-library-panel">
             {LIBRARY_GROUPS.map(group => <div key={group.label} className="ui-library-group">
@@ -197,7 +197,7 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
     {elements.some(item => item.element.props?.free) && normalized.root.props?.screenWidth && <p className="ui-layout-notice" role="note">{t('Fixed screen')}: {deviceWidth}×{deviceHeight} · {t('Outside content is clipped. Change the size in Settings.')}</p>}
 
     <details className="ui-advanced"><summary>{t('Technical information')}</summary><code>{selected.type}</code></details>
-    <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} ${t('elements · schema valid')}` : validation.errors[0]?.message}</small>
+    <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} ${t('elements · schema valid')}` : t(validation.errors[0]?.message || '')}</small>
         </footer>
         </div>
         <aside className="ui-inspector">
@@ -274,6 +274,6 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
     {elements.some(item => item.element.props?.free) && normalized.root.props?.screenWidth && <p className="ui-layout-notice" role="note">{t('Fixed screen')}: {deviceWidth}×{deviceHeight} · {t('Outside content is clipped. Change the size in Settings.')}</p>}
 
     <details className="ui-advanced"><summary>{t('Technical information')}</summary><code>{selected.type}</code></details>
-    <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} ${t('elements · schema valid')}` : validation.errors[0]?.message}</small></div>}
+    <small className={validation.valid ? 'ui-valid' : 'ui-invalid'}>{validation.valid ? `${elements.length} ${t('elements · schema valid')}` : t(validation.errors[0]?.message || '')}</small></div>}
   </section>;
 }

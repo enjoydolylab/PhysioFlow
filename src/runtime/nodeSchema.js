@@ -69,7 +69,7 @@ export function configFromParticipantUi(node, ui) {
   return config;
 }
 
-export function schemaForNode(node, definition, resources) {
+export function schemaForNode(node, definition, resources, t = key => key) {
   const adapter = definition?.runtime?.uiAdapter || 'schema';
   if (node.component.type === 'input.questionnaire' && node.config?.questionnaire?.questions?.length) {
     const schema = structuredClone(node.config?.ui || participantUiTemplate('form'));
@@ -112,7 +112,7 @@ export function schemaForNode(node, definition, resources) {
     if (items.length) {
       schema.root.children = [...kept, ...items.map((item, index) => createUiElement('Input', { props: { name: `check_${index}`, inputType: 'checkbox', label: item, required: true } }))];
     } else {
-      schema.root.children = [...kept, createUiElement('Text', { props: { text: 'No checklist items configured.', variant: 'body' } })];
+      schema.root.children = [...kept, createUiElement('Text', { props: { text: t('No checklist items configured.'), variant: 'body' } })];
     }
     if (!schema.root.children.some(child => child.type === 'Button')) {
       schema.root.children.push(createUiElement('Button', { props: { label: 'Ready', variant: 'primary' }, actions: [{ event: 'click', action: 'submit' }] }));
@@ -200,7 +200,7 @@ export function schemaForNode(node, definition, resources) {
   const schema = structuredClone(node.config?.ui || participantUiTemplate('instruction'));
   schema.root.children = [
     createUiElement('Text', { props: { text: node.label, variant: 'heading' } }),
-    createUiElement('Progress', { props: { value: 0, max: Math.max(1, Number(node.config?.durationMs || 1000)), label: 'Please wait…' }, bindings: { value: 'timer.elapsedMs' } }),
+    createUiElement('Progress', { props: { value: 0, max: Math.max(1, Number(node.config?.durationMs || 1000)), label: t('Please wait…') }, bindings: { value: 'timer.elapsedMs' } }),
   ];
   return schema;
 }

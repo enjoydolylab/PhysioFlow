@@ -1,11 +1,11 @@
 # i18n audit
 
-Generated: 2026-10-25T15:30:31.646Z
+Generated: 2026-10-25T17:20:51.068Z
 
-- Source files scanned: 251
-- Candidate strings: 3754
-- Candidates already in dictionary: 880
-- Candidates missing from dictionary: 2874
+- Source files scanned: 252
+- Candidate strings: 3669
+- Candidates already in dictionary: 1176
+- Candidates missing from dictionary: 2493
 
 ## Review rules
 
@@ -19,21 +19,20 @@ Generated: 2026-10-25T15:30:31.646Z
 - `- timestamp_epoch_ms: high-resolution Unix epoch milliseconds for external-device alignment.` — src\exporter.js:159
 - `-- select question --` — src\QuestionnaireWorkspace.jsx:261
 - `-4c4d-454d-96be-f03bac821358` — src\devices\museProtocol.js:17
-- `-90deg` — src\RuntimeContent.jsx:102, src\RuntimeContent.jsx:124, src\RuntimeContent.jsx:179
+- `-90deg` — src\RuntimeContent.jsx:104, src\RuntimeContent.jsx:126, src\RuntimeContent.jsx:181
 - `— question —` — src\QuestionnaireEditorV2.jsx:116
 - `, arousal` — src\analysis\AffectMap.jsx:100
-- `: the editor and the run scale identically; content outside the screen is clipped. Change the size under ⚙ Settings.` — src\ParticipantUiBuilder.jsx:239
 - `: valence` — src\analysis\AffectMap.jsx:100
 - `../i18n` — src\analysis\SignalQualityNotice.jsx:1, src\app\AppHeader.jsx:1, src\app\sessionSetup.jsx:5, src\app\sessionSetup.jsx:6
-- `../i18n.jsx` — src\composer\Catalogs.jsx:9, src\composer\GroupBatchEditor.jsx:2, src\composer\GroupSequenceEditor.jsx:1, src\composer\NodeInspector.jsx:11, src\composer\RepeatSequenceEditor.jsx:2, src\composer\ResponseOptionsEditor.jsx:1, src\composer\translate.js:1, src\composer\useComposerState.js:23, src\flowCanvas\NodeCard.jsx:4
+- `../i18n.jsx` — src\composer\Catalogs.jsx:9, src\composer\GroupBatchEditor.jsx:2, src\composer\GroupSequenceEditor.jsx:1, src\composer\NodeInspector.jsx:11, src\composer\RepeatSequenceEditor.jsx:2, src\composer\ResponseOptionsEditor.jsx:1, src\composer\translate.js:1, src\composer\useComposerState.js:23, src\flowCanvas\NodeCard.jsx:4, src\participantUi\useBuilderT.js:2
 - `../QuestionnaireEditorV2.jsx` — src\composer\NodeInspector.jsx:14
 - `../QuestionnaireFormV2.jsx` — src\composer\NodeInspector.jsx:15
 - `./composer/composer-v2.css` — src\main.jsx:24
 - `./composer/questionnaire-v2.css` — src\main.jsx:25
 - `./ComposerV2.jsx` — src\App.jsx:42
-- `./i18n` — src\AdminMonitorPage.jsx:5, src\BioDBSettings.jsx:2, src\Dashboard.jsx:5, src\DataPanel.jsx:2, src\DeviceMonitorPanel.jsx:6, src\FlowWorkspaceOverlay.jsx:8, src\GraphRuntimeRunnerPage.jsx:1, src\OperatorMonitorPage.jsx:2, src\PhysioDBAnalysis.jsx:2, src\PhysioDBSessionBinding.jsx:2, src\PhysioDBTestResult.jsx:7, src\ProtocolBioDBConfig.jsx:2, src\RuntimeRunnerPage.jsx:10, src\TaskGuide.jsx:2, src\WorkspaceShell.jsx:1, src\main.jsx:4
+- `./i18n` — src\AdminMonitorPage.jsx:5, src\BioDBSettings.jsx:2, src\Dashboard.jsx:5, src\DataPanel.jsx:2, src\DeviceMonitorPanel.jsx:6, src\FlowWorkspaceOverlay.jsx:8, src\GraphRuntimeRunnerPage.jsx:1, src\OperatorMonitorPage.jsx:2, src\PhysioDBAnalysis.jsx:2, src\PhysioDBSessionBinding.jsx:2, src\PhysioDBTestResult.jsx:7, src\ProtocolBioDBConfig.jsx:2, src\RuntimeRunnerPage.jsx:11, src\TaskGuide.jsx:2, src\WorkspaceShell.jsx:1, src\main.jsx:4
 - `./i18n.css` — src\main.jsx:12
-- `./i18n.jsx` — src\App.jsx:36, src\FlowCanvas.jsx:9, src\FlowJsonEditor.jsx:14, src\PreRunChecklist.jsx:3, src\QuestionnaireDesigner.jsx:4
+- `./i18n.jsx` — src\App.jsx:36, src\AttentionCheckRunner.jsx:1, src\CalibrationRunner.jsx:1, src\CognitiveTaskRunner.jsx:1, src\FlowCanvas.jsx:9, src\FlowJsonEditor.jsx:14, src\MediaStep.jsx:1, src\ParticipantRenderer.jsx:1, src\PreRunChecklist.jsx:3, src\QuestionnaireDesigner.jsx:4, src\ResponseRunner.jsx:1, src\RuntimeContent.jsx:1, src\RuntimeRunnerPage.jsx:1
 - `./legacy/migrateProtocolV1.js` — src\App.jsx:31
 - `./QuestionnaireFormV2.jsx` — src\GraphRuntimeRunnerPage.jsx:16
 - `.000Z` — src\physioDBMapping.js:48
@@ -42,7 +41,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `.15rem .5rem` — src\flowCanvas\CanvasToolbar.jsx:12
 - `.25rem` — src\Inspector.jsx:306, src\Inspector.jsx:311, src\Inspector.jsx:316, src\Inspector.jsx:321, src\Inspector.jsx:326, src\Inspector.jsx:333, src\Inspector.jsx:341, src\Inspector.jsx:420, src\Inspector.jsx:425, src\Inspector.jsx:441, src\ThemeSettings.jsx:76, src\ThemeSettings.jsx:87, src\ThemeSettings.jsx:98
 - `.25rem .5rem` — src\flowCanvas\CanvasToolbar.jsx:26
-- `.2rem` — src\RuntimeRunnerPage.jsx:558, src\TemplateConfig.jsx:18, src\TemplateConfig.jsx:23, src\TemplateConfig.jsx:26, src\TemplateConfig.jsx:34, src\app\legacyBuilder.jsx:162, src\app\legacyBuilder.jsx:166, src\app\legacyBuilder.jsx:169, src\app\legacyBuilder.jsx:192, src\flowCanvas\NodePreviewModal.jsx:49
+- `.2rem` — src\RuntimeRunnerPage.jsx:560, src\TemplateConfig.jsx:18, src\TemplateConfig.jsx:23, src\TemplateConfig.jsx:26, src\TemplateConfig.jsx:34, src\app\legacyBuilder.jsx:162, src\app\legacyBuilder.jsx:166, src\app\legacyBuilder.jsx:169, src\app\legacyBuilder.jsx:192, src\flowCanvas\NodePreviewModal.jsx:49
 - `.2rem .4rem` — src\Inspector.jsx:344, src\flowCanvas\CanvasToolbar.jsx:33, src\flowCanvas\CanvasToolbar.jsx:34, src\flowCanvas\CanvasToolbar.jsx:35
 - `.35rem .5rem` — src\FlowCanvas.jsx:505, src\ThemeSettings.jsx:102, src\ThemeSettings.jsx:80, src\ThemeSettings.jsx:91, src\flowCanvas\CanvasToolbar.jsx:30
 - `.3rem` — src\Inspector.jsx:159, src\Inspector.jsx:201, src\TemplateConfig.jsx:19, src\TemplateConfig.jsx:24, src\TemplateConfig.jsx:31, src\flowCanvas\NodePreviewModal.jsx:143
@@ -51,26 +50,25 @@ Generated: 2026-10-25T15:30:31.646Z
 - `.3rem 0` — src\app\legacyBuilder.jsx:112
 - `.4rem` — src\Inspector.jsx:202, src\Inspector.jsx:342, src\TemplateConfig.jsx:38, src\flowCanvas\CanvasToolbar.jsx:30, src\flowCanvas\NodePreviewModal.jsx:111, src\flowCanvas\NodePreviewModal.jsx:114, src\flowCanvas\NodePreviewModal.jsx:122, src\flowCanvas\NodePreviewModal.jsx:131, src\flowCanvas\NodePreviewModal.jsx:135, src\flowCanvas\NodePreviewModal.jsx:143, src\flowCanvas\NodePreviewModal.jsx:51, src\flowCanvas\NodePreviewModal.jsx:58, src\flowCanvas\NodePreviewModal.jsx:62, src\flowCanvas\NodePreviewModal.jsx:72, src\flowCanvas\NodePreviewModal.jsx:85, src\flowCanvas\NodePreviewModal.jsx:93
 - `.55rem` — src\ThemeSettings.jsx:117
-- `.5rem` — src\BioDBSettings.jsx:62, src\BioDBSettings.jsx:81, src\DataPanel.jsx:264, src\DataPanel.jsx:391, src\Inspector.jsx:188, src\Inspector.jsx:226, src\Inspector.jsx:251, src\Inspector.jsx:267, src\Inspector.jsx:283, src\Inspector.jsx:304, src\Inspector.jsx:305, src\Inspector.jsx:351, src\Inspector.jsx:352, src\Inspector.jsx:375, src\Inspector.jsx:378, src\Inspector.jsx:38, src\Inspector.jsx:419, src\Inspector.jsx:439, src\Inspector.jsx:452, src\Inspector.jsx:57, src\MediaStep.jsx:132, src\ProtocolBioDBConfig.jsx:63, src\ProtocolBioDBConfig.jsx:92, src\QuestionnaireDesigner.jsx:63, src\RuntimeContent.jsx:121, src\RuntimeContent.jsx:99, src\RuntimeRunnerPage.jsx:407, src\RuntimeRunnerPage.jsx:421, src\RuntimeRunnerPage.jsx:476, src\RuntimeRunnerPage.jsx:630, src\SessionManager.jsx:351, src\TemplateConfig.jsx:18, src\TemplateConfig.jsx:23, src\TemplateConfig.jsx:26, src\TemplateConfig.jsx:31, src\TemplateConfig.jsx:34, src\ThemeSettings.jsx:63, src\app\legacyBuilder.jsx:111, src\app\legacyBuilder.jsx:277, src\app\legacyBuilder.jsx:431, src\flowCanvas\CanvasToolbar.jsx:12, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\NodePreviewModal.jsx:37
-- `.5rem 0` — src\RuntimeContent.jsx:141
-- `.5rem 0 0` — src\RuntimeContent.jsx:261
+- `.5rem` — src\BioDBSettings.jsx:62, src\BioDBSettings.jsx:81, src\DataPanel.jsx:264, src\DataPanel.jsx:391, src\Inspector.jsx:188, src\Inspector.jsx:226, src\Inspector.jsx:251, src\Inspector.jsx:267, src\Inspector.jsx:283, src\Inspector.jsx:304, src\Inspector.jsx:305, src\Inspector.jsx:351, src\Inspector.jsx:352, src\Inspector.jsx:375, src\Inspector.jsx:378, src\Inspector.jsx:38, src\Inspector.jsx:419, src\Inspector.jsx:439, src\Inspector.jsx:452, src\Inspector.jsx:57, src\MediaStep.jsx:134, src\ProtocolBioDBConfig.jsx:63, src\ProtocolBioDBConfig.jsx:92, src\QuestionnaireDesigner.jsx:63, src\RuntimeContent.jsx:101, src\RuntimeContent.jsx:123, src\RuntimeRunnerPage.jsx:409, src\RuntimeRunnerPage.jsx:423, src\RuntimeRunnerPage.jsx:478, src\RuntimeRunnerPage.jsx:635, src\SessionManager.jsx:351, src\TemplateConfig.jsx:18, src\TemplateConfig.jsx:23, src\TemplateConfig.jsx:26, src\TemplateConfig.jsx:31, src\TemplateConfig.jsx:34, src\ThemeSettings.jsx:63, src\app\legacyBuilder.jsx:111, src\app\legacyBuilder.jsx:277, src\app\legacyBuilder.jsx:431, src\flowCanvas\CanvasToolbar.jsx:12, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\NodePreviewModal.jsx:37
+- `.5rem 0` — src\RuntimeContent.jsx:143
+- `.5rem 0 0` — src\RuntimeContent.jsx:265
 - `.62rem` — src\Inspector.jsx:344
 - `.65rem` — src\FlowCanvas.jsx:504, src\FlowCanvas.jsx:505, src\Inspector.jsx:304, src\flowCanvas\CanvasToolbar.jsx:32, src\flowCanvas\NodePreviewModal.jsx:153
 - `.68rem` — src\Inspector.jsx:203, src\Inspector.jsx:209, src\flowCanvas\CanvasToolbar.jsx:33, src\flowCanvas\CanvasToolbar.jsx:34, src\flowCanvas\CanvasToolbar.jsx:35
-- `.6rem` — src\BioDBSettings.jsx:62, src\DataPanel.jsx:264, src\ProtocolBioDBConfig.jsx:63, src\RuntimeRunnerPage.jsx:476, src\TemplateConfig.jsx:38
+- `.6rem` — src\BioDBSettings.jsx:62, src\DataPanel.jsx:264, src\ProtocolBioDBConfig.jsx:63, src\RuntimeRunnerPage.jsx:478, src\TemplateConfig.jsx:38
 - `.6rem 1.2rem` — src\main.jsx:67
 - `.6rem 1.5rem` — src\flowCanvas\NodePreviewModal.jsx:164
-- `.72rem` — src\Inspector.jsx:199, src\Inspector.jsx:201, src\Inspector.jsx:259, src\Inspector.jsx:275, src\Inspector.jsx:291, src\Inspector.jsx:306, src\Inspector.jsx:311, src\Inspector.jsx:316, src\Inspector.jsx:321, src\Inspector.jsx:326, src\Inspector.jsx:333, src\Inspector.jsx:341, src\Inspector.jsx:420, src\Inspector.jsx:425, src\Inspector.jsx:441, src\Inspector.jsx:456, src\RuntimeRunnerPage.jsx:556, src\RuntimeRunnerPage.jsx:558, src\app\legacyBuilder.jsx:162, src\app\legacyBuilder.jsx:166, src\app\legacyBuilder.jsx:169, src\app\legacyBuilder.jsx:192, src\app\legacyBuilder.jsx:195, src\app\legacyBuilder.jsx:411, src\app\legacyBuilder.jsx:431, src\flowCanvas\CanvasToolbar.jsx:26, src\flowCanvas\CanvasToolbar.jsx:31
+- `.72rem` — src\Inspector.jsx:199, src\Inspector.jsx:201, src\Inspector.jsx:259, src\Inspector.jsx:275, src\Inspector.jsx:291, src\Inspector.jsx:306, src\Inspector.jsx:311, src\Inspector.jsx:316, src\Inspector.jsx:321, src\Inspector.jsx:326, src\Inspector.jsx:333, src\Inspector.jsx:341, src\Inspector.jsx:420, src\Inspector.jsx:425, src\Inspector.jsx:441, src\Inspector.jsx:456, src\RuntimeRunnerPage.jsx:558, src\RuntimeRunnerPage.jsx:560, src\app\legacyBuilder.jsx:162, src\app\legacyBuilder.jsx:166, src\app\legacyBuilder.jsx:169, src\app\legacyBuilder.jsx:192, src\app\legacyBuilder.jsx:195, src\app\legacyBuilder.jsx:411, src\app\legacyBuilder.jsx:431, src\flowCanvas\CanvasToolbar.jsx:26, src\flowCanvas\CanvasToolbar.jsx:31
 - `.75rem` — src\TemplateConfig.jsx:31, src\flowCanvas\NodePreviewModal.jsx:39
 - `.78rem` — src\Inspector.jsx:454, src\TemplateConfig.jsx:16, src\ThemeSettings.jsx:68, src\flowCanvas\CanvasToolbar.jsx:25, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\NodePreviewModal.jsx:85
-- `.7rem` — src\Inspector.jsx:334, src\RuntimeRunnerPage.jsx:479, src\flowCanvas\CanvasToolbar.jsx:12
+- `.7rem` — src\Inspector.jsx:334, src\RuntimeRunnerPage.jsx:481, src\flowCanvas\CanvasToolbar.jsx:12
 - `.82rem` — src\ThemeSettings.jsx:102, src\ThemeSettings.jsx:127, src\ThemeSettings.jsx:63, src\ThemeSettings.jsx:76, src\ThemeSettings.jsx:80, src\ThemeSettings.jsx:87, src\ThemeSettings.jsx:91, src\ThemeSettings.jsx:98, src\flowCanvas\NodePreviewModal.jsx:62, src\flowCanvas\NodePreviewModal.jsx:72
-- `.85rem` — src\RuntimeContent.jsx:261, src\flowCanvas\NodePreviewModal.jsx:146
-- `.8rem` — src\QuestionnaireDesigner.jsx:63, src\RuntimeContent.jsx:113, src\RuntimeContent.jsx:131, src\RuntimeRunnerPage.jsx:407, src\TemplateConfig.jsx:16, src\ThemeSettings.jsx:63, src\app\legacyBuilder.jsx:118, src\app\legacyBuilder.jsx:413, src\flowCanvas\NodePreviewModal.jsx:109, src\flowCanvas\NodePreviewModal.jsx:119, src\flowCanvas\NodePreviewModal.jsx:153, src\flowCanvas\NodePreviewModal.jsx:49, src\flowCanvas\NodePreviewModal.jsx:55, src\flowCanvas\NodePreviewModal.jsx:69, src\flowCanvas\NodePreviewModal.jsx:74, src\flowCanvas\NodePreviewModal.jsx:90, src\flowCanvas\NodePreviewModal.jsx:99, src\main.jsx:63
+- `.85rem` — src\RuntimeContent.jsx:265, src\flowCanvas\NodePreviewModal.jsx:146
+- `.8rem` — src\QuestionnaireDesigner.jsx:63, src\RuntimeContent.jsx:115, src\RuntimeContent.jsx:133, src\RuntimeRunnerPage.jsx:409, src\TemplateConfig.jsx:16, src\ThemeSettings.jsx:63, src\app\legacyBuilder.jsx:118, src\app\legacyBuilder.jsx:413, src\flowCanvas\NodePreviewModal.jsx:109, src\flowCanvas\NodePreviewModal.jsx:119, src\flowCanvas\NodePreviewModal.jsx:153, src\flowCanvas\NodePreviewModal.jsx:49, src\flowCanvas\NodePreviewModal.jsx:55, src\flowCanvas\NodePreviewModal.jsx:69, src\flowCanvas\NodePreviewModal.jsx:74, src\flowCanvas\NodePreviewModal.jsx:90, src\flowCanvas\NodePreviewModal.jsx:99, src\main.jsx:63
 - `.9rem` — src\App.jsx:47, src\FlowWorkspaceOverlay.jsx:96, src\app\legacyBuilder.jsx:113, src\flowCanvas\NodePreviewModal.jsx:51
 - `.composer-node, .composer-port, .composer-wires` — src\composer\useComposerState.js:410
 - `.instruction { font-family: Georgia, serif; }` — src\Inspector.jsx:334
-- `· Locked` — src\participantUi\SelectionInspector.jsx:16
 - `· Review:` — src\SessionManager.jsx:303
 - `· Selected` — src\composer\StimulusPoolEditor.jsx:61
 - `· Session:` — src\SessionManager.jsx:303
@@ -81,7 +79,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `'Instrument Serif',Georgia,serif` — src\flowCanvas\NodePreviewModal.jsx:156
 - `'Inter', system-ui, sans-serif` — src\ThemeSettings.jsx:84
 - `'SF Mono', 'Cascadia Code', monospace` — src\Inspector.jsx:454, src\ThemeSettings.jsx:83
-- `”? You can undo this.` — src\ParticipantUiBuilder.jsx:160
 - `"Comic Sans MS", "Marker Felt", cursive` — src\flowCanvas\NodeCard.jsx:44
 - `"Comic Sans MS", cursive` — src\Inspector.jsx:36
 - `«Custom HTML» is empty — add HTML content or this step will show a blank screen` — src\domain.js:391
@@ -89,8 +86,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `«Expected key» is empty — set the key the participant must press (e.g. space)` — src\domain.js:383
 - `«Prompt» is empty — the participant will not know what to do` — src\domain.js:385
 - `(advanced)` — src\app\sessionSetup.jsx:168
-- `(custom)` — src\participantUi\ThemeEditor.jsx:14
-- `(defaults)` — src\participantUi\ThemeEditor.jsx:14
 - `(empty prompt)` — src\QuestionnaireWorkspace.jsx:170
 - `(empty)` — src\app\sessionSetup.jsx:181
 - `(fixed-duration steps only; media & manual steps extend runtime)` — src\app\legacyBuilder.jsx:433
@@ -101,23 +96,16 @@ Generated: 2026-10-25T15:30:31.646Z
 - `(unnamed)` — src\core\subflowCommands.js:37
 - `(whole entity)` — src\composer\Catalogs.jsx:142
 - `[A-Za-z0-9][A-Za-z0-9._-]{0,63}` — src\hosted\hostedStateStore.js:20
-- `[Circular]` — src\domain.js:12
-- `[data-node-id]` — src\flowCanvas\useCanvasPan.js:30, src\flowCanvas\useNodeDrag.js:109
-- `[data-ui-id]` — src\ParticipantUiBuilder.jsx:166, src\participantUi\layoutGeometry.js:3, src\participantUi\useParticipantUiState.js:545, src\participantUi\useParticipantUiState.js:575
-- `[purged]` — src\hosted\hostedService.js:114
-- `[role="complementary"]` — src\flowCanvas\useWheelZoom.js:34
-- `[role="dialog"]` — src\useGuideDialog.js:10
-- `[tree-drop-error]` — src\participantUi\tree\StructureTree.jsx:61
 - `{content}` — src\composer\GroupBatchEditor.jsx:27
-- `{count}` — src\composer\RepeatSequenceEditor.jsx:35
+- `{count}` — src\GraphRuntimeRunnerPage.jsx:615, src\GraphRuntimeRunnerPage.jsx:628, src\RuntimeContent.jsx:179, src\RuntimeRunnerPage.jsx:420, src\RuntimeRunnerPage.jsx:579, src\composer\RepeatSequenceEditor.jsx:35
 - `{edges}` — src\composer\Canvas.jsx:21
 - `{group}` — src\composer\GroupBatchEditor.jsx:27
-- `{n}` — src\ComposerV2.jsx:63, src\PreRunChecklist.jsx:230, src\PreRunChecklist.jsx:234, src\composer\Canvas.jsx:27, src\composer\Canvas.jsx:59, src\composer\Canvas.jsx:87, src\composer\Catalogs.jsx:448, src\composer\Catalogs.jsx:456, src\composer\Catalogs.jsx:459, src\composer\GroupBatchEditor.jsx:27, src\composer\Inspector.jsx:19, src\composer\Inspector.jsx:21, src\composer\NodeInspector.jsx:161
-- `{name}` — src\composer\Catalogs.jsx:448, src\composer\useComposerState.js:181, src\composer\useComposerState.js:203
+- `{n}` — src\CalibrationRunner.jsx:56, src\ComposerV2.jsx:63, src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611, src\PreRunChecklist.jsx:230, src\PreRunChecklist.jsx:234, src\composer\Canvas.jsx:27, src\composer\Canvas.jsx:59, src\composer\Canvas.jsx:87, src\composer\Catalogs.jsx:448, src\composer\Catalogs.jsx:456, src\composer\Catalogs.jsx:459, src\composer\GroupBatchEditor.jsx:27, src\composer\Inspector.jsx:20, src\composer\Inspector.jsx:24, src\composer\NodeInspector.jsx:161
+- `{name}` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611, src\GraphRuntimeRunnerPage.jsx:615, src\GraphRuntimeRunnerPage.jsx:623, src\GraphRuntimeRunnerPage.jsx:628, src\RuntimeRunnerPage.jsx:482, src\RuntimeRunnerPage.jsx:565, src\composer\Catalogs.jsx:448, src\composer\useComposerState.js:181, src\composer\useComposerState.js:203, src\participantUi\PositionFields.jsx:15, src\participantUi\ScreenChecks.jsx:16, src\participantUi\ScreenChecks.jsx:20, src\participantUi\StyleEditor.jsx:12, src\participantUi\StyleEditor.jsx:20
 - `{nodes}` — src\composer\Canvas.jsx:21
 - `{source}` — src\composer\GroupBatchEditor.jsx:27, src\composer\useComposerState.js:181
 - `{steps}` — src\composer\RepeatSequenceEditor.jsx:35
-- `{total}` — src\composer\Catalogs.jsx:448
+- `{total}` — src\GraphRuntimeRunnerPage.jsx:628, src\composer\Catalogs.jsx:448
 - `{visits}` — src\composer\RepeatSequenceEditor.jsx:35
 - `@noble/hashes/sha2.js` — src\assetChecksum.js:1
 - `@tauri-apps/api/core` — src\tauriStorage.js:6
@@ -137,66 +125,56 @@ Generated: 2026-10-25T15:30:31.646Z
 - `\r` — src\data\graphExport.js:22, src\exporter.js:445, src\exporter.js:7
 - `\t` — src\data\graphExport.js:22
 - `#root element not found` — src\main.jsx:78
-- `° of visual angle.` — src\CalibrationRunner.jsx:57
-- `← 前の問題` — src\QuestionnaireForm.jsx:6
-- `← 前へ` — src\QuestionnaireFormV2.jsx:11
-- `← 上一题` — src\QuestionnaireForm.jsx:6, src\QuestionnaireFormV2.jsx:11
 - `← Previous` — src\QuestionnaireForm.jsx:6, src\QuestionnaireFormV2.jsx:11
 - `← Projects` — src\app\legacyBuilder.jsx:97
 - `← Protocol` — src\app\sessionSetup.jsx:159, src\app\sessionSetup.jsx:82
+- `← 上一题` — src\QuestionnaireForm.jsx:6, src\QuestionnaireFormV2.jsx:11
+- `← 前の問題` — src\QuestionnaireForm.jsx:6
+- `← 前へ` — src\QuestionnaireFormV2.jsx:11
 - `→ Run → Review data` — src\app\sessionSetup.jsx:83
 - `↗ analysis` — src\app\legacyBuilder.jsx:292, src\flowCanvas\NodePreviewModal.jsx:177, src\flowCanvas\NodePreviewModal.jsx:35
 - `↻ Loop` — src\flowCanvas\CanvasContextMenu.jsx:22
-- `＋ 多语言翻译（可选）` — src\QuestionnaireWorkspace.jsx:287
 - `＋ Add Block` — src\HierarchyManager.jsx:69
 - `＋ Add questionnaire` — src\QuestionnaireLibrary.jsx:31
 - `＋ Add stimulus` — src\ResourceLibrary.jsx:54
 - `＋ Add Trial` — src\HierarchyManager.jsx:65
 - `+ CSV import` — src\QuestionnaireEditorV2.jsx:57
 - `+ CSV Import` — src\QuestionnaireWorkspace.jsx:134
-- `＋ Log note` — src\RuntimeRunnerPage.jsx:558
 - `+ Preset questions` — src\QuestionnaireEditorV2.jsx:50
 - `+ Presets` — src\QuestionnaireWorkspace.jsx:122
+- `＋ 多语言翻译（可选）` — src\QuestionnaireWorkspace.jsx:287
 - `<channel>` — src\data\jointExport.js:171
 - `<div style="padding:2rem;font-family:system-ui,sans-serif;color:#a32e25"><h2>Fatal Error</h2><p>Root element #root not found. Ensure index.html loads before this script.</p></div>` — src\main.jsx:77
 - `<div style="text-align:center"><h1>Custom HTML</h1></div>` — src\core\componentRegistry.js:274, src\core\participantUi.js:104
 - `<div style="text-align:center">Custom HTML</div>` — src\participantUi\constants.js:8
-- `<div></div>` — src\ParticipantUiCanvas.jsx:547
+- `<div></div>` — src\ParticipantUiCanvas.jsx:549
 - `<h1>Hello</h1> <style>h1{color:#197453;font-family:Georgia}</style>` — src\Inspector.jsx:454
 - `| Events:` — src\Analytics.jsx:115
 - `| Started:` — src\Analytics.jsx:114
 - `~/Documents/PhysioFlow Data` — src\GuidePanel.jsx:109
-- `⌄ Inspect` — src\GraphRuntimeRunnerPage.jsx:618
 - `⌘ Visual editor` — src\app\legacyBuilder.jsx:107
 - `⌘S` — src\app\legacyBuilder.jsx:100
 - `⏱ Estimated minimum:` — src\app\legacyBuilder.jsx:431
-- `⏹ End interval` — src\RuntimeRunnerPage.jsx:569
 - `▶ Preview media` — src\MediaSettings.jsx:79
-- `▶ Start interval` — src\RuntimeRunnerPage.jsx:569
 - `▼ Hide preview` — src\MediaSettings.jsx:79
 - `◇ Condition` — src\flowCanvas\CanvasContextMenu.jsx:21
 - `● Junction` — src\flowCanvas\CanvasContextMenu.jsx:24
 - `● Local-first workspace` — src\app\AppHeader.jsx:7
-- `● Recording` — src\RuntimeRunnerPage.jsx:570
-- `● Runtime state machine` — src\RuntimeRunnerPage.jsx:629
-- `☀ Light` — src\RuntimeRunnerPage.jsx:630
 - `⚙ Advanced settings` — src\FlowWorkspaceOverlay.jsx:142
-- `⚙ Settings` — src\ParticipantUiBuilder.jsx:117
 - `✎ Sticky note` — src\flowCanvas\CanvasContextMenu.jsx:23
-- `✓ 反応を検出しました` — src\constants.js:69
-- `✓ 已检测到响应` — src\constants.js:69
 - `✓ Done` — src\flowCanvas\NodePreviewModal.jsx:39
 - `✓ No integrity issue detected by automatic checks` — src\SessionManager.jsx:321
 - `✓ Ready` — src\flowCanvas\CanvasToolbar.jsx:40
 - `✓ Ready to run` — src\app\legacyBuilder.jsx:127
 - `✓ Response detected` — src\constants.js:69
 - `✓ Saved` — src\app\AppHeader.jsx:9
-- `✗ 未检测到响应` — src\constants.js:69
-- `✗ 応答が検出されませんでした` — src\constants.js:69
+- `✓ 反応を検出しました` — src\constants.js:69
+- `✓ 已检测到响应` — src\constants.js:69
 - `✗ No response detected` — src\constants.js:69
+- `✗ 応答が検出されませんでした` — src\constants.js:69
+- `✗ 未检测到响应` — src\constants.js:69
 - `⤓ Export chart as PNG` — src\analysis\WindowCards.jsx:38
 - `☷ Questionnaire library` — src\FlowWorkspaceOverlay.jsx:133
-- `🌙 Dark` — src\RuntimeRunnerPage.jsx:630
 - `🎨 Theme & style` — src\FlowWorkspaceOverlay.jsx:141
 - `🎬 Stimuli library` — src\FlowWorkspaceOverlay.jsx:132
 - `💾 Export JSON` — src\FlowWorkspaceOverlay.jsx:138
@@ -207,7 +185,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `$protocol` — src\collaboration\changeSets.js:113, src\collaboration\changeSets.js:114, src\collaboration\changeSets.js:116, src\collaboration\changeSets.js:117, src\collaboration\changeSets.js:118, src\collaboration\changeSets.js:120, src\collaboration\changeSets.js:135, src\collaboration\changeSets.js:153, src\collaboration\changeSets.js:174
 - `0 0 1.5rem` — src\flowCanvas\NodePreviewModal.jsx:156
 - `0 1.5rem` — src\app\legacyBuilder.jsx:113
-- `0 1rem` — src\RuntimeContent.jsx:140
+- `0 1rem` — src\RuntimeContent.jsx:142
 - `0 auto` — src\flowCanvas\NodePreviewModal.jsx:47
 - `0.3rem` — src\analysis\WindowCards.jsx:143
 - `0.5rem` — src\analysis\ResponseCharts.jsx:132, src\analysis\ResponseCharts.jsx:145
@@ -216,7 +194,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `0.75rem` — src\analysis\ResponseCharts.jsx:145, src\analysis\WindowCards.jsx:140, src\analysis\WindowCards.jsx:20, src\analysis\WindowCards.jsx:31
 - `0.78rem` — src\analysis\CrossSessionCompare.jsx:138
 - `0.7rem` — src\Inspector.jsx:309, src\analysis\CrossSessionCompare.jsx:177, src\analysis\ResponseCharts.jsx:164, src\analysis\ResponseCharts.jsx:166, src\analysis\ResponseCharts.jsx:84, src\analysis\WindowCards.jsx:150, src\constants.js:221
-- `0.85rem` — src\Inspector.jsx:309, src\RuntimeContent.jsx:140, src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165, src\RuntimeContent.jsx:238, src\analysis\ResponseCharts.jsx:144
+- `0.85rem` — src\Inspector.jsx:309, src\RuntimeContent.jsx:142, src\RuntimeContent.jsx:154, src\RuntimeContent.jsx:167, src\RuntimeContent.jsx:241, src\analysis\ResponseCharts.jsx:144
 - `0.8rem` — src\analysis\ResponseCharts.jsx:132, src\analysis\WindowCards.jsx:141
 - `0.95rem` — src\analysis\CrossSessionCompare.jsx:23, src\analysis\ResponseCharts.jsx:24, src\analysis\WindowCards.jsx:17
 - `01 / ANALYSIS` — src\Dashboard.jsx:152
@@ -226,42 +204,42 @@ Generated: 2026-10-25T15:30:31.646Z
 - `1. Use events.csv for raw timing and reconstruction.` — src\exporter.js:152
 - `1.2rem` — src\Inspector.jsx:309, src\analysis\WindowCards.jsx:166
 - `1.2rem 0 0` — src\flowCanvas\NodePreviewModal.jsx:163
-- `1.35rem` — src\RuntimeContent.jsx:238
-- `1.3rem` — src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165, src\app\legacyBuilder.jsx:112
-- `1.4rem` — src\RuntimeContent.jsx:184
-- `1.5rem` — src\Inspector.jsx:309, src\MediaStep.jsx:132, src\RuntimeContent.jsx:121, src\RuntimeContent.jsx:150, src\RuntimeContent.jsx:151, src\RuntimeContent.jsx:163, src\RuntimeContent.jsx:164, src\RuntimeContent.jsx:99, src\RuntimeRunnerPage.jsx:405, src\SessionManager.jsx:350, src\analysis\CrossSessionCompare.jsx:22, src\analysis\ResponseCharts.jsx:23, src\app\legacyBuilder.jsx:383, src\constants.js:223, src\flowCanvas\NodePreviewModal.jsx:47
-- `1.8rem` — src\RuntimeContent.jsx:129
-- `1024x768` — src\ParticipantUiBuilder.jsx:123
+- `1.35rem` — src\RuntimeContent.jsx:241
+- `1.3rem` — src\RuntimeContent.jsx:154, src\RuntimeContent.jsx:167, src\app\legacyBuilder.jsx:112
+- `1.4rem` — src\RuntimeContent.jsx:186
+- `1.5rem` — src\Inspector.jsx:309, src\MediaStep.jsx:134, src\RuntimeContent.jsx:101, src\RuntimeContent.jsx:123, src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:153, src\RuntimeContent.jsx:165, src\RuntimeContent.jsx:166, src\RuntimeRunnerPage.jsx:407, src\SessionManager.jsx:350, src\analysis\CrossSessionCompare.jsx:22, src\analysis\ResponseCharts.jsx:23, src\app\legacyBuilder.jsx:383, src\constants.js:223, src\flowCanvas\NodePreviewModal.jsx:47
+- `1.8rem` — src\RuntimeContent.jsx:131
+- `1024x768` — src\ParticipantUiBuilder.jsx:125
 - `10px system-ui` — src\analysis\CrossSessionCompare.jsx:121, src\analysis\TimelineView.jsx:74, src\analysis\TimelineView.jsx:93, src\analysis\WindowCards.jsx:120, src\analysis\WindowCards.jsx:82, src\analysis\charts.js:108, src\analysis\charts.js:126
 - `11px system-ui` — src\analysis\charts.js:167, src\analysis\charts.js:204
-- `1280x720` — src\ParticipantUiBuilder.jsx:123
+- `1280x720` — src\ParticipantUiBuilder.jsx:125
 - `12px 16px` — src\flowCanvas\ShortcutsModal.jsx:15
-- `1920x1080` — src\ParticipantUiBuilder.jsx:123
+- `1920x1080` — src\ParticipantUiBuilder.jsx:125
 - `1h` — src\DataPanel.jsx:21
 - `1px dashed var(--green)` — src\flowCanvas\CanvasLayers.jsx:62, src\flowCanvas\NodePreviewModal.jsx:33
 - `1px solid #a32e25` — src\main.jsx:67
 - `1px solid #ffcdcb` — src\main.jsx:57
-- `1px solid var(--line)` — src\Inspector.jsx:343, src\MediaStep.jsx:128, src\RuntimeContent.jsx:270, src\SessionManager.jsx:350, src\TemplateConfig.jsx:16, src\TemplateConfig.jsx:19, src\TemplateConfig.jsx:24, src\ThemeSettings.jsx:102, src\ThemeSettings.jsx:67, src\ThemeSettings.jsx:80, src\ThemeSettings.jsx:91, src\analysis\CrossSessionCompare.jsx:159, src\analysis\ResponseCharts.jsx:162, src\analysis\WindowCards.jsx:139, src\flowCanvas\CanvasContextMenu.jsx:16, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\CanvasToolbar.jsx:30, src\flowCanvas\NodePreviewModal.jsx:114, src\flowCanvas\NodePreviewModal.jsx:122, src\flowCanvas\NodePreviewModal.jsx:131, src\flowCanvas\NodePreviewModal.jsx:135, src\flowCanvas\NodePreviewModal.jsx:51, src\flowCanvas\NodePreviewModal.jsx:62, src\flowCanvas\NodePreviewModal.jsx:72, src\flowCanvas\NodePreviewModal.jsx:85, src\flowCanvas\NodePreviewModal.jsx:93
+- `1px solid var(--line)` — src\Inspector.jsx:343, src\MediaStep.jsx:130, src\RuntimeContent.jsx:274, src\SessionManager.jsx:350, src\TemplateConfig.jsx:16, src\TemplateConfig.jsx:19, src\TemplateConfig.jsx:24, src\ThemeSettings.jsx:102, src\ThemeSettings.jsx:67, src\ThemeSettings.jsx:80, src\ThemeSettings.jsx:91, src\analysis\CrossSessionCompare.jsx:159, src\analysis\ResponseCharts.jsx:162, src\analysis\WindowCards.jsx:139, src\flowCanvas\CanvasContextMenu.jsx:16, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\CanvasToolbar.jsx:30, src\flowCanvas\NodePreviewModal.jsx:114, src\flowCanvas\NodePreviewModal.jsx:122, src\flowCanvas\NodePreviewModal.jsx:131, src\flowCanvas\NodePreviewModal.jsx:135, src\flowCanvas\NodePreviewModal.jsx:51, src\flowCanvas\NodePreviewModal.jsx:62, src\flowCanvas\NodePreviewModal.jsx:72, src\flowCanvas\NodePreviewModal.jsx:85, src\flowCanvas\NodePreviewModal.jsx:93
 - `1rem` — src\BioDBSettings.jsx:39, src\BioDBSettings.jsx:81, src\DataPanel.jsx:218, src\DataPanel.jsx:391, src\Inspector.jsx:309, src\ProtocolBioDBConfig.jsx:52, src\ProtocolBioDBConfig.jsx:92, src\SessionManager.jsx:350, src\ThemeSettings.jsx:40, src\ThemeSettings.jsx:75, src\analysis\WindowCards.jsx:16, src\constants.js:222, src\flowCanvas\NodePreviewModal.jsx:119, src\flowCanvas\NodePreviewModal.jsx:164, src\flowCanvas\NodePreviewModal.jsx:33, src\main.jsx:67
-- `1rem auto` — src\RuntimeRunnerPage.jsx:405
+- `1rem auto` — src\RuntimeRunnerPage.jsx:407
 - `1つのノードは1つのグループにのみ所属できます` — src\composer\toolbox.js:178
 - `2. Use analysis_windows.csv for physiology window extraction.` — src\exporter.js:153
 - `2.0.0-alpha.1` — src\GraphRuntimeRunnerPage.jsx:585, src\core\freezeProtocolGraph.js:224, src\core\protocolGraph.js:3, src\data\graphExport.js:8
 - `2.5rem` — src\Inspector.jsx:309, src\app\legacyBuilder.jsx:111, src\domain.js:218, src\domain.js:248
-- `2.8rem` — src\RuntimeContent.jsx:129
+- `2.8rem` — src\RuntimeContent.jsx:131
 - `2026-08-23T00:00:00.000Z` — src\core\taskTemplates.js:22
 - `24h` — src\DataPanel.jsx:23
 - `2d` — src\analysis\CrossSessionCompare.jsx:44, src\analysis\TimelineView.jsx:61, src\analysis\WindowCards.jsx:59, src\analysis\charts.js:38
 - `2px 6px` — src\analysis\CrossSessionCompare.jsx:163, src\analysis\WindowCards.jsx:146
 - `2px dashed var(--green)` — src\app\legacyBuilder.jsx:147
 - `2px solid var(--line)` — src\analysis\CrossSessionCompare.jsx:141, src\analysis\CrossSessionCompare.jsx:142, src\analysis\CrossSessionCompare.jsx:143, src\analysis\CrossSessionCompare.jsx:144, src\analysis\CrossSessionCompare.jsx:145, src\analysis\CrossSessionCompare.jsx:146, src\analysis\CrossSessionCompare.jsx:147, src\analysis\CrossSessionCompare.jsx:148, src\analysis\ResponseCharts.jsx:148, src\analysis\ResponseCharts.jsx:149, src\analysis\ResponseCharts.jsx:150, src\analysis\ResponseCharts.jsx:151
-- `2rem` — src\Inspector.jsx:309, src\MediaStep.jsx:132, src\RuntimeContent.jsx:150, src\RuntimeContent.jsx:163, src\RuntimeContent.jsx:259, src\RuntimeContent.jsx:260, src\analysis\CrossSessionCompare.jsx:16, src\analysis\ResponseCharts.jsx:10, src\analysis\ResponseCharts.jsx:17, src\analysis\TimelineView.jsx:19, src\analysis\WindowCards.jsx:10, src\constants.js:224, src\main.jsx:56
+- `2rem` — src\Inspector.jsx:309, src\MediaStep.jsx:134, src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165, src\RuntimeContent.jsx:263, src\RuntimeContent.jsx:264, src\analysis\CrossSessionCompare.jsx:16, src\analysis\ResponseCharts.jsx:10, src\analysis\ResponseCharts.jsx:17, src\analysis\TimelineView.jsx:19, src\analysis\WindowCards.jsx:10, src\constants.js:224, src\main.jsx:56
 - `2rem auto` — src\main.jsx:56
 - `3-test-navigation` — src\data\graphIntegrity.js:4
 - `3. Use responses.csv for questionnaire outcomes, quick Response-node choices, reaction times, and branch variables.` — src\exporter.js:154
 - `3px solid #a32e25` — src\app\legacyBuilder.jsx:277
 - `3px solid #f4d77e` — src\app\legacyBuilder.jsx:277
-- `3rem` — src\FlowWorkspaceOverlay.jsx:151, src\RuntimeContent.jsx:151, src\RuntimeContent.jsx:164, src\domain.js:299, src\domain.js:330
+- `3rem` — src\FlowWorkspaceOverlay.jsx:151, src\RuntimeContent.jsx:153, src\RuntimeContent.jsx:166, src\domain.js:299, src\domain.js:330
 - `4 colors × (trials/4) words each` — src\TemplateConfig.jsx:20
 - `4. Check integrity_report.json before excluding or accepting a session.` — src\exporter.js:155
 - `4px 0` — src\flowCanvas\CanvasContextMenu.jsx:20
@@ -272,732 +250,10 @@ Generated: 2026-10-25T15:30:31.646Z
 - `600 13px system-ui, -apple-system, sans-serif` — src\analysis\TimelineView.jsx:69, src\analysis\charts.js:44, src\analysis\charts.js:95
 - `6h` — src\DataPanel.jsx:22
 - `6px 8px` — src\analysis\CrossSessionCompare.jsx:141, src\analysis\CrossSessionCompare.jsx:142, src\analysis\CrossSessionCompare.jsx:143, src\analysis\CrossSessionCompare.jsx:144, src\analysis\CrossSessionCompare.jsx:145, src\analysis\CrossSessionCompare.jsx:146, src\analysis\CrossSessionCompare.jsx:147, src\analysis\CrossSessionCompare.jsx:148, src\analysis\ResponseCharts.jsx:148, src\analysis\ResponseCharts.jsx:149, src\analysis\ResponseCharts.jsx:150, src\analysis\ResponseCharts.jsx:151
-- `768x1024` — src\ParticipantUiBuilder.jsx:123
+- `768x1024` — src\ParticipantUiBuilder.jsx:125
 - `8px 12px` — src\flowCanvas\NodeCard.jsx:44
 - `9px monospace` — src\analysis\TimelineView.jsx:118, src\analysis\TimelineView.jsx:141, src\analysis\charts.js:211
 - `9px system-ui` — src\analysis\CrossSessionCompare.jsx:103, src\analysis\CrossSessionCompare.jsx:75, src\analysis\WindowCards.jsx:110
-- `按键` — src\domain.js:296, src\domain.js:327
-- `版本` — src\pfUIStrings.js:171
-- `版本历史` — src\pfUIStrings.js:196
-- `帮助与文档` — src\pfUIStrings.js:154
-- `绑定变量的类型与端口不匹配` — src\composer\toolbox.js:73
-- `绑定的变量不存在` — src\composer\toolbox.js:72
-- `保存后点击“测试运行”，先以测试参与者检查内容。` — src\TaskGuide.jsx:6
-- `保存後にテスト実行し、テスト用の参加者で内容を確認します。` — src\TaskGuide.jsx:12
-- `保存記録を確認` — src\pfUIStrings.js:33
-- `保存先の設定` — src\pfUIStrings.js:173
-- `保存先のみを登録し、サンプルは自動送信しません。` — src\pfUIStrings.js:74
-- `保存先を検証済み` — src\pfUIStrings.js:79
-- `保存状態、イベント、PhysioDB 検証結果を確認します。` — src\TaskGuide.jsx:15
-- `保存データと DB 検証結果を確認し、この実験記録を分析します。` — src\pfUIStrings.js:35
-- `保存を再試行` — src\pfUIStrings.js:72
-- `保留缺失值和时间间隔；仅对完整且等间隔的信号计算频率。数据库中的原始数值保持不变。` — src\pfUIStrings.js:123
-- `悲伤` — src\core\taskTemplates.js:40
-- `悲しみ` — src\core\taskTemplates.js:40
-- `本地保存成功和数据库核对成功是两件事。无设备测试会明确使用合成信号；正式原始录制目前需显式上传。` — src\TaskGuide.jsx:8
-- `本地工作区` — src\pfUIStrings.js:153
-- `本地时区` — src\pfUIStrings.js:119
-- `本地文件夹` — src\pfUIStrings.js:158
-- `本地文件夹已连接` — src\pfUIStrings.js:172
-- `必填` — src\QuestionnaireFormV2.jsx:10
-- `必填 / Required / 必須` — src\QuestionnaireForm.jsx:196
-- `必填内容` — src\pfUIStrings.js:190
-- `必須` — src\QuestionnaireFormV2.jsx:10
-- `必須ポートが接続されていません` — src\composer\toolbox.js:144
-- `必須ポートに変数が割り当てられていません` — src\composer\toolbox.js:143
-- `必需端口未绑定变量` — src\composer\toolbox.js:70
-- `必需端口未连接` — src\composer\toolbox.js:71
-- `必需信号已停止更新、缺失或无变化。恢复前请检查操作员监控。` — src\pfUIStrings.js:143
-- `必要な機器の準備を実験者に依頼してください。` — src\pfUIStrings.js:84
-- `必要な機器を接続して信号を確認してください。` — src\pfUIStrings.js:90
-- `必要な内容` — src\pfUIStrings.js:190
-- `必要な全チャンネルの更新を確認してから開始してください。` — src\pfUIStrings.js:142
-- `必要な信号が停止・欠損・無変化です。管理者モニターで確認してから再開してください。` — src\pfUIStrings.js:143
-- `编辑` — src\pfUIStrings.js:168
-- `編集` — src\pfUIStrings.js:168
-- `編集画面でテスト実行、または凍結版から収集を準備します。` — src\TaskGuide.jsx:13
-- `編集を続ける` — src\pfUIStrings.js:44
-- `变量类型无效` — src\composer\toolbox.js:76
-- `变量名称重复` — src\composer\toolbox.js:75
-- `变量缺少名称` — src\composer\toolbox.js:74
-- `变量作用域无效` — src\composer\toolbox.js:77
-- `変化なし` — src\pfUIStrings.js:131
-- `変数名が重複しています` — src\composer\toolbox.js:172
-- `変数名を入力してください` — src\composer\toolbox.js:171
-- `変数とポートの型が一致しません` — src\composer\toolbox.js:146
-- `変数の型が無効です` — src\composer\toolbox.js:173
-- `変数のスコープが無効です` — src\composer\toolbox.js:174
-- `标准差` — src\pfUIStrings.js:124
-- `標準偏差` — src\pfUIStrings.js:124
-- `表示時間は0以上で指定してください` — src\composer\toolbox.js:153
-- `不合格 / 遅すぎ` — src\AttentionCheckRunner.jsx:6
-- `不一致` — src\pfUIStrings.js:66
-- `不正解` — src\ResponseRunner.jsx:7
-- `步骤视图` — src\pfUIStrings.js:26
-- `采集服务地址` — src\pfUIStrings.js:140
-- `采集服务密钥` — src\pfUIStrings.js:140
-- `采集来源` — src\pfUIStrings.js:128
-- `采集前检查` — src\pfUIStrings.js:47
-- `采集完成` — src\pfUIStrings.js:51
-- `采集中` — src\pfUIStrings.js:147
-- `采样率与方案不一致，请重新导入设备连接配置。` — src\pfUIStrings.js:89
-- `参加者` — src\pfUIStrings.js:111
-- `参加者 ID、言語、メディア、保存先を確認します。` — src\TaskGuide.jsx:13
-- `参加者画面` — src\pfUIStrings.js:138
-- `参加者画面がありません` — src\composer\toolbox.js:150
-- `参加者画面に入力項目がありません` — src\composer\toolbox.js:151
-- `参加者情報` — src\pfUIStrings.js:46
-- `参加者と機器を準備` — src\TaskGuide.jsx:13
-- `参加者とデータ設定` — src\pfUIStrings.js:32
-- `参加者には実験内容と一時停止の表示のみ提示します。` — src\pfUIStrings.js:135
-- `参加者は刺激と質問に回答し、管理者は別画面で監視・一時停止します。` — src\TaskGuide.jsx:14
-- `参加者を選択` — src\pfUIStrings.js:112
-- `参与者` — src\pfUIStrings.js:111
-- `参与者画面` — src\pfUIStrings.js:138
-- `参与者仅看到实验内容和暂停提示。` — src\pfUIStrings.js:135
-- `参与者完成刺激与回答；管理员在独立监控中查看状态及暂停/恢复。` — src\TaskGuide.jsx:8
-- `参与者信息` — src\pfUIStrings.js:46
-- `参与者与数据设置` — src\pfUIStrings.js:32
-- `参照している変数がありません` — src\composer\toolbox.js:145
-- `残り時間` — src\QuestionnaireFormV2.jsx:17
-- `操作员访问密钥` — src\pfUIStrings.js:97
-- `测试记录与正式实验分开保留，本地数据仍保存。` — src\pfUIStrings.js:61
-- `测试可使用草稿。冻结版本用于正式采集；需要修改时创建可编辑版本。` — src\TaskGuide.jsx:6
-- `查看保存记录` — src\pfUIStrings.js:33
-- `查看保存数据、核对数据库结果，并分析当前实验记录。` — src\pfUIStrings.js:35
-- `查看保存状态、运行事件和 PhysioDB 核对结果。` — src\TaskGuide.jsx:9
-- `查看记录与分析` — src\TaskGuide.jsx:9
-- `查看实验记录` — src\pfUIStrings.js:106
-- `查看数据` — src\pfUIStrings.js:108
-- `呈现刺激前，确认脑波与心率信号正常更新。` — src\pfUIStrings.js:105
-- `持续更新` — src\pfUIStrings.js:131
-- `持续时间无效（需为正数）` — src\composer\toolbox.js:110
-- `処理` — src\pfUIStrings.js:120
-- `处理方式` — src\pfUIStrings.js:120
-- `传感器信号检查` — src\pfUIStrings.js:15
-- `创建独立测试记录，上传并回读信号及运行事件。测试记录会保留。` — src\pfUIStrings.js:56
-- `创建空白实验` — src\TaskGuide.jsx:5
-- `创建实验` — src\pfUIStrings.js:53
-- `创建新版本` — src\pfUIStrings.js:5
-- `创建与编辑实验` — src\TaskGuide.jsx:6
-- `此窗口用于管理员。将实验窗口放在参与者屏幕上。` — src\pfUIStrings.js:133
-- `此刻您的唤醒程度如何？` — src\core\questionnaireModel.js:149, src\domain.js:161
-- `此刻您的控制感如何？` — src\core\questionnaireModel.js:147
-- `此刻您的愉悦程度如何？` — src\core\questionnaireModel.js:148, src\domain.js:161
-- `此顺序会使数据来源晚于使用它的步骤。` — src\pfUIStrings.js:29
-- `次の3項目について評価してください。` — src\QuestionnaireFormV2.jsx:22
-- `次へ →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:12
-- `刺激池 ID 缺失或重复` — src\composer\toolbox.js:97
-- `刺激池媒体类型无效` — src\composer\toolbox.js:99
-- `刺激池缺少名称` — src\composer\toolbox.js:98
-- `刺激池引用的媒体资源不存在` — src\composer\toolbox.js:102
-- `刺激池与媒体节点的类型不一致` — src\composer\toolbox.js:103
-- `刺激池中还没有可用刺激` — src\composer\toolbox.js:101
-- `刺激数量不足以进行无放回分配` — src\composer\toolbox.js:105
-- `刺激素材` — src\pfUIStrings.js:191
-- `刺激提示の前に EEG と心拍の受信を確認します。` — src\pfUIStrings.js:105
-- `刺激プール名を入力してください` — src\composer\toolbox.js:159
-- `刺激プールIDがないか重複しています` — src\composer\toolbox.js:158
-- `刺激プールとMediaノードの種別が一致しません` — src\composer\toolbox.js:164
-- `刺激プールに刺激を追加してください` — src\composer\toolbox.js:162
-- `刺激プールのメディア種別が無効です` — src\composer\toolbox.js:160
-- `刺激プールのメディアが見つかりません` — src\composer\toolbox.js:163
-- `刺激メディア` — src\pfUIStrings.js:191
-- `从 PhysioDB 读取时间窗，检查波形并导出分析。` — src\pfUIStrings.js:107
-- `从编辑器测试运行，或从冻结版本进入准备采集。` — src\TaskGuide.jsx:7
-- `从空白方案或模板开始。` — src\pfUIStrings.js:54
-- `从空白方案开始` — src\pfUIStrings.js:204
-- `从模板创建` — src\pfUIStrings.js:178
-- `从首页创建空白实验，或使用情绪、Stroop、Go/No-Go 模板。` — src\TaskGuide.jsx:6
-- `存储设置` — src\pfUIStrings.js:173
-- `错误` — src\ResponseRunner.jsx:7
-- `打开` — src\pfUIStrings.js:169
-- `打开操作员监控` — src\pfUIStrings.js:138
-- `打开操作员监控放在管理员屏幕，实验窗口放在参与者屏幕。` — src\TaskGuide.jsx:7
-- `打开情绪实验示例` — src\TaskGuide.jsx:5
-- `打开实验` — src\pfUIStrings.js:108
-- `打开项目` — src\pfUIStrings.js:38
-- `待機時間は0以上で指定してください` — src\composer\toolbox.js:154
-- `当前步骤` — src\pfUIStrings.js:134
-- `导出 CSV` — src\pfUIStrings.js:120
-- `导出统计摘要` — src\pfUIStrings.js:120
-- `导入 JSON` — src\pfUIStrings.js:179
-- `得点` — src\QuestionnaireFormV2.jsx:16
-- `得分` — src\QuestionnaireFormV2.jsx:16
-- `得分:` — src\QuestionnaireForm.jsx:170
-- `等待操作员确认。` — src\RuntimeContent.jsx:7
-- `等待时长无效（需为正数）` — src\composer\toolbox.js:111
-- `等待实验` — src\pfUIStrings.js:134
-- `等待信号` — src\pfUIStrings.js:131
-- `点击“分析这次实验”查看时间线与回答，返回时保留同一记录。` — src\TaskGuide.jsx:9
-- `冻结版本` — src\pfUIStrings.js:193, src\pfUIStrings.js:9
-- `冻结前请检查迁移的设置。` — src\pfUIStrings.js:10
-- `凍結バージョン` — src\pfUIStrings.js:193
-- `独立したテスト記録を作成し、信号と実行イベントを送信・再読込します。記録は保持されます。` — src\pfUIStrings.js:56
-- `读取信号` — src\pfUIStrings.js:119
-- `読み取り専用` — src\pfUIStrings.js:117
-- `読み込み中…` — src\pfUIStrings.js:113
-- `断开` — src\pfUIStrings.js:99
-- `反应抑制任务` — src\pfUIStrings.js:162
-- `反応` — src\ResponseRunner.jsx:4
-- `反応抑制課題` — src\pfUIStrings.js:162
-- `方案版本` — src\pfUIStrings.js:77
-- `方案校验` — src\pfUIStrings.js:189
-- `非常不同意` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:150
-- `非常可能` — src\core\questionnaireModel.js:152
-- `非常同意` — src\core\questionnaireModel.js:13, src\core\questionnaireModel.js:150
-- `非常に勧める` — src\core\questionnaireModel.js:152
-- `分析区间` — src\pfUIStrings.js:192
-- `分析区間` — src\pfUIStrings.js:192
-- `分析这次实验` — src\pfUIStrings.js:36
-- `分组缺少名称` — src\composer\toolbox.js:78
-- `分组为空` — src\composer\toolbox.js:79
-- `分组中的节点不存在` — src\composer\toolbox.js:80
-- `峰值频率` — src\pfUIStrings.js:124
-- `服务器设置` — src\pfUIStrings.js:98
-- `复制` — src\pfUIStrings.js:199
-- `復旧記録` — src\pfUIStrings.js:134
-- `復元` — src\pfUIStrings.js:201
-- `複製` — src\pfUIStrings.js:199
-- `该参与者暂无记录。` — src\pfUIStrings.js:115
-- `该管理员尚未配置 PhysioDB` — src\pfUIStrings.js:155
-- `该数据流没有数值字段。` — src\pfUIStrings.js:122
-- `感情課題` — src\pfUIStrings.js:160
-- `感情実験のサンプルを開く` — src\TaskGuide.jsx:11
-- `高级参考` — src\TaskGuide.jsx:5
-- `个错误` — src\pfUIStrings.js:150
-- `个警告` — src\pfUIStrings.js:150
-- `个通道仍在采集` — src\pfUIStrings.js:149
-- `个已评估通道` — src\pfUIStrings.js:149
-- `更多操作` — src\pfUIStrings.js:37
-- `更新` — src\pfUIStrings.js:113
-- `更新时间` — src\pfUIStrings.js:113
-- `更新停止` — src\pfUIStrings.js:131
-- `工作区` — src\pfUIStrings.js:156
-- `管理员与参与者各用一个画面。` — src\pfUIStrings.js:109
-- `管理者画面で監視してください。実験中は刺激と質問のみ参加者に提示します。` — src\pfUIStrings.js:141
-- `管理者アクセスキー` — src\pfUIStrings.js:97
-- `管理者と参加者、別々の画面。` — src\pfUIStrings.js:109
-- `管理者モニターを管理者画面、実験ウィンドウを参加者画面に置きます。` — src\TaskGuide.jsx:13
-- `管理者モニターを開く` — src\pfUIStrings.js:138
-- `归档` — src\pfUIStrings.js:200
-- `合格` — src\AttentionCheckRunner.jsx:5
-- `红 / 赤 / RED` — src\core\taskTemplates.js:72
-- `画面校正` — src\CalibrationRunner.jsx:4
-- `画面のバインディングが存在しない変数を参照しています` — src\composer\toolbox.js:192
-- `唤醒度` — src\QuestionnaireFormV2.jsx:24
-- `黄 / 黄 / YELLOW` — src\core\taskTemplates.js:75
-- `恢复` — src\pfUIStrings.js:201
-- `恢复记录` — src\pfUIStrings.js:134
-- `回答済み` — src\QuestionnaireFormV2.jsx:21
-- `回答して次へ →` — src\QuestionnaireFormV2.jsx:19
-- `会话标识` — src\pfUIStrings.js:80
-- `会话数据库绑定` — src\pfUIStrings.js:73
-- `機器不要` — src\pfUIStrings.js:139
-- `機器接続` — src\pfUIStrings.js:140
-- `機器の接続設定がありません。` — src\pfUIStrings.js:91
-- `機器の信号を確認` — src\pfUIStrings.js:104
-- `機器のプレビュー・実際の DB` — src\pfUIStrings.js:64
-- `记录` — src\pfUIStrings.js:183
-- `记录可添加研究者备注和有效性评定。自动完整性检查不替代研究者判断。` — src\TaskGuide.jsx:9
-- `记录详情` — src\pfUIStrings.js:52
-- `技术信息` — src\pfUIStrings.js:4
-- `技術情報` — src\pfUIStrings.js:4
-- `計測 PC と接続を確認してください。` — src\pfUIStrings.js:145
-- `計測中` — src\pfUIStrings.js:131
-- `計測サービス URL` — src\pfUIStrings.js:140
-- `計測サービスキー` — src\pfUIStrings.js:140
-- `計測サービスを起動し、必要な全チャンネルの信号を確認します。` — src\TaskGuide.jsx:13
-- `計測ソース` — src\pfUIStrings.js:128
-- `計測ソースを PF サーバーに設定してください。` — src\pfUIStrings.js:144
-- `計測ソフトを起動後、信号を確認してください。` — src\pfUIStrings.js:129
-- `继续` — src\QuestionnaireFormV2.jsx:15, src\ResponseRunner.jsx:5
-- `继续编辑` — src\pfUIStrings.js:44
-- `記録` — src\pfUIStrings.js:183
-- `記録未確認` — src\pfUIStrings.js:82
-- `記録中` — src\pfUIStrings.js:81
-- `記録あり` — src\pfUIStrings.js:184
-- `記録と分析` — src\TaskGuide.jsx:15
-- `記録の確認` — src\pfUIStrings.js:106
-- `記録の詳細` — src\pfUIStrings.js:52
-- `記録を選択` — src\pfUIStrings.js:111
-- `检查设备信号` — src\pfUIStrings.js:104
-- `检查信号` — src\pfUIStrings.js:108
-- `検証して紐付けを保存` — src\pfUIStrings.js:78
-- `简单地开展实验。` — src\pfUIStrings.js:93
-- `件の追加の指摘` — src\pfUIStrings.js:150
-- `将 PF 会话绑定到所选记录。这里只保存目标，不会自动上传样本。` — src\pfUIStrings.js:74
-- `接收检查不测量电极阻抗，也不替代信号质量评估。` — src\pfUIStrings.js:130
-- `接続` — src\pfUIStrings.js:99
-- `接続済み` — src\pfUIStrings.js:99
-- `接続先ノードがありません` — src\composer\toolbox.js:138
-- `接続先の向きが正しくありません（入力ポートへ向かう必要があります）` — src\composer\toolbox.js:170
-- `接続先ポートがありません` — src\composer\toolbox.js:140
-- `接続元ノードがありません` — src\composer\toolbox.js:137
-- `接続元の向きが正しくありません（出力ポートから出る必要があります）` — src\composer\toolbox.js:169
-- `接続元ポートがありません` — src\composer\toolbox.js:139
-- `接続中…` — src\pfUIStrings.js:99
-- `接続タイプとポートタイプが一致しません` — src\composer\toolbox.js:141
-- `节点 ID 重复` — src\composer\toolbox.js:59
-- `节点不可达，缺少输入边` — src\composer\toolbox.js:57
-- `节点缺少 ID` — src\composer\toolbox.js:58
-- `节点缺少组件类型` — src\composer\toolbox.js:60
-- `节点引用的刺激池不存在` — src\composer\toolbox.js:100
-- `节点只能属于一个分组` — src\composer\toolbox.js:81
-- `结束` — src\pfUIStrings.js:119
-- `结束后先确认“会话数据已保存”，再导出完整数据包。` — src\TaskGuide.jsx:8
-- `结束节点不可达（有节点未连到主路径）` — src\composer\toolbox.js:56
-- `界面绑定引用了不存在的变量` — src\composer\toolbox.js:107
-- `界面模板为空` — src\composer\toolbox.js:106
-- `界面缺少输入控件` — src\composer\toolbox.js:108
-- `紧张` — src\core\taskTemplates.js:40
-- `緊張` — src\core\taskTemplates.js:40
-- `警告` — src\pfUIStrings.js:150
-- `旧 BioDB 接続` — src\pfUIStrings.js:8
-- `旧 BioDB 连接` — src\pfUIStrings.js:8
-- `旧版内嵌刺激池配置不一致` — src\composer\toolbox.js:104
-- `旧形式の埋め込み刺激プール設定が一致していません` — src\composer\toolbox.js:191
-- `均方根` — src\pfUIStrings.js:124
-- `均值` — src\pfUIStrings.js:124
-- `开始` — src\AttentionCheckRunner.jsx:4, src\pfUIStrings.js:119
-- `开始你的第一个实验` — src\TaskGuide.jsx:5
-- `开始前检查设备` — src\pfUIStrings.js:139
-- `开始前确认所有必需信号持续更新。监控不会接管采集设备。` — src\pfUIStrings.js:127
-- `开始实验` — src\pfUIStrings.js:138
-- `開始` — src\AttentionCheckRunner.jsx:4, src\pfUIStrings.js:119
-- `開始前に必要な信号の更新を確認してください。モニターは機器を占有しません。` — src\pfUIStrings.js:127
-- `開始前に機器を確認` — src\pfUIStrings.js:139
-- `開始前に計測エージェントの記録状態を確認してください。` — src\pfUIStrings.js:88
-- `開始ノードがありません` — src\composer\toolbox.js:130
-- `開く` — src\pfUIStrings.js:169
-- `空白方案` — src\pfUIStrings.js:177
-- `空の実験を作成` — src\TaskGuide.jsx:11
-- `空のプロトコル` — src\pfUIStrings.js:177
-- `空のプロトコルから始める` — src\pfUIStrings.js:204
-- `空のプロトコルまたはテンプレートから開始します。` — src\pfUIStrings.js:54
-- `控制端口已有多条连线，只能保留一条` — src\composer\toolbox.js:69
-- `控制感` — src\QuestionnaireFormV2.jsx:26
-- `蓝 / 青 / BLUE` — src\core\taskTemplates.js:74
-- `连接` — src\pfUIStrings.js:99
-- `连接必需设备并检查信号。` — src\pfUIStrings.js:90
-- `连接工作区` — src\pfUIStrings.js:95
-- `连线类型与控制流端口不匹配` — src\composer\toolbox.js:68
-- `连线目标方向错误（应指向输入端口）` — src\composer\toolbox.js:67
-- `连线缺少目标端口` — src\composer\toolbox.js:65
-- `连线缺少目标节点` — src\composer\toolbox.js:63
-- `连线缺少源端口` — src\composer\toolbox.js:64
-- `连线缺少源节点` — src\composer\toolbox.js:62
-- `连线源方向错误（应从输出端口出发）` — src\composer\toolbox.js:66
-- `流程缺少结束节点` — src\composer\toolbox.js:55
-- `流程缺少开始节点` — src\composer\toolbox.js:52
-- `流程图` — src\pfUIStrings.js:25
-- `流程中存在多个开始节点` — src\composer\toolbox.js:54
-- `录制尚未确认` — src\pfUIStrings.js:82
-- `绿 / 緑 / GREEN` — src\core\taskTemplates.js:73
-- `没有匹配的项目。` — src\pfUIStrings.js:165
-- `没有题目` — src\QuestionnaireFormV2.jsx:14
-- `媒体 URL 无效，请检查地址或改用资产` — src\composer\toolbox.js:95
-- `媒体节点缺少 URL 或资产` — src\composer\toolbox.js:94
-- `媒体完成模式无效` — src\composer\toolbox.js:96
-- `每次请选择不超过 5 分钟。` — src\pfUIStrings.js:125
-- `每次最多读取 5 分钟` — src\pfUIStrings.js:119
-- `名称` — src\pfUIStrings.js:180
-- `名前` — src\pfUIStrings.js:180
-- `名前を変更` — src\pfUIStrings.js:198
-- `模拟数据` — src\pfUIStrings.js:128
-- `模拟信号 · 真实数据库` — src\pfUIStrings.js:63
-- `模擬信号・実際の DB` — src\pfUIStrings.js:63
-- `模擬データ` — src\pfUIStrings.js:128
-- `目标验证通过` — src\pfUIStrings.js:79
-- `您向朋友推荐的可能性有多大？` — src\core\questionnaireModel.js:152
-- `配置操作员连接` — src\pfUIStrings.js:50
-- `平静` — src\core\taskTemplates.js:40
-- `平均` — src\pfUIStrings.js:124
-- `平均を除去` — src\pfUIStrings.js:120
-- `评分范围无效（min 需小于 max）` — src\composer\toolbox.js:112
-- `屏幕校准` — src\CalibrationRunner.jsx:4
-- `評価してください` — src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9
-- `評価に必要なサンプルを待っています。` — src\pfUIStrings.js:151
-- `評価の最大値は最小値より大きくしてください` — src\composer\toolbox.js:155
-- `其他` — src\core\taskTemplates.js:40
-- `启动采集软件后，在这里检查信号。` — src\pfUIStrings.js:129
-- `启用 PhysioDB 测试验证时，等待上传和数据库回读核对完成。` — src\TaskGuide.jsx:8
-- `迁移到新版编辑器` — src\pfUIStrings.js:164
-- `迁移后需要人工复核配置` — src\composer\toolbox.js:122
-- `欠損` — src\pfUIStrings.js:124
-- `欠損時は機器、電極、計測サービス、接続先を確認してください。本番には実機と書込可能な保存先が必要です。` — src\TaskGuide.jsx:13
-- `欠損は保持します。完全で等間隔の信号のみ周波数を計算します。DB の元データは変更しません。` — src\pfUIStrings.js:123
-- `強く同意する` — src\core\questionnaireModel.js:13, src\core\questionnaireModel.js:150
-- `切断` — src\pfUIStrings.js:99
-- `情绪任务` — src\pfUIStrings.js:160
-- `请按空格键` — src\constants.js:69
-- `请按响应键` — src\ResponseRunner.jsx:8
-- `请按照研究员给出的指示操作。` — src\RuntimeContent.jsx:6
-- `请保持窗口打开，并请管理员检查保存状态。` — src\pfUIStrings.js:87
-- `请从同一浏览器的实验准备页打开监控。` — src\pfUIStrings.js:137
-- `请等待管理员指示后开始。` — src\pfUIStrings.js:83
-- `请等待所有必需通道接收到新鲜且变化的样本，再开始实验。` — src\pfUIStrings.js:142
-- `请管理员在采集电脑上准备必需设备。` — src\pfUIStrings.js:84
-- `请回答所有必填项目。` — src\QuestionnaireFormV2.jsx:20
-- `请检查设置。` — src\composer\labels.js:4
-- `请检查信号` — src\pfUIStrings.js:148
-- `请评价` — src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9
-- `请评价以下三个维度。` — src\QuestionnaireFormV2.jsx:22
-- `请输入` — src\core\questionnaireModel.js:156
-- `请输入 PF 操作员密钥以验证数据库。` — src\pfUIStrings.js:68
-- `请输入数字` — src\core\questionnaireModel.js:158
-- `请拖动滑块` — src\core\questionnaireModel.js:153
-- `请详细描述` — src\core\questionnaireModel.js:157
-- `请选择` — src\core\questionnaireModel.js:154
-- `请选择（可多选）` — src\core\questionnaireModel.js:155
-- `请选择有效的开始和结束时间。` — src\pfUIStrings.js:125
-- `请选择最符合当前感受的情绪` — src\core\taskTemplates.js:39
-- `请选择最符合的情绪标签` — src\domain.js:161
-- `去均值` — src\pfUIStrings.js:120
-- `全く勧めない` — src\core\questionnaireModel.js:152
-- `全く同意しない` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:150
-- `缺少设备连接配置。` — src\pfUIStrings.js:91
-- `缺失` — src\pfUIStrings.js:124
-- `确认校准` — src\CalibrationRunner.jsx:5
-- `认知任务类型无效` — src\composer\toolbox.js:118
-- `认知任务没有试次，请先生成` — src\composer\toolbox.js:119
-- `认知任务试次 ID 无效` — src\composer\toolbox.js:120
-- `认知任务试次时长无效` — src\composer\toolbox.js:121
-- `認知課題に試行がありません。先に生成してください` — src\composer\toolbox.js:197
-- `認知課題の試行時間が無効です` — src\composer\toolbox.js:199
-- `認知課題の試行IDが無効です` — src\composer\toolbox.js:198
-- `認知課題の種類が無効です` — src\composer\toolbox.js:196
-- `日本語` — src\Inspector.jsx:298, src\app\legacyBuilder.jsx:322, src\app\sessionSetup.jsx:164, src\app\sessionSetup.jsx:92, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59
-- `日本語タイトル` — src\Inspector.jsx:126
-- `日付不明` — src\pfUIStrings.js:163
-- `日期未知` — src\pfUIStrings.js:163
-- `入口节点不是 start 节点` — src\composer\toolbox.js:53
-- `入口はStartノードである必要があります` — src\composer\toolbox.js:131
-- `入力してください` — src\core\questionnaireModel.js:156
-- `色词任务` — src\pfUIStrings.js:161
-- `色と文字の課題` — src\pfUIStrings.js:161
-- `上传原始记录` — src\pfUIStrings.js:116
-- `上移` — src\pfUIStrings.js:27
-- `上へ` — src\pfUIStrings.js:27
-- `尚未配置设备监控，请在 PF 服务端设置采集来源。` — src\pfUIStrings.js:144
-- `尚未确认原始录制。开始前请检查采集代理。` — src\pfUIStrings.js:88
-- `设备` — src\pfUIStrings.js:12
-- `设备检查中…请等待操作员。` — src\RuntimeContent.jsx:8
-- `设备连接` — src\pfUIStrings.js:140
-- `设备连接器无效` — src\composer\toolbox.js:92
-- `设备权限未批准` — src\composer\toolbox.js:93
-- `设备预览 · 真实数据库` — src\pfUIStrings.js:64
-- `设计 → 检查 → 运行 → 查看结果` — src\TaskGuide.jsx:5
-- `设计方案、准备参与者，完成后查看实验结果。` — src\pfUIStrings.js:42
-- `设计或选择方案，确认刺激素材，准备参与者会话。` — src\pfUIStrings.js:103
-- `设置` — src\pfUIStrings.js:14
-- `設定` — src\pfUIStrings.js:14
-- `設定を確認してください。` — src\composer\labels.js:4
-- `設計 → 確認 → 実行 → 結果確認` — src\TaskGuide.jsx:11
-- `生データをアップロード` — src\pfUIStrings.js:116
-- `剩余时间` — src\QuestionnaireFormV2.jsx:17
-- `时间窗内没有样本，请选择实际记录时间。` — src\pfUIStrings.js:121
-- `时间戳不均匀或不足` — src\pfUIStrings.js:122
-- `实验` — src\pfUIStrings.js:108, src\pfUIStrings.js:111
-- `实验步骤` — src\pfUIStrings.js:23
-- `实验工作区` — src\pfUIStrings.js:157
-- `实验管理导航` — src\pfUIStrings.js:101
-- `实验记录` — src\pfUIStrings.js:34
-- `实验监控` — src\pfUIStrings.js:132
-- `实验结构` — src\pfUIStrings.js:188
-- `实验事件` — src\pfUIStrings.js:116
-- `实验项目` — src\pfUIStrings.js:175, src\pfUIStrings.js:41
-- `实验已结束，监控窗口继续保留以便查看。` — src\pfUIStrings.js:136
-- `实验已完成，请联系管理员。` — src\pfUIStrings.js:85
-- `実効値` — src\pfUIStrings.js:124
-- `実行情報と信号を確認して実験を開始します。` — src\TaskGuide.jsx:14
-- `実行情報を編集` — src\pfUIStrings.js:31
-- `実行情報を確認しました。下の信号を確認して実験を開始してください。` — src\pfUIStrings.js:30
-- `実行と DB 検証` — src\TaskGuide.jsx:14
-- `実験` — src\pfUIStrings.js:108, src\pfUIStrings.js:111
-- `実験待ち` — src\pfUIStrings.js:134
-- `実験管理ナビゲーション` — src\pfUIStrings.js:101
-- `実験記録` — src\pfUIStrings.js:34
-- `実験記録を保存しています。お待ちください。` — src\pfUIStrings.js:86
-- `実験開始` — src\pfUIStrings.js:138
-- `実験者接続を設定` — src\pfUIStrings.js:50
-- `実験者接続を設定済み` — src\pfUIStrings.js:49
-- `実験者の指示を待ってから開始してください。` — src\pfUIStrings.js:83
-- `実験イベント` — src\pfUIStrings.js:116
-- `実験が終了しました。実験者にお知らせください。` — src\pfUIStrings.js:85
-- `実験と参加者を選択すると記録が表示されます。` — src\pfUIStrings.js:114
-- `実験の構成` — src\pfUIStrings.js:188
-- `実験の手順` — src\pfUIStrings.js:23
-- `実験の準備` — src\pfUIStrings.js:102
-- `実験は終了しました。このモニターは確認用に残ります。` — src\pfUIStrings.js:136
-- `実験プロジェクト` — src\pfUIStrings.js:175, src\pfUIStrings.js:41
-- `実験モニター` — src\pfUIStrings.js:132
-- `実験ワークスペース` — src\pfUIStrings.js:157
-- `実験を、シンプルに。` — src\pfUIStrings.js:93
-- `実験を開く` — src\pfUIStrings.js:108
-- `実験を選択` — src\pfUIStrings.js:112
-- `実験を作成` — src\pfUIStrings.js:53
-- `実験を作成・編集` — src\TaskGuide.jsx:12
-- `時間範囲を指定して波形、統計、データを書き出します。` — src\pfUIStrings.js:118
-- `時刻間隔が不均一、または不足` — src\pfUIStrings.js:122
-- `使用 PF 操作员访问密钥。数据库和设备凭据保留在服务端。` — src\pfUIStrings.js:96
-- `使用 PF 服务器访问密钥读取和上传实验记录。PhysioDB 凭据保留在服务器上。` — src\pfUIStrings.js:20
-- `使用 PF 服务器访问密钥连接传感器并检查实时信号。` — src\pfUIStrings.js:19
-- `使用 PhysioDB 验证测试运行` — src\pfUIStrings.js:55
-- `使用方法` — src\pfUIStrings.js:6
-- `使用模板` — src\pfUIStrings.js:40
-- `使用指南` — src\TaskGuide.jsx:5
-- `使い方` — src\TaskGuide.jsx:11, src\pfUIStrings.js:6
-- `収集前の確認` — src\pfUIStrings.js:47
-- `収集完了` — src\pfUIStrings.js:51
-- `収集中` — src\pfUIStrings.js:147
-- `収集を準備` — src\pfUIStrings.js:45
-- `收起标记面板` — src\RuntimeRunnerPage.jsx:541
-- `收起上传` — src\pfUIStrings.js:116
-- `手动完成模式需要界面中有提交按钮` — src\composer\toolbox.js:109
-- `手動完了には送信または次へボタンが必要です` — src\composer\toolbox.js:152
-- `手順表示` — src\pfUIStrings.js:26
-- `手順を選択し、左の要素をクリックして次の手順を追加します。` — src\TaskGuide.jsx:12
-- `手順を選択して編集し、左のパネルから要素を追加します。` — src\pfUIStrings.js:24
-- `手順を選択してから要素をクリックして挿入` — src\pfUIStrings.js:21
-- `手順を追加し、内容を設定してテストしてください。本番の前にバージョンを凍結します。` — src\TaskGuide.jsx:11
-- `首页打开“实验记录”，选择本次参与者记录。` — src\TaskGuide.jsx:9
-- `受信確認は電極インピーダンス測定や信号品質の評価ではありません。` — src\pfUIStrings.js:130
-- `受信中` — src\pfUIStrings.js:128, src\pfUIStrings.js:131
-- `数据保存` — src\pfUIStrings.js:48
-- `数据保存位置` — src\pfUIStrings.js:195
-- `数据库` — src\pfUIStrings.js:13
-- `数据库，可选择数据库录制时间窗、查看波形与统计并导出 CSV。` — src\TaskGuide.jsx:9
-- `数据库（PhysioDB）` — src\pfUIStrings.js:16
-- `数据库回读验证通过` — src\pfUIStrings.js:59
-- `数据库记录标识` — src\pfUIStrings.js:67
-- `数据库验证需要检查` — src\pfUIStrings.js:60
-- `数据量过大，请缩短时间窗。` — src\pfUIStrings.js:126
-- `数据流` — src\pfUIStrings.js:71
-- `数据与分析` — src\pfUIStrings.js:100
-- `数据与设置` — src\pfUIStrings.js:39
-- `数値フィールドがありません。` — src\pfUIStrings.js:122
-- `数値を入力してください` — src\core\questionnaireModel.js:158
-- `刷新` — src\pfUIStrings.js:113
-- `送信` — src\QuestionnaireFormV2.jsx:13
-- `搜索项目` — src\pfUIStrings.js:202
-- `素材確認済み` — src\pfUIStrings.js:139
-- `素材已检查` — src\pfUIStrings.js:139
-- `随机概率需在 0–100 之间` — src\composer\toolbox.js:116
-- `提交` — src\QuestionnaireFormV2.jsx:13
-- `提交并继续 →` — src\QuestionnaireFormV2.jsx:19
-- `提交回答` — src\QuestionnaireForm.jsx:211
-- `题目` — src\QuestionnaireFormV2.jsx:222
-- `添加到选中步骤之后` — src\pfUIStrings.js:22
-- `填写参与者编号与语言，确认媒体及数据保存位置。` — src\TaskGuide.jsx:7
-- `条件演算子が無効です` — src\composer\toolbox.js:193
-- `条件运算符无效` — src\composer\toolbox.js:114
-- `条其他问题` — src\pfUIStrings.js:150
-- `停止监控` — src\pfUIStrings.js:128
-- `通道` — src\pfUIStrings.js:124
-- `通过` — src\AttentionCheckRunner.jsx:5
-- `通过 PF 服务器读取实验室数据库。` — src\pfUIStrings.js:18
-- `同じブラウザーの実験準備画面から開いてください。` — src\pfUIStrings.js:137
-- `統計を書き出す` — src\pfUIStrings.js:120
-- `完全不可能` — src\core\questionnaireModel.js:152
-- `未安装设备连接器` — src\composer\toolbox.js:91
-- `未登録のコンポーネントです` — src\composer\toolbox.js:136
-- `未冻结` — src\pfUIStrings.js:187
-- `未凍結` — src\pfUIStrings.js:187
-- `未回答の項目があります。赤い行を確認してください。` — src\QuestionnaireFormV2.jsx:20
-- `未通过 / 超时` — src\AttentionCheckRunner.jsx:6
-- `未选择文件夹` — src\pfUIStrings.js:159
-- `未知的组件类型，请安装对应 SDK 包` — src\composer\toolbox.js:61
-- `问卷设计器 · Questionnaire designer · アンケート設計` — src\QuestionnaireDesigner.jsx:24
-- `无法连接设备监控，请检查采集电脑及网络连接。` — src\pfUIStrings.js:145
-- `无需设备` — src\pfUIStrings.js:139
-- `喜び` — src\core\taskTemplates.js:40
-- `下一题 →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:12
-- `下移` — src\pfUIStrings.js:28
-- `下へ` — src\pfUIStrings.js:28
-- `先浏览工作区` — src\TaskGuide.jsx:5
-- `先添加一个步骤，设置内容，然后测试运行。正式采集前再冻结版本。` — src\TaskGuide.jsx:5
-- `現在の感情に最も近いものを選んでください` — src\core\taskTemplates.js:39
-- `現在の覚醒度を教えてください。` — src\core\questionnaireModel.js:149, src\domain.js:161
-- `現在の快・不快の程度を教えてください。` — src\core\questionnaireModel.js:148, src\domain.js:161
-- `現在の支配感・コントロール感を教えてください。` — src\core\questionnaireModel.js:147
-- `現在のステップ` — src\pfUIStrings.js:134
-- `详细设置` — src\pfUIStrings.js:3
-- `詳細設定` — src\pfUIStrings.js:3
-- `詳細リファレンス` — src\TaskGuide.jsx:11
-- `詳しく記述してください` — src\core\questionnaireModel.js:157
-- `响应` — src\ResponseRunner.jsx:4
-- `项目` — src\pfUIStrings.js:11
-- `项目操作` — src\pfUIStrings.js:167
-- `項目` — src\pfUIStrings.js:116
-- `校正を確認` — src\CalibrationRunner.jsx:5
-- `协议流程为空，请先添加节点` — src\composer\toolbox.js:51
-- `协议缺少 ID` — src\composer\toolbox.js:49
-- `协议缺少名称` — src\composer\toolbox.js:50
-- `协议文档结构无效` — src\composer\toolbox.js:48
-- `心率` — src\pfUIStrings.js:132
-- `心拍数` — src\pfUIStrings.js:132
-- `新版本` — src\pfUIStrings.js:197
-- `新規` — src\pfUIStrings.js:176
-- `新建` — src\pfUIStrings.js:176
-- `新しい編集画面へ移行` — src\pfUIStrings.js:164
-- `新しいバージョン` — src\pfUIStrings.js:197
-- `新しいバージョンを作成` — src\pfUIStrings.js:5
-- `信号不可用` — src\pfUIStrings.js:148
-- `信号待ち` — src\pfUIStrings.js:131
-- `信号检查` — src\pfUIStrings.js:100
-- `信号良好` — src\pfUIStrings.js:148
-- `信号品質` — src\pfUIStrings.js:147
-- `信号缺失时检查设备、电极、采集服务和连接地址。正式采集要求真实设备及可写的数据文件夹。` — src\TaskGuide.jsx:7
-- `信号確認` — src\pfUIStrings.js:100
-- `信号使用不可` — src\pfUIStrings.js:148
-- `信号停止更新` — src\pfUIStrings.js:131
-- `信号无变化` — src\pfUIStrings.js:131
-- `信号质量` — src\pfUIStrings.js:147
-- `信号を読み込む` — src\pfUIStrings.js:119
-- `信号を確認` — src\pfUIStrings.js:108, src\pfUIStrings.js:148
-- `行いたい作業を選び、手順に沿って操作してください。` — src\TaskGuide.jsx:11
-- `修改运行信息` — src\pfUIStrings.js:31
-- `需要检查` — src\pfUIStrings.js:128
-- `続行` — src\ResponseRunner.jsx:5
-- `选项 1` — src\core\questionnaireModel.js:10
-- `选项 2` — src\core\questionnaireModel.js:10
-- `选项1` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
-- `选项2` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
-- `选项3` — src\core\questionnaireModel.js:154
-- `选择步骤进行编辑，使用左侧组件添加新步骤。` — src\pfUIStrings.js:24
-- `选择参与者` — src\pfUIStrings.js:112
-- `选择你要完成的任务，按步骤操作。` — src\TaskGuide.jsx:5
-- `选择时间窗，查看波形、计算统计并导出数据。` — src\pfUIStrings.js:118
-- `选择实验` — src\pfUIStrings.js:112
-- `选择实验和参与者以查看记录。` — src\pfUIStrings.js:114
-- `选择实验记录` — src\pfUIStrings.js:111
-- `选择研究` — src\pfUIStrings.js:112
-- `选中步骤后，点击组件即可插入` — src\pfUIStrings.js:21
-- `選択肢 1` — src\core\questionnaireModel.js:10
-- `選択肢 2` — src\core\questionnaireModel.js:10
-- `選択肢1` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
-- `選択肢2` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
-- `選択肢3` — src\core\questionnaireModel.js:154
-- `選択した刺激プールがありません` — src\composer\toolbox.js:161
-- `選択した手順の後に追加` — src\pfUIStrings.js:22
-- `選択してください` — src\core\questionnaireModel.js:154
-- `選択してください（複数可）` — src\core\questionnaireModel.js:155
-- `削除` — src\pfUIStrings.js:170
-- `削除・アーカイブ済みバージョン` — src\pfUIStrings.js:166
-- `循环次数无效（需为正整数）` — src\composer\toolbox.js:113
-- `循环终止运算符无效` — src\composer\toolbox.js:115
-- `押したキー` — src\ResponseRunner.jsx:9
-- `押す` — src\domain.js:296, src\domain.js:327
-- `研究` — src\pfUIStrings.js:111
-- `研究工作区` — src\pfUIStrings.js:152
-- `研究者の指示に従ってください。` — src\RuntimeContent.jsx:6
-- `研究者のメモと有効性評価を保存できます。自動チェックは研究者の判断を置き換えません。` — src\TaskGuide.jsx:15
-- `研究ワークスペース` — src\pfUIStrings.js:152
-- `研究を選択` — src\pfUIStrings.js:112
-- `验证并保存绑定` — src\pfUIStrings.js:78
-- `样本` — src\pfUIStrings.js:116
-- `要確認` — src\pfUIStrings.js:128
-- `一致` — src\pfUIStrings.js:65
-- `一致するプロジェクトはありません。` — src\pfUIStrings.js:165
-- `移除` — src\pfUIStrings.js:170
-- `移行後に設定を確認してください` — src\composer\toolbox.js:200
-- `移行した設定の確認が済むと、このバージョンを凍結できます。` — src\pfUIStrings.js:10
-- `已按` — src\ResponseRunner.jsx:9
-- `已定位到以下步骤，请点击 Insert 放入流程图` — src\flowCanvas\CanvasOverlays.jsx:14
-- `已断开` — src\pfUIStrings.js:99
-- `已回答` — src\QuestionnaireFormV2.jsx:21
-- `已连接` — src\pfUIStrings.js:99
-- `已配置操作员连接` — src\pfUIStrings.js:49
-- `已移除或归档的版本` — src\pfUIStrings.js:166
-- `异常` — src\pfUIStrings.js:131
-- `応答キーを押してください` — src\ResponseRunner.jsx:8
-- `友人に勧める可能性はどのくらいですか？` — src\core\questionnaireModel.js:152
-- `有记录` — src\pfUIStrings.js:184
-- `有设备时先启动采集服务，再检查所有必需通道的实时信号。` — src\TaskGuide.jsx:7
-- `有効サンプル` — src\pfUIStrings.js:124
-- `有効な開始・終了時刻を指定してください。` — src\pfUIStrings.js:125
-- `有效样本` — src\pfUIStrings.js:124
-- `右で刺激、時間、回答方法を設定します。分岐はフロー図を使います。` — src\TaskGuide.jsx:12
-- `愉快` — src\core\taskTemplates.js:40
-- `愉悦度` — src\QuestionnaireFormV2.jsx:25
-- `予備実施の記録` — src\pfUIStrings.js:194
-- `预览运行` — src\pfUIStrings.js:7
-- `预试记录` — src\pfUIStrings.js:194
-- `元の値` — src\pfUIStrings.js:120
-- `原始数值` — src\pfUIStrings.js:120
-- `运行信息已确认。请在下方检查信号，然后开始实验。` — src\pfUIStrings.js:30
-- `运行与数据库验证` — src\TaskGuide.jsx:8
-- `在操作员屏幕上监控。实验期间只向参与者呈现刺激与问题。` — src\pfUIStrings.js:141
-- `在此检查传感器实时信号，不测量阻抗，也不是数据库。` — src\pfUIStrings.js:17
-- `在此浏览器的实验准备页打开操作员监控。将实验窗口移至参与者屏幕，管理员窗口独立显示进度和信号。` — src\pfUIStrings.js:110
-- `在实验步骤中选中一项，点击左侧组件添加下一步。` — src\TaskGuide.jsx:6
-- `在右侧设置刺激、时长和回答方式；复杂分支使用流程图。` — src\TaskGuide.jsx:6
-- `暂无项目` — src\pfUIStrings.js:203
-- `展开标记面板` — src\RuntimeRunnerPage.jsx:541
-- `正解` — src\ResponseRunner.jsx:6
-- `正确` — src\ResponseRunner.jsx:6
-- `正式実験とは別にテスト記録を保持し、ローカルデータも保存します。` — src\pfUIStrings.js:61
-- `正在保存实验记录，请稍候。` — src\pfUIStrings.js:86
-- `正在采样` — src\pfUIStrings.js:131
-- `正在等待足够样本以评估信号。` — src\pfUIStrings.js:151
-- `正在读取…` — src\pfUIStrings.js:113
-- `正在接收` — src\pfUIStrings.js:128
-- `正在连接…` — src\pfUIStrings.js:99
-- `正在录制` — src\pfUIStrings.js:81
-- `正在上传并回读测试数据…` — src\pfUIStrings.js:58
-- `正在准备数据库测试记录…` — src\pfUIStrings.js:69
-- `知道了` — src\flowCanvas\CanvasToolbar.jsx:12
-- `只读` — src\pfUIStrings.js:117
-- `質問` — src\QuestionnaireFormV2.jsx:222
-- `質問がありません` — src\QuestionnaireFormV2.jsx:14
-- `中文` — src\Inspector.jsx:298, src\app\legacyBuilder.jsx:321, src\app\sessionSetup.jsx:164, src\app\sessionSetup.jsx:92, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59
-- `中文标题` — src\Inspector.jsx:126
-- `終了` — src\pfUIStrings.js:119
-- `終了後に保存成功を確認し、完全なデータパッケージを出力します。` — src\TaskGuide.jsx:14
-- `重複なしで割り当てるための刺激数が不足しています` — src\composer\toolbox.js:165
-- `重命名` — src\pfUIStrings.js:198
-- `重新保存` — src\pfUIStrings.js:72
-- `重新核对数据库` — src\pfUIStrings.js:62
-- `重新连接数据库` — src\pfUIStrings.js:117
-- `注视点形状无效` — src\composer\toolbox.js:117
-- `注視点の形状が無効です` — src\composer\toolbox.js:195
-- `注意力检查` — src\AttentionCheckRunner.jsx:3
-- `注意チェック` — src\AttentionCheckRunner.jsx:3
-- `状态` — src\pfUIStrings.js:181
-- `状態` — src\pfUIStrings.js:181
-- `准备` — src\pfUIStrings.js:100
-- `准备采集` — src\pfUIStrings.js:45
-- `准备参与者与设备` — src\TaskGuide.jsx:7
-- `准备实验` — src\pfUIStrings.js:102
-- `准备实验，检查信号，查看数据。` — src\pfUIStrings.js:94
-- `准备完毕` — src\pfUIStrings.js:185
-- `准备信息确认后检查信号，再点击“开始实验”。` — src\TaskGuide.jsx:8
-- `准备中` — src\pfUIStrings.js:186
-- `準備` — src\pfUIStrings.js:100
-- `準備、信号確認、データの確認。` — src\pfUIStrings.js:94
-- `準備完了` — src\pfUIStrings.js:185
-- `準備中` — src\pfUIStrings.js:186
-- `子流程参数映射类型不匹配` — src\composer\toolbox.js:83
-- `子流程参数映射缺失` — src\composer\toolbox.js:82
-- `子流程出口节点无效` — src\composer\toolbox.js:86
-- `子流程模板为空` — src\composer\toolbox.js:84
-- `子流程入口节点无效` — src\composer\toolbox.js:85
-- `字段` — src\pfUIStrings.js:116
-- `最初の実験を始めましょう` — src\TaskGuide.jsx:11
-- `最大` — src\pfUIStrings.js:124
-- `最大 5 分間を選択してください。` — src\pfUIStrings.js:125
-- `最大值` — src\pfUIStrings.js:124
-- `最低` — src\core\questionnaireModel.js:153
-- `最高` — src\core\questionnaireModel.js:153
-- `最后更新` — src\pfUIStrings.js:182
-- `最近编辑的项目` — src\pfUIStrings.js:43
-- `最近編集したプロジェクト` — src\pfUIStrings.js:43
-- `最小` — src\pfUIStrings.js:124
-- `最小值` — src\pfUIStrings.js:124
-- `最終更新` — src\pfUIStrings.js:182
-- `最も近い感情ラベルを選んでください` — src\domain.js:161
-- `A centered cross for rest or fixation.` — src\participantUi\screenPresets.js:4
 - `a clipped signal loses amplitude information and biases every derived feature` — src\analysis\signal\quality.js:201
 - `A declarative SDK example that completes on button press.` — src\sdk\exampleReactionButtonPackage.js:23
 - `A destination stream and client are required` — src\physioDBTransfer.js:8
@@ -1007,13 +263,9 @@ Generated: 2026-10-25T15:30:31.646Z
 - `A nested write requires a path` — src\collaboration\changeSets.js:162
 - `A node can belong to only one group` — src\core\groupCommands.js:15, src\core\groupCommands.js:43
 - `A non-empty group randomization seed is required` — src\core\groupSequence.js:6
-- `A prompt, rating response and submit button.` — src\participantUi\screenPresets.js:7
 - `A protocol must contain at least one Block.` — src\HierarchyManager.jsx:18
 - `A raw recording file is required` — src\brainFlowRecording.js:5
-- `A saved runtime snapshot and its append-only event history were found.` — src\RuntimeRunnerPage.jsx:418
-- `A stimulus area with a short instruction.` — src\participantUi\screenPresets.js:5
 - `A valid start/end time range is required` — src\physioDBClient.js:104
-- `Abort session` — src\RuntimeRunnerPage.jsx:490
 - `Accuracy (1 correct / 0 incorrect)` — src\data\graphExport.js:228
 - `acquisition agent samples.jsonl` — src\devices\brainflowConnector.js:24
 - `Actual elapsed duration including recorded pauses.` — src\exporter.js:202
@@ -1021,32 +273,20 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Add a question from the left panel, or click an existing question to edit it.` — src\QuestionnaireWorkspace.jsx:223
 - `Add a step, set its content, then run a test. Freeze a version before formal collection.` — src\TaskGuide.jsx:17
 - `Add a Trial before opening the workflow.` — src\FlowWorkspaceOverlay.jsx:151
-- `Add an event node of the matching type from the "Add to flow" panel.` — src\PreRunChecklist.jsx:41
 - `Add at least one block, trial, and event node.` — src\readiness.js:62
 - `Add at least one experiment component between Start and End.` — src\readiness.js:62
 - `Add event nodes, connect ports, and use Condition/Loop nodes for branches and repeats.` — src\constants.js:164
 - `Add from palette →` — src\flowCanvas\CanvasContextMenu.jsx:15
-- `Add style` — src\participantUi\StyleEditor.jsx:40
 - `admin JWT exchange failed` — src\bioDBClient.js:51, src\bioDBClient.js:58
 - `admin-monitor workspace-desk` — src\AdminMonitorPage.jsx:75
-- `Advanced appearance (` — src\participantUi\StyleEditor.jsx:38
 - `Advanced reference` — src\TaskGuide.jsx:17
 - `AF7` — src\devices\museProtocol.js:31
 - `AF8` — src\devices\museProtocol.js:32
 - `Affect map` — src\DataPanel.jsx:15
-- `Align bottom` — src\ParticipantUiCanvas.jsx:46
-- `Align centers (horizontal)` — src\ParticipantUiCanvas.jsx:45
-- `Align left` — src\ParticipantUiCanvas.jsx:45
-- `Align middles (vertical)` — src\ParticipantUiCanvas.jsx:46
-- `Align right` — src\ParticipantUiCanvas.jsx:45
-- `Align selection` — src\participantUi\SelectionInspector.jsx:12
-- `Align top` — src\ParticipantUiCanvas.jsx:46
-- `Alignment needs unlocked elements in the same free-layout container.` — src\participantUi\SelectionInspector.jsx:15
 - `All channels` — src\DataPanel.jsx:13
 - `All referenced media are available.` — src\app\sessionSetup.jsx:103
 - `Allow retry` — src\Inspector.jsx:144
 - `Allow skip` — src\Inspector.jsx:143
-- `Alt text` — src\participantUi\UiPropertyEditor.jsx:12
 - `Alt+Drag` — src\flowCanvas\ShortcutsModal.jsx:6
 - `An event timestamp with a timezone is required` — src\physioDBMapping.js:6
 - `An experiment, participant and stream lookup client are required` — src\physioDBTransfer.js:52
@@ -1078,30 +318,23 @@ Generated: 2026-10-25T15:30:31.646Z
 - `At least one End node must be reachable from Start.` — src\constants.js:157
 - `Attach a URL, uploaded file, or reusable stimulus to every media step.` — src\readiness.js:86
 - `Attach media, write instructions, configure questionnaires, and mark analysis windows.` — src\constants.js:165
-- `attention-check result` — src\AttentionCheckRunner.jsx:84
-- `attention-check showing` — src\AttentionCheckRunner.jsx:83
+- `attention-check result` — src\AttentionCheckRunner.jsx:81
+- `attention-check showing` — src\AttentionCheckRunner.jsx:80
 - `audio/*` — src\MediaSettings.jsx:42, src\app\legacyBuilder.jsx:366
 - `authorization, content-type, idempotency-key` — src\hosted\hostedHttp.js:67
-- `Auto layout · reorder` — src\participantUi\UiPropertyEditor.jsx:10, src\participantUi\UiPropertyEditor.jsx:4
 - `Auto layout applied` — src\composer\useComposerState.js:483
 - `Automated checks for event continuity, missing ends, invalid windows, and timing attention flags.` — src\constants.js:179
 - `Automated quality report for missing terminal events, invalid windows, unclosed markers, and timing caveats.` — src\constants.js:205
 - `Automated validity checks and warnings.` — src\exporter.js:139
 - `Automatic checks do not establish hardware timing accuracy or replace researcher review.` — src\SessionManager.jsx:322
-- `Automatic transition limit exceeded` — src\runtime\runtimeMachine.js:273
-- `autoplay; encrypted-media; picture-in-picture` — src\MediaStep.jsx:119, src\ParticipantMedia.jsx:52
+- `autoplay; encrypted-media; picture-in-picture` — src\MediaStep.jsx:121, src\ParticipantMedia.jsx:52
 - `Avg Duration` — src\analysis\WindowCards.jsx:24
-- `Awaiting first checkpoint` — src\GraphRuntimeRunnerPage.jsx:615
-- `Awaiting operator` — src\core\participantUi.js:129
-- `B · Blue` — src\CognitiveTaskRunner.jsx:6
-- `Back to editing` — src\participantUi\ScreenChecks.jsx:9
 - `Background color` — src\Inspector.jsx:42
 - `Balanced halves require one node per asset and metadata.half = 1 or 2 on every media node` — src\core\stimulusRandomization.js:57
 - `band_*_relative` — src\data\jointExport.js:184
 - `Base hash must be SHA-256` — src\collaboration\changeSets.js:103
 - `Base version must be a positive integer` — src\collaboration\changeSets.js:102
 - `base64` — src\bioDBClient.js:129, src\bioDBClient.js:248
-- `Basic checks passed` — src\participantUi\ScreenChecks.jsx:9
 - `Batch size must be between 1 and 10000` — src\physioDBTransfer.js:9
 - `Bearer access token is required` — src\hosted\hostedHttp.js:17
 - `Before you continue` — src\app\sessionSetup.jsx:114
@@ -1130,17 +363,11 @@ Generated: 2026-10-25T15:30:31.646Z
 - `BrainFlow agent must use http://127.0.0.1:<port>` — src\devices\brainflowConnector.js:5
 - `BrainFlow agent restarted; reconnect to start a new segment` — src\devices\brainflowConnector.js:29
 - `BrainFlow agent samples.jsonl` — src\GraphRuntimeRunnerPage.jsx:111
-- `BrainFlow agent token` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627
-- `BrainFlow agent URL` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627
 - `BrainFlow cursor does not match samples` — src\devices\brainflowConnector.js:37
-- `BrainFlow EEG preview (µV)` — src\GraphRuntimeRunnerPage.jsx:627
 - `BrainFlow is disconnected` — src\devices\brainflowConnector.js:27
-- `BrainFlow live preview` — src\GraphRuntimeRunnerPage.jsx:627
 - `BrainFlow marker channel is unavailable` — src\devices\brainflowConnector.js:42
-- `BrainFlow preview exported; full raw recording remains on the acquisition computer.` — src\GraphRuntimeRunnerPage.jsx:607
 - `BrainFlow samples.jsonl` — src\PhysioDBUpload.jsx:59
 - `Brightness at comfortable level` — src\constants.js:70
-- `Bring to front` — src\ParticipantUiBuilder.jsx:185
 - `Browse data ↗` — src\Dashboard.jsx:152
 - `Browser fallback` — src\constants.js:196
 - `browser storage unavailable` — src\fsStorage.js:179
@@ -1157,7 +384,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `button, input, select, textarea, [tabindex]:not([tabindex="-1"])` — src\Modal.jsx:11
 - `button,input,select` — src\flowCanvas\useNodeDrag.js:20
 - `button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])` — src\Modal.jsx:17, src\QuestionnaireWorkspace.jsx:38
-- `calibration done` — src\CalibrationRunner.jsx:31
+- `calibration done` — src\CalibrationRunner.jsx:30
 - `calm / content` — src\analysis\AffectMap.jsx:13
 - `Cancel transfer` — src\PhysioDBUpload.jsx:62
 - `Cancellation requested. Waiting for any current request to finish; no further batches will be sent.` — src\PhysioDBUpload.jsx:62
@@ -1165,17 +392,11 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Cannot delete` — src\HierarchyManager.jsx:18, src\HierarchyManager.jsx:27, src\QuestionnaireLibrary.jsx:19
 - `Cannot freeze` — src\App.jsx:421
 - `Cannot freeze:` — src\App.jsx:479, src\app\legacyBuilder.jsx:103
-- `Cannot go back from a finished or inactive run.` — src\runtime\testNavigation.js:19
-- `Cannot move an element into its own descendant` — src\core\participantUi.js:256
-- `Cannot move an element into itself` — src\core\participantUi.js:249
 - `Cannot save a protocol without an ID` — src\fsStorage.js:61
 - `Cannot start session` — src\App.jsx:552
-- `Canvas editing mode` — src\ParticipantUiBuilder.jsx:86
-- `Canvas zoom` — src\ParticipantUiBuilder.jsx:103
 - `Captures a single quick participant response with button or keyboard input.` — src\constants.js:116
 - `Catch trial to verify participant attention. Shows a prompt and expects a specific keypress within a time window.` — src\constants.js:131
 - `CC0` — src\exporter.js:538
-- `Centered fixation` — src\participantUi\screenPresets.js:4
 - `Change set exceeds the 10,000-operation safety limit` — src\collaboration\changeSets.js:106
 - `Change set ID is required` — src\collaboration\changeSets.js:99
 - `Change set targets a different protocol or project` — src\collaboration\changeSets.js:206
@@ -1196,8 +417,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Checking the complete recording…` — src\PhysioDBUpload.jsx:22
 - `Checking the destination and uploading the recording…` — src\PhysioDBUpload.jsx:38
 - `Checklist items` — src\Inspector.jsx:284
-- `Checkpoint not saved` — src\GraphRuntimeRunnerPage.jsx:615
-- `Checkpoint saved` — src\GraphRuntimeRunnerPage.jsx:615
 - `Checkpoints and final session data are written to this folder. Unsubmitted questionnaire answers and task progress may not be recoverable.` — src\app\sessionSetup.jsx:109
 - `Chinese content` — src\app\legacyBuilder.jsx:321
 - `Choose (multiple allowed)` — src\core\questionnaireModel.js:155
@@ -1206,8 +425,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Choose a multiple of 4 (4–10,000). Use a multiple of 8 for equal congruent/incongruent counts within each ink color.` — src\composer\TrialGenerator.jsx:12
 - `Choose a non-empty group with distinct nodes.` — src\core\groupSegment.js:7
 - `Choose a non-empty media file` — src\assetStore.js:24
-- `Choose a response.` — src\RuntimeContent.jsx:197
-- `Choose a stimulus image` — src\participantUi\screenPresets.js:12
 - `Choose a supported image, audio or video file.` — src\core\mediaReadiness.js:37
 - `Choose at least two distinct groups` — src\core\groupSequence.js:7
 - `Choose one` — src\core\questionnaireModel.js:154
@@ -1216,7 +433,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Choose the emotion closest to your current feeling` — src\core\taskTemplates.js:39
 - `Choose what you want to do, then follow the steps.` — src\TaskGuide.jsx:17
 - `Chooses true or false path from participant fields, trial condition, or questionnaire answers.` — src\constants.js:148
-- `clamp(1.1rem, 2.5vw, 1.8rem)` — src\RuntimeContent.jsx:140
+- `clamp(1.1rem, 2.5vw, 1.8rem)` — src\RuntimeContent.jsx:142
 - `clamp(1.4rem, 3vw, 2.2rem)` — src\app\legacyBuilder.jsx:412
 - `clamp(1.6rem,4vw,2.6rem)` — src\flowCanvas\NodePreviewModal.jsx:156
 - `Clean White` — src\theme.js:158
@@ -1225,27 +442,23 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Click-to-use distribution` — src\GuidePanel.jsx:96
 - `Close (Esc)` — src\QuestionnaireWorkspace.jsx:111
 - `Close guide` — src\GuidePanel.jsx:25
-- `cm ·` — src\CalibrationRunner.jsx:54
-- `cognitive-task instructions` — src\CognitiveTaskRunner.jsx:116
+- `cm ·` — src\CalibrationRunner.jsx:53
+- `cognitive-task instructions` — src\CognitiveTaskRunner.jsx:118
 - `Collaboration baseline updated` — src\composer\useCatalogActions.js:38
 - `Collaboration change set applied` — src\composer\useCatalogActions.js:39
-- `Collapse markers` — src\RuntimeRunnerPage.jsx:542
 - `Collection workflow` — src\app\sessionSetup.jsx:83
 - `Collects participant responses with required/optional questions.` — src\constants.js:111
 - `Color theme` — src\ThemeSettings.jsx:48
-- `Color-word Stroop` — src\CognitiveTaskRunner.jsx:116
 - `Column reference (analysis_windows.csv):` — src\exporter.js:417
 - `Column reference (events.csv):` — src\exporter.js:404
 - `Column reference (responses.csv):` — src\exporter.js:414
 - `Column-level reference for the CSV files. Use this first when building analysis scripts.` — src\constants.js:206
 - `Compact (0.9x)` — src\ThemeSettings.jsx:92
-- `Compare the two images.` — src\participantUi\screenPresets.js:15
 - `completed node visits` — src\SessionManager.jsx:314
 - `Completed session lacks protocol_completed event` — src\data\graphIntegrity.js:25
 - `Completed Session lacks session_completed event` — src\integrity.js:28
 - `completed steps` — src\SessionManager.jsx:314
 - `Completed steps` — src\Analytics.jsx:128, src\analysis\CrossSessionCompare.jsx:115
-- `completed visits ·` — src\GraphRuntimeRunnerPage.jsx:615
 - `Completion checkbox label` — src\Inspector.jsx:240
 - `Completion label` — src\app\legacyBuilder.jsx:346
 - `Component definition must be an object` — src\core\componentRegistry.js:30
@@ -1267,7 +480,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Configure the prompt, expected key, timeout duration, and pass/fail feedback text. Use in condition nodes with last_attention_passed to branch.` — src\constants.js:132
 - `Configured component presentation intervals, including pauses; not physical stimulus onset.` — src\data\graphExport.js:105
 - `Configured duration when available.` — src\exporter.js:201
-- `Confirm calibration` — src\CalibrationRunner.jsx:5
 - `Confirm delete` — src\app\legacyBuilder.jsx:47
 - `Confirm the run details and signals, then begin the experiment.` — src\TaskGuide.jsx:20
 - `Confirmation label` — src\Inspector.jsx:268
@@ -1285,21 +497,16 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Content is empty — fill in «Participant content» in at least one language for clearer participant guidance` — src\domain.js:363
 - `content_i18n` — src\app\legacyBuilder.jsx:257, src\flowCanvas\NodePreviewModal.jsx:61
 - `content-fields stimulus-pool-fields` — src\composer\NodeInspector.jsx:171
-- `Continue / action button` — src\participantUi\constants.js:32
 - `Continue after response` — src\app\legacyBuilder.jsx:332
 - `Continue immediately after response` — src\Inspector.jsx:197
 - `Continue to collection` — src\app\sessionSetup.jsx:129
 - `Continue to test run` — src\app\sessionSetup.jsx:129
-- `Control handler ID must use lowercase dot/dash notation` — src\runtime\controlHandlerRegistry.js:11
-- `Control handler needs an execute function` — src\runtime\controlHandlerRegistry.js:13
-- `Control handler version must use semantic versioning` — src\runtime\controlHandlerRegistry.js:12
 - `Cool blue tones — calm, focused` — src\theme.js:107
 - `Copy / Paste / Duplicate` — src\flowCanvas\ShortcutsModal.jsx:2
 - `Correct answer (auto-score)` — src\QuestionnaireEditorV2.jsx:141, src\QuestionnaireWorkspace.jsx:321
 - `Could not choose a local data folder. Use Chrome or Edge, then try again.` — src\App.jsx:345
 - `Could not load the selected session.` — src\Analytics.jsx:46
 - `Could not open folder` — src\App.jsx:353
-- `Could not save the completed session. Export the bundle now, then retry saving.` — src\RuntimeRunnerPage.jsx:138
 - `Could not write protocol data to the active storage location. Check local folder permission, storage quota, or export the protocol before continuing.` — src\App.jsx:170
 - `Countdown ring` — src\app\legacyBuilder.jsx:308
 - `Create a blank experiment` — src\TaskGuide.jsx:17
@@ -1317,7 +524,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Creates an analysis_windows.csv row when analysis window is enabled.` — src\constants.js:83
 - `Cross (+)` — src\Inspector.jsx:422
 - `Cross-Session Comparison (` — src\analysis\CrossSessionCompare.jsx:23
-- `CSS px` — src\CalibrationRunner.jsx:54
+- `CSS px` — src\CalibrationRunner.jsx:53
 - `CSV contains an unclosed quoted field` — src\core\questionnaireModel.js:122
 - `CSV field descriptions.` — src\exporter.js:140
 - `CSV を書き出す` — src\pfUIStrings.js:120
@@ -1331,10 +538,8 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Ctrl+V` — src\Inspector.jsx:68
 - `Ctrl+Z` — src\FlowWorkspaceOverlay.jsx:115, src\app\AppHeader.jsx:10
 - `Ctrl+Z / Ctrl+Shift+Z` — src\flowCanvas\ShortcutsModal.jsx:3
-- `Current node` — src\GraphRuntimeRunnerPage.jsx:682
 - `Current version is editable draft.` — src\readiness.js:101
 - `Custom CSS` — src\Inspector.jsx:333
-- `Custom HTML fragment` — src\participantUi\constants.js:34
 - `Custom HTML or CSS requires sandbox compatibility review` — src\legacy\migrateProtocolV1.js:44
 - `Custom primary color:` — src\ThemeSettings.jsx:63
 - `Cycles must return to a bounded Loop node.` — src\core\groupSegment.js:37
@@ -1361,18 +566,17 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Database reads database time windows, displays waveforms and statistics, and exports CSV.` — src\TaskGuide.jsx:21
 - `Database test failed` — src\physioDBServiceClient.js:24
 - `Database test run` — src\app\sessionSetup.jsx:112
-- `DB 記録の識別情報` — src\pfUIStrings.js:67
-- `DB 検証用の PF 管理者キーを入力してください。` — src\pfUIStrings.js:68
-- `DB 検証を確認してください` — src\pfUIStrings.js:60
-- `DB 接続を再試行` — src\pfUIStrings.js:117
-- `DB 再読込の検証に成功` — src\pfUIStrings.js:59
 - `DB テスト記録を準備中…` — src\pfUIStrings.js:69
 - `DB を再確認` — src\pfUIStrings.js:62
+- `DB 記録の識別情報` — src\pfUIStrings.js:67
+- `DB 検証を確認してください` — src\pfUIStrings.js:60
+- `DB 検証用の PF 管理者キーを入力してください。` — src\pfUIStrings.js:68
+- `DB 再読込の検証に成功` — src\pfUIStrings.js:59
+- `DB 接続を再試行` — src\pfUIStrings.js:117
 - `Default desktop data folder` — src\GuidePanel.jsx:108
 - `Default green — clean, professional` — src\theme.js:98
 - `Default trial layout` — src\ThemeSettings.jsx:109
 - `defects must be an array` — src\usability\studyMetrics.js:70
-- `Delete (Del)` — src\ParticipantUiBuilder.jsx:202
 - `Delete block?` — src\HierarchyManager.jsx:19
 - `Delete questionnaire?` — src\QuestionnaireLibrary.jsx:20
 - `Delete step` — src\app\legacyBuilder.jsx:296
@@ -1410,12 +614,10 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Destination stream does not match the selected experiment and participant` — src\physioDBTransfer.js:56
 - `Detailed configuration changed` — src\Dashboard.jsx:96
 - `Device channel IDs must be valid and unique` — src\devices\deviceConnector.js:20
-- `Device check in progress. Please wait for the operator.` — src\RuntimeContent.jsx:8
 - `Device connector` — src\core\validateProtocolGraph.js:77
 - `Device connector must be an object` — src\devices\deviceConnector.js:9
 - `Device is not connected` — src\devices\deviceConnector.js:103, src\devices\deviceConnector.js:117, src\devices\deviceConnector.js:133
 - `Device requirements` — src\app\sessionSetup.jsx:105
-- `Device samples are kept in this browser's session package; runtime synchronization does not upload the device sample stream.` — src\GraphRuntimeRunnerPage.jsx:628
 - `Device session requires connector, adapter, session ID, clock and ID factory` — src\devices\deviceConnector.js:57
 - `Device signal check` — src\DeviceMonitorPanel.jsx:36
 - `Device timestamps collide at millisecond precision. Local data is preserved; this preview cannot be verified without losing samples.` — src\analysis\testRunPayload.js:15
@@ -1432,8 +634,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Display at native resolution` — src\constants.js:70
 - `Displayed option label for Response nodes when available.` — src\exporter.js:212
 - `Displays a centered cross for baseline or gaze reset periods.` — src\constants.js:81
-- `Distribute horizontally` — src\ParticipantUiCanvas.jsx:47
-- `Distribute vertically` — src\ParticipantUiCanvas.jsx:47
 - `Does not equal` — src\Inspector.jsx:409
 - `Dominance（支配感）` — src\QuestionnaireFormV2.jsx:26
 - `Dot (•)` — src\Inspector.jsx:422
@@ -1447,17 +647,12 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Drag output port` — src\flowCanvas\ShortcutsModal.jsx:5
 - `Drag the slider` — src\core\questionnaireModel.js:153
 - `Drag to move together · Delete to remove · Ctrl+D to duplicate` — src\Inspector.jsx:78
-- `Drag to resize` — src\ParticipantUiCanvas.jsx:487
-- `Duplicate (Ctrl+D)` — src\ParticipantUiBuilder.jsx:201, src\ParticipantUiCanvas.jsx:450
 - `Duration in milliseconds` — src\app\legacyBuilder.jsx:307
 - `duration_ms Event duration when available` — src\exporter.js:409
-- `Dynamic bindings (variables.*) win over static style for color and background.` — src\participantUi\StyleEditor.jsx:41
 - `e.g. 1, 2, 3 (position numbers)` — src\app\sessionSetup.jsx:178
 - `e.g. 1.2rem, 18px` — src\Inspector.jsx:307
-- `e.g. 20px` — src\participantUi\UiPropertyEditor.jsx:11
 - `e.g. 5` — src\QuestionnaireDesigner.jsx:185, src\QuestionnaireEditorV2.jsx:141, src\QuestionnaireWorkspace.jsx:322
 - `e.g. exp_xxxxx` — src\ProtocolBioDBConfig.jsx:83
-- `e.g. variables.score` — src\ParticipantUiBuilder.jsx:227
 - `Each Block must contain at least one Trial.` — src\HierarchyManager.jsx:27
 - `Each checked item is exported in device_check_completed metadata.` — src\Inspector.jsx:291
 - `Each group runs once in this order. Steps inside each group keep their execution order.` — src\app\sessionSetup.jsx:96
@@ -1470,15 +665,11 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Edge source must be an output port` — src\core\validateProtocolGraph.js:112
 - `Edge target must be an input port` — src\core\validateProtocolGraph.js:113
 - `Edit language` — src\QuestionnaireEditorV2.jsx:80
-- `Edit style` — src\ParticipantUiBuilder.jsx:187
 - `Editor view` — src\flowCanvas\CanvasToolbar.jsx:6
 - `EEG bands · relative (avg)` — src\analysis\BrainFlowSignalChart.jsx:70
 - `EEG bands (relative)` — src\analysis\FeaturePanel.jsx:67
 - `effective records)` — src\analysis\ResponseCharts.jsx:24
 - `elapsedMonotonicMs must be non-negative` — src\data\eventSchemaRegistry.js:59
-- `Element X` — src\participantUi\ScreenChecks.jsx:14
-- `elements selected` — src\participantUi\SelectionInspector.jsx:9
-- `Elements to check` — src\participantUi\ScreenChecks.jsx:9
 - `Emotion (SAM) template` — src\core\taskTemplates.js:48
 - `Emotion template v1` — src\domain.js:162
 - `Enable Generate analysis window on baseline, stimulus, task, or recovery steps that need physiological analysis.` — src\readiness.js:94
@@ -1491,14 +682,11 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Enter a participant ID.` — src\app\sessionSetup.jsx:74
 - `Enter a valid number` — src\core\inputValidation.js:7
 - `Enter a whole number of repetitions from 1 to 10,000.` — src\core\repeatSegment.js:41
-- `Enter note...` — src\RuntimeRunnerPage.jsx:328, src\RuntimeRunnerPage.jsx:352
-- `Enter or leave the field to apply. Escape cancels.` — src\participantUi\PositionFields.jsx:28
 - `Enter participant and device sync metadata, preview the actual trial order, then start the session.` — src\constants.js:187
 - `Enter participant ID and language, then check media and the data destination.` — src\TaskGuide.jsx:19
 - `Enter the BrainFlow agent token` — src\devices\brainflowConnector.js:6
 - `Enter viewing distance and screen dimensions. The operator confirms display settings before the session proceeds.` — src\constants.js:137
 - `Entry point for the selected trial flow.` — src\constants.js:144
-- `Equipment check` — src\core\participantUi.js:124
 - `Error ·` — src\Analytics.jsx:140
 - `Event duration` — src\data\graphExport.js:221
 - `Event duration in seconds.` — src\exporter.js:485
@@ -1507,7 +695,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Event ingestion requires a batch ID` — src\hosted\hostedService.js:500
 - `Event ingestion requires a non-empty event batch` — src\hosted\hostedService.js:509
 - `event JWT exchange failed` — src\bioDBClient.js:261
-- `Event markers` — src\RuntimeRunnerPage.jsx:547
 - `Event name such as step_entered, step_completed, media_play_started, or manual_marker.` — src\exporter.js:185
 - `Event onset` — src\data\graphExport.js:220
 - `Event onset in seconds from session start (monotonic clock).` — src\exporter.js:484
@@ -1536,19 +723,16 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Exit test and return to editor` — src\TestRunExitButton.jsx:28
 - `Exit test run?` — src\TestRunExitButton.jsx:32
 - `Exiting…` — src\TestRunExitButton.jsx:28, src\TestRunExitButton.jsx:34
-- `Expand markers` — src\RuntimeRunnerPage.jsx:542
 - `Expected a legacy PhysioFlow 1.0.0 protocol` — src\legacy\migrateProtocolV1.js:192
 - `Expected a Protocol Graph` — src\core\protocolSelectors.js:64
 - `Expected vs Actual Duration` — src\analysis\WindowCards.jsx:74
 - `experiment not writable` — src\SessionManager.jsx:116
 - `Experiment registry entry, including the channel dictionary attached by D4.` — src\data\jointExport.js:179
-- `Experiment stimulus` — src\core\participantUi.js:82
 - `Experiment UUID` — src\PhysioDBUpload.jsx:54
 - `experimentId is required` — src\bioDBClient.js:200
 - `Explore results and compare recorded sessions.` — src\Dashboard.jsx:152
 - `Explore the workspace` — src\TaskGuide.jsx:17
 - `Export data` — src\constants.js:167
-- `Export failure data` — src\GraphRuntimeRunnerPage.jsx:611
 - `Export the complete session ZIP. Keep the ZIP with the frozen protocol and external device files.` — src\constants.js:189
 - `Exported without BioDB` — src\SessionManager.jsx:146
 - `Exports are local files. CSV files include a UTF-8 BOM for spreadsheet compatibility, and every ZIP includes both a human README and a machine-readable data dictionary.` — src\GuidePanel.jsx:72
@@ -1595,31 +779,23 @@ Generated: 2026-10-25T15:30:31.646Z
 - `File checksum does not match the protocol. Choose the original file, or add a new asset and reassign it in a draft.` — src\assetStore.js:26
 - `Fill content` — src\constants.js:165
 - `Fill participant content in at least one language, then choose fixed time or manual continue.` — src\constants.js:77
-- `Filled ellipse / circle shape` — src\participantUi\constants.js:37
-- `Filled rectangle shape` — src\participantUi\constants.js:36
-- `Final session save failed:` — src\RuntimeRunnerPage.jsx:135
 - `finished sessions` — src\Analytics.jsx:74
-- `Fit participant viewport (preserve aspect ratio)` — src\participantUi\UiPropertyEditor.jsx:12
 - `Five-condition emotion physiology experiment` — src\domain.js:162
 - `Fix the protocol configuration.` — src\app\sessionSetup.jsx:76
 - `fix-section notes` — src\PreRunChecklist.jsx:272
 - `Fixation appearance` — src\Inspector.jsx:418
-- `fixation rest-icon` — src\RuntimeContent.jsx:129
-- `Fixed screen` — src\ParticipantUiBuilder.jsx:239
+- `fixation rest-icon` — src\RuntimeContent.jsx:131
 - `flow · steps · layout` — src\FlowJsonEditor.jsx:69
 - `Flow cycle detection exceeded depth limit` — src\flowEngine.js:150
 - `Flow graph node ID; useful when a branch revisits the same step.` — src\exporter.js:183
 - `Flow needs at least one End node` — src\flowEngine.js:91
 - `Flow snapshot saved` — src\composer\useComposerState.js:507
-- `Flow state` — src\GraphRuntimeRunnerPage.jsx:680
 - `flow-json-status error` — src\FlowJsonEditor.jsx:71
 - `flow-json-status ok` — src\FlowJsonEditor.jsx:74
 - `flow-status invalid` — src\flowCanvas\CanvasToolbar.jsx:40
 - `flow-status valid` — src\flowCanvas\CanvasToolbar.jsx:40
-- `Follow the instructions shown by the researcher.` — src\RuntimeContent.jsx:6
 - `Font family` — src\ThemeSettings.jsx:76
 - `Font scale` — src\ThemeSettings.jsx:87
-- `Font size` — src\Inspector.jsx:306, src\participantUi\UiPropertyEditor.jsx:11
 - `Font weight` — src\Inspector.jsx:311
 - `For device_check nodes, metadata_json contains checks[], all_checked, required_all, and operator_note.` — src\exporter.js:194
 - `for each Trial — instruction, video, questionnaire…` — src\app\legacyBuilder.jsx:116
@@ -1632,9 +808,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Formal collection · frozen version` — src\app\sessionSetup.jsx:87
 - `Formal collection requires the desktop app or a selected local data folder.` — src\readiness.js:119
 - `Format: type, en, options (| separated), min, max, answer` — src\QuestionnaireEditorV2.jsx:90
-- `FREE · drag anywhere` — src\ParticipantUiCanvas.jsx:491
-- `FREE · drag elements anywhere` — src\ParticipantUiCanvas.jsx:490
-- `Free canvas · position` — src\participantUi\UiPropertyEditor.jsx:10, src\participantUi\UiPropertyEditor.jsx:4
 - `Freeze a validated version before formal collection.` — src\readiness.js:102
 - `Frozen or draft protocol snapshot used for this session.` — src\constants.js:174
 - `Frozen protocol configuration no longer matches its hash` — src\deployment\deploymentBundle.js:47
@@ -1642,7 +815,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Frozen protocol has no config_hash.` — src\Dashboard.jsx:69
 - `Frozen protocols cannot be edited.` — src\core\sharedNodeEdits.js:141, src\core\sharedNodeEdits.js:167, src\core\sharedNodeEdits.js:41, src\core\stimulusRandomization.js:156
 - `Full raw sample rows are required; browser previews are not raw recordings` — src\physioDBMapping.js:38
-- `G · Green` — src\CognitiveTaskRunner.jsx:5
 - `Generate an analysis window for this step in the exported CSV` — src\app\legacyBuilder.jsx:292
 - `Generate another group order` — src\app\sessionSetup.jsx:96
 - `Generate another order` — src\app\sessionSetup.jsx:101
@@ -1650,11 +822,9 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Generation uses the current paradigm, seed, jitter and Go ratio. Existing trials are replaced only when you click the button.` — src\composer\TrialGenerator.jsx:13
 - `Gentle purple — creative, relaxed` — src\theme.js:134
 - `Georgia (serif)` — src\ThemeSettings.jsx:82
-- `Georgia, serif` — src\ThemeSettings.jsx:82, src\core\participantUi.js:18, src\theme.js:113
 - `GET, POST, PUT, OPTIONS` — src\hosted\hostedHttp.js:66
 - `global-completion-v1` — src\GraphRuntimeRunnerPage.jsx:183, src\GraphRuntimeRunnerPage.jsx:549, src\GraphRuntimeRunnerPage.jsx:586, src\GraphRuntimeRunnerPage.jsx:616, src\GraphRuntimeRunnerPage.jsx:93
 - `Go (press space)` — src\domain.js:272
-- `Go / No-Go` — src\CognitiveTaskRunner.jsx:116
 - `Go ratio:` — src\TemplateConfig.jsx:26
 - `Go/No-Go inhibition task` — src\domain.js:340
 - `Go/No-Go main task` — src\domain.js:309
@@ -1669,9 +839,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Graph node identifier` — src\data\graphExport.js:225
 - `graph-runner-ready pf-completion` — src\GraphRuntimeRunnerPage.jsx:607
 - `graph-runner-ready pf-preflight` — src\GraphRuntimeRunnerPage.jsx:592, src\GraphRuntimeRunnerPage.jsx:593
-- `grayscale(.35) brightness(.8)` — src\RuntimeRunnerPage.jsx:470
 - `Greater than` — src\Inspector.jsx:409
-- `Group children in a row or column` — src\participantUi\constants.js:28
 - `Group execution snapshot does not match its source, seed and plan` — src\core\groupSequence.js:63
 - `Group ID is required` — src\core\validateProtocolGraph.js:129
 - `Group IDs cannot be changed` — src\core\groupCommands.js:37
@@ -1683,14 +851,10 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Guide sections` — src\GuidePanel.jsx:28
 - `guide-control-list guide-data-list` — src\GuidePanel.jsx:74
 - `guide-control-list guide-storage-list` — src\GuidePanel.jsx:99
-- `h2` — src\main.jsx:61
 - `Handler runtime components need a handlerId` — src\core\componentRegistry.js:35
-- `Heading or body copy` — src\participantUi\constants.js:29
-- `High Contrast` — src\participantUi\constants.js:50, src\theme.js:119
 - `High-resolution Unix epoch milliseconds. Use for aligning with physiological devices.` — src\exporter.js:188
 - `hmac-sha256-chain` — src\hosted\hostedStateStore.js:106
 - `hmac-sha256+aes-256-gcm` — src\hosted\hostedStateStore.js:101
-- `Horizontal or vertical separator line` — src\participantUi\constants.js:35
 - `Hosted actor access token is required` — src\hosted\hostedService.js:123
 - `Hosted actor access tokens must be unique` — src\hosted\hostedService.js:143
 - `Hosted actor ID is required` — src\hosted\hostedService.js:121
@@ -1725,29 +889,23 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Hosted retention plan as-of time` — src\hosted\hostedService.js:597
 - `Hosted retention purge confirmation conflict` — src\hosted\hostedService.js:622
 - `Hosted retention purge requires the plan as-of time` — src\hosted\hostedService.js:617
-- `Hosted runtime sync requires a client and hosted session metadata` — src\hosted\hostedRuntimeSync.js:5
 - `Hosted service request failed` — src\hosted\hostedHttp.js:50
 - `Hosted session IDs must be present and unique` — src\hosted\hostedStateStore.js:60
 - `Hosted state must be an object` — src\hosted\hostedStateStore.js:39
 - `Hosted tenant limits must be an object keyed by tenant ID` — src\hosted\hostedService.js:29
 - `Hosted web storage requires the Storage API` — src\hosted\hostedStateStore.js:154
 - `How aroused do you feel right now?` — src\core\questionnaireModel.js:149, src\domain.js:161
-- `How do you feel?` — src\core\participantUi.js:86, src\participantUi\screenPresets.js:16
 - `How likely are you to recommend to a friend?` — src\core\questionnaireModel.js:152
 - `How much control do you feel right now?` — src\core\questionnaireModel.js:147
 - `How pleasant do you feel right now?` — src\core\questionnaireModel.js:148, src\domain.js:161
 - `hrv_*` — src\data\jointExport.js:184
 - `HTML / CSS / JS` — src\Inspector.jsx:453
-- `HTML fragment` — src\participantUi\UiPropertyEditor.jsx:16
-- `HTML fragment has no content yet` — src\core\participantUi.js:188
 - `Human-readable description of the export package.` — src\exporter.js:130
 - `Human-readable guide for the session export package.` — src\constants.js:171
 - `I completed the external form` — src\Inspector.jsx:241, src\QuestionnaireForm.jsx:121, src\app\legacyBuilder.jsx:346, src\constants.js:62
 - `i18n-group` — src\Inspector.jsx:125, src\Inspector.jsx:297
 - `If the session was pushed moments ago, wait a few seconds and export again — VictoriaMetrics makes new samples queryable asynchronously.` — src\data\jointExport.js:131
 - `If the web build cannot access a local folder, drafts and preview runs may fall back to browser storage. Formal collection is blocked until a local folder is selected.` — src\constants.js:196
-- `Image and instructions` — src\participantUi\screenPresets.js:5
-- `Image, audio or video` — src\participantUi\constants.js:30
 - `image/*` — src\MediaSettings.jsx:42, src\app\legacyBuilder.jsx:366
 - `image/*,audio/*,video/*` — src\composer\Catalogs.jsx:467, src\composer\Catalogs.jsx:476
 - `Immutable external-device lifecycle, sample, marker, failure and recovery events with connector/device provenance.` — src\data\graphExport.js:100
@@ -1759,28 +917,21 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Impossible condition order: reduce repetitions or relax the consecutive-condition constraint.` — src\core\sequenceConstraints.js:15
 - `Include the enclosing loop in the group before randomizing it.` — src\core\groupSegment.js:78
 - `Incomplete media read` — src\tauriStorage.js:39
-- `IndexedDB not available — session storage disabled` — src\RuntimeRunnerPage.jsx:21
 - `IndexedDB session save failed:` — src\fsStorage.js:178
-- `Input needs a response name` — src\core\participantUi.js:182
-- `Input type` — src\participantUi\UiPropertyEditor.jsx:13
 - `inside the Block — each Trial is one run-through` — src\app\legacyBuilder.jsx:115
 - `Installed Reaction Button example package` — src\composer\useCatalogActions.js:32
 - `Installed simulated physiology connector` — src\composer\useCatalogActions.js:35
 - `Integrity has not been checked. Review the session before using its data.` — src\SessionManager.jsx:321
 - `Integrity report embedded into the session summary.` — src\exporter.js:168
-- `Inter-trial interval` — src\CognitiveTaskRunner.jsx:124
-- `Interval marker type` — src\RuntimeRunnerPage.jsx:566
 - `Invalid asset identifier` — src\assetStore.js:23
 - `Invalid BrainFlow batch` — src\devices\brainflowConnector.js:31
 - `Invalid BrainFlow sample sequence or timestamp` — src\devices\brainflowConnector.js:34
 - `Invalid device snapshot` — src\operator\deviceSnapshot.js:3
 - `Invalid event type` — src\physioDBMapping.js:4
-- `Invalid navigation event range.` — src\runtime\testNavigation.js:57
 - `Invalid PhysioDB URL` — src\physioDBClient.js:5
 - `Invalid recording line limit` — src\brainFlowRecording.js:6
 - `Invalid sample timestamp` — src\physioDBMapping.js:35, src\physioDBMapping.js:45
 - `Invalid scale: use increasing integer bounds with at most 21 choices.` — src\QuestionnaireFormV2.jsx:147, src\QuestionnaireFormV2.jsx:153
-- `Invalid test navigation history.` — src\runtime\testNavigation.js:20, src\runtime\testNavigation.js:25
 - `ISO 8601` — src\app\sessionSetup.jsx:172
 - `iso8601` — src\app\sessionSetup.jsx:172, src\constants.js:217
 - `Item deleted` — src\app\legacyBuilder.jsx:58
@@ -1800,90 +951,17 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Large (1.1x)` — src\ThemeSettings.jsx:94
 - `Large (1.5rem)` — src\constants.js:223
 - `launch links` — src\hosted\hostedService.js:225
-- `Layout mode` — src\participantUi\UiPropertyEditor.jsx:10, src\participantUi\UiPropertyEditor.jsx:4
-- `Left / right stimuli` — src\participantUi\screenPresets.js:6
 - `legacy-lcg-v1` — src\GraphRuntimeRunnerPage.jsx:92, src\core\stimulusRandomization.js:17
 - `Less than` — src\Inspector.jsx:409
-- `Library panels` — src\ParticipantUiBuilder.jsx:134
 - `LINK UNAVAILABLE` — src\ParticipantLaunchPage.jsx:80
-- `Live variables, outputs and flow state` — src\GraphRuntimeRunnerPage.jsx:618
-- `Loading referenced local files and checking their integrity.` — src\GraphRuntimeRunnerPage.jsx:591
 - `Local author` — src\collaboration\changeSets.js:145, src\composer\Catalogs.jsx:109
 - `Local folder unavailable` — src\App.jsx:345
 - `Local in-memory execution provider` — src\deployment\deploymentBundle.js:153
 - `Local saving and database verification are separate. Tests without devices explicitly use a synthetic signal. Formal raw recordings currently require explicit upload.` — src\TaskGuide.jsx:20
-- `Local test session could not be loaded` — src\GraphRuntimeRunnerPage.jsx:608
 - `Log format version — currently 1.2.0.` — src\exporter.js:169
-- `Loop counts` — src\GraphRuntimeRunnerPage.jsx:686
 - `Loop return paths must stay within their enclosing loop.` — src\core\groupSegment.js:55
 - `Loop until variable` — src\composer\NodeInspector.jsx:197
 - `Loops need a finite maximum from 1 to 10,000 iterations.` — src\core\groupSegment.js:12
-- `M0,0 L8,4 L0,8 z` — src\flowCanvas\CanvasLayers.jsx:10
-- `M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z` — src\flowCanvas\NodeCard.jsx:84
-- `M12 10v5` — src\flowIcons.jsx:86
-- `M12 18h.01` — src\flowIcons.jsx:86
-- `M12 3l10 18H2L12 3z` — src\flowIcons.jsx:86
-- `M12 3l9 9-9 9-9-9 9-9z` — src\flowIcons.jsx:102
-- `M12 4v16` — src\flowIcons.jsx:70
-- `M12 5.5c4.4 0 8 2.9 8 6.5s-3.6 6.5-8 6.5-8-2.9-8-6.5 3.6-6.5 8-6.5z` — src\participantUi\UiIcon.jsx:13
-- `M12 7v5l3 2` — src\flowIcons.jsx:72
-- `M15 4h5v5` — src\RuntimeRunnerPage.jsx:485, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
-- `M15 4l6 5-6 5` — src\flowCanvas\CanvasToolbar.jsx:18
-- `M15 5v14` — src\RuntimeRunnerPage.jsx:486, src\flowIcons.jsx:74
-- `M15 6l5 6-5 6` — src\flowIcons.jsx:94
-- `M16 12H4` — src\flowIcons.jsx:84
-- `M16 9a4 4 0 0 1 0 6` — src\flowIcons.jsx:78
-- `M18 5v14` — src\RuntimeRunnerPage.jsx:488
-- `M18 6L6 18` — src\flowCanvas\NodeCard.jsx:91
-- `M20 12a8 8 0 1 1-2.34-5.66` — src\RuntimeRunnerPage.jsx:487, src\flowIcons.jsx:104
-- `M20 15v5h-5` — src\RuntimeRunnerPage.jsx:485, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
-- `M20 4v4h-4` — src\RuntimeRunnerPage.jsx:487, src\flowIcons.jsx:104
-- `M21 9H10a6 6 0 0 0 0 12h3` — src\flowCanvas\CanvasToolbar.jsx:18
-- `M3 10h18` — src\flowIcons.jsx:110
-- `M3 9h11a6 6 0 0 1 0 12h-3` — src\flowCanvas\CanvasToolbar.jsx:17
-- `M4 10h16v4H4z M4 12h12` — src\participantUi\UiIcon.jsx:9
-- `M4 12h.01` — src\flowIcons.jsx:82
-- `M4 12h16` — src\flowIcons.jsx:70, src\participantUi\UiIcon.jsx:11
-- `M4 17l5-5 4 4 3-3 4 4` — src\flowIcons.jsx:80
-- `M4 18h.01` — src\flowIcons.jsx:82
-- `M4 5h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z M9 21h6` — src\participantUi\UiIcon.jsx:3
-- `M4 5h16v14H4z M4 9h16 M4 13h16` — src\participantUi\UiIcon.jsx:4
-- `M4 6h.01` — src\flowIcons.jsx:82
-- `M4 6h10M4 12h14M4 18h8` — src\ParticipantUiCanvas.jsx:35
-- `M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z M9 10.5l3-3 3 3 M8.5 14l2.5-2.5 2 2 2-2 1.5 1.5` — src\participantUi\UiIcon.jsx:6
-- `M4 8.5h16v7H4z M7 8.5v7` — src\participantUi\UiIcon.jsx:7
-- `M4 8h16` — src\flowIcons.jsx:106
-- `M4 9V4h5` — src\RuntimeRunnerPage.jsx:485, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
-- `M4 9v6h4l5 4V5L8 9H4z` — src\flowIcons.jsx:78
-- `M5 12h9` — src\flowIcons.jsx:68
-- `M5 15V5a2 2 0 0 1 2-2h10` — src\flowCanvas\NodeCard.jsx:88
-- `M5 18h14` — src\flowIcons.jsx:68
-- `M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z` — src\flowIcons.jsx:106
-- `M5 5l10 7-10 7V5z` — src\RuntimeRunnerPage.jsx:488
-- `M5 6h14` — src\flowIcons.jsx:68
-- `M5 6h14 M5 11h10 M5 16h14 M12 11v5` — src\participantUi\UiIcon.jsx:5
-- `M5 7h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z` — src\participantUi\UiIcon.jsx:12
-- `M5 7v10M12 7v10M19 7v10M5 12h14` — src\ParticipantUiCanvas.jsx:41
-- `M6 4v10M12 4v14M18 4v8` — src\ParticipantUiCanvas.jsx:38
-- `M6 6l12 12` — src\flowCanvas\NodeCard.jsx:91
-- `M6 6v8M12 2v16M18 7v6` — src\ParticipantUiCanvas.jsx:39
-- `M6 8v10M12 4v14M18 9v8` — src\ParticipantUiCanvas.jsx:40
-- `M7 5h10M7 12h10M7 19h10M12 5v14` — src\ParticipantUiCanvas.jsx:42
-- `M7 5l12 7-12 7V5z` — src\flowIcons.jsx:76
-- `M7 6h8M2 12h16M6 18h9` — src\ParticipantUiCanvas.jsx:36
-- `M7 9.5h10a3 3 0 0 1 3 3v-1a0 0 0 0 1 0 0v1a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-1a0 0 0 0 1 0 0v1a3 3 0 0 1 3-3z` — src\participantUi\UiIcon.jsx:8
-- `M8 12h12` — src\flowIcons.jsx:82
-- `M8 12l3 3 5-6` — src\flowIcons.jsx:90
-- `M8 18h12` — src\flowIcons.jsx:82
-- `M8 5l11 7-11 7V5z` — src\RuntimeRunnerPage.jsx:486
-- `M8 6h10M4 12h14M10 18h8` — src\ParticipantUiCanvas.jsx:37
-- `M8 6h12` — src\flowIcons.jsx:82
-- `M9 20H4v-5` — src\RuntimeRunnerPage.jsx:485, src\flowCanvas\CanvasToolbar.jsx:20, src\flowIcons.jsx:92
-- `M9 4L3 9l6 5` — src\flowCanvas\CanvasToolbar.jsx:17
-- `M9 5l7 7-7 7` — src\flowIcons.jsx:84
-- `M9 5v14` — src\RuntimeRunnerPage.jsx:486, src\flowIcons.jsx:74
-- `M9 6l-5 6 5 6` — src\flowIcons.jsx:94
-- `M9 8.5L5.5 12 9 15.5 M15 8.5l3.5 3.5L15 15.5` — src\participantUi\UiIcon.jsx:10
 - `Machine-readable field descriptions for the exported CSV files.` — src\constants.js:180
 - `Machine-readable package manifest and record counts.` — src\exporter.js:131
 - `Machine-readable package manifest, protocol/session IDs, generation time, and record counts.` — src\constants.js:172
@@ -1895,8 +973,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `manual_event_confirmed metadata` — src\exporter.js:193
 - `Map of channel id -> { connectorId, connectorVersion, label, dataType, unit, sampleRateHz, direction }.` — src\exporter.js:221
 - `Mapped sample values must be finite numbers` — src\physioDBMapping.js:42
-- `Marker delivery failed:` — src\GraphRuntimeRunnerPage.jsx:607
-- `Marker failed:` — src\GraphRuntimeRunnerPage.jsx:627
 - `match option text` — src\QuestionnaireWorkspace.jsx:322
 - `matched submissions.` — src\analysis\ResponseCharts.jsx:85
 - `matching option text` — src\QuestionnaireEditorV2.jsx:141
@@ -1905,21 +981,15 @@ Generated: 2026-10-25T15:30:31.646Z
 - `max label` — src\QuestionnaireWorkspace.jsx:303
 - `Max label` — src\QuestionnaireEditorV2.jsx:132, src\QuestionnaireWorkspace.jsx:303
 - `max same` — src\app\legacyBuilder.jsx:167
-- `Max width` — src\participantUi\UiPropertyEditor.jsx:5
 - `max_label_i18n` — src\QuestionnaireDesigner.jsx:166, src\QuestionnaireWorkspace.jsx:303
 - `mean HR` — src\analysis\FeaturePanel.jsx:82
 - `mean RR` — src\analysis\FeaturePanel.jsx:83
 - `Measure viewing distance` — src\constants.js:70
 - `Media entry no longer exists` — src\core\mediaReadiness.js:34
-- `Media has no source yet` — src\core\participantUi.js:187
-- `Media needs attention` — src\GraphRuntimeRunnerPage.jsx:591
-- `MEDIA PREFLIGHT` — src\GraphRuntimeRunnerPage.jsx:591
-- `Media presentation` — src\participantUi\UiPropertyEditor.jsx:12
 - `Media readiness` — src\app\sessionSetup.jsx:103
 - `Media resources referenced by the protocol.` — src\exporter.js:137
 - `Media settings` — src\MediaSettings.jsx:20
 - `Media source not configured` — src\ParticipantMedia.jsx:51
-- `Media source URL` — src\participantUi\ScreenChecks.jsx:18, src\participantUi\UiPropertyEditor.jsx:12
 - `Media sources are assigned.` — src\readiness.js:86
 - `Medium (1rem)` — src\constants.js:222
 - `migrated-v1` — src\legacy\migrateProtocolV1.js:204
@@ -1931,18 +1001,14 @@ Generated: 2026-10-25T15:30:31.646Z
 - `min label` — src\QuestionnaireWorkspace.jsx:302
 - `Min label` — src\QuestionnaireEditorV2.jsx:131, src\QuestionnaireWorkspace.jsx:302
 - `min_label_i18n` — src\QuestionnaireDesigner.jsx:165, src\QuestionnaireWorkspace.jsx:302
-- `min(700px, 85vw)` — src\RuntimeContent.jsx:152, src\RuntimeContent.jsx:165
-- `min(70vh, 640px)` — src\RuntimeContent.jsx:270
-- `min(72vh, 560px)` — src\ParticipantUiCanvas.jsx:490, src\ParticipantUiCanvas.jsx:491
-- `min(760px, 88vw)` — src\RuntimeContent.jsx:238
-- `min(78vh, 620px)` — src\ParticipantRenderer.jsx:62
-- `min(800px, 90vw)` — src\RuntimeContent.jsx:140
-- `Minimal Mono` — src\participantUi\constants.js:51, src\theme.js:137
-- `Missed / too slow` — src\AttentionCheckRunner.jsx:6
+- `min(700px, 85vw)` — src\RuntimeContent.jsx:154, src\RuntimeContent.jsx:167
+- `min(70vh, 640px)` — src\RuntimeContent.jsx:274
+- `min(72vh, 560px)` — src\ParticipantUiCanvas.jsx:492, src\ParticipantUiCanvas.jsx:493
+- `min(760px, 88vw)` — src\RuntimeContent.jsx:241
+- `min(78vh, 620px)` — src\ParticipantRenderer.jsx:64
+- `min(800px, 90vw)` — src\RuntimeContent.jsx:142
 - `Missing assets` — src\Dashboard.jsx:84
 - `Missing end event` — src\analysis\windowData.js:87
-- `missing media` — src\participantUi\ScreenChecks.jsx:8
-- `Missing media:` — src\participantUi\ScreenChecks.jsx:17
 - `Missing required content` — src\Inspector.jsx:29
 - `missing sample(s) were interpolated before analysis.` — src\analysis\FeaturePanel.jsx:63
 - `modal-panel modal-alert` — src\Modal.jsx:70
@@ -1959,14 +1025,13 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Muse S Athena (Gen 3) is not supported by this adapter: it multiplexes sensors on 273e0013 with a different packing. Connect a Muse 1/2/S Gen 1-2 headset.` — src\devices\museConnector.js:103
 - `MyBeat file / sync note` — src\app\sessionSetup.jsx:166
 - `n/a (single object)` — src\data\jointExport.js:164
-- `narrow summary` — src\RuntimeRunnerPage.jsx:431
-- `Navigation history belongs to another run.` — src\runtime\testNavigation.js:24
-- `Navigation history does not match the current visit.` — src\runtime\testNavigation.js:29
+- `narrow summary` — src\RuntimeRunnerPage.jsx:433
 - `Neutral gray — minimal distraction` — src\theme.js:143
 - `New block` — src\domain.js:10
 - `New group` — src\core\groupCommands.js:19
 - `New stimulus` — src\ResourceLibrary.jsx:6
 - `New trial` — src\domain.js:9
+- `Next step` — src\ComposerV2.jsx:96
 - `No analysis results` — src\DataPanel.jsx:318
 - `No analysis results yet.` — src\analysis\FeaturePanel.jsx:15
 - `No analysis window defined — enable «Generate analysis window» on at least one step to produce a per-trial time window in the exported CSV` — src\domain.js:108
@@ -1977,7 +1042,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `No changes exist relative to the current collaboration baseline` — src\composer\Catalogs.jsx:110
 - `No channels` — src\composer\Catalogs.jsx:360
 - `No channels were analysed.` — src\analysis\FeaturePanel.jsx:18
-- `No checklist items configured.` — src\runtime\nodeSchema.js:115
 - `No content differences` — src\Dashboard.jsx:96
 - `No device samples found in this session.` — src\SessionManager.jsx:125
 - `No End node is reachable from Start` — src\core\validateProtocolGraph.js:265, src\flowEngine.js:126
@@ -1985,18 +1049,13 @@ Generated: 2026-10-25T15:30:31.646Z
 - `No experiment metadata was returned; the session may not be linked to a registered experiment.` — src\data\jointExport.js:134
 - `No finished sessions yet. Run experiments to see data here.` — src\Analytics.jsx:84
 - `No frozen configuration hash` — src\app\sessionSetup.jsx:87
-- `No HTML content` — src\ParticipantRenderer.jsx:80
-- `No HTML yet — edit this step to add custom HTML content.` — src\RuntimeContent.jsx:261
-- `No image, audio or video source is configured yet.` — src\participantUi\ScreenChecks.jsx:17
 - `No immediate repeat of the same condition` — src\app\legacyBuilder.jsx:169
 - `No instruction text — the response buttons are the primary interface` — src\domain.js:363
 - `No local data folder selected.` — src\readiness.js:117
 - `No media source — enter a «Source URL» or upload a file` — src\domain.js:357
 - `No media steps in this protocol.` — src\readiness.js:85
-- `No node outputs yet.` — src\GraphRuntimeRunnerPage.jsx:677
 - `No node selected` — src\Inspector.jsx:84
 - `No permissions` — src\composer\Catalogs.jsx:322
-- `No protocol variables declared.` — src\GraphRuntimeRunnerPage.jsx:671
 - `No question selected` — src\QuestionnaireWorkspace.jsx:222
 - `No questionnaire data found in protocol` — src\analysis\ResponseCharts.jsx:17
 - `No questions` — src\QuestionnaireFormV2.jsx:14
@@ -2016,6 +1075,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `No-Go (withhold)` — src\domain.js:273
 - `Node color` — src\Inspector.jsx:56
 - `Node component type and version are required` — src\core\validateProtocolGraph.js:40
+- `Node editor` — src\ComposerV2.jsx:98
 - `Node ID is required` — src\core\validateProtocolGraph.js:36
 - `Node style` — src\Inspector.jsx:55
 - `Node URL/upload overrides the shared resource.` — src\Inspector.jsx:390
@@ -2036,8 +1096,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Number of pause events inside the window.` — src\exporter.js:203
 - `Number of trials` — src\composer\TrialGenerator.jsx:11
 - `observations are required` — src\usability\studyMetrics.js:19
-- `Observe the image.` — src\participantUi\screenPresets.js:14
-- `Ocean Blue` — src\participantUi\constants.js:48, src\theme.js:101
 - `ok, warning, or error status emitted by the runtime.` — src\exporter.js:186
 - `On macOS share the .dmg or .app from release-desktop. Build Windows and Linux installers on those systems for native one-click packages.` — src\constants.js:197
 - `One item per line` — src\Inspector.jsx:285
@@ -2064,24 +1122,17 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Opening the data folder directly is only available in the desktop app.` — src\localWorkspace.js:89
 - `Operations must be an array` — src\collaboration\changeSets.js:105
 - `Operator checkpoint for sensors, acquisition software, or room setup.` — src\constants.js:126
-- `Operator controls` — src\GraphRuntimeRunnerPage.jsx:615, src\Inspector.jsx:141, src\RuntimeRunnerPage.jsx:475
-- `Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.` — src\RuntimeRunnerPage.jsx:419
-- `Operator note` — src\RuntimeRunnerPage.jsx:599, src\RuntimeRunnerPage.jsx:616, src\runtime\nodeSchema.js:130
 - `operator retry` — src\GraphRuntimeRunnerPage.jsx:624
 - `operator skip` — src\GraphRuntimeRunnerPage.jsx:625
 - `operator test navigation` — src\runtime\testNavigation.js:45
-- `operator-step-panel continue-bar` — src\RuntimeRunnerPage.jsx:598, src\RuntimeRunnerPage.jsx:607
+- `operator-step-panel continue-bar` — src\RuntimeRunnerPage.jsx:601, src\RuntimeRunnerPage.jsx:611
 - `Option 1` — src\core\questionnaireModel.js:10, src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
 - `Option 2` — src\core\questionnaireModel.js:10, src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
 - `Option 3` — src\core\questionnaireModel.js:154
-- `Optional setup note` — src\RuntimeRunnerPage.jsx:617
 - `Options (value | label | key)` — src\flowCanvas\NodePreviewModal.jsx:75
 - `options_i18n` — src\QuestionnaireDesigner.jsx:176, src\QuestionnaireWorkspace.jsx:313
-- `Or press Insert in the "Steps outside flow" panel.` — src\PreRunChecklist.jsx:41
 - `Output/marker channel ids, not part of the time-series stream.` — src\exporter.js:223
 - `Outputs (` — src\SessionManager.jsx:381
-- `outside screen ·` — src\participantUi\ScreenChecks.jsx:8
-- `Outside screen:` — src\participantUi\ScreenChecks.jsx:13
 - `Override trial-level appearance for this step only.` — src\Inspector.jsx:304
 - `P001` — src\app\sessionSetup.jsx:163, src\app\sessionSetup.jsx:91, src\data\graphExport.js:214
 - `p20` — src\devices\museProtocol.js:142
@@ -2095,7 +1146,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Pan canvas` — src\flowCanvas\ShortcutsModal.jsx:5
 - `panel-toggle inspector-toggle` — src\FlowCanvas.jsx:547
 - `panel-toggle palette-toggle` — src\FlowCanvas.jsx:397
-- `Part of this element sits outside the screen. Check its position or size.` — src\participantUi\ScreenChecks.jsx:13
 - `Participant API must use HTTPS, except on a loopback development host` — src\hosted\participantRoute.js:7
 - `Participant bootstrap content does not match its hash` — src\hosted\participantBootstrap.js:168
 - `Participant bootstrap identity and issue time are required` — src\hosted\participantBootstrap.js:141
@@ -2118,52 +1168,46 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Participant session does not match its deployment` — src\hosted\participantBootstrap.js:102
 - `Participant session identity is incomplete` — src\hosted\participantBootstrap.js:142
 - `Participant title · 中 / 日 / EN` — src\Inspector.jsx:125
-- `Participant UI is invalid:` — src\ParticipantRenderer.jsx:49, src\ParticipantUiCanvas.jsx:148
-- `Participant UI needs a root Screen` — src\core\participantUi.js:195, src\core\participantUi.js:247, src\core\participantUi.js:282
-- `Participant UI root must be a Screen` — src\core\participantUi.js:197
 - `Participant UUID` — src\PhysioDBUpload.jsx:55
 - `participant_id or entry.xxxxx` — src\Inspector.jsx:253, src\app\legacyBuilder.jsx:350
 - `participant_id session_id protocol_name run_mode started_at ended_at participant_language sync_method timezone sampling_rate` — src\exporter.js:511
 - `Participant-facing content is ready.` — src\readiness.js:78
-- `participant-ui-button primary` — src\AttentionCheckRunner.jsx:82, src\CalibrationRunner.jsx:60, src\CognitiveTaskRunner.jsx:116, src\QuestionnaireFormV2.jsx:170, src\QuestionnaireFormV2.jsx:199, src\QuestionnaireFormV2.jsx:234, src\QuestionnaireFormV2.jsx:246, src\ResponseRunner.jsx:142
-- `participant-ui-button primary gonogo-response` — src\CognitiveTaskRunner.jsx:123
+- `participant-ui-button primary` — src\AttentionCheckRunner.jsx:79, src\CalibrationRunner.jsx:59, src\CognitiveTaskRunner.jsx:118, src\QuestionnaireFormV2.jsx:170, src\QuestionnaireFormV2.jsx:199, src\QuestionnaireFormV2.jsx:234, src\QuestionnaireFormV2.jsx:246, src\ResponseRunner.jsx:137
+- `participant-ui-button primary gonogo-response` — src\CognitiveTaskRunner.jsx:125
 - `participant-ui-button secondary` — src\QuestionnaireFormV2.jsx:245
-- `participant-ui-html missing` — src\ParticipantRenderer.jsx:80
+- `participant-ui-html missing` — src\ParticipantRenderer.jsx:82
 - `participant-ui-screen qf-matrix-screen` — src\QuestionnaireFormV2.jsx:211
 - `participant-ui-screen qf-sam-matrix-screen` — src\QuestionnaireFormV2.jsx:175
 - `Participants see stimuli and questions; operators monitor and pause or resume separately.` — src\TaskGuide.jsx:20
 - `participants.tsv — Participant metadata` — src\exporter.js:561
 - `Paste (Ctrl+V)` — src\Inspector.jsx:86
-- `Paste video or image URL…` — src\ParticipantUiCanvas.jsx:527
 - `Pauses the run until the operator confirms an external event.` — src\constants.js:121
 - `peak Hz` — src\analysis\FeaturePanel.jsx:60
 - `peaks;` — src\analysis\FeaturePanel.jsx:90
 - `Permission to write this folder was not granted.` — src\localWorkspace.js:78
 - `Persistent hosted service requires a load/save state store` — src\hosted\hostedStateStore.js:170
-- `PF 方案 ID` — src\pfUIStrings.js:76
-- `PF 服务器地址` — src\pfUIStrings.js:98
-- `PF 管理员` — src\pfUIStrings.js:101
-- `PF 管理者` — src\pfUIStrings.js:101
-- `PF 管理者キーを使用します。DB と機器の認証情報はサーバーに保持されます。` — src\pfUIStrings.js:96
-- `PF 会话 ID` — src\pfUIStrings.js:75
 - `PF database request failed` — src\physioDBServiceClient.js:12
 - `PF server` — src\AdminMonitorPage.jsx:77
 - `PF server request failed` — src\physioDBServiceClient.js:18
 - `PF server URL and administrator token are required` — src\physioDBServiceClient.js:4
 - `PF session files are stored at the top level unchanged, so an existing analysis pipeline keeps working.` — src\data\jointExport.js:188
 - `PF サーバー URL` — src\pfUIStrings.js:98
-- `PF サーバーのアクセスキーで記録を読み取り・アップロードします。PhysioDB の認証情報はサーバーに保持されます。` — src\pfUIStrings.js:20
 - `PF サーバーのアクセスキーでセンサーを接続し、ライブ信号を確認します。` — src\pfUIStrings.js:19
+- `PF サーバーのアクセスキーで記録を読み取り・アップロードします。PhysioDB の認証情報はサーバーに保持されます。` — src\pfUIStrings.js:20
 - `PF サーバーを通じて研究室のデータベースを読み取ります。` — src\pfUIStrings.js:18
 - `PF セッション ID` — src\pfUIStrings.js:75
 - `PF プロトコル ID` — src\pfUIStrings.js:76
+- `PF 会话 ID` — src\pfUIStrings.js:75
+- `PF 管理者` — src\pfUIStrings.js:101
+- `PF 管理者キーを使用します。DB と機器の認証情報はサーバーに保持されます。` — src\pfUIStrings.js:96
+- `PF 管理员` — src\pfUIStrings.js:101
+- `PF 服务器地址` — src\pfUIStrings.js:98
+- `PF 方案 ID` — src\pfUIStrings.js:76
 - `pf-note pf-error` — src\AdminMonitorPage.jsx:92
 - `pf-panel pf-login` — src\AdminMonitorPage.jsx:77
 - `pf-tag ready` — src\AdminMonitorPage.jsx:77
 - `phasic sd` — src\analysis\FeaturePanel.jsx:103
-- `Physio Green` — src\participantUi\constants.js:47, src\theme.js:92
 - `PhysioDB · BrainFlow recording` — src\PhysioDBUpload.jsx:51
-- `PhysioDB 测试结果` — src\pfUIStrings.js:57
 - `PhysioDB analysis` — src\PhysioDBAnalysis.jsx:57
 - `PhysioDB API token is required` — src\physioDBClient.js:8
 - `PhysioDB Console ↗` — src\AdminMonitorPage.jsx:80
@@ -2173,10 +1217,11 @@ Generated: 2026-10-25T15:30:31.646Z
 - `PhysioDB request timed out. A write may already have been stored; verify the server before retrying.` — src\physioDBClient.js:35
 - `PhysioDB request timeout must be positive` — src\physioDBClient.js:3
 - `PhysioDB stream has no body` — src\physioDBClient.js:68
-- `PhysioDB テスト検証を有効にした場合、送信と読戻しの完了を待ちます。` — src\TaskGuide.jsx:14
 - `PhysioDB テスト結果` — src\pfUIStrings.js:57
+- `PhysioDB テスト検証を有効にした場合、送信と読戻しの完了を待ちます。` — src\TaskGuide.jsx:14
 - `PhysioDB でテスト実行を検証` — src\pfUIStrings.js:55
 - `PhysioDB の時間範囲を指定し、波形と分析結果を確認します。` — src\pfUIStrings.js:107
+- `PhysioDB 测试结果` — src\pfUIStrings.js:57
 - `PhysioFlow ·` — src\WorkspaceShell.jsx:30
 - `PhysioFlow built-in help center` — src\GuidePanel.jsx:17
 - `PhysioFlow crashed:` — src\main.jsx:50
@@ -2196,7 +1241,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `physioflow.protocols.v1` — src\fsStorage.js:100, src\fsStorage.js:113, src\fsStorage.js:67, src\fsStorage.js:70, src\fsStorage.js:87, src\fsStorage.js:99
 - `physioflow.sessions.v2` — src\fsStorage.js:171, src\fsStorage.js:174, src\fsStorage.js:192, src\fsStorage.js:226, src\fsStorage.js:228, src\fsStorage.js:241, src\fsStorage.js:242
 - `physiologically implausible interval(s) excluded.` — src\analysis\FeaturePanel.jsx:90
-- `pixels per degree · 1° =` — src\CalibrationRunner.jsx:59
 - `Player controls` — src\MediaSettings.jsx:67
 - `Plays local, uploaded, URL, or YouTube video stimuli.` — src\constants.js:96
 - `Plays sound stimuli while logging media lifecycle events.` — src\constants.js:101
@@ -2204,14 +1248,10 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Please check this setting.` — src\composer\labels.js:4
 - `Please describe in detail` — src\core\questionnaireModel.js:157
 - `Please enter` — src\core\questionnaireModel.js:156
-- `Please rate` — src\core\participantUi.js:96, src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9
 - `Please rate the following three dimensions.` — src\QuestionnaireFormV2.jsx:22
-- `Please read the instructions carefully.` — src\core\participantUi.js:134
 - `Please wait` — src\core\componentRegistry.js:12, src\legacy\migrateProtocolV1.js:126
-- `Please wait…` — src\runtime\nodeSchema.js:203
 - `pNN50` — src\analysis\FeaturePanel.jsx:86
 - `Port kinds must match` — src\composer\useComposerState.js:214
-- `Position & size` — src\participantUi\PositionFields.jsx:22
 - `Power bands (relative)` — src\analysis\FeaturePanel.jsx:66
 - `Practice block` — src\TemplateConfig.jsx:32
 - `Practice block — excluded from analysis` — src\app\legacyBuilder.jsx:162
@@ -2220,34 +1260,18 @@ Generated: 2026-10-25T15:30:31.646Z
 - `preparation edited` — src\GraphRuntimeRunnerPage.jsx:399
 - `PREPARE COLLECTION` — src\app\sessionSetup.jsx:84
 - `Prepare participants and devices` — src\TaskGuide.jsx:19
-- `Preparing media…` — src\GraphRuntimeRunnerPage.jsx:591
 - `Preparing your experiment…` — src\ParticipantLaunchPage.jsx:81
 - `Presents a still image stimulus.` — src\constants.js:106
-- `Press "+ Add block" to create the first block.` — src\PreRunChecklist.jsx:110
-- `Press "Go to trial" to jump to that trial.` — src\PreRunChecklist.jsx:99
-- `Press "Locate and fix" to jump to the right place.` — src\PreRunChecklist.jsx:115, src\PreRunChecklist.jsx:121
-- `Press "Locate and fix" to open the media node.` — src\PreRunChecklist.jsx:47, src\PreRunChecklist.jsx:87, src\PreRunChecklist.jsx:93
-- `Press "Locate and fix" to open the node.` — src\PreRunChecklist.jsx:53, src\PreRunChecklist.jsx:58, src\PreRunChecklist.jsx:75
-- `Press "Locate and fix" to open the questionnaire node.` — src\PreRunChecklist.jsx:25, src\PreRunChecklist.jsx:30, src\PreRunChecklist.jsx:35
-- `Press "Locate and fix" to open the response node.` — src\PreRunChecklist.jsx:64, src\PreRunChecklist.jsx:69
-- `Press a response key` — src\ResponseRunner.jsx:8
-- `Press one of the response keys to answer.` — src\core\participantUi.js:119
-- `Press Space for X (Go). Do not press for O (No-Go).` — src\CognitiveTaskRunner.jsx:116
-- `Press the key when you see the target` — src\AttentionCheckRunner.jsx:19, src\core\componentRegistry.js:228, src\core\participantUi.js:113
 - `Press the spacebar now` — src\constants.js:69
-- `Preview channels only; browser retains about 20,000 recent channel samples. Complete raw recording stays on the acquisition computer.` — src\GraphRuntimeRunnerPage.jsx:627
 - `preview exited` — src\GraphRuntimeRunnerPage.jsx:287
-- `Preview participant screen` — src\participantUi\ScreenChecks.jsx:9
 - `Preview saved trials` — src\composer\TrialGenerator.jsx:24
 - `Preview step full-size` — src\flowCanvas\ShortcutsModal.jsx:5
-- `Previous page (test)` — src\GraphRuntimeRunnerPage.jsx:622
-- `Previous page is available only in Test Run.` — src\runtime\testNavigation.js:4
+- `Previous step` — src\ComposerV2.jsx:95
 - `primary external-form-link` — src\QuestionnaireForm.jsx:126
 - `primary q-next-btn` — src\QuestionnaireForm.jsx:206
 - `primary q-submit-btn` — src\QuestionnaireForm.jsx:210
 - `Primary timeline table. Use session_id, event_type, block_id, trial_id, node_id, step_id, elapsed_ms, and timestamp_iso to align behavior with physiological recordings.` — src\constants.js:201
-- `primary wide` — src\RuntimeRunnerPage.jsx:443, src\app\sessionSetup.jsx:115, src\app\sessionSetup.jsx:189
-- `Progress indicator` — src\participantUi\constants.js:33
+- `primary wide` — src\RuntimeRunnerPage.jsx:445, src\app\sessionSetup.jsx:115, src\app\sessionSetup.jsx:189
 - `Project archived` — src\App.jsx:259
 - `Project ID is required` — src\collaboration\changeSets.js:101
 - `project-menu project-new` — src\Dashboard.jsx:128
@@ -2270,14 +1294,13 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Provenance of the merged package: which legs succeeded, the requested and actual time windows, and record counts.` — src\data\jointExport.js:165
 - `Push to BioDB` — src\SessionManager.jsx:307
 - `Pushed to BioDB` — src\SessionManager.jsx:118
-- `px · 5° =` — src\CalibrationRunner.jsx:59
-- `px/°` — src\CalibrationRunner.jsx:31
+- `px · 5° =` — src\CalibrationRunner.jsx:58
+- `px/°` — src\CalibrationRunner.jsx:30
 - `qbtn d3-del` — src\DataPanel.jsx:379
 - `qf-matrix-row missing` — src\QuestionnaireFormV2.jsx:226
 - `qf-nav qf-matrix-nav` — src\QuestionnaireFormV2.jsx:199, src\QuestionnaireFormV2.jsx:234
 - `qf-sam-row missing` — src\QuestionnaireFormV2.jsx:186
 - `qf-scale sam-scale` — src\QuestionnaireFormV2.jsx:148
-- `Question and rating` — src\participantUi\screenPresets.js:7
 - `Question identifier or Response-node variable; can also be used in flow condition rules.` — src\exporter.js:209
 - `Question IDs from this Trial are listed automatically.` — src\Inspector.jsx:407
 - `Question shuffling cannot be combined with conditional display` — src\core\questionnaireModel.js:53
@@ -2294,15 +1317,12 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Questionnaire needs a name` — src\core\questionnaireModel.js:26
 - `Questionnaire needs an ID` — src\core\questionnaireModel.js:25
 - `Questionnaire needs at least one question` — src\core\questionnaireModel.js:27
-- `R · Red` — src\CognitiveTaskRunner.jsx:4
 - `Randomize options` — src\QuestionnaireWorkspace.jsx:249
 - `Randomized group order` — src\app\sessionSetup.jsx:96
 - `Randomized groups cannot overlap` — src\core\groupSequence.js:12
-- `Rating needs increasing integer bounds and at most 1000 choices` — src\core\participantUi.js:185
 - `Raw answer value; multiple choices use | separator. Missed required response windows export an empty value.` — src\exporter.js:211
 - `Raw sample sequences must be contiguous` — src\physioDBMapping.js:34
 - `Raw samples and ordered channels are required` — src\physioDBMapping.js:27
-- `Re-lay this screen's elements as an aligned 8px-grid column` — src\ParticipantUiBuilder.jsx:212
 - `Reaction Button` — src\sdk\exampleReactionButtonPackage.js:21
 - `Reaction Button Example` — src\sdk\exampleReactionButtonPackage.js:15
 - `read JWT exchange failed` — src\bioDBClient.js:73
@@ -2311,21 +1331,13 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Realtime ·` — src\analysis\LiveChart.jsx:105
 - `Realtime signal` — src\analysis\LiveChart.jsx:113
 - `Reason for invalid or attention status.` — src\exporter.js:205
-- `Recent markers (` — src\RuntimeRunnerPage.jsx:577
 - `Recommended analysis entry points:` — src\exporter.js:151
-- `Reconnect devices` — src\GraphRuntimeRunnerPage.jsx:619
 - `Record counts for quick completeness checks.` — src\exporter.js:167
 - `Recording contains dropped samples.` — src\operator\deviceSnapshot.js:18
 - `Recording read cancelled` — src\brainFlowRecording.js:22, src\brainFlowRecording.js:24
-- `Recording software ready` — src\RuntimeRunnerPage.jsx:465, src\constants.js:68
 - `Recovery behavior` — src\composer\NodeInspector.jsx:207
 - `Recovery period between trials or stimuli.` — src\constants.js:91
-- `RECOVERY READY` — src\RuntimeRunnerPage.jsx:416
-- `Recovery save failed ·` — src\GraphRuntimeRunnerPage.jsx:615
-- `Recovery save failed:` — src\RuntimeRunnerPage.jsx:481
-- `Redo (Ctrl+Shift+Z)` — src\ParticipantUiBuilder.jsx:100
 - `regression needs at least 2 rows (features + target)` — src\bioDBClient.js:363
-- `Remove (Del)` — src\ParticipantUiCanvas.jsx:451
 - `Remove question` — src\QuestionnaireWorkspace.jsx:172
 - `Remove this version?` — src\App.jsx:276
 - `Remove version` — src\App.jsx:278
@@ -2334,45 +1346,29 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Repeat sequence` — src\core\repeatSegment.js:46
 - `repeat(auto-fill, minmax(280px, 1fr))` — src\analysis\WindowCards.jsx:31
 - `Repeats a body path until a rule fails or the maximum iteration count is reached.` — src\constants.js:152
-- `Replace the current participant screen with this template? You can still undo this change.` — src\ParticipantUiBuilder.jsx:74
-- `Replace this screen with “` — src\ParticipantUiBuilder.jsx:160
 - `Replace trials with generated set` — src\composer\TrialGenerator.jsx:21
 - `Replay event sequence` — src\SessionManager.jsx:371
 - `Request timed out.` — src\PhysioDBUpload.jsx:45
 - `Require all items before continuing` — src\Inspector.jsx:288
-- `Required device sampling failed` — src\GraphRuntimeRunnerPage.jsx:359
 - `Required for valid session` — src\Inspector.jsx:376
 - `Required response` — src\Inspector.jsx:196, src\app\legacyBuilder.jsx:331
-- `Required signal unavailable` — src\GraphRuntimeRunnerPage.jsx:255
 - `RESEARCH RECORDS` — src\Dashboard.jsx:138
 - `Researcher-entered participant code. Use anonymous IDs.` — src\exporter.js:172
-- `Reset to defaults` — src\participantUi\ThemeEditor.jsx:19
-- `Reset to this template` — src\ParticipantUiBuilder.jsx:95
 - `Reset zoom` — src\FlowCanvas.jsx:504, src\analysis\MultiChannelChart.jsx:129
 - `Resolve the media issues and check again.` — src\app\sessionSetup.jsx:78
 - `resource-library hierarchy-manager` — src\HierarchyManager.jsx:35
 - `resource-library questionnaire-library` — src\QuestionnaireLibrary.jsx:24
-- `Respond to the ink color, not the word. Use R, G, B, or Y.` — src\CognitiveTaskRunner.jsx:116
 - `Respond when you are ready` — src\sdk\exampleReactionButtonPackage.js:7
-- `Respond when you see the target` — src\ResponseRunner.jsx:38, src\core\componentRegistry.js:166, src\core\participantUi.js:118, src\legacy\migrateProtocolV1.js:117, src\legacy\migrateProtocolV1.js:163
 - `Response Analysis (` — src\analysis\ResponseCharts.jsx:24
 - `Response capture` — src\Inspector.jsx:187
-- `Response field` — src\participantUi\constants.js:31
-- `Response name` — src\participantUi\UiPropertyEditor.jsx:13
 - `response or rating` — src\Inspector.jsx:190, src\app\legacyBuilder.jsx:329
 - `Response row identifier.` — src\exporter.js:207
 - `Response summary table` — src\analysis\ResponseCharts.jsx:144
 - `Response value` — src\data\graphExport.js:227
 - `Response variable is empty — set a name such as response or rating` — src\domain.js:366
-- `response-runner result` — src\ResponseRunner.jsx:130, src\ResponseRunner.jsx:138
+- `response-runner result` — src\ResponseRunner.jsx:125, src\ResponseRunner.jsx:133
 - `responses.csv — Questionnaire answers and Response-node choices` — src\exporter.js:399
 - `Result hash must be SHA-256` — src\collaboration\changeSets.js:104
-- `Retry checkpoint cleanup` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611
-- `Retry device and begin` — src\GraphRuntimeRunnerPage.jsx:601
-- `Retry save` — src\GraphRuntimeRunnerPage.jsx:616, src\RuntimeRunnerPage.jsx:484
-- `Retry server synchronization` — src\GraphRuntimeRunnerPage.jsx:628
-- `Retry step` — src\RuntimeRunnerPage.jsx:487
-- `Return to protocol` — src\GraphRuntimeRunnerPage.jsx:591
 - `Return to protocol to fix` — src\app\sessionSetup.jsx:102
 - `Review and analyze` — src\TaskGuide.jsx:21
 - `Review saving, events and the PhysioDB verification report.` — src\TaskGuide.jsx:21
@@ -2383,12 +1379,10 @@ Generated: 2026-10-25T15:30:31.646Z
 - `rgba(255,255,255,0.8)` — src\analysis\charts.js:185
 - `rgba(59, 130, 246, 0.3)` — src\analysis\WindowCards.jsx:100
 - `rgba(59, 130, 246, 0.4)` — src\analysis\WindowCards.jsx:118
-- `ri-section ri-flow` — src\GraphRuntimeRunnerPage.jsx:679
+- `ri-section ri-flow` — src\GraphRuntimeRunnerPage.jsx:680
 - `Ring color` — src\Inspector.jsx:440
 - `Ring thickness (px)` — src\Inspector.jsx:441
 - `Root must be a JSON object` — src\FlowJsonEditor.jsx:30
-- `Root Screen cannot be moved` — src\core\participantUi.js:248
-- `Root Screen cannot be removed` — src\core\participantUi.js:214
 - `rotate(45 12 12)` — src\flowIcons.jsx:88
 - `rows (channel list) is required` — src\bioDBClient.js:170, src\bioDBClient.js:344, src\bioDBClient.js:361
 - `rt_ms Reaction time for responses` — src\exporter.js:410
@@ -2400,20 +1394,10 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Run the checklist, fix blocking errors, and freeze the version that will be used for formal data collection.` — src\constants.js:186
 - `Run the protocol check, select a local data folder, then freeze and start a formal session.` — src\constants.js:166
 - `runner closed` — src\GraphRuntimeRunnerPage.jsx:512
-- `Runtime binding:` — src\ParticipantUiBuilder.jsx:227
 - `Runtime completed but session status differs` — src\data\graphIntegrity.js:27
 - `Runtime event type` — src\data\graphExport.js:223
-- `Runtime failed` — src\runtime\replayRuntime.js:66
-- `Runtime is not waiting on a component` — src\runtime\runtimeMachine.js:288, src\runtime\runtimeMachine.js:325, src\runtime\runtimeMachine.js:339
-- `Runtime replay requires a Protocol Graph snapshot` — src\runtime\replayRuntime.js:73
-- `Runtime requires a session ID` — src\runtime\runtimeMachine.js:61
-- `Runtime requires explicit epoch and monotonic start times` — src\runtime\runtimeMachine.js:63
-- `Runtime services require clock.now and idFactory` — src\runtime\eventEnvelope.js:4
 - `Runtime snapshot does not match the hosted session identity` — src\hosted\hostedService.js:554
-- `Runtime snapshot does not match the protocol version` — src\runtime\runtimeMachine.js:368
-- `Runtime state belongs to a different hosted session` — src\hosted\hostedRuntimeSync.js:38
 - `Runtime state synchronization requires a sync ID` — src\hosted\hostedService.js:545
-- `Runtime variables, outputs and flow state` — src\GraphRuntimeRunnerPage.jsx:666
 - `runtime-replay runtime-replay-error` — src\SessionManager.jsx:364
 - `s window` — src\analysis\LiveChart.jsx:105
 - `sad / depressed` — src\analysis\AffectMap.jsx:15
@@ -2432,26 +1416,19 @@ Generated: 2026-10-25T15:30:31.646Z
 - `SANDBOX-P001` — src\composer\Catalogs.jsx:161
 - `Save & Open` — src\App.jsx:185
 - `Save current to library` — src\QuestionnaireEditorV2.jsx:62
-- `Save needs attention` — src\RuntimeRunnerPage.jsx:440
 - `Save researcher notes and validity reviews. Automatic integrity checks do not replace researcher judgment.` — src\TaskGuide.jsx:21
 - `Save, then choose Preview run with a test participant to check the content.` — src\TaskGuide.jsx:18
-- `Saved randomized group source does not match this session protocol` — src\GraphRuntimeRunnerPage.jsx:86
-- `Saving checkpoint…` — src\GraphRuntimeRunnerPage.jsx:615
-- `Saving session` — src\RuntimeRunnerPage.jsx:440
-- `Saving session data…` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611
-- `Saving the completed session to local storage...` — src\RuntimeRunnerPage.jsx:128
 - `Scaling at 100% in OS settings` — src\constants.js:70
 - `SCR amp` — src\analysis\FeaturePanel.jsx:106
 - `SCR count` — src\analysis\FeaturePanel.jsx:104
 - `SCR rate` — src\analysis\FeaturePanel.jsx:105
-- `Screen checks ·` — src\participantUi\ScreenChecks.jsx:8
-- `SDK 权限未批准` — src\composer\toolbox.js:87
-- `SDK 缺少变量读取权限` — src\composer\toolbox.js:88
 - `SDK 缺少网络媒体权限` — src\composer\toolbox.js:89
+- `SDK 缺少变量读取权限` — src\composer\toolbox.js:88
 - `SDK 缺少资产读取权限` — src\composer\toolbox.js:90
-- `SDKに変数の読み取り権限がありません` — src\composer\toolbox.js:185
+- `SDK 权限未批准` — src\composer\toolbox.js:87
 - `SDKにアセットの読み取り権限がありません` — src\composer\toolbox.js:187
 - `SDKにネットワークメディアの権限がありません` — src\composer\toolbox.js:186
+- `SDKに変数の読み取り権限がありません` — src\composer\toolbox.js:185
 - `SDKの権限が承認されていません` — src\composer\toolbox.js:184
 - `Search assets` — src\composer\StimulusPoolEditor.jsx:67
 - `See data_dictionary.csv` — src\exporter.js:473, src\exporter.js:474
@@ -2470,20 +1447,14 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Select finished sessions to compare` — src\analysis\CrossSessionCompare.jsx:16
 - `Select local data folder` — src\app\sessionSetup.jsx:110, src\app\sessionSetup.jsx:187
 - `Select the target nodes explicitly for an unclassified questionnaire.` — src\core\sharedNodeEdits.js:148
-- `Send to back` — src\ParticipantUiBuilder.jsx:186
-- `Sensor connected` — src\RuntimeRunnerPage.jsx:465, src\constants.js:68
 - `Sensor data` — src\DataPanel.jsx:278
 - `sequence must be a positive integer` — src\data\eventSchemaRegistry.js:47
 - `sequence within connector session` — src\data\graphExport.js:99
 - `Server session · local copy` — src\SessionManager.jsx:303
-- `Server synchronization` — src\GraphRuntimeRunnerPage.jsx:628
 - `service idempotency` — src\hosted\hostedStateStore.js:137
 - `Session binding failed` — src\physioDBServiceClient.js:34
 - `SESSION CLOSED` — src\ParticipantLaunchPage.jsx:79
 - `Session completion requires a completion ID` — src\hosted\hostedService.js:570
-- `Session data is saved, but the recovery checkpoint could not be removed:` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611
-- `Session data not saved:` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611
-- `Session data saved.` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611
 - `Session data, recovery snapshots, and exports can be written to the selected local folder.` — src\app\sessionSetup.jsx:186
 - `session end` — src\GraphRuntimeRunnerPage.jsx:570
 - `Session identifier shared by all rows in this run.` — src\exporter.js:171
@@ -2492,7 +1463,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Session Metrics Comparison` — src\analysis\CrossSessionCompare.jsx:67
 - `Session param` — src\Inspector.jsx:255, src\app\legacyBuilder.jsx:351
 - `Session protocol hash does not match the protocol snapshot` — src\integrity.js:27
-- `Session saved` — src\RuntimeRunnerPage.jsx:440
 - `Session Timeline` — src\analysis\TimelineView.jsx:71
 - `Session unavailable` — src\SessionManager.jsx:47
 - `Session ZIP contents` — src\GuidePanel.jsx:71
@@ -2505,12 +1475,9 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Set the confirmation label and decide whether the operator must enter a note before continuing.` — src\constants.js:122
 - `Set the prompt, response variable, option values, labels, and optional keys. Use it for stimulus ratings, forced-choice tasks, and reaction-time responses.` — src\constants.js:117
 - `setup-note error` — src\GraphRuntimeRunnerPage.jsx:599
-- `setVariable action needs a variable name` — src\core\participantUi.js:191
 - `SHA-256` — src\ResourceLibrary.jsx:50, src\core\freezeProtocolGraph.js:46, src\deployment\deploymentBundle.js:20, src\domain.js:13, src\hosted\participantBootstrap.js:17, src\hosted\participantLaunch.js:7
 - `SHA-256 checksum for locally uploaded media when available.` — src\exporter.js:219
-- `Shift-click to add or remove an element. Dragging moves selected siblings together.` — src\participantUi\SelectionInspector.jsx:10
 - `Shift+Click` — src\flowCanvas\ShortcutsModal.jsx:4
-- `Show controls` — src\participantUi\UiPropertyEditor.jsx:12
 - `Show milliseconds` — src\Inspector.jsx:444
 - `Showing the first 20 of` — src\composer\TrialGenerator.jsx:24
 - `Shows a countdown without media or questionnaire content.` — src\constants.js:86
@@ -2520,25 +1487,19 @@ Generated: 2026-10-25T15:30:31.646Z
 - `SIM-001` — src\devices\exampleSimulatedConnector.js:23
 - `Simulated connection failure` — src\devices\exampleSimulatedConnector.js:23
 - `Simulated device disconnected` — src\devices\exampleSimulatedConnector.js:24, src\devices\exampleSimulatedConnector.js:25
-- `Simulated devices cannot start a formal experiment. Select real hardware or use a test run.` — src\GraphRuntimeRunnerPage.jsx:309, src\operator\experimentPreflight.js:10
 - `Simulated Physiology Sensor` — src\devices\exampleSimulatedConnector.js:8
 - `Single series` — src\DataPanel.jsx:12
-- `Skip step` — src\RuntimeRunnerPage.jsx:488
 - `Small (0.7rem)` — src\constants.js:221
-- `Snap to the 8px grid while dragging` — src\ParticipantUiBuilder.jsx:124
 - `Snapshot name:` — src\flowCanvas\CanvasToolbar.jsx:34
 - `Snapshot renamed` — src\composer\useComposerState.js:524
 - `Soft Lavender` — src\theme.js:128
 - `Soft Mint` — src\theme.js:182
 - `sourceHz and targetHz must be positive` — src\analysis\signal\preprocess.js:60
-- `SPACE · Go` — src\CognitiveTaskRunner.jsx:123
 - `Space/Middle+Drag` — src\flowCanvas\ShortcutsModal.jsx:5
 - `Standard Date.now() integer epoch milliseconds.` — src\exporter.js:190
-- `Standard layout` — src\participantUi\UiPropertyEditor.jsx:12
 - `Start and End nodes cannot be duplicated` — src\core\graphCommands.js:127
 - `Start and end stay in place.` — src\composer\sequenceModel.js:28
 - `Start from a blank protocol, the emotion template, or a validated protocol JSON file.` — src\constants.js:162
-- `Start mode is "Participant click" but the player controls are hidden, so participants cannot start playback.` — src\PreRunChecklist.jsx:92
 - `Start node cannot be removed` — src\core\graphCommands.js:57
 - `Start the acquisition service and check fresh signals on every required channel.` — src\TaskGuide.jsx:19
 - `Start your first experiment` — src\TaskGuide.jsx:17
@@ -2552,7 +1513,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Step skipped` — src\analysis\windowData.js:88
 - `Step types` — src\app\legacyBuilder.jsx:116
 - `step_path Human-readable path through Block / Trial / Step` — src\exporter.js:407
-- `steps done` — src\RuntimeRunnerPage.jsx:478
 - `Steps done` — src\analysis\CrossSessionCompare.jsx:144
 - `Steps outside flow ·` — src\flowCanvas\CanvasOverlays.jsx:13
 - `Sticky note (not shown to participant)` — src\core\componentRegistry.js:286
@@ -2580,9 +1540,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Stroop template` — src\core\taskTemplates.js:115
 - `Stroop template v1` — src\domain.js:258
 - `Stroop trials` — src\core\taskTemplates.js:129
-- `structuredClone not available — data operations may fail` — src\RuntimeRunnerPage.jsx:22
 - `studio-inspector empty-inspector` — src\Inspector.jsx:76, src\Inspector.jsx:83
-- `Style must be an object` — src\core\participantUi.js:167
 - `Subflow boundaries must be complete before publishing` — src\core\subflowCommands.js:34
 - `Subflow parameter needs a valid name` — src\core\validateProtocolGraph.js:146
 - `Subflow template IDs must be present and unique` — src\core\validateProtocolGraph.js:213
@@ -2590,20 +1548,15 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Submit and continue →` — src\QuestionnaireFormV2.jsx:19
 - `Superseded by test navigation` — src\analysis\windowData.js:87
 - `Switch to visual flow editor` — src\app\legacyBuilder.jsx:107
-- `Sync reference prepared` — src\RuntimeRunnerPage.jsx:465, src\constants.js:68
 - `System UI (default)` — src\ThemeSettings.jsx:81
-- `system-ui, sans-serif` — src\core\participantUi.js:18, src\main.jsx:58
 - `t*_` — src\core\sharedNodeEdits.js:97
 - `Target node IDs must be an array.` — src\core\sharedNodeEdits.js:31
-- `Task complete` — src\CognitiveTaskRunner.jsx:117
-- `Task has no trials.` — src\CognitiveTaskRunner.jsx:115
 - `Template parameter names must be valid and unique` — src\core\validateProtocolGraph.js:226
 - `Test navigation is only permitted in preview sessions` — src\data\graphIntegrity.js:35
 - `Test navigation must reference a prior contiguous event range ending immediately before navigation` — src\data\eventSchemaRegistry.js:55
 - `Test navigation requires fromNodeId` — src\data\eventSchemaRegistry.js:56
 - `Test run · draft version` — src\app\sessionSetup.jsx:87
 - `Test start time is unavailable` — src\analysis\testRunPayload.js:22
-- `Text input` — src\core\participantUi.js:91
 - `The click-to-use Tauri build stores protocols, sessions, recovery snapshots, and uploaded assets in ~/Documents/PhysioFlow Data. Use Open folder on the dashboard to reveal it.` — src\constants.js:193
 - `The complete bundle includes raw events, responses, device samples, protocol and runtime snapshots, a quality report, data dictionaries and BIDS event files.` — src\SessionManager.jsx:327
 - `The completed session was saved, but the dashboard could not refresh its session list.` — src\App.jsx:386
@@ -2612,33 +1565,26 @@ Generated: 2026-10-25T15:30:31.646Z
 - `The new protocol was not saved within 12 seconds. Nothing was created. Check the data folder in Data & settings, then try again.` — src\App.jsx:232
 - `The participant link could not be opened` — src\ParticipantLaunchPage.jsx:73
 - `The PF session was exported, but BioDB returned no samples for this window. If you pushed it just now, wait a few seconds and export again.` — src\SessionManager.jsx:190
-- `The previous page no longer exists.` — src\runtime\testNavigation.js:32
 - `The recording contains no samples.` — src\PhysioDBUpload.jsx:36
 - `The requested half sizes cannot balance these category counts` — src\core\stimulusRandomization.js:69
 - `The same connection already exists` — src\core\graphCommands.js:80
 - `The source questionnaire has no questions.` — src\core\sharedNodeEdits.js:147
 - `The source video screen has no Media element.` — src\core\sharedNodeEdits.js:44
-- `The square spans` — src\CalibrationRunner.jsx:57
 - `The trial's ITI jitter value is not valid. Jitter must be a number ≥ 0 and the distribution must be fixed, uniform, normal or exponential.` — src\PreRunChecklist.jsx:98
 - `The Web ZIP is lightweight, but index.html must be served by the included start script because modern browsers block ES modules from file:// pages.` — src\constants.js:195
-- `Theme must be an object` — src\core\participantUi.js:150
 - `THEME SETTINGS` — src\ThemeSettings.jsx:39
 - `theme-preset-card layout-preset` — src\ThemeSettings.jsx:113
 - `theme-settings-panel d3-panel` — src\DataPanel.jsx:214
-- `There is no previous page.` — src\runtime\testNavigation.js:21
-- `These out-of-bounds results come from the last edit. Locate returns to the editor so you can fix them.` — src\participantUi\ScreenChecks.jsx:11
 - `These steps exist in the Trial but will not run until placed in the graph.` — src\flowCanvas\CanvasOverlays.jsx:14
 - `This asset ID already stores different media. Add a new asset to preserve existing protocols.` — src\assetStore.js:29
 - `This browser does not support choosing a local data folder. Use Chrome or Edge.` — src\localWorkspace.js:76
 - `This experiment cannot be opened` — src\ParticipantLaunchPage.jsx:80
 - `This is a frozen formal session. Select a local data folder before starting so data is not stored only in browser-managed storage.` — src\app\sessionSetup.jsx:186
-- `This is a responsive screen. Choose a Screen size above so the editor and the run share the same fixed resolution.` — src\participantUi\ScreenChecks.jsx:10
-- `This media node loops but its end mode is "When media ends", so playback would never stop.` — src\PreRunChecklist.jsx:86
 - `This participant link is missing its launch token` — src\hosted\participantLaunch.js:13
 - `This preview assumes each listed node runs once in the displayed order. Retry keeps the assigned stimulus.` — src\app\sessionSetup.jsx:98
 - `This preview shows how the participant will see this trial` — src\app\legacyBuilder.jsx:413
 - `This protocol has no configured device connection.` — src\app\sessionSetup.jsx:105
-- `This randomized-group session has no saved execution plan. Return to preparation before starting.` — src\GraphRuntimeRunnerPage.jsx:82
+- `This screen is generated automatically; edit its settings in the Settings tab.` — src\ComposerV2.jsx:109
 - `This session has no device channels, so there is nothing to read back from BioDB.` — src\SessionManager.jsx:150
 - `This session is no longer available.` — src\Analytics.jsx:41
 - `This session uses the frozen configuration below.` — src\app\sessionSetup.jsx:87
@@ -2654,16 +1600,11 @@ Generated: 2026-10-25T15:30:31.646Z
 - `time_sec, step_path, question, answer, rt_ms, question_type, response_key` — src\exporter.js:415
 - `Time-series (sensor input) channel ids — the signal channels recorded during the session.` — src\exporter.js:222
 - `Timer appearance` — src\Inspector.jsx:438
-- `Timestamped operator note...` — src\RuntimeRunnerPage.jsx:555
-- `timestampEpochMs is required` — src\data\eventSchemaRegistry.js:58
-- `timestamps are not strictly increasing` — src\analysis\signal\liveQuality.js:75, src\analysis\signal\quality.js:228
 - `Timing columns:` — src\exporter.js:158
 - `timing regularity cannot be checked` — src\analysis\signal\quality.js:247
-- `Toggle dark mode` — src\RuntimeRunnerPage.jsx:630
 - `Toggle selection` — src\flowCanvas\ShortcutsModal.jsx:4
 - `tonic mean` — src\analysis\FeaturePanel.jsx:102
 - `Too few intervals for a reliable frequency-domain estimate.` — src\analysis\FeaturePanel.jsx:91
-- `Total attempts` — src\GraphRuntimeRunnerPage.jsx:685
 - `Total events` — src\analysis\CrossSessionCompare.jsx:115
 - `TP10` — src\devices\museProtocol.js:33
 - `TP9` — src\devices\museProtocol.js:30
@@ -2682,16 +1623,13 @@ Generated: 2026-10-25T15:30:31.646Z
 - `trials currently saved` — src\composer\TrialGenerator.jsx:22
 - `Try again` — src\ParticipantLaunchPage.jsx:80
 - `Try embedded preview` — src\Inspector.jsx:244, src\app\legacyBuilder.jsx:347
-- `Two equally sized stimulus areas.` — src\participantUi\screenPresets.js:6
 - `type,en,options,min,max,answer likert,How satisfied?,Very dissatisfied|Neutral|Very satisfied,1,5,3 single_choice,Choose one,Yes|No|Maybe,,,Yes` — src\QuestionnaireDesigner.jsx:90
 - `type,en,options,min,max,answer likert,Rate your experience,Not at all|Very,1,5,5` — src\QuestionnaireEditorV2.jsx:89
-- `UI element ID is required` — src\core\participantUi.js:161
-- `ui-library-panel ui-library-layers` — src\ParticipantUiBuilder.jsx:164
-- `ui-library-panel ui-library-presets` — src\ParticipantUiBuilder.jsx:158
-- `ui-menu ui-canvas-settings` — src\ParticipantUiBuilder.jsx:116
-- `ui-setting-row ui-snap-toggle` — src\ParticipantUiBuilder.jsx:124
-- `ui-tree-toggle is-empty` — src\participantUi\tree\StructureTree.jsx:67
-- `Undo (Ctrl+Z)` — src\ParticipantUiBuilder.jsx:99
+- `ui-library-panel ui-library-layers` — src\ParticipantUiBuilder.jsx:166
+- `ui-library-panel ui-library-presets` — src\ParticipantUiBuilder.jsx:160
+- `ui-menu ui-canvas-settings` — src\ParticipantUiBuilder.jsx:118
+- `ui-setting-row ui-snap-toggle` — src\ParticipantUiBuilder.jsx:126
+- `ui-tree-toggle is-empty` — src\participantUi\tree\StructureTree.jsx:69
 - `Undo / Redo` — src\flowCanvas\ShortcutsModal.jsx:3
 - `Unexpected participant group execution plan` — src\hosted\participantBootstrap.js:154
 - `Unique derived analysis-window identifier.` — src\exporter.js:197
@@ -2705,7 +1643,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `unknown time` — src\composer\Catalogs.jsx:132
 - `Unsupported event schema version` — src\data\eventSchemaRegistry.js:45
 - `Unsupported or incomplete group execution snapshot` — src\core\groupSequence.js:60
-- `Unsupported Participant UI schema version` — src\core\participantUi.js:148
 - `Unsupported processing.` — src\analysis\physioDBWindow.js:23
 - `Unsupported schema version` — src\domain.js:21
 - `Untitled experiment` — src\core\protocolGraph.js:53, src\core\protocolSelectors.js:17, src\domain.js:11
@@ -2728,7 +1665,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Using shared resource; local settings below act as overrides.` — src\MediaSettings.jsx:28
 - `utf-8` — src\brainFlowRecording.js:8
 - `utf8` — src\bioDBClient.js:129, src\bioDBClient.js:248
-- `v1` — src\devices\museProtocol.js:137, src\hosted\hostedHttp.js:3
 - `valence →` — src\analysis\AffectMap.jsx:63
 - `Valence-arousal affect map` — src\analysis\AffectMap.jsx:48
 - `Valence: Low (1) → High (9) pleasure` — src\analysis\ResponseCharts.jsx:80
@@ -2736,36 +1672,30 @@ Generated: 2026-10-25T15:30:31.646Z
 - `valid, attention, or invalid.` — src\exporter.js:204
 - `Validate and freeze` — src\constants.js:166
 - `value | label | key` — src\Inspector.jsx:192, src\app\legacyBuilder.jsx:330
-- `var(--green)` — src\Inspector.jsx:201, src\Inspector.jsx:440, src\RuntimeContent.jsx:104, src\RuntimeContent.jsx:181, src\app\legacyBuilder.jsx:411, src\flowCanvas\CanvasLayers.jsx:20, src\flowCanvas\CanvasLayers.jsx:24, src\flowCanvas\CanvasLayers.jsx:32, src\flowCanvas\CanvasLayers.jsx:53
+- `var(--green)` — src\Inspector.jsx:201, src\Inspector.jsx:440, src\RuntimeContent.jsx:106, src\RuntimeContent.jsx:183, src\app\legacyBuilder.jsx:411, src\flowCanvas\CanvasLayers.jsx:20, src\flowCanvas\CanvasLayers.jsx:24, src\flowCanvas\CanvasLayers.jsx:32, src\flowCanvas\CanvasLayers.jsx:53
 - `var(--ink)` — src\flowCanvas\CanvasLayers.jsx:25, src\flowCanvas\NodePreviewModal.jsx:47
 - `var(--lime)` — src\SessionManager.jsx:286, src\app\legacyBuilder.jsx:410
 - `var(--line)` — src\flowCanvas\CanvasContextMenu.jsx:20
-- `var(--muted)` — src\App.jsx:47, src\Inspector.jsx:192, src\Inspector.jsx:199, src\Inspector.jsx:259, src\Inspector.jsx:275, src\Inspector.jsx:291, src\Inspector.jsx:456, src\QuestionnaireDesigner.jsx:63, src\RuntimeContent.jsx:113, src\RuntimeContent.jsx:131, src\RuntimeContent.jsx:259, src\TemplateConfig.jsx:20, src\analysis\CrossSessionCompare.jsx:16, src\analysis\ResponseCharts.jsx:10, src\analysis\ResponseCharts.jsx:17, src\analysis\TimelineView.jsx:19, src\analysis\WindowCards.jsx:10, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\CanvasToolbar.jsx:32, src\flowCanvas\NodePreviewModal.jsx:112, src\flowCanvas\NodePreviewModal.jsx:153, src\flowCanvas\NodePreviewModal.jsx:59
+- `var(--muted)` — src\App.jsx:47, src\Inspector.jsx:192, src\Inspector.jsx:199, src\Inspector.jsx:259, src\Inspector.jsx:275, src\Inspector.jsx:291, src\Inspector.jsx:456, src\QuestionnaireDesigner.jsx:63, src\RuntimeContent.jsx:115, src\RuntimeContent.jsx:133, src\RuntimeContent.jsx:263, src\TemplateConfig.jsx:20, src\analysis\CrossSessionCompare.jsx:16, src\analysis\ResponseCharts.jsx:10, src\analysis\ResponseCharts.jsx:17, src\analysis\TimelineView.jsx:19, src\analysis\WindowCards.jsx:10, src\flowCanvas\CanvasToolbar.jsx:28, src\flowCanvas\CanvasToolbar.jsx:32, src\flowCanvas\NodePreviewModal.jsx:112, src\flowCanvas\NodePreviewModal.jsx:153, src\flowCanvas\NodePreviewModal.jsx:59
 - `var(--paper)` — src\TemplateConfig.jsx:16, src\flowCanvas\CanvasToolbar.jsx:23, src\flowCanvas\NodePreviewModal.jsx:47
-- `var(--ring-track, #e5ebe4)` — src\RuntimeContent.jsx:103, src\RuntimeContent.jsx:125, src\RuntimeContent.jsx:180
+- `var(--ring-track, #e5ebe4)` — src\RuntimeContent.jsx:105, src\RuntimeContent.jsx:127, src\RuntimeContent.jsx:182
 - `var(--shadow-md)` — src\TemplateConfig.jsx:16, src\flowCanvas\CanvasToolbar.jsx:23
 - `var(--surface)` — src\App.jsx:47
 - `Variable name is required` — src\core\validateProtocolGraph.js:188
 - `Variable names must start with a letter or underscore and contain only letters, numbers, and underscores` — src\core\variableCommands.js:19
 - `Variables (` — src\SessionManager.jsx:380
-- `Verify the setup, then continue.` — src\core\participantUi.js:125
-- `Verify viewing distance and screen dimensions before continuing.` — src\core\participantUi.js:109
 - `Verifying the session and downloading its exact protocol.` — src\ParticipantLaunchPage.jsx:81
 - `Version removed; recovery is available` — src\App.jsx:284
 - `Version restored` — src\App.jsx:271
 - `video/*` — src\MediaSettings.jsx:42, src\app\legacyBuilder.jsx:366
 - `Wait duration must be a finite non-negative number.` — src\core\sharedNodeEdits.js:172
-- `Wait for device preparation to finish.` — src\GraphRuntimeRunnerPage.jsx:398
 - `Wait for the media check.` — src\app\sessionSetup.jsx:78
-- `Waiting for samples` — src\GraphRuntimeRunnerPage.jsx:627
 - `Wall-clock ISO 8601 with microsecond precision.` — src\exporter.js:187
 - `Wall-clock Unix milliseconds for cross-device alignment.` — src\data\graphExport.js:115
-- `Warm Amber` — src\participantUi\constants.js:49, src\theme.js:110
 - `Warm earthy tones — inviting, natural` — src\theme.js:116
 - `Warm Paper` — src\theme.js:150
 - `Warning ·` — src\Analytics.jsx:145
 - `Web Bluetooth is unavailable in this environment. Use a Chromium-based browser in the hosted/web target, or supply a native Tauri BLE transport to the adapter.` — src\devices\transports\webBluetooth.js:22
-- `Web Crypto API not available — protocol hashing disabled` — src\RuntimeRunnerPage.jsx:20
 - `Web Crypto SHA-256 is unavailable` — src\core\freezeProtocolGraph.js:44, src\deployment\deploymentBundle.js:18
 - `Web package` — src\constants.js:195
 - `What changed?` — src\composer\Catalogs.jsx:131
@@ -2778,7 +1708,6 @@ Generated: 2026-10-25T15:30:31.646Z
 - `write JWT exchange failed` — src\bioDBClient.js:122
 - `xMidYMid meet` — src\composer\Canvas.jsx:104
 - `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx` — src\core\ids.js:4, src\domain.js:6
-- `Y · Yellow` — src\CognitiveTaskRunner.jsx:7
 - `yes | Yes | 1 no | No | 2` — src\Inspector.jsx:193, src\app\legacyBuilder.jsx:330
 - `You have unsaved changes. Discard them and return to projects?` — src\App.jsx:142
 - `You have unsaved changes. Save before opening another protocol?` — src\App.jsx:184
@@ -2787,50 +1716,44 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Zero-based block order in the resolved runtime sequence.` — src\exporter.js:176
 - `Zero-based step order inside the compiled trial path.` — src\exporter.js:182
 - `Zero-based trial order after fixed/random/latin-square/manual resolution.` — src\exporter.js:179
-- `Zoom in (Ctrl+wheel)` — src\ParticipantUiBuilder.jsx:106
 - `Zoom in/out` — src\flowCanvas\ShortcutsModal.jsx:6
-- `Zoom out (Ctrl+wheel)` — src\ParticipantUiBuilder.jsx:104
-- `µV` — src\operator\deviceSnapshot.js:19
 - `アーカイブ` — src\pfUIStrings.js:200
 - `アップロードを閉じる` — src\pfUIStrings.js:116
 - `いいえ` — src\constants.js:65
 - `エラー` — src\pfUIStrings.js:131, src\pfUIStrings.js:150
-- `オペレーターの確認を待っています。` — src\RuntimeContent.jsx:7
-- `グループ名を入力してください` — src\composer\toolbox.js:175
-- `グループ内のノードが見つかりません` — src\composer\toolbox.js:177
 - `グループが空です` — src\composer\toolbox.js:176
-- `この参加者の記録はまだありません。` — src\pfUIStrings.js:115
-- `この範囲にサンプルはありません。記録時刻を指定してください。` — src\pfUIStrings.js:121
-- `この管理者には PhysioDB が設定されていません` — src\pfUIStrings.js:155
-- `この画面を閉じず、保存状況の確認を実験者に依頼してください。` — src\pfUIStrings.js:87
-- `この入力ポートには複数接続できません` — src\composer\toolbox.js:142
-- `この実験記録を分析` — src\pfUIStrings.js:36
-- `この実験記録を分析し、時間線や回答を確認します。戻ると同じ記録を開きます。` — src\TaskGuide.jsx:15
+- `グループ内のノードが見つかりません` — src\composer\toolbox.js:177
+- `グループ名を入力してください` — src\composer\toolbox.js:175
 - `このウィンドウは管理者用です。実験ウィンドウを参加者の画面に表示してください。` — src\pfUIStrings.js:133
 - `このノードはフローから到達できません` — src\composer\toolbox.js:135
 - `このブラウザーの準備画面から管理者モニターを開きます。実験ウィンドウを参加者の画面へ移動すると、管理者側で進捗と信号を確認できます。` — src\pfUIStrings.js:110
+- `この画面を閉じず、保存状況の確認を実験者に依頼してください。` — src\pfUIStrings.js:87
+- `この管理者には PhysioDB が設定されていません` — src\pfUIStrings.js:155
+- `この参加者の記録はまだありません。` — src\pfUIStrings.js:115
+- `この実験記録を分析` — src\pfUIStrings.js:36
+- `この実験記録を分析し、時間線や回答を確認します。戻ると同じ記録を開きます。` — src\TaskGuide.jsx:15
+- `この入力ポートには複数接続できません` — src\composer\toolbox.js:142
+- `この範囲にサンプルはありません。記録時刻を指定してください。` — src\pfUIStrings.js:121
 - `サーバー設定` — src\pfUIStrings.js:98
-- `サブフローの出口ノードが無効です` — src\composer\toolbox.js:183
-- `サブフローの入口ノードが無効です` — src\composer\toolbox.js:182
 - `サブフローのテンプレートが空です` — src\composer\toolbox.js:181
 - `サブフローのパラメータ対応がありません` — src\composer\toolbox.js:179
 - `サブフローのパラメータ対応の型が一致しません` — src\composer\toolbox.js:180
+- `サブフローの出口ノードが無効です` — src\composer\toolbox.js:183
+- `サブフローの入口ノードが無効です` — src\composer\toolbox.js:182
 - `サンプリング周波数が一致しません。接続設定を再読み込みしてください。` — src\pfUIStrings.js:89
 - `サンプル` — src\pfUIStrings.js:116
 - `スペースキーを押してください` — src\constants.js:69
 - `スライダーを動かしてください` — src\core\questionnaireModel.js:153
-- `セッション識別情報` — src\pfUIStrings.js:80
 - `セッションの DB 紐付け` — src\pfUIStrings.js:73
-- `センサー信号の確認` — src\pfUIStrings.js:15
+- `セッション識別情報` — src\pfUIStrings.js:80
 - `センサーのライブ信号を確認します。インピーダンスの測定やデータベースへの接続は行いません。` — src\pfUIStrings.js:17
+- `センサー信号の確認` — src\pfUIStrings.js:15
 - `その他` — src\core\taskTemplates.js:40
 - `その他の操作` — src\pfUIStrings.js:37
 - `チャンネル` — src\pfUIStrings.js:124
-- `チャンネル評価済み` — src\pfUIStrings.js:149
 - `チャンネルは計測中` — src\pfUIStrings.js:149
+- `チャンネル評価済み` — src\pfUIStrings.js:149
 - `データ・分析` — src\pfUIStrings.js:100
-- `データ保存先` — src\pfUIStrings.js:195, src\pfUIStrings.js:48
-- `データ量が多いため、範囲を短くしてください。` — src\pfUIStrings.js:126
 - `データストリーム` — src\pfUIStrings.js:71
 - `データと設定` — src\pfUIStrings.js:39
 - `データの参照元が参照先より後になるため変更できません。` — src\pfUIStrings.js:29
@@ -2838,17 +1761,18 @@ Generated: 2026-10-25T15:30:31.646Z
 - `データベース（PhysioDB）` — src\pfUIStrings.js:16
 - `データベースで DB の時間窓を読み、波形・統計・CSV を確認します。` — src\TaskGuide.jsx:15
 - `データを表示` — src\pfUIStrings.js:108
+- `データ保存先` — src\pfUIStrings.js:195, src\pfUIStrings.js:48
+- `データ量が多いため、範囲を短くしてください。` — src\pfUIStrings.js:126
 - `テストデータを送信・再読込中…` — src\pfUIStrings.js:58
 - `テストにはドラフトを使えます。本番には凍結版を使い、修正には編集可能な版を作成します。` — src\TaskGuide.jsx:12
 - `デバイス` — src\pfUIStrings.js:12
-- `デバイスコネクタが無効です` — src\composer\toolbox.js:189
 - `デバイスコネクタがインストールされていません` — src\composer\toolbox.js:188
+- `デバイスコネクタが無効です` — src\composer\toolbox.js:189
 - `デバイスの権限が承認されていません` — src\composer\toolbox.js:190
-- `デバイスをチェックしています…` — src\RuntimeContent.jsx:8
 - `テンプレートから作成` — src\pfUIStrings.js:178
 - `テンプレートを使用` — src\pfUIStrings.js:40
-- `ノードIDが重複しています` — src\composer\toolbox.js:167
 - `ノードIDがありません` — src\composer\toolbox.js:166
+- `ノードIDが重複しています` — src\composer\toolbox.js:167
 - `ノードのコンポーネント種別がありません` — src\composer\toolbox.js:168
 - `バージョン` — src\pfUIStrings.js:171
 - `バージョン凍結` — src\pfUIStrings.js:9
@@ -2857,20 +1781,20 @@ Generated: 2026-10-25T15:30:31.646Z
 - `ピーク周波数` — src\pfUIStrings.js:124
 - `フォルダ未選択` — src\pfUIStrings.js:159
 - `プレビュー実行` — src\pfUIStrings.js:7
-- `フロー図` — src\pfUIStrings.js:25
 - `フローが空です。ノードを追加してください` — src\composer\toolbox.js:129
+- `フロー図` — src\pfUIStrings.js:25
 - `プロジェクト` — src\pfUIStrings.js:11
-- `プロジェクト操作` — src\pfUIStrings.js:167
 - `プロジェクトはまだありません` — src\pfUIStrings.js:203
-- `プロジェクトを検索` — src\pfUIStrings.js:202
 - `プロジェクトを開く` — src\pfUIStrings.js:38
-- `プロトコル版` — src\pfUIStrings.js:77
-- `プロトコル検証` — src\pfUIStrings.js:189
-- `プロトコル名を入力してください` — src\composer\toolbox.js:128
+- `プロジェクトを検索` — src\pfUIStrings.js:202
+- `プロジェクト操作` — src\pfUIStrings.js:167
 - `プロトコルIDがありません` — src\composer\toolbox.js:127
 - `プロトコルと刺激素材を確認し、参加者セッションを準備します。` — src\pfUIStrings.js:103
 - `プロトコルのデータ構造が無効です` — src\composer\toolbox.js:126
 - `プロトコルを設計し、参加者を準備して、実験結果を確認します。` — src\pfUIStrings.js:42
+- `プロトコル検証` — src\pfUIStrings.js:189
+- `プロトコル版` — src\pfUIStrings.js:77
+- `プロトコル名を入力してください` — src\composer\toolbox.js:128
 - `ヘルプ・資料` — src\pfUIStrings.js:154
 - `ホームで空の実験、または感情・Stroop・Go/No-Go テンプレートを選びます。` — src\TaskGuide.jsx:12
 - `ホームの実験記録で対象の参加者を選びます。` — src\TaskGuide.jsx:15
@@ -2881,19 +1805,714 @@ Generated: 2026-10-25T15:30:31.646Z
 - `ランダム分岐の確率が無効です` — src\composer\toolbox.js:157
 - `ループ回数は1以上の整数で指定してください` — src\composer\toolbox.js:156
 - `ループ終了条件の演算子が無効です` — src\composer\toolbox.js:194
-- `ローカル保存と DB 検証は別の状態です。機器なしのテスト信号は合成と表示されます。本番の生データは明示的にアップロードします。` — src\TaskGuide.jsx:14
-- `ローカル時刻` — src\pfUIStrings.js:119
 - `ローカルフォルダ` — src\pfUIStrings.js:158
 - `ローカルフォルダ接続済み` — src\pfUIStrings.js:172
 - `ローカルワークスペース` — src\pfUIStrings.js:153
+- `ローカル時刻` — src\pfUIStrings.js:119
+- `ローカル保存と DB 検証は別の状態です。機器なしのテスト信号は合成と表示されます。本番の生データは明示的にアップロードします。` — src\TaskGuide.jsx:14
 - `ワークスペース` — src\pfUIStrings.js:156
 - `ワークスペースに接続` — src\pfUIStrings.js:95
 - `ワークスペースを見る` — src\TaskGuide.jsx:11
+- `按键` — src\domain.js:296, src\domain.js:327
+- `移行した設定の確認が済むと、このバージョンを凍結できます。` — src\pfUIStrings.js:10
+- `移行後に設定を確認してください` — src\composer\toolbox.js:200
+- `移除` — src\pfUIStrings.js:170
+- `一致` — src\pfUIStrings.js:65
+- `一致するプロジェクトはありません。` — src\pfUIStrings.js:165
+- `右で刺激、時間、回答方法を設定します。分岐はフロー図を使います。` — src\TaskGuide.jsx:12
+- `押す` — src\domain.js:296, src\domain.js:327
+- `黄 / 黄 / YELLOW` — src\core\taskTemplates.js:75
+- `下へ` — src\pfUIStrings.js:28
+- `下移` — src\pfUIStrings.js:28
+- `下一题 →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:12
+- `画面のバインディングが存在しない変数を参照しています` — src\composer\toolbox.js:192
+- `会话数据库绑定` — src\pfUIStrings.js:73
+- `会话标识` — src\pfUIStrings.js:80
+- `回答して次へ →` — src\QuestionnaireFormV2.jsx:19
+- `回答済み` — src\QuestionnaireFormV2.jsx:21
+- `恢复` — src\pfUIStrings.js:201
+- `恢复记录` — src\pfUIStrings.js:134
+- `界面模板为空` — src\composer\toolbox.js:106
+- `界面缺少输入控件` — src\composer\toolbox.js:108
+- `界面绑定引用了不存在的变量` — src\composer\toolbox.js:107
+- `開く` — src\pfUIStrings.js:169
+- `開始` — src\pfUIStrings.js:119
+- `開始ノードがありません` — src\composer\toolbox.js:130
+- `開始前に機器を確認` — src\pfUIStrings.js:139
+- `開始前に計測エージェントの記録状態を確認してください。` — src\pfUIStrings.js:88
+- `開始前に必要な信号の更新を確認してください。モニターは機器を占有しません。` — src\pfUIStrings.js:127
+- `完全不可能` — src\core\questionnaireModel.js:152
+- `感情課題` — src\pfUIStrings.js:160
+- `感情実験のサンプルを開く` — src\TaskGuide.jsx:11
+- `管理者アクセスキー` — src\pfUIStrings.js:97
+- `管理者と参加者、別々の画面。` — src\pfUIStrings.js:109
+- `管理者モニターを開く` — src\pfUIStrings.js:138
+- `管理者モニターを管理者画面、実験ウィンドウを参加者画面に置きます。` — src\TaskGuide.jsx:13
+- `管理者画面で監視してください。実験中は刺激と質問のみ参加者に提示します。` — src\pfUIStrings.js:141
+- `管理员与参与者各用一个画面。` — src\pfUIStrings.js:109
+- `喜び` — src\core\taskTemplates.js:40
+- `機器のプレビュー・実際の DB` — src\pfUIStrings.js:64
+- `機器の信号を確認` — src\pfUIStrings.js:104
+- `機器の接続設定がありません。` — src\pfUIStrings.js:91
+- `機器接続` — src\pfUIStrings.js:140
+- `機器不要` — src\pfUIStrings.js:139
+- `記録` — src\pfUIStrings.js:183
+- `記録あり` — src\pfUIStrings.js:184
+- `記録と分析` — src\TaskGuide.jsx:15
+- `記録の確認` — src\pfUIStrings.js:106
+- `記録の詳細` — src\pfUIStrings.js:52
+- `記録を選択` — src\pfUIStrings.js:111
+- `記録中` — src\pfUIStrings.js:81
+- `記録未確認` — src\pfUIStrings.js:82
+- `技術情報` — src\pfUIStrings.js:4
+- `技术信息` — src\pfUIStrings.js:4
+- `旧 BioDB 接続` — src\pfUIStrings.js:8
+- `旧 BioDB 连接` — src\pfUIStrings.js:8
+- `旧形式の埋め込み刺激プール設定が一致していません` — src\composer\toolbox.js:191
+- `旧版内嵌刺激池配置不一致` — src\composer\toolbox.js:104
+- `去均值` — src\pfUIStrings.js:120
+- `強く同意する` — src\core\questionnaireModel.js:13, src\core\questionnaireModel.js:150
+- `均方根` — src\pfUIStrings.js:124
+- `均值` — src\pfUIStrings.js:124
+- `緊張` — src\core\taskTemplates.js:40
+- `空のプロトコル` — src\pfUIStrings.js:177
+- `空のプロトコルから始める` — src\pfUIStrings.js:204
+- `空のプロトコルまたはテンプレートから開始します。` — src\pfUIStrings.js:54
+- `空の実験を作成` — src\TaskGuide.jsx:11
+- `空白方案` — src\pfUIStrings.js:177
+- `計測 PC と接続を確認してください。` — src\pfUIStrings.js:145
+- `計測サービス URL` — src\pfUIStrings.js:140
+- `計測サービスキー` — src\pfUIStrings.js:140
+- `計測サービスを起動し、必要な全チャンネルの信号を確認します。` — src\TaskGuide.jsx:13
+- `計測ソース` — src\pfUIStrings.js:128
+- `計測ソースを PF サーバーに設定してください。` — src\pfUIStrings.js:144
+- `計測ソフトを起動後、信号を確認してください。` — src\pfUIStrings.js:129
+- `計測中` — src\pfUIStrings.js:131
+- `警告` — src\pfUIStrings.js:150
+- `欠損` — src\pfUIStrings.js:124
+- `欠損は保持します。完全で等間隔の信号のみ周波数を計算します。DB の元データは変更しません。` — src\pfUIStrings.js:123
+- `欠損時は機器、電極、計測サービス、接続先を確認してください。本番には実機と書込可能な保存先が必要です。` — src\TaskGuide.jsx:13
+- `件の追加の指摘` — src\pfUIStrings.js:150
+- `検証して紐付けを保存` — src\pfUIStrings.js:78
+- `研究` — src\pfUIStrings.js:111
+- `研究ワークスペース` — src\pfUIStrings.js:152
+- `研究を選択` — src\pfUIStrings.js:112
+- `研究工作区` — src\pfUIStrings.js:152
+- `研究者のメモと有効性評価を保存できます。自動チェックは研究者の判断を置き換えません。` — src\TaskGuide.jsx:15
+- `元の値` — src\pfUIStrings.js:120
+- `原始数值` — src\pfUIStrings.js:120
+- `現在のステップ` — src\pfUIStrings.js:134
+- `現在の快・不快の程度を教えてください。` — src\core\questionnaireModel.js:148, src\domain.js:161
+- `現在の覚醒度を教えてください。` — src\core\questionnaireModel.js:149, src\domain.js:161
+- `現在の感情に最も近いものを選んでください` — src\core\taskTemplates.js:39
+- `現在の支配感・コントロール感を教えてください。` — src\core\questionnaireModel.js:147
+- `工作区` — src\pfUIStrings.js:156
+- `控制感` — src\QuestionnaireFormV2.jsx:26
+- `控制端口已有多条连线，只能保留一条` — src\composer\toolbox.js:69
+- `更新` — src\pfUIStrings.js:113
+- `更新停止` — src\pfUIStrings.js:131
+- `更新时间` — src\pfUIStrings.js:113
+- `更多操作` — src\pfUIStrings.js:37
+- `行いたい作業を選び、手順に沿って操作してください。` — src\TaskGuide.jsx:11
+- `項目` — src\pfUIStrings.js:116
+- `高级参考` — src\TaskGuide.jsx:5
+- `此刻您的控制感如何？` — src\core\questionnaireModel.js:147
+- `此刻您的愉悦程度如何？` — src\core\questionnaireModel.js:148, src\domain.js:161
+- `此刻您的唤醒程度如何？` — src\core\questionnaireModel.js:149, src\domain.js:161
+- `此窗口用于管理员。将实验窗口放在参与者屏幕上。` — src\pfUIStrings.js:133
+- `此顺序会使数据来源晚于使用它的步骤。` — src\pfUIStrings.js:29
+- `最も近い感情ラベルを選んでください` — src\domain.js:161
+- `最近編集したプロジェクト` — src\pfUIStrings.js:43
+- `最近编辑的项目` — src\pfUIStrings.js:43
+- `最后更新` — src\pfUIStrings.js:182
+- `最高` — src\core\questionnaireModel.js:153
+- `最終更新` — src\pfUIStrings.js:182
+- `最初の実験を始めましょう` — src\TaskGuide.jsx:11
+- `最小` — src\pfUIStrings.js:124
+- `最小值` — src\pfUIStrings.js:124
+- `最大` — src\pfUIStrings.js:124
+- `最大 5 分間を選択してください。` — src\pfUIStrings.js:125
+- `最大值` — src\pfUIStrings.js:124
+- `最低` — src\core\questionnaireModel.js:153
+- `采集完成` — src\pfUIStrings.js:51
+- `采集前检查` — src\pfUIStrings.js:47
+- `采集中` — src\pfUIStrings.js:147
+- `采集服务地址` — src\pfUIStrings.js:140
+- `采集服务密钥` — src\pfUIStrings.js:140
+- `采集来源` — src\pfUIStrings.js:128
+- `采样率与方案不一致，请重新导入设备连接配置。` — src\pfUIStrings.js:89
+- `在右侧设置刺激、时长和回答方式；复杂分支使用流程图。` — src\TaskGuide.jsx:6
+- `在此检查传感器实时信号，不测量阻抗，也不是数据库。` — src\pfUIStrings.js:17
+- `在此浏览器的实验准备页打开操作员监控。将实验窗口移至参与者屏幕，管理员窗口独立显示进度和信号。` — src\pfUIStrings.js:110
+- `在操作员屏幕上监控。实验期间只向参与者呈现刺激与问题。` — src\pfUIStrings.js:141
+- `在实验步骤中选中一项，点击左侧组件添加下一步。` — src\TaskGuide.jsx:6
+- `削除` — src\pfUIStrings.js:170
+- `削除・アーカイブ済みバージョン` — src\pfUIStrings.js:166
+- `刷新` — src\pfUIStrings.js:113
+- `参加者` — src\pfUIStrings.js:111
+- `参加者 ID、言語、メディア、保存先を確認します。` — src\TaskGuide.jsx:13
+- `参加者とデータ設定` — src\pfUIStrings.js:32
+- `参加者と機器を準備` — src\TaskGuide.jsx:13
+- `参加者には実験内容と一時停止の表示のみ提示します。` — src\pfUIStrings.js:135
+- `参加者は刺激と質問に回答し、管理者は別画面で監視・一時停止します。` — src\TaskGuide.jsx:14
+- `参加者を選択` — src\pfUIStrings.js:112
+- `参加者画面` — src\pfUIStrings.js:138
+- `参加者画面がありません` — src\composer\toolbox.js:150
+- `参加者画面に入力項目がありません` — src\composer\toolbox.js:151
+- `参加者情報` — src\pfUIStrings.js:46
+- `参照している変数がありません` — src\composer\toolbox.js:145
+- `参与者` — src\pfUIStrings.js:111
+- `参与者画面` — src\pfUIStrings.js:138
+- `参与者完成刺激与回答；管理员在独立监控中查看状态及暂停/恢复。` — src\TaskGuide.jsx:8
+- `参与者信息` — src\pfUIStrings.js:46
+- `参与者与数据设置` — src\pfUIStrings.js:32
+- `参与者仅看到实验内容和暂停提示。` — src\pfUIStrings.js:135
+- `残り時間` — src\QuestionnaireFormV2.jsx:17
+- `使い方` — src\TaskGuide.jsx:11, src\pfUIStrings.js:6
+- `使用 PF 操作员访问密钥。数据库和设备凭据保留在服务端。` — src\pfUIStrings.js:96
+- `使用 PF 服务器访问密钥读取和上传实验记录。PhysioDB 凭据保留在服务器上。` — src\pfUIStrings.js:20
+- `使用 PF 服务器访问密钥连接传感器并检查实时信号。` — src\pfUIStrings.js:19
+- `使用 PhysioDB 验证测试运行` — src\pfUIStrings.js:55
+- `使用指南` — src\TaskGuide.jsx:5
+- `使用方法` — src\pfUIStrings.js:6
+- `使用模板` — src\pfUIStrings.js:40
+- `刺激プールIDがないか重複しています` — src\composer\toolbox.js:158
+- `刺激プールとMediaノードの種別が一致しません` — src\composer\toolbox.js:164
+- `刺激プールに刺激を追加してください` — src\composer\toolbox.js:162
+- `刺激プールのメディアが見つかりません` — src\composer\toolbox.js:163
+- `刺激プールのメディア種別が無効です` — src\composer\toolbox.js:160
+- `刺激プール名を入力してください` — src\composer\toolbox.js:159
+- `刺激メディア` — src\pfUIStrings.js:191
+- `刺激数量不足以进行无放回分配` — src\composer\toolbox.js:105
+- `刺激素材` — src\pfUIStrings.js:191
+- `刺激池 ID 缺失或重复` — src\composer\toolbox.js:97
+- `刺激池引用的媒体资源不存在` — src\composer\toolbox.js:102
+- `刺激池中还没有可用刺激` — src\composer\toolbox.js:101
+- `刺激池媒体类型无效` — src\composer\toolbox.js:99
+- `刺激池与媒体节点的类型不一致` — src\composer\toolbox.js:103
+- `刺激池缺少名称` — src\composer\toolbox.js:98
+- `刺激提示の前に EEG と心拍の受信を確認します。` — src\pfUIStrings.js:105
+- `子流程参数映射缺失` — src\composer\toolbox.js:82
+- `子流程参数映射类型不匹配` — src\composer\toolbox.js:83
+- `子流程出口节点无效` — src\composer\toolbox.js:86
+- `子流程入口节点无效` — src\composer\toolbox.js:85
+- `子流程模板为空` — src\composer\toolbox.js:84
+- `字段` — src\pfUIStrings.js:116
+- `持续更新` — src\pfUIStrings.js:131
+- `持续时间无效（需为正数）` — src\composer\toolbox.js:110
+- `時間範囲を指定して波形、統計、データを書き出します。` — src\pfUIStrings.js:118
+- `時刻間隔が不均一、または不足` — src\pfUIStrings.js:122
+- `次の3項目について評価してください。` — src\QuestionnaireFormV2.jsx:22
+- `次へ →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:12
+- `質問` — src\QuestionnaireFormV2.jsx:222
+- `質問がありません` — src\QuestionnaireFormV2.jsx:14
+- `実験` — src\pfUIStrings.js:108, src\pfUIStrings.js:111
+- `実験イベント` — src\pfUIStrings.js:116
+- `実験が終了しました。実験者にお知らせください。` — src\pfUIStrings.js:85
+- `実験と参加者を選択すると記録が表示されます。` — src\pfUIStrings.js:114
+- `実験の構成` — src\pfUIStrings.js:188
+- `実験の手順` — src\pfUIStrings.js:23
+- `実験の準備` — src\pfUIStrings.js:102
+- `実験は終了しました。このモニターは確認用に残ります。` — src\pfUIStrings.js:136
+- `実験プロジェクト` — src\pfUIStrings.js:175, src\pfUIStrings.js:41
+- `実験モニター` — src\pfUIStrings.js:132
+- `実験ワークスペース` — src\pfUIStrings.js:157
+- `実験を、シンプルに。` — src\pfUIStrings.js:93
+- `実験を開く` — src\pfUIStrings.js:108
+- `実験を作成` — src\pfUIStrings.js:53
+- `実験を作成・編集` — src\TaskGuide.jsx:12
+- `実験を選択` — src\pfUIStrings.js:112
+- `実験開始` — src\pfUIStrings.js:138
+- `実験管理ナビゲーション` — src\pfUIStrings.js:101
+- `実験記録` — src\pfUIStrings.js:34
+- `実験記録を保存しています。お待ちください。` — src\pfUIStrings.js:86
+- `実験者の指示を待ってから開始してください。` — src\pfUIStrings.js:83
+- `実験者接続を設定` — src\pfUIStrings.js:50
+- `実験者接続を設定済み` — src\pfUIStrings.js:49
+- `実験待ち` — src\pfUIStrings.js:134
+- `実効値` — src\pfUIStrings.js:124
+- `実行と DB 検証` — src\TaskGuide.jsx:14
+- `実行情報と信号を確認して実験を開始します。` — src\TaskGuide.jsx:14
+- `実行情報を確認しました。下の信号を確認して実験を開始してください。` — src\pfUIStrings.js:30
+- `実行情報を編集` — src\pfUIStrings.js:31
+- `手順を選択し、左の要素をクリックして次の手順を追加します。` — src\TaskGuide.jsx:12
+- `手順を選択してから要素をクリックして挿入` — src\pfUIStrings.js:21
+- `手順を選択して編集し、左のパネルから要素を追加します。` — src\pfUIStrings.js:24
+- `手順を追加し、内容を設定してテストしてください。本番の前にバージョンを凍結します。` — src\TaskGuide.jsx:11
+- `手順表示` — src\pfUIStrings.js:26
+- `手動完了には送信または次へボタンが必要です` — src\composer\toolbox.js:152
+- `手动完成模式需要界面中有提交按钮` — src\composer\toolbox.js:109
+- `首页打开“实验记录”，选择本次参与者记录。` — src\TaskGuide.jsx:9
+- `受信確認は電極インピーダンス測定や信号品質の評価ではありません。` — src\pfUIStrings.js:130
+- `受信中` — src\pfUIStrings.js:128, src\pfUIStrings.js:131
+- `需要检查` — src\pfUIStrings.js:128
+- `収集を準備` — src\pfUIStrings.js:45
+- `収集完了` — src\pfUIStrings.js:51
+- `収集前の確認` — src\pfUIStrings.js:47
+- `収集中` — src\pfUIStrings.js:147
+- `修改运行信息` — src\pfUIStrings.js:31
+- `終了` — src\pfUIStrings.js:119
+- `終了後に保存成功を確認し、完全なデータパッケージを出力します。` — src\TaskGuide.jsx:14
+- `重新核对数据库` — src\pfUIStrings.js:62
+- `重新保存` — src\pfUIStrings.js:72
+- `重新连接数据库` — src\pfUIStrings.js:117
+- `重複なしで割り当てるための刺激数が不足しています` — src\composer\toolbox.js:165
+- `重命名` — src\pfUIStrings.js:198
+- `准备` — src\pfUIStrings.js:100
+- `准备完毕` — src\pfUIStrings.js:185
+- `准备采集` — src\pfUIStrings.js:45
+- `准备参与者与设备` — src\TaskGuide.jsx:7
+- `准备信息确认后检查信号，再点击“开始实验”。` — src\TaskGuide.jsx:8
+- `准备中` — src\pfUIStrings.js:186
+- `准备实验` — src\pfUIStrings.js:102
+- `准备实验，检查信号，查看数据。` — src\pfUIStrings.js:94
+- `循环次数无效（需为正整数）` — src\composer\toolbox.js:113
+- `循环终止运算符无效` — src\composer\toolbox.js:115
+- `準備` — src\pfUIStrings.js:100
+- `準備、信号確認、データの確認。` — src\pfUIStrings.js:94
+- `準備完了` — src\pfUIStrings.js:185
+- `準備中` — src\pfUIStrings.js:186
+- `処理` — src\pfUIStrings.js:120
+- `将 PF 会话绑定到所选记录。这里只保存目标，不会自动上传样本。` — src\pfUIStrings.js:74
+- `尚未配置设备监控，请在 PF 服务端设置采集来源。` — src\pfUIStrings.js:144
+- `尚未确认原始录制。开始前请检查采集代理。` — src\pfUIStrings.js:88
+- `詳しく記述してください` — src\core\questionnaireModel.js:157
+- `詳細リファレンス` — src\TaskGuide.jsx:11
+- `詳細設定` — src\pfUIStrings.js:3
+- `上へ` — src\pfUIStrings.js:27
+- `上移` — src\pfUIStrings.js:27
+- `上传原始记录` — src\pfUIStrings.js:116
+- `情绪任务` — src\pfUIStrings.js:160
+- `条件演算子が無効です` — src\composer\toolbox.js:193
+- `条件运算符无效` — src\composer\toolbox.js:114
+- `条其他问题` — src\pfUIStrings.js:150
+- `状態` — src\pfUIStrings.js:181
+- `状态` — src\pfUIStrings.js:181
+- `色と文字の課題` — src\pfUIStrings.js:161
+- `色词任务` — src\pfUIStrings.js:161
+- `信号を確認` — src\pfUIStrings.js:108, src\pfUIStrings.js:148
+- `信号を読み込む` — src\pfUIStrings.js:119
+- `信号確認` — src\pfUIStrings.js:100
+- `信号使用不可` — src\pfUIStrings.js:148
+- `信号待ち` — src\pfUIStrings.js:131
+- `信号停止更新` — src\pfUIStrings.js:131
+- `信号品質` — src\pfUIStrings.js:147
+- `信号不可用` — src\pfUIStrings.js:148
+- `信号良好` — src\pfUIStrings.js:148
+- `信号无变化` — src\pfUIStrings.js:131
+- `信号缺失时检查设备、电极、采集服务和连接地址。正式采集要求真实设备及可写的数据文件夹。` — src\TaskGuide.jsx:7
+- `信号检查` — src\pfUIStrings.js:100
+- `信号质量` — src\pfUIStrings.js:147
+- `心拍数` — src\pfUIStrings.js:132
+- `心率` — src\pfUIStrings.js:132
+- `新しいバージョン` — src\pfUIStrings.js:197
+- `新しいバージョンを作成` — src\pfUIStrings.js:5
+- `新しい編集画面へ移行` — src\pfUIStrings.js:164
+- `新規` — src\pfUIStrings.js:176
+- `新建` — src\pfUIStrings.js:176
+- `新版本` — src\pfUIStrings.js:197
+- `随机概率需在 0–100 之间` — src\composer\toolbox.js:116
+- `数据保存` — src\pfUIStrings.js:48
+- `数据保存位置` — src\pfUIStrings.js:195
+- `数据与分析` — src\pfUIStrings.js:100
+- `数据与设置` — src\pfUIStrings.js:39
+- `数据流` — src\pfUIStrings.js:71
+- `数据量过大，请缩短时间窗。` — src\pfUIStrings.js:126
+- `数据库` — src\pfUIStrings.js:13
+- `数据库，可选择数据库录制时间窗、查看波形与统计并导出 CSV。` — src\TaskGuide.jsx:9
+- `数据库（PhysioDB）` — src\pfUIStrings.js:16
+- `数据库回读验证通过` — src\pfUIStrings.js:59
+- `数据库记录标识` — src\pfUIStrings.js:67
+- `数据库验证需要检查` — src\pfUIStrings.js:60
+- `数値フィールドがありません。` — src\pfUIStrings.js:122
+- `数値を入力してください` — src\core\questionnaireModel.js:158
+- `正在采样` — src\pfUIStrings.js:131
+- `正在准备数据库测试记录…` — src\pfUIStrings.js:69
+- `正在上传并回读测试数据…` — src\pfUIStrings.js:58
+- `正在接收` — src\pfUIStrings.js:128
+- `正在等待足够样本以评估信号。` — src\pfUIStrings.js:151
+- `正在保存实验记录，请稍候。` — src\pfUIStrings.js:86
+- `正在录制` — src\pfUIStrings.js:81
+- `正在读取…` — src\pfUIStrings.js:113
+- `正在连接…` — src\pfUIStrings.js:99
+- `正式実験とは別にテスト記録を保持し、ローカルデータも保存します。` — src\pfUIStrings.js:61
+- `生データをアップロード` — src\pfUIStrings.js:116
+- `切断` — src\pfUIStrings.js:99
+- `接続` — src\pfUIStrings.js:99
+- `接続タイプとポートタイプが一致しません` — src\composer\toolbox.js:141
+- `接続元ノードがありません` — src\composer\toolbox.js:137
+- `接続元の向きが正しくありません（出力ポートから出る必要があります）` — src\composer\toolbox.js:169
+- `接続元ポートがありません` — src\composer\toolbox.js:139
+- `接続済み` — src\pfUIStrings.js:99
+- `接続先ノードがありません` — src\composer\toolbox.js:138
+- `接続先の向きが正しくありません（入力ポートへ向かう必要があります）` — src\composer\toolbox.js:170
+- `接続先ポートがありません` — src\composer\toolbox.js:140
+- `接続中…` — src\pfUIStrings.js:99
+- `接收检查不测量电极阻抗，也不替代信号质量评估。` — src\pfUIStrings.js:130
+- `設計 → 確認 → 実行 → 結果確認` — src\TaskGuide.jsx:11
+- `設定` — src\pfUIStrings.js:14
+- `設定を確認してください。` — src\composer\labels.js:4
+- `先添加一个步骤，设置内容，然后测试运行。正式采集前再冻结版本。` — src\TaskGuide.jsx:5
+- `先浏览工作区` — src\TaskGuide.jsx:5
+- `選択した刺激プールがありません` — src\composer\toolbox.js:161
+- `選択した手順の後に追加` — src\pfUIStrings.js:22
+- `選択してください` — src\core\questionnaireModel.js:154
+- `選択してください（複数可）` — src\core\questionnaireModel.js:155
+- `選択肢 1` — src\core\questionnaireModel.js:10
+- `選択肢 2` — src\core\questionnaireModel.js:10
+- `選択肢1` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
+- `選択肢2` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
+- `選択肢3` — src\core\questionnaireModel.js:154
+- `全く勧めない` — src\core\questionnaireModel.js:152
+- `全く同意しない` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:150
+- `素材確認済み` — src\pfUIStrings.js:139
+- `素材已检查` — src\pfUIStrings.js:139
+- `操作员访问密钥` — src\pfUIStrings.js:97
+- `送信` — src\QuestionnaireFormV2.jsx:13
+- `其他` — src\core\taskTemplates.js:40
+- `存储设置` — src\pfUIStrings.js:173
+- `打开` — src\pfUIStrings.js:169
+- `打开情绪实验示例` — src\TaskGuide.jsx:5
+- `打开操作员监控` — src\pfUIStrings.js:138
+- `打开操作员监控放在管理员屏幕，实验窗口放在参与者屏幕。` — src\TaskGuide.jsx:7
+- `打开实验` — src\pfUIStrings.js:108
+- `打开项目` — src\pfUIStrings.js:38
+- `待機時間は0以上で指定してください` — src\composer\toolbox.js:154
+- `只读` — src\pfUIStrings.js:117
+- `断开` — src\pfUIStrings.js:99
+- `知道了` — src\flowCanvas\CanvasToolbar.jsx:12
+- `中文` — src\Inspector.jsx:298, src\app\legacyBuilder.jsx:321, src\app\sessionSetup.jsx:164, src\app\sessionSetup.jsx:92, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59
+- `中文标题` — src\Inspector.jsx:126
+- `注視点の形状が無効です` — src\composer\toolbox.js:195
+- `注视点形状无效` — src\composer\toolbox.js:117
+- `通道` — src\pfUIStrings.js:124
+- `通过 PF 服务器读取实验室数据库。` — src\pfUIStrings.js:18
+- `停止监控` — src\pfUIStrings.js:128
+- `呈现刺激前，确认脑波与心率信号正常更新。` — src\pfUIStrings.js:105
+- `提交` — src\QuestionnaireFormV2.jsx:13
+- `提交回答` — src\QuestionnaireForm.jsx:211
+- `提交并继续 →` — src\QuestionnaireFormV2.jsx:19
+- `填写参与者编号与语言，确认媒体及数据保存位置。` — src\TaskGuide.jsx:7
+- `添加到选中步骤之后` — src\pfUIStrings.js:22
+- `点击“分析这次实验”查看时间线与回答，返回时保留同一记录。` — src\TaskGuide.jsx:9
+- `凍結バージョン` — src\pfUIStrings.js:193
+- `当前步骤` — src\pfUIStrings.js:134
+- `等待信号` — src\pfUIStrings.js:131
+- `等待实验` — src\pfUIStrings.js:134
+- `等待时长无效（需为正数）` — src\composer\toolbox.js:111
+- `統計を書き出す` — src\pfUIStrings.js:120
+- `同じブラウザーの実験準備画面から開いてください。` — src\pfUIStrings.js:137
+- `得点` — src\QuestionnaireFormV2.jsx:16
+- `得分` — src\QuestionnaireFormV2.jsx:16
+- `得分:` — src\QuestionnaireForm.jsx:170
+- `独立したテスト記録を作成し、信号と実行イベントを送信・再読込します。記録は保持されます。` — src\pfUIStrings.js:56
+- `読み込み中…` — src\pfUIStrings.js:113
+- `読み取り専用` — src\pfUIStrings.js:117
+- `日期未知` — src\pfUIStrings.js:163
+- `日付不明` — src\pfUIStrings.js:163
+- `日本語` — src\Inspector.jsx:298, src\app\legacyBuilder.jsx:322, src\app\sessionSetup.jsx:164, src\app\sessionSetup.jsx:92, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59
+- `日本語タイトル` — src\Inspector.jsx:126
+- `入口はStartノードである必要があります` — src\composer\toolbox.js:131
+- `入口节点不是 start 节点` — src\composer\toolbox.js:53
+- `入力してください` — src\core\questionnaireModel.js:156
+- `認知課題に試行がありません。先に生成してください` — src\composer\toolbox.js:197
+- `認知課題の試行IDが無効です` — src\composer\toolbox.js:198
+- `認知課題の試行時間が無効です` — src\composer\toolbox.js:199
+- `認知課題の種類が無効です` — src\composer\toolbox.js:196
+- `配置操作员连接` — src\pfUIStrings.js:50
+- `媒体 URL 无效，请检查地址或改用资产` — src\composer\toolbox.js:95
+- `媒体完成模式无效` — src\composer\toolbox.js:96
+- `媒体节点缺少 URL 或资产` — src\composer\toolbox.js:94
+- `反応抑制課題` — src\pfUIStrings.js:162
+- `反应抑制任务` — src\pfUIStrings.js:162
+- `版本` — src\pfUIStrings.js:171
+- `版本历史` — src\pfUIStrings.js:196
+- `悲しみ` — src\core\taskTemplates.js:40
+- `悲伤` — src\core\taskTemplates.js:40
+- `非常に勧める` — src\core\questionnaireModel.js:152
+- `非常可能` — src\core\questionnaireModel.js:152
+- `非常同意` — src\core\questionnaireModel.js:13, src\core\questionnaireModel.js:150
+- `非常不同意` — src\core\questionnaireModel.js:12, src\core\questionnaireModel.js:150
+- `必需信号已停止更新、缺失或无变化。恢复前请检查操作员监控。` — src\pfUIStrings.js:143
+- `必需端口未绑定变量` — src\composer\toolbox.js:70
+- `必需端口未连接` — src\composer\toolbox.js:71
+- `必須` — src\QuestionnaireFormV2.jsx:10
+- `必須ポートが接続されていません` — src\composer\toolbox.js:144
+- `必須ポートに変数が割り当てられていません` — src\composer\toolbox.js:143
+- `必填` — src\QuestionnaireFormV2.jsx:10
+- `必填 / Required / 必須` — src\QuestionnaireForm.jsx:196
+- `必填内容` — src\pfUIStrings.js:190
+- `必要な機器の準備を実験者に依頼してください。` — src\pfUIStrings.js:84
+- `必要な機器を接続して信号を確認してください。` — src\pfUIStrings.js:90
+- `必要な信号が停止・欠損・無変化です。管理者モニターで確認してから再開してください。` — src\pfUIStrings.js:143
+- `必要な全チャンネルの更新を確認してから開始してください。` — src\pfUIStrings.js:142
+- `必要な内容` — src\pfUIStrings.js:190
+- `標準偏差` — src\pfUIStrings.js:124
+- `表示時間は0以上で指定してください` — src\composer\toolbox.js:153
+- `評価してください` — src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9
+- `評価に必要なサンプルを待っています。` — src\pfUIStrings.js:151
+- `評価の最大値は最小値より大きくしてください` — src\composer\toolbox.js:155
+- `不一致` — src\pfUIStrings.js:66
+- `復旧記録` — src\pfUIStrings.js:134
+- `復元` — src\pfUIStrings.js:201
+- `服务器设置` — src\pfUIStrings.js:98
+- `複製` — src\pfUIStrings.js:199
+- `分析区間` — src\pfUIStrings.js:192
+- `分析区间` — src\pfUIStrings.js:192
+- `分析这次实验` — src\pfUIStrings.js:36
+- `分组中的节点不存在` — src\composer\toolbox.js:80
+- `分组缺少名称` — src\composer\toolbox.js:78
+- `分组为空` — src\composer\toolbox.js:79
+- `平均` — src\pfUIStrings.js:124
+- `平均を除去` — src\pfUIStrings.js:120
+- `平静` — src\core\taskTemplates.js:40
+- `変化なし` — src\pfUIStrings.js:131
+- `変数とポートの型が一致しません` — src\composer\toolbox.js:146
+- `変数のスコープが無効です` — src\composer\toolbox.js:174
+- `変数の型が無効です` — src\composer\toolbox.js:173
+- `変数名が重複しています` — src\composer\toolbox.js:172
+- `変数名を入力してください` — src\composer\toolbox.js:171
+- `編集` — src\pfUIStrings.js:168
+- `編集を続ける` — src\pfUIStrings.js:44
+- `編集画面でテスト実行、または凍結版から収集を準備します。` — src\TaskGuide.jsx:13
+- `保存データと DB 検証結果を確認し、この実験記録を分析します。` — src\pfUIStrings.js:35
+- `保存を再試行` — src\pfUIStrings.js:72
+- `保存記録を確認` — src\pfUIStrings.js:33
+- `保存後にテスト実行し、テスト用の参加者で内容を確認します。` — src\TaskGuide.jsx:12
+- `保存后点击“测试运行”，先以测试参与者检查内容。` — src\TaskGuide.jsx:6
+- `保存状態、イベント、PhysioDB 検証結果を確認します。` — src\TaskGuide.jsx:15
+- `保存先のみを登録し、サンプルは自動送信しません。` — src\pfUIStrings.js:74
+- `保存先の設定` — src\pfUIStrings.js:173
+- `保存先を検証済み` — src\pfUIStrings.js:79
+- `保留缺失值和时间间隔；仅对完整且等间隔的信号计算频率。数据库中的原始数值保持不变。` — src\pfUIStrings.js:123
+- `峰值频率` — src\pfUIStrings.js:124
+- `方案校验` — src\pfUIStrings.js:189
+- `方案版本` — src\pfUIStrings.js:77
+- `没有匹配的项目。` — src\pfUIStrings.js:165
+- `没有题目` — src\QuestionnaireFormV2.jsx:14
+- `本地工作区` — src\pfUIStrings.js:153
+- `本地文件夹` — src\pfUIStrings.js:158
+- `本地文件夹已连接` — src\pfUIStrings.js:172
+- `本地保存成功和数据库核对成功是两件事。无设备测试会明确使用合成信号；正式原始录制目前需显式上传。` — src\TaskGuide.jsx:8
+- `本地时区` — src\pfUIStrings.js:119
+- `未安装设备连接器` — src\composer\toolbox.js:91
+- `未回答の項目があります。赤い行を確認してください。` — src\QuestionnaireFormV2.jsx:20
+- `未知的组件类型，请安装对应 SDK 包` — src\composer\toolbox.js:61
+- `未登録のコンポーネントです` — src\composer\toolbox.js:136
+- `未凍結` — src\pfUIStrings.js:187
+- `未冻结` — src\pfUIStrings.js:187
+- `未选择文件夹` — src\pfUIStrings.js:159
+- `名称` — src\pfUIStrings.js:180
+- `名前` — src\pfUIStrings.js:180
+- `名前を変更` — src\pfUIStrings.js:198
+- `模擬データ` — src\pfUIStrings.js:128
+- `模擬信号・実際の DB` — src\pfUIStrings.js:63
+- `模拟信号 · 真实数据库` — src\pfUIStrings.js:63
+- `模拟数据` — src\pfUIStrings.js:128
+- `目标验证通过` — src\pfUIStrings.js:79
+- `愉悦度` — src\QuestionnaireFormV2.jsx:25
+- `愉快` — src\core\taskTemplates.js:40
+- `友人に勧める可能性はどのくらいですか？` — src\core\questionnaireModel.js:152
+- `有効サンプル` — src\pfUIStrings.js:124
+- `有効な開始・終了時刻を指定してください。` — src\pfUIStrings.js:125
+- `有效样本` — src\pfUIStrings.js:124
+- `有记录` — src\pfUIStrings.js:184
+- `有设备时先启动采集服务，再检查所有必需通道的实时信号。` — src\TaskGuide.jsx:7
+- `予備実施の記録` — src\pfUIStrings.js:194
+- `要確認` — src\pfUIStrings.js:128
+- `流程中存在多个开始节点` — src\composer\toolbox.js:54
+- `流程缺少开始节点` — src\composer\toolbox.js:52
+- `流程缺少结束节点` — src\composer\toolbox.js:55
+- `流程图` — src\pfUIStrings.js:25
+- `个警告` — src\pfUIStrings.js:150
+- `个通道仍在采集` — src\pfUIStrings.js:149
+- `个已评估通道` — src\pfUIStrings.js:149
+- `个错误` — src\pfUIStrings.js:150
+- `从 PhysioDB 读取时间窗，检查波形并导出分析。` — src\pfUIStrings.js:107
+- `从空白方案或模板开始。` — src\pfUIStrings.js:54
+- `从空白方案开始` — src\pfUIStrings.js:204
+- `从首页创建空白实验，或使用情绪、Stroop、Go/No-Go 模板。` — src\TaskGuide.jsx:6
+- `从模板创建` — src\pfUIStrings.js:178
+- `从编辑器测试运行，或从冻结版本进入准备采集。` — src\TaskGuide.jsx:7
+- `剩余时间` — src\QuestionnaireFormV2.jsx:17
+- `已移除或归档的版本` — src\pfUIStrings.js:166
+- `已回答` — src\QuestionnaireFormV2.jsx:21
+- `已断开` — src\pfUIStrings.js:99
+- `已定位到以下步骤，请点击 Insert 放入流程图` — src\flowCanvas\CanvasOverlays.jsx:14
+- `已配置操作员连接` — src\pfUIStrings.js:49
+- `已连接` — src\pfUIStrings.js:99
+- `搜索项目` — src\pfUIStrings.js:202
+- `收起上传` — src\pfUIStrings.js:116
+- `无需设备` — src\pfUIStrings.js:139
+- `无法连接设备监控，请检查采集电脑及网络连接。` — src\pfUIStrings.js:145
+- `缺失` — src\pfUIStrings.js:124
+- `缺少设备连接配置。` — src\pfUIStrings.js:91
+- `传感器信号检查` — src\pfUIStrings.js:15
+- `冻结前请检查迁移的设置。` — src\pfUIStrings.js:10
+- `冻结版本` — src\pfUIStrings.js:193, src\pfUIStrings.js:9
+- `创建空白实验` — src\TaskGuide.jsx:5
+- `创建新版本` — src\pfUIStrings.js:5
+- `创建独立测试记录，上传并回读信号及运行事件。测试记录会保留。` — src\pfUIStrings.js:56
+- `创建与编辑实验` — src\TaskGuide.jsx:6
+- `创建实验` — src\pfUIStrings.js:53
+- `协议文档结构无效` — src\composer\toolbox.js:48
+- `协议流程为空，请先添加节点` — src\composer\toolbox.js:51
+- `协议缺少 ID` — src\composer\toolbox.js:49
+- `协议缺少名称` — src\composer\toolbox.js:50
+- `变量作用域无效` — src\composer\toolbox.js:77
+- `变量名称重复` — src\composer\toolbox.js:75
+- `变量缺少名称` — src\composer\toolbox.js:74
+- `变量类型无效` — src\composer\toolbox.js:76
+- `启用 PhysioDB 测试验证时，等待上传和数据库回读核对完成。` — src\TaskGuide.jsx:8
+- `启动采集软件后，在这里检查信号。` — src\pfUIStrings.js:129
+- `唤醒度` — src\QuestionnaireFormV2.jsx:24
+- `处理方式` — src\pfUIStrings.js:120
+- `复制` — src\pfUIStrings.js:199
+- `实验` — src\pfUIStrings.js:108, src\pfUIStrings.js:111
+- `实验管理导航` — src\pfUIStrings.js:101
+- `实验工作区` — src\pfUIStrings.js:157
+- `实验事件` — src\pfUIStrings.js:116
+- `实验已完成，请联系管理员。` — src\pfUIStrings.js:85
+- `实验已结束，监控窗口继续保留以便查看。` — src\pfUIStrings.js:136
+- `实验步骤` — src\pfUIStrings.js:23
+- `实验监控` — src\pfUIStrings.js:132
+- `实验结构` — src\pfUIStrings.js:188
+- `实验记录` — src\pfUIStrings.js:34
+- `实验项目` — src\pfUIStrings.js:175, src\pfUIStrings.js:41
+- `导出 CSV` — src\pfUIStrings.js:120
+- `导出统计摘要` — src\pfUIStrings.js:120
+- `导入 JSON` — src\pfUIStrings.js:179
+- `帮助与文档` — src\pfUIStrings.js:154
+- `开始` — src\pfUIStrings.js:119
+- `开始前检查设备` — src\pfUIStrings.js:139
+- `开始前确认所有必需信号持续更新。监控不会接管采集设备。` — src\pfUIStrings.js:127
+- `开始你的第一个实验` — src\TaskGuide.jsx:5
+- `开始实验` — src\pfUIStrings.js:138
+- `异常` — src\pfUIStrings.js:131
+- `归档` — src\pfUIStrings.js:200
+- `录制尚未确认` — src\pfUIStrings.js:82
+- `您向朋友推荐的可能性有多大？` — src\core\questionnaireModel.js:152
+- `时间戳不均匀或不足` — src\pfUIStrings.js:122
+- `时间窗内没有样本，请选择实际记录时间。` — src\pfUIStrings.js:121
+- `暂无项目` — src\pfUIStrings.js:203
+- `查看数据` — src\pfUIStrings.js:108
+- `查看保存状态、运行事件和 PhysioDB 核对结果。` — src\TaskGuide.jsx:9
+- `查看保存数据、核对数据库结果，并分析当前实验记录。` — src\pfUIStrings.js:35
+- `查看保存记录` — src\pfUIStrings.js:33
+- `查看实验记录` — src\pfUIStrings.js:106
+- `查看记录与分析` — src\TaskGuide.jsx:9
+- `标准差` — src\pfUIStrings.js:124
+- `样本` — src\pfUIStrings.js:116
+- `检查信号` — src\pfUIStrings.js:108
+- `检查设备信号` — src\pfUIStrings.js:104
+- `步骤视图` — src\pfUIStrings.js:26
+- `每次最多读取 5 分钟` — src\pfUIStrings.js:119
+- `每次请选择不超过 5 分钟。` — src\pfUIStrings.js:125
+- `测试可使用草稿。冻结版本用于正式采集；需要修改时创建可编辑版本。` — src\TaskGuide.jsx:6
+- `测试记录与正式实验分开保留，本地数据仍保存。` — src\pfUIStrings.js:61
+- `简单地开展实验。` — src\pfUIStrings.js:93
+- `红 / 赤 / RED` — src\core\taskTemplates.js:72
+- `紧张` — src\core\taskTemplates.js:40
+- `绑定的变量不存在` — src\composer\toolbox.js:72
+- `绑定变量的类型与端口不匹配` — src\composer\toolbox.js:73
+- `结束` — src\pfUIStrings.js:119
+- `结束后先确认“会话数据已保存”，再导出完整数据包。` — src\TaskGuide.jsx:8
+- `结束节点不可达（有节点未连到主路径）` — src\composer\toolbox.js:56
+- `继续` — src\QuestionnaireFormV2.jsx:15
+- `继续编辑` — src\pfUIStrings.js:44
+- `绿 / 緑 / GREEN` — src\core\taskTemplates.js:73
+- `编辑` — src\pfUIStrings.js:168
+- `节点 ID 重复` — src\composer\toolbox.js:59
+- `节点引用的刺激池不存在` — src\composer\toolbox.js:100
+- `节点只能属于一个分组` — src\composer\toolbox.js:81
+- `节点不可达，缺少输入边` — src\composer\toolbox.js:57
+- `节点缺少 ID` — src\composer\toolbox.js:58
+- `节点缺少组件类型` — src\composer\toolbox.js:60
+- `蓝 / 青 / BLUE` — src\core\taskTemplates.js:74
+- `认知任务没有试次，请先生成` — src\composer\toolbox.js:119
+- `认知任务类型无效` — src\composer\toolbox.js:118
+- `认知任务试次 ID 无效` — src\composer\toolbox.js:120
+- `认知任务试次时长无效` — src\composer\toolbox.js:121
+- `记录` — src\pfUIStrings.js:183
+- `记录可添加研究者备注和有效性评定。自动完整性检查不替代研究者判断。` — src\TaskGuide.jsx:9
+- `记录详情` — src\pfUIStrings.js:52
+- `设置` — src\pfUIStrings.js:14
+- `设备` — src\pfUIStrings.js:12
+- `设备权限未批准` — src\composer\toolbox.js:93
+- `设备连接` — src\pfUIStrings.js:140
+- `设备连接器无效` — src\composer\toolbox.js:92
+- `设备预览 · 真实数据库` — src\pfUIStrings.js:64
+- `设计 → 检查 → 运行 → 查看结果` — src\TaskGuide.jsx:5
+- `设计或选择方案，确认刺激素材，准备参与者会话。` — src\pfUIStrings.js:103
+- `设计方案、准备参与者，完成后查看实验结果。` — src\pfUIStrings.js:42
+- `评分范围无效（min 需小于 max）` — src\composer\toolbox.js:112
+- `该管理员尚未配置 PhysioDB` — src\pfUIStrings.js:155
+- `该参与者暂无记录。` — src\pfUIStrings.js:115
+- `该数据流没有数值字段。` — src\pfUIStrings.js:122
+- `详细设置` — src\pfUIStrings.js:3
+- `请按空格键` — src\constants.js:69
+- `请回答所有必填项目。` — src\QuestionnaireFormV2.jsx:20
+- `请管理员在采集电脑上准备必需设备。` — src\pfUIStrings.js:84
+- `请等待管理员指示后开始。` — src\pfUIStrings.js:83
+- `请等待所有必需通道接收到新鲜且变化的样本，再开始实验。` — src\pfUIStrings.js:142
+- `请保持窗口打开，并请管理员检查保存状态。` — src\pfUIStrings.js:87
+- `请从同一浏览器的实验准备页打开监控。` — src\pfUIStrings.js:137
+- `请拖动滑块` — src\core\questionnaireModel.js:153
+- `请检查信号` — src\pfUIStrings.js:148
+- `请检查设置。` — src\composer\labels.js:4
+- `请评价` — src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9
+- `请评价以下三个维度。` — src\QuestionnaireFormV2.jsx:22
+- `请详细描述` — src\core\questionnaireModel.js:157
+- `请输入` — src\core\questionnaireModel.js:156
+- `请输入 PF 操作员密钥以验证数据库。` — src\pfUIStrings.js:68
+- `请输入数字` — src\core\questionnaireModel.js:158
+- `请选择` — src\core\questionnaireModel.js:154
+- `请选择（可多选）` — src\core\questionnaireModel.js:155
+- `请选择最符合的情绪标签` — src\domain.js:161
+- `请选择最符合当前感受的情绪` — src\core\taskTemplates.js:39
+- `请选择有效的开始和结束时间。` — src\pfUIStrings.js:125
+- `读取信号` — src\pfUIStrings.js:119
+- `迁移后需要人工复核配置` — src\composer\toolbox.js:122
+- `迁移到新版编辑器` — src\pfUIStrings.js:164
+- `运行信息已确认。请在下方检查信号，然后开始实验。` — src\pfUIStrings.js:30
+- `运行与数据库验证` — src\TaskGuide.jsx:8
+- `连接` — src\pfUIStrings.js:99
+- `连接工作区` — src\pfUIStrings.js:95
+- `连接必需设备并检查信号。` — src\pfUIStrings.js:90
+- `连线源方向错误（应从输出端口出发）` — src\composer\toolbox.js:66
+- `连线目标方向错误（应指向输入端口）` — src\composer\toolbox.js:67
+- `连线缺少源端口` — src\composer\toolbox.js:64
+- `连线缺少源节点` — src\composer\toolbox.js:62
+- `连线缺少目标端口` — src\composer\toolbox.js:65
+- `连线缺少目标节点` — src\composer\toolbox.js:63
+- `连线类型与控制流端口不匹配` — src\composer\toolbox.js:68
+- `选中步骤后，点击组件即可插入` — src\pfUIStrings.js:21
+- `选择研究` — src\pfUIStrings.js:112
+- `选择参与者` — src\pfUIStrings.js:112
+- `选择你要完成的任务，按步骤操作。` — src\TaskGuide.jsx:5
+- `选择实验` — src\pfUIStrings.js:112
+- `选择实验和参与者以查看记录。` — src\pfUIStrings.js:114
+- `选择实验记录` — src\pfUIStrings.js:111
+- `选择时间窗，查看波形、计算统计并导出数据。` — src\pfUIStrings.js:118
+- `选择步骤进行编辑，使用左侧组件添加新步骤。` — src\pfUIStrings.js:24
+- `选项 1` — src\core\questionnaireModel.js:10
+- `选项 2` — src\core\questionnaireModel.js:10
+- `选项1` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
+- `选项2` — src\core\questionnaireModel.js:154, src\core\questionnaireModel.js:155
+- `选项3` — src\core\questionnaireModel.js:154
+- `问卷设计器 · Questionnaire designer · アンケート設計` — src\QuestionnaireDesigner.jsx:24
+- `项目` — src\pfUIStrings.js:11
+- `项目操作` — src\pfUIStrings.js:167
+- `预览运行` — src\pfUIStrings.js:7
+- `预试记录` — src\pfUIStrings.js:194
+- `题目` — src\QuestionnaireFormV2.jsx:222
+- `验证并保存绑定` — src\pfUIStrings.js:78
+- `µV` — src\operator\deviceSnapshot.js:19
 
 ## Present candidates needing explicit API review
 
 - `-- Select question --` — src\QuestionnaireDesigner.jsx:128 — JSX text
-- `— choose —` — src\composer\NodeInspector.jsx:138, src\participantUi\StyleEditor.jsx:40 — JSX text, string/attribute
+- `— choose —` — src\composer\NodeInspector.jsx:138 — string/attribute
 - `— fixed stimulus —` — src\composer\NodeInspector.jsx:173 — string/attribute
 - `— none —` — src\composer\NodeInspector.jsx:137 — string/attribute
 - `— none (iterate by maxIterations) —` — src\composer\NodeInspector.jsx:198 — string/attribute
@@ -2903,12 +2522,14 @@ Generated: 2026-10-25T15:30:31.646Z
 - `… syncing` — src\FlowJsonEditor.jsx:73 — string/attribute
 - `· in results` — src\composer\StimulusPoolEditor.jsx:68 — string/attribute
 - `· revision` — src\composer\Catalogs.jsx:273, src\composer\Catalogs.jsx:279 — string/attribute
+- `{count} trial instances · runtime branching enabled · dual-clock logging enabled` — src\RuntimeRunnerPage.jsx:420 — string/attribute
 - `{n} file(s) ready` — src\composer\Catalogs.jsx:456, src\composer\Catalogs.jsx:459 — string/attribute
 - `{n} issues must be fixed before running` — src\PreRunChecklist.jsx:230 — string/attribute
 - `{n} matches` — src\composer\Canvas.jsx:27 — string/attribute
 - `{n} nodes` — src\composer\Canvas.jsx:59 — string/attribute
 - `{n} outputs` — src\composer\Canvas.jsx:87 — string/attribute
 - `{n} suggestions remain, which do not block a test run.` — src\PreRunChecklist.jsx:234 — string/attribute
+- `{name} source` — src\participantUi\StyleEditor.jsx:12 — string/attribute
 - `{nodes} nodes · {edges} connections` — src\composer\Canvas.jsx:21 — string/attribute
 - `{steps} steps × {count} passes = {visits} step visits, then continue to the next step.` — src\composer\RepeatSequenceEditor.jsx:35 — string/attribute
 - `← Back` — src\Analytics.jsx:66 — JSX text
@@ -2918,48 +2539,70 @@ Generated: 2026-10-25T15:30:31.646Z
 - `+ Add question` — src\QuestionnaireDesigner.jsx:70, src\QuestionnaireEditorV2.jsx:79, src\QuestionnaireWorkspace.jsx:120 — JSX text
 - `+ Add trial` — src\app\legacyBuilder.jsx:241 — JSX text
 - `+ Batch import (CSV)` — src\QuestionnaireDesigner.jsx:46 — JSX text
+- `＋ Log note` — src\RuntimeRunnerPage.jsx:561 — string/attribute
 - `＋ New pool from media library…` — src\composer\NodeInspector.jsx:175 — string/attribute
 - `+ Quick-add a preset question` — src\QuestionnaireDesigner.jsx:34 — JSX text
 - `+ Save` — src\flowCanvas\CanvasToolbar.jsx:26 — JSX text
 - `＋ Translations (optional)` — src\QuestionnaireDesigner.jsx:150 — JSX text
-- `⏸ Paused` — src\RuntimeRunnerPage.jsx:495 — JSX text
-- `▶ Preview` — src\ParticipantUiBuilder.jsx:128 — string/attribute
+- `⌄ Inspect` — src\GraphRuntimeRunnerPage.jsx:618 — string/attribute
+- `⏸ Paused` — src\RuntimeRunnerPage.jsx:497 — string/attribute
+- `⏹ End interval` — src\RuntimeRunnerPage.jsx:571 — string/attribute
+- `▶ Preview` — src\ParticipantUiBuilder.jsx:130 — string/attribute
+- `▶ Start interval` — src\RuntimeRunnerPage.jsx:571 — string/attribute
+- `● Recording` — src\RuntimeRunnerPage.jsx:572 — string/attribute
+- `● Runtime state machine` — src\RuntimeRunnerPage.jsx:634 — string/attribute
 - `● Unapplied changes` — src\composer\NodeInspector.jsx:32 — string/attribute
-- `✎ Edit` — src\ComposerV2.jsx:76, src\ParticipantUiBuilder.jsx:128, src\flowCanvas\NodePreviewModal.jsx:39 — string/attribute
-- `✕ Done` — src\ComposerV2.jsx:77 — string/attribute
+- `☀ Light` — src\RuntimeRunnerPage.jsx:635 — string/attribute
+- `⚙ Settings` — src\ParticipantUiBuilder.jsx:119 — string/attribute
+- `✎ Edit` — src\ParticipantUiBuilder.jsx:130, src\flowCanvas\NodePreviewModal.jsx:39 — string/attribute
+- `✕ Done` — src\ComposerV2.jsx:104 — string/attribute
 - `✗ Invalid JSON` — src\FlowJsonEditor.jsx:71 — string/attribute
 - `☷ Manage sessions` — src\SessionManager.jsx:239 — JSX text
+- `🌙 Dark` — src\RuntimeRunnerPage.jsx:635 — string/attribute
 - `0 = wait indefinitely for a response.` — src\core\componentRegistry.js:185 — string/attribute
-- `次へ` — src\QuestionnaireFormV2.jsx:15 — string/attribute
-- `回答已记录` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
-- `回答が記録されました` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
-- `回答を送信` — src\QuestionnaireForm.jsx:211 — string/attribute
 - `A block has no trials, or a trial has no steps.` — src\PreRunChecklist.jsx:114 — string/attribute
+- `A centered cross for rest or fixation.` — src\participantUi\screenPresets.js:4 — string/attribute
+- `A prompt, rating response and submit button.` — src\participantUi\screenPresets.js:7 — string/attribute
 - `A response step needs a variable name (such as response or rating) so a condition node can reference it.` — src\PreRunChecklist.jsx:63 — string/attribute
 - `A response step needs at least one option in the value | label | key format.` — src\PreRunChecklist.jsx:68 — string/attribute
+- `A saved runtime snapshot and its append-only event history were found.` — src\RuntimeRunnerPage.jsx:420 — string/attribute
 - `A single- or multiple-choice question needs at least one option, otherwise participants cannot answer it.` — src\PreRunChecklist.jsx:29 — string/attribute
-- `Abort session?` — src\RuntimeRunnerPage.jsx:490 — string/attribute
+- `A stimulus area with a short instruction.` — src\participantUi\screenPresets.js:5 — string/attribute
+- `Abort session` — src\RuntimeRunnerPage.jsx:492 — string/attribute
+- `Abort session?` — src\RuntimeRunnerPage.jsx:492 — string/attribute
 - `Acquisition source` — src\DeviceMonitorPanel.jsx:39, src\pfUIStrings.js:128 — string/attribute
 - `Actual Trial order preview` — src\app\sessionSetup.jsx:180 — JSX text
 - `Add a source URL, pick an asset, or enable a stimulus pool below.` — src\composer\NodeInspector.jsx:145 — string/attribute
 - `Add after the selected step` — src\composer\Palette.jsx:48, src\pfUIStrings.js:22 — string/attribute
+- `Add an event node of the matching type from the "Add to flow" panel.` — src\PreRunChecklist.jsx:41 — string/attribute
 - `Add at least one line under Options.` — src\PreRunChecklist.jsx:69 — string/attribute
 - `Add at least one option to that question.` — src\PreRunChecklist.jsx:30 — string/attribute
 - `Add compatible protocol variables before instantiating.` — src\composer\Catalogs.jsx:79 — string/attribute
 - `Add media, stimulus pools, variables, groups, and participant screens.` — src\composer\Header.jsx:5 — string/attribute
 - `Add parameter` — src\composer\Catalogs.jsx:53 — string/attribute
 - `Add response option` — src\composer\ResponseOptionsEditor.jsx:28 — string/attribute
+- `Add style` — src\participantUi\StyleEditor.jsx:43 — string/attribute
 - `Add the missing trial or step.` — src\PreRunChecklist.jsx:115 — string/attribute
 - `Add to flow` — src\flowCanvas\PalettePanel.jsx:15 — JSX text
 - `Add variable` — src\composer\Catalogs.jsx:401 — string/attribute
 - `Added {name}` — src\composer\useComposerState.js:203 — string/attribute
 - `Advance immediately after a valid key press.` — src\core\componentRegistry.js:186 — string/attribute
+- `Advanced appearance` — src\participantUi\StyleEditor.jsx:41 — string/attribute
 - `Advanced mode: SDK packages, devices, collaboration, deployment, and raw configuration.` — src\composer\Palette.jsx:40 — string/attribute
 - `Advanced settings` — src\composer\Header.jsx:19, src\pfUIStrings.js:3 — string/attribute
-- `Agent token` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627, src\pfUIStrings.js:140 — JSX text, string/attribute
-- `Agent URL` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627, src\pfUIStrings.js:140 — JSX text, string/attribute
+- `Agent token` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627, src\pfUIStrings.js:140 — string/attribute
+- `Agent URL` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627, src\pfUIStrings.js:140 — string/attribute
+- `Align bottom` — src\ParticipantUiCanvas.jsx:47 — string/attribute
+- `Align centers (horizontal)` — src\ParticipantUiCanvas.jsx:46 — string/attribute
+- `Align left` — src\ParticipantUiCanvas.jsx:46 — string/attribute
+- `Align middles (vertical)` — src\ParticipantUiCanvas.jsx:47 — string/attribute
+- `Align right` — src\ParticipantUiCanvas.jsx:46 — string/attribute
+- `Align selection` — src\participantUi\SelectionInspector.jsx:14 — string/attribute
+- `Align top` — src\ParticipantUiCanvas.jsx:47 — string/attribute
+- `Alignment needs unlocked elements in the same free-layout container.` — src\participantUi\SelectionInspector.jsx:17 — string/attribute
 - `All validity` — src\SessionManager.jsx:256 — JSX text
 - `already applied ·` — src\composer\Catalogs.jsx:140 — string/attribute
+- `Alt text` — src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
 - `Analysis & recovery` — src\composer\NodeInspector.jsx:204 — string/attribute
 - `Analysis label` — src\composer\NodeInspector.jsx:206 — string/attribute
 - `Analysis role` — src\app\legacyBuilder.jsx:289, src\composer\NodeInspector.jsx:205 — string/attribute
@@ -2982,33 +2625,55 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Asset name` — src\composer\Catalogs.jsx:471 — string/attribute
 - `Asset type` — src\composer\Catalogs.jsx:472 — string/attribute
 - `Asset URL` — src\composer\Catalogs.jsx:473 — string/attribute
-- `Attention check` — src\AttentionCheckRunner.jsx:3, src\constants.js:10, src\constants.js:49, src\constants.js:69, src\core\componentRegistry.js:225 — string/attribute
+- `Attention check` — src\AttentionCheckRunner.jsx:79, src\constants.js:10, src\constants.js:49, src\constants.js:69, src\core\componentRegistry.js:225 — string/attribute
 - `Author ID` — src\composer\Catalogs.jsx:130 — string/attribute
 - `Auto advance` — src\Inspector.jsx:368, src\app\legacyBuilder.jsx:315 — JSX text
-- `Auto arrange` — src\ParticipantUiBuilder.jsx:212 — JSX text
-- `Auto layout` — src\ParticipantUiBuilder.jsx:211, src\ParticipantUiBuilder.jsx:88, src\composer\Canvas.jsx:31, src\flowCanvas\CanvasContextMenu.jsx:29, src\flowCanvas\CanvasToolbar.jsx:19 — JSX text, string/attribute
+- `Auto arrange` — src\ParticipantUiBuilder.jsx:223 — string/attribute
+- `Auto layout` — src\ParticipantUiBuilder.jsx:222, src\ParticipantUiBuilder.jsx:90, src\composer\Canvas.jsx:31, src\flowCanvas\CanvasContextMenu.jsx:29, src\flowCanvas\CanvasToolbar.jsx:19 — JSX text, string/attribute
+- `Auto layout · reorder` — src\participantUi\UiPropertyEditor.jsx:12, src\participantUi\UiPropertyEditor.jsx:6 — string/attribute
 - `Auto-advance on key press` — src\core\componentRegistry.js:186 — string/attribute
 - `Automatic integrity check` — src\SessionManager.jsx:318 — JSX text
+- `Automatic transition limit exceeded` — src\runtime\runtimeMachine.js:273 — string/attribute
+- `Awaiting first checkpoint` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
+- `Awaiting operator` — src\core\participantUi.js:129 — string/attribute
+- `B · Blue` — src\CognitiveTaskRunner.jsx:7 — string/attribute
+- `Back to editing` — src\participantUi\ScreenChecks.jsx:11 — string/attribute
 - `Back to projects` — src\FlowWorkspaceOverlay.jsx:88 — string/attribute
 - `Base URL` — src\BioDBSettings.jsx:48 — string/attribute
 - `Baseline → media stimulus → rating response` — src\constants.js:25 — string/attribute
 - `Baseline → SAM questionnaire` — src\constants.js:36 — string/attribute
 - `Baseline: v` — src\composer\Catalogs.jsx:132 — string/attribute
-- `Begin experiment` — src\GraphRuntimeRunnerPage.jsx:592, src\GraphRuntimeRunnerPage.jsx:601, src\RuntimeRunnerPage.jsx:419 — string/attribute
+- `Basic checks passed` — src\participantUi\ScreenChecks.jsx:11 — string/attribute
+- `Begin attention check` — src\AttentionCheckRunner.jsx:79 — string/attribute
+- `Begin experiment` — src\GraphRuntimeRunnerPage.jsx:592, src\GraphRuntimeRunnerPage.jsx:601, src\RuntimeRunnerPage.jsx:421 — string/attribute
+- `Begin step` — src\RuntimeRunnerPage.jsx:505 — string/attribute
 - `Bind file` — src\composer\Catalogs.jsx:467 — string/attribute
 - `Bind this run to an anonymous participant and an exact protocol version.` — src\app\sessionSetup.jsx:162 — JSX text
-- `Bindings and actions` — src\ParticipantUiBuilder.jsx:226 — JSX text
+- `Bindings and actions` — src\ParticipantUiBuilder.jsx:238 — string/attribute
 - `BioDB connection settings` — src\BioDBSettings.jsx:39 — string/attribute
 - `Blank protocol` — src\Dashboard.jsx:129, src\pfUIStrings.js:177 — string/attribute
-- `blocking issues` — src\composer\Inspector.jsx:28 — string/attribute
+- `blocking issues` — src\composer\Inspector.jsx:31 — string/attribute
 - `Blocks and Trials` — src\HierarchyManager.jsx:36 — JSX text
 - `Body starts the repeated sequence. Its last step returns to this Loop. Exit continues after repetition.` — src\composer\NodeInspector.jsx:161 — string/attribute
 - `Bootstrap verified ·` — src\composer\Catalogs.jsx:279 — string/attribute
-- `Browser Issues` — src\RuntimeRunnerPage.jsx:404 — JSX text
+- `BrainFlow agent token` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627 — string/attribute
+- `BrainFlow agent URL` — src\GraphRuntimeRunnerPage.jsx:597, src\GraphRuntimeRunnerPage.jsx:627 — string/attribute
+- `BrainFlow EEG preview (µV)` — src\GraphRuntimeRunnerPage.jsx:627 — string/attribute
+- `BrainFlow live preview` — src\GraphRuntimeRunnerPage.jsx:627 — string/attribute
+- `BrainFlow preview exported; full raw recording remains on the acquisition computer.` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
+- `Bring to front` — src\ParticipantUiBuilder.jsx:188 — string/attribute
+- `Browser Issues` — src\RuntimeRunnerPage.jsx:406 — string/attribute
 - `Build the flow and edit essential node settings.` — src\composer\Header.jsx:4 — string/attribute
-- `Cancel & return` — src\RuntimeRunnerPage.jsx:421 — JSX text
+- `Cancel & return` — src\RuntimeRunnerPage.jsx:423 — string/attribute
 - `Cancel connection` — src\composer\Canvas.jsx:33 — string/attribute
-- `Canvas settings` — src\ParticipantUiBuilder.jsx:117 — string/attribute
+- `Cannot go back from a finished or inactive run.` — src\runtime\testNavigation.js:19 — string/attribute
+- `Cannot move an element into its own descendant` — src\core\participantUi.js:256 — string/attribute
+- `Cannot move an element into itself` — src\core\participantUi.js:249 — string/attribute
+- `Cannot return to the previous page: {name}` — src\GraphRuntimeRunnerPage.jsx:623 — string/attribute
+- `Canvas editing mode` — src\ParticipantUiBuilder.jsx:88 — string/attribute
+- `Canvas settings` — src\ParticipantUiBuilder.jsx:119 — string/attribute
+- `Canvas zoom` — src\ParticipantUiBuilder.jsx:105 — string/attribute
+- `Centered fixation` — src\participantUi\screenPresets.js:4 — string/attribute
 - `Change folder` — src\Dashboard.jsx:147 — string/attribute
 - `channels still collecting` — src\analysis\SignalQualityNotice.jsx:20, src\pfUIStrings.js:149 — string/attribute
 - `Check devices before starting` — src\GraphRuntimeRunnerPage.jsx:595, src\pfUIStrings.js:139 — string/attribute
@@ -3018,38 +2683,51 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Check that every required signal is fresh and changing before starting. Monitoring does not take over the device.` — src\DeviceMonitorPanel.jsx:38, src\pfUIStrings.js:127 — string/attribute
 - `Check your signals` — src\pfUIStrings.js:104 — string/attribute
 - `Checklist (one per line)` — src\core\componentRegistry.js:243 — string/attribute
+- `Checkpoint not saved` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
+- `Checkpoint saved` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
 - `Checks before collection` — src\app\sessionSetup.jsx:95, src\pfUIStrings.js:47 — string/attribute
+- `Checks passing` — src\ParticipantUiBuilder.jsx:250 — string/attribute
 - `Choice question has no options` — src\PreRunChecklist.jsx:28 — string/attribute
 - `Choose a blank protocol or a template.` — src\pfUIStrings.js:54 — string/attribute
 - `Choose a local data folder` — src\Dashboard.jsx:142, src\PreRunChecklist.jsx:257, src\PreRunChecklist.jsx:261 — JSX text, string/attribute
 - `Choose a recording` — src\AdminMonitorPage.jsx:80, src\pfUIStrings.js:111 — string/attribute
+- `Choose a response.` — src\RuntimeContent.jsx:200 — string/attribute
+- `Choose a stimulus image` — src\participantUi\screenPresets.js:12 — string/attribute
 - `Choose a time window to view signals, calculate statistics and export data.` — src\PhysioDBAnalysis.jsx:58, src\pfUIStrings.js:118 — string/attribute
 - `Choose a valid start and end time.` — src\analysis\physioDBWindow.js:7, src\pfUIStrings.js:125 — string/attribute
 - `Choose a variable…` — src\composer\NodeInspector.jsx:188 — string/attribute
 - `Choose media file` — src\ResourceLibrary.jsx:48, src\app\legacyBuilder.jsx:366 — string/attribute
 - `Choose presentation or response steps. Branches and loop controls need manual configuration.` — src\core\repeatSegment.js:12 — string/attribute
+- `Choose style` — src\participantUi\StyleEditor.jsx:43 — string/attribute
 - `Choose the steps to repeat.` — src\core\repeatSegment.js:8 — string/attribute
 - `choose…` — src\composer\NodeInspector.jsx:117 — string/attribute
-- `Click action` — src\ParticipantUiBuilder.jsx:229 — JSX text
+- `Click action` — src\ParticipantUiBuilder.jsx:241 — string/attribute
+- `Click elements on the left to insert; click an element on the screen to edit it here.` — src\ParticipantUiBuilder.jsx:227 — string/attribute
 - `Click or drag onto the canvas to insert` — src\composer\Palette.jsx:45 — string/attribute
-- `Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove` — src\ParticipantUiBuilder.jsx:156 — JSX text
+- `Click to insert after the selection (or inside a container) · drag to place precisely · Del to remove` — src\ParticipantUiBuilder.jsx:158 — string/attribute
 - `Close upload` — src\AdminMonitorPage.jsx:89, src\pfUIStrings.js:116 — string/attribute
 - `Cognitive task` — src\core\componentRegistry.js:368 — string/attribute
 - `Collaboration change sets` — src\composer\Catalogs.jsx:128 — string/attribute
+- `Collapse markers` — src\RuntimeRunnerPage.jsx:543, src\RuntimeRunnerPage.jsx:544 — string/attribute
 - `Collection complete` — src\GraphRuntimeRunnerPage.jsx:607, src\pfUIStrings.js:51 — string/attribute
+- `Color-word Stroop` — src\CognitiveTaskRunner.jsx:118 — string/attribute
+- `Compare the two images.` — src\participantUi\screenPresets.js:15 — string/attribute
 - `Compare with variable` — src\composer\NodeInspector.jsx:192 — string/attribute
 - `Compared against the input. Ignored when a compare variable or port is bound.` — src\core\componentRegistry.js:311 — string/attribute
-- `COMPATIBILITY WARNING` — src\RuntimeRunnerPage.jsx:403 — JSX text
+- `COMPATIBILITY WARNING` — src\RuntimeRunnerPage.jsx:405 — string/attribute
 - `Complete an experiment to see analytics here. Your session data will be visualized with timelines, charts, and integrity reports.` — src\Analytics.jsx:237 — string/attribute
-- `Complete device check →` — src\RuntimeRunnerPage.jsx:621 — JSX text
-- `Complete every checklist item before continuing.` — src\RuntimeRunnerPage.jsx:619 — JSX text
+- `Complete device check →` — src\RuntimeRunnerPage.jsx:625 — string/attribute
+- `Complete every checklist item before continuing.` — src\RuntimeRunnerPage.jsx:623 — string/attribute
+- `completed visits ·` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
 - `Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.` — src\composer\NodeInspector.jsx:173 — string/attribute
 - `component(s)` — src\composer\Catalogs.jsx:321 — string/attribute
 - `Conditional display · skip logic` — src\QuestionnaireDesigner.jsx:124 — JSX text
 - `Conditional repetition` — src\composer\NodeInspector.jsx:161 — string/attribute
+- `Configure media {name}` — src\participantUi\ScreenChecks.jsx:20 — string/attribute
 - `Configure operator connection` — src\app\sessionSetup.jsx:112, src\pfUIStrings.js:50 — string/attribute
 - `Configure SDK packages, devices, collaboration, deployment, and raw node details.` — src\composer\Header.jsx:6 — string/attribute
-- `Confirm event` — src\Inspector.jsx:269, src\RuntimeRunnerPage.jsx:293, src\RuntimeRunnerPage.jsx:602, src\constants.js:67 — string/attribute
+- `Confirm calibration` — src\CalibrationRunner.jsx:62 — string/attribute
+- `Confirm event` — src\Inspector.jsx:269, src\RuntimeRunnerPage.jsx:295, src\RuntimeRunnerPage.jsx:605, src\constants.js:67 — string/attribute
 - `Confirm label` — src\core\componentRegistry.js:253 — string/attribute
 - `Confirm live EEG and heart rate before presenting any stimuli.` — src\pfUIStrings.js:105 — string/attribute
 - `conflict(s)` — src\composer\Catalogs.jsx:140 — string/attribute
@@ -3060,15 +2738,21 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Connecting…` — src\AdminMonitorPage.jsx:77, src\GraphRuntimeRunnerPage.jsx:598, src\GraphRuntimeRunnerPage.jsx:601, src\pfUIStrings.js:99 — string/attribute
 - `Connection OK` — src\BioDBSettings.jsx:20 — string/attribute
 - `Content width` — src\app\legacyBuilder.jsx:387 — JSX text
-- `Continue →` — src\QuestionnaireForm.jsx:128, src\RuntimeContent.jsx:249, src\RuntimeRunnerPage.jsx:532, src\flowCanvas\NodePreviewModal.jsx:164 — JSX text
+- `Continue / action button` — src\participantUi\constants.js:32 — string/attribute
+- `Continue →` — src\QuestionnaireForm.jsx:128, src\RuntimeContent.jsx:252, src\RuntimeRunnerPage.jsx:534, src\flowCanvas\NodePreviewModal.jsx:164 — JSX text, string/attribute
 - `Continue editing` — src\pfUIStrings.js:44 — string/attribute
 - `Continue to session setup` — src\PreRunChecklist.jsx:284 — JSX text
 - `Continue when` — src\Inspector.jsx:404 — JSX text
+- `Control handler ID must use lowercase dot/dash notation` — src\runtime\controlHandlerRegistry.js:11 — string/attribute
+- `Control handler needs an execute function` — src\runtime\controlHandlerRegistry.js:13 — string/attribute
+- `Control handler version must use semantic versioning` — src\runtime\controlHandlerRegistry.js:12 — string/attribute
 - `Copy {content} from {source} to {n} compatible nodes in {group}.` — src\composer\GroupBatchEditor.jsx:27 — string/attribute
 - `Correct answer (auto-scored)` — src\QuestionnaireDesigner.jsx:184 — JSX text
 - `Correct value (optional)` — src\core\componentRegistry.js:183 — string/attribute
 - `Could not load local sessions.` — src\SessionManager.jsx:35 — string/attribute
+- `Could not save the completed session. Export the bundle now, then retry saving.` — src\RuntimeRunnerPage.jsx:140 — string/attribute
 - `Could not save the session review to local storage.` — src\SessionManager.jsx:86 — string/attribute
+- `Countdown: {count} seconds remaining` — src\RuntimeContent.jsx:179 — string/attribute
 - `Create an experiment` — src\pfUIStrings.js:53 — string/attribute
 - `Create group from node` — src\composer\NodeInspector.jsx:212 — string/attribute
 - `Create instance` — src\composer\Catalogs.jsx:80 — string/attribute
@@ -3078,8 +2762,10 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Create pool` — src\composer\Catalogs.jsx:506 — string/attribute
 - `Create repeat sequence` — src\composer\RepeatSequenceEditor.jsx:40 — string/attribute
 - `Create sandbox session` — src\composer\Catalogs.jsx:275 — string/attribute
+- `Current node` — src\GraphRuntimeRunnerPage.jsx:683 — string/attribute
 - `Current step` — src\OperatorMonitorPage.jsx:37, src\pfUIStrings.js:134 — string/attribute
-- `Custom HTML` — src\Inspector.jsx:451, src\ParticipantRenderer.jsx:81, src\ParticipantUiCanvas.jsx:547, src\RuntimeContent.jsx:266, src\constants.js:12, src\constants.js:71, src\core\componentRegistry.js:271 — JSX text, string/attribute
+- `Custom HTML` — src\Inspector.jsx:451, src\ParticipantRenderer.jsx:83, src\ParticipantUiCanvas.jsx:549, src\RuntimeContent.jsx:270, src\constants.js:12, src\constants.js:71, src\core\componentRegistry.js:271 — JSX text, string/attribute
+- `Custom HTML fragment` — src\participantUi\constants.js:34 — string/attribute
 - `Danger zone` — src\SessionManager.jsx:351 — JSX text
 - `Data & analysis` — src\pfUIStrings.js:100 — string/attribute
 - `Data & settings` — src\pfUIStrings.js:39 — string/attribute
@@ -3095,10 +2781,11 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Database verification needs attention` — src\PhysioDBTestResult.jsx:24, src\pfUIStrings.js:60 — string/attribute
 - `Deactivate deployment` — src\composer\Catalogs.jsx:278 — string/attribute
 - `Defaults to 1 − A when connected and left empty.` — src\core\componentRegistry.js:328 — string/attribute
+- `Delete (Del)` — src\ParticipantUiBuilder.jsx:213 — string/attribute
 - `Delete {n} node(s)? You can undo this change.` — src\ComposerV2.jsx:63 — string/attribute
 - `Delete asset` — src\composer\Catalogs.jsx:468 — string/attribute
-- `Delete connection` — src\composer\Inspector.jsx:22, src\flowCanvas\CanvasContextMenu.jsx:8 — JSX text, string/attribute
-- `Delete node` — src\Inspector.jsx:66, src\composer\Inspector.jsx:26 — JSX text, string/attribute
+- `Delete connection` — src\composer\Inspector.jsx:25, src\flowCanvas\CanvasContextMenu.jsx:8 — JSX text, string/attribute
+- `Delete node` — src\Inspector.jsx:66, src\composer\Inspector.jsx:29 — JSX text, string/attribute
 - `Delete pool` — src\composer\Catalogs.jsx:499 — string/attribute
 - `Delete selected` — src\flowCanvas\ShortcutsModal.jsx:4 — string/attribute
 - `Delete session` — src\SessionManager.jsx:224 — string/attribute
@@ -3110,45 +2797,62 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Destination verified` — src\GraphRuntimeRunnerPage.jsx:598, src\PhysioDBSessionBinding.jsx:23, src\pfUIStrings.js:79 — string/attribute
 - `Detach as editable copy` — src\Inspector.jsx:397 — JSX text
 - `Device check` — src\constants.js:10, src\constants.js:68, src\core\componentRegistry.js:238 — string/attribute
-- `Device checklist` — src\Inspector.jsx:282, src\RuntimeRunnerPage.jsx:609 — JSX text
+- `Device check in progress. Please wait for the operator.` — src\RuntimeContent.jsx:9 — string/attribute
+- `Device checklist` — src\Inspector.jsx:282, src\RuntimeRunnerPage.jsx:613 — JSX text, string/attribute
+- `Device connected · {count} samples` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
 - `Device connection` — src\GraphRuntimeRunnerPage.jsx:597, src\composer\NodeInspector.jsx:208, src\pfUIStrings.js:140 — string/attribute
 - `Device connector is missing.` — src\operator\experimentPreflight.js:10, src\pfUIStrings.js:91 — string/attribute
 - `Device connectors` — src\composer\Catalogs.jsx:347 — string/attribute
 - `Device monitor is unavailable. Check the acquisition computer and connection.` — src\pfUIStrings.js:145 — string/attribute
 - `Device preview · real database` — src\PhysioDBTestResult.jsx:27, src\pfUIStrings.js:64 — string/attribute
-- `device samples ·` — src\GraphRuntimeRunnerPage.jsx:607 — JSX text
+- `device samples ·` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
+- `Device samples are kept in this browser's session package; runtime synchronization does not upload the device sample stream.` — src\GraphRuntimeRunnerPage.jsx:628 — string/attribute
 - `Device sampling rate does not match the protocol. Import the connector again.` — src\operator\experimentPreflight.js:13, src\pfUIStrings.js:89 — string/attribute
 - `Device start reference` — src\app\sessionSetup.jsx:166 — JSX text
 - `Device synchronization` — src\app\sessionSetup.jsx:168 — JSX text
 - `Device time column` — src\app\sessionSetup.jsx:171 — JSX text
+- `Device warning · {name}` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
 - `Direct URL` — src\MediaSettings.jsx:34, src\ResourceLibrary.jsx:47, src\app\legacyBuilder.jsx:360 — JSX text
-- `Discard recovery?` — src\App.jsx:606, src\RuntimeRunnerPage.jsx:421 — string/attribute
+- `Discard recovery?` — src\App.jsx:606, src\RuntimeRunnerPage.jsx:423 — string/attribute
 - `Display label` — src\composer\ResponseOptionsEditor.jsx:16 — string/attribute
 - `Distance (cm)` — src\composer\Catalogs.jsx:418 — string/attribute
+- `Distribute horizontally` — src\ParticipantUiCanvas.jsx:48 — string/attribute
+- `Distribute vertically` — src\ParticipantUiCanvas.jsx:48 — string/attribute
 - `Draft test run — no frozen hash` — src\app\sessionSetup.jsx:183 — string/attribute
 - `Drag a step or preset from the palette to place your first node.` — src\FlowCanvas.jsx:495 — JSX text
 - `Drag nodes to arrange` — src\flowCanvas\PalettePanel.jsx:15 — JSX text
 - `Drag onto the canvas` — src\composer\Palette.jsx:48 — string/attribute
 - `Drag to canvas, or click to add` — src\flowCanvas\PalettePanel.jsx:19 — string/attribute
-- `Drag to position; arrow keys nudge 1px, Shift+arrows 10px` — src\ParticipantUiBuilder.jsx:211 — string/attribute
+- `Drag to position; arrow keys nudge 1px, Shift+arrows 10px` — src\ParticipantUiBuilder.jsx:222 — string/attribute
 - `Drag to reorder` — src\QuestionnaireDesigner.jsx:111, src\QuestionnaireEditorV2.jsx:99 — string/attribute
-- `Drag to reorder; select the container to change layout mode` — src\ParticipantUiBuilder.jsx:211 — string/attribute
+- `Drag to reorder; select the container to change layout mode` — src\ParticipantUiBuilder.jsx:222 — string/attribute
+- `Drag to resize` — src\ParticipantUiCanvas.jsx:489 — string/attribute
 - `Draws without replacement each cycle; repeats its seeded order once exhausted.` — src\composer\StimulusPoolEditor.jsx:88 — JSX text
 - `Duplicate (⌘D)` — src\flowCanvas\NodeCard.jsx:87 — string/attribute
-- `Duplicate node` — src\composer\Inspector.jsx:25 — string/attribute
+- `Duplicate (Ctrl+D)` — src\ParticipantUiBuilder.jsx:212, src\ParticipantUiCanvas.jsx:452 — string/attribute
+- `Duplicate node` — src\composer\Inspector.jsx:28 — string/attribute
 - `Duration (ms)` — src\Inspector.jsx:367, src\app\legacyBuilder.jsx:307, src\core\componentRegistry.js:113, src\core\componentRegistry.js:125, src\core\componentRegistry.js:205, src\core\componentRegistry.js:220, src\core\componentRegistry.js:278, src\flowCanvas\NodePreviewModal.jsx:128 — JSX text, string/attribute
+- `Dynamic bindings (variables.*) win over static style for color and background.` — src\participantUi\StyleEditor.jsx:44 — string/attribute
+- `e.g. 20px` — src\participantUi\UiPropertyEditor.jsx:13 — string/attribute
 - `e.g. f, j, space` — src\composer\ResponseOptionsEditor.jsx:18 — string/attribute
+- `e.g. variables.score` — src\ParticipantUiBuilder.jsx:239 — string/attribute
 - `Each item below says why it blocks the run and where to change it. Fix the required ones first; suggestions can wait.` — src\PreRunChecklist.jsx:233 — string/attribute
 - `Each selected step must have one incoming and one outgoing connection.` — src\core\repeatSegment.js:14 — string/attribute
 - `Each target keeps its own stimulus, timing and pool.` — src\composer\GroupBatchEditor.jsx:29 — string/attribute
 - `Edit assets` — src\composer\Catalogs.jsx:502 — string/attribute
 - `Edit participant screen` — src\composer\NodeInspector.jsx:162 — string/attribute
 - `Edit run details` — src\app\sessionSetup.jsx:88, src\pfUIStrings.js:31 — string/attribute
+- `Edit style` — src\ParticipantUiBuilder.jsx:190 — string/attribute
 - `Edit the full protocol graph. Changes apply only after validation.` — src\composer\NodeInspector.jsx:32 — string/attribute
 - `Editor mode` — src\composer\Header.jsx:18 — string/attribute
 - `effective response records` — src\SessionManager.jsx:312 — JSX text
 - `Effective response records` — src\Analytics.jsx:127 — string/attribute
+- `Element {name}` — src\participantUi\PositionFields.jsx:15 — string/attribute
 - `Element size` — src\composer\NodeInspector.jsx:167 — string/attribute
+- `Element X` — src\participantUi\ScreenChecks.jsx:16 — string/attribute
+- `elements · schema valid` — src\ParticipantUiBuilder.jsx:200, src\ParticipantUiBuilder.jsx:277 — string/attribute
+- `elements selected` — src\participantUi\SelectionInspector.jsx:11 — string/attribute
+- `Elements to check` — src\participantUi\ScreenChecks.jsx:11 — string/attribute
 - `End mode` — src\Inspector.jsx:359, src\app\legacyBuilder.jsx:300, src\flowCanvas\NodePreviewModal.jsx:120 — JSX text
 - `End mode must be manual` — src\PreRunChecklist.jsx:51 — string/attribute
 - `End time` — src\DataPanel.jsx:253, src\DataPanel.jsx:368 — string/attribute
@@ -3159,19 +2863,24 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Enter a screen width to compute.` — src\composer\Catalogs.jsx:422 — string/attribute
 - `Enter a URL under Media source in the inspector, or upload a local file.` — src\PreRunChecklist.jsx:47 — string/attribute
 - `Enter a whole number from 1 to 10,000.` — src\composer\RepeatSequenceEditor.jsx:35 — string/attribute
+- `Enter note...` — src\RuntimeRunnerPage.jsx:330, src\RuntimeRunnerPage.jsx:354 — string/attribute
+- `Enter or leave the field to apply. Escape cancels.` — src\participantUi\PositionFields.jsx:31 — string/attribute
 - `Enter the variable name under Response variable.` — src\PreRunChecklist.jsx:64 — string/attribute
 - `Enter your PF operator key for database verification.` — src\app\sessionSetup.jsx:73, src\pfUIStrings.js:68 — string/attribute
 - `Epoch milliseconds` — src\app\sessionSetup.jsx:172 — JSX text
 - `Epoch seconds` — src\app\sessionSetup.jsx:172 — JSX text
+- `Equipment check` — src\core\participantUi.js:124 — string/attribute
 - `Event list` — src\DataPanel.jsx:355 — string/attribute
+- `Event markers` — src\RuntimeRunnerPage.jsx:549 — string/attribute
 - `Event name` — src\DataPanel.jsx:357 — string/attribute
 - `Event payload` — src\SessionManager.jsx:382 — JSX text
 - `Event type` — src\Inspector.jsx:120 — JSX text
-- `events ·` — src\GraphRuntimeRunnerPage.jsx:607 — JSX text
-- `events captured` — src\RuntimeRunnerPage.jsx:572 — JSX text
+- `events ·` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
+- `events captured` — src\RuntimeRunnerPage.jsx:574 — string/attribute
 - `Exchange auditable protocol changes without requiring a server. Independent fields merge automatically; same-field edits require an explicit choice.` — src\composer\Catalogs.jsx:129 — string/attribute
 - `Exclude from analysis` — src\SessionManager.jsx:341 — JSX text
-- `Existing responsive screen` — src\ParticipantUiBuilder.jsx:123 — JSX text
+- `Existing responsive screen` — src\ParticipantUiBuilder.jsx:125 — string/attribute
+- `Expand markers` — src\RuntimeRunnerPage.jsx:543, src\RuntimeRunnerPage.jsx:544 — string/attribute
 - `Expected key` — src\core\componentRegistry.js:231, src\flowCanvas\NodePreviewModal.jsx:91 — JSX text, string/attribute
 - `Expected value` — src\core\componentRegistry.js:311 — string/attribute
 - `Experiment / participant mapping` — src\BioDBSettings.jsx:75 — string/attribute
@@ -3184,21 +2893,23 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Experiment projects` — src\Dashboard.jsx:126, src\pfUIStrings.js:175, src\pfUIStrings.js:41 — string/attribute
 - `Experiment records` — src\Dashboard.jsx:138, src\pfUIStrings.js:34 — string/attribute
 - `Experiment sequence` — src\composer\Sequence.jsx:8, src\composer\Sequence.jsx:9, src\pfUIStrings.js:23 — string/attribute
-- `Experiment stopped` — src\GraphRuntimeRunnerPage.jsx:603, src\GraphRuntimeRunnerPage.jsx:611 — JSX text, string/attribute
+- `Experiment stimulus` — src\core\participantUi.js:82 — string/attribute
+- `Experiment stopped` — src\GraphRuntimeRunnerPage.jsx:603, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
 - `Experiment structure` — src\pfUIStrings.js:188, src\readiness.js:58 — string/attribute
 - `EXPERIMENT STRUCTURE` — src\HierarchyManager.jsx:36 — JSX text
 - `Experiment workspace` — src\WorkspaceShell.jsx:30, src\pfUIStrings.js:157 — string/attribute
 - `Export changes` — src\composer\Catalogs.jsx:133 — string/attribute
 - `Export complete (advanced)` — src\SessionManager.jsx:306 — JSX text
-- `Export complete bundle (advanced)` — src\RuntimeRunnerPage.jsx:443 — JSX text
-- `Export complete data package` — src\GraphRuntimeRunnerPage.jsx:609 — JSX text
+- `Export complete bundle (advanced)` — src\RuntimeRunnerPage.jsx:445 — string/attribute
+- `Export complete data package` — src\GraphRuntimeRunnerPage.jsx:609 — string/attribute
 - `Export config` — src\app\legacyBuilder.jsx:99 — JSX text
 - `Export CSV` — src\PhysioDBAnalysis.jsx:69, src\pfUIStrings.js:120 — string/attribute
 - `Export deployment bundle` — src\composer\Catalogs.jsx:261 — string/attribute
-- `export files` — src\GraphRuntimeRunnerPage.jsx:607, src\RuntimeRunnerPage.jsx:437 — JSX text
+- `Export failure data` — src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `export files` — src\GraphRuntimeRunnerPage.jsx:607, src\RuntimeRunnerPage.jsx:439 — string/attribute
 - `Export filtered Sessions` — src\SessionManager.jsx:246 — JSX text
 - `Export package` — src\SessionManager.jsx:326 — JSX text
-- `Export simplified data` — src\RuntimeRunnerPage.jsx:444, src\SessionManager.jsx:305 — JSX text
+- `Export simplified data` — src\RuntimeRunnerPage.jsx:446, src\SessionManager.jsx:305 — JSX text, string/attribute
 - `Export summary` — src\PhysioDBAnalysis.jsx:70, src\pfUIStrings.js:120 — string/attribute
 - `Export ZIP` — src\Analytics.jsx:121 — JSX text
 - `External form mode needs a link to Google Forms, Qualtrics or another questionnaire service.` — src\PreRunChecklist.jsx:34 — string/attribute
@@ -3209,55 +2920,83 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Fill in the missing field following the inspector on the right.` — src\PreRunChecklist.jsx:121 — string/attribute
 - `Fill in the prompt in at least one language (Japanese / English / Chinese).` — src\PreRunChecklist.jsx:25 — string/attribute
 - `Fill screen` — src\composer\NodeInspector.jsx:167 — string/attribute
+- `Filled ellipse / circle shape` — src\participantUi\constants.js:37 — string/attribute
+- `Filled rectangle shape` — src\participantUi\constants.js:36 — string/attribute
+- `Final session save failed:` — src\RuntimeRunnerPage.jsx:137 — string/attribute
 - `Find node by name...` — src\flowCanvas\CanvasOverlays.jsx:7 — string/attribute
 - `Find the question in the inspector on the right (Question 1, 2, …).` — src\PreRunChecklist.jsx:25 — string/attribute
 - `Find the trial and make sure ITI jitter ms ≥ 0 and the distribution is one of the allowed values.` — src\PreRunChecklist.jsx:99 — string/attribute
+- `Fit participant viewport (preserve aspect ratio)` — src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
 - `Fit screen` — src\composer\NodeInspector.jsx:167 — string/attribute
-- `Fit to view` — src\ParticipantUiBuilder.jsx:110 — JSX text
+- `Fit to view` — src\ParticipantUiBuilder.jsx:112 — string/attribute
 - `Fit view` — src\flowCanvas\CanvasToolbar.jsx:20 — string/attribute
 - `Fixed duration is missing` — src\PreRunChecklist.jsx:56 — string/attribute
 - `Fixed repetition` — src\composer\NodeInspector.jsx:161 — string/attribute
+- `Fixed screen` — src\ParticipantUiBuilder.jsx:197, src\ParticipantUiBuilder.jsx:274 — string/attribute
 - `Fixed time` — src\Inspector.jsx:361, src\app\legacyBuilder.jsx:302, src\flowCanvas\NodePreviewModal.jsx:123 — JSX text
 - `Flow graph` — src\composer\Sequence.jsx:9, src\pfUIStrings.js:25 — string/attribute
 - `Flow nodes` — src\composer\Palette.jsx:45 — string/attribute
 - `Flow snapshots` — src\composer\Canvas.jsx:32, src\flowCanvas\CanvasToolbar.jsx:22, src\flowCanvas\CanvasToolbar.jsx:25 — JSX text, string/attribute
+- `Flow state` — src\GraphRuntimeRunnerPage.jsx:681 — string/attribute
+- `Follow the instructions shown by the researcher.` — src\RuntimeContent.jsx:7 — string/attribute
+- `Font size` — src\Inspector.jsx:306, src\participantUi\UiPropertyEditor.jsx:13 — JSX text, string/attribute
 - `Formal collection must be written to a local folder you choose, not only to browser-managed cache.` — src\PreRunChecklist.jsx:258 — string/attribute
 - `Formal storage needs Chrome, Edge, or the desktop app` — src\Dashboard.jsx:142 — string/attribute
 - `Format JSON` — src\composer\NodeInspector.jsx:33 — string/attribute
 - `Format: type, en, options (separated by |), min, max, answer` — src\QuestionnaireDesigner.jsx:92 — JSX text
-- `Free canvas` — src\ParticipantUiBuilder.jsx:211 — string/attribute
-- `Free edit` — src\ParticipantUiBuilder.jsx:87 — JSX text
+- `Free canvas` — src\ParticipantUiBuilder.jsx:222 — string/attribute
+- `Free canvas · position` — src\participantUi\UiPropertyEditor.jsx:12, src\participantUi\UiPropertyEditor.jsx:6 — string/attribute
+- `Free canvas: drag elements to position` — src\ParticipantUiCanvas.jsx:492, src\ParticipantUiCanvas.jsx:493 — string/attribute
+- `Free edit` — src\ParticipantUiBuilder.jsx:89 — string/attribute
 - `Freeze this protocol version before deployment.` — src\composer\Catalogs.jsx:263 — string/attribute
 - `Freeze version` — src\composer\Header.jsx:28, src\pfUIStrings.js:9 — string/attribute
 - `From template` — src\Dashboard.jsx:129, src\pfUIStrings.js:178 — string/attribute
 - `Frozen reproducible version` — src\Dashboard.jsx:179, src\pfUIStrings.js:193, src\readiness.js:98 — string/attribute
+- `G · Green` — src\CognitiveTaskRunner.jsx:6 — string/attribute
 - `Generate analysis window` — src\Inspector.jsx:377, src\composer\NodeInspector.jsx:156, src\flowCanvas\NodePreviewModal.jsx:146 — JSX text, string/attribute
 - `Give the protocol a name so it is easy to tell apart in the project list.` — src\PreRunChecklist.jsx:104 — string/attribute
+- `Go / No-Go` — src\CognitiveTaskRunner.jsx:118 — string/attribute
 - `Go ratio (%)` — src\core\componentRegistry.js:375 — string/attribute
 - `Go to trial` — src\PreRunChecklist.jsx:175 — string/attribute
 - `Graph connections` — src\composer\Canvas.jsx:61 — string/attribute
-- `Graph valid` — src\composer\Inspector.jsx:28 — string/attribute
+- `Graph valid` — src\composer\Inspector.jsx:31 — string/attribute
+- `Group children in a row or column` — src\participantUi\constants.js:28 — string/attribute
 - `Group randomization` — src\composer\GroupSequenceEditor.jsx:10, src\composer\GroupSequenceEditor.jsx:11 — string/attribute
 - `Group selected` — src\flowCanvas\CanvasContextMenu.jsx:27 — string/attribute
+- `Heading or body copy` — src\participantUi\constants.js:29 — string/attribute
 - `Heart rate` — src\operator\deviceSnapshot.js:20, src\pfUIStrings.js:132 — string/attribute
 - `Help & documentation` — src\WorkspaceShell.jsx:25, src\pfUIStrings.js:154 — string/attribute
 - `Hide inspector` — src\FlowCanvas.jsx:549, src\FlowCanvas.jsx:550 — string/attribute
 - `Hide palette` — src\FlowCanvas.jsx:399, src\FlowCanvas.jsx:400 — string/attribute
 - `Hierarchy is incomplete` — src\PreRunChecklist.jsx:113 — string/attribute
+- `High Contrast` — src\participantUi\constants.js:50, src\theme.js:119 — string/attribute
 - `Highest label` — src\QuestionnaireDesigner.jsx:166 — string/attribute
+- `Horizontal or vertical separator line` — src\participantUi\constants.js:35 — string/attribute
+- `Hosted failure recorded · revision {n}` — src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `Hosted runtime sync requires a client and hosted session metadata` — src\hosted\hostedRuntimeSync.js:5 — string/attribute
 - `Hosted sandbox ·` — src\composer\Catalogs.jsx:272 — string/attribute
+- `Hosted sync complete · revision {n}` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
+- `Hosted sync failed: {name}` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `How do you feel?` — src\core\participantUi.js:86, src\participantUi\screenPresets.js:16 — string/attribute
 - `How long the participant waits before continuing.` — src\core\componentRegistry.js:205 — string/attribute
 - `How the input value is compared.` — src\core\componentRegistry.js:310 — string/attribute
 - `How this stimulus advances: a click, a fixed duration, or when playback ends.` — src\core\componentRegistry.js:124 — string/attribute
 - `How this stimulus advances: a click, or a fixed duration.` — src\core\componentRegistry.js:219 — string/attribute
+- `HTML fragment` — src\participantUi\UiPropertyEditor.jsx:18 — string/attribute
 - `HTML fragment (whitelisted, no scripts)` — src\core\componentRegistry.js:276 — string/attribute
+- `HTML fragment has no content yet` — src\core\participantUi.js:188 — string/attribute
 - `If the step is not needed, press Remove unused.` — src\PreRunChecklist.jsx:41 — string/attribute
+- `Image and instructions` — src\participantUi\screenPresets.js:5 — string/attribute
+- `Image, audio or video` — src\participantUi\constants.js:30 — string/attribute
 - `Import change set` — src\composer\Catalogs.jsx:134 — string/attribute
 - `Import connector manifest` — src\composer\Catalogs.jsx:350 — string/attribute
 - `Import JSON` — src\Dashboard.jsx:132, src\pfUIStrings.js:179 — string/attribute
 - `Import questions` — src\QuestionnaireDesigner.jsx:93 — JSX text
 - `Import SDK package` — src\composer\Catalogs.jsx:311 — string/attribute
+- `IndexedDB not available — session storage disabled` — src\RuntimeRunnerPage.jsx:22 — string/attribute
 - `initial state` — src\SessionManager.jsx:375 — string/attribute
+- `Input needs a response name` — src\core\participantUi.js:182 — string/attribute
+- `Input type` — src\participantUi\UiPropertyEditor.jsx:15 — string/attribute
 - `Input variable` — src\composer\NodeInspector.jsx:187 — string/attribute
 - `Inserted {name} after {source}` — src\composer\useComposerState.js:181 — string/attribute
 - `Inspect deployment bundle` — src\composer\Catalogs.jsx:264 — string/attribute
@@ -3265,13 +3004,14 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Install Reaction Button example` — src\composer\Catalogs.jsx:310 — string/attribute
 - `Install simulated sensor` — src\composer\Catalogs.jsx:349 — string/attribute
 - `Instances are expanded into the same executable graph and keep their template provenance.` — src\composer\Catalogs.jsx:69 — string/attribute
-- `Instant markers` — src\RuntimeRunnerPage.jsx:562 — JSX text
+- `Instant markers` — src\RuntimeRunnerPage.jsx:564 — string/attribute
 - `Instruction → attention check` — src\constants.js:46 — string/attribute
 - `Instruction + check` — src\constants.js:44 — string/attribute
 - `Integrity issues` — src\Analytics.jsx:138 — JSX text
-- `Interval marker` — src\RuntimeRunnerPage.jsx:565 — JSX text
+- `Invalid navigation event range.` — src\runtime\testNavigation.js:57 — string/attribute
+- `Invalid test navigation history.` — src\runtime\testNavigation.js:20, src\runtime\testNavigation.js:25 — string/attribute
 - `Invalid URL — fix it or pick an asset instead.` — src\composer\NodeInspector.jsx:163 — string/attribute
-- `Invalid YouTube URL` — src\MediaStep.jsx:123 — JSX text
+- `Invalid YouTube URL` — src\MediaStep.jsx:125 — string/attribute
 - `Irregular or insufficient timestamps` — src\PhysioDBAnalysis.jsx:67, src\pfUIStrings.js:122 — string/attribute
 - `ITI jitter settings are invalid` — src\PreRunChecklist.jsx:97 — string/attribute
 - `Keep local` — src\composer\Catalogs.jsx:143 — string/attribute
@@ -3282,28 +3022,37 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Last updated` — src\Dashboard.jsx:163, src\pfUIStrings.js:182 — string/attribute
 - `Latest branch:` — src\SessionManager.jsx:379 — JSX text
 - `Latin square` — src\HierarchyManager.jsx:44, src\app\legacyBuilder.jsx:156 — JSX text
+- `Layout group` — src\ParticipantUiBuilder.jsx:143, src\ParticipantUiBuilder.jsx:230 — string/attribute
+- `Layout mode` — src\participantUi\UiPropertyEditor.jsx:12, src\participantUi\UiPropertyEditor.jsx:6 — string/attribute
+- `Left / right stimuli` — src\participantUi\screenPresets.js:6 — string/attribute
 - `Legacy BioDB connection` — src\Dashboard.jsx:152, src\SessionManager.jsx:307, src\composer\Header.jsx:30, src\pfUIStrings.js:8 — JSX text, string/attribute
 - `Legacy Step` — src\core\componentRegistry.js:381 — string/attribute
+- `Library panels` — src\ParticipantUiBuilder.jsx:136 — string/attribute
 - `Link this PF session to the selected recording. This saves the destination; samples are not uploaded automatically.` — src\PhysioDBSessionBinding.jsx:16, src\pfUIStrings.js:74 — string/attribute
 - `Live participant preview ·` — src\composer\NodeInspector.jsx:202 — string/attribute
+- `Live variables, outputs and flow state` — src\GraphRuntimeRunnerPage.jsx:618 — string/attribute
 - `Load BioDB experiments` — src\ProtocolBioDBConfig.jsx:65 — string/attribute
 - `Loading participants...` — src\DataPanel.jsx:234 — string/attribute
+- `Loading referenced local files and checking their integrity.` — src\GraphRuntimeRunnerPage.jsx:591 — string/attribute
 - `Loading session data...` — src\Analytics.jsx:101 — JSX text
 - `Loading Session…` — src\SessionManager.jsx:283 — JSX text
 - `Loading sessions...` — src\Dashboard.jsx:138, src\SessionManager.jsx:277 — JSX text, string/attribute
-- `Loading uploaded media…` — src\MediaStep.jsx:125 — JSX text
+- `Loading uploaded media…` — src\MediaStep.jsx:127 — string/attribute
 - `Loading…` — src\AdminMonitorPage.jsx:82, src\App.jsx:47, src\PhysioDBAnalysis.jsx:62, src\PhysioDBSessionBinding.jsx:21, src\main.jsx:101, src\main.jsx:102, src\pfUIStrings.js:113 — JSX text, string/attribute
 - `Local data folder required` — src\app\sessionSetup.jsx:108, src\app\sessionSetup.jsx:185 — string/attribute
 - `Local data storage` — src\pfUIStrings.js:195, src\readiness.js:114 — string/attribute
 - `Local folder` — src\Dashboard.jsx:126, src\pfUIStrings.js:158 — string/attribute
 - `Local folder connected` — src\WorkspaceShell.jsx:30, src\pfUIStrings.js:172 — string/attribute
+- `Local test session could not be loaded` — src\GraphRuntimeRunnerPage.jsx:608 — string/attribute
 - `Local timezone` — src\PhysioDBAnalysis.jsx:64, src\pfUIStrings.js:119 — string/attribute
 - `Local upload` — src\ResourceLibrary.jsx:47 — JSX text
 - `Local workspace` — src\WorkspaceShell.jsx:25, src\pfUIStrings.js:153 — string/attribute
-- `Locate and fix` — src\PreRunChecklist.jsx:175, src\participantUi\ScreenChecks.jsx:14 — JSX text, string/attribute
-- `Lock element` — src\ParticipantUiBuilder.jsx:213 — string/attribute
+- `Locate and fix` — src\PreRunChecklist.jsx:175, src\participantUi\ScreenChecks.jsx:16 — string/attribute
+- `Locate out-of-bounds element {name}` — src\participantUi\ScreenChecks.jsx:16 — string/attribute
+- `Lock element` — src\ParticipantUiBuilder.jsx:224 — string/attribute
 - `Long-term token` — src\BioDBSettings.jsx:58 — string/attribute
 - `Loop body repeats while this rule holds for the bound until variable; the loop exits when it fails. Ignored without an until variable.` — src\core\componentRegistry.js:362 — string/attribute
+- `Loop counts` — src\GraphRuntimeRunnerPage.jsx:687 — string/attribute
 - `Looping conflicts with the end mode` — src\PreRunChecklist.jsx:85 — string/attribute
 - `Lowest label` — src\QuestionnaireDesigner.jsx:165 — string/attribute
 - `Manual continue` — src\Inspector.jsx:363, src\app\legacyBuilder.jsx:304, src\flowCanvas\NodePreviewModal.jsx:125 — JSX text
@@ -3312,9 +3061,13 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Manual start conflicts with hidden controls` — src\PreRunChecklist.jsx:91 — string/attribute
 - `Manual sync marker` — src\app\sessionSetup.jsx:169 — JSX text
 - `Mark migration reviewed` — src\composer\Header.jsx:32 — string/attribute
+- `Mark: {name}` — src\RuntimeRunnerPage.jsx:565 — string/attribute
+- `Marker delivery failed:` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
+- `Marker failed:` — src\GraphRuntimeRunnerPage.jsx:627 — string/attribute
 - `Match value` — src\core\componentRegistry.js:346 — string/attribute
 - `Matching option text` — src\QuestionnaireDesigner.jsx:185 — string/attribute
 - `Max rows shown` — src\DataPanel.jsx:331 — string/attribute
+- `Max width` — src\participantUi\UiPropertyEditor.jsx:7 — string/attribute
 - `Maximum iterations` — src\Inspector.jsx:50, src\core\componentRegistry.js:361 — JSX text, string/attribute
 - `Maximum label` — src\QuestionnaireDesigner.jsx:166 — JSX text
 - `Measures component presentation time, including pauses; it does not measure physical stimulus onset.` — src\composer\NodeInspector.jsx:158 — string/attribute
@@ -3322,19 +3075,30 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Media checked` — src\GraphRuntimeRunnerPage.jsx:595, src\pfUIStrings.js:139 — string/attribute
 - `Media display` — src\composer\NodeInspector.jsx:166 — string/attribute
 - `Media errors` — src\Analytics.jsx:132 — string/attribute
+- `Media has no source yet` — src\core\participantUi.js:187 — string/attribute
 - `Media library (` — src\composer\Catalogs.jsx:463 — string/attribute
+- `Media needs attention` — src\GraphRuntimeRunnerPage.jsx:591 — string/attribute
+- `MEDIA PREFLIGHT` — src\GraphRuntimeRunnerPage.jsx:591 — string/attribute
+- `Media presentation` — src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
 - `Media source` — src\app\legacyBuilder.jsx:358, src\flowCanvas\NodePreviewModal.jsx:110 — JSX text
 - `Media source is missing` — src\PreRunChecklist.jsx:45 — string/attribute
-- `Media type` — src\composer\NodeInspector.jsx:66, src\participantUi\UiPropertyEditor.jsx:12 — JSX text, string/attribute
+- `Media source URL` — src\participantUi\ScreenChecks.jsx:20, src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
+- `Media type` — src\composer\NodeInspector.jsx:66, src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
 - `Migrate to Composer V2` — src\Dashboard.jsx:185, src\pfUIStrings.js:164 — string/attribute
-- `Migration review required` — src\composer\Inspector.jsx:19 — string/attribute
+- `Migration review required` — src\composer\Inspector.jsx:20 — string/attribute
+- `Minimal Mono` — src\participantUi\constants.js:51, src\theme.js:137 — string/attribute
 - `Minimum label` — src\QuestionnaireDesigner.jsx:165 — JSX text
+- `Missed / too slow` — src\AttentionCheckRunner.jsx:81 — string/attribute
+- `missing media` — src\participantUi\ScreenChecks.jsx:10 — string/attribute
+- `Missing media` — src\participantUi\ScreenChecks.jsx:19 — string/attribute
 - `Missing values remain gaps. Frequency is calculated only for complete, regularly spaced signals. Original database values are unchanged.` — src\PhysioDBAnalysis.jsx:77, src\pfUIStrings.js:123 — string/attribute
 - `More actions` — src\FlowWorkspaceOverlay.jsx:126, src\composer\Header.jsx:27, src\pfUIStrings.js:37 — string/attribute
 - `more findings` — src\analysis\SignalQualityNotice.jsx:26, src\pfUIStrings.js:150 — string/attribute
-- `Move down` — src\HierarchyManager.jsx:47, src\HierarchyManager.jsx:59, src\ParticipantUiBuilder.jsx:184, src\ParticipantUiCanvas.jsx:449, src\app\legacyBuilder.jsx:174, src\app\legacyBuilder.jsx:199, src\app\legacyBuilder.jsx:295, src\composer\Sequence.jsx:13, src\pfUIStrings.js:28 — JSX text, string/attribute
-- `Move up` — src\HierarchyManager.jsx:46, src\HierarchyManager.jsx:58, src\ParticipantUiBuilder.jsx:183, src\ParticipantUiCanvas.jsx:448, src\app\legacyBuilder.jsx:173, src\app\legacyBuilder.jsx:198, src\app\legacyBuilder.jsx:294, src\composer\Sequence.jsx:13, src\pfUIStrings.js:27 — JSX text, string/attribute
+- `Move down` — src\HierarchyManager.jsx:47, src\HierarchyManager.jsx:59, src\ParticipantUiBuilder.jsx:187, src\ParticipantUiCanvas.jsx:451, src\app\legacyBuilder.jsx:174, src\app\legacyBuilder.jsx:199, src\app\legacyBuilder.jsx:295, src\composer\Sequence.jsx:13, src\pfUIStrings.js:28 — string/attribute
+- `Move up` — src\HierarchyManager.jsx:46, src\HierarchyManager.jsx:58, src\ParticipantUiBuilder.jsx:186, src\ParticipantUiCanvas.jsx:450, src\app\legacyBuilder.jsx:173, src\app\legacyBuilder.jsx:198, src\app\legacyBuilder.jsx:294, src\composer\Sequence.jsx:13, src\pfUIStrings.js:27 — string/attribute
 - `Must fix` — src\PreRunChecklist.jsx:238, src\PreRunChecklist.jsx:254 — JSX text
+- `Navigation history belongs to another run.` — src\runtime\testNavigation.js:24 — string/attribute
+- `Navigation history does not match the current visit.` — src\runtime\testNavigation.js:29 — string/attribute
 - `Needs attention` — src\DeviceMonitorPanel.jsx:37, src\Inspector.jsx:29, src\pfUIStrings.js:128 — string/attribute
 - `New event` — src\DataPanel.jsx:361 — string/attribute
 - `New text` — src\participantUi\constants.js:3 — string/attribute
@@ -3346,18 +3110,25 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Next →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:12 — string/attribute
 - `No analysis window is set` — src\PreRunChecklist.jsx:79 — string/attribute
 - `No assets yet — use “Edit assets” to pick from the media library.` — src\composer\Catalogs.jsx:504 — string/attribute
+- `No checklist items configured.` — src\runtime\nodeSchema.js:115 — string/attribute
 - `No data in this range` — src\DataPanel.jsx:279 — string/attribute
 - `No devices required` — src\GraphRuntimeRunnerPage.jsx:595, src\pfUIStrings.js:139 — string/attribute
+- `No elements yet` — src\ParticipantUiBuilder.jsx:265 — string/attribute
 - `No events in this range` — src\DataPanel.jsx:364 — string/attribute
 - `No folder selected` — src\Dashboard.jsx:126, src\pfUIStrings.js:159 — string/attribute
 - `No group` — src\composer\NodeInspector.jsx:211 — string/attribute
 - `No groups yet. Select a node and create one from its Inspector.` — src\composer\Catalogs.jsx:23 — string/attribute
+- `No HTML content` — src\ParticipantRenderer.jsx:82 — string/attribute
+- `No HTML yet — edit this step to add custom HTML content.` — src\RuntimeContent.jsx:265 — string/attribute
+- `No image, audio or video source is configured yet.` — src\participantUi\ScreenChecks.jsx:19 — string/attribute
 - `No matching assets.` — src\composer\StimulusPoolEditor.jsx:84 — string/attribute
-- `No media source assigned` — src\MediaStep.jsx:126 — JSX text
+- `No media source assigned` — src\MediaStep.jsx:128 — string/attribute
+- `No node outputs yet.` — src\GraphRuntimeRunnerPage.jsx:678 — string/attribute
 - `No participants found` — src\DataPanel.jsx:72 — string/attribute
 - `No permissions requested.` — src\composer\Catalogs.jsx:316 — string/attribute
 - `No projects match your search.` — src\Dashboard.jsx:165, src\pfUIStrings.js:165 — string/attribute
 - `No projects yet` — src\Dashboard.jsx:165, src\pfUIStrings.js:203 — string/attribute
+- `No protocol variables declared.` — src\GraphRuntimeRunnerPage.jsx:672 — string/attribute
 - `No questions configured for this questionnaire.` — src\QuestionnaireForm.jsx:133 — JSX text
 - `No questions yet. Use a preset above, or add one manually.` — src\QuestionnaireDesigner.jsx:63 — JSX text
 - `No recordings for this participant yet.` — src\AdminMonitorPage.jsx:84, src\pfUIStrings.js:115 — string/attribute
@@ -3382,6 +3153,8 @@ Generated: 2026-10-25T15:30:31.646Z
 - `not frozen` — src\Dashboard.jsx:179, src\pfUIStrings.js:187 — string/attribute
 - `Note text` — src\core\componentRegistry.js:287 — string/attribute
 - `Nothing to export` — src\SessionManager.jsx:150, src\SessionManager.jsx:213, src\SessionManager.jsx:214 — string/attribute
+- `Observe the image.` — src\participantUi\screenPresets.js:14 — string/attribute
+- `Ocean Blue` — src\participantUi\constants.js:48, src\theme.js:101 — string/attribute
 - `Offset (ms)` — src\app\sessionSetup.jsx:170 — JSX text
 - `One option per line` — src\QuestionnaireDesigner.jsx:177, src\QuestionnaireEditorV2.jsx:137, src\QuestionnaireWorkspace.jsx:314 — string/attribute
 - `One question in this questionnaire has an empty prompt in every language, so participants cannot tell what to answer.` — src\PreRunChecklist.jsx:24 — string/attribute
@@ -3398,50 +3171,87 @@ Generated: 2026-10-25T15:30:31.646Z
 - `operation(s)` — src\composer\Catalogs.jsx:139 — string/attribute
 - `Operator access key` — src\AdminMonitorPage.jsx:77, src\app\sessionSetup.jsx:112, src\pfUIStrings.js:97 — string/attribute
 - `Operator connection configured` — src\app\sessionSetup.jsx:112, src\pfUIStrings.js:49 — string/attribute
+- `Operator controls` — src\GraphRuntimeRunnerPage.jsx:615, src\Inspector.jsx:141, src\RuntimeRunnerPage.jsx:477 — JSX text, string/attribute
+- `Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.` — src\RuntimeRunnerPage.jsx:421 — string/attribute
 - `Operator ID` — src\app\sessionSetup.jsx:165, src\app\sessionSetup.jsx:93 — JSX text
-- `Optional note` — src\RuntimeRunnerPage.jsx:600 — string/attribute
+- `Operator note` — src\RuntimeRunnerPage.jsx:602, src\RuntimeRunnerPage.jsx:620, src\runtime\nodeSchema.js:130 — string/attribute
+- `Optional note` — src\RuntimeRunnerPage.jsx:603 — string/attribute
+- `Optional setup note` — src\RuntimeRunnerPage.jsx:621 — string/attribute
+- `Or press Insert in the "Steps outside flow" panel.` — src\PreRunChecklist.jsx:41 — string/attribute
 - `Order row` — src\app\sessionSetup.jsx:176 — JSX text
 - `Original values` — src\PhysioDBAnalysis.jsx:68, src\pfUIStrings.js:120 — string/attribute
 - `Other groups are unchanged. Undo restores the whole batch.` — src\composer\GroupBatchEditor.jsx:29 — string/attribute
+- `Outside content is clipped. Change the size in Settings.` — src\ParticipantUiBuilder.jsx:197, src\ParticipantUiBuilder.jsx:274 — string/attribute
+- `outside screen` — src\participantUi\ScreenChecks.jsx:10 — string/attribute
+- `Outside screen` — src\participantUi\ScreenChecks.jsx:15 — string/attribute
 - `Package one frozen protocol, its dependency manifest, execution policy, and integrity hashes for a compatible local or remote execution provider.` — src\composer\Catalogs.jsx:257 — string/attribute
+- `Part of this element sits outside the screen. Check its position or size.` — src\participantUi\ScreenChecks.jsx:15 — string/attribute
 - `Participant and data settings` — src\app\sessionSetup.jsx:89, src\pfUIStrings.js:32 — string/attribute
 - `Participant click` — src\Inspector.jsx:356, src\app\legacyBuilder.jsx:312, src\flowCanvas\NodePreviewModal.jsx:137 — JSX text
 - `Participant content is empty` — src\PreRunChecklist.jsx:73 — string/attribute
 - `Participant content is empty in every language for this step. A test run still works, but participants may see no instructions.` — src\PreRunChecklist.jsx:74 — string/attribute
 - `Participant details` — src\app\sessionSetup.jsx:90, src\pfUIStrings.js:46 — string/attribute
 - `Participant display` — src\GraphRuntimeRunnerPage.jsx:595, src\pfUIStrings.js:138 — string/attribute
-- `Participant fullscreen (F)` — src\RuntimeRunnerPage.jsx:485 — string/attribute
+- `Participant fullscreen (F)` — src\RuntimeRunnerPage.jsx:487 — string/attribute
 - `Participant ID` — src\app\sessionSetup.jsx:163, src\app\sessionSetup.jsx:91, src\composer\Catalogs.jsx:274 — JSX text, string/attribute
 - `Participant ID does not match. Deletion cancelled.` — src\SessionManager.jsx:229 — string/attribute
 - `Participant language` — src\app\sessionSetup.jsx:164, src\app\sessionSetup.jsx:92 — JSX text
-- `Participant view` — src\GraphRuntimeRunnerPage.jsx:630, src\RuntimeRunnerPage.jsx:494 — string/attribute
+- `Participant UI is invalid` — src\ParticipantUiCanvas.jsx:150 — string/attribute
+- `Participant UI is invalid:` — src\ParticipantRenderer.jsx:51 — string/attribute
+- `Participant UI needs a root Screen` — src\core\participantUi.js:195, src\core\participantUi.js:247, src\core\participantUi.js:282 — string/attribute
+- `Participant UI root must be a Screen` — src\core\participantUi.js:197 — string/attribute
+- `Participant view` — src\GraphRuntimeRunnerPage.jsx:630, src\RuntimeRunnerPage.jsx:496 — string/attribute
 - `Paste an HTML fragment below.` — src\composer\NodeInspector.jsx:149 — string/attribute
 - `Paste the full form URL (https://…) into External form URL.` — src\PreRunChecklist.jsx:35 — string/attribute
+- `Paste video or image URL` — src\ParticipantUiCanvas.jsx:529 — string/attribute
 - `Peak frequency` — src\PhysioDBAnalysis.jsx:75, src\pfUIStrings.js:124 — string/attribute
 - `PF administrator` — src\pfUIStrings.js:101 — string/attribute
 - `PF protocol ID` — src\GraphRuntimeRunnerPage.jsx:594, src\PhysioDBSessionBinding.jsx:19, src\pfUIStrings.js:76 — string/attribute
 - `PF server URL` — src\AdminMonitorPage.jsx:77, src\app\sessionSetup.jsx:112, src\pfUIStrings.js:98 — string/attribute
 - `PF session ID` — src\GraphRuntimeRunnerPage.jsx:594, src\PhysioDBSessionBinding.jsx:18, src\pfUIStrings.js:75 — string/attribute
+- `Physio Green` — src\participantUi\constants.js:47, src\theme.js:92 — string/attribute
 - `PhysioDB is not configured for this administrator` — src\pfUIStrings.js:155 — string/attribute
 - `PhysioDB test result` — src\PhysioDBTestResult.jsx:23, src\pfUIStrings.js:57 — string/attribute
 - `Pilot run evidence` — src\pfUIStrings.js:194, src\readiness.js:106 — string/attribute
+- `pixels per degree` — src\CalibrationRunner.jsx:58 — string/attribute
 - `Plain-text content from the migrated legacy step.` — src\core\componentRegistry.js:387 — string/attribute
-- `Please use a modern browser (Chrome 90+, Firefox 90+, Edge 90+, Safari 15+).` — src\RuntimeRunnerPage.jsx:407 — JSX text
+- `Please rate` — src\core\participantUi.js:96, src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9 — string/attribute
+- `Please read the instructions carefully.` — src\core\participantUi.js:134 — string/attribute
+- `Please use a modern browser (Chrome 90+, Firefox 90+, Edge 90+, Safari 15+).` — src\RuntimeRunnerPage.jsx:409 — string/attribute
 - `Please wait for the operator, then begin when instructed.` — src\GraphRuntimeRunnerPage.jsx:592, src\pfUIStrings.js:83 — string/attribute
 - `Please wait while your experiment record is saved.` — src\GraphRuntimeRunnerPage.jsx:603, src\pfUIStrings.js:86 — string/attribute
+- `Please wait…` — src\runtime\nodeSchema.js:203 — string/attribute
 - `Pool name` — src\composer\Catalogs.jsx:506, src\composer\StimulusPoolEditor.jsx:60 — string/attribute
 - `Portable deployment` — src\composer\Catalogs.jsx:256 — string/attribute
+- `Position & size` — src\participantUi\PositionFields.jsx:25 — string/attribute
 - `Prepare collection` — src\Dashboard.jsx:181, src\composer\Header.jsx:25, src\pfUIStrings.js:45 — string/attribute
 - `Prepare the experiment. Check signals. Review your data.` — src\pfUIStrings.js:94 — string/attribute
 - `Prepare your experiment` — src\pfUIStrings.js:102 — string/attribute
 - `Preparing database test records…` — src\app\sessionSetup.jsx:72, src\pfUIStrings.js:69 — string/attribute
+- `Preparing media…` — src\GraphRuntimeRunnerPage.jsx:591 — string/attribute
+- `Press "+ Add block" to create the first block.` — src\PreRunChecklist.jsx:110 — string/attribute
+- `Press "Go to trial" to jump to that trial.` — src\PreRunChecklist.jsx:99 — string/attribute
+- `Press "Locate and fix" to jump to the right place.` — src\PreRunChecklist.jsx:115, src\PreRunChecklist.jsx:121 — string/attribute
+- `Press "Locate and fix" to open the media node.` — src\PreRunChecklist.jsx:47, src\PreRunChecklist.jsx:87, src\PreRunChecklist.jsx:93 — string/attribute
+- `Press "Locate and fix" to open the node.` — src\PreRunChecklist.jsx:53, src\PreRunChecklist.jsx:58, src\PreRunChecklist.jsx:75 — string/attribute
+- `Press "Locate and fix" to open the questionnaire node.` — src\PreRunChecklist.jsx:25, src\PreRunChecklist.jsx:30, src\PreRunChecklist.jsx:35 — string/attribute
+- `Press "Locate and fix" to open the response node.` — src\PreRunChecklist.jsx:64, src\PreRunChecklist.jsx:69 — string/attribute
+- `Press a response key` — src\ResponseRunner.jsx:154 — string/attribute
+- `Press one of the response keys to answer.` — src\core\participantUi.js:119 — string/attribute
+- `Press Space for X (Go). Do not press for O (No-Go).` — src\CognitiveTaskRunner.jsx:118 — string/attribute
 - `Press the button below to select your PhysioFlow Data folder.` — src\PreRunChecklist.jsx:259 — string/attribute
+- `Press the key when you see the target` — src\AttentionCheckRunner.jsx:16, src\core\componentRegistry.js:228, src\core\participantUi.js:113 — string/attribute
 - `Preview (double-click)` — src\flowCanvas\NodeCard.jsx:83 — string/attribute
+- `Preview channels only; browser retains about 20,000 recent channel samples. Complete raw recording stays on the acquisition computer.` — src\GraphRuntimeRunnerPage.jsx:627 — string/attribute
+- `Preview participant screen` — src\participantUi\ScreenChecks.jsx:11 — string/attribute
 - `Preview storage` — src\app\sessionSetup.jsx:108, src\app\sessionSetup.jsx:185 — string/attribute
+- `Previous page (test)` — src\GraphRuntimeRunnerPage.jsx:622 — string/attribute
+- `Previous page is available only in Test Run.` — src\runtime\testNavigation.js:4 — string/attribute
 - `Probability of A` — src\core\componentRegistry.js:327 — string/attribute
 - `Probability of B` — src\core\componentRegistry.js:328 — string/attribute
 - `Probability of C` — src\core\componentRegistry.js:329 — string/attribute
 - `Probability of D` — src\core\componentRegistry.js:330 — string/attribute
+- `Progress indicator` — src\participantUi\constants.js:33 — string/attribute
 - `Project actions` — src\Dashboard.jsx:182, src\pfUIStrings.js:167 — string/attribute
 - `Project component library` — src\composer\Catalogs.jsx:308 — string/attribute
 - `Project name` — src\App.jsx:294, src\FlowWorkspaceOverlay.jsx:97 — string/attribute
@@ -3462,6 +3272,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Publish reusable template` — src\composer\Catalogs.jsx:54 — string/attribute
 - `Publish to local hosted sandbox` — src\composer\Catalogs.jsx:262 — string/attribute
 - `Pulse animation` — src\Inspector.jsx:429, src\core\componentRegistry.js:218 — JSX text, string/attribute
+- `Question and rating` — src\participantUi\screenPresets.js:7 — string/attribute
 - `Question IDs remain specific to each target. Only matching questionnaire kinds are included.` — src\composer\GroupBatchEditor.jsx:29 — string/attribute
 - `Question text` — src\QuestionnaireDesigner.jsx:154, src\QuestionnaireWorkspace.jsx:291 — string/attribute
 - `questionnaire content` — src\composer\GroupBatchEditor.jsx:27 — string/attribute
@@ -3470,11 +3281,14 @@ Generated: 2026-10-25T15:30:31.646Z
 - `QUESTIONNAIRE LIBRARY` — src\QuestionnaireLibrary.jsx:25 — JSX text
 - `Questionnaire name` — src\QuestionnaireDesigner.jsx:28, src\QuestionnaireWorkspace.jsx:94 — JSX text, string/attribute
 - `Quick mode: build the execution flow and set essential properties.` — src\composer\Palette.jsx:37 — string/attribute
-- `Quick note` — src\RuntimeRunnerPage.jsx:550 — JSX text
+- `Quick note` — src\RuntimeRunnerPage.jsx:552 — string/attribute
+- `R · Red` — src\CognitiveTaskRunner.jsx:5 — string/attribute
 - `Random split` — src\core\componentRegistry.js:316 — string/attribute
 - `Randomization seed` — src\core\componentRegistry.js:374 — string/attribute
+- `Rating needs increasing integer bounds and at most 1000 choices` — src\core\participantUi.js:185 — string/attribute
 - `Raw recording is not confirmed. Check the acquisition agent before starting.` — src\operator\experimentPreflight.js:14, src\pfUIStrings.js:88 — string/attribute
 - `raw response records` — src\SessionManager.jsx:311 — JSX text
+- `Re-lay this screen's elements as an aligned 8px-grid column` — src\ParticipantUiBuilder.jsx:223 — string/attribute
 - `Read a time window from PhysioDB, inspect it, and export analysis.` — src\pfUIStrings.js:107 — string/attribute
 - `Read data` — src\DataPanel.jsx:266 — string/attribute
 - `Read events` — src\DataPanel.jsx:269 — string/attribute
@@ -3484,21 +3298,30 @@ Generated: 2026-10-25T15:30:31.646Z
 - `ready ·` — src\composer\Catalogs.jsx:140 — string/attribute
 - `Ready for a test run` — src\PreRunChecklist.jsx:230 — string/attribute
 - `ready to run` — src\Dashboard.jsx:179, src\pfUIStrings.js:185 — string/attribute
-- `Ready when you are` — src\RuntimeRunnerPage.jsx:502 — JSX text
+- `Ready when you are` — src\RuntimeRunnerPage.jsx:504 — string/attribute
 - `Receiving checks do not measure electrode impedance or prove research signal quality.` — src\DeviceMonitorPanel.jsx:42, src\pfUIStrings.js:130 — string/attribute
+- `Recent markers ({count})` — src\RuntimeRunnerPage.jsx:579 — string/attribute
 - `Recent project` — src\pfUIStrings.js:43 — string/attribute
 - `Recheck database` — src\PhysioDBTestResult.jsx:26, src\pfUIStrings.js:62 — string/attribute
+- `Reconnect devices` — src\GraphRuntimeRunnerPage.jsx:619 — string/attribute
 - `Record details` — src\GraphRuntimeRunnerPage.jsx:607, src\pfUIStrings.js:52 — string/attribute
 - `Recorded value` — src\composer\ResponseOptionsEditor.jsx:17 — string/attribute
 - `Recorded values are duplicated. Use distinct values to distinguish responses in exported data.` — src\composer\ResponseOptionsEditor.jsx:21 — string/attribute
 - `Recording active` — src\GraphRuntimeRunnerPage.jsx:598, src\pfUIStrings.js:81 — string/attribute
 - `Recording hosted failure…` — src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
 - `Recording not confirmed` — src\GraphRuntimeRunnerPage.jsx:598, src\pfUIStrings.js:82 — string/attribute
+- `Recording software ready` — src\RuntimeRunnerPage.jsx:467, src\constants.js:68 — string/attribute
 - `Recovery after interruption` — src\Inspector.jsx:132, src\composer\NodeInspector.jsx:207 — JSX text, string/attribute
+- `RECOVERY READY` — src\RuntimeRunnerPage.jsx:418 — string/attribute
+- `Recovery save failed ·` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
+- `Recovery save failed:` — src\RuntimeRunnerPage.jsx:483 — string/attribute
 - `Redeem launch token` — src\composer\Catalogs.jsx:277 — string/attribute
 - `Redo (⌘⇧Z)` — src\flowCanvas\CanvasToolbar.jsx:18 — string/attribute
+- `Redo (Ctrl+Shift+Z)` — src\ParticipantUiBuilder.jsx:102 — string/attribute
 - `Relative milliseconds` — src\app\sessionSetup.jsx:172 — JSX text
 - `Relative weight for branch A. Probabilities are normalized across the branches actually connected.` — src\core\componentRegistry.js:327 — string/attribute
+- `Remove (Del)` — src\ParticipantUiCanvas.jsx:453 — string/attribute
+- `Remove {name} style` — src\participantUi\StyleEditor.jsx:20 — string/attribute
 - `Remove mean` — src\PhysioDBAnalysis.jsx:68, src\pfUIStrings.js:120 — string/attribute
 - `Remove option` — src\composer\ResponseOptionsEditor.jsx:19 — string/attribute
 - `Remove this asset from its stimulus pool first` — src\composer\Catalogs.jsx:468 — string/attribute
@@ -3507,67 +3330,104 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Rename snapshot` — src\composer\Canvas.jsx:47 — string/attribute
 - `Repeat a sequence` — src\composer\RepeatSequenceEditor.jsx:30, src\composer\RepeatSequenceEditor.jsx:31 — string/attribute
 - `Repeat count` — src\app\legacyBuilder.jsx:159, src\app\legacyBuilder.jsx:189 — string/attribute
-- `Repeat sequence created. Edit Maximum iterations to change its total passes.` — src\composer\Inspector.jsx:24 — string/attribute
+- `Repeat sequence created. Edit Maximum iterations to change its total passes.` — src\composer\Inspector.jsx:27 — string/attribute
 - `Repeat these steps in execution order. The count includes the first pass.` — src\composer\RepeatSequenceEditor.jsx:32 — string/attribute
 - `Repeat through` — src\composer\RepeatSequenceEditor.jsx:33 — string/attribute
+- `Replace the current participant screen with this template? You can still undo this change.` — src\ParticipantUiBuilder.jsx:162, src\ParticipantUiBuilder.jsx:76 — string/attribute
 - `Require operator note` — src\Inspector.jsx:272, src\core\componentRegistry.js:254 — JSX text, string/attribute
 - `Require this device before the session starts` — src\composer\NodeInspector.jsx:209 — string/attribute
-- `Required confirmation note` — src\RuntimeRunnerPage.jsx:600 — string/attribute
+- `Required confirmation note` — src\RuntimeRunnerPage.jsx:603 — string/attribute
 - `Required content` — src\pfUIStrings.js:190, src\readiness.js:74 — string/attribute
+- `Required device sampling failed` — src\GraphRuntimeRunnerPage.jsx:359 — string/attribute
 - `Required signal is stale, missing or flat. Check the operator monitor before resuming.` — src\GraphRuntimeRunnerPage.jsx:254, src\pfUIStrings.js:143 — string/attribute
+- `Required signal unavailable` — src\GraphRuntimeRunnerPage.jsx:255 — string/attribute
 - `Research workspace` — src\WorkspaceShell.jsx:23, src\pfUIStrings.js:152 — string/attribute
 - `Researcher notes` — src\SessionManager.jsx:344 — JSX text
 - `Researcher validity` — src\SessionManager.jsx:336 — JSX text
-- `Reset to 100%` — src\ParticipantUiBuilder.jsx:111 — JSX text
+- `Reset to 100%` — src\ParticipantUiBuilder.jsx:113 — string/attribute
+- `Reset to defaults` — src\participantUi\ThemeEditor.jsx:21 — string/attribute
+- `Reset to this template` — src\ParticipantUiBuilder.jsx:97 — string/attribute
 - `Reset view` — src\composer\Canvas.jsx:38 — string/attribute
 - `Resolve…` — src\composer\Catalogs.jsx:143 — string/attribute
 - `Resource URL` — src\MediaSettings.jsx:52 — JSX text
 - `resources ready` — src\composer\Catalogs.jsx:279 — string/attribute
+- `Respond to the ink color, not the word. Use R, G, B, or Y.` — src\CognitiveTaskRunner.jsx:118 — string/attribute
+- `Respond when you see the target` — src\ResponseRunner.jsx:33, src\core\componentRegistry.js:166, src\core\participantUi.js:118, src\legacy\migrateProtocolV1.js:117, src\legacy\migrateProtocolV1.js:163 — string/attribute
+- `Response field` — src\participantUi\constants.js:31 — string/attribute
 - `Response keys are duplicated. The same key cannot uniquely select these options.` — src\composer\ResponseOptionsEditor.jsx:22 — string/attribute
-- `Response options` — src\RuntimeContent.jsx:237, src\composer\ResponseOptionsEditor.jsx:12, src\core\componentRegistry.js:182 — string/attribute
+- `Response name` — src\participantUi\UiPropertyEditor.jsx:15 — string/attribute
+- `Response options` — src\RuntimeContent.jsx:240, src\composer\ResponseOptionsEditor.jsx:12, src\core\componentRegistry.js:182 — string/attribute
 - `Response options are missing` — src\PreRunChecklist.jsx:67 — string/attribute
 - `Response required` — src\core\componentRegistry.js:187 — string/attribute
 - `Response variable` — src\Inspector.jsx:189, src\app\legacyBuilder.jsx:329, src\core\componentRegistry.js:180, src\flowCanvas\NodePreviewModal.jsx:70 — JSX text, string/attribute
 - `Response variable name is missing` — src\PreRunChecklist.jsx:62 — string/attribute
-- `responses ·` — src\GraphRuntimeRunnerPage.jsx:607 — JSX text
+- `responses ·` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
 - `Responses recorded` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
 - `Restart this event` — src\Inspector.jsx:136 — JSX text
-- `Resume experiment` — src\RuntimeRunnerPage.jsx:419, src\app\sessionSetup.jsx:17 — JSX text, string/attribute
+- `Resume experiment` — src\RuntimeRunnerPage.jsx:421, src\app\sessionSetup.jsx:17 — JSX text, string/attribute
 - `Resume remaining time` — src\Inspector.jsx:135 — JSX text
+- `Retry checkpoint cleanup` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
 - `Retry database connection` — src\AdminMonitorPage.jsx:92, src\pfUIStrings.js:117 — string/attribute
-- `Retry hosted sync` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — JSX text
-- `Retry local save` — src\GraphRuntimeRunnerPage.jsx:609, src\GraphRuntimeRunnerPage.jsx:611, src\RuntimeRunnerPage.jsx:445 — JSX text
-- `Return to projects` — src\GraphRuntimeRunnerPage.jsx:609, src\GraphRuntimeRunnerPage.jsx:611, src\RuntimeRunnerPage.jsx:446 — JSX text, string/attribute
+- `Retry device and begin` — src\GraphRuntimeRunnerPage.jsx:601 — string/attribute
+- `Retry hosted sync` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `Retry local save` — src\GraphRuntimeRunnerPage.jsx:609, src\GraphRuntimeRunnerPage.jsx:611, src\RuntimeRunnerPage.jsx:447 — string/attribute
+- `Retry save` — src\GraphRuntimeRunnerPage.jsx:616, src\RuntimeRunnerPage.jsx:486 — string/attribute
+- `Retry server synchronization` — src\GraphRuntimeRunnerPage.jsx:628 — string/attribute
+- `Retry step` — src\RuntimeRunnerPage.jsx:489 — string/attribute
+- `Return to projects` — src\GraphRuntimeRunnerPage.jsx:609, src\GraphRuntimeRunnerPage.jsx:611, src\RuntimeRunnerPage.jsx:448 — string/attribute
+- `Return to protocol` — src\GraphRuntimeRunnerPage.jsx:591 — string/attribute
 - `Reusable media resources` — src\ResourceLibrary.jsx:36 — JSX text
 - `Reusable questionnaire` — src\Inspector.jsx:396 — JSX text
 - `Reusable questionnaires` — src\QuestionnaireLibrary.jsx:25 — JSX text
 - `Reusable resource` — src\Inspector.jsx:389, src\MediaSettings.jsx:23 — JSX text
 - `Reusable subflows` — src\composer\Catalogs.jsx:68 — string/attribute
-- `Review {n} migration issues before freezing this draft.` — src\composer\Inspector.jsx:19 — string/attribute
+- `Review {n} migration issues before freezing this draft.` — src\composer\Inspector.jsx:20 — string/attribute
 - `Review migrated settings before freezing this version.` — src\composer\Header.jsx:32, src\pfUIStrings.js:10 — string/attribute
 - `Review saved data, verify database results, and analyze this session.` — src\Dashboard.jsx:138, src\pfUIStrings.js:35 — string/attribute
 - `Review saved record` — src\Analytics.jsx:121, src\pfUIStrings.js:33 — JSX text, string/attribute
 - `Review your recording` — src\pfUIStrings.js:106 — string/attribute
 - `Review, export and validate` — src\SessionManager.jsx:242 — JSX text
 - `Revoke launch token` — src\composer\Catalogs.jsx:277 — string/attribute
+- `Root Screen cannot be moved` — src\core\participantUi.js:248 — string/attribute
+- `Root Screen cannot be removed` — src\core\participantUi.js:214 — string/attribute
 - `Run details confirmed. Check signals below, then begin the experiment.` — src\app\sessionSetup.jsx:88, src\pfUIStrings.js:30 — string/attribute
 - `Run hosted session` — src\composer\Catalogs.jsx:283 — string/attribute
 - `Run preview` — src\composer\Header.jsx:25, src\pfUIStrings.js:7 — string/attribute
 - `Run your study, simply.` — src\pfUIStrings.js:93 — string/attribute
-- `RUNTIME FAILED` — src\GraphRuntimeRunnerPage.jsx:611 — JSX text
+- `Runtime binding` — src\ParticipantUiBuilder.jsx:239 — string/attribute
+- `Runtime failed` — src\runtime\replayRuntime.js:66 — string/attribute
+- `RUNTIME FAILED` — src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `Runtime is not waiting on a component` — src\runtime\runtimeMachine.js:288, src\runtime\runtimeMachine.js:325, src\runtime\runtimeMachine.js:339 — string/attribute
 - `Runtime replay` — src\SessionManager.jsx:364, src\SessionManager.jsx:370 — JSX text
+- `Runtime replay requires a Protocol Graph snapshot` — src\runtime\replayRuntime.js:73 — string/attribute
+- `Runtime requires a session ID` — src\runtime\runtimeMachine.js:61 — string/attribute
+- `Runtime requires explicit epoch and monotonic start times` — src\runtime\runtimeMachine.js:63 — string/attribute
+- `Runtime services require clock.now and idFactory` — src\runtime\eventEnvelope.js:4 — string/attribute
+- `Runtime snapshot does not match the protocol version` — src\runtime\runtimeMachine.js:368 — string/attribute
+- `Runtime state belongs to a different hosted session` — src\hosted\hostedRuntimeSync.js:38 — string/attribute
+- `Runtime variables, outputs and flow state` — src\GraphRuntimeRunnerPage.jsx:667 — string/attribute
 - `SAM block` — src\constants.js:34 — string/attribute
 - `Same computer clock` — src\app\sessionSetup.jsx:169 — JSX text
 - `Sampling rate (Hz)` — src\app\sessionSetup.jsx:174 — JSX text
 - `Save failed` — src\App.jsx:169, src\GraphRuntimeRunnerPage.jsx:588, src\SessionManager.jsx:86 — string/attribute
 - `Save flow` — src\FlowWorkspaceOverlay.jsx:117 — string/attribute
+- `Save needs attention` — src\RuntimeRunnerPage.jsx:442 — string/attribute
 - `Save review` — src\SessionManager.jsx:348 — JSX text
-- `Saved to local storage. The export bundle is ready.` — src\RuntimeRunnerPage.jsx:133 — string/attribute
+- `Saved {name}` — src\RuntimeRunnerPage.jsx:482 — string/attribute
+- `Saved randomized group source does not match this session protocol` — src\GraphRuntimeRunnerPage.jsx:86 — string/attribute
+- `Saved to local storage. The export bundle is ready.` — src\RuntimeRunnerPage.jsx:135 — string/attribute
+- `Saving checkpoint…` — src\GraphRuntimeRunnerPage.jsx:615 — string/attribute
+- `Saving session` — src\RuntimeRunnerPage.jsx:442 — string/attribute
+- `Saving session data…` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `Saving the completed session to local storage...` — src\RuntimeRunnerPage.jsx:130 — string/attribute
 - `screen appearance` — src\composer\GroupBatchEditor.jsx:27 — string/attribute
-- `Screen calibration` — src\CalibrationRunner.jsx:4, src\constants.js:11, src\constants.js:70, src\core\componentRegistry.js:259, src\core\participantUi.js:108 — string/attribute
+- `Screen calibration` — src\CalibrationRunner.jsx:51, src\CalibrationRunner.jsx:52, src\constants.js:11, src\constants.js:70, src\core\componentRegistry.js:259, src\core\participantUi.js:108 — string/attribute
+- `Screen checks` — src\participantUi\ScreenChecks.jsx:10 — string/attribute
 - `Screen content` — src\core\componentRegistry.js:111 — string/attribute
+- `Screen elements` — src\ParticipantUiBuilder.jsx:247 — string/attribute
 - `Screen height (cm)` — src\core\componentRegistry.js:266 — string/attribute
-- `Screen size` — src\ParticipantUiBuilder.jsx:119 — JSX text, string/attribute
+- `Screen overview` — src\ParticipantUiBuilder.jsx:247 — string/attribute
+- `Screen size` — src\ParticipantUiBuilder.jsx:121, src\ParticipantUiBuilder.jsx:249 — string/attribute
 - `Screen width (cm)` — src\core\componentRegistry.js:265 — string/attribute
 - `SDK packages are declarative, versioned, permission-gated, and cannot inject JavaScript into Runtime V2.` — src\composer\Catalogs.jsx:309 — string/attribute
 - `SDK packages, devices, collaboration, deployment` — src\composer\Palette.jsx:64 — string/attribute
@@ -3580,7 +3440,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Seconds; leave blank for no limit` — src\QuestionnaireDesigner.jsx:193 — string/attribute
 - `Seed salt` — src\core\componentRegistry.js:331 — string/attribute
 - `Select a baseline, stimulus, task or recovery node.` — src\PreRunChecklist.jsx:81 — string/attribute
-- `Select a node or connection to configure it.` — src\composer\Inspector.jsx:23 — string/attribute
+- `Select a node or connection to configure it.` — src\composer\Inspector.jsx:26 — string/attribute
 - `Select a Session` — src\SessionManager.jsx:283 — JSX text
 - `Select a step to edit. Add components from the left panel.` — src\composer\Sequence.jsx:9, src\pfUIStrings.js:24 — string/attribute
 - `Select a step, then click a component to insert` — src\composer\Palette.jsx:45, src\pfUIStrings.js:21 — string/attribute
@@ -3597,11 +3457,19 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Select trial to edit` — src\FlowWorkspaceOverlay.jsx:104 — string/attribute
 - `Select variable` — src\composer\Catalogs.jsx:78 — string/attribute
 - `Selected steps must form a continuous sequence without a cycle.` — src\core\repeatSegment.js:25 — string/attribute
+- `Send to back` — src\ParticipantUiBuilder.jsx:189 — string/attribute
+- `Sensor connected` — src\RuntimeRunnerPage.jsx:467, src\constants.js:68 — string/attribute
 - `Sensor signal check` — src\AdminMonitorPage.jsx:76, src\pfUIStrings.js:15 — string/attribute
 - `Sequence view` — src\ComposerV2.jsx:70, src\pfUIStrings.js:26 — string/attribute
+- `Server acknowledged {count} runtime events · {total} recorded in this browser` — src\GraphRuntimeRunnerPage.jsx:628 — string/attribute
 - `Server settings` — src\AdminMonitorPage.jsx:77, src\app\sessionSetup.jsx:112, src\pfUIStrings.js:98 — string/attribute
-- `SESSION COMPLETE` — src\GraphRuntimeRunnerPage.jsx:607, src\RuntimeRunnerPage.jsx:432 — JSX text
+- `Server synchronization` — src\GraphRuntimeRunnerPage.jsx:628 — string/attribute
+- `Server synchronization needs attention: {name}` — src\GraphRuntimeRunnerPage.jsx:628 — string/attribute
+- `SESSION COMPLETE` — src\GraphRuntimeRunnerPage.jsx:607, src\RuntimeRunnerPage.jsx:434 — string/attribute
 - `SESSION DATA` — src\SessionManager.jsx:242 — JSX text
+- `Session data is saved, but the recovery checkpoint could not be removed:` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `Session data not saved:` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
+- `Session data saved.` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
 - `Session database binding` — src\PhysioDBSessionBinding.jsx:15, src\pfUIStrings.js:73 — string/attribute
 - `Session identifiers` — src\GraphRuntimeRunnerPage.jsx:594, src\pfUIStrings.js:80 — string/attribute
 - `Session list unavailable` — src\App.jsx:386, src\SessionManager.jsx:35 — string/attribute
@@ -3609,10 +3477,14 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Session quota` — src\composer\Catalogs.jsx:260 — string/attribute
 - `SESSION REVIEW` — src\Analytics.jsx:68 — JSX text
 - `Session review saved` — src\SessionManager.jsx:84 — string/attribute
+- `Session saved` — src\RuntimeRunnerPage.jsx:442 — string/attribute
 - `SESSION SETUP` — src\app\sessionSetup.jsx:160 — JSX text
 - `Set what participants see, what is saved, and the response key. Leave the list empty to accept free-form keys.` — src\composer\ResponseOptionsEditor.jsx:13 — string/attribute
-- `Show all` — src\composer\Inspector.jsx:35 — string/attribute
-- `Show fewer` — src\composer\Inspector.jsx:35 — string/attribute
+- `setVariable action needs a variable name` — src\core\participantUi.js:191 — string/attribute
+- `Shift-click to add or remove an element. Dragging moves selected siblings together.` — src\participantUi\SelectionInspector.jsx:12 — string/attribute
+- `Show all` — src\composer\Inspector.jsx:38 — string/attribute
+- `Show controls` — src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
+- `Show fewer` — src\composer\Inspector.jsx:38 — string/attribute
 - `Show inspector` — src\FlowCanvas.jsx:549, src\FlowCanvas.jsx:550 — string/attribute
 - `Show palette` — src\FlowCanvas.jsx:399, src\FlowCanvas.jsx:400 — string/attribute
 - `Show progress` — src\QuestionnaireDesigner.jsx:30 — JSX text
@@ -3626,16 +3498,24 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Signal quality` — src\PhysioDBAnalysis.jsx:76, src\analysis\SignalQualityNotice.jsx:26, src\pfUIStrings.js:147 — string/attribute
 - `Signal unusable` — src\analysis\SignalQualityNotice.jsx:7, src\pfUIStrings.js:148 — string/attribute
 - `Simulated data` — src\DeviceMonitorPanel.jsx:37, src\pfUIStrings.js:128 — string/attribute
+- `Simulated devices cannot start a formal experiment. Select real hardware or use a test run.` — src\GraphRuntimeRunnerPage.jsx:309, src\operator\experimentPreflight.js:10 — string/attribute
 - `Size (px)` — src\Inspector.jsx:425, src\core\componentRegistry.js:216 — JSX text, string/attribute
-- `Snap to 8px grid` — src\ParticipantUiBuilder.jsx:124 — JSX text
+- `Skip step` — src\RuntimeRunnerPage.jsx:490 — string/attribute
+- `Snap to 8px grid` — src\ParticipantUiBuilder.jsx:126 — string/attribute
+- `Snap to the 8px grid while dragging` — src\ParticipantUiBuilder.jsx:126 — string/attribute
 - `Snapshot name` — src\composer\Canvas.jsx:43 — string/attribute
-- `Source URL` — src\app\legacyBuilder.jsx:368, src\composer\NodeInspector.jsx:66, src\flowCanvas\NodePreviewModal.jsx:112, src\participantUi\UiPropertyEditor.jsx:12 — JSX text, string/attribute
+- `Source URL` — src\app\legacyBuilder.jsx:368, src\composer\NodeInspector.jsx:66, src\flowCanvas\NodePreviewModal.jsx:112, src\participantUi\UiPropertyEditor.jsx:14 — JSX text, string/attribute
+- `SPACE · Go` — src\CognitiveTaskRunner.jsx:125 — string/attribute
+- `Standard layout` — src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
 - `Start building your experiment` — src\app\legacyBuilder.jsx:112 — JSX text
 - `Start building your flow` — src\FlowCanvas.jsx:494 — JSX text
 - `Start experiment` — src\GraphRuntimeRunnerPage.jsx:595, src\pfUIStrings.js:138 — string/attribute
 - `Start from a template` — src\pfUIStrings.js:40 — string/attribute
 - `Start mode` — src\Inspector.jsx:353, src\flowCanvas\NodePreviewModal.jsx:133 — JSX text
+- `Start mode is "Participant click" but the player controls are hidden, so participants cannot start playback.` — src\PreRunChecklist.jsx:92 — string/attribute
+- `Start practice` — src\CognitiveTaskRunner.jsx:118 — string/attribute
 - `Start session` — src\app\sessionSetup.jsx:189 — string/attribute
+- `Start task` — src\CognitiveTaskRunner.jsx:118 — string/attribute
 - `Start the acquisition software, then check signals here.` — src\DeviceMonitorPanel.jsx:41, src\pfUIStrings.js:129 — string/attribute
 - `Start the formal session once the folder is selected.` — src\PreRunChecklist.jsx:259 — string/attribute
 - `Start time` — src\DataPanel.jsx:248, src\DataPanel.jsx:368 — string/attribute
@@ -3646,6 +3526,7 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Step label` — src\app\legacyBuilder.jsx:393 — JSX text
 - `Step name` — src\app\legacyBuilder.jsx:288, src\core\componentRegistry.js:386 — string/attribute
 - `Step palette` — src\app\legacyBuilder.jsx:122 — JSX text
+- `steps done` — src\RuntimeRunnerPage.jsx:480 — string/attribute
 - `STIMULUS LIBRARY` — src\ResourceLibrary.jsx:36 — JSX text
 - `Stimulus media` — src\pfUIStrings.js:191, src\readiness.js:82 — string/attribute
 - `Stimulus pool` — src\composer\NodeInspector.jsx:173, src\composer\StimulusPoolEditor.jsx:90, src\core\freezeProtocolGraph.js:66, src\core\freezeProtocolGraph.js:69, src\core\stimulusRandomization.js:159 — string/attribute
@@ -3657,18 +3538,24 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Stop monitoring` — src\DeviceMonitorPanel.jsx:39, src\pfUIStrings.js:128 — string/attribute
 - `Storage guide` — src\Dashboard.jsx:148 — JSX text
 - `Storage settings` — src\WorkspaceShell.jsx:30, src\pfUIStrings.js:173 — string/attribute
+- `structuredClone not available — data operations may fail` — src\RuntimeRunnerPage.jsx:23 — string/attribute
+- `Style must be an object` — src\core\participantUi.js:167 — string/attribute
 - `Submit response` — src\QuestionnaireForm.jsx:211, src\core\participantUi.js:88, src\legacy\migrateProtocolV1.js:109 — string/attribute
 - `superseded response records` — src\SessionManager.jsx:313 — JSX text
 - `Switch End mode to Manual continue.` — src\PreRunChecklist.jsx:53 — string/attribute
 - `Sync method` — src\app\sessionSetup.jsx:169 — JSX text
+- `Sync reference prepared` — src\RuntimeRunnerPage.jsx:467, src\constants.js:68 — string/attribute
 - `Syncing hosted session…` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
 - `Synthetic signal · real database` — src\PhysioDBTestResult.jsx:27, src\pfUIStrings.js:63 — string/attribute
-- `Technical information` — src\composer\Inspector.jsx:34, src\composer\NodeInspector.jsx:217, src\pfUIStrings.js:4 — string/attribute
+- `Task complete` — src\CognitiveTaskRunner.jsx:119 — string/attribute
+- `Task has no trials.` — src\CognitiveTaskRunner.jsx:117 — string/attribute
+- `Technical information` — src\ParticipantUiBuilder.jsx:199, src\ParticipantUiBuilder.jsx:276, src\composer\Inspector.jsx:37, src\composer\NodeInspector.jsx:217, src\pfUIStrings.js:4 — string/attribute
 - `Test connection` — src\BioDBSettings.jsx:64 — string/attribute
 - `Test records are retained separately from formal experiments. Local data is preserved.` — src\PhysioDBTestResult.jsx:25, src\pfUIStrings.js:61 — string/attribute
 - `Test run` — src\FlowWorkspaceOverlay.jsx:122, src\SessionManager.jsx:303, src\app\legacyBuilder.jsx:106, src\app\sessionSetup.jsx:88 — JSX text, string/attribute
-- `Text alignment` — src\ParticipantUiBuilder.jsx:222 — JSX text
-- `Text color` — src\Inspector.jsx:331, src\app\legacyBuilder.jsx:386, src\participantUi\UiPropertyEditor.jsx:8 — JSX text, string/attribute
+- `Text alignment` — src\ParticipantUiBuilder.jsx:234 — string/attribute
+- `Text color` — src\Inspector.jsx:331, src\app\legacyBuilder.jsx:386, src\participantUi\UiPropertyEditor.jsx:10 — JSX text, string/attribute
+- `Text input` — src\core\participantUi.js:91 — string/attribute
 - `Text Input` — src\core\componentRegistry.js:144 — string/attribute
 - `Thank you` — src\GraphRuntimeRunnerPage.jsx:603, src\ParticipantLaunchPage.jsx:79 — JSX text, string/attribute
 - `The body runs {n} time(s) in total, including the first pass, then follows Exit.` — src\composer\NodeInspector.jsx:161 — string/attribute
@@ -3678,52 +3565,67 @@ Generated: 2026-10-25T15:30:31.646Z
 - `The experiment has ended. This monitor remains open for review.` — src\OperatorMonitorPage.jsx:43, src\pfUIStrings.js:136 — string/attribute
 - `The operator needs to check data saving. Please keep this window open.` — src\GraphRuntimeRunnerPage.jsx:603, src\pfUIStrings.js:87 — string/attribute
 - `The participant only sees the experiment and pause message.` — src\OperatorMonitorPage.jsx:38, src\pfUIStrings.js:135 — string/attribute
+- `The previous page no longer exists.` — src\runtime\testNavigation.js:32 — string/attribute
 - `The protocol could not be exported. Please try again.` — src\App.jsx:121 — string/attribute
 - `The selected session could not be found in local storage.` — src\SessionManager.jsx:47, src\SessionManager.jsx:73 — string/attribute
+- `The square spans {n}° of visual angle.` — src\CalibrationRunner.jsx:56 — string/attribute
+- `Theme must be an object` — src\core\participantUi.js:150 — string/attribute
 - `Then add trials and steps inside it.` — src\PreRunChecklist.jsx:110 — string/attribute
+- `There is no previous page.` — src\runtime\testNavigation.js:21 — string/attribute
+- `These out-of-bounds results come from the last edit. Locate returns to the editor so you can fix them.` — src\participantUi\ScreenChecks.jsx:13 — string/attribute
 - `These steps already belong to a repeating path. Edit its existing Loop instead.` — src\core\repeatSegment.js:31 — string/attribute
 - `This device monitor is not configured. Configure a source on the PF server.` — src\pfUIStrings.js:144 — string/attribute
+- `This is a responsive screen. Choose a Screen size above so the editor and the run share the same fixed resolution.` — src\participantUi\ScreenChecks.jsx:12 — string/attribute
 - `This keeps the step order. Media pools draw on each completed or skipped visit; a retry keeps its stimulus. Operator actions can change the actual visit count.` — src\composer\RepeatSequenceEditor.jsx:36 — string/attribute
+- `This media node loops but its end mode is "When media ends", so playback would never stop.` — src\PreRunChecklist.jsx:86 — string/attribute
 - `This node (an external questionnaire, for example) must be finished by the participant or operator, not skipped on a timer.` — src\PreRunChecklist.jsx:52 — string/attribute
 - `This node uses Fixed time mode but has no duration in milliseconds.` — src\PreRunChecklist.jsx:57 — string/attribute
 - `This order would place a data source after its consumer.` — src\composer\sequenceModel.js:31, src\pfUIStrings.js:29 — string/attribute
 - `This pool is assigned to a Media node` — src\composer\Catalogs.jsx:499 — string/attribute
 - `This protocol has no blocks yet. Build the Block → Trial → Step hierarchy first.` — src\PreRunChecklist.jsx:109 — string/attribute
+- `This randomized-group session has no saved execution plan. Return to preparation before starting.` — src\GraphRuntimeRunnerPage.jsx:82 — string/attribute
 - `This setting can only be changed in the text editor.` — src\PreRunChecklist.jsx:99 — string/attribute
 - `This setting needs attention` — src\PreRunChecklist.jsx:119 — string/attribute
 - `This step exists in the trial but has no matching event node in the flow, so it is skipped at run time.` — src\PreRunChecklist.jsx:40 — string/attribute
 - `This stream has no numeric fields.` — src\PhysioDBAnalysis.jsx:74, src\pfUIStrings.js:122 — string/attribute
 - `This video, audio or image node has no file or link to play.` — src\PreRunChecklist.jsx:46 — string/attribute
-- `This will delete the recovery snapshot.` — src\RuntimeRunnerPage.jsx:421 — string/attribute
-- `This will mark the session as aborted. All data so far will be preserved.` — src\RuntimeRunnerPage.jsx:490 — string/attribute
+- `This will delete the recovery snapshot.` — src\RuntimeRunnerPage.jsx:423 — string/attribute
+- `This will mark the session as aborted. All data so far will be preserved.` — src\RuntimeRunnerPage.jsx:492 — string/attribute
 - `This window is too large; choose a shorter interval.` — src\analysis\physioDBWindow.js:24, src\pfUIStrings.js:126 — string/attribute
 - `This window stays with the operator. Keep the experiment window on the participant display.` — src\OperatorMonitorPage.jsx:33, src\pfUIStrings.js:133 — string/attribute
 - `Tick ↗ analysis and set a suitable Role.` — src\PreRunChecklist.jsx:81 — string/attribute
 - `Time format` — src\app\sessionSetup.jsx:172 — JSX text
 - `Time limit (optional)` — src\QuestionnaireDesigner.jsx:192 — JSX text
 - `Timeout (ms)` — src\core\componentRegistry.js:185, src\core\componentRegistry.js:232 — string/attribute
+- `Timestamped operator note...` — src\RuntimeRunnerPage.jsx:557 — string/attribute
 - `Timing & behavior` — src\Inspector.jsx:350 — JSX text
+- `Toggle dark mode` — src\RuntimeRunnerPage.jsx:635 — string/attribute
 - `Toggle snap to grid` — src\composer\Canvas.jsx:30 — string/attribute
+- `Total attempts` — src\GraphRuntimeRunnerPage.jsx:686 — string/attribute
 - `Total repetitions` — src\composer\RepeatSequenceEditor.jsx:34 — string/attribute
 - `Trial JSON` — src\FlowJsonEditor.jsx:69, src\FlowJsonEditor.jsx:89 — JSX text, string/attribute
 - `Try saving again` — src\GraphRuntimeRunnerPage.jsx:603, src\pfUIStrings.js:72 — string/attribute
 - `Turn Loop off, or change End mode to Fixed time / Manual continue.` — src\PreRunChecklist.jsx:87 — string/attribute
 - `Turn on Show player controls, or change Start mode to Automatic.` — src\PreRunChecklist.jsx:93 — string/attribute
 - `Two displays. One experiment.` — src\pfUIStrings.js:109 — string/attribute
+- `Two equally sized stimulus areas.` — src\participantUi\screenPresets.js:6 — string/attribute
 - `Type participant ID to confirm` — src\SessionManager.jsx:226 — string/attribute
 - `Typed values available to conditions and participant UI bindings.` — src\composer\Catalogs.jsx:383 — string/attribute
+- `UI element ID is required` — src\core\participantUi.js:161 — string/attribute
 - `Undo (⌘Z)` — src\flowCanvas\CanvasToolbar.jsx:17 — string/attribute
+- `Undo (Ctrl+Z)` — src\ParticipantUiBuilder.jsx:101 — string/attribute
 - `UNFINISHED SESSION` — src\app\sessionSetup.jsx:16 — JSX text
 - `Unknown date` — src\Dashboard.jsx:176, src\pfUIStrings.js:163 — string/attribute
 - `Unknown participant` — src\Analytics.jsx:111 — string/attribute
-- `Unlock element` — src\ParticipantUiBuilder.jsx:213 — string/attribute
-- `Unsaved changes` — src\App.jsx:141, src\App.jsx:183 — string/attribute
+- `Unlock element` — src\ParticipantUiBuilder.jsx:224 — string/attribute
+- `Unsaved changes` — src\App.jsx:141, src\App.jsx:183, src\ComposerV2.jsx:102 — string/attribute
+- `Unsupported Participant UI schema version` — src\core\participantUi.js:148 — string/attribute
 - `Until rule` — src\core\componentRegistry.js:362, src\core\componentRegistry.js:363 — string/attribute
 - `Until rule operator` — src\core\componentRegistry.js:362 — string/attribute
 - `Until rule value` — src\core\componentRegistry.js:363 — string/attribute
 - `Until variable` — src\composer\NodeInspector.jsx:197 — string/attribute
 - `Up to five minutes per request` — src\PhysioDBAnalysis.jsx:64, src\pfUIStrings.js:119 — string/attribute
-- `Updated {n} nodes in this group` — src\composer\Inspector.jsx:21 — string/attribute
+- `Updated {n} nodes in this group` — src\composer\Inspector.jsx:24 — string/attribute
 - `Upload file` — src\MediaSettings.jsx:36 — JSX text
 - `Upload local file` — src\app\legacyBuilder.jsx:362 — JSX text
 - `Upload local media` — src\composer\Catalogs.jsx:476 — string/attribute
@@ -3740,13 +3642,15 @@ Generated: 2026-10-25T15:30:31.646Z
 - `user_id from BioDB admin` — src\BioDBSettings.jsx:55 — string/attribute
 - `Valid samples` — src\PhysioDBAnalysis.jsx:75, src\pfUIStrings.js:124 — string/attribute
 - `Value switch` — src\core\componentRegistry.js:337 — string/attribute
-- `Variable name` — src\ParticipantUiBuilder.jsx:230 — JSX text
+- `Variable name` — src\ParticipantUiBuilder.jsx:242 — string/attribute
 - `Variable name used in exports and Condition nodes.` — src\core\componentRegistry.js:180 — string/attribute
 - `Variables & structure` — src\composer\Palette.jsx:57 — string/attribute
 - `Variables, groups, reusable subflows` — src\composer\Palette.jsx:57 — string/attribute
 - `Vary this to change the deterministic draw sequence.` — src\core\componentRegistry.js:331 — string/attribute
 - `Verify and save binding` — src\PhysioDBSessionBinding.jsx:21, src\pfUIStrings.js:78 — string/attribute
 - `Verify test run with PhysioDB` — src\app\sessionSetup.jsx:112, src\pfUIStrings.js:55 — string/attribute
+- `Verify the setup, then continue.` — src\core\participantUi.js:125 — string/attribute
+- `Verify viewing distance and screen dimensions before continuing.` — src\core\participantUi.js:109 — string/attribute
 - `Version history` — src\Dashboard.jsx:183, src\Dashboard.jsx:188, src\pfUIStrings.js:196 — string/attribute
 - `Versioned adapters expose typed I/O channels with explicit connect/read/write permissions and provenance events.` — src\composer\Catalogs.jsx:348 — string/attribute
 - `View data` — src\pfUIStrings.js:108 — string/attribute
@@ -3755,20 +3659,31 @@ Generated: 2026-10-25T15:30:31.646Z
 - `Visual angle calculator` — src\composer\Catalogs.jsx:414 — string/attribute
 - `Visual containers organize related nodes without creating a second execution model.` — src\composer\Catalogs.jsx:22 — string/attribute
 - `wait duration ({n} ms)` — src\composer\GroupBatchEditor.jsx:27 — string/attribute
+- `Wait for device preparation to finish.` — src\GraphRuntimeRunnerPage.jsx:398 — string/attribute
 - `Wait for fresh, changing samples on every required channel before starting.` — src\operator\experimentPreflight.js:10, src\pfUIStrings.js:142 — string/attribute
 - `Wait for operator` — src\Inspector.jsx:137 — JSX text
-- `Wait until the completed session is saved locally` — src\RuntimeRunnerPage.jsx:446 — string/attribute
+- `Wait until the completed session is saved locally` — src\RuntimeRunnerPage.jsx:448 — string/attribute
 - `Waiting for enough samples to assess the signal.` — src\analysis\SignalQualityNotice.jsx:17, src\pfUIStrings.js:151 — string/attribute
 - `Waiting for experiment` — src\OperatorMonitorPage.jsx:35, src\OperatorMonitorPage.jsx:45, src\pfUIStrings.js:134 — string/attribute
-- `Waiting for operator confirmation.` — src\RuntimeContent.jsx:7 — string/attribute
+- `Waiting for operator confirmation.` — src\RuntimeContent.jsx:8 — string/attribute
+- `Waiting for samples` — src\GraphRuntimeRunnerPage.jsx:627 — string/attribute
+- `Warm Amber` — src\participantUi\constants.js:49, src\theme.js:110 — string/attribute
+- `Web Crypto API not available — protocol hashing disabled` — src\RuntimeRunnerPage.jsx:21 — string/attribute
 - `When enabled, connection or adapter errors block the run instead of silently collecting without device data.` — src\composer\NodeInspector.jsx:209 — string/attribute
 - `When media ends` — src\Inspector.jsx:362, src\app\legacyBuilder.jsx:303, src\flowCanvas\NodePreviewModal.jsx:124 — JSX text
 - `When set, each response is marked correct/incorrect in the export.` — src\core\componentRegistry.js:183 — string/attribute
 - `Width (cm)` — src\composer\Catalogs.jsx:417 — string/attribute
 - `Width (px)` — src\composer\Catalogs.jsx:416 — string/attribute
 - `Window label` — src\composer\NodeInspector.jsx:157 — string/attribute
+- `Y · Yellow` — src\CognitiveTaskRunner.jsx:8 — string/attribute
 - `Your experiment is finished. Please contact the operator.` — src\GraphRuntimeRunnerPage.jsx:603, src\pfUIStrings.js:85 — string/attribute
 - `YouTube embed` — src\MediaSettings.jsx:35, src\ResourceLibrary.jsx:47, src\app\legacyBuilder.jsx:361 — JSX text
 - `Zoom in` — src\FlowCanvas.jsx:502, src\composer\Canvas.jsx:37 — string/attribute
+- `Zoom in (Ctrl+wheel)` — src\ParticipantUiBuilder.jsx:108 — string/attribute
 - `Zoom out` — src\FlowCanvas.jsx:503, src\composer\Canvas.jsx:35 — string/attribute
-- `Zoom presets` — src\ParticipantUiBuilder.jsx:108 — string/attribute
+- `Zoom out (Ctrl+wheel)` — src\ParticipantUiBuilder.jsx:106 — string/attribute
+- `Zoom presets` — src\ParticipantUiBuilder.jsx:110 — string/attribute
+- `回答が記録されました` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
+- `回答を送信` — src\QuestionnaireForm.jsx:211 — string/attribute
+- `回答已记录` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
+- `次へ` — src\QuestionnaireFormV2.jsx:15 — string/attribute

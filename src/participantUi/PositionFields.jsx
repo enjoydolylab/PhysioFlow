@@ -12,7 +12,7 @@ function NumberField({ label, value, optional, min, onCommit }) {
     else if (text && Number.isFinite(number) && (min == null || number >= min)) onCommit(number);
     setDraft(null);
   };
-  return <label>{t(label)}<input aria-label={`Element ${label}`} type="number" min={min} step="1" placeholder={optional ? 'auto' : undefined}
+  return <label>{t(label)}<input aria-label={t('Element {name}').replace('{name}', t(label))} type="number" min={min} step="1" placeholder={optional ? 'auto' : undefined}
     value={draft ?? value ?? ''} onChange={event => setDraft(event.target.value)} onBlur={save}
     onKeyDown={event => {
       if (event.key === 'Enter') { event.preventDefault(); save(); }

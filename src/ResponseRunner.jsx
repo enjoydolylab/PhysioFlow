@@ -1,12 +1,7 @@
+import { translate } from './i18n.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { parseResponseOptions } from './core/responseOptions.js';
 
-const MSG = { en: 'Response', zh: '响应', ja: '反応' };
-const CONTINUE = { en: 'Continue', zh: '继续', ja: '続行' };
-const CORRECT = { en: 'Correct', zh: '正确', ja: '正解' };
-const INCORRECT = { en: 'Incorrect', zh: '错误', ja: '不正解' };
-const PRESS_KEY = { en: 'Press a response key', zh: '请按响应键', ja: '応答キーを押してください' };
-const PRESSED = { en: 'Pressed', zh: '已按', ja: '押したキー' };
 
 function normalizeKey(event) {
   if (event.code === 'Space') return 'space';
@@ -33,9 +28,9 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
     if (disabled) pausedAt.current = performance.now();
     else if (pausedAt.current != null) { startAt.current += performance.now() - pausedAt.current; pausedAt.current = null; }
   }, [disabled]);
-  const msg = value => value?.[language] || value?.en || value?.zh || '';
+  const t = key => translate(key, language);
 
-  const prompt = config.prompt || 'Respond when you see the target';
+  const prompt = config.prompt || t('Respond when you see the target');
   const options = useMemo(() => parseResponseOptions(config.options || []), [config.options]);
   const allowKeys = useMemo(
     () => String(config.allowKeys || '').split(',').map(k => k.trim().toLowerCase()).filter(Boolean),
@@ -128,7 +123,7 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
     const ok = feedback.ok;
     return (
       <div className="response-runner result">
-        {ok === true ? <><h1>✓</h1><p>{msg(CORRECT)}</p></> : ok === false ? <><h1>✕</h1><p>{msg(INCORRECT)}</p></> : <><h1>{feedback.key}</h1><p>{feedback.value}</p></>}
+        {ok === true ? <><h1>✓</h1><p>{t('Correct')}</p></> : ok === false ? <><h1>✕</h1><p>{t('Incorrect')}</p></> : <><h1>{feedback.key}</h1><p>{feedback.value}</p></>}
         {feedback.rt != null && <small>{feedback.rt} ms</small>}
       </div>
     );
@@ -137,15 +132,15 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
     return (
       <div className="response-runner result">
         <p>{prompt}</p>
-        <p className="response-pressed">{msg(PRESSED)} <strong>{pressed.key}</strong> — {pressed.value}</p>
+        <p className="response-pressed">{t('Pressed')} <strong>{pressed.key}</strong> — {pressed.value}</p>
         {pressed.rt != null && <small>{pressed.rt} ms</small>}
-        <button type="button" className="participant-ui-button primary" disabled={disabled} onClick={() => submit({ key: pressed.key, value: pressed.value, rt: pressed.rt })}>{msg(CONTINUE)}</button>
+        <button type="button" className="participant-ui-button primary" disabled={disabled} onClick={() => submit({ key: pressed.key, value: pressed.value, rt: pressed.rt })}>{t('Continue')}</button>
       </div>
     );
   }
   return (
     <div className="response-runner">
-      <span className="eyebrow">{msg(MSG)}</span>
+      <span className="eyebrow">{t('Response')}</span>
       <div className="response-stimulus">{prompt}</div>
       {options.length > 0 ? (
         <div className="response-options">
@@ -156,7 +151,7 @@ export default function ResponseRunner({ config = {}, language = 'en', disabled 
           ))}
         </div>
       ) : (
-        <p className="response-hint">{msg(PRESS_KEY)}</p>
+        <p className="response-hint">{t('Press a response key')}</p>
       )}
     </div>
   );

@@ -1,9 +1,6 @@
+import { translate } from './i18n.jsx';
 import { useEffect, useRef, useState } from 'react';
 
-const MSG = { en: 'Attention check', zh: '注意力检查', ja: '注意チェック' };
-const START = { en: 'Start', zh: '开始', ja: '開始' };
-const PASSED = { en: 'Passed', zh: '通过', ja: '合格' };
-const MISSED = { en: 'Missed / too slow', zh: '未通过 / 超时', ja: '不合格 / 遅すぎ' };
 
 // True attention-check runner: shows the prompt, listens for the expected key with a
 // reaction-time measurement and a timeout, then submits passed / RT / outcome.
@@ -15,8 +12,8 @@ export default function AttentionCheckRunner({ config, language = 'en', disabled
   const pausedAt = useRef(null);
   const timeoutRemaining = useRef(0);
   const feedbackRemaining = useRef(1200);
-  const msg = value => value?.[language] || value?.en || value?.zh || '';
-  const prompt = config?.prompt || 'Press the key when you see the target';
+  const t = key => translate(key, language);
+  const prompt = config?.prompt || t('Press the key when you see the target');
   const expectedKey = String(config?.expectedKey || 'space').toLowerCase();
   const timeoutMs = Math.max(250, Number(config?.timeoutMs || 3000));
 
@@ -79,7 +76,7 @@ export default function AttentionCheckRunner({ config, language = 'en', disabled
     return () => { clearTimeout(timer); timeoutRemaining.current = Math.max(0, timeoutRemaining.current - (performance.now() - since)); };
   }, [disabled, phase, timeoutMs, expectedKey]);
 
-  if (phase === 'ready') return <div className="attention-check"><span className="eyebrow">{msg(MSG)}</span><p>{prompt}</p><button type="button" className="participant-ui-button primary" disabled={disabled} onClick={() => { startAt.current = performance.now(); timeoutRemaining.current = timeoutMs; setPhase('showing'); }}>{msg(START)}</button></div>;
+  if (phase === 'ready') return <div className="attention-check"><span className="eyebrow">{t('Attention check')}</span><p>{prompt}</p><button type="button" className="participant-ui-button primary" disabled={disabled} onClick={() => { startAt.current = performance.now(); timeoutRemaining.current = timeoutMs; setPhase('showing'); }}>{t('Begin attention check')}</button></div>;
   if (phase === 'showing') return <div className="attention-check showing"><div className="attention-stimulus">{prompt}</div></div>;
-  return <div className="attention-check result">{result?.passed ? <><h1>✓</h1><p>{msg(PASSED)}</p></> : <><h1>✕</h1><p>{msg(MISSED)}</p></>}{result?.reactionTimeMs != null && <small>{result.reactionTimeMs} ms</small>}</div>;
+  return <div className="attention-check result">{result?.passed ? <><h1>✓</h1><p>{t('Passed')}</p></> : <><h1>✕</h1><p>{t('Missed / too slow')}</p></>}{result?.reactionTimeMs != null && <small>{result.reactionTimeMs} ms</small>}</div>;
 }

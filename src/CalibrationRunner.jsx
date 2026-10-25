@@ -1,8 +1,7 @@
+import { translate } from './i18n.jsx';
 import { useMemo, useState } from 'react';
 import { calibrationReport, getViewportDimensions, visualAngleToPixels } from './visualAngle.js';
 
-const MSG = { en: 'Screen calibration', zh: '屏幕校准', ja: '画面校正' };
-const CONFIRM = { en: 'Confirm calibration', zh: '确认校准', ja: '校正を確認' };
 
 // True screen-calibration runner: renders a reference stimulus at a known visual
 // angle (computed from viewing distance + physical screen size + real viewport
@@ -25,7 +24,7 @@ export default function CalibrationRunner({ config, language = 'en', disabled = 
   }), [viewport.widthPx, viewport.heightPx, config?.screenWidthCm, config?.screenHeightCm, config?.viewingDistanceCm]);
   const referenceDeg = 2;
   const referencePx = report.pixels_per_degree ? visualAngleToPixels(referenceDeg, report.pixels_per_degree) : 40;
-  const msg = value => value?.[language] || value?.en || value?.zh || '';
+  const t = key => translate(key, language);
 
   if (phase === 'done') {
     return <div className="calibration done"><h1>✓</h1><p>{report.pixels_per_degree} px/°</p></div>;
@@ -49,17 +48,17 @@ export default function CalibrationRunner({ config, language = 'en', disabled = 
     calibration_confirmed: true,
   };
 
-  return <div className="calibration" role="region" aria-label={msg(MSG)}>
-    <span className="eyebrow">{msg(MSG)}</span>
+  return <div className="calibration" role="region" aria-label={t('Screen calibration')}>
+    <span className="eyebrow">{t('Screen calibration')}</span>
     <p>{report.viewing_distance_cm} cm · {report.display_width_cm} × {report.display_height_cm} cm · {viewport.widthPx}×{viewport.heightPx} CSS px</p>
     <div className="calibration-stage">
       <div className="calibration-reference" style={{ width: referencePx, height: referencePx }} />
-      <p>The square spans {referenceDeg}° of visual angle.</p>
+      <p>{t('The square spans {n}° of visual angle.').replace('{n}', referenceDeg)}</p>
     </div>
-    <p><b>{report.pixels_per_degree}</b> pixels per degree · 1° = {report.references?.one_degree_px} px · 5° = {report.references?.five_degrees_px} px</p>
+    <p><b>{report.pixels_per_degree}</b> {t('pixels per degree')} · 1° = {report.references?.one_degree_px} px · 5° = {report.references?.five_degrees_px} px</p>
     <button type="button" className="participant-ui-button primary" disabled={disabled} onClick={() => {
       setPhase('done');
       onSubmit?.({ values: payload, outputs: payload, variables: { pixels_per_degree: report.pixels_per_degree, calibration_reference_px: referencePx } });
-    }}>{msg(CONFIRM)}</button>
+    }}>{t('Confirm calibration')}</button>
   </div>;
 }

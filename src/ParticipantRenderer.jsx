@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 import { fullscreenMediaInScreen, mediaPresentationMode } from './core/mediaPresentation.js';
 import { discreteScaleValues, responseValueError } from './core/inputValidation.js';
 import { ScreenFrame } from './participantUi/ScreenFrame.jsx';
@@ -11,6 +12,7 @@ function boundProp(element, name, context) {
 }
 
 export default function ParticipantRenderer({ schema, context = {}, onSubmit, onValueChange, onAction, onMediaEvent, disabled = false, preview = false }) {
+  const t = useT();
   const normalized = useMemo(() => normalizeParticipantUi(schema), [schema]);
   const validation = useMemo(() => validateParticipantUi(normalized), [normalized]);
   const theme = useMemo(() => resolveTheme(normalized), [normalized]);
@@ -46,7 +48,7 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     if (shouldSubmit) submit(nextValues);
   };
 
-  if (!validation.valid) return <div className="participant-ui-error">Participant UI is invalid: {validation.errors.map(error => error.message).join(' · ')}</div>;
+  if (!validation.valid) return <div className="participant-ui-error">{t("Participant UI is invalid:")} {validation.errors.map(error => t(error.message)).join(' · ')}</div>;
 
   const render = element => {
     const props = element.props || {};
@@ -77,8 +79,8 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
     }
     if (element.type === 'Html') {
       const html = boundProp(element, 'html', context) || '';
-      if (!html) return <div key={element.id} className="participant-ui-html missing" style={positioned}>No HTML content</div>;
-      return <iframe key={element.id} className="participant-ui-html" title="Custom HTML" srcDoc={html} style={{ ...style, ...positioned }} sandbox="" />;
+      if (!html) return <div key={element.id} className="participant-ui-html missing" style={positioned}>{t("No HTML content")}</div>;
+      return <iframe key={element.id} className="participant-ui-html" title={t("Custom HTML")} srcDoc={html} style={{ ...style, ...positioned }} sandbox="" />;
     }
     if (element.type === 'Divider') {
       const orientation = props.orientation || 'horizontal';
@@ -105,10 +107,10 @@ export default function ParticipantRenderer({ schema, context = {}, onSubmit, on
           : props.inputType === 'rating' ? <div className="participant-rating">{(discreteScaleValues(props.min ?? 1, props.max ?? 7) || []).map(value => <button type="button" className={values[name] === value ? 'selected' : ''} disabled={disabled} key={value} onClick={() => changeValue(name, value, element)}>{value}</button>)}</div>
             : props.inputType === 'textarea' ? <textarea {...common} placeholder={props.placeholder || ''} />
               : <input {...common} type={props.inputType || 'text'} placeholder={props.placeholder || ''} min={props.min} max={props.max} />}
-        {errors[name] && <small>{errors[name]}</small>}
+        {errors[name] && <small>{t(errors[name])}</small>}
       </label>;
     }
-    if (element.type === 'Button') return <span key={element.id} className="participant-ui-button-wrap" style={positioned}><button type="button" disabled={disabled || preview} className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(props.width != null ? {width:'100%', minWidth:0} : {}), ...(props.height != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}} onClick={() => executeActions(element.actions)}>{props.label || 'Continue'}</button></span>;
+    if (element.type === 'Button') return <span key={element.id} className="participant-ui-button-wrap" style={positioned}><button type="button" disabled={disabled || preview} className={`participant-ui-button ${props.variant || 'primary'}`} style={{...style, ...(props.width != null ? {width:'100%', minWidth:0} : {}), ...(props.height != null ? {height:'100%', minHeight:0, marginTop:0} : {}), boxSizing:'border-box'}} onClick={() => executeActions(element.actions)}>{props.label || t("Continue")}</button></span>;
     return null;
   };
 

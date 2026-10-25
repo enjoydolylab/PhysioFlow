@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 import TestRunExitButton from './TestRunExitButton.jsx';
 import useOperatorControls from './runtime/useOperatorControls.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -24,6 +25,7 @@ const checkCompat = () => {
 };
 
 export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
+  const t = useT();
   const protocol = data.protocol;
   const initial = useMemo(() => data.restore?.runtime ? restoreRuntime(data.restore.runtime, protocol, data.session) : createRuntime(protocol, data.session), [protocol, data.session, data.restore]);
   const units = initial.units;
@@ -132,13 +134,13 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
       await clearCurrentRun();
       setFinalSave({ status: 'saved', message: 'Saved to local storage. The export bundle is ready.' });
     } catch (error) {
-      console.warn('Final session save failed:', error);
+      console.warn(t('Final session save failed:'), error);
       setFinalSave({
         status: 'error',
         message: error?.message || 'Could not save the completed session. Export the bundle now, then retry saving.',
       });
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (!started.current || done) return;
@@ -325,7 +327,7 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
     if (['operator_note', 'custom'].includes(type)) {
       setPromptMarker({
         title: `${type} text`,
-        placeholder: 'Enter note...',
+        placeholder: t("Enter note..."),
         onSubmit: note => {
           setPromptMarker(null);
           log('manual_marker', contextOf(item), { marker_type: type, note: note || '' });
@@ -349,7 +351,7 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
     if (['operator_note', 'custom'].includes(markerType)) {
       setPromptMarker({
         title: `${markerType} interval note`,
-        placeholder: 'Enter note...',
+        placeholder: t("Enter note..."),
         onSubmit: note => {
           setPromptMarker(null);
           const m = { marker_id: crypto.randomUUID(), marker_type: markerType, note: note || '' };
@@ -400,11 +402,11 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
     return <main>
       <RunnerHeader darkMode={darkMode} onToggleDark={() => setDarkMode(d => !d)} />
       <div className="start-screen">
-        <span className="eyebrow">COMPATIBILITY WARNING</span>
-        <h1>Browser Issues</h1>
+        <span className="eyebrow">{t("COMPATIBILITY WARNING")}</span>
+        <h1>{t("Browser Issues")}</h1>
         <div style={{ background: '#ffe9e6', padding: '1.5rem', borderRadius: 8, margin: '1rem auto', maxWidth: 500 }}>
           {compatIssues.map((issue, i) => <p key={i} style={{ color: '#922b24' }}>⚠ {issue}</p>)}
-          <p style={{ marginTop: '.5rem', fontSize: '.8rem', color: '#7b867f' }}>Please use a modern browser (Chrome 90+, Firefox 90+, Edge 90+, Safari 15+).</p>
+          <p style={{ marginTop: '.5rem', fontSize: '.8rem', color: '#7b867f' }}>{t("Please use a modern browser (Chrome 90+, Firefox 90+, Edge 90+, Safari 15+).")}</p>
         </div>
       </div>
     </main>;
@@ -413,12 +415,12 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
   if (!started.current) return <main>
     <RunnerHeader darkMode={darkMode} onToggleDark={() => setDarkMode(d => !d)} />
     <div className="start-screen">
-      <span className="eyebrow">{data.restore ? 'RECOVERY READY' : 'READY'}</span>
+      <span className="eyebrow">{data.restore ? t("RECOVERY READY") : t("READY")}</span>
       <h1>{session.participant_id}</h1>
-      <p>{data.restore ? 'A saved runtime snapshot and its append-only event history were found.' : `${units.length} trial instances · runtime branching enabled · dual-clock logging enabled`}</p>
-      <p>Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.</p><button className="primary" onClick={begin}>{data.restore ? 'Resume experiment' : 'Begin experiment'}</button>
+      <p>{data.restore ? t("A saved runtime snapshot and its append-only event history were found.") : t("{count} trial instances · runtime branching enabled · dual-clock logging enabled").replace('{count}', units.length)}</p>
+      <p>{t("Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.")}</p><button className="primary" onClick={begin}>{data.restore ? t("Resume experiment") : t("Begin experiment")}</button>
       {data.session.run_mode === 'preview' && <TestRunExitButton onExit={onExitTest && exitTest} />}
-      {data.restore && <button style={{ marginTop: '.5rem' }} onClick={() => setConfirmAbort({ title: 'Discard recovery?', message: 'This will delete the recovery snapshot.', confirmLabel: 'Discard', danger: true, onConfirm: () => { setConfirmAbort(null); onDone(); }, onCancel: () => setConfirmAbort(null) })}>Cancel & return</button>}
+      {data.restore && <button style={{ marginTop: '.5rem' }} onClick={() => setConfirmAbort({ title: 'Discard recovery?', message: 'This will delete the recovery snapshot.', confirmLabel: 'Discard', danger: true, onConfirm: () => { setConfirmAbort(null); onDone(); }, onCancel: () => setConfirmAbort(null) })}>{t("Cancel & return")}</button>}
     </div>
   </main>;
 
@@ -429,21 +431,21 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
     return <main>
       <RunnerHeader darkMode={darkMode} onToggleDark={() => setDarkMode(d => !d)} />
       <div className="narrow summary">
-        <span className="eyebrow">SESSION COMPLETE</span>
+        <span className="eyebrow">{t("SESSION COMPLETE")}</span>
         <h1>{session.status}</h1>
         <div className="metrics">
-          <div><b>{eventCount}</b><span>events</span></div>
-          <div><b>{completedSteps}</b><span>steps</span></div>
-          <div><b>{Object.keys(files).length}</b><span>export files</span></div>
+          <div><b>{eventCount}</b><span>{t("events")}</span></div>
+          <div><b>{completedSteps}</b><span>{t("steps")}</span></div>
+          <div><b>{Object.keys(files).length}</b><span>{t("export files")}</span></div>
         </div>
         <div className={`final-save-status ${finalSave.status}`}>
-          <b>{finalSave.status === 'saved' ? 'Session saved' : finalSave.status === 'error' ? 'Save needs attention' : 'Saving session'}</b>
-          <span>{finalSave.message}</span>
+          <b>{finalSave.status === 'saved' ? t("Session saved") : finalSave.status === 'error' ? t("Save needs attention") : t("Saving session")}</b>
+          <span>{t(finalSave.message)}</span>
         </div>
-        <button className="primary wide" onClick={() => downloadBundle(files, session.participant_id)}>Export complete bundle (advanced)</button>
-        <button className="wide" onClick={() => downloadBundle(bundleSimple(session, protocol, logger.current.snapshot(), responses), session.participant_id)}>Export simplified data</button>
-        {finalSave.status === 'error' && <button className="wide" onClick={() => persistFinishedSession(session)}>Retry local save</button>}
-        <button className="wide" disabled={!canReturn} title={canReturn ? 'Return to projects' : 'Wait until the completed session is saved locally'} onClick={onDone}>Return to projects</button>
+        <button className="primary wide" onClick={() => downloadBundle(files, session.participant_id)}>{t("Export complete bundle (advanced)")}</button>
+        <button className="wide" onClick={() => downloadBundle(bundleSimple(session, protocol, logger.current.snapshot(), responses), session.participant_id)}>{t("Export simplified data")}</button>
+        {finalSave.status === 'error' && <button className="wide" onClick={() => persistFinishedSession(session)}>{t("Retry local save")}</button>}
+        <button className="wide" disabled={!canReturn} title={canReturn ? t("Return to projects") : t("Wait until the completed session is saved locally")} onClick={onDone}>{t("Return to projects")}</button>
       </div>
     </main>;
   }
@@ -462,7 +464,7 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
     file_name: item.step.file_name || resource?.file_name || '',
     checksum: item.step.checksum || resource?.checksum || '',
   };
-  const deviceItems = step.type === 'device_check' ? (step.device_checks?.length ? step.device_checks : ['Sensor connected', 'Recording software ready', 'Sync reference prepared']) : [];
+  const deviceItems = step.type === 'device_check' ? (step.device_checks?.length ? step.device_checks : [t("Sensor connected"), t("Recording software ready"), t("Sync reference prepared")]) : [];
   const deviceReady = step.type !== 'device_check' || step.require_all_device_checks === false || deviceItems.every((_, index) => deviceCheckState[index]);
   const layout = item.trial.layout || {};
   const app = (item.step.appearance && typeof item.step.appearance === 'object') ? item.step.appearance : {};
@@ -472,35 +474,35 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
 
   return <main className={`runner${operatorVisible ? "" : " participant-only"}`}>
     {((layout.custom_css || '') + (app.custom_css || '')).trim() ? <style>{(layout.custom_css || '') + '\n' + (app.custom_css || '')}</style> : null}
-    <div hidden={!operatorVisible} className="operator" role="toolbar" aria-label="Operator controls">
+    <div hidden={!operatorVisible} className="operator" role="toolbar" aria-label={t("Operator controls")}>
       <div><b>{item.block.name}</b><span>{item.trial.name} · {item.trial.condition}</span><span className={`badge ${step.type}`} style={{ marginLeft: '.5rem', fontSize: '.6rem', background: '#2a3b32', color: '#a9c4b4' }}>{step.type}</span></div>
       <div style={{ textAlign: 'center' }}>
-        Trial {progress.current_unit}/{progress.total_units} · {runtime.completed_steps.length} steps done
+        {t("Trial")} {progress.current_unit}/{progress.total_units} · {runtime.completed_steps.length} {t("steps done")}
         {remainingEstimate && <span style={{ display: 'block', fontSize: '.7rem', color: '#a9b4ae' }}>{remainingEstimate}</span>}
-        <div className={`save-indicator ${saveFlash ? 'saved' : ''}`}>{lastSaved ? `Saved ${lastSaved}` : ''}</div>
-        {recoverySaveError && <div className="save-indicator" role="alert">Recovery save failed: {recoverySaveError}</div>}
+        <div className={`save-indicator ${saveFlash ? 'saved' : ''}`}>{lastSaved ? t("Saved {name}").replace('{name}', lastSaved) : ''}</div>
+        {recoverySaveError && <div className="save-indicator" role="alert">{t("Recovery save failed:")} {t(recoverySaveError)}</div>}
       </div>
       <div className="operator-actions">
-        {recoverySaveError && <button onClick={() => persist()}>Retry save</button>}
-        <button onClick={() => { document.querySelector('.participant')?.requestFullscreen?.().catch(() => { }); }} title="Participant fullscreen (F)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 9V4h5" /><path d="M15 4h5v5" /><path d="M20 15v5h-5" /><path d="M9 20H4v-5" /></svg>Fullscreen</button>
-        <button onClick={togglePause} aria-label={paused ? 'Resume' : 'Pause'}>{paused ? <><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5l11 7-11 7V5z" /></svg>Resume</> : <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 5v14" /><path d="M15 5v14" /></svg>Pause</>}</button>
-        <button onClick={retry} disabled={!step.allow_retry} aria-label="Retry step"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 12a8 8 0 1 1-2.34-5.66" /><path d="M20 4v4h-4" /></svg>Retry</button>
-        <button onClick={skip} disabled={!step.allow_skip} aria-label="Skip step"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 5l10 7-10 7V5z" /><path d="M18 5v14" /></svg>Skip</button>
+        {recoverySaveError && <button onClick={() => persist()}>{t("Retry save")}</button>}
+        <button onClick={() => { document.querySelector('.participant')?.requestFullscreen?.().catch(() => { }); }} title={t("Participant fullscreen (F)")}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 9V4h5" /><path d="M15 4h5v5" /><path d="M20 15v5h-5" /><path d="M9 20H4v-5" /></svg>{t("Fullscreen")}</button>
+        <button onClick={togglePause} aria-label={paused ? t("Resume") : t("Pause")}>{paused ? <><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5l11 7-11 7V5z" /></svg>{t("Resume")}</> : <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 5v14" /><path d="M15 5v14" /></svg>{t("Pause")}</>}</button>
+        <button onClick={retry} disabled={!step.allow_retry} aria-label={t("Retry step")}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 12a8 8 0 1 1-2.34-5.66" /><path d="M20 4v4h-4" /></svg>{t("Retry")}</button>
+        <button onClick={skip} disabled={!step.allow_skip} aria-label={t("Skip step")}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 5l10 7-10 7V5z" /><path d="M18 5v14" /></svg>{t("Skip")}</button>
         {data.session.run_mode === 'preview' && <TestRunExitButton onExit={onExitTest && exitTest} />}
-        <button onClick={() => setConfirmAbort({ title: 'Abort session?', message: 'This will mark the session as aborted. All data so far will be preserved.', confirmLabel: 'Abort', danger: true, onConfirm: () => { setConfirmAbort(null); finish('aborted'); }, onCancel: () => setConfirmAbort(null) })} title="Abort session"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="6" y="6" width="12" height="12" rx="2" /></svg>Abort</button>
+        <button onClick={() => setConfirmAbort({ title: 'Abort session?', message: 'This will mark the session as aborted. All data so far will be preserved.', confirmLabel: 'Abort', danger: true, onConfirm: () => { setConfirmAbort(null); finish('aborted'); }, onCancel: () => setConfirmAbort(null) })} title={t("Abort session")}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="6" y="6" width="12" height="12" rx="2" /></svg>{t("Abort")}</button>
       </div>
     </div>
 
-    <div className="participant" style={participantStyle} role="region" aria-label="Participant view">
-      {paused && <div className="pause-overlay" role="status">⏸ Paused</div>}
+    <div className="participant" style={participantStyle} role="region" aria-label={t("Participant view")}>
+      {paused && <div className="pause-overlay" role="status">{t("⏸ Paused")}</div>}
       {layout.show_progress !== false && <div className="trial-progress"><i style={{ width: `${(progress.current_unit / progress.total_units) * 100}%` }} /></div>}
       <div className="trial-content" style={contentStyle}>
         {layout.show_step_type !== false && !['fixation','rest','timer'].includes(step.type) && <span className="eyebrow">{step.type}</span>}
         {!['fixation','rest','timer'].includes(step.type) && <h1>{step.name}</h1>}
         {awaitingStart ? (
           <div className="manual-start">
-            <span>Ready when you are</span>
-            <button className="primary" onClick={startCurrent} autoFocus>Start</button>
+            <span>{t("Ready when you are")}</span>
+            <button className="primary" onClick={startCurrent} autoFocus>{t('Begin step')}</button>
           </div>
         ) : (
           <RuntimeContent step={step} session={session} language={session.participant_language || 'en'} timing={timing} fontSize={step.appearance?.font_size || null} onComplete={() => completeCurrent()} onQuestionnaireSubmit={answers => completeCurrent(answers)} onQuestionnaireExternalEvent={handleExternalQuestionnaireEvent} onResponseSubmit={(answers, metadata) => completeCurrent(answers, undefined, undefined, metadata)} onMediaEvent={(type, md) => { if (type === 'media_ended') setMediaEnded(true); log(type, ctx, md); }} />
@@ -529,7 +531,7 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
       {/* Continue button — shows whenever a generic step can advance */}
       {!awaitingStart && !['questionnaire', 'response', 'manual_event', 'device_check'].includes(step.type) && (
         <div className="continue-bar">
-          <button className="primary" onClick={() => completeCurrent()} autoFocus>Continue →</button>
+          <button className="primary" onClick={() => completeCurrent()} autoFocus>{t("Continue →")}</button>
         </div>
       )}
     </div>
@@ -538,43 +540,43 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
     <button
       className={`markers-toggle${!markersCollapsed ? ' active' : ''}${activeMarker ? ' recording' : ''}`}
       onClick={() => setMarkersCollapsed(v => !v)}
-      title={markersCollapsed ? '展开标记面板' : '收起标记面板'}
-      aria-label={markersCollapsed ? 'Expand markers' : 'Collapse markers'}
+      title={t(markersCollapsed ? 'Expand markers' : 'Collapse markers')}
+      aria-label={markersCollapsed ? t("Expand markers") : t("Collapse markers")}
     >
-      {markersCollapsed ? '▸' : '▾'} Markers
+      {markersCollapsed ? '▸' : '▾'} {t("Markers")}
       {activeMarker && <span className="markers-toggle-dot" />}
     </button>
-    {!markersCollapsed && <aside className="markers" role="complementary" aria-label="Event markers">
+    {!markersCollapsed && <aside className="markers" role="complementary" aria-label={t("Event markers")}>
         {/* Quick operator note */}
         <div className="quick-note">
-          <b>Quick note</b>
+          <b>{t("Quick note")}</b>
           <textarea
             rows={2}
             value={operatorNote}
             onChange={e => setOperatorNote(e.target.value)}
-            placeholder="Timestamped operator note..."
+            placeholder={t("Timestamped operator note...")}
             style={{ width: '100%', fontSize: '.72rem', resize: 'vertical' }}
           />
           <button onClick={() => { if (operatorNote.trim()) { log('manual_marker', contextOf(item), { marker_type: 'operator_note', note: operatorNote.trim() }); persist(); setOperatorNote(''); } }} style={{ width: '100%', fontSize: '.72rem', marginTop: '.2rem' }} disabled={!operatorNote.trim()}>
-            ＋ Log note
+            {t("＋ Log note")}
           </button>
         </div>
-        <b>Instant markers</b>
-        {MARKER_TYPES.map(type => <button key={type} onClick={() => addMarker(type)} title={`Mark: ${type}`}>{type}</button>)}
+        <b>{t("Instant markers")}</b>
+        {MARKER_TYPES.map(type => <button key={type} onClick={() => addMarker(type)} title={t("Mark: {name}").replace('{name}', t(type))}>{type}</button>)}
         <div className="interval-marker">
-          <b>Interval marker</b>
-          <select value={activeMarker?.marker_type || markerType} disabled={Boolean(activeMarker)} onChange={e => setMarkerType(e.target.value)} aria-label="Interval marker type">
+          <b>{t("Interval marker")}</b>
+          <select value={activeMarker?.marker_type || markerType} disabled={Boolean(activeMarker)} onChange={e => setMarkerType(e.target.value)} aria-label={t("Interval marker type")}>
             {MARKER_TYPES.map(type => <option value={type} key={type}>{type}</option>)}
           </select>
-          <button className={activeMarker ? 'danger' : 'primary'} onClick={toggleMarkerInterval}>{activeMarker ? '⏹ End interval' : '▶ Start interval'}</button>
-          {activeMarker && <small>● Recording {activeMarker.marker_type}</small>}
+          <button className={activeMarker ? 'danger' : 'primary'} onClick={toggleMarkerInterval}>{activeMarker ? t("⏹ End interval") : t("▶ Start interval")}</button>
+          {activeMarker && <small>{t("● Recording")} {activeMarker.marker_type}</small>}
         </div>
-        <small>{eventCount} events captured</small>
+        <small>{eventCount} {t("events captured")}</small>
 
         {/* Marker history */}
         {markerHistory.length > 0 && (
           <details className="marker-history" open>
-            <summary>Recent markers ({markerHistory.length})</summary>
+            <summary>{t('Recent markers ({count})').replace('{count}', markerHistory.length)}</summary>
             <div className="marker-list">
               {markerHistory.slice(-20).reverse().map((m, i) => (
                 <div key={i} className="marker-item" title={JSON.stringify(m.metadata)}>
@@ -593,41 +595,44 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
 }
 
 function ManualEventPanel({ step, note, setNote, onConfirm }) {
+  const t = useT();
   const required = Boolean(step.operator_note_required);
   const blocked = required && !note.trim();
   return <div className="operator-step-panel continue-bar">
-    <label>Operator note {required && <sup>*</sup>}
-      <textarea rows={2} value={note} onChange={event => setNote(event.target.value)} placeholder={required ? 'Required confirmation note' : 'Optional note'} />
+    <label>{t("Operator note")} {required && <sup>*</sup>}
+      <textarea rows={2} value={note} onChange={event => setNote(event.target.value)} placeholder={required ? t("Required confirmation note") : t("Optional note")} />
     </label>
-    <button className="primary" disabled={blocked} onClick={onConfirm} autoFocus>{step.operator_confirm_label || 'Confirm event'} →</button>
+    <button className="primary" disabled={blocked} onClick={onConfirm} autoFocus>{step.operator_confirm_label || t("Confirm event")} →</button>
   </div>;
 }
 
 function DeviceCheckPanel({ items, checked, setChecked, note, setNote, ready, requireAll, onConfirm }) {
+  const t = useT();
   return <div className="operator-step-panel continue-bar">
     <div className="device-check-runtime">
-      <b>Device checklist</b>
+      <b>{t("Device checklist")}</b>
       {items.map((label, index) => (
         <label className="check-row" key={`${label}-${index}`}>
           <input type="checkbox" checked={Boolean(checked[index])} onChange={event => setChecked(prev => ({ ...prev, [index]: event.target.checked }))} />
           {label}
         </label>
       ))}
-      <label>Operator note
-        <textarea rows={2} value={note} onChange={event => setNote(event.target.value)} placeholder="Optional setup note" />
+      <label>{t("Operator note")}
+        <textarea rows={2} value={note} onChange={event => setNote(event.target.value)} placeholder={t("Optional setup note")} />
       </label>
-      {requireAll && !ready && <small className="required-error">Complete every checklist item before continuing.</small>}
+      {requireAll && !ready && <small className="required-error">{t("Complete every checklist item before continuing.")}</small>}
     </div>
-    <button className="primary" disabled={!ready} onClick={onConfirm} autoFocus>Complete device check →</button>
+    <button className="primary" disabled={!ready} onClick={onConfirm} autoFocus>{t("Complete device check →")}</button>
   </div>;
 }
 
 function RunnerHeader({ darkMode, onToggleDark }) {
+  const t = useT();
   return <header>
     <div className="brand"><span>PF</span> PhysioFlow</div>
     <div className="header-tools">
-      <div className="local">● Runtime state machine</div>
-      <button className="dark-mode-toggle" style={{ position: 'static', marginRight: '.5rem' }} onClick={onToggleDark} title="Toggle dark mode">{darkMode ? '☀ Light' : '🌙 Dark'}</button>
+      <div className="local">{t("● Runtime state machine")}</div>
+      <button className="dark-mode-toggle" style={{ position: 'static', marginRight: '.5rem' }} onClick={onToggleDark} title={t("Toggle dark mode")}>{darkMode ? t("☀ Light") : t("🌙 Dark")}</button>
       <LanguageToggle />
     </div>
   </header>;

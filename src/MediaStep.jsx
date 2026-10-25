@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { loadAsset } from './assetStore';
 
@@ -14,6 +15,7 @@ function youtubeEmbedUrl(url) {
 }
 
 export default function MediaStep({ step, onMediaEvent, onComplete, preview }) {
+  const t = useT();
   const [localUrl, setLocalUrl] = useState('');
   const mediaRef = useRef(null);
   const eventHandler = useRef(onMediaEvent);
@@ -120,10 +122,10 @@ export default function MediaStep({ step, onMediaEvent, onComplete, preview }) {
         onLoad={() => { /* ready handled by postMessage */ }}
       />
     </div>
-  ) : <div className="media-error">Invalid YouTube URL</div>;
+  ) : <div className="media-error">{t("Invalid YouTube URL")}</div>;
 
-  if (step.source_mode === 'upload' && step.asset_id && !localUrl) return <div className="media-loading">Loading uploaded media…</div>;
-  if (!mediaUrl) return <div className="media-error">No media source assigned</div>;
+  if (step.source_mode === 'upload' && step.asset_id && !localUrl) return <div className="media-loading">{t("Loading uploaded media…")}</div>;
+  if (!mediaUrl) return <div className="media-error">{t("No media source assigned")}</div>;
 
   const previewStyle = preview ? { maxWidth: 260, maxHeight: 180, borderRadius: 6, border: '1px solid var(--line)' } : {};
   if (step.type === 'image') return <img className="native-image" src={mediaUrl} alt={step.name} style={previewStyle} onLoad={() => { onMediaEvent('media_ready'); if (step.duration_mode === 'media') onMediaEvent('media_ended', { semantic: 'image_loaded' }); if (step.duration_mode === 'media' && step.auto_advance !== false) onComplete(); }} onError={() => { onMediaEvent('media_error', { status: 'error', code: 'image_load_failed' }); if (step.duration_mode === 'media' && step.auto_advance !== false) onComplete(); }} />;
