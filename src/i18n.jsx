@@ -99,7 +99,7 @@ Object.assign(dictionaries.zh,{
   // Markers
   'cough':'咳嗽','speech':'说话','movement':'动作','device_adjustment':'设备调整','device_disconnected':'设备断开','distraction':'分心','sync_marker':'同步标记','operator_note':'操作员备注','custom':'自定义',
   // Integrity
-  'valid':'有效','invalid':'无效','attention':'需注意','exclude':'排除','unreviewed':'未审核',
+  'valid':'有效','invalid':'无效','attention':'需注意','exclude':'排除','unreviewed':'未审核','reviewed':'已审核','Reviewed':'已审核','Unreviewed':'未审核',
   // Export
   'Session export':'Session 导出','Export complete bundle':'导出完整数据包',
   'events.csv':'events.csv','responses.csv':'responses.csv','analysis_windows.csv':'analysis_windows.csv','stimulus_manifest.csv':'stimulus_manifest.csv','integrity_report.json':'integrity_report.json','data_dictionary.csv':'data_dictionary.csv',
@@ -204,7 +204,7 @@ Object.assign(dictionaries.ja,{
   // Markers
   'cough':'咳','speech':'発話','movement':'動作','device_adjustment':'デバイス調整','device_disconnected':'デバイス切断','distraction':'注意散漫','sync_marker':'同期マーカー','operator_note':'操作者メモ','custom':'カスタム',
   // Integrity
-  'valid':'有効','invalid':'無効','attention':'要注意','exclude':'除外','unreviewed':'未確認',
+  'valid':'有効','invalid':'無効','attention':'要注意','exclude':'除外','unreviewed':'未確認','reviewed':'確認済み','Reviewed':'確認済み','Unreviewed':'未確認',
   // Export
   'Session export':'セッション出力','Export complete bundle':'完全データ出力',
   'events.csv':'events.csv','responses.csv':'responses.csv','analysis_windows.csv':'analysis_windows.csv','stimulus_manifest.csv':'stimulus_manifest.csv','integrity_report.json':'integrity_report.json','data_dictionary.csv':'data_dictionary.csv',

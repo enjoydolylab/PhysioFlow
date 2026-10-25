@@ -1,6 +1,6 @@
 # i18n audit
 
-Generated: 2026-10-25T18:22:37.597Z
+Generated: 2026-10-25T18:30:10.959Z
 
 - Source files scanned: 252
 - Candidate strings: 3329
