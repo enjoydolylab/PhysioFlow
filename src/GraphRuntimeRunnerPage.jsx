@@ -2,6 +2,7 @@ import { useT } from './i18n';
 import { experimentPreflight } from './operator/experimentPreflight.js';
 import { signalReadiness, canStartWithSignals } from './operator/signalReadiness.js';
 import useRuntimeMonitor from './operator/useRuntimeMonitor.js';
+import { liveSignalQuality } from './analysis/signal/liveQuality.js';
 import './admin-monitor.css';
 import { presentationAssetReferences } from './runtime/mediaResources.js';
 import PhysioDBTestResult from './PhysioDBTestResult.jsx';
@@ -217,9 +218,31 @@ export default function GraphRuntimeRunnerPage({ data, onDone, onExitTest, rende
   const formalRun = data.session.run_mode === 'formal' || Boolean(data.hosted && data.session.run_mode !== 'preview');
   const checkPreflight = () => experimentPreflight(protocol, checkSignals(), connectionsRef.current, { formal: formalRun });
   const checkSignals = () => signalReadiness(deviceEventsRef.current.filter(event => event.timestampEpochMs >= deviceCheckedAt.current), signalChannels);
+  const liveQualityRef = useRef({ at: 0, value: null });
   const monitorUrl = useRuntimeMonitor(participantOnly ? null : data.session.session_id, () => {
     const preview = getBrainFlowWindow();
-    return { protocolName: protocolNameOf(protocol), status: runtimeRef.current.status, nodeLabel: nodes.get(runtimeRef.current.currentNodeId)?.label || '', completed: runtimeRef.current.completedNodeIds.length, total: executableCount, saveStatus: saved === true ? 'saved' : recoverySave.status, deviceError: deviceStatus?.error || deviceStatus?.markerError || '', signals: checkSignals().map(({ values: _values, ...signal }) => signal), preview: { times: preview.times.slice(-400).map(time => time * 1000), values: Object.fromEntries(Object.entries(preview.values).map(([id, values]) => [id, values.slice(-400)])) } };
+    // Device timestamps are seconds and may be absent. The monitor and the
+    // quality assessment must read the same millisecond array, or the operator
+    // sees one clock and the checks judge another.
+    const times = preview.times.map(time => (Number.isFinite(time) ? time * 1000 : null));
+    // The snapshot is published twice a second; assessing eight channels with a
+    // spectrum costs a few milliseconds, which this page should not spend while
+    // it is also presenting stimuli. Once per second is enough for a verdict.
+    if (!liveQualityRef.current.value || Date.now() - liveQualityRef.current.at >= 1000) {
+      liveQualityRef.current = {
+        at: Date.now(),
+        value: liveSignalQuality({
+          times,
+          sampleRateHz: brainflowRate,
+          channels: brainflowChannels.map(id => ({
+            name: brainflowConnector?.channels?.find(channel => channel.id === id)?.name || id,
+            values: preview.values[id] || [],
+          })),
+        }),
+      };
+    }
+    const quality = liveQualityRef.current.value;
+    return { protocolName: protocolNameOf(protocol), status: runtimeRef.current.status, nodeLabel: nodes.get(runtimeRef.current.currentNodeId)?.label || '', completed: runtimeRef.current.completedNodeIds.length, total: executableCount, saveStatus: saved === true ? 'saved' : recoverySave.status, deviceError: deviceStatus?.error || deviceStatus?.markerError || '', signals: checkSignals().map(({ values: _values, ...signal }) => signal), preview: { times: times.slice(-400), values: Object.fromEntries(Object.entries(preview.values).map(([id, values]) => [id, values.slice(-400)])) }, quality };
   }, command => {
     if (command === 'pause' && runtimeRef.current.status === 'waiting') apply(pauseRuntime(runtimeRef.current, protocol, services.current));
     if (command === 'resume' && runtimeRef.current.status === 'paused' && mediaReady && (!deviceRequired || (deviceStatus?.connected === true && checkPreflight().every(check => check.ready)))) apply(resumeRuntime(runtimeRef.current, protocol, services.current));

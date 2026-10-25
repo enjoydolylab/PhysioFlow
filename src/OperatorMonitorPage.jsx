@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LanguageToggle, useT } from './i18n';
 import { OPERATOR_PROTOCOL } from './operator/runtimeMonitor.js';
 import SignalWaveform from './analysis/SignalWaveform.jsx';
+import SignalQualityNotice from './analysis/SignalQualityNotice.jsx';
 import './admin-monitor.css';
 
 export default function OperatorMonitorPage() {
@@ -38,6 +39,7 @@ export default function OperatorMonitorPage() {
       {snapshot.deviceError && <p className="pf-error" role="alert">{snapshot.deviceError}</p>}
       <div className="pf-signal-grid">{(snapshot.signals || []).map(signal => <article key={`${signal.connectorId}:${signal.id}`} className="pf-panel"><div className="pf-section-heading"><h3>{signal.name}</h3><span className={`pf-tag ${signal.ready && !stale ? 'ready' : 'warning'}`}>{t(stale ? 'stale' : signal.status)}</span></div><b>{Number.isFinite(signal.value) ? signal.value.toFixed(2) : '—'} <small>{signal.unit}</small></b></article>)}</div>
       {snapshot.preview?.times?.length > 0 && Object.entries(snapshot.preview.values || {}).map(([id, values]) => <SignalWaveform key={id} times={snapshot.preview.times} values={values} label={id} />)}
+      <SignalQualityNotice assessment={snapshot.quality} />
       {['completed', 'failed'].includes(snapshot.status) && <p role="status">{t('The experiment has ended. This monitor remains open for review.')}</p>}
     </>}
     {!snapshot && !error && <div className="pf-empty">{t('Waiting for experiment')}</div>}

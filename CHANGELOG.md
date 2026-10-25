@@ -4,6 +4,9 @@ All notable changes to PhysioFlow are documented in this file.
 
 ## [Unreleased]
 
+- Assess signal quality live: the operator monitor and the signal check now share one live assessment (`flatline`, `clipping`, `missing`, `gap`, `jitter`, `mains`) over the buffer on screen, and say `pending` until a channel has enough samples instead of guessing. Transport readiness ("fresh and changing") stays separate from usability. Live thresholds differ from the post-hoc ones on purpose: millisecond-quantised device clocks are not jitter, and a short peak plateau on an integer channel is not clipping.
+- Validate variable assignment order: a read of a variable that no reachable node writes is now an error, and a read that only some paths write is a warning. Unreachable writers no longer count, so an orphaned node cannot hide a hole.
+- Add SSE subscriptions to the PhysioDB client (`followSamples`, `followEvents`) so monitoring can consume new samples and events instead of re-reading them. Bearer auth goes over fetch because `EventSource` cannot send an Authorization header.
 - Integrate the official PhysioDB Python client through a server-side uv bridge; add isolated test runs, sample/event read-back verification, database analysis and explicit recording upload.
 - Separate operator monitoring and participant presentation; add device signal preflight and reuse BrainFlow acquisition and predecessor monitor interfaces.
 - Unify project, preparation, saved-record and analysis navigation; add sequence/graph editing, responsive layouts across 12 viewport sizes, and task-based guides in Chinese, Japanese and English.

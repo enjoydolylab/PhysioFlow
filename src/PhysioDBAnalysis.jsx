@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useT } from './i18n';
 import { analysePhysioDBWindow, physioDBWindowCSV, validateDBWindow } from './analysis/physioDBWindow.js';
 import SignalWaveform from './analysis/SignalWaveform.jsx';
+import { assessRecording, verdictLabel } from './analysis/signal/quality.js';
+import { powerSpectralDensity } from './analysis/signal/spectrum.js';
 
 function localTime(date) { return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 19); }
 function download(contents, filename, type) {
@@ -22,6 +24,24 @@ export default function PhysioDBAnalysis({ client, stream }) {
   const request = useRef(null);
   useEffect(() => () => request.current?.abort(), []);
   const analysis = useMemo(() => loaded ? analysePhysioDBWindow(stream, loaded.samples, { processing }) : null, [loaded, stream, processing]);
+  // Quality is assessed separately from the statistics: a window can be
+  // numerically valid and still unusable (stuck electrode, mains hum, gaps).
+  // The spectrum is computed only for channels that can support one, and is kept
+  // out of `analysis` so exports do not carry the frequency/power arrays.
+  const quality = useMemo(() => {
+    if (!analysis?.count) return null;
+    return assessRecording({
+      times: analysis.times,
+      sampleRateHz: analysis.sampleRateHz,
+      channels: analysis.channels.map(channel => ({
+        name: channel.name,
+        values: channel.values,
+        psd: analysis.sampleRateHz && channel.values.length >= 64 && channel.values.every(Number.isFinite)
+          ? powerSpectralDensity(channel.values.slice(-8192), analysis.sampleRateHz)
+          : undefined,
+      })),
+    });
+  }, [analysis]);
   const read = async () => {
     setError('');
     try {
@@ -44,7 +64,7 @@ export default function PhysioDBAnalysis({ client, stream }) {
     </form><small className="pf-muted">{t('Local timezone')} · {Intl.DateTimeFormat().resolvedOptions().timeZone} · {t('Up to five minutes per request')}</small>
     {error && <p className="pf-error" role="alert">{error}</p>}
     {analysis && <>
-      <div className="pf-analysis-toolbar"><span>{analysis.count.toLocaleString()} {t('samples')} · {analysis.sampleRateHz ? `${number(analysis.sampleRateHz)} Hz` : t('Irregular or insufficient timestamps')}</span>
+      <div className="pf-analysis-toolbar"><span>{analysis.count.toLocaleString()} {t('samples')} · {analysis.sampleRateHz ? `${number(analysis.sampleRateHz)} Hz` : t('Irregular or insufficient timestamps')}{quality && quality.verdict !== 'good' && <> · <b className={quality.verdict === 'unusable' ? 'pf-error' : undefined} title={quality.issues.map(item => item.title).join('; ')}>{verdictLabel(quality)}</b></>}</span>
         <label>{t('Processing')}<select value={processing} onChange={e => setProcessing(e.target.value)}><option value="raw">{t('Original values')}</option><option value="demean">{t('Remove mean')}</option></select></label>
         <button disabled={!analysis.count} onClick={() => download(physioDBWindowCSV(analysis), 'physiodb-window.csv', 'text/csv;charset=utf-8')}>{t('Export CSV')}</button>
         <button disabled={!analysis.count} onClick={() => download(JSON.stringify({ schemaVersion: '1.0.0', source: 'PhysioDB official SDK', streamId: stream.id, experimentId: stream.experiment_id, participantId: stream.participant_id, requestedWindow: loaded.range, processing, retrievedAt: new Date().toISOString(), ...analysis, channels: analysis.channels.map(({ values: _values, ...channel }) => channel), times: undefined }, null, 2), 'physiodb-analysis.json', 'application/json')}>{t('Export summary')}</button>
@@ -53,6 +73,7 @@ export default function PhysioDBAnalysis({ client, stream }) {
         {analysis.channels.slice(0, 8).map(channel => <SignalWaveform key={channel.index} times={analysis.times} values={channel.values} label={channel.name} unit={channel.unit} />)}
         {!analysis.channels.length && <p>{t('This stream has no numeric fields.')}</p>}
         <div className="admin-monitor-table"><table><thead><tr>{['Channel', 'Valid samples', 'Missing', 'Mean', 'SD', 'RMS', 'Min', 'Max', 'Peak frequency'].map(label => <th key={label}>{t(label)}</th>)}</tr></thead><tbody>{analysis.channels.map(c => <tr key={c.index}><td>{c.name} {c.unit && <small>({c.unit})</small>}</td><td>{c.n}</td><td>{c.missing}</td><td>{number(c.mean)}</td><td>{number(c.sd)}</td><td>{number(c.rms)}</td><td>{number(c.min)}</td><td>{number(c.max)}</td><td>{c.dominantFrequencyHz == null ? '—' : `${number(c.dominantFrequencyHz)} Hz`}</td></tr>)}</tbody></table></div>
+        {quality && quality.issues.length > 0 && <div className="pf-note"><b>{t('Signal quality')}: {quality.verdict}</b><ul>{quality.issues.map((item, index) => <li key={`${item.code}-${index}`}>{item.channel ? `${item.channel}: ` : ''}{item.title}<br /><small className="pf-muted">{item.detail}</small></li>)}</ul></div>}
         <p className="pf-muted">{t('Missing values remain gaps. Frequency is calculated only for complete, regularly spaced signals. Original database values are unchanged.')}</p>
       </>}
     </>}
