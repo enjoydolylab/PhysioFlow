@@ -59,7 +59,7 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
   const handleExport = () => {
     if (!detail) return;
     const files = bundle(detail, detail.protocol_snapshot, detail.events || [], detail.responses || []);
-    downloadBundle(files, detail.participant_id || 'session');
+    downloadBundle(files, detail.participant_id || 'session', t);
   };
 
   return (

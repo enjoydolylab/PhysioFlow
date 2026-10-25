@@ -442,8 +442,8 @@ export default function RuntimeRunnerPage({ data, onDone, onExitTest }) {
           <b>{finalSave.status === 'saved' ? t("Session saved") : finalSave.status === 'error' ? t("Save needs attention") : t("Saving session")}</b>
           <span>{t(finalSave.message)}</span>
         </div>
-        <button className="primary wide" onClick={() => downloadBundle(files, session.participant_id)}>{t("Export complete bundle (advanced)")}</button>
-        <button className="wide" onClick={() => downloadBundle(bundleSimple(session, protocol, logger.current.snapshot(), responses), session.participant_id)}>{t("Export simplified data")}</button>
+        <button className="primary wide" onClick={() => downloadBundle(files, session.participant_id, t)}>{t("Export complete bundle (advanced)")}</button>
+        <button className="wide" onClick={() => downloadBundle(bundleSimple(session, protocol, logger.current.snapshot(), responses), session.participant_id, t)}>{t("Export simplified data")}</button>
         {finalSave.status === 'error' && <button className="wide" onClick={() => persistFinishedSession(session)}>{t("Retry local save")}</button>}
         <button className="wide" disabled={!canReturn} title={canReturn ? t("Return to projects") : t("Wait until the completed session is saved locally")} onClick={onDone}>{t("Return to projects")}</button>
       </div>

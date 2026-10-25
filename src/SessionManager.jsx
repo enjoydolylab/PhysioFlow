@@ -89,8 +89,8 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
     }
   };
 
-  const exportData = () => { if (detail?.protocol_snapshot) downloadBundle(bundle(detail, detail.protocol_snapshot, detail.events || [], detail.responses || []), detail.participant_id); };
-  const exportSimple = () => { if (detail?.protocol_snapshot) downloadBundle(bundleSimple(detail, detail.protocol_snapshot, detail.events || [], detail.responses || []), detail.participant_id); };
+  const exportData = () => { if (detail?.protocol_snapshot) downloadBundle(bundle(detail, detail.protocol_snapshot, detail.events || [], detail.responses || []), detail.participant_id, t); };
+  const exportSimple = () => { if (detail?.protocol_snapshot) downloadBundle(bundleSimple(detail, detail.protocol_snapshot, detail.events || [], detail.responses || []), detail.participant_id, t); };
 
   const pushToBioDB = async () => {
     if (!detail) return;
@@ -143,8 +143,8 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
       downloadBundle(buildJointExportFiles({
         sessionFiles: bundle(detail, detail.protocol_snapshot, detail.events || [], detail.responses || []),
         biodb: null,
-        meta: { sessionId: detail.session_id, participantId: detail.participant_id, experimentId: experimentIdOf(detail.protocol_snapshot), channels, biodbError: t("BioDB is not configured (user_id / token missing).") },
-      }).files, `${detail.participant_id}_joint`);
+        meta: { sessionId: detail.session_id, participantId: detail.participant_id, experimentId: experimentIdOf(detail.protocol_snapshot), channels, biodbError: "BioDB is not configured (user_id / token missing)." },
+      }).files, `${detail.participant_id}_joint`, t);
       setAlert({ title: t("Exported without BioDB"), message: t("BioDB credentials are missing, so only the PF session was archived. Configure Dashboard → BioDB and export again for the full joint package.") });
       return;
     }
@@ -183,14 +183,14 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
           biodbError,
         },
       });
-      downloadBundle(files, `${detail.participant_id}_joint`);
+      downloadBundle(files, `${detail.participant_id}_joint`, t);
       setAlert({
         title: biodb ? t("Joint export complete") : t("Joint export (PF only)"),
         message: biodb
           ? (manifest.sources.biodb.sensorPoints
-            ? `${manifest.sources.biodb.sensorPoints} sensor points across ${manifest.sources.biodb.sensorColumns.length} channel(s), ${manifest.sources.biodb.events ?? 0} event(s).`
+            ? t(`${manifest.sources.biodb.sensorPoints} sensor points across ${manifest.sources.biodb.sensorColumns.length} channel(s), ${manifest.sources.biodb.events ?? 0} event(s).`)
             : t("The PF session was exported, but BioDB returned no samples for this window. If you pushed it just now, wait a few seconds and export again."))
-          : `The PF session was archived, but the BioDB leg failed: ${biodbError}`,
+          : t(`The PF session was archived, but the BioDB leg failed: ${biodbError}`),
       });
     } finally {
       setLoading(false);
@@ -211,7 +211,7 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
         setBatchProgress({ done: i + 1 - skipped, total: sessions.length - skipped });
         await new Promise(r => setTimeout(r, 0));
       }
-      if (Object.keys(files).length) downloadBundle(files, 'physioflow_all_sessions');
+      if (Object.keys(files).length) downloadBundle(files, 'physioflow_all_sessions', t);
       else if (skipped > 0) setAlert({ title: 'Nothing to export', message: `${skipped} session(s) skipped because their protocol snapshot was missing.` });
       else setAlert({ title: 'Nothing to export', message: 'No selected session has a complete protocol snapshot.' });
     } finally {
@@ -319,8 +319,8 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
     </div>
     <div className="integrity-list">
       <h3>Automatic integrity check</h3>
-      {integrity.errors?.map(m => <p className="integrity-error" key={m}>× {m}</p>)}
-      {integrity.warnings?.map(m => <p className="integrity-warning" key={m}>△ {m}</p>)}
+      {integrity.errors?.map(m => <p className="integrity-error" key={m}>× {t(m)}</p>)}
+      {integrity.warnings?.map(m => <p className="integrity-warning" key={m}>△ {t(m)}</p>)}
       {!integrity.validity_status ? <p>{t("Integrity has not been checked. Review the session before using its data.")}</p> : !integrity.errors?.length && !integrity.warnings?.length && <p className="integrity-ok">{t("✓ No integrity issue detected by automatic checks")}</p>}
       <p>{t("Automatic checks do not establish hardware timing accuracy or replace researcher review.")}</p>
     </div>

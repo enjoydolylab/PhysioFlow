@@ -254,7 +254,7 @@ export function zipBundle(files) {
   return new Blob([...localParts,...centralParts,end],{type:'application/zip'});
 }
 
-export function downloadBundle(files, prefix) {
+export function downloadBundle(files, prefix, translate = message => message) {
   const safePrefix=String(prefix||'physioflow').replace(/[<>:"/\\|?*\p{Cc}]/gu,'_');
   const container = document.getElementById('toast-root');
   const notice = document.createElement('div');
@@ -266,20 +266,20 @@ export function downloadBundle(files, prefix) {
     url = URL.createObjectURL(zipBundle(files));
     anchor.href = url;
     anchor.download = `${safePrefix}_session_bundle.zip`;
-    anchor.textContent = 'Download data package again';
-    notice.append('Data package generated; download requested. Check your browser downloads. ', anchor);
+    anchor.textContent = translate('Download data package again');
+    notice.append(translate('Data package generated; download requested. Check your browser downloads. '), anchor);
     (container || document.body).appendChild(notice);
     anchor.click();
   } catch (error) {
     if (url) URL.revokeObjectURL(url);
     notice.setAttribute('role', 'alert');
-    notice.textContent = 'Data package download could not be started. Your saved session is unchanged. Try exporting again.';
+    notice.textContent = translate('Data package download could not be started. Your saved session is unchanged. Try exporting again.');
     if (!notice.isConnected) (container || document.body).appendChild(notice);
     setTimeout(() => notice.remove(), 15000);
     throw error;
   }
   const dismiss = document.createElement('button');
-  dismiss.textContent = 'Dismiss';
+  dismiss.textContent = translate('Dismiss');
   const cleanup = () => { URL.revokeObjectURL(url); notice.remove(); };
   const timer = setTimeout(cleanup, 60000);
   dismiss.onclick = () => { clearTimeout(timer); cleanup(); };

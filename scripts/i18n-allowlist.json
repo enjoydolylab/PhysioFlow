@@ -1,0 +1,1274 @@
+[
+  {
+    "text": "- elapsed_monotonic_ms: monotonic milliseconds since session start for within-session intervals.",
+    "reason": "data"
+  },
+  {
+    "text": "- timestamp_epoch_ms: high-resolution Unix epoch milliseconds for external-device alignment.",
+    "reason": "data"
+  },
+  {
+    "text": "{0} copy",
+    "reason": "content"
+  },
+  {
+    "text": "{0} Copy",
+    "reason": "content"
+  },
+  {
+    "text": "{0} instance",
+    "reason": "content"
+  },
+  {
+    "text": "{0} practice",
+    "reason": "content"
+  },
+  {
+    "text": "{0} video",
+    "reason": "content"
+  },
+  {
+    "text": "*_beh.json — Session-level behavioral metadata",
+    "reason": "data"
+  },
+  {
+    "text": "*_events.json — Column descriptions (sidecar)",
+    "reason": "data"
+  },
+  {
+    "text": "*_events.tsv — Event timing in BIDS format",
+    "reason": "data"
+  },
+  {
+    "text": "<channel>",
+    "reason": "data"
+  },
+  {
+    "text": "<div style=\"text-align:center\"><h1>Custom HTML</h1></div>",
+    "reason": "content"
+  },
+  {
+    "text": "✓ 反応を検出しました",
+    "reason": "multilingual"
+  },
+  {
+    "text": "✓ 已检测到响应",
+    "reason": "multilingual"
+  },
+  {
+    "text": "✓ Response detected",
+    "reason": "multilingual"
+  },
+  {
+    "text": "✗ 未检测到响应",
+    "reason": "multilingual"
+  },
+  {
+    "text": "✗ 応答が検出されませんでした",
+    "reason": "multilingual"
+  },
+  {
+    "text": "✗ No response detected",
+    "reason": "multilingual"
+  },
+  {
+    "text": "按键",
+    "reason": "multilingual"
+  },
+  {
+    "text": "悲伤",
+    "reason": "multilingual"
+  },
+  {
+    "text": "悲しみ",
+    "reason": "multilingual"
+  },
+  {
+    "text": "此刻您的唤醒程度如何？",
+    "reason": "multilingual"
+  },
+  {
+    "text": "此刻您的控制感如何？",
+    "reason": "multilingual"
+  },
+  {
+    "text": "此刻您的愉悦程度如何？",
+    "reason": "multilingual"
+  },
+  {
+    "text": "非常不同意",
+    "reason": "multilingual"
+  },
+  {
+    "text": "非常可能",
+    "reason": "multilingual"
+  },
+  {
+    "text": "非常同意",
+    "reason": "multilingual"
+  },
+  {
+    "text": "非常に勧める",
+    "reason": "multilingual"
+  },
+  {
+    "text": "红 / 赤 / RED",
+    "reason": "content"
+  },
+  {
+    "text": "黄 / 黄 / YELLOW",
+    "reason": "content"
+  },
+  {
+    "text": "紧张",
+    "reason": "multilingual"
+  },
+  {
+    "text": "緊張",
+    "reason": "multilingual"
+  },
+  {
+    "text": "蓝 / 青 / BLUE",
+    "reason": "content"
+  },
+  {
+    "text": "绿 / 緑 / GREEN",
+    "reason": "content"
+  },
+  {
+    "text": "您向朋友推荐的可能性有多大？",
+    "reason": "multilingual"
+  },
+  {
+    "text": "平静",
+    "reason": "multilingual"
+  },
+  {
+    "text": "評価してください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "其他",
+    "reason": "multilingual"
+  },
+  {
+    "text": "強く同意する",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请按空格键",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请评价",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请输入",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请输入数字",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请拖动滑块",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请详细描述",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请选择",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请选择（可多选）",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请选择最符合当前感受的情绪",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请选择最符合的情绪标签",
+    "reason": "multilingual"
+  },
+  {
+    "text": "全く勧めない",
+    "reason": "multilingual"
+  },
+  {
+    "text": "全く同意しない",
+    "reason": "multilingual"
+  },
+  {
+    "text": "入力してください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "数値を入力してください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "完全不可能",
+    "reason": "multilingual"
+  },
+  {
+    "text": "喜び",
+    "reason": "multilingual"
+  },
+  {
+    "text": "現在の感情に最も近いものを選んでください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "現在の覚醒度を教えてください。",
+    "reason": "multilingual"
+  },
+  {
+    "text": "現在の快・不快の程度を教えてください。",
+    "reason": "multilingual"
+  },
+  {
+    "text": "現在の支配感・コントロール感を教えてください。",
+    "reason": "multilingual"
+  },
+  {
+    "text": "詳しく記述してください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "选项 1",
+    "reason": "multilingual"
+  },
+  {
+    "text": "选项 2",
+    "reason": "multilingual"
+  },
+  {
+    "text": "选项1",
+    "reason": "multilingual"
+  },
+  {
+    "text": "选项2",
+    "reason": "multilingual"
+  },
+  {
+    "text": "选项3",
+    "reason": "multilingual"
+  },
+  {
+    "text": "選択肢 1",
+    "reason": "multilingual"
+  },
+  {
+    "text": "選択肢 2",
+    "reason": "multilingual"
+  },
+  {
+    "text": "選択肢1",
+    "reason": "multilingual"
+  },
+  {
+    "text": "選択肢2",
+    "reason": "multilingual"
+  },
+  {
+    "text": "選択肢3",
+    "reason": "multilingual"
+  },
+  {
+    "text": "選択してください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "選択してください（複数可）",
+    "reason": "multilingual"
+  },
+  {
+    "text": "押す",
+    "reason": "multilingual"
+  },
+  {
+    "text": "友人に勧める可能性はどのくらいですか？",
+    "reason": "multilingual"
+  },
+  {
+    "text": "愉快",
+    "reason": "multilingual"
+  },
+  {
+    "text": "最低",
+    "reason": "multilingual"
+  },
+  {
+    "text": "最高",
+    "reason": "multilingual"
+  },
+  {
+    "text": "最も近い感情ラベルを選んでください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Accuracy (1 correct / 0 incorrect)",
+    "reason": "data"
+  },
+  {
+    "text": "Actual elapsed duration including recorded pauses.",
+    "reason": "data"
+  },
+  {
+    "text": "analysis_windows.csv — Derived intervals for physiology analysis",
+    "reason": "data"
+  },
+  {
+    "text": "Analysis: {0}",
+    "reason": "data"
+  },
+  {
+    "text": "Append-only raw event log.",
+    "reason": "data"
+  },
+  {
+    "text": "Automated validity checks and warnings.",
+    "reason": "data"
+  },
+  {
+    "text": "band_*_relative",
+    "reason": "data"
+  },
+  {
+    "text": "Baseline",
+    "reason": "content"
+  },
+  {
+    "text": "beh/",
+    "reason": "data"
+  },
+  {
+    "text": "BIDS-compatible PhysioFlow session export",
+    "reason": "data"
+  },
+  {
+    "text": "BioDB leg failed: {0}. The PF session package is complete on its own.",
+    "reason": "data"
+  },
+  {
+    "text": "BioDB returned no sensor samples for this participant and window.",
+    "reason": "data"
+  },
+  {
+    "text": "BioDB time series flattened from the columnar read-back. Missing samples are empty cells, not zeros, so gaps stay visible.",
+    "reason": "data"
+  },
+  {
+    "text": "BioDB timestamps are UTC; PF event timestamps carry their own offset. Compare on instants, not on local strings.",
+    "reason": "data"
+  },
+  {
+    "text": "Block",
+    "reason": "data"
+  },
+  {
+    "text": "Block identifier from protocol hierarchy.",
+    "reason": "data"
+  },
+  {
+    "text": "Block identifier from protocol.json.",
+    "reason": "data"
+  },
+  {
+    "text": "Blue",
+    "reason": "content"
+  },
+  {
+    "text": "Browser-local upload asset ID.",
+    "reason": "data"
+  },
+  {
+    "text": "Calm",
+    "reason": "multilingual"
+  },
+  {
+    "text": "channel id (per connector)",
+    "reason": "data"
+  },
+  {
+    "text": "Channel-level data dictionary (D4): time-series channel manifest with dataType/unit/sampleRate per device connector. Rendered in channel_dictionary.json.",
+    "reason": "data"
+  },
+  {
+    "text": "Channel-level data dictionary: time-series channels with dataType/unit/sampleRate per device connector.",
+    "reason": "data"
+  },
+  {
+    "text": "Choose (multiple allowed)",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Choose one",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Choose the closest emotion label",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Choose the emotion closest to your current feeling",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Column reference (analysis_windows.csv):",
+    "reason": "data"
+  },
+  {
+    "text": "Column reference (events.csv):",
+    "reason": "data"
+  },
+  {
+    "text": "Column reference (responses.csv):",
+    "reason": "data"
+  },
+  {
+    "text": "Component type",
+    "reason": "data"
+  },
+  {
+    "text": "condition Trial condition label",
+    "reason": "data"
+  },
+  {
+    "text": "Configured component presentation intervals, including pauses; not physical stimulus onset.",
+    "reason": "data"
+  },
+  {
+    "text": "Configured duration when available.",
+    "reason": "data"
+  },
+  {
+    "text": "CSV field descriptions.",
+    "reason": "data"
+  },
+  {
+    "text": "D7 pipeline output: per-channel time-domain statistics, band powers, and HRV/EDA features when the channel is recognised as cardiac or electrodermal.",
+    "reason": "data"
+  },
+  {
+    "text": "dataset_description.json",
+    "reason": "data"
+  },
+  {
+    "text": "Derived windows for steps marked as analysis windows.",
+    "reason": "data"
+  },
+  {
+    "text": "device_check_completed metadata",
+    "reason": "data"
+  },
+  {
+    "text": "Directory structure:",
+    "reason": "data"
+  },
+  {
+    "text": "Displayed option label for Response nodes when available.",
+    "reason": "data"
+  },
+  {
+    "text": "Draft 1",
+    "reason": "content"
+  },
+  {
+    "text": "Drag the slider",
+    "reason": "multilingual"
+  },
+  {
+    "text": "duration_ms Event duration when available",
+    "reason": "data"
+  },
+  {
+    "text": "eda_*",
+    "reason": "data"
+  },
+  {
+    "text": "Emotion (SAM) template",
+    "reason": "content"
+  },
+  {
+    "text": "Emotion template v1",
+    "reason": "content"
+  },
+  {
+    "text": "Emotion trial {0}",
+    "reason": "content"
+  },
+  {
+    "text": "Enter a number",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Event duration",
+    "reason": "data"
+  },
+  {
+    "text": "Event duration in seconds.",
+    "reason": "data"
+  },
+  {
+    "text": "event Event type (step_entered, step_completed, manual_marker, etc.)",
+    "reason": "data"
+  },
+  {
+    "text": "event id",
+    "reason": "data"
+  },
+  {
+    "text": "Event name such as step_entered, step_completed, media_play_started, or manual_marker.",
+    "reason": "data"
+  },
+  {
+    "text": "Event onset",
+    "reason": "data"
+  },
+  {
+    "text": "Event onset in seconds from session start (monotonic clock).",
+    "reason": "data"
+  },
+  {
+    "text": "Event sample (runtime monotonic clock)",
+    "reason": "data"
+  },
+  {
+    "text": "Event that closed the window. Empty means missing end event.",
+    "reason": "data"
+  },
+  {
+    "text": "Event that opened the window.",
+    "reason": "data"
+  },
+  {
+    "text": "Event type: step_entered, step_completed, media_play_started, manual_marker, etc.",
+    "reason": "data"
+  },
+  {
+    "text": "Events recorded in BioDB for this participant within the requested window (as returned by /sensor/data/export).",
+    "reason": "data"
+  },
+  {
+    "text": "Events: {0} | Responses: {1} | Analysis windows: {2}",
+    "reason": "data"
+  },
+  {
+    "text": "events.csv — Timeline of every step, marker, and media event",
+    "reason": "data"
+  },
+  {
+    "text": "Experiment registry entry, including the channel dictionary attached by D4.",
+    "reason": "data"
+  },
+  {
+    "text": "external_questionnaire_confirmed metadata",
+    "reason": "data"
+  },
+  {
+    "text": "external_questionnaire_opened metadata",
+    "reason": "data"
+  },
+  {
+    "text": "Extremely likely",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Five-condition emotion physiology experiment",
+    "reason": "content"
+  },
+  {
+    "text": "Fixation",
+    "reason": "content"
+  },
+  {
+    "text": "Fixation ({0})",
+    "reason": "content"
+  },
+  {
+    "text": "Flow graph node ID; useful when a branch revisits the same step.",
+    "reason": "data"
+  },
+  {
+    "text": "For device_check nodes, metadata_json contains checks[], all_checked, required_all, and operator_note.",
+    "reason": "data"
+  },
+  {
+    "text": "For external questionnaire nodes, metadata_json contains external_form_url, resolved_form_url, appended_context, and embedded/click open mode details.",
+    "reason": "data"
+  },
+  {
+    "text": "For external questionnaire nodes, metadata_json contains external_form_url, resolved_form_url, opened, confirmed, and appended_context flags. Answers remain in the external form service.",
+    "reason": "data"
+  },
+  {
+    "text": "For full data, also export the standard PhysioFlow session ZIP.",
+    "reason": "data"
+  },
+  {
+    "text": "For manual_event nodes, metadata_json contains confirmation_label, operator_note, and note_required.",
+    "reason": "data"
+  },
+  {
+    "text": "Generated: {0}",
+    "reason": "data"
+  },
+  {
+    "text": "Go (press space)",
+    "reason": "content"
+  },
+  {
+    "text": "Go/No-Go inhibition task",
+    "reason": "content"
+  },
+  {
+    "text": "Go/No-Go main task",
+    "reason": "content"
+  },
+  {
+    "text": "Go/No-Go practice",
+    "reason": "content"
+  },
+  {
+    "text": "Go/No-Go template",
+    "reason": "content"
+  },
+  {
+    "text": "Go/No-Go template v1",
+    "reason": "content"
+  },
+  {
+    "text": "Go/No-Go trials",
+    "reason": "content"
+  },
+  {
+    "text": "Graph node identifier",
+    "reason": "data"
+  },
+  {
+    "text": "Green",
+    "reason": "content"
+  },
+  {
+    "text": "High-resolution Unix epoch milliseconds. Use for aligning with physiological devices.",
+    "reason": "data"
+  },
+  {
+    "text": "Highest",
+    "reason": "multilingual"
+  },
+  {
+    "text": "How aroused do you feel right now?",
+    "reason": "multilingual"
+  },
+  {
+    "text": "How likely are you to recommend to a friend?",
+    "reason": "multilingual"
+  },
+  {
+    "text": "How much control do you feel right now?",
+    "reason": "multilingual"
+  },
+  {
+    "text": "How pleasant do you feel right now?",
+    "reason": "multilingual"
+  },
+  {
+    "text": "hrv_*",
+    "reason": "data"
+  },
+  {
+    "text": "Human-readable description of the export package.",
+    "reason": "data"
+  },
+  {
+    "text": "If the session was pushed moments ago, wait a few seconds and export again — VictoriaMetrics makes new samples queryable asynchronously.",
+    "reason": "data"
+  },
+  {
+    "text": "Immutable external-device lifecycle, sample, marker, failure and recovery events with connector/device provenance.",
+    "reason": "data"
+  },
+  {
+    "text": "Integrity report embedded into the session summary.",
+    "reason": "data"
+  },
+  {
+    "text": "Joy",
+    "reason": "multilingual"
+  },
+  {
+    "text": "JSON payload for event-specific details.",
+    "reason": "data"
+  },
+  {
+    "text": "Keyboard key used for a Response node when configured.",
+    "reason": "data"
+  },
+  {
+    "text": "Log format version — currently 1.2.0.",
+    "reason": "data"
+  },
+  {
+    "text": "Lowest",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Machine-readable package manifest and record counts.",
+    "reason": "data"
+  },
+  {
+    "text": "Main emotion block",
+    "reason": "content"
+  },
+  {
+    "text": "Manifest schema version for the export package.",
+    "reason": "data"
+  },
+  {
+    "text": "Manual markers or marker intervals overlapping the window, separated by |.",
+    "reason": "data"
+  },
+  {
+    "text": "manual_event_confirmed metadata",
+    "reason": "data"
+  },
+  {
+    "text": "Map of channel id -> { connectorId, connectorVersion, label, dataType, unit, sampleRateHz, direction }.",
+    "reason": "data"
+  },
+  {
+    "text": "Media resources referenced by the protocol.",
+    "reason": "data"
+  },
+  {
+    "text": "Milliseconds from Response-node display to the selected answer. Empty for ordinary questionnaire rows.",
+    "reason": "data"
+  },
+  {
+    "text": "Monotonic elapsed milliseconds since session start. Use for intervals.",
+    "reason": "data"
+  },
+  {
+    "text": "Monotonic milliseconds since runtime start for duration analysis.",
+    "reason": "data"
+  },
+  {
+    "text": "n/a (single object)",
+    "reason": "data"
+  },
+  {
+    "text": "No",
+    "reason": "multilingual"
+  },
+  {
+    "text": "No BioDB export was attached; this package contains the PF session only.",
+    "reason": "data"
+  },
+  {
+    "text": "No experiment metadata was returned; the session may not be linked to a registered experiment.",
+    "reason": "data"
+  },
+  {
+    "text": "No-Go (withhold)",
+    "reason": "content"
+  },
+  {
+    "text": "Not at all likely",
+    "reason": "multilingual"
+  },
+  {
+    "text": "note Marker text, confirmation label, or response value",
+    "reason": "data"
+  },
+  {
+    "text": "Number of pause events inside the window.",
+    "reason": "data"
+  },
+  {
+    "text": "ok, warning, or error status emitted by the runtime.",
+    "reason": "data"
+  },
+  {
+    "text": "One row per immutable Runtime V2 event. payload_json retains the complete component payload.",
+    "reason": "data"
+  },
+  {
+    "text": "One row per participant response value projected from component submission.",
+    "reason": "data"
+  },
+  {
+    "text": "One-based repetition index of the block.",
+    "reason": "data"
+  },
+  {
+    "text": "One-based repetition index of the trial.",
+    "reason": "data"
+  },
+  {
+    "text": "onset duration trial_type response_time block_id trial_id step_id condition event_type",
+    "reason": "data"
+  },
+  {
+    "text": "Option 1",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Option 2",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Option 3",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Other",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Output/marker channel ids, not part of the time-series stream.",
+    "reason": "data"
+  },
+  {
+    "text": "Participant identifier",
+    "reason": "data"
+  },
+  {
+    "text": "Participant response time in seconds. n/a when not applicable.",
+    "reason": "data"
+  },
+  {
+    "text": "participant_id session_id protocol_name run_mode started_at ended_at participant_language sync_method timezone sampling_rate",
+    "reason": "data"
+  },
+  {
+    "text": "Participant: {0}",
+    "reason": "data"
+  },
+  {
+    "text": "participants.tsv — Participant metadata",
+    "reason": "data"
+  },
+  {
+    "text": "PF session files are stored at the top level unchanged, so an existing analysis pipeline keeps working.",
+    "reason": "data"
+  },
+  {
+    "text": "PhysioFlow experiment",
+    "reason": "data"
+  },
+  {
+    "text": "PhysioFlow experiment session",
+    "reason": "data"
+  },
+  {
+    "text": "PhysioFlow Graph session Events are ordered by sequence; node_id joins records to protocol_snapshot.json. responses.csv contains one row per submitted value. reaction_time_ms is the captured response time (blank for omissions or multi-response tasks); node_duration_ms includes feedback/confirmation. Use the complete export for device samples, raw events, runtime state and BIDS files.",
+    "reason": "data"
+  },
+  {
+    "text": "PhysioFlow Session — {0}",
+    "reason": "data"
+  },
+  {
+    "text": "PhysioFlow session export",
+    "reason": "data"
+  },
+  {
+    "text": "PhysioFlow v{0}",
+    "reason": "data"
+  },
+  {
+    "text": "Please describe in detail",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Please enter",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Please rate",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Practice {0}",
+    "reason": "content"
+  },
+  {
+    "text": "Press",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Press the spacebar now",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Protocol identifier.",
+    "reason": "data"
+  },
+  {
+    "text": "Protocol snapshot used by this session.",
+    "reason": "data"
+  },
+  {
+    "text": "Protocol version number.",
+    "reason": "data"
+  },
+  {
+    "text": "Protocol: {0}",
+    "reason": "data"
+  },
+  {
+    "text": "Protocol: {0} (v{1})",
+    "reason": "data"
+  },
+  {
+    "text": "protocol.json — The protocol configuration used",
+    "reason": "data"
+  },
+  {
+    "text": "Provenance of the merged package: which legs succeeded, the requested and actual time windows, and record counts.",
+    "reason": "data"
+  },
+  {
+    "text": "Question identifier or Response-node variable; can also be used in flow condition rules.",
+    "reason": "data"
+  },
+  {
+    "text": "Question type such as likert, single_choice, short_text, or response_choice.",
+    "reason": "data"
+  },
+  {
+    "text": "Questionnaire answers and Response-node choices, one row per submitted answer.",
+    "reason": "data"
+  },
+  {
+    "text": "Questionnaire identifier.",
+    "reason": "data"
+  },
+  {
+    "text": "Raw answer value; multiple choices use | separator. Missed required response windows export an empty value.",
+    "reason": "data"
+  },
+  {
+    "text": "Reason for invalid or attention status.",
+    "reason": "data"
+  },
+  {
+    "text": "Recommended analysis entry points:",
+    "reason": "data"
+  },
+  {
+    "text": "Record counts for quick completeness checks.",
+    "reason": "data"
+  },
+  {
+    "text": "Recovery",
+    "reason": "content"
+  },
+  {
+    "text": "Recovery ({0})",
+    "reason": "content"
+  },
+  {
+    "text": "Red",
+    "reason": "content"
+  },
+  {
+    "text": "Researcher-entered participant code. Use anonymous IDs.",
+    "reason": "data"
+  },
+  {
+    "text": "Response row identifier.",
+    "reason": "data"
+  },
+  {
+    "text": "Response value",
+    "reason": "data"
+  },
+  {
+    "text": "responses.csv — Questionnaire answers and Response-node choices",
+    "reason": "data"
+  },
+  {
+    "text": "rt_ms Reaction time for responses",
+    "reason": "data"
+  },
+  {
+    "text": "Runtime event type",
+    "reason": "data"
+  },
+  {
+    "text": "Sadness",
+    "reason": "multilingual"
+  },
+  {
+    "text": "SAM ({0})",
+    "reason": "content"
+  },
+  {
+    "text": "SAM {0}",
+    "reason": "content"
+  },
+  {
+    "text": "SAM and emotion label",
+    "reason": "content"
+  },
+  {
+    "text": "See data_dictionary.csv",
+    "reason": "data"
+  },
+  {
+    "text": "See data_dictionary.csv for field-level definitions.",
+    "reason": "data"
+  },
+  {
+    "text": "See protocol.json for full trial structure",
+    "reason": "data"
+  },
+  {
+    "text": "sequence within connector session",
+    "reason": "data"
+  },
+  {
+    "text": "Session identifier shared by all rows in this run.",
+    "reason": "data"
+  },
+  {
+    "text": "Session metadata and integrity summary without raw event arrays.",
+    "reason": "data"
+  },
+  {
+    "text": "Session: {0}",
+    "reason": "data"
+  },
+  {
+    "text": "session.json — Session metadata and integrity summary",
+    "reason": "data"
+  },
+  {
+    "text": "SHA-256 checksum for locally uploaded media when available.",
+    "reason": "data"
+  },
+  {
+    "text": "Standard Date.now() integer epoch milliseconds.",
+    "reason": "data"
+  },
+  {
+    "text": "status ok | warning | error",
+    "reason": "data"
+  },
+  {
+    "text": "Status: {0} | Mode: {1}",
+    "reason": "data"
+  },
+  {
+    "text": "Step analysis label or role.",
+    "reason": "data"
+  },
+  {
+    "text": "Step identifier from protocol hierarchy.",
+    "reason": "data"
+  },
+  {
+    "text": "Step identifier from protocol.json.",
+    "reason": "data"
+  },
+  {
+    "text": "step_path Human-readable path through Block / Trial / Step",
+    "reason": "data"
+  },
+  {
+    "text": "Stimulus file or URL",
+    "reason": "data"
+  },
+  {
+    "text": "Stimulus identifier from library or step resource.",
+    "reason": "data"
+  },
+  {
+    "text": "Stimulus metadata and step playback options.",
+    "reason": "data"
+  },
+  {
+    "text": "Stimulus/resource identifier when the event is tied to media.",
+    "reason": "data"
+  },
+  {
+    "text": "Strongly agree",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Strongly disagree",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Stroop",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop {0}",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop color-word task",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop main task",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop practice",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop template",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop template v1",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop trials",
+    "reason": "content"
+  },
+  {
+    "text": "Stroop: {0} in {1}",
+    "reason": "content"
+  },
+  {
+    "text": "Submission time in Unix epoch milliseconds.",
+    "reason": "data"
+  },
+  {
+    "text": "Tension",
+    "reason": "multilingual"
+  },
+  {
+    "text": "time (UTC ISO-8601)",
+    "reason": "data"
+  },
+  {
+    "text": "time_sec Seconds from session start",
+    "reason": "data"
+  },
+  {
+    "text": "time_sec, step_path, condition, label, duration_ms, pauses, validity, issue, markers",
+    "reason": "data"
+  },
+  {
+    "text": "time_sec, step_path, question, answer, rt_ms, question_type, response_key",
+    "reason": "data"
+  },
+  {
+    "text": "Time-series (sensor input) channel ids — the signal channels recorded during the session.",
+    "reason": "data"
+  },
+  {
+    "text": "Timing columns:",
+    "reason": "data"
+  },
+  {
+    "text": "Trial",
+    "reason": "data"
+  },
+  {
+    "text": "Trial {0}",
+    "reason": "content"
+  },
+  {
+    "text": "Trial condition label or event type.",
+    "reason": "data"
+  },
+  {
+    "text": "Trial condition label.",
+    "reason": "data"
+  },
+  {
+    "text": "Trial identifier from protocol hierarchy.",
+    "reason": "data"
+  },
+  {
+    "text": "Trial identifier from protocol.json.",
+    "reason": "data"
+  },
+  {
+    "text": "Unique derived analysis-window identifier.",
+    "reason": "data"
+  },
+  {
+    "text": "Unique event identifier.",
+    "reason": "data"
+  },
+  {
+    "text": "url, youtube, upload, or library.",
+    "reason": "data"
+  },
+  {
+    "text": "valid, attention, or invalid.",
+    "reason": "data"
+  },
+  {
+    "text": "Video ({0})",
+    "reason": "content"
+  },
+  {
+    "text": "Wall-clock ISO 8601 with microsecond precision.",
+    "reason": "data"
+  },
+  {
+    "text": "Wall-clock Unix milliseconds for cross-device alignment.",
+    "reason": "data"
+  },
+  {
+    "text": "When several experiments share a channel name, BioDB suffixes the column with @<experiment_id>.",
+    "reason": "data"
+  },
+  {
+    "text": "Yellow",
+    "reason": "content"
+  },
+  {
+    "text": "Yes",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Zero-based block order in the resolved runtime sequence.",
+    "reason": "data"
+  },
+  {
+    "text": "Zero-based step order inside the compiled trial path.",
+    "reason": "data"
+  },
+  {
+    "text": "Zero-based trial order after fixed/random/latin-square/manual resolution.",
+    "reason": "data"
+  },
+  {
+    "text": "いいえ",
+    "reason": "multilingual"
+  },
+  {
+    "text": "スペースキーを押してください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "スライダーを動かしてください",
+    "reason": "multilingual"
+  },
+  {
+    "text": "その他",
+    "reason": "multilingual"
+  },
+  {
+    "text": "はい",
+    "reason": "multilingual"
+  }
+]
