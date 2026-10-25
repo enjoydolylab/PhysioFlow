@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ScreenChecks } from './participantUi/ScreenChecks.jsx';
 import { PositionFields } from './participantUi/PositionFields.jsx';
 import { SelectionInspector } from './participantUi/SelectionInspector.jsx';
-import { pathTo } from './participantUi/tree.js';
+import { elementLabel, pathTo } from './participantUi/tree.js';
 import { SCREEN_PRESETS, createScreenPreset } from './participantUi/screenPresets.js';
 import ParticipantUiCanvas from './ParticipantUiCanvas.jsx';
 import { mapUiElement, participantUiTemplate, resolveUiStyle, UI_STYLE_KEYS } from './core/index.js';
@@ -139,8 +139,8 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
             <button type="button" role="tab" aria-selected={libraryTab === 'layers'} className={libraryTab === 'layers' ? 'active' : ''} onClick={() => { setLibraryTab('layers'); setStructureOpen(true); }}>{t("Layers")}</button>
           </div>
           {libraryTab === 'elements' && <div className="ui-library-panel">
-            {LIBRARY_GROUPS.map(group => <div key={t(group.label === 'Layout' ? 'Layout group' : group.label)} className="ui-library-group">
-              <span className="ui-library-label">{group.label}</span>
+            {LIBRARY_GROUPS.map(group => <div key={group.label} className="ui-library-group">
+              <span className="ui-library-label">{t(group.label === 'Layout' ? 'Layout group' : group.label)}</span>
               {group.types.map(type => (
                 <div key={type} className="ui-library-block" draggable
                   onClick={() => addToRoot(type)}
@@ -243,6 +243,28 @@ export default function ParticipantUiBuilder({ schema, onChange, defaultTemplate
           </div>}
           </details>}
           </fieldset>
+          {selected.id === normalized.root.id && <section className="ui-root-details">
+            <b>{t(libraryTab === 'layers' ? 'Screen overview' : 'Screen elements')}</b>
+            {libraryTab === 'layers' ? <>
+              <p>{t('Screen size')}: {deviceWidth} × {deviceHeight}</p>
+              <p>{t('Checks passing')}: {[
+                Boolean(normalized.root.props?.screenWidth),
+                !boundsIssues.length,
+                !elements.some(({element}) => element.type === 'Media' && !String(element.props?.sourceUrl || '').trim() && !element.bindings?.sourceUrl),
+              ].filter(Boolean).length} / 3</p>
+              <div className="ui-root-counts">{[...new Set(elements.filter(({element}) => element.id !== normalized.root.id).map(({element}) => element.type))].map(type => <span key={type}>{t(type)}: {elements.filter(({element}) => element.type === type && element.id !== normalized.root.id).length}</span>)}</div>
+            </> : <div className="ui-selection-items">
+              {elements.filter(({element}) => element.id !== normalized.root.id).map(({element}) => <button type="button" key={element.id} onClick={() => {
+                selectElement(element.id);
+                requestAnimationFrame(() => {
+                  const target = [...(builderRef.current?.querySelectorAll('[data-ui-id]') || [])].find(node => node.dataset.uiId === element.id);
+                  target?.scrollIntoView({block:'nearest', inline:'nearest'});
+                  target?.focus({preventScroll:true});
+                });
+              }}>{t(element.type)}{elementLabel(element) ? ` · ${elementLabel(element)}` : ''}</button>)}
+              {elements.length === 1 && <p>{t('No elements yet')}</p>}
+            </div>}
+          </section>}
           </>}
         </aside>
       </div>}

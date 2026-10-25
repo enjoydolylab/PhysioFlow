@@ -331,8 +331,11 @@
 
 /* 左侧栏标签页 */
 .ui-library-tabs { display: flex; gap: 2px; padding: 2px; background: #eef1f4; border-radius: 8px; flex: 0 0 auto; }
-.ui-library-tabs button { flex: 1; padding: 5px 4px; border: 0; border-radius: 6px; background: transparent; font-size: .7rem; color: var(--muted, #667085); cursor: pointer; }
+.ui-library-tabs button { flex: 1 1 auto; min-width: 0; white-space: nowrap; padding: 5px 2px; border: 0; border-radius: 6px; background: transparent; font-size: .7rem; color: var(--muted, #667085); cursor: pointer; }
 .ui-library-tabs button:hover { color: var(--ink, #18202b); }
+.ui-root-details { margin-top: 14px; border-top: 1px solid var(--border, #dfe3e8); padding-top: 12px; font-size: .75rem; }
+.ui-root-details p { color: var(--muted, #667085); }
+.ui-root-counts { display: grid; gap: 6px; }
 .ui-library-tabs button.active { background: var(--surface, #fff); color: var(--green, #197453); font-weight: 600; box-shadow: 0 1px 3px rgba(20, 40, 30, .1); }
 .ui-library-panel { display: flex; flex-direction: column; gap: 6px; overflow: auto; min-height: 0; flex: 1 1 auto; }
 .ui-library-presets .ui-preset-btn { text-align: left; padding: 8px 10px; border: 1px solid var(--border, #dfe3e8); border-radius: 8px; background: var(--surface, #fff); font-size: .72rem; cursor: pointer; }

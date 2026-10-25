@@ -1,5 +1,12 @@
 // Composer chrome, separate from experiment-authored content.
 export const composerCopy = `
+Form|表单|フォーム
+Shapes|图形|図形
+Layout group|布局|レイアウト
+Screen elements|元素列表|要素一覧
+Screen overview|画面概览|画面の概要
+Checks passing|通过检查|合格したチェック
+No elements yet|尚无元素|要素はまだありません
 Free canvas: drag elements to position|自由布局：拖动元素放置位置|自由配置：要素をドラッグして配置
 Click elements on the left to insert; click an element on the screen to edit it here.|点击左侧元素插入，点击画面中的元素即可在此编辑。|左の要素をクリックで挿入。画面内の要素をクリックするとここで編集できます。
 Participant UI is invalid|参与者界面无效|参加者画面が無効です
