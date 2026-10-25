@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { useComposerT as useT } from './translate.js';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -10,6 +11,7 @@ import { loadAsset } from '../assetStore.js';
 const MEDIA_LABEL = { image: 'image', audio: 'audio', video: 'video' };
 
 export default function StimulusPoolEditor({ pool, assets = [], locked = false, onSave, onClose }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   const mediaType = pool.mediaType || 'image';
   const [name, setName] = useState(pool.name || '');
@@ -56,7 +58,7 @@ export default function StimulusPoolEditor({ pool, assets = [], locked = false, 
   });
 
   return createPortal(<div className="pool-editor-backdrop" onMouseDown={onClose}>
-    <div className="pool-editor" role="dialog" aria-label={`Edit ${pool.name}`} onMouseDown={event => event.stopPropagation()}>
+    <div className="pool-editor" role="dialog" aria-label={tDisplay("Edit {0}", [pool.name])} onMouseDown={event => event.stopPropagation()}>
       <header className="pool-editor-head">
         <div>
           <input className="pool-editor-name" aria-label="Pool name" disabled={locked} placeholder="Pool name" value={name} onChange={event => setName(event.target.value)} />
@@ -83,7 +85,7 @@ export default function StimulusPoolEditor({ pool, assets = [], locked = false, 
             {on && <span className="pool-tile-check" aria-hidden="true">✓</span>}
           </button>;
         })}
-        {!filtered.length && <p className="pool-editor-empty">{candidates.length ? 'No matching assets.' : `No ${MEDIA_LABEL[mediaType] || mediaType} assets in the media library yet.`}</p>}
+        {!filtered.length && <p className="pool-editor-empty">{candidates.length ? 'No matching assets.' : tDisplay("No {0} assets in the media library yet.", [MEDIA_LABEL[mediaType] || mediaType])}</p>}
       </div>
 
       <footer className="pool-editor-foot">

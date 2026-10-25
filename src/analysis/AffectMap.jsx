@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { useMemo, useState } from 'react';
 import { affectPoints, affectQuadrant, seriesColor } from './chartGeometry.js';
 
@@ -24,6 +25,7 @@ export default function AffectMap({
   showTrajectory = true,
   onSelect = null,
 }) {
+  const tDisplay = useDisplayT();
   const [selected, setSelected] = useState(null);
   const points = useMemo(() => affectPoints(responses, { scale }), [responses, scale]);
 
@@ -33,7 +35,7 @@ export default function AffectMap({
   const toY = a => padding + ((1 - a) / 2) * innerH;
 
   if (!points.length) {
-    return <div className="viz-empty">No valence/arousal responses to plot.</div>;
+    return <div className="viz-empty">{tDisplay("No valence/arousal responses to plot.")}</div>;
   }
 
   const active = selected !== null ? points[selected] : null;
@@ -45,7 +47,7 @@ export default function AffectMap({
 
   return (
     <div className="viz-affect">
-      <svg viewBox={`0 0 ${width} ${height}`} className="viz-svg" role="img" aria-label="Valence-arousal affect map">
+      <svg viewBox={`0 0 ${width} ${height}`} className="viz-svg" role="img" aria-label={tDisplay("Valence-arousal affect map")}>
         <rect x={padding} y={padding} width={innerW} height={innerH} className="viz-plot-bg" />
 
         {/* Quadrant shading + labels */}
@@ -60,8 +62,8 @@ export default function AffectMap({
         <line x1={toX(0)} y1={padding} x2={toX(0)} y2={height - padding} className="viz-axis" />
         <line x1={padding} y1={toY(0)} x2={width - padding} y2={toY(0)} className="viz-axis" />
 
-        <text x={width / 2} y={height - 8} textAnchor="middle" className="viz-axis-text">valence →</text>
-        <text x={12} y={height / 2} textAnchor="middle" className="viz-axis-text" transform={`rotate(-90 12 ${height / 2})`}>arousal →</text>
+        <text x={width / 2} y={height - 8} textAnchor="middle" className="viz-axis-text">{tDisplay("valence →")}</text>
+        <text x={12} y={height / 2} textAnchor="middle" className="viz-axis-text" transform={`rotate(-90 12 ${height / 2})`}>{tDisplay("arousal →")}</text>
 
         {showTrajectory && points.length > 1 && (
           <polyline
@@ -81,7 +83,7 @@ export default function AffectMap({
             className="viz-affect-point"
             onClick={() => { setSelected(i); onSelect?.(p, i); }}
           >
-            <title>{`${p.label || `#${i + 1}`}: valence ${p.valence.toFixed(2)}, arousal ${p.arousal.toFixed(2)}`}</title>
+            <title>{tDisplay("{0}: valence {1}, arousal {2}", [p.label || `#${i + 1}`, p.valence.toFixed(2), p.arousal.toFixed(2)])}</title>
           </circle>
         ))}
       </svg>
@@ -97,7 +99,7 @@ export default function AffectMap({
       {active && (
         <div className="viz-readout">
           <span className="viz-readout-item">
-            {active.label || '#1'}: valence {active.valence.toFixed(2)}, arousal {active.arousal.toFixed(2)}
+            {active.label || '#1'}{tDisplay(": valence")} {active.valence.toFixed(2)}{tDisplay(", arousal")} {active.arousal.toFixed(2)}
             {' · '}{QUADRANT_LABELS[affectQuadrant(active)]}
           </span>
         </div>

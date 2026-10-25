@@ -1,9 +1,11 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { buildTimeline } from './timelineData.js';
 import { useRef, useEffect, useState } from 'react';
 import { COLORS, STATUS_COLORS, formatMs } from './charts.js';
 
 // TimelineView — renders a horizontal SVG/CSS timeline of a session's steps
 export default function TimelineView({ events, protocol, width = 800 }) {
+  const tDisplay = useDisplayT();
   const containerRef = useRef(null);
   const [tooltip, setTooltip] = useState(null);
 
@@ -16,7 +18,7 @@ export default function TimelineView({ events, protocol, width = 800 }) {
   }, [timeline, width]);
 
   if (!timeline.items.length) {
-    return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>No events to display</div>;
+    return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>{tDisplay("No events to display")}</div>;
   }
 
   return (

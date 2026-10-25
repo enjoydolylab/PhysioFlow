@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useT } from './i18n';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { bundle, bundleSimple, downloadBundle } from './exporter';
@@ -294,6 +295,7 @@ export default function SessionManager({ embedded = false, initialSessionId = nu
 }
 
 function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, onExportJoint, onDelete, onPushBioDB }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   const integrity = detail.integrity || {};
   const graphSession = isGraphProtocol(detail.protocol_snapshot);
@@ -314,7 +316,7 @@ function SessionDetail({ detail, setDetail, onSave, onExport, onExportSimple, on
       <div><b>{detail.responses?.length || 0}</b><span>raw response records</span></div>
       {graphSession && <div><b>{(detail.responses || []).filter(row => !row.supersededByEventId).length}</b><span>effective response records</span></div>}
       {graphSession && <div><b>{(detail.responses || []).filter(row => row.supersededByEventId).length}</b><span>superseded response records</span></div>}
-      <div><b>{graphSession ? detail.runtime_snapshot?.completedNodeIds?.length || 0 : detail.runtime_snapshot?.completed_steps?.length || 0}</b><span>{graphSession ? 'completed node visits' : 'completed steps'}</span></div>
+      <div><b>{graphSession ? detail.runtime_snapshot?.completedNodeIds?.length || 0 : detail.runtime_snapshot?.completed_steps?.length || 0}</b><span>{graphSession ? tDisplay("completed node visits") : tDisplay("completed steps")}</span></div>
       {graphSession && ['skipped', 'retries', 'pauses'].map(key => <div key={key}><b>{integrity.facts?.[key] ?? '—'}</b><span>{key}</span></div>)}
     </div>
     <div className="integrity-list">

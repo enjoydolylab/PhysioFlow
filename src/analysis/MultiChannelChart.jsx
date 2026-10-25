@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { useMemo, useRef, useState } from 'react';
 import {
   areaPath,
@@ -32,6 +33,7 @@ export default function MultiChannelChart({
   showEvents = true,
   onHover = null,
 }) {
+  const tDisplay = useDisplayT();
   const [zoom, setZoom] = useState(null);   // { startIndex, endIndex } or null
   const [hover, setHover] = useState(null); // sample index under the cursor
   const [dragTo, setDragTo] = useState(null);
@@ -78,7 +80,7 @@ export default function MultiChannelChart({
   }, [times, series, channels, zoom, width, height, padding, events, showEvents, units]);
 
   if (!view) {
-    return <div className="viz-empty">No samples to plot.</div>;
+    return <div className="viz-empty">{tDisplay("No samples to plot.")}</div>;
   }
 
   const { scales, extent, traces, markers, windowTimes } = view;
@@ -127,7 +129,7 @@ export default function MultiChannelChart({
         ))}
         {zoom && (
           <button type="button" className="bio-btn viz-zoom-reset" onClick={() => setZoom(null)}>
-            Reset zoom
+            {tDisplay("Reset zoom")}
           </button>
         )}
       </div>
@@ -136,7 +138,7 @@ export default function MultiChannelChart({
         viewBox={`0 0 ${width} ${height}`}
         className="viz-svg"
         role="img"
-        aria-label={`Time series for ${channels.join(', ')}`}
+        aria-label={tDisplay("Time series for {0}", [channels.join(', ')])}
         onPointerMove={handlePointerMove}
         onPointerDown={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();

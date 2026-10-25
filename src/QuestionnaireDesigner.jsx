@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useState, useCallback, useMemo } from 'react';
 import { createId } from './core/ids.js';
 import { COMPARISON_OPS, LANGS, newQuestion, PRESETS, QUESTION_TYPES, createQuestionnaire } from './core/questionnaireModel.js';
@@ -96,6 +97,7 @@ export function BatchImport({ disabled, onImport }) {
 
 // ── Question Editor ──
 function QuestionEditor({ question: q, index, total, disabled, updateQuestion, removeQuestion, moveQuestion, allQuestions }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   const [lang, setLang] = useState('en');
   const [multiLang, setMultiLang] = useState(false);
@@ -182,7 +184,7 @@ function QuestionEditor({ question: q, index, total, disabled, updateQuestion, r
     {['single_choice','number','likert'].includes(q.type) && (
       <label className="q-answer">
         <span>Correct answer (auto-scored)</span>
-        <input value={q.correct_answer || ''} disabled={disabled} placeholder={q.type==='likert'||q.type==='number'?'e.g. 5':t('Matching option text')}
+        <input value={q.correct_answer || ''} disabled={disabled} placeholder={q.type==='likert'||q.type==='number'?tDisplay("e.g. 5"):t('Matching option text')}
           onChange={e => updateQuestion(index, 'correct_answer', e.target.value)} />
       </label>
     )}

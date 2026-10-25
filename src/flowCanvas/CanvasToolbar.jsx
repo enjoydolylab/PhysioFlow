@@ -1,15 +1,17 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 // Top toolbar of the FlowCanvas editor: view switch, undo/redo, auto layout,
 // fit view, flow snapshots and validation status.
 export default function CanvasToolbar({ viewMode, setViewMode, trial, flow, focusMessage, focusHighlightStepId, setFocusHighlightStepId, setFocusMessage, dragConnection, setDragConnection, snapEnabled, setSnapEnabled, performUndo, performRedo, autoLayout, fitView, snapshots, snapshotsOpen, setSnapshotsOpen, saveSnapshot, restoreSnapshot, renameSnapshot, deleteSnapshot, check, t }) {
+  const tDisplay = useDisplayT();
   return (
     <div className="canvas-bar">
-      <div className="view-toggle" role="tablist" aria-label="Editor view">
+      <div className="view-toggle" role="tablist" aria-label={tDisplay("Editor view")}>
         <button type="button" role="tab" aria-selected={viewMode === 'canvas'} className={viewMode === 'canvas' ? 'active' : ''} onClick={() => setViewMode('canvas')}>Canvas</button>
         <button type="button" role="tab" aria-selected={viewMode === 'code'} className={viewMode === 'code' ? 'active' : ''} onClick={() => setViewMode('code')}>Code</button>
       </div>
       <div><b>{trial.name}</b><span>{flow.nodes.length} nodes · {flow.edges.length} connections</span></div>
       <div className={`connection-hint ${focusMessage ? 'focus-warning' : ''}`}>
-        {focusMessage ? <span>{focusMessage} {focusHighlightStepId && <button onClick={() => { setFocusHighlightStepId(null); setFocusMessage(''); }} style={{ fontSize: '.7rem', padding: '.15rem .5rem', marginLeft: '.5rem' }}>知道了</button>}</span> : dragConnection ? <>Connect <strong>{dragConnection.branch}</strong> → <button onClick={() => setDragConnection(null)}>Cancel</button></> : null}
+        {focusMessage ? <span>{focusMessage} {focusHighlightStepId && <button onClick={() => { setFocusHighlightStepId(null); setFocusMessage(''); }} style={{ fontSize: '.7rem', padding: '.15rem .5rem', marginLeft: '.5rem' }}>{tDisplay("Got it")}</button>}</span> : dragConnection ? <>Connect <strong>{dragConnection.branch}</strong> → <button onClick={() => setDragConnection(null)}>Cancel</button></> : null}
       </div>
       <label className="check-row">
         <input type="checkbox" checked={snapEnabled} onChange={e => { setSnapEnabled(e.target.checked); try { localStorage.setItem('physioflow.snap', e.target.checked ? '1' : '0'); } catch {} }} /> Snap
@@ -37,7 +39,7 @@ export default function CanvasToolbar({ viewMode, setViewMode, trial, flow, focu
           ))}
         </div>}
       </div>
-      <span className={check.valid ? 'flow-status valid' : 'flow-status invalid'} title={check.errors.concat(check.warnings).slice(0, 5).join('\n')}>{check.valid ? '✓ Ready' : `! ${check.errors.length} issues`}</span>
+      <span className={check.valid ? 'flow-status valid' : 'flow-status invalid'} title={check.errors.concat(check.warnings).slice(0, 5).join('\n')}>{check.valid ? tDisplay("✓ Ready") : tDisplay("! {0} issues", [check.errors.length])}</span>
     </div>
   );
 }

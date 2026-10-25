@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { nodeDisplayLabel } from './catalogLabels.js';
 import { matchUploadedMedia } from '../core/mediaReadiness.js';
 import { useMemo, useRef, useState } from 'react';
@@ -14,6 +15,7 @@ import { downloadJson } from './toolbox.js';
 import { saveAsset } from '../assetStore.js';
 
 export function GroupCatalog({ registry: componentRegistry, groups, nodes, locked, onUpdate, onRemove, onPublish }) {
+  const tDisplay = useDisplayT();
   const { language } = useLanguage();
   const t = key => translate(key, language);
 
@@ -22,28 +24,28 @@ export function GroupCatalog({ registry: componentRegistry, groups, nodes, locke
     <p>{t("Visual containers organize related nodes without creating a second execution model.")}</p>
     {!groups.length && <small>{t("No groups yet. Select a node and create one from its Inspector.")}</small>}
     {groups.map(group => <article key={group.id}>
-    <input disabled={locked} aria-label={`${group.name} group name`} value={group.name} onChange={event => onUpdate(group.id, { name: event.target.value })} />
-    <select disabled={locked} aria-label={`${group.name} group kind`} value={group.kind || 'container'} onChange={event => {
+    <input disabled={locked} aria-label={tDisplay("{0} group name", [group.name])} value={group.name} onChange={event => onUpdate(group.id, { name: event.target.value })} />
+    <select disabled={locked} aria-label={tDisplay("{0} group kind", [group.name])} value={group.kind || 'container'} onChange={event => {
         const kind = event.target.value;
         onUpdate(group.id, kind === 'subflow' ? { kind, entryNodeId: group.entryNodeId || group.nodeIds[0], exitNodeIds: group.exitNodeIds?.length ? group.exitNodeIds : [group.nodeIds.at(-1)] } : { kind, entryNodeId: null, exitNodeIds: [] });
       }}><option value="container">{t("container")}</option><option value="subflow">{t("subflow")}</option></select>
     <small>{group.nodeIds.length}{t("node(s) ·")}{group.kind}</small>
     {group.kind === 'subflow' && <div className="subflow-settings">
-    <label>{t("Entry")}<select disabled={locked} aria-label={`${group.name} subflow entry`} value={group.entryNodeId || ''} onChange={event => onUpdate(group.id, { entryNodeId: event.target.value })}>{group.nodeIds.map(nodeId => <option key={nodeId} value={nodeId}>{nodes.some(node => node.id === nodeId) ? nodeDisplayLabel(nodes.find(node => node.id === nodeId), language) : nodeId}</option>)}</select></label>
+    <label>{t("Entry")}<select disabled={locked} aria-label={tDisplay("{0} subflow entry", [group.name])} value={group.entryNodeId || ''} onChange={event => onUpdate(group.id, { entryNodeId: event.target.value })}>{group.nodeIds.map(nodeId => <option key={nodeId} value={nodeId}>{nodes.some(node => node.id === nodeId) ? nodeDisplayLabel(nodes.find(node => node.id === nodeId), language) : nodeId}</option>)}</select></label>
     <fieldset className="subflow-exits"><legend>{t("Exits")}</legend>{group.nodeIds.map(nodeId => <label key={nodeId}><input disabled={locked} type="checkbox" checked={(group.exitNodeIds || []).includes(nodeId)} onChange={event => onUpdate(group.id, { exitNodeIds: event.target.checked ? [...(group.exitNodeIds || []), nodeId] : (group.exitNodeIds || []).filter(id => id !== nodeId) })} />{nodes.some(node => node.id === nodeId) ? nodeDisplayLabel(nodes.find(node => node.id === nodeId), language) : nodeId}</label>)}</fieldset>
     {(group.parameters || []).map((parameter, index) => {
           const ports = groupDataPorts(group, nodes, parameter.direction, componentRegistry);
           const endpointName = parameter.direction === 'output' ? 'source' : 'target';
           return <div className="subflow-parameter" key={index}>
-    <input disabled={locked} aria-label={`${group.name} parameter ${index + 1} name`} value={parameter.name} onChange={event => onUpdate(group.id, { parameters: group.parameters.map((item, itemIndex) => itemIndex === index ? { ...item, name: event.target.value } : item) })} />
-    <select disabled={locked} aria-label={`${group.name} parameter ${index + 1} type`} value={parameter.type} onChange={event => onUpdate(group.id, { parameters: group.parameters.map((item, itemIndex) => itemIndex === index ? { ...item, type: event.target.value } : item) })}>{['string', 'number', 'boolean', 'enum', 'object', 'array', 'unknown'].map(type => <option key={type} value={type}>{t(type)}</option>)}</select>
-    <select disabled={locked} aria-label={`${group.name} parameter ${index + 1} direction`} value={parameter.direction} onChange={event => {
+    <input disabled={locked} aria-label={tDisplay("{0} parameter {1} name", [group.name, index + 1])} value={parameter.name} onChange={event => onUpdate(group.id, { parameters: group.parameters.map((item, itemIndex) => itemIndex === index ? { ...item, name: event.target.value } : item) })} />
+    <select disabled={locked} aria-label={tDisplay("{0} parameter {1} type", [group.name, index + 1])} value={parameter.type} onChange={event => onUpdate(group.id, { parameters: group.parameters.map((item, itemIndex) => itemIndex === index ? { ...item, type: event.target.value } : item) })}>{['string', 'number', 'boolean', 'enum', 'object', 'array', 'unknown'].map(type => <option key={type} value={type}>{t(type)}</option>)}</select>
+    <select disabled={locked} aria-label={tDisplay("{0} parameter {1} direction", [group.name, index + 1])} value={parameter.direction} onChange={event => {
             const direction = event.target.value;
             const firstPort = groupDataPorts(group, nodes, direction, componentRegistry)[0];
             onUpdate(group.id, { parameters: group.parameters.map((item, itemIndex) => itemIndex === index ? { ...item, direction, type: firstPort?.dataType || item.type, target: direction === 'input' && firstPort ? { nodeId: firstPort.nodeId, portId: firstPort.portId } : undefined, source: direction === 'output' && firstPort ? { nodeId: firstPort.nodeId, portId: firstPort.portId } : undefined } : item) });
           }}><option value="input">{t("input")}</option><option value="output">{t("output")}</option></select>
-    <select disabled={locked || !ports.length} aria-label={`${group.name} parameter ${index + 1} endpoint`} value={endpointValue(parameter[endpointName])} onChange={event => onUpdate(group.id, { parameters: group.parameters.map((item, itemIndex) => itemIndex === index ? { ...item, [endpointName]: parseEndpoint(event.target.value) } : item) })}><option value="">{t("Select port")}</option>{ports.map(port => <option key={`${port.nodeId}:${port.portId}`} value={endpointValue(port)}>{port.label}</option>)}</select>
-    <button disabled={locked} aria-label={`Delete parameter ${parameter.name}`} onClick={() => onUpdate(group.id, { parameters: group.parameters.filter((_, itemIndex) => itemIndex !== index) })}>×</button>
+    <select disabled={locked || !ports.length} aria-label={tDisplay("{0} parameter {1} endpoint", [group.name, index + 1])} value={endpointValue(parameter[endpointName])} onChange={event => onUpdate(group.id, { parameters: group.parameters.map((item, itemIndex) => itemIndex === index ? { ...item, [endpointName]: parseEndpoint(event.target.value) } : item) })}><option value="">{t("Select port")}</option>{ports.map(port => <option key={`${port.nodeId}:${port.portId}`} value={endpointValue(port)}>{port.label}</option>)}</select>
+    <button disabled={locked} aria-label={tDisplay("Delete parameter {0}", [parameter.name])} onClick={() => onUpdate(group.id, { parameters: group.parameters.filter((_, itemIndex) => itemIndex !== index) })}>×</button>
     </div>})}
     <button disabled={locked || (!groupDataPorts(group, nodes, 'input', componentRegistry).length && !groupDataPorts(group, nodes, 'output', componentRegistry).length)} onClick={() => {
           const direction = groupDataPorts(group, nodes, 'input', componentRegistry).length ? 'input' : 'output';
@@ -53,12 +55,13 @@ export function GroupCatalog({ registry: componentRegistry, groups, nodes, locke
         }}>{t("Add parameter")}</button>
     <button disabled={locked} onClick={() => onPublish(group.id)}>{t("Publish reusable template")}</button>
     </div>}
-    <button disabled={locked} aria-label={`Delete group ${group.name}`} onClick={() => onRemove(group.id)}>×</button>
+    <button disabled={locked} aria-label={tDisplay("Delete group {0}", [group.name])} onClick={() => onRemove(group.id)}>×</button>
     </article>)}
     </section>;
 }
 
 export function SubflowTemplateCatalog({ templates, variables, locked, onInstantiate, onRemove }) {
+  const tDisplay = useDisplayT();
   const { language } = useLanguage();
   const t = key => translate(key, language);
 
@@ -75,7 +78,7 @@ export function SubflowTemplateCatalog({ templates, variables, locked, onInstant
       return <article key={template.id}>
     <div><b>{template.name}</b><small>v{template.version} · {template.nodes.length}{t("nodes")}</small></div>
     {(template.parameters || []).map(parameter => <label key={parameter.name}>{parameter.direction}
-    {parameter.name}<select disabled={locked} aria-label={`${template.name} ${parameter.name} variable mapping`} value={resolvedMappings[parameter.name]} onChange={event => setMappings(current => ({ ...current, [template.id]: { ...(current[template.id] || {}), [parameter.name]: event.target.value } }))}><option value="">{t("Select variable")}</option>{compatible(parameter).map(variable => <option key={variable.name}>{variable.name}</option>)}</select></label>)}
+    {parameter.name}<select disabled={locked} aria-label={tDisplay("{0} {1} variable mapping", [template.name, parameter.name])} value={resolvedMappings[parameter.name]} onChange={event => setMappings(current => ({ ...current, [template.id]: { ...(current[template.id] || {}), [parameter.name]: event.target.value } }))}><option value="">{t("Select variable")}</option>{compatible(parameter).map(variable => <option key={variable.name}>{variable.name}</option>)}</select></label>)}
     {!ready && Boolean(template.parameters?.length) && <small>{t("Add compatible protocol variables before instantiating.")}</small>}
     <div className="subflow-template-actions"><button disabled={locked || !ready} onClick={() => onInstantiate(template.id, resolvedMappings)}>{t("Create instance")}</button><button disabled={locked} onClick={() => onRemove(template.id)}>{t("Delete template")}</button></div>
     </article>;
@@ -91,6 +94,7 @@ function snapshotLabel(state) {
 }
 
 export function CollaborationCatalog({ protocol, baseline, locked, onSetBaseline, onApply, onMessage }) {
+  const tDisplay = useDisplayT();
   const { language } = useLanguage();
   const t = key => translate(key, language);
 
@@ -140,7 +144,7 @@ export function CollaborationCatalog({ protocol, baseline, locked, onSetBaseline
     <small>{preview.appliedOperations}{t("ready ·")}{preview.alreadyAppliedOperations}{t("already applied ·")}{preview.unresolved}{t("conflict(s)")}</small>
     {preview.conflicts.map(conflict => <label key={conflict.operationId} className="collaboration-conflict">
     <span><b>{conflict.target}{conflict.entityKey ? ` · ${conflict.entityKey}` : ''}</b><small>{conflict.path.join('.') || '(whole entity)'}</small><small>{t("Local:")}{snapshotLabel(conflict.local)}</small><small>{t("Incoming:")}{snapshotLabel(conflict.incoming)}</small></span>
-    <select aria-label={`${conflict.operationId} conflict resolution`} value={resolutions[conflict.operationId] || ''} onChange={event => setResolutions(current => ({ ...current, [conflict.operationId]: event.target.value }))}><option value="">{t("Resolve…")}</option><option value="local">{t("Keep local")}</option><option value="incoming">{t("Use incoming")}</option></select>
+    <select aria-label={tDisplay("{0} conflict resolution", [conflict.operationId])} value={resolutions[conflict.operationId] || ''} onChange={event => setResolutions(current => ({ ...current, [conflict.operationId]: event.target.value }))}><option value="">{t("Resolve…")}</option><option value="local">{t("Keep local")}</option><option value="incoming">{t("Use incoming")}</option></select>
     </label>)}
     <div><button disabled={locked || preview.unresolved > 0} onClick={() => { onApply(preview.protocol); setPending(null); setResolutions({}); }}>{t("Apply change set")}</button><button onClick={() => { setPending(null); setResolutions({}); }}>{t("Cancel")}</button></div>
     </article>}
@@ -286,6 +290,7 @@ export function DeploymentCatalog({ protocol, onHostedRun, onMessage }) {
 }
 
 export function ComponentPackageCatalog({ packages, locked, onInstallExample, onImport, onRemove }) {
+  const tDisplay = useDisplayT();
   const { language } = useLanguage();
   const t = key => translate(key, language);
 
@@ -319,7 +324,7 @@ export function ComponentPackageCatalog({ packages, locked, onInstallExample, on
     </article>}
     {packages.map(componentPackage => <article key={`${componentPackage.packageId}@${componentPackage.version}`}>
     <div><b>{componentPackage.name}</b><small>{componentPackage.packageId}@{componentPackage.version} · {componentPackage.components.length}{t("component(s)")}</small></div>
-    <small>{componentPackage.permissions?.length ? `Permissions: ${componentPackage.permissions.join(', ')}` : t("No permissions")}</small>
+    <small>{componentPackage.permissions?.length ? tDisplay("Permissions: {0}", [componentPackage.permissions.join(', ')]) : t("No permissions")}</small>
     <button disabled={locked} onClick={() => onRemove(componentPackage.packageId, componentPackage.version)}>{t("Uninstall")}</button>
     </article>)}
     </section>;
@@ -365,6 +370,7 @@ export function DeviceConnectorCatalog({ connectors, locked, onInstallExample, o
 }
 
 export function VariableCatalog({ variables, locked, mode, onAdd, onUpdate, onRemove, onError }) {
+  const tDisplay = useDisplayT();
   const { language } = useLanguage();
   const t = key => translate(key, language);
 
@@ -382,16 +388,16 @@ export function VariableCatalog({ variables, locked, mode, onAdd, onUpdate, onRe
     <h3>{t('Variables')}</h3>
     <p>{t("Typed values available to conditions and participant UI bindings.")}</p>
     {variables.map(variable => <article key={variable.name}>
-    <input disabled={locked} aria-label={`${variable.name} variable name`} value={variable.name} onChange={event => {
+    <input disabled={locked} aria-label={tDisplay("{0} variable name", [variable.name])} value={variable.name} onChange={event => {
         try { onUpdate(variable.name, { name: event.target.value }); } catch { /* keep editing stable until valid */ }
       }} />
-    <select disabled={locked} aria-label={`${variable.name} variable type`} value={variable.type} onChange={event => { try { onUpdate(variable.name, { type: event.target.value }); } catch (error) { onError(error); } }}>{['string', 'number', 'boolean', 'enum', 'object', 'array', 'unknown'].map(type => <option key={type} value={type}>{t(type)}</option>)}</select>
-    <select disabled={locked} aria-label={`${variable.name} variable scope`} value={variable.scope} onChange={event => onUpdate(variable.name, { scope: event.target.value })}>{['session', 'trial', 'component', 'container', 'project'].map(scope => <option key={scope} value={scope}>{t(scope)}</option>)}</select>
-    {variable.type === 'boolean' ? <select disabled={locked} aria-label={`${variable.name} default value`} value={String(Boolean(variable.defaultValue))} onChange={event => onUpdate(variable.name, { defaultValue: event.target.value === 'true' })}><option value="false">{t("false")}</option><option value="true">{t("true")}</option></select>
-        : <input disabled={locked} aria-label={`${variable.name} default value`} value={typeof variable.defaultValue === 'object' ? JSON.stringify(variable.defaultValue) : variable.defaultValue ?? ''} onChange={event => onUpdate(variable.name, { defaultValue: variable.type === 'number' ? Number(event.target.value) : event.target.value })} />}
-    {mode === 'advanced' && <><select disabled={locked} aria-label={`${variable.name} variable source`} value={variable.source || 'manual'} onChange={event => onUpdate(variable.name, { source: event.target.value })}><option value="manual">{t("manual")}</option><option value="participant">{t("participant")}</option><option value="component">{t("component")}</option><option value="computed">{t("computed")}</option></select>
-    <select disabled={locked} aria-label={`${variable.name} export policy`} value={variable.exportPolicy || 'include'} onChange={event => onUpdate(variable.name, { exportPolicy: event.target.value })}><option value="include">{t("include")}</option><option value="exclude">{t("exclude")}</option><option value="hash">{t("hash")}</option></select></>}
-    <button disabled={locked} aria-label={`Delete variable ${variable.name}`} onClick={() => onRemove(variable.name)}>×</button>
+    <select disabled={locked} aria-label={tDisplay("{0} variable type", [variable.name])} value={variable.type} onChange={event => { try { onUpdate(variable.name, { type: event.target.value }); } catch (error) { onError(error); } }}>{['string', 'number', 'boolean', 'enum', 'object', 'array', 'unknown'].map(type => <option key={type} value={type}>{t(type)}</option>)}</select>
+    <select disabled={locked} aria-label={tDisplay("{0} variable scope", [variable.name])} value={variable.scope} onChange={event => onUpdate(variable.name, { scope: event.target.value })}>{['session', 'trial', 'component', 'container', 'project'].map(scope => <option key={scope} value={scope}>{t(scope)}</option>)}</select>
+    {variable.type === 'boolean' ? <select disabled={locked} aria-label={tDisplay("{0} default value", [variable.name])} value={String(Boolean(variable.defaultValue))} onChange={event => onUpdate(variable.name, { defaultValue: event.target.value === 'true' })}><option value="false">{t("false")}</option><option value="true">{t("true")}</option></select>
+        : <input disabled={locked} aria-label={tDisplay("{0} default value", [variable.name])} value={typeof variable.defaultValue === 'object' ? JSON.stringify(variable.defaultValue) : variable.defaultValue ?? ''} onChange={event => onUpdate(variable.name, { defaultValue: variable.type === 'number' ? Number(event.target.value) : event.target.value })} />}
+    {mode === 'advanced' && <><select disabled={locked} aria-label={tDisplay("{0} variable source", [variable.name])} value={variable.source || 'manual'} onChange={event => onUpdate(variable.name, { source: event.target.value })}><option value="manual">{t("manual")}</option><option value="participant">{t("participant")}</option><option value="component">{t("component")}</option><option value="computed">{t("computed")}</option></select>
+    <select disabled={locked} aria-label={tDisplay("{0} export policy", [variable.name])} value={variable.exportPolicy || 'include'} onChange={event => onUpdate(variable.name, { exportPolicy: event.target.value })}><option value="include">{t("include")}</option><option value="exclude">{t("exclude")}</option><option value="hash">{t("hash")}</option></select></>}
+    <button disabled={locked} aria-label={tDisplay("Delete variable {0}", [variable.name])} onClick={() => onRemove(variable.name)}>×</button>
     </article>)}
     {!locked && <div className="variable-create">
     <input aria-label={t("New variable name")} placeholder={t("variable_name")} value={draft.name} onChange={event => setDraft({ ...draft, name: event.target.value })} />
@@ -425,6 +431,7 @@ export function VisualAngleCalculator() {
 }
 
 export function AssetLibrary({ assets, stimulusPools = [], locked, onUpdate }) {
+  const tDisplay = useDisplayT();
   const { language } = useLanguage();
   const t = key => translate(key, language);
   const [draft, setDraft] = useState({ name: '', mediaType: 'image', url: '' });
@@ -464,7 +471,7 @@ export function AssetLibrary({ assets, stimulusPools = [], locked, onUpdate }) {
     {(assets || []).map(asset => <div key={asset.id || asset.assetId} className="asset-row">
     <span>{asset.name || asset.fileName || asset.id}</span>
     <small>{t(asset.mediaType || asset.type || '')}{asset.sourceMode === 'manifest' ? <> {t('· Upload required')}</> : ''}</small>
-    {!asset.sourceUrl && !asset.url && <label>{t("Bind file")}<input aria-label={`Bind file for ${asset.name || asset.fileName || asset.id}`} type="file" disabled={locked || uploading} accept="image/*,audio/*,video/*" onChange={event => { upload(Array.from(event.target.files || []), asset.id || asset.assetId); event.target.value = ''; }} /></label>}
+    {!asset.sourceUrl && !asset.url && <label>{t("Bind file")}<input aria-label={tDisplay("Bind file for {0}", [asset.name || asset.fileName || asset.id])} type="file" disabled={locked || uploading} accept="image/*,audio/*,video/*" onChange={event => { upload(Array.from(event.target.files || []), asset.id || asset.assetId); event.target.value = ''; }} /></label>}
     <button disabled={locked || uploading || stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId))} title={stimulusPools.some(pool => pool.assetIds?.includes(asset.id || asset.assetId)) ? t('Remove this asset from its stimulus pool first') : t('Delete asset')} onClick={() => remove(asset.id || asset.assetId)}>×</button>
     </div>)}
     <div className="asset-add">
@@ -480,6 +487,7 @@ export function AssetLibrary({ assets, stimulusPools = [], locked, onUpdate }) {
 }
 
 export function StimulusPoolCatalog({ pools = [], assets = [], nodes = [], locked, onUpdate }) {
+  const tDisplay = useDisplayT();
   const { language } = useLanguage();
   const t = key => translate(key, language);
   const [draft, setDraft] = useState({ name: '', mediaType: 'image' });
@@ -496,7 +504,7 @@ export function StimulusPoolCatalog({ pools = [], assets = [], nodes = [], locke
     <h3>{t("Stimulus pools")}</h3>
     <p>{t("Create a pool once, then select it from a Media node. Each cycle draws without replacement; when exhausted, the pool repeats its seeded order. Use a flow loop to repeat presentation.")}</p>
     {pools.map(pool => <article key={pool.id}>
-    <div className="stimulus-pool-head"><input disabled={locked} aria-label={t("Stimulus pool name")} value={pool.name || ''} onChange={event => update(pool.id, { name: event.target.value })} /><select disabled={locked || used(pool.id)} aria-label={`${pool.name} media type`} value={pool.mediaType || 'image'} onChange={event => update(pool.id, { mediaType: event.target.value, assetIds: [] })}><option value="image">{t("image")}</option><option value="audio">{t("audio")}</option><option value="video">{t("video")}</option></select><button className="danger" disabled={locked || used(pool.id)} title={used(pool.id) ? t('This pool is assigned to a Media node') : t('Delete pool')} onClick={() => onUpdate(pools.filter(item => item.id !== pool.id))}>×</button></div>
+    <div className="stimulus-pool-head"><input disabled={locked} aria-label={t("Stimulus pool name")} value={pool.name || ''} onChange={event => update(pool.id, { name: event.target.value })} /><select disabled={locked || used(pool.id)} aria-label={tDisplay("{0} media type", [pool.name])} value={pool.mediaType || 'image'} onChange={event => update(pool.id, { mediaType: event.target.value, assetIds: [] })}><option value="image">{t("image")}</option><option value="audio">{t("audio")}</option><option value="video">{t("video")}</option></select><button className="danger" disabled={locked || used(pool.id)} title={used(pool.id) ? t('This pool is assigned to a Media node') : t('Delete pool')} onClick={() => onUpdate(pools.filter(item => item.id !== pool.id))}>×</button></div>
     <div className="stimulus-pool-summary">
     <span><b>{pool.assetIds?.length || 0}</b>{t("assets")}</span>
     <button type="button" disabled={locked} onClick={() => setEditingId(pool.id)}>{t("Edit assets")}</button>

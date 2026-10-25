@@ -1274,5 +1274,693 @@
   {
     "text": "physioflow.onboarding-v1",
     "reason": "data"
+  },
+  {
+    "text": "← 前へ",
+    "reason": "multilingual"
+  },
+  {
+    "text": "← 上一题",
+    "reason": "multilingual"
+  },
+  {
+    "text": "← Previous",
+    "reason": "multilingual"
+  },
+  {
+    "text": "必填",
+    "reason": "multilingual"
+  },
+  {
+    "text": "必須",
+    "reason": "multilingual"
+  },
+  {
+    "text": "残り時間",
+    "reason": "multilingual"
+  },
+  {
+    "text": "次の3項目について評価してください。",
+    "reason": "multilingual"
+  },
+  {
+    "text": "次へ →",
+    "reason": "multilingual"
+  },
+  {
+    "text": "得点",
+    "reason": "multilingual"
+  },
+  {
+    "text": "得分",
+    "reason": "multilingual"
+  },
+  {
+    "text": "唤醒度",
+    "reason": "multilingual"
+  },
+  {
+    "text": "回答済み",
+    "reason": "multilingual"
+  },
+  {
+    "text": "回答して次へ →",
+    "reason": "multilingual"
+  },
+  {
+    "text": "控制感",
+    "reason": "multilingual"
+  },
+  {
+    "text": "没有题目",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请回答所有必填项目。",
+    "reason": "multilingual"
+  },
+  {
+    "text": "请评价以下三个维度。",
+    "reason": "multilingual"
+  },
+  {
+    "text": "剩余时间",
+    "reason": "multilingual"
+  },
+  {
+    "text": "送信",
+    "reason": "multilingual"
+  },
+  {
+    "text": "提交",
+    "reason": "multilingual"
+  },
+  {
+    "text": "提交并继续 →",
+    "reason": "multilingual"
+  },
+  {
+    "text": "题目",
+    "reason": "multilingual"
+  },
+  {
+    "text": "未回答の項目があります。赤い行を確認してください。",
+    "reason": "multilingual"
+  },
+  {
+    "text": "下一题 →",
+    "reason": "multilingual"
+  },
+  {
+    "text": "已回答",
+    "reason": "multilingual"
+  },
+  {
+    "text": "愉悦度",
+    "reason": "multilingual"
+  },
+  {
+    "text": "質問",
+    "reason": "multilingual"
+  },
+  {
+    "text": "質問がありません",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Arousal（覚醒度）",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Dominance（支配感）",
+    "reason": "multilingual"
+  },
+  {
+    "text": "No questions",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Please answer every required row.",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Please rate the following three dimensions.",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Submit and continue →",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Time left",
+    "reason": "multilingual"
+  },
+  {
+    "text": "Valence（快・不快度）",
+    "reason": "multilingual"
+  },
+  {
+    "text": "{n}",
+    "reason": "data"
+  },
+  {
+    "text": "{name}",
+    "reason": "data"
+  },
+  {
+    "text": "{total}",
+    "reason": "data"
+  },
+  {
+    "text": "SANDBOX-P001",
+    "reason": "data"
+  },
+  {
+    "text": "＋ 多语言翻译（可选）",
+    "reason": "multilingual"
+  },
+  {
+    "text": "button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=\"-1\"])",
+    "reason": "data"
+  },
+  {
+    "text": "Conditional display · 条件显示",
+    "reason": "multilingual"
+  },
+  {
+    "text": "observations[{0}]",
+    "reason": "data"
+  },
+  {
+    "text": "type,en,options,min,max,answer likert,Rate your experience,Not at all|Very,1,5,5",
+    "reason": "content"
+  },
+  {
+    "text": "{0} Hz",
+    "reason": "data"
+  },
+  {
+    "text": "pNN50",
+    "reason": "data"
+  },
+  {
+    "text": "· v",
+    "reason": "data"
+  },
+  {
+    "text": "{count}",
+    "reason": "data"
+  },
+  {
+    "text": "BrainFlow agent samples.jsonl",
+    "reason": "data"
+  },
+  {
+    "text": "global-completion-v1",
+    "reason": "data"
+  },
+  {
+    "text": "preflight failed",
+    "reason": "data"
+  },
+  {
+    "text": "preparation edited",
+    "reason": "data"
+  },
+  {
+    "text": "preview exited",
+    "reason": "data"
+  },
+  {
+    "text": "runner closed",
+    "reason": "data"
+  },
+  {
+    "text": "session end",
+    "reason": "data"
+  },
+  {
+    "text": "Alt+Drag",
+    "reason": "data"
+  },
+  {
+    "text": "Ctrl+A",
+    "reason": "data"
+  },
+  {
+    "text": "Ctrl+C/V/D",
+    "reason": "data"
+  },
+  {
+    "text": "Ctrl+F",
+    "reason": "data"
+  },
+  {
+    "text": "Ctrl+Z / Ctrl+Shift+Z",
+    "reason": "data"
+  },
+  {
+    "text": "Shift+Click",
+    "reason": "data"
+  },
+  {
+    "text": "Space/Middle+Drag",
+    "reason": "data"
+  },
+  {
+    "text": "base64",
+    "reason": "data"
+  },
+  {
+    "text": "utf8",
+    "reason": "data"
+  },
+  {
+    "text": "acquisition agent samples.jsonl",
+    "reason": "data"
+  },
+  {
+    "text": "physioflow-assets-v1",
+    "reason": "data"
+  },
+  {
+    "text": ".composer-node, .composer-port, .composer-wires",
+    "reason": "data"
+  },
+  {
+    "text": "{source}",
+    "reason": "data"
+  },
+  {
+    "text": "1h",
+    "reason": "data"
+  },
+  {
+    "text": "24h",
+    "reason": "data"
+  },
+  {
+    "text": "6h",
+    "reason": "data"
+  },
+  {
+    "text": "created from PF Data panel (D3)",
+    "reason": "data"
+  },
+  {
+    "text": "eda,hr",
+    "reason": "data"
+  },
+  {
+    "text": "physioflow.current-run-pointer.v2",
+    "reason": "data"
+  },
+  {
+    "text": "physioflow.protocols.v1",
+    "reason": "data"
+  },
+  {
+    "text": "physioflow.sessions.v2",
+    "reason": "data"
+  },
+  {
+    "text": ".000Z",
+    "reason": "data"
+  },
+  {
+    "text": "{0} migration draft",
+    "reason": "content"
+  },
+  {
+    "text": "migrated-v1",
+    "reason": "data"
+  },
+  {
+    "text": "streams/{0}/samples?{1}",
+    "reason": "data"
+  },
+  {
+    "text": "streams/{0}/samples?follow=true",
+    "reason": "data"
+  },
+  {
+    "text": "← 前の問題",
+    "reason": "multilingual"
+  },
+  {
+    "text": "必填 / Required / 必須",
+    "reason": "multilingual"
+  },
+  {
+    "text": "得分:",
+    "reason": "multilingual"
+  },
+  {
+    "text": "hsl({0}, {1}%, {2}%)",
+    "reason": "data"
+  },
+  {
+    "text": "10px system-ui",
+    "reason": "data"
+  },
+  {
+    "text": "2d",
+    "reason": "data"
+  },
+  {
+    "text": "600 12px system-ui",
+    "reason": "data"
+  },
+  {
+    "text": "9px system-ui",
+    "reason": "data"
+  },
+  {
+    "text": "{0} ms",
+    "reason": "data"
+  },
+  {
+    "text": "physioflow-data-v1",
+    "reason": "data"
+  },
+  {
+    "text": "-4c4d-454d-96be-f03bac821358",
+    "reason": "data"
+  },
+  {
+    "text": "AF7",
+    "reason": "data"
+  },
+  {
+    "text": "AF8",
+    "reason": "data"
+  },
+  {
+    "text": "p20",
+    "reason": "data"
+  },
+  {
+    "text": "p21",
+    "reason": "data"
+  },
+  {
+    "text": "p50",
+    "reason": "data"
+  },
+  {
+    "text": "TP10",
+    "reason": "data"
+  },
+  {
+    "text": "TP9",
+    "reason": "data"
+  },
+  {
+    "text": ".instruction { font-family: Georgia, serif; }",
+    "reason": "data"
+  },
+  {
+    "text": "<h1>Hello</h1> <style>h1{color:#197453;font-family:Georgia}</style>",
+    "reason": "content"
+  },
+  {
+    "text": "Ctrl+C",
+    "reason": "data"
+  },
+  {
+    "text": "Ctrl+D",
+    "reason": "data"
+  },
+  {
+    "text": "Ctrl+V",
+    "reason": "data"
+  },
+  {
+    "text": "e.g. 1.2rem, 18px",
+    "reason": "data"
+  },
+  {
+    "text": "HTML / CSS / JS",
+    "reason": "data"
+  },
+  {
+    "text": "1, EEG1, uV",
+    "reason": "data"
+  },
+  {
+    "text": "BrainFlow samples.jsonl",
+    "reason": "data"
+  },
+  {
+    "text": "11px system-ui",
+    "reason": "data"
+  },
+  {
+    "text": "600 13px system-ui",
+    "reason": "data"
+  },
+  {
+    "text": "600 13px system-ui, -apple-system, sans-serif",
+    "reason": "data"
+  },
+  {
+    "text": "9px monospace",
+    "reason": "data"
+  },
+  {
+    "text": "bold 10px system-ui",
+    "reason": "data"
+  },
+  {
+    "text": "physioflow-workspace-v1",
+    "reason": "data"
+  },
+  {
+    "text": "utf-8",
+    "reason": "data"
+  },
+  {
+    "text": "{0} / Step {1}",
+    "reason": "content"
+  },
+  {
+    "text": "{0} / Trial {1}",
+    "reason": "content"
+  },
+  {
+    "text": "Block {0}",
+    "reason": "content"
+  },
+  {
+    "text": "name: {0} → {1}",
+    "reason": "data"
+  },
+  {
+    "text": "New block",
+    "reason": "content"
+  },
+  {
+    "text": "New trial",
+    "reason": "content"
+  },
+  {
+    "text": "1. Use events.csv for raw timing and reconstruction.",
+    "reason": "data"
+  },
+  {
+    "text": "2. Use analysis_windows.csv for physiology window extraction.",
+    "reason": "data"
+  },
+  {
+    "text": "3. Use responses.csv for questionnaire outcomes, quick Response-node choices, reaction times, and branch variables.",
+    "reason": "data"
+  },
+  {
+    "text": "4. Check integrity_report.json before excluding or accepting a session.",
+    "reason": "data"
+  },
+  {
+    "text": "5. For external questionnaires, join answers from the external service by participant/session labels or appended URL parameters, and use external_questionnaire_* events for timing.",
+    "reason": "data"
+  },
+  {
+    "text": "CC0",
+    "reason": "data"
+  },
+  {
+    "text": "cm ·",
+    "reason": "data"
+  },
+  {
+    "text": "CSS px",
+    "reason": "data"
+  },
+  {
+    "text": "px · 5° =",
+    "reason": "data"
+  },
+  {
+    "text": "px/°",
+    "reason": "data"
+  },
+  {
+    "text": "{0} (copy)",
+    "reason": "content"
+  },
+  {
+    "text": "EEG {0}",
+    "reason": "data"
+  },
+  {
+    "text": "µV",
+    "reason": "data"
+  },
+  {
+    "text": "{content}",
+    "reason": "data"
+  },
+  {
+    "text": "{group}",
+    "reason": "data"
+  },
+  {
+    "text": "SIM-001",
+    "reason": "data"
+  },
+  {
+    "text": "1024x768",
+    "reason": "data"
+  },
+  {
+    "text": "1280x720",
+    "reason": "data"
+  },
+  {
+    "text": "1920x1080",
+    "reason": "data"
+  },
+  {
+    "text": "768x1024",
+    "reason": "data"
+  },
+  {
+    "text": "A declarative SDK example that completes on button press.",
+    "reason": "content"
+  },
+  {
+    "text": "Reaction Button",
+    "reason": "content"
+  },
+  {
+    "text": "Reaction Button Example",
+    "reason": "content"
+  },
+  {
+    "text": "Respond when you are ready",
+    "reason": "content"
+  },
+  {
+    "text": "{edges}",
+    "reason": "data"
+  },
+  {
+    "text": "{nodes}",
+    "reason": "data"
+  },
+  {
+    "text": "{steps}",
+    "reason": "data"
+  },
+  {
+    "text": "{visits}",
+    "reason": "data"
+  },
+  {
+    "text": "问卷设计器 · Questionnaire designer · アンケート設計",
+    "reason": "multilingual"
+  },
+  {
+    "text": "type,en,options,min,max,answer likert,How satisfied?,Very dissatisfied|Neutral|Very satisfied,1,5,3 single_choice,Choose one,Yes|No|Maybe,,,Yes",
+    "reason": "content"
+  },
+  {
+    "text": "M{0},{1} C{2},{3} {4},{5} {6},{7}",
+    "reason": "data"
+  },
+  {
+    "text": "M{0},{1} L{2},{3} L{4},{5} L{6},{7}",
+    "reason": "data"
+  },
+  {
+    "text": "flow · steps · layout",
+    "reason": "data"
+  },
+  {
+    "text": "button, input, select, textarea, [tabindex]:not([tabindex=\"-1\"])",
+    "reason": "data"
+  },
+  {
+    "text": "participant-ui-media{0} {1}",
+    "reason": "data"
+  },
+  {
+    "text": "@tauri-apps/api/core",
+    "reason": "data"
+  },
+  {
+    "text": "{0}L{1} {2}L{3} {4}Z",
+    "reason": "data"
+  },
+  {
+    "text": "operations[{0}]",
+    "reason": "data"
+  },
+  {
+    "text": "M {0} {1} C {2} {3}, {4} {5}, {6} {7}",
+    "reason": "data"
+  },
+  {
+    "text": "iso8601",
+    "reason": "data"
+  },
+  {
+    "text": "var(--green)",
+    "reason": "data"
+  },
+  {
+    "text": "button,input,select",
+    "reason": "data"
+  },
+  {
+    "text": "~/Documents/PhysioFlow Data",
+    "reason": "data"
+  },
+  {
+    "text": "physioflow.operator.v1",
+    "reason": "data"
+  },
+  {
+    "text": "<div style=\"text-align:center\">Custom HTML</div>",
+    "reason": "content"
+  },
+  {
+    "text": "physioflow.operator-connection.v1",
+    "reason": "data"
+  },
+  {
+    "text": "e.g. exp_xxxxx",
+    "reason": "data"
+  },
+  {
+    "text": "operator test navigation",
+    "reason": "data"
+  },
+  {
+    "text": "button, a[href], input, select, textarea, [tabindex=\"0\"]",
+    "reason": "data"
+  },
+  {
+    "text": "padding:2rem;font-family:system-ui,sans-serif;color:#a32e25",
+    "reason": "data"
   }
 ]

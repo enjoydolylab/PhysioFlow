@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { saveAsset } from './assetStore.js';
 import { ConfirmDialog } from './Modal.jsx';
@@ -8,6 +9,7 @@ const createResource = () => ({
 });
 
 export default function ResourceLibrary({ protocol, onChange, onClose }) {
+  const tDisplay = useDisplayT();
   const locked = protocol.status === 'frozen', resources = protocol.stimuli || [];
   const protoRef = useRef(protocol);
   useEffect(() => { protoRef.current = protocol; }, [protocol]);
@@ -34,7 +36,7 @@ export default function ResourceLibrary({ protocol, onChange, onClose }) {
   return <>
     <div className="resource-library-backdrop"><section className="resource-library">
       <header><div><span>STIMULUS LIBRARY</span><h2>Reusable media resources</h2></div><button onClick={onClose}>Close</button></header>
-      <p>Store a media URL or local upload once, then select it from any matching media node. SHA-256 checksums are saved for uploaded files.</p>
+      <p>{tDisplay("Store a media URL or local upload once, then select it from any matching media node. SHA-256 checksums are saved for uploaded files.")}</p>
       <div className="resource-list">
         {resources.map(r => <article key={r.stimulus_id}>
           <div className="resource-head">
@@ -49,9 +51,9 @@ export default function ResourceLibrary({ protocol, onChange, onClose }) {
           </div>
           {r.checksum && <small>SHA-256 {r.checksum}</small>}
         </article>)}
-        {!resources.length && <div className="empty">No shared stimuli yet. Direct node resources still remain available.</div>}
+        {!resources.length && <div className="empty">{tDisplay("No shared stimuli yet. Direct node resources still remain available.")}</div>}
       </div>
-      <button className="primary" disabled={locked} onClick={() => change([...resources, createResource()])}>＋ Add stimulus</button>
+      <button className="primary" disabled={locked} onClick={() => change([...resources, createResource()])}>{tDisplay("＋ Add stimulus")}</button>
     </section></div>
     {confirmState && <ConfirmDialog {...confirmState} />}
   </>;

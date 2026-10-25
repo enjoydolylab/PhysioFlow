@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import FlowCanvas from './FlowCanvas';
 import ResourceLibrary from './ResourceLibrary';
@@ -8,6 +9,7 @@ import { stepContentIssues } from './domain';
 import { LanguageToggle, DarkModeToggle } from './i18n';
 
 export default function FlowWorkspaceOverlay({ protocol, onChange, onSave, onBack, onExport, onFreeze, onUnfreeze, onTestRun, onSwitchText, hasUnsaved, canUndo, canRedo, onUndo, onRedo, saveAnim, onGuide, focusTarget }) {
+  const tDisplay = useDisplayT();
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [hierarchyOpen, setHierarchyOpen] = useState(false);
   const [questionnaireOpen, setQuestionnaireOpen] = useState(false);
@@ -128,18 +130,18 @@ export default function FlowWorkspaceOverlay({ protocol, onChange, onSave, onBac
               <div className="overflow-backdrop" onClick={() => setOverflowOpen(false)} />
               <div className="overflow-dropdown">
                 <div className="overflow-section"><small>Navigation</small></div>
-                <button onClick={() => { setHierarchyOpen(true); setOverflowOpen(false); }}>📋 Blocks &amp; Trials</button>
-                <button onClick={() => { setLibraryOpen(true); setOverflowOpen(false); }}>🎬 Stimuli library</button>
-                <button onClick={() => { setQuestionnaireOpen(true); setOverflowOpen(false); }}>☷ Questionnaire library</button>
+                <button onClick={() => { setHierarchyOpen(true); setOverflowOpen(false); }}>{tDisplay("📋 Blocks & Trials")}</button>
+                <button onClick={() => { setLibraryOpen(true); setOverflowOpen(false); }}>{tDisplay("🎬 Stimuli library")}</button>
+                <button onClick={() => { setQuestionnaireOpen(true); setOverflowOpen(false); }}>{tDisplay("☷ Questionnaire library")}</button>
                 <div className="overflow-divider" />
-                <button onClick={() => { onGuide?.('workflow'); setOverflowOpen(false); }}>📖 Built-in guide</button>
-                <button onClick={() => { onGuide?.('data'); setOverflowOpen(false); }}>📊 Data format</button>
+                <button onClick={() => { onGuide?.('workflow'); setOverflowOpen(false); }}>{tDisplay("📖 Built-in guide")}</button>
+                <button onClick={() => { onGuide?.('data'); setOverflowOpen(false); }}>{tDisplay("📊 Data format")}</button>
                 <div className="overflow-divider" />
-                {onExport && <button onClick={() => { onExport(); setOverflowOpen(false); }}>💾 Export JSON</button>}
-                {protocol.status !== 'frozen' && onFreeze && <button onClick={() => { onFreeze(); setOverflowOpen(false); }}>🔒 Freeze version</button>}
+                {onExport && <button onClick={() => { onExport(); setOverflowOpen(false); }}>{tDisplay("💾 Export JSON")}</button>}
+                {protocol.status !== 'frozen' && onFreeze && <button onClick={() => { onFreeze(); setOverflowOpen(false); }}>{tDisplay("🔒 Freeze version")}</button>}
                 {protocol.status === 'frozen' && onUnfreeze && <button onClick={() => { onUnfreeze(); setOverflowOpen(false); }}>Create editable version</button>}
-                <button onClick={() => { setThemeOpen(true); setOverflowOpen(false); }}>🎨 Theme &amp; style</button>
-                {onSwitchText && <button onClick={() => { onSwitchText(); setOverflowOpen(false); }}>⚙ Advanced settings</button>}
+                <button onClick={() => { setThemeOpen(true); setOverflowOpen(false); }}>{tDisplay("🎨 Theme & style")}</button>
+                {onSwitchText && <button onClick={() => { onSwitchText(); setOverflowOpen(false); }}>{tDisplay("⚙ Advanced settings")}</button>}
               </div>
             </>}
           </div>
@@ -148,7 +150,7 @@ export default function FlowWorkspaceOverlay({ protocol, onChange, onSave, onBac
 
       {selected
         ? <FlowCanvas trial={selected.trial} stimuli={protocol.stimuli || []} questionnaires={protocol.questionnaires || []} disabled={protocol.status === 'frozen'} onChange={updateTrial} focusTarget={focusTarget} />
-        : <div className="empty" style={{ padding: '3rem', textAlign: 'center' }}>Add a Trial before opening the workflow.</div>
+        : <div className="empty" style={{ padding: '3rem', textAlign: 'center' }}>{tDisplay("Add a Trial before opening the workflow.")}</div>
       }
     </div>
 

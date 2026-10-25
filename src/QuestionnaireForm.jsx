@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { translate } from './i18n.jsx';
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { buildExternalFormUrl } from './externalForms.js';
@@ -6,6 +7,7 @@ import SamFigure from './SamFigure.jsx';
 const BACK_LABEL = { zh: '← 上一题', ja: '← 前の問題', en: '← Previous' };
 
 export default function QuestionnaireForm({ questionnaire, step = {}, session = {}, language = 'en', onSubmit, onExternalEvent }) {
+  const tDisplay = useDisplayT();
   const [answers, setAnswers] = useState({});
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -121,9 +123,9 @@ export default function QuestionnaireForm({ questionnaire, step = {}, session = 
     const completionLabel = step.external_completion_label || 'I completed the external form';
     const metadata = { external_form_url: baseUrl, resolved_form_url: url, opened: externalOpened, confirmed: externalConfirmed, appended_context: step.external_append_context !== false };
     return (
-      <div className="external-questionnaire" role="group" aria-label="External questionnaire">
+      <div className="external-questionnaire" role="group" aria-label={tDisplay("External questionnaire")}>
         {step.external_embed && url && <iframe title={step.name || 'External questionnaire'} src={url} loading="lazy" referrerPolicy="no-referrer-when-downgrade" onLoad={() => { if (!externalOpened) { setExternalOpened(true); onExternalEvent?.('external_questionnaire_opened', { external_form_url: baseUrl, resolved_form_url: url, embedded: true, appended_context: step.external_append_context !== false }); } }} />}
-        {url ? <a className="primary external-form-link" href={url} target="_blank" rel="noreferrer" onClick={() => { setExternalOpened(true); onExternalEvent?.('external_questionnaire_opened', { external_form_url: baseUrl, resolved_form_url: url, appended_context: step.external_append_context !== false }); }}>{openLabel}</a> : <div className="media-error" role="alert">External form URL is not configured.</div>}
+        {url ? <a className="primary external-form-link" href={url} target="_blank" rel="noreferrer" onClick={() => { setExternalOpened(true); onExternalEvent?.('external_questionnaire_opened', { external_form_url: baseUrl, resolved_form_url: url, appended_context: step.external_append_context !== false }); }}>{openLabel}</a> : <div className="media-error" role="alert">{tDisplay("External form URL is not configured.")}</div>}
         <label className="external-confirm-row"><input type="checkbox" checked={externalConfirmed} disabled={!url} onChange={event => setExternalConfirmed(event.target.checked)} />{completionLabel}</label>
         <button className="primary" type="button" disabled={!url || !externalConfirmed} onClick={() => onExternalEvent?.('external_questionnaire_confirmed', metadata)}>Continue →</button>
       </div>

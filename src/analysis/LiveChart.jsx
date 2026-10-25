@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   createScales,
@@ -35,6 +36,7 @@ export default function LiveChart({
   sampleSource = null,   // optional () => { channelId: value } pulled each frame
   onSample = null,
 }) {
+  const tDisplay = useDisplayT();
   const [buffer, setBuffer] = useState(() => ({ times: [], values: Object.fromEntries(channels.map(id => [id, []])) }));
   const [paused, setPaused] = useState(!running);
   const frameRef = useRef(0);
@@ -102,7 +104,7 @@ export default function LiveChart({
   return (
     <div className="viz-live">
       <div className="viz-live-head">
-        <span className="viz-live-title">Realtime · {windowSeconds}s window</span>
+        <span className="viz-live-title">{tDisplay("Realtime ·")} {windowSeconds}{tDisplay("s window")}</span>
         {sampleSource && (
           <button type="button" className="bio-btn" onClick={() => setPaused(p => !p)}>
             {paused ? 'Resume' : 'Pause'}
@@ -110,7 +112,7 @@ export default function LiveChart({
         )}
       </div>
 
-      <svg viewBox={`0 0 ${width} ${height}`} className="viz-svg" role="img" aria-label="Realtime signal">
+      <svg viewBox={`0 0 ${width} ${height}`} className="viz-svg" role="img" aria-label={tDisplay("Realtime signal")}>
         <rect x={padding.left} y={padding.top} width={view?.scales.innerW ?? 0} height={view?.scales.innerH ?? 0} className="viz-plot-bg" />
         {view && view.traces.map((trace, i) => (
           <path key={trace.id} d={trace.path} fill="none" stroke={seriesColor(i)} strokeWidth="1.5" className="viz-line" />

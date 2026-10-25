@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { memo } from 'react';
 import { stepContentIssues } from '../domain';
 import { NodeGlyph, nodeBadgeStyle } from '../flowIcons.jsx';
@@ -28,6 +29,7 @@ function NodeCard({
   onDuplicate,
   onDelete,
 }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   const nodeIssues = node.type === 'event' && step && !disabled ? stepContentIssues(step, stimuli, questionnaires) : [];
   const hasError = nodeIssues.some(i => i.kind === 'error');
@@ -56,7 +58,7 @@ function NodeCard({
     >
       <button className="node-input" title="Connect a wire to here" onClick={e => onInputClick(e, node)} />
       <div className="junction-dot" />
-      <div className="node-outputs">{branchesFor(node).map(branch => <button key={branch} onPointerDown={e => onPortPointerDown(e, node, branch)} title={`Drag from ${branch} port`}>{branch}<i /></button>)}</div>
+      <div className="node-outputs">{branchesFor(node).map(branch => <button key={branch} onPointerDown={e => onPortPointerDown(e, node, branch)} title={tDisplay("Drag from {0} port", [branch])}>{branch}<i /></button>)}</div>
     </div>;
   }
 
@@ -103,7 +105,7 @@ function NodeCard({
         {hasWarn && <span className="node-issue-dot warn" title={nodeIssues.map(i => t(i.message)).join('; ')}>△</span>}
       </span>}
       {branchesFor(node).length > 0 && <div className="node-outputs">
-        {branchesFor(node).map(branch => <button className={activeBranch === branch ? 'active' : ''} key={branch} onPointerDown={e => onPortPointerDown(e, node, branch)} title={`${branch} → drag to connect`}>{branch}<i className={`branch-${branch}`} /></button>)}
+        {branchesFor(node).map(branch => <button className={activeBranch === branch ? 'active' : ''} key={branch} onPointerDown={e => onPortPointerDown(e, node, branch)} title={tDisplay("{0} → drag to connect", [branch])}>{branch}<i className={`branch-${branch}`} /></button>)}
       </div>}
     </div>
   );

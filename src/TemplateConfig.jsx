@@ -1,6 +1,8 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useState } from 'react';
 
 export default function TemplateButton({ label, onCreate, templateKey }) {
+  const tDisplay = useDisplayT();
   const [open, setOpen] = useState(false);
   const [cfg, setCfg] = useState(templateKey === 'stroop'
     ? { trials: 16, practice: true, jitter: 300 }
@@ -17,22 +19,22 @@ export default function TemplateButton({ label, onCreate, templateKey }) {
         {templateKey === 'stroop' ? <>
           <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
             Trials <input type="number" min={4} max={64} step={4} value={cfg.trials} onChange={e => setCfg(p => ({...p,trials:Number(e.target.value)}))} style={{ width:'100%',padding:'.3rem',border:'1px solid var(--line)',borderRadius:4 }} />
-            <small style={{color:'var(--muted)'}}>4 colors × (trials/4) words each</small>
+            <small style={{color:'var(--muted)'}}>{tDisplay("4 colors × (trials/4) words each")}</small>
           </label>
         </> : <>
           <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
             Trials <input type="number" min={10} max={100} step={10} value={cfg.trials} onChange={e => setCfg(p => ({...p,trials:Number(e.target.value)}))} style={{ width:'100%',padding:'.3rem',border:'1px solid var(--line)',borderRadius:4 }} />
           </label>
           <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
-            Go ratio: {cfg.goRatio}%
+            {tDisplay("Go ratio:")} {cfg.goRatio}%
             <input type="range" min={50} max={90} step={5} value={cfg.goRatio} onChange={e => setCfg(p => ({...p,goRatio:Number(e.target.value)}))} />
           </label>
         </>}
         <label style={{ display:'flex',alignItems:'center',gap:'.3rem',marginBottom:'.5rem',fontSize:'.75rem' }}>
-          <input type="checkbox" checked={cfg.practice} onChange={e => setCfg(p => ({...p,practice:e.target.checked}))} /> Practice block
+          <input type="checkbox" checked={cfg.practice} onChange={e => setCfg(p => ({...p,practice:e.target.checked}))} /> {tDisplay("Practice block")}
         </label>
         <label style={{ display:'grid',gap:'.2rem',marginBottom:'.5rem' }}>
-          ITI jitter: {cfg.jitter}ms
+          {tDisplay("ITI jitter:")} {cfg.jitter}ms
           <input type="range" min={0} max={1000} step={50} value={cfg.jitter} onChange={e => setCfg(p => ({...p,jitter:Number(e.target.value)}))} />
         </label>
         <div style={{ display:'flex',gap:'.4rem',marginTop:'.6rem' }}>

@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useEffect, useRef } from 'react';
 import { youtubeEmbedUrl } from './core/mediaUrl.js';
 
@@ -7,6 +8,7 @@ import { youtubeEmbedUrl } from './core/mediaUrl.js';
 // API so completion.mode === 'media-ended' still advances when playback finishes.
 
 export default function ParticipantMedia({ source, mediaType = 'image', controls = true, autoPlay = false, disabled = false, alt = '', fit = 'contain', presentationMode = 'standard', style, className = '', onMediaEvent }) {
+  const tDisplay = useDisplayT();
   const viewport = presentationMode === 'fullscreen-contain' && ['video', 'image'].includes(mediaType);
   const mediaClass = `participant-ui-media${viewport ? ' viewport-contain' : ''} ${className}`;
   const mediaRef = useRef(null);
@@ -48,7 +50,7 @@ export default function ParticipantMedia({ source, mediaType = 'image', controls
     return () => window.removeEventListener('message', handler);
   }, [youtubeUrl]);
 
-  if (!source) return <div className={`${mediaClass} missing`} style={style}>Media source not configured</div>;
+  if (!source) return <div className={`${mediaClass} missing`} style={style}>{tDisplay("Media source not configured")}</div>;
   if (youtubeUrl) return <div className={`${mediaClass} embed`} style={style}><iframe ref={youtubeRef} src={youtubeUrl} title="Stimulus" style={style?.height ? { width: '100%', height: '100%', border: 0 } : undefined} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /></div>;
   if (mediaType === 'video') return <video ref={mediaRef} className={mediaClass} style={{ ...style, objectFit: viewport ? 'contain' : fit }} src={source} controls={controls} autoPlay={autoPlay} playsInline onPlay={() => onMediaEvent?.('media_started', { mediaType: 'video' })} onEnded={() => onMediaEvent?.('media_ended', { mediaType: 'video' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'video' })} />;
   if (mediaType === 'audio') return <audio ref={mediaRef} className={mediaClass} style={style} src={source} controls={controls} autoPlay={autoPlay} onPlay={() => onMediaEvent?.('media_started', { mediaType: 'audio' })} onEnded={() => onMediaEvent?.('media_ended', { mediaType: 'audio' })} onError={() => onMediaEvent?.('media_error', { mediaType: 'audio' })} />;

@@ -1,27 +1,29 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { computeWindows } from './windowData.js';
 import { useRef, useEffect } from 'react';
 import { COLORS, STATUS_COLORS, formatMs } from './charts.js';
 
 // WindowCards — Analysis window summary with bar charts
 export default function WindowCards({ events, protocol, onExportChart }) {
+  const tDisplay = useDisplayT();
   const windows = computeWindows(events, protocol);
 
   if (!windows.length) {
     return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>
-      No analysis windows defined. Mark steps as "Analysis window" in the protocol editor.
+      {tDisplay("No analysis windows defined. Mark steps as \"Analysis window\" in the protocol editor.")}
     </div>;
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>Analysis Windows ({windows.length})</h3>
+      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>{tDisplay("Analysis Windows (")}{windows.length})</h3>
 
       {/* Summary stats */}
       <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
         <StatBadge label="Valid" value={windows.filter(w => w.validity === 'valid').length} color={STATUS_COLORS.valid} />
         <StatBadge label="Attention" value={windows.filter(w => w.validity === 'attention').length} color={STATUS_COLORS.attention} />
         <StatBadge label="Invalid" value={windows.filter(w => w.validity === 'invalid').length} color={STATUS_COLORS.invalid} />
-        <StatBadge label="Avg Duration" value={formatMs(average(windows.map(w => w.durationMs)))} color={COLORS.blue} />
+        <StatBadge label={tDisplay("Avg Duration")} value={formatMs(average(windows.map(w => w.durationMs)))} color={COLORS.blue} />
       </div>
 
       {/* Bar chart: expected vs actual */}
@@ -36,7 +38,7 @@ export default function WindowCards({ events, protocol, onExportChart }) {
 
       {onExportChart && (
         <button className="hint" onClick={onExportChart} style={{ alignSelf: 'flex-end' }}>
-          ⤓ Export chart as PNG
+          {tDisplay("⤓ Export chart as PNG")}
         </button>
       )}
     </div>

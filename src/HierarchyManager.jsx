@@ -1,8 +1,10 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { block as createBlock, duplicateBlock, duplicateTrial, moveItem, trial as createTrial } from './domain.js';
 import { ConfirmDialog, AlertDialog } from './Modal.jsx';
 
 export default function HierarchyManager({ protocol, onChange, onClose, onSelect }) {
+  const tDisplay = useDisplayT();
   const locked = protocol.status === 'frozen';
   const protoRef = useRef(protocol);
   useEffect(() => { protoRef.current = protocol; }, [protocol]);
@@ -51,7 +53,7 @@ export default function HierarchyManager({ protocol, onChange, onClose, onSelect
               <div className="hierarchy-trials">
                 {block.trials.map((trial, trialIndex) => (
                   <div key={trial.trial_id}>
-                    <button className="trial-open" onClick={() => { onSelect(trial.trial_id); onClose(); }} aria-label={`Go to trial ${trialIndex + 1}`}>{trialIndex + 1}</button>
+                    <button className="trial-open" onClick={() => { onSelect(trial.trial_id); onClose(); }} aria-label={tDisplay("Go to trial {0}", [trialIndex + 1])}>{trialIndex + 1}</button>
                     <input value={trial.name} disabled={locked} onChange={e => updateTrial(blockIndex, trialIndex, { name: e.target.value })} />
                     <input value={trial.condition || ''} placeholder="Condition" disabled={locked} onChange={e => updateTrial(blockIndex, trialIndex, { condition: e.target.value })} />
                     <label>Repeat<input type="number" min="1" value={trial.repeat_count || 1} disabled={locked} onChange={e => updateTrial(blockIndex, trialIndex, { repeat_count: Number(e.target.value) })} /></label>
@@ -62,11 +64,11 @@ export default function HierarchyManager({ protocol, onChange, onClose, onSelect
                   </div>
                 ))}
               </div>
-              <button disabled={locked} onClick={() => addTrial(blockIndex)}>＋ Add Trial</button>
+              <button disabled={locked} onClick={() => addTrial(blockIndex)}>{tDisplay("＋ Add Trial")}</button>
             </article>
           ))}
         </div>
-        <button className="primary" disabled={locked} onClick={addBlock}>＋ Add Block</button>
+        <button className="primary" disabled={locked} onClick={addBlock}>{tDisplay("＋ Add Block")}</button>
       </section>
     </div>
     {confirmState && <ConfirmDialog {...confirmState} />}

@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { validateProtocol, stepContentIssues } from './domain.js';
 import { Modal } from './Modal.jsx';
 import { useT } from './i18n.jsx';
@@ -179,6 +180,7 @@ function FixCard({ severity = 'error', title, summary, steps = [], location, raw
 }
 
 export default function PreRunChecklist({ protocol, storageInfo, onChooseDataDirectory, onClose, onContinue, onFix }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   const check = validateProtocol(protocol);
   const stimuli = protocol.stimuli || [];
@@ -231,7 +233,7 @@ export default function PreRunChecklist({ protocol, storageInfo, onChooseDataDir
         <p className="pre-run-lead">
           {totalIssues > 0
             ? 'Each item below says why it blocks the run and where to change it. Fix the required ones first; suggestions can wait.'
-            : `This protocol passed the pre-run checks.${totalWarnings > 0 ? ` ${t('{n} suggestions remain, which do not block a test run.').replace('{n}', totalWarnings)}` : ''}`}
+            : tDisplay("This protocol passed the pre-run checks.{0}", [totalWarnings > 0 ? ` ${t('{n} suggestions remain, which do not block a test run.').replace('{n}', totalWarnings)}` : ''])}
         </p>
 
         {protocolErrors.length > 0 && <section className="fix-section">

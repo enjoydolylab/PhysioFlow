@@ -1,6 +1,8 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { PALETTE } from '../constants.js';
 
 export default function CanvasContextMenu({ contextMenu, setContextMenu, setSelectedNodeIds, deleteEdge, addEvent, addLogic, addNote, addJunction, pasteNode, clipboardNode, selectedNodeIds, t, groupSelected, flow, autoLayout }) {
+  const tDisplay = useDisplayT();
   if (!contextMenu) return null;
   if (contextMenu.type === 'edge') {
     return (
@@ -12,16 +14,16 @@ export default function CanvasContextMenu({ contextMenu, setContextMenu, setSele
   if (contextMenu.type === 'canvas') {
     return (
       <div className="context-menu" style={{ position: 'fixed', left: contextMenu.x, top: contextMenu.y, zIndex: 999 }}>
-        <button onClick={() => { setContextMenu(null); }}>Add from palette →</button>
+        <button onClick={() => { setContextMenu(null); }}>{tDisplay("Add from palette →")}</button>
         <div style={{ paddingLeft: '8px', borderLeft: '1px solid var(--line)' }}>
           {PALETTE.flatMap(g => g.items).map(([type, icon, label]) => (
             <button key={type} onClick={() => { addEvent(type); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>{icon} {label}</button>
           ))}
           <hr style={{ margin: '4px 0', borderColor: 'var(--line)' }} />
-          <button onClick={() => { addLogic('condition'); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>◇ Condition</button>
-          <button onClick={() => { addLogic('loop'); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>↻ Loop</button>
-          <button onClick={() => { addNote(); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>✎ Sticky note</button>
-          <button onClick={() => { addJunction(); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>● Junction</button>
+          <button onClick={() => { addLogic('condition'); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>{tDisplay("◇ Condition")}</button>
+          <button onClick={() => { addLogic('loop'); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>{tDisplay("↻ Loop")}</button>
+          <button onClick={() => { addNote(); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>{tDisplay("✎ Sticky note")}</button>
+          <button onClick={() => { addJunction(); setContextMenu(null); }} style={{ fontSize: '12px', padding: '4px 8px' }}>{tDisplay("● Junction")}</button>
         </div>
         {clipboardNode && <button onClick={() => { pasteNode(); setContextMenu(null); }}>Paste {clipboardNode.label || clipboardNode.type}</button>}
         {selectedNodeIds.size >= 2 && <button onClick={() => { groupSelected(); }}>{t('Group selected')} ({selectedNodeIds.size})</button>}

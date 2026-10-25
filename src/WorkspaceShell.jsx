@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 ﻿import { LanguageToggle, DarkModeToggle, useT } from './i18n';
 
 const navigation = [
@@ -11,6 +12,7 @@ const navigation = [
 ];
 
 export default function WorkspaceShell({ page, onNavigate, onGuide, storageInfo, children }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   const navigate = (event, id) => {
     if (onNavigate && ['projects', 'sessions', 'tools'].includes(id) && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
@@ -27,7 +29,7 @@ export default function WorkspaceShell({ page, onNavigate, onGuide, storageInfo,
     <div className="workspace-content">
       <header className="workspace-topbar"><span>{t('Workspace')} <span className="breadcrumb-divider">/</span> <b>{t(navigation.find(([id]) => id === page)?.[1] || 'Projects')}</b></span><div className="header-tools"><DarkModeToggle /><LanguageToggle /></div></header>
       {children}
-      <footer className="workspace-footer"><span>PhysioFlow · {t('Experiment workspace')}</span><a href="/?page=tools" onClick={event => navigate(event, 'tools')}>{storageInfo?.selected ? storageInfo.name || t('Local folder connected') : t('Storage settings')} ↗</a></footer>
+      <footer className="workspace-footer"><span>{tDisplay("PhysioFlow ·")} {t('Experiment workspace')}</span><a href="/?page=tools" onClick={event => navigate(event, 'tools')}>{storageInfo?.selected ? storageInfo.name || t('Local folder connected') : t('Storage settings')} ↗</a></footer>
     </div>
   </main>;
 }

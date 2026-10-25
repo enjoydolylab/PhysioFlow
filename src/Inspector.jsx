@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useT } from './i18n.jsx';
 import { stepContentIssues } from './domain';
 import { createQuestionnaire } from './QuestionnaireDesigner';
@@ -72,9 +73,10 @@ export function Inspector({ node, edge, trial, stimuli, questionnaires, updateNo
 }
 
 function MultiSelectInspector({ count, hasClipboard: _hasClipboard, onPasteNode: _onPasteNode }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   return <aside className="studio-inspector empty-inspector">
-    <h3>{count} nodes selected</h3>
+    <h3>{count} {tDisplay("nodes selected")}</h3>
     <p>{t("Drag to move together · Delete to remove · Ctrl+D to duplicate")}</p>
   </aside>;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { isParticipantEntryLocation } from './hosted/participantRoute.js';
-import { LanguageProvider } from './i18n';
+import { DEFAULT_LANGUAGE, LanguageProvider, translate } from './i18n';
 import './theme/tokens.css';
 import './theme/base.css';
 import './theme/runtime.css';
@@ -38,6 +38,8 @@ function deskPageOf(location) {
   return view === 'database' ? 'database' : 'devices';
 }
 
+const startupLanguage = () => localStorage.getItem('physioflow.ui-language') || DEFAULT_LANGUAGE;
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -58,14 +60,14 @@ class ErrorBoundary extends React.Component {
           fontFamily: 'system-ui, sans-serif',
         }
       },
-        React.createElement('h2', { style: { color: '#a32e25', marginTop: 0 } }, 'App Error'),
+        React.createElement('h2', { style: { color: '#a32e25', marginTop: 0 } }, translate('App Error', startupLanguage())),
         React.createElement('pre', {
           style: { whiteSpace: 'pre-wrap', fontSize: '.8rem', color: '#5a2e25', lineHeight: 1.5 }
         }, this.state.error?.stack || this.state.error?.message || String(this.state.error)),
         React.createElement('button', {
           onClick: () => { this.setState({ error: null }); window.location.reload(); },
           style: { marginTop: '1rem', padding: '.6rem 1.2rem', border: '1px solid #a32e25', borderRadius: 6, background: 'white', cursor: 'pointer', color: '#a32e25' }
-        }, 'Reload'),
+        }, translate('Reload', startupLanguage())),
       );
     }
     return this.props.children;
@@ -74,7 +76,14 @@ class ErrorBoundary extends React.Component {
 
 const root = document.getElementById('root');
 if (!root) {
-  document.body.innerHTML = '<div style="padding:2rem;font-family:system-ui,sans-serif;color:#a32e25"><h2>Fatal Error</h2><p>Root element #root not found. Ensure index.html loads before this script.</p></div>';
+  const panel = document.createElement('div');
+  panel.style.cssText = 'padding:2rem;font-family:system-ui,sans-serif;color:#a32e25';
+  const heading = document.createElement('h2');
+  heading.textContent = translate('Fatal Error', startupLanguage());
+  const detail = document.createElement('p');
+  detail.textContent = translate('Root element #root not found. Ensure index.html loads before this script.', startupLanguage());
+  panel.append(heading, detail);
+  document.body.replaceChildren(panel);
   throw new Error('#root element not found');
 }
 

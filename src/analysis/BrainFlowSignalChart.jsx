@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import LiveChart from './LiveChart.jsx';
 import { bandPowers, EEG_BANDS, nextPowerOfTwoDown, powerSpectralDensity } from './signal/spectrum.js';
@@ -16,6 +17,7 @@ const BAND_ORDER = ['delta', 'theta', 'alpha', 'beta', 'gamma'];
 // every 250 ms (matching the agent's batch pull cadence) and re-renders only this
 // small subtree. The main runtime page never re-renders on samples.
 export default function BrainFlowSignalChart({ channels = [], sampleRateHz = 250, windowSeconds = 10, getWindow }) {
+  const tDisplay = useDisplayT();
   const [window, setWindow] = useState(() => ({ times: [], values: Object.fromEntries(channels.map(id => [id, []])) }));
 
   useEffect(() => {
@@ -67,7 +69,7 @@ export default function BrainFlowSignalChart({ channels = [], sampleRateHz = 250
       />
       {bands && (
         <div className="viz-block">
-          <h5>EEG bands · relative (avg)</h5>
+          <h5>{tDisplay("EEG bands · relative (avg)")}</h5>
           <div className="viz-bandbar">
             {bandEntries.map((name, i) => (
               <span

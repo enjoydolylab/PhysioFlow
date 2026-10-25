@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { discreteScaleValues } from '../core/inputValidation.js';
 import { responseAnalysisData, samPairs, choiceDistribution } from './responseData.js';
 import { useRef, useEffect } from 'react';
@@ -5,23 +6,24 @@ import { drawBarChart, drawScatterPlot, COLORS } from './charts.js';
 
 // ResponseCharts — Visualize questionnaire responses
 export default function ResponseCharts({ responses: allResponses, protocol, language = 'en' }) {
+  const tDisplay = useDisplayT();
   const responses = (allResponses || []).filter(row => !row.supersededByEventId);
   if (!responses?.length) {
-    return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>No responses recorded</div>;
+    return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>{tDisplay("No responses recorded")}</div>;
   }
 
   // Build question index
   const { questions, groups } = responseAnalysisData(responses, protocol, language);
 
   if (!Object.keys(groups).length) {
-    return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>No questionnaire data found in protocol</div>;
+    return <div className="empty" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>{tDisplay("No questionnaire data found in protocol")}</div>;
   }
 
   const pairedSam = samPairs(questions, groups);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>Response Analysis ({responses.length} effective records)</h3>
+      <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>{tDisplay("Response Analysis (")}{responses.length} {tDisplay("effective records)")}</h3>
 
       {/* SAM plot */}
       {pairedSam.length > 0 && <SAMPlot points={pairedSam} />}
@@ -40,6 +42,7 @@ export default function ResponseCharts({ responses: allResponses, protocol, lang
 }
 
 function SAMPlot({ points }) {
+  const tDisplay = useDisplayT();
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -77,12 +80,12 @@ function SAMPlot({ points }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: COLORS.muted }}>
-        <span>Valence: Low (1) → High (9) pleasure</span>
-        <span>Arousal: Low (1) → High (9) excitement</span>
+        <span>{tDisplay("Valence: Low (1) → High (9) pleasure")}</span>
+        <span>{tDisplay("Arousal: Low (1) → High (9) excitement")}</span>
       </div>
-      <canvas ref={canvasRef} aria-label={`SAM matched pairs: ${points.map(point => `${point.x}, ${point.y}`).join("; ")}`} />
+      <canvas ref={canvasRef} aria-label={tDisplay("SAM matched pairs: {0}", [points.map(point => `${point.x}, ${point.y}`).join("; ")])} />
       <div style={{ fontSize: '0.7rem', color: COLORS.muted, textAlign: 'center' }}>
-        Bubble size = frequency. {points.length} matched submissions.
+        {tDisplay("Bubble size = frequency.")} {points.length} {tDisplay("matched submissions.")}
       </div>
     </div>
   );
@@ -139,9 +142,10 @@ function QuestionChart({ question, answers }) {
 }
 
 function ResponseTable({ groups, questions }) {
+  const tDisplay = useDisplayT();
   return (
     <details>
-      <summary style={{ fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>Response summary table</summary>
+      <summary style={{ fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>{tDisplay("Response summary table")}</summary>
       <table style={{ width: '100%', fontSize: '0.75rem', borderCollapse: 'collapse', marginTop: '0.5rem' }}>
         <thead>
           <tr style={{ background: '#f8fafc' }}>

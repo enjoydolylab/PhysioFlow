@@ -1,8 +1,10 @@
+import { useT as useDisplayT } from '../i18n.jsx';
 import { useEffect, useState } from 'react';
 import RuntimeContent from '../RuntimeContent';
 
 /** Full-screen preview + inline editing */
 export function NodePreviewModal({ step, trialLayout, onClose, onUpdate, onOpenQuestionnaireWorkspace }) {
+  const tDisplay = useDisplayT();
   const [editMode, setEditMode] = useState(false);
   const [editing, setEditing] = useState(structuredClone(step));
   const layout = trialLayout || {};
@@ -36,7 +38,7 @@ export function NodePreviewModal({ step, trialLayout, onClose, onUpdate, onOpenQ
       </div>
       <div style={{ display:'flex',gap:'.5rem',alignItems:'center' }}>
         {onUpdate && <button onClick={() => setEditMode(e => !e)} className={editMode ? 'primary' : ''}
-          style={{ fontSize:'.75rem',padding:'.3rem .7rem' }}>{editMode ? '✓ Done' : '✎ Edit'}</button>}
+          style={{ fontSize:'.75rem',padding:'.3rem .7rem' }}>{editMode ? tDisplay("✓ Done") : '✎ Edit'}</button>}
         <button onClick={onClose} title="Close">×</button>
       </div>
     </div>
@@ -72,7 +74,7 @@ export function NodePreviewModal({ step, trialLayout, onClose, onUpdate, onOpenQ
                 style={{ width:'100%',padding:'.4rem',border:'1px solid var(--line)',borderRadius:6,fontSize:'.82rem' }} />
             </div>
             <div style={{marginBottom:'.8rem'}}>
-              <b>Options (value | label | key)</b>
+              <b>{tDisplay("Options (value | label | key)")}</b>
               <textarea rows={4}
                 value={(editing.response_options || []).map(o => [o.value||'', o.label_i18n?.en||o.value||'', o.key||''].join(' | ')).join('\n')}
                 onChange={e => {

@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { step as createStep } from './domain';
 import { normalizeFlow, validateFlow } from './flowEngine';
@@ -31,6 +32,7 @@ import { useCanvasNodes } from './flowCanvas/useCanvasNodes.js';
 let clipboardNode = null;
 
 export default function FlowCanvas({ trial, onChange, disabled, stimuli = [], questionnaires = [], focusTarget }) {
+  const tDisplay = useDisplayT();
   const flow = useMemo(() => normalizeFlow(trial), [trial]);
   const trialRef = useRef(trial);
   const flowRef = useRef(flow);
@@ -120,13 +122,13 @@ export default function FlowCanvas({ trial, onChange, disabled, stimuli = [], qu
       const targetStep = trial.steps.find(step => step.step_id === targetStepId);
       setSelectedNodeIds(new Set());
       setFocusHighlightStepId(targetStepId);
-      setFocusMessage(`「${targetStep?.name || targetStep?.type || 'Step'}」未放入流程图。请在下方的"Steps outside flow"面板中点击 Insert，或从左侧 Add to flow 添加对应节点。`);
+      setFocusMessage(`"${targetStep?.name || targetStep?.type || 'Step'}" is not in the flow. Click Insert in "Steps outside flow", or add the node using Add to flow.`);
     } else {
       // Trial-level issue (no specific step) — e.g. ITI jitter, validation errors
       setSelectedNodeIds(new Set());
       const issueText = focusTarget.issueMessage || '';
       const trialName = focusTarget.trialName || trial.name || '';
-      setFocusMessage(`此 Trial「${trialName}」有需要修复的设置项。${issueText ? `具体问题：${issueText}` : ''} 请点击顶部 ⋯ → "Advanced settings" 切换到文本编辑器修改 Trial 设置（如 ITI jitter、repeat count 等）。`);
+      setFocusMessage(`Trial "${trialName}" has settings that need repair. ${issueText ? `Issues: ${issueText}` : ''} Open ⋯ → Advanced settings to edit Trial settings such as ITI jitter and repeat count.`);
     }
   }, [focusTarget, flow.nodes, trial.steps, trial.trial_id, trial.name]);
 
@@ -501,7 +503,7 @@ export default function FlowCanvas({ trial, onChange, disabled, stimuli = [], qu
         <div className="zoom-controls">
           <button onClick={() => setZoom(z => Math.min(2, z + 0.15))} title="Zoom in">+</button>
           <button onClick={() => setZoom(z => Math.max(0.3, z - 0.15))} title="Zoom out">−</button>
-          <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} title="Reset zoom" style={{ fontSize: '.65rem' }}>1:1</button>
+          <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} title={tDisplay("Reset zoom")} style={{ fontSize: '.65rem' }}>1:1</button>
           <span style={{ fontSize: '.65rem', padding: '.35rem .5rem', color: '#7b867f' }}>{Math.round(zoom * 100)}%</span>
         </div>
       </div>}

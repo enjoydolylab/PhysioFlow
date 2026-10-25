@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useT } from './i18n';
 import { isReviewableSession } from './analysis/sessionReview.js';
 import { useEffect, useMemo, useState } from 'react';
@@ -11,6 +12,7 @@ import { formatDateTime, STATUS_COLORS } from './analysis/charts.js';
 
 // Analytics — Full-screen dashboard for session data visualization
 export default function Analytics({ onBack, initialSessions = [], initialSessionId = null, onGuide, onRecord }) {
+  const tDisplay = useDisplayT();
   const t = useT();
   const [sessions, setSessions] = useState(initialSessions || []);
   const [selectedId, setSelectedId] = useState(initialSessionId);
@@ -73,7 +75,7 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
         <div className="analytics-head-actions">
           <button className="hint" onClick={() => onGuide?.('data')}>Data format</button>
           <small>
-            {reviewableSessions.length} finished sessions
+            {reviewableSessions.length} {tDisplay("finished sessions")}
           </small>
         </div>
       </header>
@@ -83,7 +85,7 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
           <div className="analytics-sidebar-inner">
             <h3>Sessions</h3>
             {reviewableSessions.length === 0 && (
-              <p>No finished sessions yet. Run experiments to see data here.</p>
+              <p>{tDisplay("No finished sessions yet. Run experiments to see data here.")}</p>
             )}
             {reviewableSessions.map(s => (
               <SessionRow
@@ -113,9 +115,7 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
                       {detail.participant_id || 'Unknown participant'}
                     </h3>
                     <div className="analytics-session-meta">
-                      Protocol: {detail.protocol_name || detail.protocol_id} &nbsp;|&nbsp;
-                      Started: {formatDateTime(detail.started_at)} &nbsp;|&nbsp;
-                      Events: {detail.event_count || 0}
+                      Protocol: {detail.protocol_name || detail.protocol_id}  {tDisplay("| Started:")} {formatDateTime(detail.started_at)}  {tDisplay("| Events:")} {detail.event_count || 0}
                     </div>
                   </div>
                   <div className="analytics-session-actions">
@@ -140,12 +140,12 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
                   <h4>Integrity issues</h4>
                   {detail.integrity.errors?.map((e, i) => (
                     <div key={'err-' + i} className="invalid">
-                      Error · {e}
+                      {tDisplay("Error ·")} {e}
                     </div>
                   ))}
                   {detail.integrity.warnings?.map((w, i) => (
                     <div key={'warn-' + i} className="attention">
-                      Warning · {w}
+                      {tDisplay("Warning ·")} {w}
                     </div>
                   ))}
                 </section>
@@ -191,6 +191,7 @@ export default function Analytics({ onBack, initialSessions = [], initialSession
 }
 
 function SessionRow({ session, selected, onClick }) {
+  const tDisplay = useDisplayT();
   const statusColor = STATUS_COLORS[session.integrity?.validity_status] || STATUS_COLORS.unreviewed;
 
   return (
@@ -204,7 +205,7 @@ function SessionRow({ session, selected, onClick }) {
       </div>
       <small>
         {session.protocol_name || session.protocol_id?.substring(0, 8)} &nbsp;|&nbsp;
-        {session.event_count || 0} events &nbsp;|&nbsp;
+        {session.event_count || 0} {tDisplay("events |")} 
         {formatDateTime(session.ended_at || session.started_at)}
       </small>
     </div>
@@ -230,12 +231,13 @@ function Metric({ label, value, color }) {
 }
 
 function EmptyState({ count }) {
+  const tDisplay = useDisplayT();
   return (
     <div className="analytics-empty">
       <h3>No session selected</h3>
       <p>
         {count > 0
-          ? `Select a session from the sidebar to view its timeline, analysis windows, and response charts. ${count} finished sessions available.`
+          ? tDisplay("Select a session from the sidebar to view its timeline, analysis windows, and response charts. {0} finished sessions available.", [count])
           : 'Complete an experiment to see analytics here. Your session data will be visualized with timelines, charts, and integrity reports.'}
       </p>
     </div>

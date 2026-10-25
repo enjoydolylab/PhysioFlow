@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { translate } from './i18n.jsx';
 import { restoreQuestionnaireDraft } from './runtime/questionnaireCheckpoint.js';
 import { canUseMatrix, canUseSamMatrix, orderSamMatrixQuestions, splitMatrixPrompt } from './questionnaireMatrix.js';
@@ -30,6 +31,7 @@ function isMissing(value) { return value === undefined || value === '' || (Array
 function questionError(question, value) { return responseValueError(value, { required: question.required, type: question.type, min: question.scale_min, max: question.scale_max }); }
 
 export default function QuestionnaireFormV2({ questionnaire, language = 'en', randomSeed = '', displayMode, disabled = false, initialDraft, onDraftChange, onSubmit }) {
+  const tDisplay = useDisplayT();
   const questions = useMemo(() => questionnaire?.questions || [], [questionnaire?.questions]);
   const [restored] = useState(() => restoreQuestionnaireDraft(questionnaire, randomSeed, initialDraft));
   const [answers, setAnswers] = useState(restored.answers);
@@ -143,13 +145,13 @@ export default function QuestionnaireFormV2({ questionnaire, language = 'en', ra
     if (['sam_valence', 'sam_arousal', 'sam_dominance'].includes(question.type)) {
       const min = question.scale_min ?? 1;
       const max = question.scale_max ?? 9;
-      if (!discreteScaleValues(min, max, 21)) return <p role="alert">Invalid scale: use increasing integer bounds with at most 21 choices.</p>;
-      return <div className="qf-scale sam-scale" role="radiogroup" aria-label={msg(question.prompt_i18n)}>{discreteScaleValues(min, max, 21).map(value => <button key={value} type="button" role="radio" aria-checked={answers[question.question_id] === value} aria-label={`${value} of ${max}`} title={`${value}`} className={`qf-scale-btn${answers[question.question_id] === value ? ' selected' : ''}`} onClick={() => setAnswer(question, value)}><SamFigure type={question.type} value={value} min={min} max={max} /></button>)}</div>;
+      if (!discreteScaleValues(min, max, 21)) return <p role="alert">{tDisplay("Invalid scale: use increasing integer bounds with at most 21 choices.")}</p>;
+      return <div className="qf-scale sam-scale" role="radiogroup" aria-label={msg(question.prompt_i18n)}>{discreteScaleValues(min, max, 21).map(value => <button key={value} type="button" role="radio" aria-checked={answers[question.question_id] === value} aria-label={tDisplay("{0} of {1}", [value, max])} title={`${value}`} className={`qf-scale-btn${answers[question.question_id] === value ? ' selected' : ''}`} onClick={() => setAnswer(question, value)}><SamFigure type={question.type} value={value} min={min} max={max} /></button>)}</div>;
     }
     if (question.type === 'likert') {
       const min = question.scale_min ?? 1;
       const max = question.scale_max ?? 5;
-      if (!discreteScaleValues(min, max, 21)) return <p role="alert">Invalid scale: use increasing integer bounds with at most 21 choices.</p>;
+      if (!discreteScaleValues(min, max, 21)) return <p role="alert">{tDisplay("Invalid scale: use increasing integer bounds with at most 21 choices.")}</p>;
       return <div className="qf-scale">{discreteScaleValues(min, max, 21).map(value => <button key={value} type="button" className={`qf-scale-btn${answers[question.question_id] === value ? ' selected' : ''}`} onClick={() => setAnswer(question, value)}>{value}</button>)}</div>;
     }
     if (question.type === 'number') return <input className="qf-text" type="number" min={question.scale_min} max={question.scale_max} value={answers[question.question_id] ?? ''} onChange={event => setAnswer(question, event.target.value === '' ? '' : Number(event.target.value))} />;

@@ -1,7 +1,9 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useState } from 'react';
 import { ConfirmDialog } from './Modal.jsx';
 
 export default function TestRunExitButton({ onExit }) {
+  const tDisplay = useDisplayT();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [error, setError] = useState('');
@@ -25,11 +27,11 @@ export default function TestRunExitButton({ onExit }) {
 
   return <>
     <button type="button" className="test-exit-button" onClick={() => { setError(''); setConfirmOpen(true); }} disabled={exiting}>
-      {exiting ? 'Exiting…' : 'Exit test and return to editor'}
+      {exiting ? tDisplay("Exiting…") : tDisplay("Exit test and return to editor")}
     </button>
     {error && <span role="alert" className="test-exit-error">{error}</span>}
     {confirmOpen && <ConfirmDialog
-      title="Exit test run?"
+      title={tDisplay("Exit test run?")}
       message="Discard this test’s answers and recovery checkpoint. Protocol edits and undo history are preserved. Device raw recordings are retained."
       confirmLabel={exiting ? 'Exiting…' : 'Discard test and return'}
       danger

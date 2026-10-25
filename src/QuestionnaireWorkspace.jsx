@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { uid } from './domain';
@@ -7,6 +8,7 @@ import { QUESTION_TYPES, COMPARISON_OPS, LANGS, newQuestion, createQuestionnaire
 export { createQuestionnaire };
 
 export default function QuestionnaireWorkspace({ value, onChange, onClose, disabled, language = 'en' }) {
+  const tDisplay = useDisplayT();
   const questionnaire = value || createQuestionnaire();
   const qs = questionnaire.questions || [];
   const [activeIndex, setActiveIndex] = useState(qs.length > 0 ? 0 : -1);
@@ -85,7 +87,7 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
         {/* Header */}
         <div className="qw-header">
           <div className="qw-header-left">
-            <span className="qw-badge">QUESTIONNAIRE EDITOR</span>
+            <span className="qw-badge">{tDisplay("QUESTIONNAIRE EDITOR")}</span>
             <input
               className="qw-name-input"
               value={questionnaire.name}
@@ -108,7 +110,7 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
                 Progress
               </label>
             </div>
-            <button className="qw-close-btn" onClick={onClose} title="Close (Esc)">×</button>
+            <button className="qw-close-btn" onClick={onClose} title={tDisplay("Close (Esc)")}>×</button>
           </div>
         </div>
 
@@ -119,7 +121,7 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
             <div className="qw-left-toolbar">
               <button disabled={disabled} onClick={addQuestion}>+ Add question</button>
               <details className="q-presets">
-                <summary>+ Presets</summary>
+                <summary>{tDisplay("+ Presets")}</summary>
                 <div className="q-preset-grid">
                   {Object.entries(PRESETS).map(([key, fn]) => {
                     const q = fn();
@@ -131,7 +133,7 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
                 </div>
               </details>
               <details className="q-import">
-                <summary>+ CSV Import</summary>
+                <summary>{tDisplay("+ CSV Import")}</summary>
                 <BatchImport disabled={disabled} onImport={rows => {
                   const imported = rows.map(row => ({
                     question_id: uid('question'),
@@ -148,7 +150,7 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
               </details>
             </div>
             <div className="qw-list">
-              {qs.length === 0 && <p className="qw-empty">No questions yet. Click "+ Add question" or choose a preset.</p>}
+              {qs.length === 0 && <p className="qw-empty">{tDisplay("No questions yet. Click \"+ Add question\" or choose a preset.")}</p>}
               {qs.map((q, index) => (
                 <div
                   key={q.question_id}
@@ -169,7 +171,7 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
                   <span className="qw-list-type">{q.type.replace(/_/g, ' ')}</span>
                   <span className="qw-list-prompt">{(q.prompt_i18n?.en || q.prompt_i18n?.zh || '(empty prompt)').slice(0, 60)}</span>
                   {q.required && <span className="qw-list-req">*</span>}
-                  <button className="qw-list-del" disabled={disabled} onClick={e => { e.stopPropagation(); removeQuestion(index); }} title="Remove question">×</button>
+                  <button className="qw-list-del" disabled={disabled} onClick={e => { e.stopPropagation(); removeQuestion(index); }} title={tDisplay("Remove question")}>×</button>
                 </div>
               ))}
             </div>
@@ -219,8 +221,8 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
             ) : (
               <div className="qw-empty-state">
                 <span className="qw-empty-icon">☷</span>
-                <h3>No question selected</h3>
-                <p>Add a question from the left panel, or click an existing question to edit it.</p>
+                <h3>{tDisplay("No question selected")}</h3>
+                <p>{tDisplay("Add a question from the left panel, or click an existing question to edit it.")}</p>
               </div>
             )}
           </div>
@@ -233,6 +235,7 @@ export default function QuestionnaireWorkspace({ value, onChange, onClose, disab
 
 // ── Question Editor Panel (in-workspace version) ──
 function QuestionEditorPanel({ question: q, index, allQuestions, disabled, updateQuestion }) {
+  const tDisplay = useDisplayT();
   const [lang, setLang] = useState('en');
   const [multiLang, setMultiLang] = useState(false);
 
@@ -246,8 +249,8 @@ function QuestionEditorPanel({ question: q, index, allQuestions, disabled, updat
           </select>
         </label>
         <label className="q-check"><input type="checkbox" checked={q.required} disabled={disabled} onChange={e => updateQuestion(index, 'required', e.target.checked)} /> Required</label>
-        <label className="q-check"><input type="checkbox" checked={q.shuffle || false} disabled={disabled} onChange={e => updateQuestion(index, 'shuffle', e.target.checked)} title="Randomize options" /> Shuffle</label>
-        {q.type !== 'number' && <label>Time limit (s) <input type="number" min={0} max={600} value={q.time_limit_sec || ''} disabled={disabled} placeholder="unlimited" style={{ width: 70 }}
+        <label className="q-check"><input type="checkbox" checked={q.shuffle || false} disabled={disabled} onChange={e => updateQuestion(index, 'shuffle', e.target.checked)} title={tDisplay("Randomize options")} /> Shuffle</label>
+        {q.type !== 'number' && <label>{tDisplay("Time limit (s)")} <input type="number" min={0} max={600} value={q.time_limit_sec || ''} disabled={disabled} placeholder="unlimited" style={{ width: 70 }}
           onChange={e => updateQuestion(index, 'time_limit_sec', e.target.value === '' ? null : Number(e.target.value))} /></label>}
       </div>
 
@@ -258,7 +261,7 @@ function QuestionEditorPanel({ question: q, index, allQuestions, disabled, updat
           <div className="qw-cond-row">
             <span>When</span>
             <select value={q.show_if.question_id} disabled={disabled} onChange={e => updateQuestion(index, 'show_if', { ...q.show_if, question_id: e.target.value })}>
-              <option value="">-- select question --</option>
+              <option value="">{tDisplay("-- select question --")}</option>
               {allQuestions.filter(oq => oq.question_id !== q.question_id).map(oq => (
                 <option key={oq.question_id} value={oq.question_id}>
                   Q{allQuestions.indexOf(oq) + 1}: {(oq.prompt_i18n?.en || oq.prompt_i18n?.zh || '').slice(0, 30)}
@@ -288,7 +291,7 @@ function QuestionEditorPanel({ question: q, index, allQuestions, disabled, updat
       )}
 
       {/* Prompt */}
-      <textarea className="q-prompt" placeholder={multiLang ? `Question text (${lang})` : 'Question text'}
+      <textarea className="q-prompt" placeholder={multiLang ? tDisplay("Question text ({0})", [lang]) : 'Question text'}
         value={q.prompt_i18n?.[lang] || ''} disabled={disabled}
         onChange={e => updateQuestion(index, 'prompt_i18n', { ...q.prompt_i18n, [lang]: e.target.value })}
         rows={2} />
@@ -299,8 +302,8 @@ function QuestionEditorPanel({ question: q, index, allQuestions, disabled, updat
           <label>Min <input type="number" value={q.scale_min ?? 1} disabled={disabled} onChange={e => updateQuestion(index, 'scale_min', Number(e.target.value))} /></label>
           <label>Max <input type="number" value={q.scale_max ?? 5} disabled={disabled} onChange={e => updateQuestion(index, 'scale_max', Number(e.target.value))} /></label>
           {q.type !== 'number' && <>
-            <label>Min label <input value={q.min_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'min_label_i18n', { ...q.min_label_i18n, [lang]: e.target.value })} placeholder="min label" /></label>
-            <label>Max label <input value={q.max_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'max_label_i18n', { ...q.max_label_i18n, [lang]: e.target.value })} placeholder="max label" /></label>
+            <label>{tDisplay("Min label")} <input value={q.min_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'min_label_i18n', { ...q.min_label_i18n, [lang]: e.target.value })} placeholder={tDisplay("min label")} /></label>
+            <label>{tDisplay("Max label")} <input value={q.max_label_i18n?.[lang] || ''} disabled={disabled} onChange={e => updateQuestion(index, 'max_label_i18n', { ...q.max_label_i18n, [lang]: e.target.value })} placeholder={tDisplay("max label")} /></label>
           </>}
         </div>
       )}
@@ -311,15 +314,15 @@ function QuestionEditorPanel({ question: q, index, allQuestions, disabled, updat
           <textarea disabled={disabled}
             value={(q.options_i18n?.[lang] || []).join('\n')}
             onChange={e => updateQuestion(index, 'options_i18n', { ...q.options_i18n, [lang]: e.target.value.split('\n') })}
-            placeholder={multiLang ? `One option per line (${lang})` : 'One option per line'} rows={4} />
+            placeholder={multiLang ? tDisplay("One option per line ({0})", [lang]) : 'One option per line'} rows={4} />
         </div>
       )}
 
       {/* Correct answer */}
       {['single_choice', 'number', 'likert'].includes(q.type) && (
         <label className="q-answer">
-          <span>Correct answer (auto-score)</span>
-          <input value={q.correct_answer || ''} disabled={disabled} placeholder={q.type === 'likert' || q.type === 'number' ? 'e.g. 5' : 'match option text'}
+          <span>{tDisplay("Correct answer (auto-score)")}</span>
+          <input value={q.correct_answer || ''} disabled={disabled} placeholder={q.type === 'likert' || q.type === 'number' ? tDisplay("e.g. 5") : tDisplay("match option text")}
             onChange={e => updateQuestion(index, 'correct_answer', e.target.value)} />
         </label>
       )}

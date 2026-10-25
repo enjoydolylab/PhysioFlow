@@ -1,3 +1,5 @@
+import { pfUIStrings } from './pfUIStrings.js';
+
 // Display-only matching. Never pass the result back into a model or export.
 export function translateMessage(message, dictionary, templates) {
   if (typeof message !== 'string') return message;
@@ -430,3 +432,20 @@ messageTemplates.push([new RegExp("^Using\\s+local\\s+folder:\\s+(.*?)$", "s"), 
 export function interpolateMessage(message, values) {
   return values && typeof message === "string" ? message.replace(/\{(\w+)\}/g, (token, name) => values[name] ?? token) : message;
 }
+
+// Catalog templates also cover diagnostics assembled before reaching the UI.
+// Capture only numbered placeholders; named tokens are interpolated by useT.
+for (const key of Object.keys(pfUIStrings.ja)) {
+  const placeholders = [...key.matchAll(/\{(\d+)\}/g)];
+  if (!placeholders.length || placeholders.some((match, index) => Number(match[1]) !== index)) continue;
+  const escape = text => text.replace(/[.*+?^$\{\}()|[\]\\]/g, '\\$&');
+  let offset = 0;
+  let pattern = '^';
+  for (const match of placeholders) {
+    pattern += escape(key.slice(offset, match.index)) + '(.*?)';
+    offset = match.index + match[0].length;
+  }
+  pattern += escape(key.slice(offset)) + '$';
+  messageTemplates.push([new RegExp(pattern, 's'), key]);
+}
+messageTemplates.sort((a, b) => b[1].replace(/\{\d+\}/g, '').length - a[1].replace(/\{\d+\}/g, '').length);

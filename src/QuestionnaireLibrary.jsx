@@ -1,3 +1,4 @@
+import { useT as useDisplayT } from './i18n.jsx';
 import { useEffect, useRef, useState } from 'react';
 import QuestionnaireDesigner, { createQuestionnaire } from './QuestionnaireDesigner.jsx';
 import { ConfirmDialog, AlertDialog } from './Modal.jsx';
@@ -5,6 +6,7 @@ import { ConfirmDialog, AlertDialog } from './Modal.jsx';
 const duplicate = value => { const copy = structuredClone(value); copy.questionnaire_id = `questionnaire_${crypto.randomUUID()}`; copy.name = `${value.name} Copy`; copy.questions = (copy.questions || []).map(q => ({ ...q, question_id: `question_${crypto.randomUUID()}` })); return copy; };
 
 export default function QuestionnaireLibrary({ protocol, onChange, onClose }) {
+  const tDisplay = useDisplayT();
   const locked = protocol.status === 'frozen', items = protocol.questionnaires || [];
   const protoRef = useRef(protocol);
   useEffect(() => { protoRef.current = protocol; }, [protocol]);
@@ -23,12 +25,12 @@ export default function QuestionnaireLibrary({ protocol, onChange, onClose }) {
   return <>
     <div className="resource-library-backdrop"><section className="resource-library questionnaire-library">
       <header><div><span>QUESTIONNAIRE LIBRARY</span><h2>Reusable questionnaires</h2></div><button onClick={onClose}>Close</button></header>
-      <p>Create multilingual forms once and reference them from multiple questionnaire nodes. Editing a shared form updates every linked node in the current draft.</p>
+      <p>{tDisplay("Create multilingual forms once and reference them from multiple questionnaire nodes. Editing a shared form updates every linked node in the current draft.")}</p>
       <div className="questionnaire-library-list">
         {items.map((item, index) => <article key={item.questionnaire_id}><QuestionnaireDesigner value={item} disabled={locked} onChange={value => update(index, value)} /><div><button disabled={locked} onClick={() => commit([...items.slice(0, index + 1), duplicate(item), ...items.slice(index + 1)])}>Duplicate</button><button className="danger" disabled={locked} onClick={() => remove(index)}>Delete</button></div></article>)}
-        {!items.length && <div className="empty">No shared questionnaires yet. Node-local questionnaires remain available.</div>}
+        {!items.length && <div className="empty">{tDisplay("No shared questionnaires yet. Node-local questionnaires remain available.")}</div>}
       </div>
-      <button className="primary" disabled={locked} onClick={() => commit([...items, createQuestionnaire()])}>＋ Add questionnaire</button>
+      <button className="primary" disabled={locked} onClick={() => commit([...items, createQuestionnaire()])}>{tDisplay("＋ Add questionnaire")}</button>
     </section></div>
     {confirmState && <ConfirmDialog {...confirmState} />}
     {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}

@@ -96,7 +96,7 @@ const rows = [...candidates.values()].sort((a, b) => a.value.localeCompare(b.val
 const missing = rows.filter(row => row.dictionary === 'missing');
 const allowlisted = rows.filter(row => row.dictionary === 'allowlisted');
 const present = rows.filter(row => row.dictionary === 'present');
-const scopeFiles = ['src/app/sessionSetup.jsx', 'src/app/legacyBuilder.jsx', 'src/App.jsx', 'src/Dashboard.jsx', 'src/readiness.js', 'src/i18nMessage.js'];
+const scopeFiles = [...files].map(file => file.replaceAll('\\', '/')).sort();
 const perFile = scopeFiles.map(file => ({ file, ...Object.fromEntries(['present', 'missing', 'allowlisted'].map(status => [status, rows.filter(row => row.dictionary === status && row.files.some(path => path.replaceAll('\\', '/') === file)).length])) }));
 const md = row => '- `' + row.value.replaceAll('`', '') + '` — ' + row.lines.join(', ');
 const out = `# i18n audit
@@ -109,7 +109,7 @@ Generated: ${new Date().toISOString()}
 - Candidates missing from dictionary: ${missing.length}
 - Allowlisted candidates: ${allowlisted.length}
 
-## E3 per-file audit
+## Per-file audit
 
 | File | Present | Missing | Allowlisted |
 | --- | ---: | ---: | ---: |
