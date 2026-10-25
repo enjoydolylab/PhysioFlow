@@ -1,0 +1,826 @@
+[
+  {
+    "text": "~/Documents/PhysioFlow Data",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "▶ Preview media",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "▼ Hide preview",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "Add a step, set its content, then run a test. Freeze a version before formal collection.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Advanced reference",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Analyze this session to inspect the timeline and answers; return to the same saved record.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "At completion, confirm that session data was saved, then export the complete package.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Border radius",
+    "files": [
+      "src/ThemeSettings.jsx",
+      "src/app/legacyBuilder.jsx"
+    ]
+  },
+  {
+    "text": "Choose a file",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "Choose Preview run in the editor or prepare collection from a frozen version.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Choose what you want to do, then follow the steps.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Click-to-use distribution",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Close guide",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Color theme",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Compact (0.9x)",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Confirm the run details and signals, then begin the experiment.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Create a blank experiment",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Create a blank protocol or choose an Emotion, Stroop or Go/No-Go template.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Create and edit",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Custom primary color:",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Dark mode by default (participant view)",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Database reads database time windows, displays waveforms and statistics, and exports CSV.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Default desktop data folder",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Default trial layout",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Design → Check → Run → Review",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Drafts can run tests. Freeze for formal collection; create an editable version to make changes.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Enter participant ID and language, then check media and the data destination.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Explore the workspace",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Exports are local files. CSV files include a UTF-8 BOM for spreadsheet compatibility, and every ZIP includes both a human README and a machine-readable data dictionary.",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Extra large (1.15x)",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Failed to save asset:",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "Font family",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Font scale",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "For missing signals, check devices, electrodes, the acquisition service and connection address. Formal collection needs real devices and writable storage.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Georgia (serif)",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Guide sections",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Keep the operator monitor on the operator display and the experiment on the participant display.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Large (1.1x)",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Local saving and database verification are separate. Tests without devices explicitly use a synthetic signal. Formal raw recordings currently require explicit upload.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Media settings",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "None — use settings below",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "Normal (1.0x)",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "opacity .3s",
+    "files": [
+      "src/app/uiHelpers.js"
+    ]
+  },
+  {
+    "text": "Open an emotion example",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Open Sessions in the workspace and select the participant record.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Participants see stimuli and questions; operators monitor and pause or resume separately.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "PhysioDB テスト検証を有効にした場合、送信と読戻しの完了を待ちます。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "PhysioFlow built-in help center",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "PHYSIOFLOW HELP CENTER",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Player controls",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "Prepare participants and devices",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Protocol theme & style presets",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Review and analyze",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Review saving, events and the PhysioDB verification report.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Run and verify",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Save researcher notes and validity reviews. Automatic integrity checks do not replace researcher judgment.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Save, then choose Preview run with a test participant to check the content.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Select a step, then click a component on the left to add the next step.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Session ZIP contents",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Set content, duration and responses on the right. Use the flow graph for branches.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Start the acquisition service and check fresh signals on every required channel.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Start your first experiment",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Storage & sharing",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Stored locally with SHA-256 checksum",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "System UI (default)",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "THEME SETTINGS",
+    "files": [
+      "src/ThemeSettings.jsx"
+    ]
+  },
+  {
+    "text": "Use the available installer for your platform. The current development changes are separate from the published beta.6 installer.",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "Use the desktop build for the easiest handoff. It writes data to a normal local folder, so lab operators can back it up, inspect it, and move it without relying on browser cache.",
+    "files": [
+      "src/GuidePanel.jsx"
+    ]
+  },
+  {
+    "text": "User guide",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "Using shared resource; local settings below act as overrides.",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "When PhysioDB test verification is enabled, wait for upload and database read-back checks.",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "YouTube preview",
+    "files": [
+      "src/MediaSettings.jsx"
+    ]
+  },
+  {
+    "text": "この実験記録を分析し、時間線や回答を確認します。戻ると同じ記録を開きます。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "データベースで DB の時間窓を読み、波形・統計・CSV を確認します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "テストにはドラフトを使えます。本番には凍結版を使い、修正には編集可能な版を作成します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "ホームで空の実験、または感情・Stroop・Go/No-Go テンプレートを選びます。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "ホームの実験記録で対象の参加者を選びます。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "ローカル保存と DB 検証は別の状態です。機器なしのテスト信号は合成と表示されます。本番の生データは明示的にアップロードします。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "ワークスペースを見る",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "右で刺激、時間、回答方法を設定します。分岐はフロー図を使います。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "感情実験のサンプルを開く",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "管理者モニターを管理者画面、実験ウィンドウを参加者画面に置きます。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "記録と分析",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "空の実験を作成",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "計測サービスを起動し、必要な全チャンネルの信号を確認します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "欠損時は機器、電極、計測サービス、接続先を確認してください。本番には実機と書込可能な保存先が必要です。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "研究者のメモと有効性評価を保存できます。自動チェックは研究者の判断を置き換えません。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "行いたい作業を選び、手順に沿って操作してください。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "高级参考",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "最初の実験を始めましょう",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "在右侧设置刺激、时长和回答方式；复杂分支使用流程图。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "在实验步骤中选中一项，点击左侧组件添加下一步。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "参加者 ID、言語、メディア、保存先を確認します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "参加者と機器を準備",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "参加者は刺激と質問に回答し、管理者は別画面で監視・一時停止します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "参与者完成刺激与回答；管理员在独立监控中查看状态及暂停/恢复。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "使い方",
+    "files": [
+      "src/TaskGuide.jsx",
+      "src/pfUIStrings.js"
+    ]
+  },
+  {
+    "text": "使用指南",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "実験を作成・編集",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "実行と DB 検証",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "実行情報と信号を確認して実験を開始します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "手順を選択し、左の要素をクリックして次の手順を追加します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "手順を追加し、内容を設定してテストしてください。本番の前にバージョンを凍結します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "首页打开“实验记录”，选择本次参与者记录。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "終了後に保存成功を確認し、完全なデータパッケージを出力します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "准备参与者与设备",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "准备信息确认后检查信号，再点击“开始实验”。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "詳細リファレンス",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "信号缺失时检查设备、电极、采集服务和连接地址。正式采集要求真实设备及可写的数据文件夹。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "数据库，可选择数据库录制时间窗、查看波形与统计并导出 CSV。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "設計 → 確認 → 実行 → 結果確認",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "先添加一个步骤，设置内容，然后测试运行。正式采集前再冻结版本。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "先浏览工作区",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "打开情绪实验示例",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "打开操作员监控放在管理员屏幕，实验窗口放在参与者屏幕。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "填写参与者编号与语言，确认媒体及数据保存位置。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "点击“分析这次实验”查看时间线与回答，返回时保留同一记录。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "編集画面でテスト実行、または凍結版から収集を準備します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "保存後にテスト実行し、テスト用の参加者で内容を確認します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "保存后点击“测试运行”，先以测试参与者检查内容。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "保存状態、イベント、PhysioDB 検証結果を確認します。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "本地保存成功和数据库核对成功是两件事。无设备测试会明确使用合成信号；正式原始录制目前需显式上传。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "有设备时先启动采集服务，再检查所有必需通道的实时信号。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "从首页创建空白实验，或使用情绪、Stroop、Go/No-Go 模板。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "从编辑器测试运行，或从冻结版本进入准备采集。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "创建空白实验",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "创建与编辑实验",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "启用 PhysioDB 测试验证时，等待上传和数据库回读核对完成。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "开始你的第一个实验",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "查看保存状态、运行事件和 PhysioDB 核对结果。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "查看记录与分析",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "测试可使用草稿。冻结版本用于正式采集；需要修改时创建可编辑版本。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "结束后先确认“会话数据已保存”，再导出完整数据包。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "记录可添加研究者备注和有效性评定。自动完整性检查不替代研究者判断。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "设计 → 检查 → 运行 → 查看结果",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "运行与数据库验证",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  },
+  {
+    "text": "选择你要完成的任务，按步骤操作。",
+    "files": [
+      "src/TaskGuide.jsx"
+    ]
+  }
+]

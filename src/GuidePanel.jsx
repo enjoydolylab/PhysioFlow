@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { CONTROL_NODE_GUIDE, DATA_FORMAT_GUIDE, OUTPUT_FILES, PALETTE, STEP_GUIDE, STORAGE_GUIDE } from './constants.js';
 
@@ -5,6 +6,7 @@ import useGuideDialog from './useGuideDialog.js';
 import TaskGuide, { useGuideCopy } from './TaskGuide.jsx';
 
 export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
+  const t = useT();
   const copy = useGuideCopy();
   const closeButton = useRef(null);
   useGuideDialog(closeButton, onClose);
@@ -14,22 +16,22 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
   const stepItems = PALETTE.flatMap(group => group.items.map(([type, icon, label]) => ({ type, icon, label, group: group.title })));
 
   return (
-    <div className="guide-backdrop" role="dialog" aria-modal="true" aria-label="PhysioFlow built-in help center">
+    <div className="guide-backdrop" role="dialog" aria-modal="true" aria-label={t("PhysioFlow built-in help center")}>
       <section className="guide-panel">
         <header className="guide-head">
           <div>
-            <span>PHYSIOFLOW HELP CENTER</span>
+            <span>{t("PHYSIOFLOW HELP CENTER")}</span>
             <h2>{copy.title}</h2>
             <p>{copy.path}</p>
           </div>
-          <button ref={closeButton} onClick={onClose} aria-label="Close guide">×</button>
+          <button ref={closeButton} onClick={onClose} aria-label={t("Close guide")}>×</button>
         </header>
 
-        <nav className="guide-tabs" aria-label="Guide sections">
+        <nav className="guide-tabs" aria-label={t("Guide sections")}>
           <button className={tab === 'workflow' ? 'active' : ''} onClick={() => setTab('workflow')}>{copy.help}</button>
           <button className={tab === 'nodes' ? 'active' : ''} onClick={() => setTab('nodes')}>Node manual</button>
           <button className={tab === 'data' ? 'active' : ''} onClick={() => setTab('data')}>Data format</button>
-          <button className={tab === 'storage' ? 'active' : ''} onClick={() => setTab('storage')}>Storage &amp; sharing</button>
+          <button className={tab === 'storage' ? 'active' : ''} onClick={() => setTab('storage')}>{t("Storage & sharing")}</button>
         </nav>
 
         {tab === 'workflow' && <div className="guide-content"><TaskGuide initialTask={taskFor[initialTab] || 0} /></div>}
@@ -68,8 +70,8 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
         {tab === 'data' && (
           <div className="guide-content">
             <div className="guide-note">
-              <h3>Session ZIP contents</h3>
-              <p>Exports are local files. CSV files include a UTF-8 BOM for spreadsheet compatibility, and every ZIP includes both a human README and a machine-readable data dictionary.</p>
+              <h3>{t("Session ZIP contents")}</h3>
+              <p>{t("Exports are local files. CSV files include a UTF-8 BOM for spreadsheet compatibility, and every ZIP includes both a human README and a machine-readable data dictionary.")}</p>
             </div>
             <section className="guide-control-list guide-data-list">
               {DATA_FORMAT_GUIDE.map(([file, description]) => (
@@ -93,8 +95,8 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
         {tab === 'storage' && (
           <div className="guide-content">
             <div className="guide-note">
-              <h3>Click-to-use distribution</h3>
-              <p>Use the desktop build for the easiest handoff. It writes data to a normal local folder, so lab operators can back it up, inspect it, and move it without relying on browser cache.</p>
+              <h3>{t("Click-to-use distribution")}</h3>
+              <p>{t("Use the desktop build for the easiest handoff. It writes data to a normal local folder, so lab operators can back it up, inspect it, and move it without relying on browser cache.")}</p>
             </div>
             <section className="guide-control-list guide-storage-list">
               {STORAGE_GUIDE.map(([title, description]) => (
@@ -105,9 +107,9 @@ export default function GuidePanel({ onClose, initialTab = 'workflow' }) {
               ))}
             </section>
             <div className="guide-callout">
-              <b>Default desktop data folder</b>
+              <b>{t("Default desktop data folder")}</b>
               <code>~/Documents/PhysioFlow Data</code>
-              <span>Use the available installer for your platform. The current development changes are separate from the published beta.6 installer.</span>
+              <span>{t("Use the available installer for your platform. The current development changes are separate from the published beta.6 installer.")}</span>
             </div>
           </div>
         )}

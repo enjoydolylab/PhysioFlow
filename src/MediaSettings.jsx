@@ -1,3 +1,4 @@
+import { useT } from './i18n.jsx';
 // MediaSettings.jsx — Shared media configuration UI (used in Inspector + Builder text editor)
 import { useState } from 'react';
 import { saveAsset } from './assetStore.js';
@@ -5,6 +6,7 @@ import MediaStep from './MediaStep.jsx';
 import { MEDIA_TYPES } from './constants.js';
 
 export default function MediaSettings({ item, disabled, updateStep, stimuli }) {
+  const t = useT();
   const [previewOpen, setPreviewOpen] = useState(false);
   const s = item; // alias for conciseness
 
@@ -17,15 +19,15 @@ export default function MediaSettings({ item, disabled, updateStep, stimuli }) {
 
   return (
     <fieldset className="inspector-fieldset">
-      <legend>Media settings</legend>
+      <legend>{t("Media settings")}</legend>
 
       {compatible.length > 0 && (
         <label>Reusable resource
           <select value={s.stimulus_id || ''} disabled={disabled} onChange={e => updateStep({ stimulus_id: e.target.value })}>
-            <option value="">None — use settings below</option>
+            <option value="">{t("None — use settings below")}</option>
             {compatible.map(r => <option value={r.stimulus_id} key={r.stimulus_id}>{r.name}</option>)}
           </select>
-          {s.stimulus_id && <small>Using shared resource; local settings below act as overrides.</small>}
+          {s.stimulus_id && <small>{t("Using shared resource; local settings below act as overrides.")}</small>}
         </label>
       )}
 
@@ -42,11 +44,11 @@ export default function MediaSettings({ item, disabled, updateStep, stimuli }) {
           <input type="file" disabled={disabled} accept={s.type === 'audio' ? 'audio/*' : s.type === 'image' ? 'image/*' : 'video/*'}
             onChange={async e => {
               const file = e.target.files?.[0];
-              if (file) { try { const data = await saveAsset(file); updateStep(data); } catch (err) { console.warn('Failed to save asset:', err); } }
+              if (file) { try { const data = await saveAsset(file); updateStep(data); } catch (err) { console.warn(t("Failed to save asset:"), err); } }
             }}
           />
-          <span>{s.file_name || 'Choose a file'}</span>
-          <small>Stored locally with SHA-256 checksum</small>
+          <span>{s.file_name || t("Choose a file")}</span>
+          <small>{t("Stored locally with SHA-256 checksum")}</small>
         </label>
       ) : (
         <label>Resource URL
@@ -64,7 +66,7 @@ export default function MediaSettings({ item, disabled, updateStep, stimuli }) {
           </label>
           <div className="check-row-group">
             <label className="check-row"><input type="checkbox" checked={s.show_controls !== false} disabled={disabled}
-              onChange={e => updateStep({ show_controls: e.target.checked })} /> Player controls</label>
+              onChange={e => updateStep({ show_controls: e.target.checked })} />{t("Player controls")}</label>
             <label className="check-row"><input type="checkbox" checked={Boolean(s.muted)} disabled={disabled}
               onChange={e => updateStep({ muted: e.target.checked })} /> Muted</label>
             <label className="check-row"><input type="checkbox" checked={Boolean(s.loop)} disabled={disabled}
@@ -76,14 +78,14 @@ export default function MediaSettings({ item, disabled, updateStep, stimuli }) {
       {hasSource && (
         <div className="media-preview-section">
           <button className="preview-toggle" onClick={() => setPreviewOpen(o => !o)} disabled={disabled}>
-            {previewOpen ? '▼ Hide preview' : '▶ Preview media'}
+            {previewOpen ? t("▼ Hide preview") : t("▶ Preview media")}
           </button>
           {previewOpen && (
             <div className="media-preview-box">
               {s.type === 'video' && s.source_mode === 'youtube' ? (
                 <div className="embed-frame">
                   <iframe src={`https://www.youtube-nocookie.com/embed/${extractYouTubeId(resolvedUrl)}`}
-                    allow="encrypted-media" allowFullScreen title="YouTube preview" />
+                    allow="encrypted-media" allowFullScreen title={t("YouTube preview")} />
                 </div>
               ) : (
                 <MediaStep step={{ ...s, source_url: resolvedUrl }} onComplete={() => {}} onMediaEvent={() => {}} preview />
