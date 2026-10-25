@@ -49,7 +49,7 @@ const LoadingFallback = () => <div style={{ position:'fixed',inset:0,zIndex:2000
 export default function App() {
   const t = useT();
   const [view, setView] = useState('home');
-  const [workspacePage, setWorkspacePage] = useState('projects');
+  const [workspacePage, setWorkspacePage] = useState(() => ['sessions', 'tools'].includes(new URLSearchParams(window.location.search).get('page')) ? new URLSearchParams(window.location.search).get('page') : 'projects');
   const [analyticsSessionId, setAnalyticsSessionId] = useState(null);
   const [viewMode, setViewMode] = useState('visual');
   const [protocols, setProtocols] = useState([]);
@@ -223,9 +223,19 @@ export default function App() {
     return true;
   }, [persist, protocols, showProtocolSaveError]);
 
+  // A write that never settles used to look like a dead button: no dialog, no
+  // toast, no new project. Turn silence into a message that says what to check.
   const addAndOpen = async value => {
     try {
-      await persist([...protocols, value]);
+      let timer;
+      const timeout = new Promise((resolve, reject) => {
+        timer = setTimeout(() => reject(new Error('The new protocol was not saved within 12 seconds. Nothing was created. Check the data folder in Data & settings, then try again.')), 12000);
+      });
+      try {
+        await Promise.race([persist([...protocols, value]), timeout]);
+      } finally {
+        clearTimeout(timer);
+      }
       open(value);
     } catch (error) {
       showProtocolSaveError(error);
