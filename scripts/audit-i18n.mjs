@@ -9,7 +9,7 @@ import { parse } from '@babel/parser';
 const globAsync = promisify(glob);
 // Catalog files hold translations, not untranslated UI copy: scanning their
 // values would report every Japanese string as a missing candidate.
-const files = (await globAsync('src/**/*.{js,jsx}', { nodir: true })).filter(file => !['i18n.jsx', 'composerStrings.js', 'catalogLabels.js', 'pfUIStrings.js', 'i18nMessage.js'].some(name => file.endsWith(name)));
+const files = (await globAsync('src/**/*.{js,jsx}', { nodir: true })).filter(file => !['i18n.jsx', 'composerStrings.js', 'catalogLabels.js', 'pfUIStrings.js'].some(name => file.endsWith(name)));
 const source = await readFile('src/i18n.jsx', 'utf8');
 const dictionaryKeys = new Set();
 const dictionaryAst = parse(source, { sourceType: 'module', plugins: ['jsx'] });
@@ -96,6 +96,8 @@ const rows = [...candidates.values()].sort((a, b) => a.value.localeCompare(b.val
 const missing = rows.filter(row => row.dictionary === 'missing');
 const allowlisted = rows.filter(row => row.dictionary === 'allowlisted');
 const present = rows.filter(row => row.dictionary === 'present');
+const scopeFiles = ['src/app/sessionSetup.jsx', 'src/app/legacyBuilder.jsx', 'src/App.jsx', 'src/Dashboard.jsx', 'src/readiness.js', 'src/i18nMessage.js'];
+const perFile = scopeFiles.map(file => ({ file, ...Object.fromEntries(['present', 'missing', 'allowlisted'].map(status => [status, rows.filter(row => row.dictionary === status && row.files.some(path => path.replaceAll('\\', '/') === file)).length])) }));
 const md = row => '- `' + row.value.replaceAll('`', '') + '` — ' + row.lines.join(', ');
 const out = `# i18n audit
 
@@ -106,6 +108,12 @@ Generated: ${new Date().toISOString()}
 - Candidates already in dictionary: ${present.length}
 - Candidates missing from dictionary: ${missing.length}
 - Allowlisted candidates: ${allowlisted.length}
+
+## E3 per-file audit
+
+| File | Present | Missing | Allowlisted |
+| --- | ---: | ---: | ---: |
+${perFile.map(row => `| ${row.file} | ${row.present} | ${row.missing} | ${row.allowlisted} |`).join('\n')}
 
 ## Review rules
 
@@ -127,6 +135,6 @@ ${missing.length ? missing.map(md).join('\n') : '_None found._'}
 ${present.map(row => `${md(row)} — ${row.kinds.join(', ')}`).join('\n')}
 `;
 await writeFile('docs/refactor/I18N_AUDIT.md', out);
-console.log(JSON.stringify({ files: files.length, candidates: rows.length, present: present.length, missing: missing.length, allowlisted: allowlisted.length, allowlistByReason: Object.fromEntries(['content', 'data', 'multilingual'].map(reason => [reason, allowlistEntries.filter(entry => entry.reason === reason).length])), appHosted: Object.fromEntries(['present', 'missing', 'allowlisted'].map(status => [status, rows.filter(row => row.dictionary === status && row.files.some(file => /src[\\/](app|hosted)[\\/]/.test(file))).length])), report: 'docs/refactor/I18N_AUDIT.md' }, null, 2));
+console.log(JSON.stringify({ files: files.length, candidates: rows.length, present: present.length, missing: missing.length, allowlisted: allowlisted.length, allowlistByReason: Object.fromEntries(['content', 'data', 'multilingual'].map(reason => [reason, allowlistEntries.filter(entry => entry.reason === reason).length])), appHosted: Object.fromEntries(['present', 'missing', 'allowlisted'].map(status => [status, rows.filter(row => row.dictionary === status && row.files.some(file => /src[\\/](app|hosted)[\\/]/.test(file))).length])), perFile, report: 'docs/refactor/I18N_AUDIT.md' }, null, 2));
 
 if (process.argv.includes('--json')) await writeFile('i18n-audit-rows.json', JSON.stringify(rows, null, 2));

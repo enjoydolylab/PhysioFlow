@@ -1,3 +1,4 @@
+import { translate } from './i18n.jsx';
 import { restoreQuestionnaireDraft } from './runtime/questionnaireCheckpoint.js';
 import { canUseMatrix, canUseSamMatrix, orderSamMatrixQuestions, splitMatrixPrompt } from './questionnaireMatrix.js';
 import { visibleQuestionnaireQuestions } from './core/questionnaireModel.js';
@@ -6,13 +7,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { questionnaireScore, seededShuffle } from './core/index.js';
 import SamFigure from './SamFigure.jsx';
 
-const MSG = { en: 'Responses recorded', zh: '回答已记录', ja: '回答が記録されました' };
 const REQUIRED = { en: 'Required', zh: '必填', ja: '必須' };
 const PREV = { en: '← Previous', zh: '← 上一题', ja: '← 前へ' };
 const NEXT = { en: 'Next →', zh: '下一题 →', ja: '次へ →' };
 const SUBMIT = { en: 'Submit', zh: '提交', ja: '送信' };
 const NO_QUESTIONS = { en: 'No questions', zh: '没有题目', ja: '質問がありません' };
-const CONTINUE = { en: 'Continue', zh: '继续', ja: '次へ' };
 const SCORE = { en: 'Score', zh: '得分', ja: '得点' };
 const TIME = { en: 'Time left', zh: '剩余时间', ja: '残り時間' };
 
@@ -166,8 +165,8 @@ export default function QuestionnaireFormV2({ questionnaire, language = 'en', ra
   };
 
   const score = questionnaireScore(questionnaire, answers);
-  if (submitted) return <div className="participant-ui-screen" style={{ textAlign: 'center', padding: 32, margin: 'auto', maxWidth: 640 }}><h1>✓</h1><p>{msg(MSG)}</p>{score.total > 0 && <p>{msg(SCORE)}: {score.correct}/{score.total} ({score.pct}%)</p>}</div>;
-  if (!currentQ) return <div className="participant-ui-screen" style={{ textAlign: 'center', padding: 32, margin: 'auto', maxWidth: 640 }}><p>{msg(NO_QUESTIONS)}</p><button type="button" className="participant-ui-button primary" onClick={() => onSubmit?.({}, { score: { correct: 0, total: 0, pct: null }, timedOutQuestionIds: [], questionOrder: [] })}>{msg(CONTINUE)}</button></div>;
+  if (submitted) return <div className="participant-ui-screen" style={{ textAlign: 'center', padding: 32, margin: 'auto', maxWidth: 640 }}><h1>✓</h1><p>{translate('Response recorded', language)}</p>{score.total > 0 && <p>{msg(SCORE)}: {score.correct}/{score.total} ({score.pct}%)</p>}</div>;
+  if (!currentQ) return <div className="participant-ui-screen" style={{ textAlign: 'center', padding: 32, margin: 'auto', maxWidth: 640 }}><p>{msg(NO_QUESTIONS)}</p><button type="button" className="participant-ui-button primary" onClick={() => onSubmit?.({}, { score: { correct: 0, total: 0, pct: null }, timedOutQuestionIds: [], questionOrder: [] })}>{translate('Next', language)}</button></div>;
 
   if (samMatrix) {
     const answered = presented.filter(question => !isMissing(answers[question.question_id])).length;

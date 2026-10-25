@@ -1,18 +1,29 @@
 # i18n audit
 
-Generated: 2026-10-25T18:01:01.989Z
+Generated: 2026-10-25T18:07:44.837Z
 
-- Source files scanned: 251
-- Candidate strings: 3314
-- Candidates already in dictionary: 2201
-- Candidates missing from dictionary: 819
-- Allowlisted candidates: 294
+- Source files scanned: 252
+- Candidate strings: 3327
+- Candidates already in dictionary: 2295
+- Candidates missing from dictionary: 737
+- Allowlisted candidates: 295
+
+## E3 per-file audit
+
+| File | Present | Missing | Allowlisted |
+| --- | ---: | ---: | ---: |
+| src/app/sessionSetup.jsx | 106 | 0 | 0 |
+| src/app/legacyBuilder.jsx | 96 | 0 | 0 |
+| src/App.jsx | 35 | 0 | 1 |
+| src/Dashboard.jsx | 59 | 0 | 0 |
+| src/readiness.js | 33 | 0 | 0 |
+| src/i18nMessage.js | 344 | 0 | 1 |
 
 ## Review rules
 
 - **Missing** strings are candidates for system UI translation; review before adding because experiment-authored content and data values must remain unchanged.
 - **Present** strings are covered by the current DOM translation layer, but attribute and interpolated usage should be migrated to useT() when possible.
-- **Allowlisted** values are preserved authored content, export data documentation, or already multilingual rows; they are excluded from missing. The allowlist contains 318 values (content: 48; data: 172; multilingual: 98).
+- **Allowlisted** values are preserved authored content, export data documentation, or already multilingual rows; they are excluded from missing. The allowlist contains 319 values (content: 48; data: 173; multilingual: 98).
 - Technical identifiers, CSS values and URLs are filtered heuristically. Dynamic message templates use numbered placeholders.
 
 ## Allowlisted candidates (authored content, export data, multilingual rows)
@@ -43,7 +54,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Automated validity checks and warnings.` — src\exporter.js:139 — data
 - `band_*_relative` — src\data\jointExport.js:184 — data
 - `BIDS-compatible PhysioFlow session export` — src\exporter.js:548 — data
-- `BioDB leg failed: {0}. The PF session package is complete on its own.` — src\data\jointExport.js:125 — data
+- `BioDB leg failed: {0}. The PF session package is complete on its own.` — src\data\jointExport.js:125, src\i18nMessage.js:133 — data
 - `BioDB returned no sensor samples for this participant and window.` — src\data\jointExport.js:130 — data
 - `BioDB time series flattened from the columnar read-back. Missing samples are empty cells, not zeros, so gaps stay visible.` — src\data\jointExport.js:170 — data
 - `BioDB timestamps are UTC; PF event timestamps carry their own offset. Compare on instants, not on local strings.` — src\data\jointExport.js:189 — data
@@ -163,6 +174,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `PhysioFlow Session — {0}` — src\exporter.js:391 — data
 - `PhysioFlow session export` — src\exporter.js:144 — data
 - `PhysioFlow v{0}` — src\exporter.js:476, src\exporter.js:477 — data
+- `physioflow.onboarding-v1` — src\App.jsx:86 — data
 - `Please describe in detail` — src\core\questionnaireModel.js:157 — multilingual
 - `Please enter` — src\core\questionnaireModel.js:156 — multilingual
 - `Please rate` — src\core\participantUi.js:96, src\core\questionnaireModel.js:150, src\core\questionnaireModel.js:151, src\core\questionnaireModel.js:9 — multilingual
@@ -334,12 +346,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `{0} / Step {1}` — src\domain.js:45
 - `{0} / Trial {1}` — src\domain.js:37
 - `{0} → drag to connect` — src\flowCanvas\NodeCard.jsx:106
-- `{0} analysis window(s) will be exported.` — src\readiness.js:93
 - `{0} backwards and {1} duplicate interval(s)` — src\analysis\signal\liveQuality.js:76, src\analysis\signal\quality.js:229
-- `{0} blocked · fix before formal collection` — src\Dashboard.jsx:143
-- `{0} blocking issue(s).` — src\readiness.js:69
 - `{0} blocking or data-integrity defects remain unresolved` — src\usability\studyMetrics.js:72
-- `{0} blocks, {1} trials, {2} steps.` — src\readiness.js:61
 - `{0} cannot succeed without help when success is false` — src\usability\studyMetrics.js:31
 - `{0} cohort needs at least 5 participants` — src\usability\studyMetrics.js:51
 - `{0} completed questionnaire presentation(s) lack a submission` — src\integrity.js:23
@@ -363,16 +371,12 @@ Generated: 2026-10-25T18:01:01.989Z
 - `{0} migration draft` — src\legacy\migrateProtocolV1.js:207
 - `{0} ms` — src\SessionManager.jsx:381
 - `{0} needs a next connection` — src\flowEngine.js:115
-- `{0} nodes, {1} connections.` — src\readiness.js:61
-- `{0} of {1}` — src\QuestionnaireFormV2.jsx:148
-- `{0} optional warning(s).` — src\readiness.js:77
+- `{0} of {1}` — src\QuestionnaireFormV2.jsx:147
 - `{0} parameter {1} direction` — src\composer\Catalogs.jsx:40
 - `{0} parameter {1} endpoint` — src\composer\Catalogs.jsx:45
 - `{0} parameter {1} name` — src\composer\Catalogs.jsx:38
 - `{0} parameter {1} type` — src\composer\Catalogs.jsx:39
-- `{0} preview, {1} formal completed session(s).` — src\readiness.js:109
 - `{0} raw samples checked. No data was sent.` — src\PhysioDBUpload.jsx:43
-- `{0} ready · {1} sessions recorded` — src\Dashboard.jsx:143
 - `{0} references unknown variable {1}` — src\flowEngine.js:118
 - `{0} required Step(s) were skipped` — src\integrity.js:20
 - `{0} sample rows (channels: {1}) for participant {2}` — src\SessionManager.jsx:121
@@ -380,10 +384,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `{0} serious device marker(s)` — src\integrity.js:26
 - `{0} session(s) skipped because their protocol snapshot was missing.` — src\SessionManager.jsx:215
 - `{0} sign-off with reviewer is required` — src\usability\studyMetrics.js:75
-- `{0} step content error(s).` — src\readiness.js:77
 - `{0} Step retry/retries occurred` — src\integrity.js:25
 - `{0} Step(s) were skipped` — src\integrity.js:25
-- `{0} steps inspected · {1}% mapped to native V2 components · {2} review item(s). The migrated version remains a safe editable draft until reviewed.` — src\App.jsx:323
 - `{0} subflow entry` — src\composer\Catalogs.jsx:32
 - `{0} text` — src\RuntimeRunnerPage.jsx:329
 - `{0} variable name` — src\composer\Catalogs.jsx:385
@@ -404,7 +406,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `{0}.success must be boolean` — src\usability\studyMetrics.js:29
 - `{0}.successWithoutHelp must be boolean` — src\usability\studyMetrics.js:30
 - `{0}.task must be an integer from 1 to 5` — src\usability\studyMetrics.js:28
-- `{0}/{1} media step(s) have sources.` — src\readiness.js:85
 - `{0}% of sample intervals deviate from the median` — src\analysis\signal\liveQuality.js:82, src\analysis\signal\quality.js:235
 - `{0}% of samples are missing` — src\analysis\signal\quality.js:171
 - `{0}L{1} {2}L{3} {4}Z` — src\analysis\chartGeometry.js:158
@@ -459,8 +460,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `📋 Blocks & Trials` — src\FlowWorkspaceOverlay.jsx:131
 - `📖 Built-in guide` — src\FlowWorkspaceOverlay.jsx:135
 - `🔒 Freeze version` — src\FlowWorkspaceOverlay.jsx:139
-- `01 / ANALYSIS` — src\Dashboard.jsx:152
-- `02 / DATA` — src\Dashboard.jsx:152
 - `1, EEG1, uV` — src\PhysioDBUpload.jsx:59
 - `1. Use events.csv for raw timing and reconstruction.` — src\exporter.js:152
 - `1024x768` — src\ParticipantUiBuilder.jsx:125
@@ -488,14 +487,11 @@ Generated: 2026-10-25T18:01:01.989Z
 - `A destination stream and client are required` — src\physioDBTransfer.js:8
 - `a gap of {0} s breaks the live stream` — src\analysis\signal\liveQuality.js:91
 - `a gap of {0} s breaks the recording` — src\analysis\signal\quality.js:242
-- `A project with this project_id already exists. Differences from latest version: {0} Choose how to import, or cancel without making changes.` — src\Dashboard.jsx:96
 - `A protocol must contain at least one Block.` — src\HierarchyManager.jsx:18
 - `A valid start/end time range is required` — src\physioDBClient.js:104
 - `acquisition agent samples.jsonl` — src\devices\brainflowConnector.js:24
 - `Add a question from the left panel, or click an existing question to edit it.` — src\QuestionnaireWorkspace.jsx:223
 - `Add a Trial before opening the workflow.` — src\FlowWorkspaceOverlay.jsx:151
-- `Add at least one block, trial, and event node.` — src\readiness.js:62
-- `Add at least one experiment component between Start and End.` — src\readiness.js:62
 - `Add from palette →` — src\flowCanvas\CanvasContextMenu.jsx:15
 - `admin JWT exchange failed` — src\bioDBClient.js:51, src\bioDBClient.js:58
 - `AF7` — src\devices\museProtocol.js:31
@@ -507,24 +503,19 @@ Generated: 2026-10-25T18:01:01.989Z
 - `An experiment, participant and stream lookup client are required` — src\physioDBTransfer.js:52
 - `An identified, sequenced session event is required` — src\physioDBMapping.js:5
 - `Analysis Windows (` — src\analysis\WindowCards.jsx:17
-- `Analytics ↗` — src\Dashboard.jsx:152
 - `App Error` — src\main.jsx:61
 - `appCommit is required` — src\usability\studyMetrics.js:18
-- `Archive project "{0}" and all of its versions?` — src\App.jsx:251
-- `Archive project?` — src\App.jsx:250
 - `arousal →` — src\analysis\AffectMap.jsx:64
 - `Arousal: Low (1) → High (9) excitement` — src\analysis\ResponseCharts.jsx:81
-- `Arousal（覚醒度）` — src\QuestionnaireFormV2.jsx:24
+- `Arousal（覚醒度）` — src\QuestionnaireFormV2.jsx:23
 - `Asset {0} is referenced but missing from the media library` — src\GraphRuntimeRunnerPage.jsx:483, src\assetStore.js:119
 - `Asset DB blocked — close other tabs` — src\assetStore.js:17
 - `Asset save aborted` — src\assetStore.js:47
 - `Asset verification failed: {0}` — src\assetStore.js:149
-- `Attach a URL, uploaded file, or reusable stimulus to every media step.` — src\readiness.js:86
 - `Avg Duration` — src\analysis\WindowCards.jsx:24
 - `base64` — src\bioDBClient.js:129, src\bioDBClient.js:248
 - `Batch size must be between 1 and 10000` — src\physioDBTransfer.js:9
 - `Bind file for {0}` — src\composer\Catalogs.jsx:467
-- `BioDB settings ↗` — src\Dashboard.jsx:152
 - `blank = no limit` — src\QuestionnaireEditorV2.jsx:146
 - `Block {0}` — src\PreRunChecklist.jsx:152, src\domain.js:25
 - `Block repeat needs a container policy` — src\legacy\migrateProtocolV1.js:32
@@ -542,7 +533,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `BrainFlow preview gap: {0} samples; raw recording remains at agent` — src\devices\brainflowConnector.js:30
 - `BrainFlow samples.jsonl` — src\PhysioDBUpload.jsx:61
 - `Broken edge {0}` — src\flowEngine.js:94
-- `Browse data ↗` — src\Dashboard.jsx:152
 - `browser storage unavailable` — src\fsStorage.js:179
 - `Bubble size = frequency.` — src\analysis\ResponseCharts.jsx:84
 - `button, a[href], input, select, textarea, [tabindex="0"]` — src\useGuideDialog.js:11
@@ -600,11 +590,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Copied {0} node(s)` — src\composer\useComposerState.js:333
 - `Copy / Paste / Duplicate` — src\flowCanvas\ShortcutsModal.jsx:2
 - `Correct answer (auto-score)` — src\QuestionnaireEditorV2.jsx:143, src\QuestionnaireWorkspace.jsx:321
-- `Could not choose a local data folder. Use Chrome or Edge, then try again.` — src\App.jsx:345
 - `Could not exit test: {0} Retry to return safely.` — src\TestRunExitButton.jsx:19
 - `Could not load the selected session.` — src\Analytics.jsx:48
-- `Could not open folder` — src\App.jsx:353
-- `Could not write protocol data to the active storage location. Check local folder permission, storage quota, or export the protocol before continuing.` — src\App.jsx:170
 - `Create multilingual forms once and reference them from multiple questionnaire nodes. Editing a shared form updates every linked node in the current draft.` — src\QuestionnaireLibrary.jsx:26
 - `Created {0}` — src\composer\useCatalogActions.js:42
 - `created from PF Data panel (D3)` — src\DataPanel.jsx:180
@@ -619,7 +606,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Ctrl+F` — src\flowCanvas\ShortcutsModal.jsx:3
 - `Ctrl+V` — src\Inspector.jsx:67
 - `Ctrl+Z / Ctrl+Shift+Z` — src\flowCanvas\ShortcutsModal.jsx:3
-- `Current version is editable draft.` — src\readiness.js:101
 - `Custom HTML or CSS requires sandbox compatibility review` — src\legacy\migrateProtocolV1.js:44
 - `Cycle must pass through a Loop node: {0}` — src\flowEngine.js:143
 - `Data folder permission was lost. Select the data folder again before continuing.` — src\localWorkspace.js:107
@@ -643,7 +629,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Deleted {0} node(s)` — src\composer\useComposerState.js:302
 - `Destination field order, float type or units do not match the channel mapping` — src\physioDBTransfer.js:57
 - `Destination stream does not match the selected experiment and participant` — src\physioDBTransfer.js:56
-- `Detailed configuration changed` — src\Dashboard.jsx:96
 - `Device channel IDs must be valid and unique` — src\devices\deviceConnector.js:20
 - `Device connector {0} is unavailable` — src\GraphRuntimeRunnerPage.jsx:332
 - `Device connector {0}@{1} is already installed` — src\devices\deviceConnector.js:34
@@ -656,8 +641,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Device session requires connector, adapter, session ID, clock and ID factory` — src\devices\deviceConnector.js:57
 - `Device timestamps collide at millisecond precision. Local data is preserved; this preview cannot be verified without losing samples.` — src\analysis\testRunPayload.js:15
 - `Disable snap` — src\flowCanvas\ShortcutsModal.jsx:6
-- `Discard & Leave` — src\App.jsx:143
-- `Dominance（支配感）` — src\QuestionnaireFormV2.jsx:26
+- `Dominance（支配感）` — src\QuestionnaireFormV2.jsx:25
 - `Double-click node` — src\flowCanvas\ShortcutsModal.jsx:5
 - `downstream filters and spectra assume a continuous clock` — src\analysis\signal\quality.js:243
 - `Drag from {0} port` — src\flowCanvas\NodeCard.jsx:59
@@ -678,9 +662,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `EEG bands (relative)` — src\analysis\FeaturePanel.jsx:67
 - `effective records)` — src\analysis\ResponseCharts.jsx:24
 - `Empty recording row at line {0}` — src\brainFlowRecording.js:13
-- `Enable Generate analysis window on baseline, stimulus, task, or recovery steps that need physiological analysis.` — src\readiness.js:94
 - `End node {0} has ignored outgoing connections` — src\flowEngine.js:120
-- `Enter a new name for "{0}"` — src\App.jsx:293
 - `Enter the BrainFlow agent token` — src\devices\brainflowConnector.js:6
 - `Error ·` — src\Analytics.jsx:142
 - `Event {0} belongs to a different protocol` — src\runtime\replayRuntime.js:80
@@ -690,7 +672,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Event node {0} references a missing Step` — src\flowEngine.js:95
 - `events |` — src\Analytics.jsx:207
 - `excited / tense` — src\analysis\AffectMap.jsx:12
-- `Existing project` — src\Dashboard.jsx:96
 - `Exit test and return to editor` — src\TestRunExitButton.jsx:28
 - `Exit test run?` — src\TestRunExitButton.jsx:32
 - `Exiting…` — src\TestRunExitButton.jsx:28
@@ -698,7 +679,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Expected vs Actual Duration` — src\analysis\WindowCards.jsx:74
 - `experiment not writable` — src\SessionManager.jsx:118
 - `experimentId is required` — src\bioDBClient.js:200
-- `Explore results and compare recorded sessions.` — src\Dashboard.jsx:152
 - `Exported {0} collaboration operation(s)` — src\composer\Catalogs.jsx:113
 - `Exported deployment bundle {0}` — src\composer\Catalogs.jsx:176
 - `External form URL is not configured.` — src\QuestionnaireForm.jsx:126
@@ -726,31 +706,18 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Flow cycle detection exceeded depth limit` — src\flowEngine.js:150
 - `Flow needs at least one End node` — src\flowEngine.js:91
 - `Flow needs exactly one Start node (found {0})` — src\flowEngine.js:90
-- `Folder: {0}` — src\readiness.js:117
-- `For the older JWT server.` — src\Dashboard.jsx:152
-- `Formal collection requires the desktop app or a selected local data folder.` — src\readiness.js:119
 - `Format: type, en, options (| separated), min, max, answer` — src\QuestionnaireEditorV2.jsx:92
-- `Freeze a validated version before formal collection.` — src\readiness.js:102
-- `Frozen Protocol Graph has no config hash.` — src\Dashboard.jsx:74
-- `Frozen Protocol Graph hash mismatch. Expected {0} Actual {1}` — src\Dashboard.jsx:76
-- `Frozen protocol has no config_hash.` — src\Dashboard.jsx:69
-- `Frozen protocol hash mismatch. Expected {0} Actual {1}` — src\Dashboard.jsx:71
 - `Full raw sample rows are required; browser previews are not raw recordings` — src\physioDBMapping.js:38
 - `Gentle purple — creative, relaxed` — src\theme.js:134
 - `global-completion-v1` — src\GraphRuntimeRunnerPage.jsx:183, src\GraphRuntimeRunnerPage.jsx:549, src\GraphRuntimeRunnerPage.jsx:586, src\GraphRuntimeRunnerPage.jsx:93
 - `Go ratio:` — src\TemplateConfig.jsx:26
 - `Go to trial {0}` — src\HierarchyManager.jsx:54
 - `Group name:` — src\flowCanvas\useCanvasNodes.js:120
-- `Hash {0}...` — src\readiness.js:101
 - `hsl({0}, {1}%, {2}%)` — src\QuestionnaireForm.jsx:272
 - `HTML / CSS / JS` — src\Inspector.jsx:449
 - `HTTP {0}` — src\bioDBClient.js:33, src\bioDBClient.js:330, src\bioDBClient.js:43
 - `HTTP {0}.` — src\PhysioDBUpload.jsx:47
 - `if {0} {1} {2}` — src\flowCanvas\NodeCard.jsx:65
-- `Import as draft` — src\Dashboard.jsx:84
-- `Import as new project` — src\Dashboard.jsx:96
-- `Import as version` — src\Dashboard.jsx:96
-- `Import failed` — src\Dashboard.jsx:117
 - `Incomplete media read` — src\tauriStorage.js:39
 - `IndexedDB session save failed:` — src\fsStorage.js:178
 - `Installed {0}` — src\composer\useCatalogActions.js:35, src\composer\useCatalogActions.js:38
@@ -767,7 +734,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Invalid recording JSON at line {0}` — src\brainFlowRecording.js:16
 - `Invalid recording UTF-8 near line {0}` — src\brainFlowRecording.js:25
 - `Invalid sample timestamp` — src\physioDBMapping.js:35, src\physioDBMapping.js:45
-- `Invalid scale: use increasing integer bounds with at most 21 choices.` — src\QuestionnaireFormV2.jsx:147, src\QuestionnaireFormV2.jsx:153
+- `Invalid scale: use increasing integer bounds with at most 21 choices.` — src\QuestionnaireFormV2.jsx:146, src\QuestionnaireFormV2.jsx:152
 - `iso8601` — src\constants.js:217
 - `ITI jitter:` — src\TemplateConfig.jsx:34
 - `JSON syntax error at line {0}, column {1}: {2}` — src\composer\useComposerState.js:30
@@ -775,10 +742,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Junction {0} has more than one next connection` — src\flowEngine.js:110
 - `Junction {0} needs a next connection` — src\flowEngine.js:109
 - `Junction {0} needs at least one incoming connection` — src\flowEngine.js:108
-- `Keep storage, analysis and integrations in one place.` — src\Dashboard.jsx:139
 - `Last {0}` — src\DataPanel.jsx:260
 - `LINK UNAVAILABLE` — src\ParticipantLaunchPage.jsx:80
-- `Local folder unavailable` — src\App.jsx:345
 - `longest consecutive block: {0} samples` — src\analysis\signal\quality.js:172
 - `Loop {0} needs a non-negative integer maximum` — src\flowEngine.js:119
 - `Loop {0} needs body and exit connections` — src\flowEngine.js:114
@@ -796,23 +761,17 @@ Generated: 2026-10-25T18:01:01.989Z
 - `mean HR` — src\analysis\FeaturePanel.jsx:82
 - `mean RR` — src\analysis\FeaturePanel.jsx:83
 - `Media source not configured` — src\ParticipantMedia.jsx:51
-- `Media sources are assigned.` — src\readiness.js:86
 - `median {0} ms, longest gap {1} ms` — src\analysis\signal\liveQuality.js:83, src\analysis\signal\quality.js:236
 - `migrated-v1` — src\legacy\migrateProtocolV1.js:204
-- `Migration complete` — src\App.jsx:323
-- `Migration failed` — src\App.jsx:325
 - `Migration requires an explicit ID factory` — src\legacy\migrateProtocolV1.js:194
 - `Migration review required` — src\composer\Inspector.jsx:20
 - `min label` — src\QuestionnaireWorkspace.jsx:302
 - `Min label` — src\QuestionnaireEditorV2.jsx:133, src\QuestionnaireWorkspace.jsx:302
-- `Missing assets` — src\Dashboard.jsx:84
 - `Missing end event` — src\analysis\windowData.js:87
 - `Missing local asset {0}` — src\GraphRuntimeRunnerPage.jsx:488, src\assetStore.js:126, src\assetStore.js:145, src\fsStorage.js:306
-- `Missing required asset {0}` — src\Dashboard.jsx:79
 - `missing sample(s) were interpolated before analysis.` — src\analysis\FeaturePanel.jsx:63
 - `model is not fitted` — src\analysis\signal\stats.js:181, src\analysis\signal\stats.js:275
 - `modelId is required` — src\bioDBClient.js:377
-- `Move "{0}" v{1} to the recovery area? Other versions and session data will remain. You can restore it from Removed / archived versions.` — src\App.jsx:277
 - `Muse cannot write to channel {0}` — src\devices\museConnector.js:137
 - `Muse device is not connected` — src\devices\museConnector.js:125, src\devices\museConnector.js:136
 - `Muse EEG Headset` — src\devices\museConnector.js:33
@@ -825,15 +784,10 @@ Generated: 2026-10-25T18:01:01.989Z
 - `No {0} assets in the media library yet.` — src\composer\StimulusPoolEditor.jsx:86
 - `No analysis results` — src\DataPanel.jsx:318
 - `No analysis results yet.` — src\analysis\FeaturePanel.jsx:15
-- `No analysis windows configured.` — src\readiness.js:93
 - `No analysis windows defined. Mark steps as "Analysis window" in the protocol editor.` — src\analysis\WindowCards.jsx:10
-- `No blocking validation errors.` — src\readiness.js:69
 - `No channels were analysed.` — src\analysis\FeaturePanel.jsx:18
-- `No content differences` — src\Dashboard.jsx:96
 - `No events to display` — src\analysis\TimelineView.jsx:19
 - `No finished sessions yet. Run experiments to see data here.` — src\Analytics.jsx:86
-- `No local data folder selected.` — src\readiness.js:117
-- `No media steps in this protocol.` — src\readiness.js:85
 - `No Muse sample buffered for {0}` — src\devices\museConnector.js:129
 - `No question selected` — src\QuestionnaireWorkspace.jsx:222
 - `No questionnaire data found in protocol` — src\analysis\ResponseCharts.jsx:17
@@ -860,8 +814,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `observations[{0}]` — src\usability\studyMetrics.js:24
 - `One option per line ({0})` — src\QuestionnaireWorkspace.jsx:314
 - `One question at a time` — src\QuestionnaireEditorV2.jsx:43
-- `Open the data folder from your file manager.` — src\App.jsx:353
-- `Open your data viewer and inspect saved signals.` — src\Dashboard.jsx:152
 - `Opening the data folder directly is only available in the desktop app.` — src\localWorkspace.js:89
 - `operations[{0}]` — src\collaboration\changeSets.js:109
 - `operator test navigation` — src\runtime\testNavigation.js:45
@@ -879,7 +831,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Package permissions must be unique` — src\sdk\componentPackage.js:24
 - `Package version must use semantic versioning` — src\sdk\componentPackage.js:21
 - `Pan canvas` — src\flowCanvas\ShortcutsModal.jsx:5
-- `Participant-facing content is ready.` — src\readiness.js:78
 - `participant-ui-media{0} {1}` — src\ParticipantMedia.jsx:11
 - `Pasted {0} node(s)` — src\composer\useComposerState.js:360
 - `peak Hz` — src\analysis\FeaturePanel.jsx:60
@@ -904,14 +855,13 @@ Generated: 2026-10-25T18:01:01.989Z
 - `physioflow-data-v1` — src\dataStore.js:1
 - `physioflow-workspace-v1` — src\localWorkspace.js:3
 - `physioflow.current-run-pointer.v2` — src\fsStorage.js:254, src\fsStorage.js:274
-- `physioflow.onboarding-v1` — src\App.jsx:86
 - `physioflow.operator-connection.v1` — src\physioDBConnection.js:2
 - `physioflow.operator.v1` — src\operator\runtimeMonitor.js:1
 - `physioflow.protocols.v1` — src\fsStorage.js:100, src\fsStorage.js:113, src\fsStorage.js:67, src\fsStorage.js:70, src\fsStorage.js:87, src\fsStorage.js:99
 - `physioflow.sessions.v2` — src\fsStorage.js:171, src\fsStorage.js:174, src\fsStorage.js:192, src\fsStorage.js:226, src\fsStorage.js:228, src\fsStorage.js:241, src\fsStorage.js:242
 - `physiologically implausible interval(s) excluded.` — src\analysis\FeaturePanel.jsx:90
-- `Please answer every required row.` — src\QuestionnaireFormV2.jsx:20
-- `Please rate the following three dimensions.` — src\QuestionnaireFormV2.jsx:22
+- `Please answer every required row.` — src\QuestionnaireFormV2.jsx:19
+- `Please rate the following three dimensions.` — src\QuestionnaireFormV2.jsx:21
 - `pNN50` — src\analysis\FeaturePanel.jsx:86
 - `Power bands (relative)` — src\analysis\FeaturePanel.jsx:66
 - `Practice block` — src\TemplateConfig.jsx:32
@@ -920,7 +870,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Preparing your experiment…` — src\ParticipantLaunchPage.jsx:81
 - `preview exited` — src\GraphRuntimeRunnerPage.jsx:287
 - `Preview step full-size` — src\flowCanvas\ShortcutsModal.jsx:5
-- `Project archived` — src\App.jsx:259
 - `Prompt ({0})` — src\QuestionnaireEditorV2.jsx:127
 - `Published reusable subflow {0}` — src\composer\useCatalogActions.js:33
 - `px · 5° =` — src\CalibrationRunner.jsx:58
@@ -930,7 +879,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Questionnaire editor` — src\QuestionnaireEditorV2.jsx:39
 - `QUESTIONNAIRE EDITOR` — src\QuestionnaireWorkspace.jsx:88
 - `Questionnaire library (` — src\QuestionnaireEditorV2.jsx:62
-- `Questionnaire matrix` — src\QuestionnaireFormV2.jsx:220
+- `Questionnaire matrix` — src\QuestionnaireFormV2.jsx:219
 - `Randomize options` — src\QuestionnaireWorkspace.jsx:249
 - `Raw sample sequences must be contiguous` — src\physioDBMapping.js:34
 - `Raw samples and ordered channels are required` — src\physioDBMapping.js:27
@@ -945,12 +894,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Redeemed launch token for {0}` — src\composer\Catalogs.jsx:236
 - `regression needs at least 2 rows (features + target)` — src\bioDBClient.js:363
 - `Remove question` — src\QuestionnaireWorkspace.jsx:172
-- `Remove this version?` — src\App.jsx:276
-- `Remove version` — src\App.jsx:278
-- `Rename project` — src\App.jsx:292
 - `repeat ≤ {0}×` — src\flowCanvas\NodeCard.jsx:67
 - `Required device is not ready: {0}` — src\GraphRuntimeRunnerPage.jsx:376
-- `RESEARCH RECORDS` — src\Dashboard.jsx:138
 - `Reset zoom` — src\FlowCanvas.jsx:504, src\analysis\MultiChannelChart.jsx:129
 - `resolveTrials: unrecognized rule "{0}" — falling back to fixed` — src\engine.js:10
 - `Respond when you are ready` — src\sdk\exampleReactionButtonPackage.js:7
@@ -961,7 +906,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Revoked launch token {0}` — src\composer\Catalogs.jsx:244
 - `Root must be a JSON object` — src\FlowJsonEditor.jsx:30
 - `rows (channel list) is required` — src\bioDBClient.js:170, src\bioDBClient.js:344, src\bioDBClient.js:361
-- `Run one preview session and inspect the export before handing the tool to operators.` — src\readiness.js:110
 - `runner closed` — src\GraphRuntimeRunnerPage.jsx:512
 - `Runtime invalid: {0}` — src\integrity.js:29
 - `Runtime replay requires contiguous event sequences; expected {0}, found {1}` — src\runtime\replayRuntime.js:79
@@ -981,13 +925,11 @@ Generated: 2026-10-25T18:01:01.989Z
 - `samples were dropped; features computed across the gap are not valid` — src\analysis\signal\liveQuality.js:92
 - `Sandbox deployment {0}` — src\composer\Catalogs.jsx:201
 - `SANDBOX-P001` — src\composer\Catalogs.jsx:161
-- `Save & Open` — src\App.jsx:185
 - `Save current to library` — src\QuestionnaireEditorV2.jsx:63
 - `SCR amp` — src\analysis\FeaturePanel.jsx:106
 - `SCR count` — src\analysis\FeaturePanel.jsx:104
 - `SCR rate` — src\analysis\FeaturePanel.jsx:105
 - `Select a session from the sidebar to view its timeline, analysis windows, and response charts. {0} finished sessions available.` — src\Analytics.jsx:238
-- `Select a writable data folder before formal collection.` — src\App.jsx:378
 - `Sensor data` — src\DataPanel.jsx:278
 - `Session binding failed` — src\physioDBServiceClient.js:34
 - `SESSION CLOSED` — src\ParticipantLaunchPage.jsx:79
@@ -1005,7 +947,6 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Simulated Physiology Sensor` — src\devices\exampleSimulatedConnector.js:8
 - `Single series` — src\DataPanel.jsx:12
 - `Snapshot {0}` — src\composer\useComposerState.js:504, src\flowCanvas\snapshots.js:13
-- `Some uploaded resources are unavailable or changed in this browser: {0} Import as an editable draft and reassign those files?` — src\Dashboard.jsx:84
 - `sourceHz and targetHz must be positive` — src\analysis\signal\preprocess.js:60
 - `Space/Middle+Drag` — src\flowCanvas\ShortcutsModal.jsx:5
 - `starts at sample {0}; a detached or saturated electrode looks like this` — src\analysis\signal\quality.js:192
@@ -1020,14 +961,12 @@ Generated: 2026-10-25T18:01:01.989Z
 - `streams/{0}/samples?{1}` — src\physioDBClient.js:105
 - `streams/{0}/samples?follow=true` — src\physioDBClient.js:112
 - `stressed / anxious` — src\analysis\AffectMap.jsx:14
-- `Submit and continue →` — src\QuestionnaireFormV2.jsx:19
+- `Submit and continue →` — src\QuestionnaireFormV2.jsx:18
 - `success-without-help rate is {0}%, below 80%` — src\usability\studyMetrics.js:65
 - `Superseded by test navigation` — src\analysis\windowData.js:87
 - `task 1 median is {0}s, above 600s` — src\usability\studyMetrics.js:63
 - `task 2 maximum is {0} operations, above 8` — src\usability\studyMetrics.js:64
 - `Test start time is unavailable` — src\analysis\testRunPayload.js:22
-- `The completed session was saved, but the dashboard could not refresh its session list.` — src\App.jsx:386
-- `The new protocol was not saved within 12 seconds. Nothing was created. Check the data folder in Data & settings, then try again.` — src\App.jsx:232
 - `The participant link could not be opened` — src\ParticipantLaunchPage.jsx:73
 - `These steps exist in the Trial but will not run until placed in the graph.` — src\flowCanvas\CanvasOverlays.jsx:14
 - `This asset ID already stores different media. Add a new asset to preserve existing protocols.` — src\assetStore.js:29
@@ -1036,7 +975,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `This protocol passed the pre-run checks.{0}` — src\PreRunChecklist.jsx:234
 - `This session is no longer available.` — src\Analytics.jsx:43
 - `This shared questionnaire is still used by one or more nodes.` — src\QuestionnaireLibrary.jsx:19
-- `Time left` — src\QuestionnaireFormV2.jsx:17
+- `Time left` — src\QuestionnaireFormV2.jsx:16
 - `Time limit (s)` — src\QuestionnaireWorkspace.jsx:250
 - `Time limit (sec, optional)` — src\QuestionnaireEditorV2.jsx:146
 - `Time series for {0}` — src\analysis\MultiChannelChart.jsx:139
@@ -1069,22 +1008,18 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Unsupported expression operator {0}` — src\runtime\expression.js:5
 - `Unsupported package permission {0}` — src\sdk\componentPackage.js:25
 - `Unsupported processing.` — src\analysis\physioDBWindow.js:23
-- `Use the desktop app or select a local folder before formal collection.` — src\readiness.js:120
 - `user_id and long-term token are required` — src\bioDBClient.js:49
-- `Using local folder: {0}` — src\App.jsx:343
 - `utf-8` — src\brainFlowRecording.js:8
 - `utf8` — src\bioDBClient.js:129, src\bioDBClient.js:248
 - `valence →` — src\analysis\AffectMap.jsx:63
 - `Valence-arousal affect map` — src\analysis\AffectMap.jsx:48
 - `Valence: Low (1) → High (9) pleasure` — src\analysis\ResponseCharts.jsx:80
-- `Valence（快・不快度）` — src\QuestionnaireFormV2.jsx:25
+- `Valence（快・不快度）` — src\QuestionnaireFormV2.jsx:24
 - `value unchanged for {0} s` — src\analysis\signal\quality.js:190
 - `value unchanged for {0} samples` — src\analysis\signal\quality.js:191
 - `var(--green)` — src\flowCanvas\CanvasLayers.jsx:20
 - `Verify sequences {0}–{1} on the server before retrying.` — src\PhysioDBUpload.jsx:47
 - `Verifying the session and downloading its exact protocol.` — src\ParticipantLaunchPage.jsx:81
-- `Version removed; recovery is available` — src\App.jsx:284
-- `Version restored` — src\App.jsx:271
 - `Warm earthy tones — inviting, natural` — src\theme.js:116
 - `Warning ·` — src\Analytics.jsx:147
 - `Web Bluetooth is unavailable in this environment. Use a Chromium-based browser in the hosted/web target, or supply a native Tauri BLE transport to the adapter.` — src\devices\transports\webBluetooth.js:22
@@ -1092,46 +1027,41 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Workspace DB blocked — close other tabs` — src\localWorkspace.js:24
 - `Workspace handle save aborted` — src\localWorkspace.js:37
 - `Workspace navigation` — src\WorkspaceShell.jsx:24
-- `WORKSPACE TOOLS` — src\Dashboard.jsx:139
 - `write JWT exchange failed` — src\bioDBClient.js:122
-- `You have unsaved changes. Discard them and return to projects?` — src\App.jsx:142
-- `You have unsaved changes. Save before opening another protocol?` — src\App.jsx:184
 - `Your experiment record has been synchronized.` — src\ParticipantLaunchPage.jsx:79
 - `Zoom in/out` — src\flowCanvas\ShortcutsModal.jsx:6
 - `下一题 →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:12
-- `回答して次へ →` — src\QuestionnaireFormV2.jsx:19
-- `回答済み` — src\QuestionnaireFormV2.jsx:21
+- `回答して次へ →` — src\QuestionnaireFormV2.jsx:18
+- `回答済み` — src\QuestionnaireFormV2.jsx:20
 - `具体问题：{0}` — src\FlowCanvas.jsx:129
-- `控制感` — src\QuestionnaireFormV2.jsx:26
+- `控制感` — src\QuestionnaireFormV2.jsx:25
 - `此 Trial「{0}」有需要修复的设置项。{1} 请点击顶部 ⋯ → "Advanced settings" 切换到文本编辑器修改 Trial 设置（如 ITI jitter、repeat count 等）。` — src\FlowCanvas.jsx:129
-- `残り時間` — src\QuestionnaireFormV2.jsx:17
-- `次の3項目について評価してください。` — src\QuestionnaireFormV2.jsx:22
+- `残り時間` — src\QuestionnaireFormV2.jsx:16
+- `次の3項目について評価してください。` — src\QuestionnaireFormV2.jsx:21
 - `次へ →` — src\QuestionnaireForm.jsx:207, src\QuestionnaireFormV2.jsx:12
-- `質問` — src\QuestionnaireFormV2.jsx:222
+- `質問` — src\QuestionnaireFormV2.jsx:221
 - `質問がありません` — src\QuestionnaireFormV2.jsx:14
 - `送信` — src\QuestionnaireFormV2.jsx:13
 - `知道了` — src\flowCanvas\CanvasToolbar.jsx:12
 - `提交` — src\QuestionnaireFormV2.jsx:13
-- `提交回答` — src\QuestionnaireForm.jsx:211
-- `提交并继续 →` — src\QuestionnaireFormV2.jsx:19
-- `得点` — src\QuestionnaireFormV2.jsx:16
-- `得分` — src\QuestionnaireFormV2.jsx:16
+- `提交并继续 →` — src\QuestionnaireFormV2.jsx:18
+- `得点` — src\QuestionnaireFormV2.jsx:15
+- `得分` — src\QuestionnaireFormV2.jsx:15
 - `得分:` — src\QuestionnaireForm.jsx:170
 - `必須` — src\QuestionnaireFormV2.jsx:10
 - `必填` — src\QuestionnaireFormV2.jsx:10
 - `必填 / Required / 必須` — src\QuestionnaireForm.jsx:196
 - `没有题目` — src\QuestionnaireFormV2.jsx:14
-- `未回答の項目があります。赤い行を確認してください。` — src\QuestionnaireFormV2.jsx:20
-- `愉悦度` — src\QuestionnaireFormV2.jsx:25
-- `剩余时间` — src\QuestionnaireFormV2.jsx:17
-- `已回答` — src\QuestionnaireFormV2.jsx:21
+- `未回答の項目があります。赤い行を確認してください。` — src\QuestionnaireFormV2.jsx:19
+- `愉悦度` — src\QuestionnaireFormV2.jsx:24
+- `剩余时间` — src\QuestionnaireFormV2.jsx:16
+- `已回答` — src\QuestionnaireFormV2.jsx:20
 - `已定位到以下步骤，请点击 Insert 放入流程图` — src\flowCanvas\CanvasOverlays.jsx:14
-- `唤醒度` — src\QuestionnaireFormV2.jsx:24
-- `继续` — src\QuestionnaireFormV2.jsx:15
-- `请回答所有必填项目。` — src\QuestionnaireFormV2.jsx:20
-- `请评价以下三个维度。` — src\QuestionnaireFormV2.jsx:22
+- `唤醒度` — src\QuestionnaireFormV2.jsx:23
+- `请回答所有必填项目。` — src\QuestionnaireFormV2.jsx:19
+- `请评价以下三个维度。` — src\QuestionnaireFormV2.jsx:21
 - `问卷设计器 · Questionnaire designer · アンケート設計` — src\QuestionnaireDesigner.jsx:24
-- `题目` — src\QuestionnaireFormV2.jsx:222
+- `题目` — src\QuestionnaireFormV2.jsx:221
 - `µV` — src\operator\deviceSnapshot.js:19
 
 ## Present candidates needing explicit API review
@@ -1164,116 +1094,132 @@ Generated: 2026-10-25T18:01:01.989Z
 - `(trial rotation index)` — src\app\sessionSetup.jsx:179 — string/attribute
 - `(unknown)` — src\core\componentRegistry.js:42, src\core\componentRegistry.js:43 — string/attribute
 - `(unnamed)` — src\core\subflowCommands.js:37 — string/attribute
-- `{0} {1} entity identity does not match its key` — src\collaboration\changeSets.js:123 — template
-- `{0} {1} must be between 0 and 1` — src\core\freezeProtocolGraph.js:185 — template
-- `{0} / Question {1}: «Options» are required for {2} choice — add at least one option` — src\domain.js:79 — template
-- `{0} / Question {1}: «Prompt» is empty in all languages — the participant won't know what to answer` — src\domain.js:78 — template
-- `{0} / Question {1}: «Type» is required` — src\domain.js:77 — template
-- `{0} / Question {1}: ID is required` — src\domain.js:76 — template
-- `{0} / Response option {1}: «Label» is required in at least one language` — src\domain.js:95 — template
-- `{0} / Response option {1}: «Value» is required` — src\domain.js:92 — template
-- `{0} cannot change an entity identity field` — src\collaboration\changeSets.js:118 — template
-- `{0} cannot contain children` — src\core\participantUi.js:165, src\core\participantUi.js:223, src\core\participantUi.js:255, src\core\participantUi.js:285 — template
-- `{0} component retry/retries` — src\data\graphIntegrity.js:32 — template
-- `{0} component(s) skipped` — src\data\graphIntegrity.js:31 — template
-- `{0} does not match the {1} pool type` — src\core\freezeProtocolGraph.js:70 — template
-- `{0} generated Go ratio differs from its configured ratio` — src\core\freezeProtocolGraph.js:98 — template
-- `{0} has a duplicate ID` — src\collaboration\changeSets.js:111 — template
-- `{0} has a missing or duplicate trial ID` — src\core\freezeProtocolGraph.js:90 — template
-- `{0} has an invalid media type` — src\core\freezeProtocolGraph.js:66 — template
-- `{0} has an invalid media URL` — src\core\freezeProtocolGraph.js:153 — template
-- `{0} has an unsafe path` — src\collaboration\changeSets.js:115 — template
-- `{0} has an unsupported fixation shape` — src\core\freezeProtocolGraph.js:163 — template
-- `{0} has an unsupported target` — src\collaboration\changeSets.js:113 — template
-- `{0} has an unsupported until-rule operator` — src\core\freezeProtocolGraph.js:190 — template
-- `{0} has no Steps — click a step type button (e.g. "+ instruction")` — src\domain.js:43 — template
-- `{0} has no Trials — click "+ Add trial"` — src\domain.js:35 — template
-- `{0} idempotency key was already used with different content` — src\hosted\hostedService.js:273 — template
-- `{0} must be a valid timestamp` — src\hosted\hostedService.js:88 — template
-- `{0} needs a media URL or asset` — src\core\freezeProtocolGraph.js:150 — template
-- `{0} needs a non-negative fixed duration` — src\core\freezeProtocolGraph.js:167 — template
-- `{0} needs a non-negative wait duration` — src\core\freezeProtocolGraph.js:170 — template
-- `{0} needs a participant interface` — src\core\freezeProtocolGraph.js:102 — template
-- `{0} needs a positive integer iteration limit` — src\core\freezeProtocolGraph.js:176 — template
-- `{0} needs a protocol path` — src\collaboration\changeSets.js:116 — template
-- `{0} needs a submit or next button` — src\core\freezeProtocolGraph.js:130 — template
-- `{0} needs a supported cognitive-task paradigm` — src\core\freezeProtocolGraph.js:85 — template
-- `{0} needs a supported completion mode` — src\core\freezeProtocolGraph.js:160 — template
-- `{0} needs a supported condition operator` — src\core\freezeProtocolGraph.js:179 — template
-- `{0} needs an entity key` — src\collaboration\changeSets.js:114 — template
-- `{0} needs an ID` — src\collaboration\changeSets.js:110 — template
-- `{0} needs at least one participant input` — src\core\freezeProtocolGraph.js:122 — template
-- `{0} needs at least one stimulus in its random pool` — src\core\freezeProtocolGraph.js:140 — template
-- `{0} needs at least one trial` — src\core\freezeProtocolGraph.js:86 — template
-- `{0} needs audio or video for playback-ended completion` — src\core\freezeProtocolGraph.js:157 — template
-- `{0} needs before/after snapshots` — src\collaboration\changeSets.js:119 — template
-- `{0} needs increasing integer bounds and at most 1000 choices` — src\core\freezeProtocolGraph.js:173 — template
-- `{0} nodes · {1} connections · configuration checked` — src\app\sessionSetup.jsx:104 — template
-- `{0} pause(s)` — src\data\graphIntegrity.js:33 — template
-- `{0} pool asset {1} is not {2}` — src\core\freezeProtocolGraph.js:144 — template
-- `{0} reads {1} without a write on every path` — src\core\validateProtocolGraph.js:340 — template
-- `{0} reads {1}, but no node writes it` — src\core\validateProtocolGraph.js:338 — template
-- `{0} reads an asset without package permission` — src\core\validateProtocolGraph.js:68 — template
-- `{0} reads variables without package permission` — src\core\validateProtocolGraph.js:66 — template
-- `{0} references an unavailable stimulus pool` — src\core\freezeProtocolGraph.js:136 — template
-- `{0} references unavailable asset {1}` — src\core\freezeProtocolGraph.js:69 — template
-- `{0} references unavailable connector {1}` — src\core\validateProtocolGraph.js:88 — template
-- `{0} references unavailable pool asset {1}` — src\core\freezeProtocolGraph.js:143 — template
-- `{0} requires an idempotency key` — src\hosted\hostedService.js:265 — template
-- `{0} sensor points across {1} channel(s), {2} event(s).` — src\SessionManager.jsx:191 — template
-- `{0} targets protected protocol state` — src\collaboration\changeSets.js:117 — template
-- `{0} test navigation back action(s); superseded visits excluded from effective counts` — src\data\graphIntegrity.js:37 — template
-- `{0} trial {1} has invalid {2}` — src\core\freezeProtocolGraph.js:92 — template
-- `{0} trial {1} has invalid Go/No-Go semantics` — src\core\freezeProtocolGraph.js:94 — template
-- `{0} trial {1} needs a word, ink color, and valid response key` — src\core\freezeProtocolGraph.js:93 — template
-- `{0} UI references undeclared variable {1}` — src\core\freezeProtocolGraph.js:117 — template
-- `{0} uses network media without package permission` — src\core\validateProtocolGraph.js:67 — template
-- `{0}: «Analysis role» must be set when «Generate analysis window» is enabled` — src\domain.js:50 — template
-- `{0}: «Block name» is required — enter a name for this block` — src\domain.js:26 — template
-- `{0}: «Duration» field is required when end mode is set to "Fixed time"` — src\domain.js:48 — template
-- `{0}: «End mode» is invalid` — src\domain.js:59 — template
-- `{0}: «Event type» is invalid` — src\domain.js:46 — template
-- `{0}: «ITI jitter» must be a non-negative number` — src\domain.js:41 — template
-- `{0}: «Jitter distribution» must be uniform, normal, exponential, or fixed` — src\domain.js:42 — template
-- `{0}: «Repeat» must be an integer of at least 1` — src\domain.js:28, src\domain.js:39 — template
-- `{0}: «Response variable» is required — set the variable name used in exports and Condition nodes` — src\domain.js:85 — template
-- `{0}: «Source URL» or uploaded file is required — this {1} step has nothing to play` — src\domain.js:53 — template
-- `{0}: «Source» mode "{1}" is invalid` — src\domain.js:60 — template
-- `{0}: «Start mode» must be "Automatic" or "Participant click"` — src\domain.js:58 — template
-- `{0}: «Step name» is required` — src\domain.js:47 — template
-- `{0}: «Trial name» is required` — src\domain.js:38 — template
-- `{0}: bind the placeholder path to a media file before freezing or running.` — src\core\mediaReadiness.js:47 — template
-- `{0}: condition constraints apply within each Block pass, not across Block boundaries` — src\domain.js:34 — template
-- `{0}: configuration changed` — src\core\protocolGraphDiff.js:11 — template
-- `{0}: constrained ordering requires Trial Repeat = 1; duplicate Trials instead so each occurrence can be ordered` — src\domain.js:32 — template
-- `{0}: duplicate {1}` — src\domain.js:20 — template
-- `{0}: duplicate question ID {1}` — src\domain.js:76 — template
-- `{0}: duplicate response key "{1}"` — src\domain.js:97 — template
-- `{0}: duplicate response value "{1}"` — src\domain.js:93 — template
-- `{0}: end mode is "Fixed time" but some questions are required. A timer will skip unanswered required questions — switch end mode to «Manual continue» so participants can submit` — src\domain.js:73 — template
-- `{0}: external questionnaire context sync is enabled but no URL parameter names are set` — src\domain.js:69 — template
-- `{0}: external questionnaire steps must use «Manual continue» so the participant/operator can confirm completion` — src\domain.js:68 — template
-- `{0}: external questionnaire URL is required` — src\domain.js:66 — template
-- `{0}: external questionnaire URL must start with http:// or https://` — src\domain.js:67 — template
-- `{0}: impossible consecutive-condition constraint — change condition counts or relax the limit` — src\domain.js:31 — template
-- `{0}: invalid order rule` — src\domain.js:27 — template
-- `{0}: invalid recovery behavior` — src\domain.js:49 — template
-- `{0}: large «Repeat» value ({1}) may cause long runtimes` — src\domain.js:61 — template
-- `{0}: looping is ON but end mode is "When media ends". A looping media file never ends — switch end mode to «Fixed time» or «Manual continue», or turn off looping` — src\domain.js:57 — template
-- `{0}: missing ID` — src\domain.js:20 — template
-- `{0}: response options are required — add at least one value/label/key row` — src\domain.js:86 — template
-- `{0}: start mode is "Participant click" but player controls are hidden. The participant needs visible controls to start playback — enable «Show player controls»` — src\domain.js:62 — template
-- `{0}: this questionnaire step has no questions — add at least one question` — src\domain.js:72 — template
-- `{0}: upload required` — src\core\mediaReadiness.js:53 — template
-- `{0}: YouTube end detection uses the YouTube IFrame API (postMessage). This works in most browsers but the timing may differ from local media files by a few hundred milliseconds` — src\domain.js:55 — template
-- `{0}: YouTube source does not report exact playback events; the analysis window will use page display time instead of actual play time` — src\domain.js:56 — template
+- `{0} {1} entity identity does not match its key` — src\collaboration\changeSets.js:123, src\i18nMessage.js:284 — string/attribute, template
+- `{0} {1} must be between 0 and 1` — src\core\freezeProtocolGraph.js:185, src\i18nMessage.js:168 — string/attribute, template
+- `{0} / Question {1}: «Options» are required for {2} choice — add at least one option` — src\domain.js:79, src\i18nMessage.js:389 — string/attribute, template
+- `{0} / Question {1}: «Prompt» is empty in all languages — the participant won't know what to answer` — src\domain.js:78, src\i18nMessage.js:387 — string/attribute, template
+- `{0} / Question {1}: «Type» is required` — src\domain.js:77, src\i18nMessage.js:385 — string/attribute, template
+- `{0} / Question {1}: ID is required` — src\domain.js:76, src\i18nMessage.js:381 — string/attribute, template
+- `{0} / Response option {1}: «Label» is required in at least one language` — src\domain.js:95, src\i18nMessage.js:399 — string/attribute, template
+- `{0} / Response option {1}: «Value» is required` — src\domain.js:92, src\i18nMessage.js:395 — string/attribute, template
+- `{0} analysis window(s) will be exported.` — src\i18nMessage.js:406, src\readiness.js:93 — string/attribute, template
+- `{0} blocked · fix before formal collection` — src\i18nMessage.js:407 — string/attribute
+- `{0} blocking issue(s).` — src\i18nMessage.js:408, src\readiness.js:69 — string/attribute, template
+- `{0} blocks, {1} trials, {2} steps.` — src\i18nMessage.js:409, src\readiness.js:61 — string/attribute, template
+- `{0} cannot change an entity identity field` — src\collaboration\changeSets.js:118, src\i18nMessage.js:282 — string/attribute, template
+- `{0} cannot contain children` — src\core\participantUi.js:165, src\core\participantUi.js:223, src\core\participantUi.js:255, src\core\participantUi.js:285, src\i18nMessage.js:196 — string/attribute, template
+- `{0} component retry/retries` — src\data\graphIntegrity.js:32, src\i18nMessage.js:131 — string/attribute, template
+- `{0} component(s) skipped` — src\data\graphIntegrity.js:31, src\i18nMessage.js:302 — string/attribute, template
+- `{0} does not match the {1} pool type` — src\core\freezeProtocolGraph.js:70, src\i18nMessage.js:142 — string/attribute, template
+- `{0} generated Go ratio differs from its configured ratio` — src\core\freezeProtocolGraph.js:98, src\i18nMessage.js:149 — string/attribute, template
+- `{0} has a duplicate ID` — src\collaboration\changeSets.js:111, src\i18nMessage.js:276 — string/attribute, template
+- `{0} has a missing or duplicate trial ID` — src\core\freezeProtocolGraph.js:90, src\i18nMessage.js:145 — string/attribute, template
+- `{0} has an invalid media type` — src\core\freezeProtocolGraph.js:66, src\i18nMessage.js:140 — string/attribute, template
+- `{0} has an invalid media URL` — src\core\freezeProtocolGraph.js:153, src\i18nMessage.js:159 — string/attribute, template
+- `{0} has an unsafe path` — src\collaboration\changeSets.js:115, src\i18nMessage.js:279 — string/attribute, template
+- `{0} has an unsupported fixation shape` — src\core\freezeProtocolGraph.js:163, src\i18nMessage.js:162 — string/attribute, template
+- `{0} has an unsupported target` — src\collaboration\changeSets.js:113, src\i18nMessage.js:277 — string/attribute, template
+- `{0} has an unsupported until-rule operator` — src\core\freezeProtocolGraph.js:190, src\i18nMessage.js:169 — string/attribute, template
+- `{0} has no Steps — click a step type button (e.g. "+ instruction")` — src\domain.js:43, src\i18nMessage.js:339 — string/attribute, template
+- `{0} has no Trials — click "+ Add trial"` — src\domain.js:35, src\i18nMessage.js:331 — string/attribute, template
+- `{0} idempotency key was already used with different content` — src\hosted\hostedService.js:273, src\i18nMessage.js:60 — string/attribute, template
+- `{0} must be a valid timestamp` — src\hosted\hostedService.js:88, src\i18nMessage.js:52 — string/attribute, template
+- `{0} needs a media URL or asset` — src\core\freezeProtocolGraph.js:150, src\i18nMessage.js:158 — string/attribute, template
+- `{0} needs a non-negative fixed duration` — src\core\freezeProtocolGraph.js:167, src\i18nMessage.js:163 — string/attribute, template
+- `{0} needs a non-negative wait duration` — src\core\freezeProtocolGraph.js:170, src\i18nMessage.js:164 — string/attribute, template
+- `{0} needs a participant interface` — src\core\freezeProtocolGraph.js:102, src\i18nMessage.js:150 — string/attribute, template
+- `{0} needs a positive integer iteration limit` — src\core\freezeProtocolGraph.js:176, src\i18nMessage.js:166 — string/attribute, template
+- `{0} needs a protocol path` — src\collaboration\changeSets.js:116, src\i18nMessage.js:280 — string/attribute, template
+- `{0} needs a submit or next button` — src\core\freezeProtocolGraph.js:130, src\i18nMessage.js:153 — string/attribute, template
+- `{0} needs a supported cognitive-task paradigm` — src\core\freezeProtocolGraph.js:85, src\i18nMessage.js:143 — string/attribute, template
+- `{0} needs a supported completion mode` — src\core\freezeProtocolGraph.js:160, src\i18nMessage.js:161 — string/attribute, template
+- `{0} needs a supported condition operator` — src\core\freezeProtocolGraph.js:179, src\i18nMessage.js:167 — string/attribute, template
+- `{0} needs an entity key` — src\collaboration\changeSets.js:114, src\i18nMessage.js:278 — string/attribute, template
+- `{0} needs an ID` — src\collaboration\changeSets.js:110, src\i18nMessage.js:275 — string/attribute, template
+- `{0} needs at least one participant input` — src\core\freezeProtocolGraph.js:122, src\i18nMessage.js:152 — string/attribute, template
+- `{0} needs at least one stimulus in its random pool` — src\core\freezeProtocolGraph.js:140, src\i18nMessage.js:155 — string/attribute, template
+- `{0} needs at least one trial` — src\core\freezeProtocolGraph.js:86, src\i18nMessage.js:144 — string/attribute, template
+- `{0} needs audio or video for playback-ended completion` — src\core\freezeProtocolGraph.js:157, src\i18nMessage.js:160 — string/attribute, template
+- `{0} needs before/after snapshots` — src\collaboration\changeSets.js:119, src\i18nMessage.js:283 — string/attribute, template
+- `{0} needs increasing integer bounds and at most 1000 choices` — src\core\freezeProtocolGraph.js:173, src\i18nMessage.js:165 — string/attribute, template
+- `{0} nodes · {1} connections · configuration checked` — src\i18nMessage.js:291 — string/attribute
+- `{0} nodes, {1} connections.` — src\i18nMessage.js:410, src\readiness.js:61 — string/attribute, template
+- `{0} optional warning(s).` — src\i18nMessage.js:411, src\readiness.js:77 — string/attribute, template
+- `{0} pause(s)` — src\data\graphIntegrity.js:33, src\i18nMessage.js:304 — string/attribute, template
+- `{0} pool asset {1} is not {2}` — src\core\freezeProtocolGraph.js:144, src\i18nMessage.js:157 — string/attribute, template
+- `{0} preview, {1} formal completed session(s).` — src\i18nMessage.js:412, src\readiness.js:109 — string/attribute, template
+- `{0} reads {1} without a write on every path` — src\core\validateProtocolGraph.js:340, src\i18nMessage.js:268 — string/attribute, template
+- `{0} reads {1}, but no node writes it` — src\core\validateProtocolGraph.js:338, src\i18nMessage.js:267 — string/attribute, template
+- `{0} reads an asset without package permission` — src\core\validateProtocolGraph.js:68, src\i18nMessage.js:225 — string/attribute, template
+- `{0} reads variables without package permission` — src\core\validateProtocolGraph.js:66, src\i18nMessage.js:223 — string/attribute, template
+- `{0} ready · {1} sessions recorded` — src\i18nMessage.js:413 — string/attribute
+- `{0} references an unavailable stimulus pool` — src\core\freezeProtocolGraph.js:136, src\i18nMessage.js:154 — string/attribute, template
+- `{0} references unavailable asset {1}` — src\core\freezeProtocolGraph.js:69, src\i18nMessage.js:141 — string/attribute, template
+- `{0} references unavailable connector {1}` — src\core\validateProtocolGraph.js:88, src\i18nMessage.js:228 — string/attribute, template
+- `{0} references unavailable pool asset {1}` — src\core\freezeProtocolGraph.js:143, src\i18nMessage.js:156 — string/attribute, template
+- `{0} requires an idempotency key` — src\hosted\hostedService.js:265, src\i18nMessage.js:59 — string/attribute, template
+- `{0} sensor points across {1} channel(s), {2} event(s).` — src\SessionManager.jsx:191, src\i18nMessage.js:298 — string/attribute, template
+- `{0} step content error(s).` — src\i18nMessage.js:414, src\readiness.js:77 — string/attribute, template
+- `{0} steps inspected · {1}% mapped to native V2 components · {2} review item(s). The migrated version remains a safe editable draft until reviewed.` — src\i18nMessage.js:415 — string/attribute
+- `{0} targets protected protocol state` — src\collaboration\changeSets.js:117, src\i18nMessage.js:281 — string/attribute, template
+- `{0} test navigation back action(s); superseded visits excluded from effective counts` — src\data\graphIntegrity.js:37, src\i18nMessage.js:132 — string/attribute, template
+- `{0} trial {1} has invalid {2}` — src\core\freezeProtocolGraph.js:92, src\i18nMessage.js:146 — string/attribute, template
+- `{0} trial {1} has invalid Go/No-Go semantics` — src\core\freezeProtocolGraph.js:94, src\i18nMessage.js:148 — string/attribute, template
+- `{0} trial {1} needs a word, ink color, and valid response key` — src\core\freezeProtocolGraph.js:93, src\i18nMessage.js:147 — string/attribute, template
+- `{0} UI references undeclared variable {1}` — src\core\freezeProtocolGraph.js:117, src\i18nMessage.js:151 — string/attribute, template
+- `{0} uses network media without package permission` — src\core\validateProtocolGraph.js:67, src\i18nMessage.js:224 — string/attribute, template
+- `{0}: «Analysis role» must be set when «Generate analysis window» is enabled` — src\domain.js:50, src\i18nMessage.js:349 — string/attribute, template
+- `{0}: «Block name» is required — enter a name for this block` — src\domain.js:26, src\i18nMessage.js:319 — string/attribute, template
+- `{0}: «Duration» field is required when end mode is set to "Fixed time"` — src\domain.js:48, src\i18nMessage.js:345 — string/attribute, template
+- `{0}: «End mode» is invalid` — src\domain.js:59, src\i18nMessage.js:361 — string/attribute, template
+- `{0}: «Event type» is invalid` — src\domain.js:46, src\i18nMessage.js:341 — string/attribute, template
+- `{0}: «ITI jitter» must be a non-negative number` — src\domain.js:41, src\i18nMessage.js:335 — string/attribute, template
+- `{0}: «Jitter distribution» must be uniform, normal, exponential, or fixed` — src\domain.js:42, src\i18nMessage.js:337 — string/attribute, template
+- `{0}: «Repeat» must be an integer of at least 1` — src\domain.js:28, src\domain.js:39, src\i18nMessage.js:323 — string/attribute, template
+- `{0}: «Response variable» is required — set the variable name used in exports and Condition nodes` — src\domain.js:85, src\i18nMessage.js:391 — string/attribute, template
+- `{0}: «Source URL» or uploaded file is required — this {1} step has nothing to play` — src\domain.js:53, src\i18nMessage.js:351 — string/attribute, template
+- `{0}: «Source» mode "{1}" is invalid` — src\domain.js:60, src\i18nMessage.js:363 — string/attribute, template
+- `{0}: «Start mode» must be "Automatic" or "Participant click"` — src\domain.js:58, src\i18nMessage.js:359 — string/attribute, template
+- `{0}: «Step name» is required` — src\domain.js:47, src\i18nMessage.js:343 — string/attribute, template
+- `{0}: «Trial name» is required` — src\domain.js:38, src\i18nMessage.js:333 — string/attribute, template
+- `{0}: bind the placeholder path to a media file before freezing or running.` — src\core\mediaReadiness.js:47, src\i18nMessage.js:188 — string/attribute, template
+- `{0}: condition constraints apply within each Block pass, not across Block boundaries` — src\domain.js:34, src\i18nMessage.js:329 — string/attribute, template
+- `{0}: configuration changed` — src\core\protocolGraphDiff.js:11, src\i18nMessage.js:205 — string/attribute, template
+- `{0}: constrained ordering requires Trial Repeat = 1; duplicate Trials instead so each occurrence can be ordered` — src\domain.js:32, src\i18nMessage.js:327 — string/attribute, template
+- `{0}: duplicate {1}` — src\domain.js:20, src\i18nMessage.js:317 — string/attribute, template
+- `{0}: duplicate question ID {1}` — src\domain.js:76, src\i18nMessage.js:383 — string/attribute, template
+- `{0}: duplicate response key "{1}"` — src\domain.js:97, src\i18nMessage.js:401 — string/attribute, template
+- `{0}: duplicate response value "{1}"` — src\domain.js:93, src\i18nMessage.js:397 — string/attribute, template
+- `{0}: end mode is "Fixed time" but some questions are required. A timer will skip unanswered required questions — switch end mode to «Manual continue» so participants can submit` — src\domain.js:73, src\i18nMessage.js:379 — string/attribute, template
+- `{0}: external questionnaire context sync is enabled but no URL parameter names are set` — src\domain.js:69, src\i18nMessage.js:375 — string/attribute, template
+- `{0}: external questionnaire steps must use «Manual continue» so the participant/operator can confirm completion` — src\domain.js:68, src\i18nMessage.js:373 — string/attribute, template
+- `{0}: external questionnaire URL is required` — src\domain.js:66, src\i18nMessage.js:369 — string/attribute, template
+- `{0}: external questionnaire URL must start with http:// or https://` — src\domain.js:67, src\i18nMessage.js:371 — string/attribute, template
+- `{0}: impossible consecutive-condition constraint — change condition counts or relax the limit` — src\domain.js:31, src\i18nMessage.js:325 — string/attribute, template
+- `{0}: invalid order rule` — src\domain.js:27, src\i18nMessage.js:321 — string/attribute, template
+- `{0}: invalid recovery behavior` — src\domain.js:49, src\i18nMessage.js:347 — string/attribute, template
+- `{0}: large «Repeat» value ({1}) may cause long runtimes` — src\domain.js:61, src\i18nMessage.js:365 — string/attribute, template
+- `{0}: looping is ON but end mode is "When media ends". A looping media file never ends — switch end mode to «Fixed time» or «Manual continue», or turn off looping` — src\domain.js:57, src\i18nMessage.js:357 — string/attribute, template
+- `{0}: missing ID` — src\domain.js:20, src\i18nMessage.js:315 — string/attribute, template
+- `{0}: response options are required — add at least one value/label/key row` — src\domain.js:86, src\i18nMessage.js:393 — string/attribute, template
+- `{0}: start mode is "Participant click" but player controls are hidden. The participant needs visible controls to start playback — enable «Show player controls»` — src\domain.js:62, src\i18nMessage.js:367 — string/attribute, template
+- `{0}: this questionnaire step has no questions — add at least one question` — src\domain.js:72, src\i18nMessage.js:377 — string/attribute, template
+- `{0}: upload required` — src\core\mediaReadiness.js:53, src\i18nMessage.js:189 — string/attribute, template
+- `{0}: YouTube end detection uses the YouTube IFrame API (postMessage). This works in most browsers but the timing may differ from local media files by a few hundred milliseconds` — src\domain.js:55, src\i18nMessage.js:353 — string/attribute, template
+- `{0}: YouTube source does not report exact playback events; the analysis window will use page display time instead of actual play time` — src\domain.js:56, src\i18nMessage.js:355 — string/attribute, template
+- `{0}/{1} media step(s) have sources.` — src\i18nMessage.js:416, src\readiness.js:85 — string/attribute, template
 - `{count} trial instances · runtime branching enabled · dual-clock logging enabled` — src\RuntimeRunnerPage.jsx:420 — string/attribute
+- `{n} blocked · fix before formal collection` — src\Dashboard.jsx:143 — string/attribute
 - `{n} file(s) ready` — src\composer\Catalogs.jsx:456, src\composer\Catalogs.jsx:459 — string/attribute
 - `{n} issues must be fixed before running` — src\PreRunChecklist.jsx:230 — string/attribute
 - `{n} matches` — src\composer\Canvas.jsx:27 — string/attribute
 - `{n} nodes` — src\composer\Canvas.jsx:59 — string/attribute
+- `{n} nodes · {n1} connections · configuration checked` — src\app\sessionSetup.jsx:104 — string/attribute
 - `{n} outputs` — src\composer\Canvas.jsx:87 — string/attribute
+- `{n} ready · {n1} sessions recorded` — src\Dashboard.jsx:143 — string/attribute
+- `{n} steps inspected · {n1}% mapped to native V2 components · {n2} review item(s). The migrated version remains a safe editable draft until reviewed.` — src\App.jsx:323 — string/attribute
 - `{n} suggestions remain, which do not block a test run.` — src\PreRunChecklist.jsx:234 — string/attribute
+- `{n}m` — src\app\legacyBuilder.jsx:439 — string/attribute
 - `{name} source` — src\participantUi\StyleEditor.jsx:12 — string/attribute
 - `{nodes} nodes · {edges} connections` — src\composer\Canvas.jsx:21 — string/attribute
 - `{steps} steps × {count} passes = {visits} step visits, then continue to the next step.` — src\composer\RepeatSequenceEditor.jsx:35 — string/attribute
@@ -1318,6 +1264,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `☷ Manage sessions` — src\SessionManager.jsx:241 — JSX text
 - `🌙 Dark` — src\RuntimeRunnerPage.jsx:635 — string/attribute
 - `0 = wait indefinitely for a response.` — src\core\componentRegistry.js:185 — string/attribute
+- `01 / ANALYSIS` — src\Dashboard.jsx:152 — string/attribute
+- `02 / DATA` — src\Dashboard.jsx:152 — string/attribute
 - `A block has no trials, or a trial has no steps.` — src\PreRunChecklist.jsx:114 — string/attribute
 - `A centered cross for rest or fixation.` — src\participantUi\screenPresets.js:4 — string/attribute
 - `A group cannot contain an unknown node` — src\core\groupCommands.js:13, src\core\groupCommands.js:41 — string/attribute
@@ -1326,6 +1274,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `A nested write requires a path` — src\collaboration\changeSets.js:162 — string/attribute
 - `A node can belong to only one group` — src\composer\toolbox.js:82, src\core\groupCommands.js:15, src\core\groupCommands.js:43 — string/attribute
 - `A non-empty group randomization seed is required` — src\core\groupSequence.js:6 — string/attribute
+- `A project with this project_id already exists. Differences from latest version: {0} Choose how to import, or cancel without making changes.` — src\i18nMessage.js:417 — string/attribute
+- `A project with this project_id already exists. Differences from latest version: {n} Choose how to import, or cancel without making changes.` — src\Dashboard.jsx:96 — string/attribute
 - `A prompt, rating response and submit button.` — src\participantUi\screenPresets.js:7 — string/attribute
 - `A raw recording file is required` — src\brainFlowRecording.js:5 — string/attribute
 - `A response step needs a variable name (such as response or rating) so a condition node can reference it.` — src\PreRunChecklist.jsx:63 — string/attribute
@@ -1341,6 +1291,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Add a step, set its content, then run a test. Freeze a version before formal collection.` — src\TaskGuide.jsx:14 — string/attribute
 - `Add after the selected step` — src\composer\Palette.jsx:48 — string/attribute
 - `Add an event node of the matching type from the "Add to flow" panel.` — src\PreRunChecklist.jsx:41 — string/attribute
+- `Add at least one block, trial, and event node.` — src\readiness.js:62 — string/attribute
+- `Add at least one experiment component between Start and End.` — src\readiness.js:62 — string/attribute
 - `Add at least one line under Options.` — src\PreRunChecklist.jsx:69 — string/attribute
 - `Add at least one option to that question.` — src\PreRunChecklist.jsx:30 — string/attribute
 - `Add compatible protocol variables before instantiating.` — src\composer\Catalogs.jsx:79 — string/attribute
@@ -1379,6 +1331,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Analysis label` — src\composer\NodeInspector.jsx:206 — string/attribute
 - `Analysis role` — src\app\legacyBuilder.jsx:294, src\composer\NodeInspector.jsx:205 — string/attribute
 - `Analysis windows` — src\Analytics.jsx:157, src\readiness.js:90 — string/attribute
+- `Analytics ↗` — src\Dashboard.jsx:152 — string/attribute
 - `Analytics views` — src\Analytics.jsx:154 — string/attribute
 - `Analyze this session` — src\SessionManager.jsx:284 — JSX text
 - `Analyze this session to inspect the timeline and answers; return to the same saved record.` — src\TaskGuide.jsx:51 — string/attribute
@@ -1395,6 +1348,9 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Approve and install` — src\composer\Catalogs.jsx:318, src\composer\Catalogs.jsx:356 — string/attribute
 - `Approve every requested capability before installation:` — src\composer\Catalogs.jsx:315 — string/attribute
 - `Approve every requested device capability:` — src\composer\Catalogs.jsx:354 — string/attribute
+- `Archive project "{0}" and all of its versions?` — src\i18nMessage.js:418 — string/attribute
+- `Archive project "{n}" and all of its versions?` — src\App.jsx:251 — string/attribute
+- `Archive project?` — src\App.jsx:250 — string/attribute
 - `Arrange hierarchy` — src\constants.js:163 — string/attribute
 - `Ask the operator to prepare the required devices on the acquisition computer.` — src\GraphRuntimeRunnerPage.jsx:308, src\GraphRuntimeRunnerPage.jsx:592 — string/attribute
 - `assessed channels` — src\analysis\SignalQualityNotice.jsx:19 — string/attribute
@@ -1407,6 +1363,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `At completion, confirm that session data was saved, then export the complete package.` — src\TaskGuide.jsx:41 — string/attribute
 - `At least one block is required — click "+ Add block"` — src\domain.js:23 — string/attribute
 - `At least one End node must be reachable from Start.` — src\constants.js:157 — string/attribute
+- `Attach a URL, uploaded file, or reusable stimulus to every media step.` — src\readiness.js:86 — string/attribute
 - `Attach media, write instructions, configure questionnaires, and mark analysis windows.` — src\constants.js:165 — string/attribute
 - `Attention check` — src\AttentionCheckRunner.jsx:79, src\constants.js:10, src\constants.js:49, src\constants.js:69, src\core\componentRegistry.js:225 — string/attribute
 - `Author ID` — src\composer\Catalogs.jsx:130 — string/attribute
@@ -1427,7 +1384,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Back to editing` — src\participantUi\ScreenChecks.jsx:11 — string/attribute
 - `Back to projects` — src\FlowWorkspaceOverlay.jsx:88 — string/attribute
 - `Background color` — src\Inspector.jsx:43 — string/attribute
-- `Balanced halves require an emotion category for asset {0}` — src\core\stimulusRandomization.js:61 — template
+- `Balanced halves require an emotion category for asset {0}` — src\core\stimulusRandomization.js:61, src\i18nMessage.js:207 — string/attribute, template
 - `Balanced halves require one node per asset and metadata.half = 1 or 2 on every media node` — src\core\stimulusRandomization.js:57 — string/attribute
 - `Base hash must be SHA-256` — src\collaboration\changeSets.js:103 — string/attribute
 - `Base URL` — src\BioDBSettings.jsx:48 — string/attribute
@@ -1444,13 +1401,14 @@ Generated: 2026-10-25T18:01:01.989Z
 - `below — this is your top-level container` — src\app\legacyBuilder.jsx:117 — string/attribute
 - `Bind file` — src\composer\Catalogs.jsx:467 — string/attribute
 - `Bind this run to an anonymous participant and an exact protocol version.` — src\app\sessionSetup.jsx:165 — string/attribute
-- `Binding references undeclared variable {0}` — src\core\validateProtocolGraph.js:243 — template
+- `Binding references undeclared variable {0}` — src\core\validateProtocolGraph.js:243, src\i18nMessage.js:264 — string/attribute, template
 - `Bindings and actions` — src\ParticipantUiBuilder.jsx:238 — string/attribute
 - `BioDB connection settings` — src\BioDBSettings.jsx:39 — string/attribute
 - `BioDB credentials are missing, so only the PF session was archived. Configure Dashboard → BioDB and export again for the full joint package.` — src\SessionManager.jsx:148 — string/attribute
 - `BioDB is not configured (user_id / token missing).` — src\SessionManager.jsx:146 — string/attribute
 - `BioDB not configured` — src\SessionManager.jsx:100 — string/attribute
 - `BioDB push failed` — src\SessionManager.jsx:126 — string/attribute
+- `BioDB settings ↗` — src\Dashboard.jsx:152 — string/attribute
 - `Blank protocol` — src\Dashboard.jsx:129 — string/attribute
 - `blocking issues` — src\composer\Inspector.jsx:31 — string/attribute
 - `Blocks and Trials` — src\HierarchyManager.jsx:36 — JSX text
@@ -1466,6 +1424,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `BrainFlow preview exported; full raw recording remains on the acquisition computer.` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
 - `Brightness at comfortable level` — src\constants.js:70 — string/attribute
 - `Bring to front` — src\ParticipantUiBuilder.jsx:188 — string/attribute
+- `Browse data ↗` — src\Dashboard.jsx:152 — string/attribute
 - `Browser fallback` — src\constants.js:196 — string/attribute
 - `Browser Issues` — src\RuntimeRunnerPage.jsx:406 — string/attribute
 - `Build the flow` — src\constants.js:164 — string/attribute
@@ -1480,12 +1439,12 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Cancel connection` — src\composer\Canvas.jsx:33 — string/attribute
 - `Cancel transfer` — src\PhysioDBUpload.jsx:64 — string/attribute
 - `Cancelling…` — src\PhysioDBUpload.jsx:64 — string/attribute
-- `Cannot connect {0} to {1}` — src\core\validateProtocolGraph.js:116 — template
+- `Cannot connect {0} to {1}` — src\core\validateProtocolGraph.js:116, src\i18nMessage.js:235 — string/attribute, template
 - `Cannot go back from a finished or inactive run.` — src\runtime\testNavigation.js:19 — string/attribute
 - `Cannot move an element into its own descendant` — src\core\participantUi.js:256 — string/attribute
 - `Cannot move an element into itself` — src\core\participantUi.js:249 — string/attribute
 - `Cannot return to the previous page: {name}` — src\GraphRuntimeRunnerPage.jsx:623 — string/attribute
-- `Cannot update missing {0} entity {1}` — src\collaboration\changeSets.js:194 — template
+- `Cannot update missing {0} entity {1}` — src\collaboration\changeSets.js:194, src\i18nMessage.js:285 — string/attribute, template
 - `Canvas editing mode` — src\ParticipantUiBuilder.jsx:88 — string/attribute
 - `Canvas settings` — src\ParticipantUiBuilder.jsx:119 — string/attribute
 - `Canvas zoom` — src\ParticipantUiBuilder.jsx:105 — string/attribute
@@ -1496,7 +1455,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Change set exceeds the 10,000-operation safety limit` — src\collaboration\changeSets.js:106 — string/attribute
 - `Change set ID is required` — src\collaboration\changeSets.js:99 — string/attribute
 - `Change set targets a different protocol or project` — src\collaboration\changeSets.js:206 — string/attribute
-- `Change set targets version {0}, not version {1}` — src\collaboration\changeSets.js:207 — template
+- `Change set targets version {0}, not version {1}` — src\collaboration\changeSets.js:207, src\i18nMessage.js:287 — string/attribute, template
 - `Change sets cannot cross protocol versions` — src\collaboration\changeSets.js:132 — string/attribute
 - `Change sets require the same protocol and project identity` — src\collaboration\changeSets.js:131 — string/attribute
 - `Channel mapping` — src\PhysioDBUpload.jsx:59 — string/attribute
@@ -1579,7 +1538,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Completion checkbox label` — src\Inspector.jsx:241 — string/attribute
 - `Completion label` — src\app\legacyBuilder.jsx:351 — string/attribute
 - `Completion or Skip draws the next stimulus; Retry keeps the current one. An exhausted pool repeats its seeded order.` — src\composer\NodeInspector.jsx:173 — string/attribute
-- `Component {0} is already registered` — src\core\componentRegistry.js:55 — template
+- `Component {0} is already registered` — src\core\componentRegistry.js:55, src\i18nMessage.js:139 — string/attribute, template
 - `Component definition must be an object` — src\core\componentRegistry.js:30 — string/attribute
 - `Component label is required` — src\core\componentRegistry.js:33 — string/attribute
 - `Component type is required` — src\core\componentRegistry.js:31 — string/attribute
@@ -1617,7 +1576,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Connection source port is missing` — src\composer\toolbox.js:65 — string/attribute
 - `Connection target node is missing` — src\composer\toolbox.js:64 — string/attribute
 - `Connection target port is missing` — src\composer\toolbox.js:66 — string/attribute
-- `Connector {0} lacks approval for {1}` — src\core\validateProtocolGraph.js:83 — template
+- `Connector {0} lacks approval for {1}` — src\core\validateProtocolGraph.js:83, src\i18nMessage.js:227 — string/attribute, template
 - `Content is empty — fill in «Participant content» in at least one language for clearer participant guidance` — src\domain.js:363 — string/attribute
 - `Content width` — src\app\legacyBuilder.jsx:393 — string/attribute
 - `Continue / action button` — src\participantUi\constants.js:32 — string/attribute
@@ -1628,16 +1587,19 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Continue to session setup` — src\PreRunChecklist.jsx:284 — JSX text
 - `Continue to test run` — src\app\sessionSetup.jsx:131 — string/attribute
 - `Continue when` — src\Inspector.jsx:398 — JSX text
-- `Control edge {0} does not exist` — src\core\graphCommands.js:116 — template
+- `Control edge {0} does not exist` — src\core\graphCommands.js:116, src\i18nMessage.js:181 — string/attribute, template
 - `Control handler ID must use lowercase dot/dash notation` — src\runtime\controlHandlerRegistry.js:11 — string/attribute
 - `Control handler needs an execute function` — src\runtime\controlHandlerRegistry.js:13 — string/attribute
 - `Control handler version must use semantic versioning` — src\runtime\controlHandlerRegistry.js:12 — string/attribute
 - `Copy {content} from {source} to {n} compatible nodes in {group}.` — src\composer\GroupBatchEditor.jsx:27 — string/attribute
 - `Correct answer (auto-scored)` — src\QuestionnaireDesigner.jsx:184 — JSX text
 - `Correct value (optional)` — src\core\componentRegistry.js:183 — string/attribute
+- `Could not choose a local data folder. Use Chrome or Edge, then try again.` — src\App.jsx:345 — string/attribute
 - `Could not load local sessions.` — src\SessionManager.jsx:37 — string/attribute
+- `Could not open folder` — src\App.jsx:353 — string/attribute
 - `Could not save the completed session. Export the bundle now, then retry saving.` — src\RuntimeRunnerPage.jsx:140 — string/attribute
 - `Could not save the session review to local storage.` — src\SessionManager.jsx:88 — string/attribute
+- `Could not write protocol data to the active storage location. Check local folder permission, storage quota, or export the protocol before continuing.` — src\App.jsx:170 — string/attribute
 - `Countdown ring` — src\app\legacyBuilder.jsx:313 — string/attribute
 - `Countdown: {count} seconds remaining` — src\RuntimeContent.jsx:179 — string/attribute
 - `Create a blank experiment` — src\TaskGuide.jsx:9 — string/attribute
@@ -1662,12 +1624,13 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Cross (+)` — src\Inspector.jsx:417 — string/attribute
 - `Cross-Session Comparison (` — src\analysis\CrossSessionCompare.jsx:25 — string/attribute
 - `CSV contains an unclosed quoted field` — src\core\questionnaireModel.js:122 — string/attribute
-- `CSV row {0} has unsupported type {1}` — src\core\questionnaireModel.js:133 — template
+- `CSV row {0} has unsupported type {1}` — src\core\questionnaireModel.js:133, src\i18nMessage.js:31 — string/attribute, template
 - `Ctrl+S` — src\FlowWorkspaceOverlay.jsx:117, src\app\AppHeader.jsx:10, src\app\legacyBuilder.jsx:103 — string/attribute
 - `Ctrl+Shift+Z` — src\FlowWorkspaceOverlay.jsx:116, src\app\AppHeader.jsx:12 — string/attribute
 - `Ctrl+Z` — src\FlowWorkspaceOverlay.jsx:115, src\app\AppHeader.jsx:11 — string/attribute
 - `Current node` — src\GraphRuntimeRunnerPage.jsx:683 — string/attribute
 - `Current step` — src\OperatorMonitorPage.jsx:37 — string/attribute
+- `Current version is editable draft.` — src\readiness.js:101 — string/attribute
 - `Custom CSS` — src\Inspector.jsx:325 — string/attribute
 - `Custom HTML` — src\Inspector.jsx:447, src\ParticipantRenderer.jsx:83, src\ParticipantUiCanvas.jsx:549, src\RuntimeContent.jsx:270, src\constants.js:12, src\constants.js:71, src\core\componentRegistry.js:271 — JSX text, string/attribute
 - `Custom HTML fragment` — src\participantUi\constants.js:34 — string/attribute
@@ -1698,7 +1661,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Delete (Del)` — src\ParticipantUiBuilder.jsx:213 — string/attribute
 - `Delete {n} node(s)? You can undo this change.` — src\ComposerV2.jsx:63 — string/attribute
 - `Delete asset` — src\composer\Catalogs.jsx:468 — string/attribute
-- `Delete block {0} ("{1}") and all its contents?` — src\app\legacyBuilder.jsx:48 — template
+- `Delete block {0} ("{1}") and all its contents?` — src\i18nMessage.js:290 — string/attribute
+- `Delete block {n} ("{n1}") and all its contents?` — src\app\legacyBuilder.jsx:48 — string/attribute
 - `Delete connection` — src\composer\Inspector.jsx:25, src\flowCanvas\CanvasContextMenu.jsx:8 — JSX text, string/attribute
 - `Delete node` — src\Inspector.jsx:65, src\composer\Inspector.jsx:29 — JSX text, string/attribute
 - `Delete pool` — src\composer\Catalogs.jsx:499 — string/attribute
@@ -1706,12 +1670,14 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Delete session` — src\SessionManager.jsx:226 — string/attribute
 - `Delete Session` — src\SessionManager.jsx:355 — JSX text
 - `Delete step` — src\app\legacyBuilder.jsx:301 — string/attribute
-- `Delete step {0} ("{1}")?` — src\app\legacyBuilder.jsx:46 — template
+- `Delete step {0} ("{1}")?` — src\i18nMessage.js:288 — string/attribute
+- `Delete step {n} ("{n1}")?` — src\app\legacyBuilder.jsx:46 — string/attribute
 - `Delete template` — src\composer\Catalogs.jsx:80 — string/attribute
-- `Delete trial {0} ("{1}") and all its steps?` — src\app\legacyBuilder.jsx:47 — template
-- `Deployment {0} session count does not match stored sessions` — src\hosted\hostedService.js:667 — template
-- `Deployment asset {0} checksum does not match its frozen manifest` — src\deployment\deploymentAssets.js:16 — template
-- `Deployment asset {0} is unavailable locally` — src\deployment\deploymentAssets.js:15 — template
+- `Delete trial {0} ("{1}") and all its steps?` — src\i18nMessage.js:289 — string/attribute
+- `Delete trial {n} ("{n1}") and all its steps?` — src\app\legacyBuilder.jsx:47 — string/attribute
+- `Deployment {0} session count does not match stored sessions` — src\hosted\hostedService.js:667, src\i18nMessage.js:86 — string/attribute, template
+- `Deployment asset {0} checksum does not match its frozen manifest` — src\deployment\deploymentAssets.js:16, src\i18nMessage.js:118 — string/attribute, template
+- `Deployment asset {0} is unavailable locally` — src\deployment\deploymentAssets.js:15, src\i18nMessage.js:117 — string/attribute, template
 - `Deployment asset IDs may contain only letters, numbers, dot, dash and underscore` — src\deployment\deploymentBundle.js:55 — string/attribute
 - `Deployment asset IDs must be safe and unique` — src\deployment\deploymentBundle.js:105 — string/attribute
 - `Deployment asset upload requires a deployment ID` — src\deployment\deploymentAssets.js:9 — string/attribute
@@ -1741,6 +1707,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Desktop app` — src\constants.js:193 — string/attribute
 - `Destination verified` — src\GraphRuntimeRunnerPage.jsx:598, src\PhysioDBSessionBinding.jsx:23 — string/attribute
 - `Detach as editable copy` — src\Inspector.jsx:390 — JSX text
+- `Detailed configuration changed` — src\Dashboard.jsx:96 — string/attribute
 - `Device check` — src\constants.js:10, src\constants.js:68, src\core\componentRegistry.js:238 — string/attribute
 - `Device check in progress. Please wait for the operator.` — src\RuntimeContent.jsx:9 — string/attribute
 - `Device checklist` — src\Inspector.jsx:277, src\RuntimeRunnerPage.jsx:613 — JSX text, string/attribute
@@ -1765,6 +1732,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Devices ·` — src\app\sessionSetup.jsx:107 — string/attribute
 - `Diamond (◇)` — src\Inspector.jsx:417 — string/attribute
 - `Direct URL` — src\MediaSettings.jsx:36, src\ResourceLibrary.jsx:47, src\app\legacyBuilder.jsx:365 — JSX text, string/attribute
+- `Discard & Leave` — src\App.jsx:143 — string/attribute
 - `Discard unapplied JSON changes?` — src\composer\useComposerState.js:140 — string/attribute
 - `Display at native resolution` — src\constants.js:70 — string/attribute
 - `Display duration must be at least 0` — src\composer\toolbox.js:111 — string/attribute
@@ -1792,19 +1760,19 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Draws without replacement each cycle; repeats its seeded order once exhausted.` — src\composer\StimulusPoolEditor.jsx:90 — JSX text
 - `Duplicate (⌘D)` — src\flowCanvas\NodeCard.jsx:87 — string/attribute
 - `Duplicate (Ctrl+D)` — src\ParticipantUiBuilder.jsx:212, src\ParticipantUiCanvas.jsx:452 — string/attribute
-- `Duplicate component port {0}` — src\core\componentRegistry.js:40 — template
-- `Duplicate device connector {0}` — src\core\validateProtocolGraph.js:79 — template
-- `Duplicate edge ID {0}` — src\core\validateProtocolGraph.js:95 — template
-- `Duplicate event ID {0}` — src\data\graphIntegrity.js:17 — template
-- `Duplicate group ID {0}` — src\core\validateProtocolGraph.js:130 — template
+- `Duplicate component port {0}` — src\core\componentRegistry.js:40, src\i18nMessage.js:135 — string/attribute, template
+- `Duplicate device connector {0}` — src\core\validateProtocolGraph.js:79, src\i18nMessage.js:226 — string/attribute, template
+- `Duplicate edge ID {0}` — src\core\validateProtocolGraph.js:95, src\i18nMessage.js:229 — string/attribute, template
+- `Duplicate event ID {0}` — src\data\graphIntegrity.js:17, src\i18nMessage.js:126 — string/attribute, template
+- `Duplicate group ID {0}` — src\core\validateProtocolGraph.js:130, src\i18nMessage.js:237 — string/attribute, template
 - `Duplicate node` — src\composer\Inspector.jsx:28 — string/attribute
-- `Duplicate node ID {0}` — src\core\validateProtocolGraph.js:37 — template
-- `Duplicate or missing event ID {0}` — src\hosted\hostedService.js:514 — template
-- `Duplicate question ID {0}` — src\core\questionnaireModel.js:33 — template
-- `Duplicate response name {0}; each input needs a unique name` — src\core\participantUi.js:183 — template
-- `Duplicate subflow parameter {0}` — src\core\validateProtocolGraph.js:147 — template
-- `Duplicate UI element ID {0}` — src\core\participantUi.js:162 — template
-- `Duplicate variable {0}` — src\core\validateProtocolGraph.js:189 — template
+- `Duplicate node ID {0}` — src\core\validateProtocolGraph.js:37, src\i18nMessage.js:219 — string/attribute, template
+- `Duplicate or missing event ID {0}` — src\hosted\hostedService.js:514, src\i18nMessage.js:75 — string/attribute, template
+- `Duplicate question ID {0}` — src\core\questionnaireModel.js:33, src\i18nMessage.js:30 — string/attribute, template
+- `Duplicate response name {0}; each input needs a unique name` — src\core\participantUi.js:183, src\i18nMessage.js:200 — string/attribute, template
+- `Duplicate subflow parameter {0}` — src\core\validateProtocolGraph.js:147, src\i18nMessage.js:244 — string/attribute, template
+- `Duplicate UI element ID {0}` — src\core\participantUi.js:162, src\i18nMessage.js:194 — string/attribute, template
+- `Duplicate variable {0}` — src\core\validateProtocolGraph.js:189, src\i18nMessage.js:253 — string/attribute, template
 - `Duration (ms)` — src\Inspector.jsx:358, src\app\legacyBuilder.jsx:312, src\core\componentRegistry.js:113, src\core\componentRegistry.js:125, src\core\componentRegistry.js:205, src\core\componentRegistry.js:220, src\core\componentRegistry.js:278, src\flowCanvas\NodePreviewModal.jsx:128 — JSX text, string/attribute
 - `Duration in milliseconds` — src\app\legacyBuilder.jsx:312 — string/attribute
 - `Dynamic bindings (variables.*) win over static style for color and background.` — src\participantUi\StyleEditor.jsx:44 — string/attribute
@@ -1819,13 +1787,13 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Each selected step must have one incoming and one outgoing connection.` — src\core\repeatSegment.js:14 — string/attribute
 - `Each target keeps its own stimulus, timing and pool.` — src\composer\GroupBatchEditor.jsx:29 — string/attribute
 - `Each trial owns its interface and media behavior.` — src\app\legacyBuilder.jsx:126 — string/attribute
-- `Edge {0} already exists` — src\core\graphCommands.js:85 — template
+- `Edge {0} already exists` — src\core\graphCommands.js:85, src\i18nMessage.js:180 — string/attribute, template
 - `Edge ID is required` — src\core\validateProtocolGraph.js:94 — string/attribute
 - `Edge kind must match both ports` — src\composer\toolbox.js:69, src\core\validateProtocolGraph.js:114 — string/attribute
 - `Edge source must be an output port` — src\composer\toolbox.js:67, src\core\validateProtocolGraph.js:112 — string/attribute
-- `Edge source node {0} does not exist` — src\core\validateProtocolGraph.js:101 — template
+- `Edge source node {0} does not exist` — src\core\validateProtocolGraph.js:101, src\i18nMessage.js:231 — string/attribute, template
 - `Edge target must be an input port` — src\composer\toolbox.js:68, src\core\validateProtocolGraph.js:113 — string/attribute
-- `Edge target node {0} does not exist` — src\core\validateProtocolGraph.js:102 — template
+- `Edge target node {0} does not exist` — src\core\validateProtocolGraph.js:102, src\i18nMessage.js:232 — string/attribute, template
 - `Edit assets` — src\composer\Catalogs.jsx:502 — string/attribute
 - `Edit participant screen` — src\composer\NodeInspector.jsx:162 — string/attribute
 - `Edit run details` — src\app\sessionSetup.jsx:90 — string/attribute
@@ -1840,6 +1808,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `elements · schema valid` — src\ParticipantUiBuilder.jsx:200, src\ParticipantUiBuilder.jsx:277 — string/attribute
 - `elements selected` — src\participantUi\SelectionInspector.jsx:11 — string/attribute
 - `Elements to check` — src\participantUi\ScreenChecks.jsx:11 — string/attribute
+- `Enable Generate analysis window on baseline, stimulus, task, or recovery steps that need physiological analysis.` — src\readiness.js:94 — string/attribute
 - `Enabled (skip node when disabled)` — src\Inspector.jsx:59 — string/attribute
 - `End mode` — src\Inspector.jsx:350, src\app\legacyBuilder.jsx:305, src\flowCanvas\NodePreviewModal.jsx:120 — JSX text, string/attribute
 - `End mode must be manual` — src\PreRunChecklist.jsx:51 — string/attribute
@@ -1848,13 +1817,15 @@ Generated: 2026-10-25T18:01:01.989Z
 - `English title` — src\Inspector.jsx:128 — string/attribute
 - `Enter a duration greater than 0 under Duration (ms).` — src\PreRunChecklist.jsx:58 — string/attribute
 - `Enter a name in the title bar at the top of the editor.` — src\PreRunChecklist.jsx:105 — string/attribute
+- `Enter a new name for "{0}"` — src\i18nMessage.js:419 — string/attribute
+- `Enter a new name for "{n}"` — src\App.jsx:293 — string/attribute
 - `Enter a participant ID.` — src\app\sessionSetup.jsx:76 — string/attribute
 - `Enter a positive whole number for Maximum iterations before running this protocol.` — src\composer\NodeInspector.jsx:161 — string/attribute
 - `Enter a recorded value for every option.` — src\composer\ResponseOptionsEditor.jsx:23 — string/attribute
 - `Enter a screen width to compute.` — src\composer\Catalogs.jsx:422 — string/attribute
 - `Enter a URL under Media source in the inspector, or upload a local file.` — src\PreRunChecklist.jsx:47 — string/attribute
 - `Enter a valid number` — src\core\inputValidation.js:7 — string/attribute
-- `Enter a value between {0} and {1}` — src\core\inputValidation.js:8 — template
+- `Enter a value between {0} and {1}` — src\core\inputValidation.js:8, src\i18nMessage.js:185 — string/attribute, template
 - `Enter a whole number from 1 to 10,000.` — src\composer\RepeatSequenceEditor.jsx:35 — string/attribute
 - `Enter a whole number of repetitions from 1 to 10,000.` — src\core\repeatSegment.js:41 — string/attribute
 - `Enter note...` — src\RuntimeRunnerPage.jsx:330, src\RuntimeRunnerPage.jsx:354 — string/attribute
@@ -1868,20 +1839,20 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Epoch milliseconds` — src\app\sessionSetup.jsx:175 — string/attribute
 - `Epoch seconds` — src\app\sessionSetup.jsx:175 — string/attribute
 - `Equipment check` — src\core\participantUi.js:124 — string/attribute
-- `Event {0} does not match the hosted session identity` — src\hosted\hostedService.js:515 — template
-- `Event {0} is incomplete` — src\hosted\hostedService.js:517 — template
-- `Event {0} moves backwards in monotonic time` — src\hosted\hostedService.js:518 — template
-- `Event {0} references unknown node {1}` — src\data\graphIntegrity.js:21 — template
-- `Event {0}: {1}` — src\data\graphIntegrity.js:16 — template
-- `Event batch {0} was already used with different content` — src\hosted\hostedService.js:504 — template
+- `Event {0} does not match the hosted session identity` — src\hosted\hostedService.js:515, src\i18nMessage.js:76 — string/attribute, template
+- `Event {0} is incomplete` — src\hosted\hostedService.js:517, src\i18nMessage.js:78 — string/attribute, template
+- `Event {0} moves backwards in monotonic time` — src\hosted\hostedService.js:518, src\i18nMessage.js:79 — string/attribute, template
+- `Event {0} references unknown node {1}` — src\data\graphIntegrity.js:21, src\i18nMessage.js:129 — string/attribute, template
+- `Event {0}: {1}` — src\data\graphIntegrity.js:16, src\i18nMessage.js:306 — string/attribute, template
+- `Event batch {0} was already used with different content` — src\hosted\hostedService.js:504, src\i18nMessage.js:73 — string/attribute, template
 - `Event ingestion requires a batch ID` — src\hosted\hostedService.js:500 — string/attribute
 - `Event ingestion requires a non-empty event batch` — src\hosted\hostedService.js:509 — string/attribute
 - `Event list` — src\DataPanel.jsx:355 — string/attribute
 - `Event markers` — src\RuntimeRunnerPage.jsx:549 — string/attribute
 - `Event name` — src\DataPanel.jsx:357 — string/attribute
 - `Event payload` — src\SessionManager.jsx:386 — JSX text
-- `Event sequence conflict: expected {0}, received {1}` — src\hosted\hostedService.js:516 — template
-- `Event sequence gap before {0}` — src\data\graphIntegrity.js:19 — template
+- `Event sequence conflict: expected {0}, received {1}` — src\hosted\hostedService.js:516, src\i18nMessage.js:77 — string/attribute, template
+- `Event sequence gap before {0}` — src\data\graphIntegrity.js:19, src\i18nMessage.js:127 — string/attribute, template
 - `Event type` — src\Inspector.jsx:122 — JSX text
 - `Event type is required` — src\data\eventSchemaRegistry.js:15 — string/attribute
 - `eventId is required` — src\data\eventSchemaRegistry.js:46 — string/attribute
@@ -1896,15 +1867,16 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Exactly one Start node is required` — src\composer\toolbox.js:55 — string/attribute
 - `Exchange auditable protocol changes without requiring a server. Independent fields merge automatically; same-field edits require an explicit choice.` — src\composer\Catalogs.jsx:129 — string/attribute
 - `Exclude from analysis` — src\SessionManager.jsx:344 — JSX text
-- `Execution provider {0} is already registered` — src\deployment\deploymentBundle.js:135 — template
+- `Execution provider {0} is already registered` — src\deployment\deploymentBundle.js:135, src\i18nMessage.js:123 — string/attribute, template
 - `Execution provider ID is invalid` — src\deployment\deploymentBundle.js:121 — string/attribute
 - `Execution provider must be an object` — src\deployment\deploymentBundle.js:119 — string/attribute
 - `Execution provider must implement submit, status and cancel` — src\deployment\deploymentBundle.js:124 — string/attribute
 - `Execution provider name is required` — src\deployment\deploymentBundle.js:123 — string/attribute
 - `Execution provider version must use semantic versioning` — src\deployment\deploymentBundle.js:122 — string/attribute
+- `Existing project` — src\Dashboard.jsx:96 — string/attribute
 - `Existing responsive screen` — src\ParticipantUiBuilder.jsx:125 — string/attribute
 - `Expand markers` — src\RuntimeRunnerPage.jsx:543, src\RuntimeRunnerPage.jsx:544 — string/attribute
-- `Expected {0}, received {1}` — src\core\mediaReadiness.js:38 — template
+- `Expected {0}, received {1}` — src\core\mediaReadiness.js:38, src\i18nMessage.js:187 — string/attribute, template
 - `Expected a Protocol Graph` — src\core\protocolSelectors.js:64 — string/attribute
 - `Expected key` — src\core\componentRegistry.js:231, src\flowCanvas\NodePreviewModal.jsx:91 — JSX text, string/attribute
 - `Expected value` — src\core\componentRegistry.js:311 — string/attribute
@@ -1923,6 +1895,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `EXPERIMENT STRUCTURE` — src\HierarchyManager.jsx:36 — JSX text
 - `Experiment UUID` — src\PhysioDBUpload.jsx:56 — string/attribute
 - `Experiment workspace` — src\WorkspaceShell.jsx:30 — string/attribute
+- `Explore results and compare recorded sessions.` — src\Dashboard.jsx:152 — string/attribute
 - `Explore the workspace` — src\TaskGuide.jsx:11 — string/attribute
 - `Export changes` — src\composer\Catalogs.jsx:133 — string/attribute
 - `Export complete (advanced)` — src\SessionManager.jsx:309 — JSX text
@@ -1990,6 +1963,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Flow snapshot saved` — src\composer\useComposerState.js:507 — string/attribute
 - `Flow snapshots` — src\composer\Canvas.jsx:32, src\flowCanvas\CanvasToolbar.jsx:22, src\flowCanvas\CanvasToolbar.jsx:25 — JSX text, string/attribute
 - `Flow state` — src\GraphRuntimeRunnerPage.jsx:681 — string/attribute
+- `Folder: {0}` — src\i18nMessage.js:420, src\readiness.js:117 — string/attribute, template
 - `Follow the instructions shown by the researcher.` — src\RuntimeContent.jsx:7 — string/attribute
 - `Font family` — src\ThemeSettings.jsx:76 — string/attribute
 - `Font scale` — src\ThemeSettings.jsx:85 — string/attribute
@@ -1997,8 +1971,10 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Font weight` — src\Inspector.jsx:305 — string/attribute
 - `for each Trial — instruction, video, questionnaire…` — src\app\legacyBuilder.jsx:119 — string/attribute
 - `For missing signals, check devices, electrodes, the acquisition service and connection address. Formal collection needs real devices and writable storage.` — src\TaskGuide.jsx:34 — string/attribute
+- `For the older JWT server.` — src\Dashboard.jsx:152 — string/attribute
 - `Formal collection` — src\SessionManager.jsx:306, src\app\sessionSetup.jsx:90 — string/attribute
 - `Formal collection · frozen version` — src\app\sessionSetup.jsx:89 — string/attribute
+- `Formal collection requires the desktop app or a selected local data folder.` — src\readiness.js:119 — string/attribute
 - `Formal storage needs Chrome, Edge, or the desktop app` — src\Dashboard.jsx:142 — string/attribute
 - `Format JSON` — src\composer\NodeInspector.jsx:33 — string/attribute
 - `Format: type, en, options (separated by |), min, max, answer` — src\QuestionnaireDesigner.jsx:92 — JSX text
@@ -2006,11 +1982,18 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Free canvas · position` — src\participantUi\UiPropertyEditor.jsx:12, src\participantUi\UiPropertyEditor.jsx:6 — string/attribute
 - `Free canvas: drag elements to position` — src\ParticipantUiCanvas.jsx:492, src\ParticipantUiCanvas.jsx:493 — string/attribute
 - `Free edit` — src\ParticipantUiBuilder.jsx:89 — string/attribute
+- `Freeze a validated version before formal collection.` — src\readiness.js:102 — string/attribute
 - `Freeze this protocol version before deployment.` — src\composer\Catalogs.jsx:263 — string/attribute
 - `Freeze version` — src\composer\Header.jsx:28 — string/attribute
 - `From template` — src\Dashboard.jsx:129 — string/attribute
 - `Frozen or draft protocol snapshot used for this session.` — src\constants.js:174 — string/attribute
 - `Frozen protocol configuration no longer matches its hash` — src\deployment\deploymentBundle.js:47 — string/attribute
+- `Frozen Protocol Graph has no config hash.` — src\Dashboard.jsx:74 — string/attribute
+- `Frozen Protocol Graph hash mismatch. Expected {0} Actual {1}` — src\i18nMessage.js:421 — string/attribute
+- `Frozen Protocol Graph hash mismatch. Expected {n} Actual {n1}` — src\Dashboard.jsx:76 — string/attribute
+- `Frozen protocol has no config_hash.` — src\Dashboard.jsx:69 — string/attribute
+- `Frozen protocol hash mismatch. Expected {0} Actual {1}` — src\i18nMessage.js:422 — string/attribute
+- `Frozen protocol hash mismatch. Expected {n} Actual {n1}` — src\Dashboard.jsx:71 — string/attribute
 - `Frozen protocols cannot be edited.` — src\core\sharedNodeEdits.js:141, src\core\sharedNodeEdits.js:167, src\core\sharedNodeEdits.js:41, src\core\stimulusRandomization.js:156 — string/attribute
 - `Frozen reproducible version` — src\Dashboard.jsx:179, src\readiness.js:98 — string/attribute
 - `G · Green` — src\CognitiveTaskRunner.jsx:6 — string/attribute
@@ -2020,8 +2003,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Generate another order` — src\app\sessionSetup.jsx:103 — string/attribute
 - `Generate cognitive task trials first` — src\composer\toolbox.js:120 — string/attribute
 - `Generate trials` — src\composer\TrialGenerator.jsx:23 — string/attribute
-- `Generated duplicate edge ID {0}` — src\core\subflowCommands.js:86 — template
-- `Generated duplicate node ID {0}` — src\core\subflowCommands.js:69 — template
+- `Generated duplicate edge ID {0}` — src\core\subflowCommands.js:86, src\i18nMessage.js:216 — string/attribute, template
+- `Generated duplicate node ID {0}` — src\core\subflowCommands.js:69, src\i18nMessage.js:214 — string/attribute, template
 - `Generation uses the current paradigm, seed, jitter and Go ratio. Existing trials are replaced only when you click the button.` — src\composer\TrialGenerator.jsx:15 — string/attribute
 - `Georgia (serif)` — src\ThemeSettings.jsx:80 — string/attribute
 - `Give the protocol a name so it is easy to tell apart in the project list.` — src\PreRunChecklist.jsx:104 — string/attribute
@@ -2033,13 +2016,13 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Graph entry node is missing or invalid` — src\composer\toolbox.js:53, src\core\validateProtocolGraph.js:47 — string/attribute
 - `Graph entry node must be a core.start component` — src\composer\toolbox.js:54, src\core\validateProtocolGraph.js:49 — string/attribute
 - `Graph needs at least one End node` — src\composer\toolbox.js:56, src\core\validateProtocolGraph.js:55 — string/attribute
-- `Graph needs exactly one Start node; found {0}` — src\core\validateProtocolGraph.js:54 — template
+- `Graph needs exactly one Start node; found {0}` — src\core\validateProtocolGraph.js:54, src\i18nMessage.js:221 — string/attribute, template
 - `Graph valid` — src\composer\Inspector.jsx:31 — string/attribute
 - `Greater than` — src\Inspector.jsx:403 — string/attribute
-- `Group {0} already exists` — src\core\subflowCommands.js:73 — template
-- `Group {0} does not exist` — src\core\groupCommands.js:34, src\core\groupCommands.js:52, src\core\subflowCommands.js:31 — template
-- `Group {0} has an invalid kind` — src\core\validateProtocolGraph.js:139 — template
-- `Group {0} is empty` — src\core\validateProtocolGraph.js:133 — template
+- `Group {0} already exists` — src\core\subflowCommands.js:73, src\i18nMessage.js:215 — string/attribute, template
+- `Group {0} does not exist` — src\core\groupCommands.js:34, src\core\groupCommands.js:52, src\core\subflowCommands.js:31, src\i18nMessage.js:183 — string/attribute, template
+- `Group {0} has an invalid kind` — src\core\validateProtocolGraph.js:139, src\i18nMessage.js:241 — string/attribute, template
+- `Group {0} is empty` — src\core\validateProtocolGraph.js:133, src\i18nMessage.js:238 — string/attribute, template
 - `Group children in a row or column` — src\participantUi\constants.js:28 — string/attribute
 - `Group contains a missing node` — src\composer\toolbox.js:81 — string/attribute
 - `Group execution snapshot does not match its source, seed and plan` — src\core\groupSequence.js:63 — string/attribute
@@ -2048,12 +2031,13 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Group is empty` — src\composer\toolbox.js:80 — string/attribute
 - `Group name is required` — src\composer\toolbox.js:79, src\core\validateProtocolGraph.js:132 — string/attribute
 - `Group randomization` — src\composer\GroupSequenceEditor.jsx:10, src\composer\GroupSequenceEditor.jsx:11 — string/attribute
-- `Group references unknown node {0}` — src\core\validateProtocolGraph.js:135 — template
+- `Group references unknown node {0}` — src\core\validateProtocolGraph.js:135, src\i18nMessage.js:239 — string/attribute, template
 - `Group selected` — src\flowCanvas\CanvasContextMenu.jsx:27 — string/attribute
 - `Groups linked by data connections cannot be reordered independently` — src\core\groupSequence.js:34 — string/attribute
 - `Groups may contain presentation, response, condition, random split and loop nodes.` — src\core\groupSegment.js:11 — string/attribute
 - `Guide sections` — src\GuidePanel.jsx:30 — string/attribute
 - `Handler runtime components need a handlerId` — src\core\componentRegistry.js:35 — string/attribute
+- `Hash {0}...` — src\i18nMessage.js:423, src\readiness.js:101 — string/attribute, template
 - `Heading or body copy` — src\participantUi\constants.js:29 — string/attribute
 - `Heart rate` — src\operator\deviceSnapshot.js:20 — string/attribute
 - `Help & documentation` — src\WorkspaceShell.jsx:25 — string/attribute
@@ -2069,79 +2053,79 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Hosted actor tenant ID is invalid` — src\hosted\hostedService.js:124 — string/attribute
 - `Hosted API origin is not allowed` — src\hosted\hostedHttp.js:161 — string/attribute
 - `Hosted API route not found` — src\hosted\hostedHttp.js:153, src\hosted\hostedHttp.js:80 — string/attribute
-- `Hosted asset upload failed with status {0}` — src\hosted\hostedHttp.js:226 — template
+- `Hosted asset upload failed with status {0}` — src\hosted\hostedHttp.js:226, src\i18nMessage.js:41 — string/attribute, template
 - `Hosted asset upload requires content` — src\hosted\hostedHttp.js:215 — string/attribute
 - `Hosted asset upload timed out` — src\hosted\hostedHttp.js:229 — string/attribute
 - `Hosted audit entries contain integrity fields without metadata` — src\hosted\hostedStateStore.js:114 — string/attribute
-- `Hosted audit entry {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:96 — template
+- `Hosted audit entry {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:96, src\i18nMessage.js:106 — string/attribute, template
 - `Hosted audit integrity head does not match its entries` — src\hosted\hostedStateStore.js:113 — string/attribute
 - `Hosted audit integrity metadata is invalid` — src\hosted\hostedStateStore.js:106 — string/attribute
 - `Hosted client requires a service and access token` — src\hosted\hostedService.js:697 — string/attribute
 - `Hosted credential protection metadata is invalid` — src\hosted\hostedStateStore.js:101 — string/attribute
-- `Hosted deployment {0} has no data retention policy` — src\hosted\hostedService.js:620 — template
-- `Hosted deployment {0} has no session data eligible for retention purge` — src\hosted\hostedService.js:621 — template
-- `Hosted deployment {0} is {1}` — src\hosted\hostedService.js:289, src\hosted\hostedService.js:375 — template
-- `Hosted deployment {0} must declare a valid asset namespace version` — src\hosted\hostedStateStore.js:53 — template
-- `Hosted deployment {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:52 — template
-- `Hosted deployment {0} session quota is exhausted` — src\hosted\hostedService.js:290 — template
-- `Hosted deployment asset {0} checksum does not match its manifest` — src\hosted\hostedService.js:378 — template
-- `Hosted deployment asset {0} is not a declared workspace asset` — src\hosted\hostedService.js:377 — template
+- `Hosted deployment {0} has no data retention policy` — src\hosted\hostedService.js:620, src\i18nMessage.js:84 — string/attribute, template
+- `Hosted deployment {0} has no session data eligible for retention purge` — src\hosted\hostedService.js:621, src\i18nMessage.js:85 — string/attribute, template
+- `Hosted deployment {0} is {1}` — src\hosted\hostedService.js:289, src\hosted\hostedService.js:375, src\i18nMessage.js:61 — string/attribute, template
+- `Hosted deployment {0} must declare a valid asset namespace version` — src\hosted\hostedStateStore.js:53, src\i18nMessage.js:90 — string/attribute, template
+- `Hosted deployment {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:52, src\i18nMessage.js:89 — string/attribute, template
+- `Hosted deployment {0} session quota is exhausted` — src\hosted\hostedService.js:290, src\i18nMessage.js:62 — string/attribute, template
+- `Hosted deployment asset {0} checksum does not match its manifest` — src\hosted\hostedService.js:378, src\i18nMessage.js:65 — string/attribute, template
+- `Hosted deployment asset {0} is not a declared workspace asset` — src\hosted\hostedService.js:377, src\i18nMessage.js:64 — string/attribute, template
 - `Hosted deployment assets remain incomplete after upload` — src\deployment\deploymentAssets.js:24 — string/attribute
 - `Hosted deployment IDs must be present and unique` — src\hosted\hostedStateStore.js:50 — string/attribute
-- `Hosted deployment revision conflict: expected {0}, current {1}` — src\hosted\hostedService.js:410 — template
+- `Hosted deployment revision conflict: expected {0}, current {1}` — src\hosted\hostedService.js:410, src\i18nMessage.js:66 — string/attribute, template
 - `Hosted failure recorded · revision {n}` — src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
 - `Hosted HTTP client requires a base URL` — src\hosted\hostedHttp.js:170 — string/attribute
 - `Hosted HTTP client requires fetch` — src\hosted\hostedHttp.js:176 — string/attribute
 - `Hosted HTTP handler requires a service` — src\hosted\hostedHttp.js:74 — string/attribute
 - `Hosted launch did not return participant session credentials` — src\hosted\participantLaunch.js:20 — string/attribute
-- `Hosted launch link {0} is {1}` — src\hosted\hostedService.js:472 — template
-- `Hosted launch link {0} is expired` — src\hosted\hostedService.js:473 — template
-- `Hosted launch link {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:89 — template
-- `Hosted launch link {0} references an unknown deployment` — src\hosted\hostedStateStore.js:88 — template
-- `Hosted launch link {0} tenant does not match its deployment` — src\hosted\hostedStateStore.js:90 — template
-- `Hosted launch link {0} use quota is exhausted` — src\hosted\hostedService.js:474 — template
+- `Hosted launch link {0} is {1}` — src\hosted\hostedService.js:472, src\i18nMessage.js:69 — string/attribute, template
+- `Hosted launch link {0} is expired` — src\hosted\hostedService.js:473, src\i18nMessage.js:70 — string/attribute, template
+- `Hosted launch link {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:89, src\i18nMessage.js:104 — string/attribute, template
+- `Hosted launch link {0} references an unknown deployment` — src\hosted\hostedStateStore.js:88, src\i18nMessage.js:103 — string/attribute, template
+- `Hosted launch link {0} tenant does not match its deployment` — src\hosted\hostedStateStore.js:90, src\i18nMessage.js:105 — string/attribute, template
+- `Hosted launch link {0} use quota is exhausted` — src\hosted\hostedService.js:474, src\i18nMessage.js:71 — string/attribute, template
 - `Hosted launch link expiry must be a valid timestamp` — src\hosted\hostedService.js:422 — string/attribute
 - `Hosted launch link expiry must be in the future` — src\hosted\hostedService.js:426 — string/attribute
 - `Hosted launch link IDs must be present and unique` — src\hosted\hostedStateStore.js:86 — string/attribute
 - `Hosted launch link maximum uses must be a positive integer` — src\hosted\hostedService.js:421 — string/attribute
-- `Hosted launch link revision conflict: expected {0}, current {1}` — src\hosted\hostedService.js:457 — template
+- `Hosted launch link revision conflict: expected {0}, current {1}` — src\hosted\hostedService.js:457, src\i18nMessage.js:68 — string/attribute, template
 - `Hosted launch tokens must reference a known launch link` — src\hosted\hostedStateStore.js:93 — string/attribute
-- `Hosted participant token for session {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:80 — template
-- `Hosted participant token for session {0} tenant does not match its session` — src\hosted\hostedStateStore.js:81 — template
+- `Hosted participant token for session {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:80, src\i18nMessage.js:101 — string/attribute, template
+- `Hosted participant token for session {0} tenant does not match its session` — src\hosted\hostedStateStore.js:81, src\i18nMessage.js:102 — string/attribute, template
 - `Hosted participant tokens must reference a known session` — src\hosted\hostedStateStore.js:77 — string/attribute
-- `Hosted permission {0} is required` — src\hosted\hostedService.js:183 — template
+- `Hosted permission {0} is required` — src\hosted\hostedService.js:183, src\i18nMessage.js:55 — string/attribute, template
 - `Hosted permission session.manage is required` — src\hosted\hostedService.js:578 — string/attribute
-- `Hosted protected audit entry {0} chain metadata is invalid` — src\hosted\hostedStateStore.js:110 — template
-- `Hosted protected credential {0}.{1} is invalid` — src\hosted\hostedStateStore.js:32 — template
+- `Hosted protected audit entry {0} chain metadata is invalid` — src\hosted\hostedStateStore.js:110, src\i18nMessage.js:107 — string/attribute, template
+- `Hosted protected credential {0}.{1} is invalid` — src\hosted\hostedStateStore.js:32, src\i18nMessage.js:87 — string/attribute, template
 - `Hosted protected launch-token entry is invalid` — src\hosted\hostedStateStore.js:135 — string/attribute
 - `Hosted protected participant-token entry is invalid` — src\hosted\hostedStateStore.js:127 — string/attribute
 - `Hosted request body is too large` — src\hosted\hostedHttp.js:23, src\hosted\hostedHttp.js:25 — string/attribute
 - `Hosted request body must be valid JSON` — src\hosted\hostedHttp.js:28 — string/attribute
-- `Hosted request failed with status {0}` — src\hosted\hostedHttp.js:195 — template
+- `Hosted request failed with status {0}` — src\hosted\hostedHttp.js:195, src\i18nMessage.js:40 — string/attribute, template
 - `Hosted request timed out` — src\hosted\hostedHttp.js:198 — string/attribute
 - `Hosted retention plan as-of time` — src\hosted\hostedService.js:597 — string/attribute
 - `Hosted retention purge confirmation conflict` — src\hosted\hostedService.js:622 — string/attribute
 - `Hosted retention purge requires the plan as-of time` — src\hosted\hostedService.js:617 — string/attribute
-- `Hosted runtime event gap: expected {0}, found {1}` — src\hosted\hostedRuntimeSync.js:27 — template
+- `Hosted runtime event gap: expected {0}, found {1}` — src\hosted\hostedRuntimeSync.js:27, src\i18nMessage.js:42 — string/attribute, template
 - `Hosted runtime sync requires a client and hosted session metadata` — src\hosted\hostedRuntimeSync.js:5 — string/attribute
 - `Hosted sandbox ·` — src\composer\Catalogs.jsx:272 — string/attribute
 - `Hosted service request failed` — src\hosted\hostedHttp.js:50 — string/attribute
-- `Hosted session {0} idempotency state must be an array` — src\hosted\hostedStateStore.js:66 — template
-- `Hosted session {0} is {1}` — src\hosted\hostedService.js:492, src\hosted\hostedService.js:507, src\hosted\hostedService.js:552, src\hosted\hostedService.js:586 — template
-- `Hosted session {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:63 — template
-- `Hosted session {0} references an unknown deployment` — src\hosted\hostedStateStore.js:62 — template
-- `Hosted session {0} tenant does not match its deployment` — src\hosted\hostedStateStore.js:65 — template
+- `Hosted session {0} idempotency state must be an array` — src\hosted\hostedStateStore.js:66, src\i18nMessage.js:94 — string/attribute, template
+- `Hosted session {0} is {1}` — src\hosted\hostedService.js:492, src\hosted\hostedService.js:507, src\hosted\hostedService.js:552, src\hosted\hostedService.js:586, src\i18nMessage.js:72 — string/attribute, template
+- `Hosted session {0} must declare a valid tenant` — src\hosted\hostedStateStore.js:63, src\i18nMessage.js:92 — string/attribute, template
+- `Hosted session {0} references an unknown deployment` — src\hosted\hostedStateStore.js:62, src\i18nMessage.js:91 — string/attribute, template
+- `Hosted session {0} tenant does not match its deployment` — src\hosted\hostedStateStore.js:65, src\i18nMessage.js:93 — string/attribute, template
 - `Hosted session IDs must be present and unique` — src\hosted\hostedStateStore.js:60 — string/attribute
-- `Hosted session revision conflict: expected {0}, current {1}` — src\hosted\hostedService.js:508, src\hosted\hostedService.js:553, src\hosted\hostedService.js:584 — template
-- `Hosted state {0} must be an array` — src\hosted\hostedStateStore.js:45 — template
+- `Hosted session revision conflict: expected {0}, current {1}` — src\hosted\hostedService.js:508, src\hosted\hostedService.js:553, src\hosted\hostedService.js:584, src\i18nMessage.js:74 — string/attribute, template
+- `Hosted state {0} must be an array` — src\hosted\hostedStateStore.js:45, src\i18nMessage.js:88 — string/attribute, template
 - `Hosted state must be an object` — src\hosted\hostedStateStore.js:39 — string/attribute
 - `Hosted sync complete · revision {n}` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
 - `Hosted sync failed: {name}` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
-- `Hosted tenant {0} {1} quota is exhausted` — src\hosted\hostedService.js:233 — template
-- `Hosted tenant limit {0}.{1} must be a non-negative safe integer or null` — src\hosted\hostedService.js:38 — template
-- `Hosted tenant limit ID {0} is invalid` — src\hosted\hostedService.js:31 — template
-- `Hosted tenant limits for {0} contain unsupported field {1}` — src\hosted\hostedService.js:34 — template
-- `Hosted tenant limits for {0} must be an object` — src\hosted\hostedService.js:32 — template
+- `Hosted tenant {0} {1} quota is exhausted` — src\hosted\hostedService.js:233, src\i18nMessage.js:58 — string/attribute, template
+- `Hosted tenant limit {0}.{1} must be a non-negative safe integer or null` — src\hosted\hostedService.js:38, src\i18nMessage.js:47 — string/attribute, template
+- `Hosted tenant limit ID {0} is invalid` — src\hosted\hostedService.js:31, src\i18nMessage.js:44 — string/attribute, template
+- `Hosted tenant limits for {0} contain unsupported field {1}` — src\hosted\hostedService.js:34, src\i18nMessage.js:46 — string/attribute, template
+- `Hosted tenant limits for {0} must be an object` — src\hosted\hostedService.js:32, src\i18nMessage.js:45 — string/attribute, template
 - `Hosted tenant limits must be an object keyed by tenant ID` — src\hosted\hostedService.js:29 — string/attribute
 - `Hosted web storage requires the Storage API` — src\hosted\hostedStateStore.js:154 — string/attribute
 - `How do you feel?` — src\core\participantUi.js:86, src\participantUi\screenPresets.js:16 — string/attribute
@@ -2158,8 +2142,12 @@ Generated: 2026-10-25T18:01:01.989Z
 - `If the web build cannot access a local folder, drafts and preview runs may fall back to browser storage. Formal collection is blocked until a local folder is selected.` — src\constants.js:196 — string/attribute
 - `Image and instructions` — src\participantUi\screenPresets.js:5 — string/attribute
 - `Image, audio or video` — src\participantUi\constants.js:30 — string/attribute
+- `Import as draft` — src\Dashboard.jsx:84 — string/attribute
+- `Import as new project` — src\Dashboard.jsx:96 — string/attribute
+- `Import as version` — src\Dashboard.jsx:96 — string/attribute
 - `Import change set` — src\composer\Catalogs.jsx:134 — string/attribute
 - `Import connector manifest` — src\composer\Catalogs.jsx:350 — string/attribute
+- `Import failed` — src\Dashboard.jsx:117 — string/attribute
 - `Import JSON` — src\Dashboard.jsx:132 — string/attribute
 - `Import questions` — src\QuestionnaireDesigner.jsx:93 — JSX text
 - `Import SDK package` — src\composer\Catalogs.jsx:311 — string/attribute
@@ -2168,7 +2156,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Include the enclosing loop in the group before randomizing it.` — src\core\groupSegment.js:78 — string/attribute
 - `IndexedDB not available — session storage disabled` — src\RuntimeRunnerPage.jsx:22 — string/attribute
 - `initial state` — src\SessionManager.jsx:379 — string/attribute
-- `Inline duplication requires exactly one {0} connection` — src\core\graphCommands.js:149 — template
+- `Inline duplication requires exactly one {0} connection` — src\core\graphCommands.js:149, src\i18nMessage.js:182 — string/attribute, template
 - `Input needs a response name` — src\core\participantUi.js:182 — string/attribute
 - `Input port cannot have multiple connections` — src\composer\toolbox.js:70 — string/attribute
 - `Input type` — src\participantUi\UiPropertyEditor.jsx:15 — string/attribute
@@ -2187,21 +2175,21 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Instruction + check` — src\constants.js:44 — string/attribute
 - `Integrity has not been checked. Review the session before using its data.` — src\SessionManager.jsx:324 — string/attribute
 - `Integrity issues` — src\Analytics.jsx:140 — JSX text
-- `Invalid change set: {0}` — src\collaboration\changeSets.js:204 — template
-- `Invalid component definition: {0}` — src\core\componentRegistry.js:53 — template
-- `Invalid deployment bundle: {0}` — src\deployment\deploymentBundle.js:156, src\hosted\hostedService.js:333 — template
-- `Invalid edge kind {0}` — src\core\validateProtocolGraph.js:97 — template
-- `Invalid execution provider: {0}` — src\deployment\deploymentBundle.js:133 — template
-- `Invalid hosted state: {0}` — src\hosted\hostedStateStore.js:147, src\hosted\hostedStateStore.js:164, src\hosted\hostedStateStore.js:175 — template
+- `Invalid change set: {0}` — src\collaboration\changeSets.js:204, src\i18nMessage.js:286 — string/attribute, template
+- `Invalid component definition: {0}` — src\core\componentRegistry.js:53, src\i18nMessage.js:138 — string/attribute, template
+- `Invalid deployment bundle: {0}` — src\deployment\deploymentBundle.js:156, src\hosted\hostedService.js:333, src\i18nMessage.js:63 — string/attribute, template
+- `Invalid edge kind {0}` — src\core\validateProtocolGraph.js:97, src\i18nMessage.js:230 — string/attribute, template
+- `Invalid execution provider: {0}` — src\deployment\deploymentBundle.js:133, src\i18nMessage.js:122 — string/attribute, template
+- `Invalid hosted state: {0}` — src\hosted\hostedStateStore.js:147, src\hosted\hostedStateStore.js:164, src\hosted\hostedStateStore.js:175, src\i18nMessage.js:111 — string/attribute, template
 - `Invalid navigation event range.` — src\runtime\testNavigation.js:57 — string/attribute
-- `Invalid or incompatible target node: {0}` — src\core\sharedNodeEdits.js:34 — template
-- `Invalid participant group execution plan: {0}` — src\hosted\participantBootstrap.js:153 — template
+- `Invalid or incompatible target node: {0}` — src\core\sharedNodeEdits.js:34, src\i18nMessage.js:206 — string/attribute, template
+- `Invalid participant group execution plan: {0}` — src\hosted\participantBootstrap.js:153, src\i18nMessage.js:113 — string/attribute, template
 - `Invalid recording line limit` — src\brainFlowRecording.js:6 — string/attribute
-- `Invalid subflow parameter direction {0}` — src\core\validateProtocolGraph.js:150 — template
-- `Invalid subflow parameter type {0}` — src\core\validateProtocolGraph.js:149 — template
+- `Invalid subflow parameter direction {0}` — src\core\validateProtocolGraph.js:150, src\i18nMessage.js:246 — string/attribute, template
+- `Invalid subflow parameter type {0}` — src\core\validateProtocolGraph.js:149, src\i18nMessage.js:245 — string/attribute, template
 - `Invalid test navigation history.` — src\runtime\testNavigation.js:20, src\runtime\testNavigation.js:25 — string/attribute
-- `Invalid variable scope {0}` — src\core\validateProtocolGraph.js:192 — template
-- `Invalid variable type {0}` — src\core\validateProtocolGraph.js:191 — template
+- `Invalid variable scope {0}` — src\core\validateProtocolGraph.js:192, src\i18nMessage.js:255 — string/attribute, template
+- `Invalid variable type {0}` — src\core\validateProtocolGraph.js:191, src\i18nMessage.js:254 — string/attribute, template
 - `Invalid YouTube URL` — src\MediaStep.jsx:125 — string/attribute
 - `Irregular or insufficient timestamps` — src\PhysioDBAnalysis.jsx:67 — string/attribute
 - `ISO 8601` — src\app\sessionSetup.jsx:175 — string/attribute
@@ -2216,6 +2204,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Joint export complete` — src\SessionManager.jsx:188 — string/attribute
 - `Keep local` — src\composer\Catalogs.jsx:143 — string/attribute
 - `Keep monitoring on the operator display. Only stimuli and questions appear during the experiment.` — src\GraphRuntimeRunnerPage.jsx:600 — string/attribute
+- `Keep storage, analysis and integrations in one place.` — src\Dashboard.jsx:139 — string/attribute
 - `Keep the internal flow of each group unchanged. Select at least two adjacent groups.` — src\composer\GroupSequenceEditor.jsx:13 — string/attribute
 - `Keep the operator monitor on the operator display and the experiment on the participant display.` — src\TaskGuide.jsx:32 — string/attribute
 - `Key (optional)` — src\composer\ResponseOptionsEditor.jsx:18 — string/attribute
@@ -2248,10 +2237,12 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Loading…` — src\AdminMonitorPage.jsx:82, src\App.jsx:47, src\PhysioDBAnalysis.jsx:62, src\PhysioDBSessionBinding.jsx:21, src\main.jsx:101, src\main.jsx:102 — JSX text, string/attribute
 - `Local author` — src\collaboration\changeSets.js:145, src\composer\Catalogs.jsx:109 — string/attribute
 - `Local data folder required` — src\app\sessionSetup.jsx:110, src\app\sessionSetup.jsx:188 — string/attribute
-- `Local data folder: {0}` — src\app\sessionSetup.jsx:110, src\app\sessionSetup.jsx:188 — template
+- `Local data folder: {0}` — src\i18nMessage.js:293 — string/attribute
+- `Local data folder: {n}` — src\app\sessionSetup.jsx:110, src\app\sessionSetup.jsx:188 — string/attribute
 - `Local data storage` — src\readiness.js:114 — string/attribute
 - `Local folder` — src\Dashboard.jsx:126 — string/attribute
 - `Local folder connected` — src\WorkspaceShell.jsx:30 — string/attribute
+- `Local folder unavailable` — src\App.jsx:345 — string/attribute
 - `Local in-memory execution provider` — src\deployment\deploymentBundle.js:153 — string/attribute
 - `Local saving and database verification are separate. Tests without devices explicitly use a synthetic signal. Formal raw recordings currently require explicit upload.` — src\TaskGuide.jsx:44 — string/attribute
 - `Local timezone` — src\PhysioDBAnalysis.jsx:64 — string/attribute
@@ -2310,25 +2301,33 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Media source` — src\app\legacyBuilder.jsx:363, src\flowCanvas\NodePreviewModal.jsx:110 — JSX text, string/attribute
 - `Media source is missing` — src\PreRunChecklist.jsx:45 — string/attribute
 - `Media source URL` — src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
+- `Media sources are assigned.` — src\readiness.js:86 — string/attribute
 - `Media type` — src\composer\NodeInspector.jsx:66, src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
 - `Media URL is invalid` — src\composer\toolbox.js:96 — string/attribute
 - `Medium (1rem)` — src\constants.js:222 — string/attribute
 - `Migrate to Composer V2` — src\Dashboard.jsx:185 — string/attribute
+- `Migration complete` — src\App.jsx:323 — string/attribute
+- `Migration failed` — src\App.jsx:325 — string/attribute
 - `Migration review must be acknowledged before freezing` — src\core\freezeProtocolGraph.js:213 — string/attribute
 - `Minimal Mono` — src\theme.js:137 — string/attribute
 - `Minimum label` — src\QuestionnaireDesigner.jsx:165 — JSX text
 - `Missed / too slow` — src\AttentionCheckRunner.jsx:81 — string/attribute
+- `Missing assets` — src\Dashboard.jsx:84 — string/attribute
 - `missing media` — src\participantUi\ScreenChecks.jsx:10 — string/attribute
 - `Missing media` — src\participantUi\ScreenChecks.jsx:19 — string/attribute
+- `Missing required asset {0}` — src\i18nMessage.js:424 — string/attribute
+- `Missing required asset {n}` — src\Dashboard.jsx:79 — string/attribute
 - `Missing required content` — src\Inspector.jsx:31 — string/attribute
 - `Missing values remain gaps. Frequency is calculated only for complete, regularly spaced signals. Original database values are unchanged.` — src\PhysioDBAnalysis.jsx:77 — string/attribute
-- `Monotonic time moved backwards at event {0}` — src\data\graphIntegrity.js:20 — template
+- `Monotonic time moved backwards at event {0}` — src\data\graphIntegrity.js:20, src\i18nMessage.js:128 — string/attribute, template
 - `More actions` — src\FlowWorkspaceOverlay.jsx:126, src\composer\Header.jsx:27 — string/attribute
 - `more findings` — src\analysis\SignalQualityNotice.jsx:26 — string/attribute
+- `Move "{0}" v{1} to the recovery area? Other versions and session data will remain. You can restore it from Removed / archived versions.` — src\i18nMessage.js:425 — string/attribute
+- `Move "{n}" v{n1} to the recovery area? Other versions and session data will remain. You can restore it from Removed / archived versions.` — src\App.jsx:277 — string/attribute
 - `Move down` — src\HierarchyManager.jsx:47, src\HierarchyManager.jsx:59, src\ParticipantUiBuilder.jsx:187, src\ParticipantUiCanvas.jsx:451, src\app\legacyBuilder.jsx:177, src\app\legacyBuilder.jsx:202, src\app\legacyBuilder.jsx:300, src\composer\Sequence.jsx:13 — string/attribute
 - `Move up` — src\HierarchyManager.jsx:46, src\HierarchyManager.jsx:58, src\ParticipantUiBuilder.jsx:186, src\ParticipantUiCanvas.jsx:450, src\app\legacyBuilder.jsx:176, src\app\legacyBuilder.jsx:201, src\app\legacyBuilder.jsx:299, src\composer\Sequence.jsx:13 — string/attribute
 - `ms jitter` — src\app\legacyBuilder.jsx:196 — string/attribute
-- `Multiple media entries match {0}. Use the upload button beside the intended entry.` — src\core\mediaReadiness.js:33 — template
+- `Multiple media entries match {0}. Use the upload button beside the intended entry.` — src\core\mediaReadiness.js:33, src\i18nMessage.js:186 — string/attribute, template
 - `Must fix` — src\PreRunChecklist.jsx:238, src\PreRunChecklist.jsx:254 — JSX text
 - `MyBeat file / sync note` — src\app\sessionSetup.jsx:169 — string/attribute
 - `Navigation history belongs to another run.` — src\runtime\testNavigation.js:24 — string/attribute
@@ -2346,10 +2345,13 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Next step` — src\ComposerV2.jsx:96 — string/attribute
 - `No analysis window defined — enable «Generate analysis window» on at least one step to produce a per-trial time window in the exported CSV` — src\domain.js:108 — string/attribute
 - `No analysis window is set` — src\PreRunChecklist.jsx:79 — string/attribute
+- `No analysis windows configured.` — src\readiness.js:93 — string/attribute
 - `No assets yet — use “Edit assets” to pick from the media library.` — src\composer\Catalogs.jsx:504 — string/attribute
+- `No blocking validation errors.` — src\readiness.js:69 — string/attribute
 - `No changes exist relative to the current collaboration baseline` — src\composer\Catalogs.jsx:110 — string/attribute
 - `No channels` — src\composer\Catalogs.jsx:360 — string/attribute
 - `No checklist items configured.` — src\runtime\nodeSchema.js:115 — string/attribute
+- `No content differences` — src\Dashboard.jsx:96 — string/attribute
 - `No data in this range` — src\DataPanel.jsx:279 — string/attribute
 - `No device samples found in this session.` — src\SessionManager.jsx:127 — string/attribute
 - `No devices required` — src\GraphRuntimeRunnerPage.jsx:595 — string/attribute
@@ -2365,9 +2367,11 @@ Generated: 2026-10-25T18:01:01.989Z
 - `No image, audio or video source is configured yet.` — src\participantUi\ScreenChecks.jsx:19 — string/attribute
 - `No immediate repeat of the same condition` — src\app\legacyBuilder.jsx:172 — string/attribute
 - `No instruction text — the response buttons are the primary interface` — src\domain.js:363 — string/attribute
+- `No local data folder selected.` — src\readiness.js:117 — string/attribute
 - `No matching assets.` — src\composer\StimulusPoolEditor.jsx:86 — string/attribute
 - `No media source — enter a «Source URL» or upload a file` — src\domain.js:357 — string/attribute
 - `No media source assigned` — src\MediaStep.jsx:128 — string/attribute
+- `No media steps in this protocol.` — src\readiness.js:85 — string/attribute
 - `No node outputs yet.` — src\GraphRuntimeRunnerPage.jsx:678 — string/attribute
 - `No node selected` — src\Inspector.jsx:85 — string/attribute
 - `No participants found` — src\DataPanel.jsx:72 — string/attribute
@@ -2392,10 +2396,10 @@ Generated: 2026-10-25T18:01:01.989Z
 - `No snapshots yet. Save one to preserve the current graph state.` — src\composer\Canvas.jsx:44 — string/attribute
 - `No step in this protocol enables Generate analysis window, so the exported analysis_windows.csv will be empty.` — src\PreRunChecklist.jsx:80 — string/attribute
 - `No steps match` — src\flowCanvas\PalettePanel.jsx:18 — string/attribute
-- `Node {0} already exists` — src\core\graphCommands.js:35 — template
-- `Node {0} belongs to multiple groups` — src\core\validateProtocolGraph.js:136 — template
-- `Node {0} does not exist` — src\core\graphCommands.js:126, src\core\graphCommands.js:44, src\core\groupCommands.js:50, src\runtime\runtimeMachine.js:148, src\runtime\runtimeMachine.js:290, src\runtime\runtimeMachine.js:327, src\runtime\runtimeMachine.js:341 — template
-- `Node {0} is not reachable from Start` — src\core\validateProtocolGraph.js:263 — template
+- `Node {0} already exists` — src\core\graphCommands.js:35, src\i18nMessage.js:175 — string/attribute, template
+- `Node {0} belongs to multiple groups` — src\core\validateProtocolGraph.js:136, src\i18nMessage.js:240 — string/attribute, template
+- `Node {0} does not exist` — src\core\graphCommands.js:126, src\core\graphCommands.js:44, src\core\groupCommands.js:50, src\i18nMessage.js:176, src\runtime\runtimeMachine.js:148, src\runtime\runtimeMachine.js:290, src\runtime\runtimeMachine.js:327, src\runtime\runtimeMachine.js:341 — string/attribute, template
+- `Node {0} is not reachable from Start` — src\core\validateProtocolGraph.js:263, src\i18nMessage.js:266 — string/attribute, template
 - `Node color` — src\Inspector.jsx:57 — string/attribute
 - `Node component is not registered` — src\composer\toolbox.js:62 — string/attribute
 - `Node component type and version are required` — src\composer\toolbox.js:61, src\core\validateProtocolGraph.js:40 — string/attribute
@@ -2448,8 +2452,10 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Open label` — src\app\legacyBuilder.jsx:350 — string/attribute
 - `Open operator monitor` — src\GraphRuntimeRunnerPage.jsx:596, src\GraphRuntimeRunnerPage.jsx:617 — string/attribute
 - `Open Sessions in the workspace and select the participant record.` — src\TaskGuide.jsx:49 — string/attribute
+- `Open the data folder from your file manager.` — src\App.jsx:353 — string/attribute
 - `Open the Questionnaire editor to add questions.` — src\composer\NodeInspector.jsx:147 — string/attribute
 - `Open this monitor from experiment preparation on the same browser.` — src\OperatorMonitorPage.jsx:17 — string/attribute
+- `Open your data viewer and inspect saved signals.` — src\Dashboard.jsx:152 — string/attribute
 - `OpenBCI GUI + myBeat` — src\DeviceMonitorPanel.jsx:39 — string/attribute
 - `operation(s)` — src\composer\Catalogs.jsx:139 — string/attribute
 - `Operations must be an array` — src\collaboration\changeSets.js:105 — string/attribute
@@ -2460,30 +2466,30 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Operator controls are hidden during the experiment. Press Ctrl+Shift+O (Mac: ⌘⇧O) to show or hide them.` — src\RuntimeRunnerPage.jsx:421 — string/attribute
 - `Operator ID` — src\app\sessionSetup.jsx:168, src\app\sessionSetup.jsx:95 — string/attribute
 - `Operator note` — src\RuntimeRunnerPage.jsx:602, src\RuntimeRunnerPage.jsx:620, src\runtime\nodeSchema.js:130 — string/attribute
-- `Option {0}: label is empty` — src\domain.js:370 — template
-- `Option {0}: value is empty` — src\domain.js:369 — template
+- `Option {0}: label is empty` — src\domain.js:370, src\i18nMessage.js:33 — string/attribute, template
+- `Option {0}: value is empty` — src\domain.js:369, src\i18nMessage.js:32 — string/attribute, template
 - `Optional note` — src\RuntimeRunnerPage.jsx:603 — string/attribute
 - `Optional setup note` — src\RuntimeRunnerPage.jsx:621 — string/attribute
 - `Or press Insert in the "Steps outside flow" panel.` — src\PreRunChecklist.jsx:41 — string/attribute
 - `Order row` — src\app\sessionSetup.jsx:179 — string/attribute
 - `Original values` — src\PhysioDBAnalysis.jsx:68 — string/attribute
 - `Other groups are unchanged. Undo restores the whole batch.` — src\composer\GroupBatchEditor.jsx:29 — string/attribute
-- `Output {0} already has a control connection. Disconnect it before choosing another target.` — src\core\graphCommands.js:82 — template
-- `Output {0} on {1} must have only one control connection; found {2}` — src\core\validateProtocolGraph.js:180 — template
+- `Output {0} already has a control connection. Disconnect it before choosing another target.` — src\core\graphCommands.js:82, src\i18nMessage.js:179 — string/attribute, template
+- `Output {0} on {1} must have only one control connection; found {2}` — src\core\validateProtocolGraph.js:180, src\i18nMessage.js:252 — string/attribute, template
 - `Outputs (` — src\SessionManager.jsx:385 — string/attribute
 - `Outside content is clipped. Change the size in Settings.` — src\ParticipantUiBuilder.jsx:197, src\ParticipantUiBuilder.jsx:274 — string/attribute
 - `outside screen` — src\participantUi\ScreenChecks.jsx:10 — string/attribute
 - `Outside screen` — src\participantUi\ScreenChecks.jsx:15 — string/attribute
 - `Override trial-level appearance for this step only.` — src\Inspector.jsx:298 — string/attribute
 - `P001` — src\app\sessionSetup.jsx:166, src\app\sessionSetup.jsx:93, src\data\graphExport.js:214 — string/attribute
-- `Package {0} lacks approval for {1}` — src\core\validateProtocolGraph.js:60 — template
+- `Package {0} lacks approval for {1}` — src\core\validateProtocolGraph.js:60, src\i18nMessage.js:222 — string/attribute, template
 - `Package one frozen protocol, its dependency manifest, execution policy, and integrity hashes for a compatible local or remote execution provider.` — src\composer\Catalogs.jsx:257 — string/attribute
-- `Parent {0} not found` — src\core\participantUi.js:284 — template
+- `Parent {0} not found` — src\core\participantUi.js:284, src\i18nMessage.js:204 — string/attribute, template
 - `Part of this element sits outside the screen. Check its position or size.` — src\participantUi\ScreenChecks.jsx:15 — string/attribute
 - `Participant and data settings` — src\app\sessionSetup.jsx:91 — string/attribute
 - `Participant API must use HTTPS, except on a loopback development host` — src\hosted\participantRoute.js:7 — string/attribute
 - `Participant bootstrap content does not match its hash` — src\hosted\participantBootstrap.js:168 — string/attribute
-- `Participant bootstrap failed validation: {0}` — src\composer\Catalogs.jsx:210, src\composer\Catalogs.jsx:231, src\hosted\participantLaunch.js:25 — template
+- `Participant bootstrap failed validation: {0}` — src\composer\Catalogs.jsx:210, src\composer\Catalogs.jsx:231, src\hosted\participantLaunch.js:25, src\i18nMessage.js:116 — string/attribute, template
 - `Participant bootstrap identity and issue time are required` — src\hosted\participantBootstrap.js:141 — string/attribute
 - `Participant bootstrap must be an object` — src\hosted\participantBootstrap.js:139 — string/attribute
 - `Participant bootstrap requires deployment, session and protocol snapshot` — src\hosted\participantBootstrap.js:101 — string/attribute
@@ -2507,8 +2513,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Participant protocol snapshot integrity check failed` — src\hosted\participantBootstrap.js:103 — string/attribute
 - `Participant recovery events do not match the runtime snapshot` — src\hosted\participantBootstrap.js:166 — string/attribute
 - `Participant recovery snapshot does not match the session` — src\hosted\participantBootstrap.js:165 — string/attribute
-- `Participant resource {0} has an unsafe delivery URL` — src\hosted\participantBootstrap.js:160 — template
-- `Participant resource {0} has invalid status` — src\hosted\participantBootstrap.js:159 — template
+- `Participant resource {0} has an unsafe delivery URL` — src\hosted\participantBootstrap.js:160, src\i18nMessage.js:115 — string/attribute, template
+- `Participant resource {0} has invalid status` — src\hosted\participantBootstrap.js:159, src\i18nMessage.js:114 — string/attribute, template
 - `Participant resource IDs must be present and unique` — src\hosted\participantBootstrap.js:157 — string/attribute
 - `Participant screen has no input controls` — src\composer\toolbox.js:109 — string/attribute
 - `Participant screen is missing` — src\composer\toolbox.js:107 — string/attribute
@@ -2522,6 +2528,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Participant UUID` — src\PhysioDBUpload.jsx:57 — string/attribute
 - `Participant view` — src\GraphRuntimeRunnerPage.jsx:630, src\RuntimeRunnerPage.jsx:496 — string/attribute
 - `participant_id or entry.xxxxx` — src\Inspector.jsx:248, src\app\legacyBuilder.jsx:355 — string/attribute
+- `Participant-facing content is ready.` — src\readiness.js:78 — string/attribute
 - `Participants see stimuli and questions; operators monitor and pause or resume separately.` — src\TaskGuide.jsx:40 — string/attribute
 - `Paste (Ctrl+V)` — src\Inspector.jsx:87 — string/attribute
 - `Paste an HTML fragment below.` — src\composer\NodeInspector.jsx:149 — string/attribute
@@ -2556,9 +2563,9 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Please wait while your experiment record is saved.` — src\GraphRuntimeRunnerPage.jsx:603 — string/attribute
 - `Please wait…` — src\runtime\nodeSchema.js:203 — string/attribute
 - `Pool name` — src\composer\Catalogs.jsx:506, src\composer\StimulusPoolEditor.jsx:62 — string/attribute
-- `Port {0} accepts only one connection` — src\core\validateProtocolGraph.js:121 — template
-- `Port {0} has invalid direction {1}` — src\core\componentRegistry.js:43 — template
-- `Port {0} has invalid kind {1}` — src\core\componentRegistry.js:42 — template
+- `Port {0} accepts only one connection` — src\core\validateProtocolGraph.js:121, src\i18nMessage.js:236 — string/attribute, template
+- `Port {0} has invalid direction {1}` — src\core\componentRegistry.js:43, src\i18nMessage.js:137 — string/attribute, template
+- `Port {0} has invalid kind {1}` — src\core\componentRegistry.js:42, src\i18nMessage.js:136 — string/attribute, template
 - `Port kinds must match` — src\composer\useComposerState.js:214 — string/attribute
 - `Portable deployment` — src\composer\Catalogs.jsx:256 — string/attribute
 - `Position & size` — src\participantUi\PositionFields.jsx:25 — string/attribute
@@ -2596,17 +2603,18 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Probability of D` — src\core\componentRegistry.js:330 — string/attribute
 - `Progress indicator` — src\participantUi\constants.js:33 — string/attribute
 - `Project actions` — src\Dashboard.jsx:182 — string/attribute
+- `Project archived` — src\App.jsx:259 — string/attribute
 - `Project component library` — src\composer\Catalogs.jsx:308 — string/attribute
 - `Project ID is required` — src\collaboration\changeSets.js:101 — string/attribute
 - `Project name` — src\App.jsx:294, src\FlowWorkspaceOverlay.jsx:97 — string/attribute
-- `Protected hosted session {0} credential metadata is invalid` — src\hosted\hostedStateStore.js:120 — template
-- `Protected hosted session {0} retains a plaintext credential field` — src\hosted\hostedStateStore.js:116 — template
+- `Protected hosted session {0} credential metadata is invalid` — src\hosted\hostedStateStore.js:120, src\i18nMessage.js:109 — string/attribute, template
+- `Protected hosted session {0} retains a plaintext credential field` — src\hosted\hostedStateStore.js:116, src\i18nMessage.js:108 — string/attribute, template
 - `Protocol BioDB experiment mapping` — src\ProtocolBioDBConfig.jsx:52 — string/attribute
-- `Protocol cannot be frozen: {0}` — src\domain.js:14 — template
+- `Protocol cannot be frozen: {0}` — src\domain.js:14, src\i18nMessage.js:313 — string/attribute, template
 - `Protocol check` — src\app\legacyBuilder.jsx:129 — string/attribute
 - `Protocol export failed` — src\App.jsx:121 — string/attribute
 - `Protocol generated; download started. Check your browser downloads.` — src\App.jsx:119 — string/attribute
-- `Protocol Graph cannot be frozen: {0}` — src\core\freezeProtocolGraph.js:219 — template
+- `Protocol Graph cannot be frozen: {0}` — src\core\freezeProtocolGraph.js:219, src\i18nMessage.js:174 — string/attribute, template
 - `Protocol graph cannot contain circular references` — src\core\serialization.js:3 — string/attribute
 - `Protocol graph needs nodes` — src\composer\toolbox.js:52, src\core\validateProtocolGraph.js:31 — string/attribute
 - `Protocol ID is required` — src\collaboration\changeSets.js:100, src\composer\toolbox.js:50, src\core\validateProtocolGraph.js:26 — string/attribute
@@ -2628,28 +2636,28 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Publish reusable template` — src\composer\Catalogs.jsx:54 — string/attribute
 - `Publish to local hosted sandbox` — src\composer\Catalogs.jsx:262 — string/attribute
 - `Pulse animation` — src\Inspector.jsx:424, src\core\componentRegistry.js:218 — JSX text, string/attribute
-- `Purged hosted session {0} must not retain a participant token` — src\hosted\hostedStateStore.js:78 — template
-- `Purged hosted session {0} must not retain a runtime snapshot` — src\hosted\hostedStateStore.js:71 — template
-- `Purged hosted session {0} must not retain events` — src\hosted\hostedStateStore.js:70 — template
-- `Purged hosted session {0} must not retain participant identity or access token` — src\hosted\hostedStateStore.js:69 — template
-- `Purged hosted session {0} must not retain session idempotency results` — src\hosted\hostedStateStore.js:72 — template
-- `Purged hosted session {0} must record its removed event count` — src\hosted\hostedStateStore.js:73 — template
+- `Purged hosted session {0} must not retain a participant token` — src\hosted\hostedStateStore.js:78, src\i18nMessage.js:100 — string/attribute, template
+- `Purged hosted session {0} must not retain a runtime snapshot` — src\hosted\hostedStateStore.js:71, src\i18nMessage.js:97 — string/attribute, template
+- `Purged hosted session {0} must not retain events` — src\hosted\hostedStateStore.js:70, src\i18nMessage.js:96 — string/attribute, template
+- `Purged hosted session {0} must not retain participant identity or access token` — src\hosted\hostedStateStore.js:69, src\i18nMessage.js:95 — string/attribute, template
+- `Purged hosted session {0} must not retain session idempotency results` — src\hosted\hostedStateStore.js:72, src\i18nMessage.js:98 — string/attribute, template
+- `Purged hosted session {0} must record its removed event count` — src\hosted\hostedStateStore.js:73, src\i18nMessage.js:99 — string/attribute, template
 - `Push to BioDB` — src\SessionManager.jsx:310 — string/attribute
 - `Pushed to BioDB` — src\SessionManager.jsx:120 — string/attribute
-- `Q{0}: «Options» are empty — add at least one choice option` — src\domain.js:379 — template
-- `Q{0}: «Prompt» is empty — add a question title in at least one language` — src\domain.js:378 — template
-- `Question {0} condition must reference an earlier question` — src\core\questionnaireModel.js:49 — template
-- `Question {0} condition references a missing question` — src\core\questionnaireModel.js:48 — template
-- `Question {0} has an unsupported condition operator` — src\core\questionnaireModel.js:50 — template
-- `Question {0} has duplicate options` — src\core\questionnaireModel.js:40 — template
-- `Question {0} has unsupported type {1}` — src\core\questionnaireModel.js:35 — template
-- `Question {0} maximum must be greater than minimum` — src\core\questionnaireModel.js:44 — template
-- `Question {0} needs a prompt` — src\core\questionnaireModel.js:36 — template
-- `Question {0} needs an ID` — src\core\questionnaireModel.js:32 — template
-- `Question {0} needs an integer scale of at most 21 values` — src\core\questionnaireModel.js:45 — template
-- `Question {0} needs at least two options` — src\core\questionnaireModel.js:39 — template
-- `Question {0} option shuffle only applies to choice questions` — src\core\questionnaireModel.js:51 — template
-- `Question {0} time limit must be positive` — src\core\questionnaireModel.js:47 — template
+- `Q{0}: «Options» are empty — add at least one choice option` — src\domain.js:379, src\i18nMessage.js:35 — string/attribute, template
+- `Q{0}: «Prompt» is empty — add a question title in at least one language` — src\domain.js:378, src\i18nMessage.js:34 — string/attribute, template
+- `Question {0} condition must reference an earlier question` — src\core\questionnaireModel.js:49, src\i18nMessage.js:27 — string/attribute, template
+- `Question {0} condition references a missing question` — src\core\questionnaireModel.js:48, src\i18nMessage.js:26 — string/attribute, template
+- `Question {0} has an unsupported condition operator` — src\core\questionnaireModel.js:50, src\i18nMessage.js:28 — string/attribute, template
+- `Question {0} has duplicate options` — src\core\questionnaireModel.js:40, src\i18nMessage.js:22 — string/attribute, template
+- `Question {0} has unsupported type {1}` — src\core\questionnaireModel.js:35, src\i18nMessage.js:19 — string/attribute, template
+- `Question {0} maximum must be greater than minimum` — src\core\questionnaireModel.js:44, src\i18nMessage.js:23 — string/attribute, template
+- `Question {0} needs a prompt` — src\core\questionnaireModel.js:36, src\i18nMessage.js:20 — string/attribute, template
+- `Question {0} needs an ID` — src\core\questionnaireModel.js:32, src\i18nMessage.js:18 — string/attribute, template
+- `Question {0} needs an integer scale of at most 21 values` — src\core\questionnaireModel.js:45, src\i18nMessage.js:24 — string/attribute, template
+- `Question {0} needs at least two options` — src\core\questionnaireModel.js:39, src\i18nMessage.js:21 — string/attribute, template
+- `Question {0} option shuffle only applies to choice questions` — src\core\questionnaireModel.js:51, src\i18nMessage.js:29 — string/attribute, template
+- `Question {0} time limit must be positive` — src\core\questionnaireModel.js:47, src\i18nMessage.js:25 — string/attribute, template
 - `Question and rating` — src\participantUi\screenPresets.js:7 — string/attribute
 - `Question IDs from this Trial are listed automatically.` — src\Inspector.jsx:401 — string/attribute
 - `Question IDs remain specific to each target. Only matching questionnaire kinds are included.` — src\composer\GroupBatchEditor.jsx:29 — string/attribute
@@ -2718,8 +2726,11 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Remove mean` — src\PhysioDBAnalysis.jsx:68 — string/attribute
 - `Remove option` — src\composer\ResponseOptionsEditor.jsx:19 — string/attribute
 - `Remove this asset from its stimulus pool first` — src\composer\Catalogs.jsx:468 — string/attribute
+- `Remove this version?` — src\App.jsx:276 — string/attribute
 - `Remove unused` — src\flowCanvas\CanvasOverlays.jsx:21 — JSX text
+- `Remove version` — src\App.jsx:278 — string/attribute
 - `Removed / archived versions` — src\Dashboard.jsx:166 — string/attribute
+- `Rename project` — src\App.jsx:292 — string/attribute
 - `Rename snapshot` — src\composer\Canvas.jsx:47 — string/attribute
 - `Rendered in a sandboxed iframe. Use fixed or manual end mode to control timing.` — src\Inspector.jsx:452 — string/attribute
 - `Repeat a sequence` — src\composer\RepeatSequenceEditor.jsx:30, src\composer\RepeatSequenceEditor.jsx:31 — string/attribute
@@ -2739,14 +2750,16 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Required content` — src\readiness.js:74 — string/attribute
 - `Required device sampling failed` — src\GraphRuntimeRunnerPage.jsx:359 — string/attribute
 - `Required for valid session` — src\Inspector.jsx:368 — string/attribute
-- `Required output {0} is not connected` — src\core\validateProtocolGraph.js:179 — template
-- `Required port {0} is not connected or bound` — src\core\validateProtocolGraph.js:175 — template
+- `Required output {0} is not connected` — src\core\validateProtocolGraph.js:179, src\i18nMessage.js:251 — string/attribute, template
+- `Required port {0} is not connected or bound` — src\core\validateProtocolGraph.js:175, src\i18nMessage.js:250 — string/attribute, template
 - `Required port has no variable binding` — src\composer\toolbox.js:71 — string/attribute
 - `Required port is not connected` — src\composer\toolbox.js:72 — string/attribute
 - `Required response` — src\Inspector.jsx:198, src\app\legacyBuilder.jsx:336 — string/attribute
 - `Required signal is stale, missing or flat. Check the operator monitor before resuming.` — src\GraphRuntimeRunnerPage.jsx:254 — string/attribute
 - `Required signal unavailable` — src\GraphRuntimeRunnerPage.jsx:255 — string/attribute
-- `Required: {0}. Device connection is checked when you begin the experiment; configuration does not confirm connectivity or timing accuracy.` — src\app\sessionSetup.jsx:107 — template
+- `Required: {0}. Device connection is checked when you begin the experiment; configuration does not confirm connectivity or timing accuracy.` — src\i18nMessage.js:292 — string/attribute
+- `Required: {n}. Device connection is checked when you begin the experiment; configuration does not confirm connectivity or timing accuracy.` — src\app\sessionSetup.jsx:107 — string/attribute
+- `RESEARCH RECORDS` — src\Dashboard.jsx:138 — string/attribute
 - `Research workspace` — src\WorkspaceShell.jsx:23 — string/attribute
 - `Researcher notes` — src\SessionManager.jsx:347 — JSX text
 - `Researcher validity` — src\SessionManager.jsx:339 — JSX text
@@ -2767,12 +2780,12 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Response options` — src\RuntimeContent.jsx:240, src\composer\ResponseOptionsEditor.jsx:12, src\core\componentRegistry.js:182 — string/attribute
 - `Response options are missing` — src\PreRunChecklist.jsx:67 — string/attribute
 - `response or rating` — src\Inspector.jsx:192, src\app\legacyBuilder.jsx:334 — string/attribute
+- `Response recorded` — src\QuestionnaireForm.jsx:169, src\QuestionnaireFormV2.jsx:168 — string/attribute
 - `Response required` — src\core\componentRegistry.js:187 — string/attribute
 - `Response variable` — src\Inspector.jsx:191, src\app\legacyBuilder.jsx:334, src\core\componentRegistry.js:180, src\flowCanvas\NodePreviewModal.jsx:70 — JSX text, string/attribute
 - `Response variable is empty — set a name such as response or rating` — src\domain.js:366 — string/attribute
 - `Response variable name is missing` — src\PreRunChecklist.jsx:62 — string/attribute
 - `responses ·` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
-- `Responses recorded` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
 - `Restart this event` — src\Inspector.jsx:138 — JSX text
 - `Result hash must be SHA-256` — src\collaboration\changeSets.js:104 — string/attribute
 - `Resume experiment` — src\RuntimeRunnerPage.jsx:421, src\app\sessionSetup.jsx:18 — string/attribute
@@ -2812,6 +2825,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Run details confirmed. Check signals below, then begin the experiment.` — src\app\sessionSetup.jsx:90 — string/attribute
 - `Run hosted session` — src\composer\Catalogs.jsx:283 — string/attribute
 - `Run mode not recorded` — src\SessionManager.jsx:306 — string/attribute
+- `Run one preview session and inspect the export before handing the tool to operators.` — src\readiness.js:110 — string/attribute
 - `Run preview` — src\composer\Header.jsx:25 — string/attribute
 - `Run the checklist, fix blocking errors, and freeze the version that will be used for formal data collection.` — src\constants.js:186 — string/attribute
 - `Run the protocol check, select a local data folder, then freeze and start a formal session.` — src\constants.js:166 — string/attribute
@@ -2819,9 +2833,9 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Runtime completed but session status differs` — src\data\graphIntegrity.js:27 — string/attribute
 - `Runtime failed` — src\runtime\replayRuntime.js:66 — string/attribute
 - `RUNTIME FAILED` — src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
-- `Runtime failed: {0}` — src\data\graphIntegrity.js:26 — template
+- `Runtime failed: {0}` — src\data\graphIntegrity.js:26, src\i18nMessage.js:130 — string/attribute, template
 - `Runtime is not waiting on a component` — src\runtime\runtimeMachine.js:288, src\runtime\runtimeMachine.js:325, src\runtime\runtimeMachine.js:339 — string/attribute
-- `Runtime kind {0} is invalid` — src\core\componentRegistry.js:34 — template
+- `Runtime kind {0} is invalid` — src\core\componentRegistry.js:34, src\i18nMessage.js:134 — string/attribute, template
 - `Runtime replay` — src\SessionManager.jsx:368, src\SessionManager.jsx:374 — JSX text
 - `Runtime replay requires a Protocol Graph snapshot` — src\runtime\replayRuntime.js:73 — string/attribute
 - `Runtime requires a session ID` — src\runtime\runtimeMachine.js:61 — string/attribute
@@ -2829,15 +2843,16 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Runtime services require clock.now and idFactory` — src\runtime\eventEnvelope.js:4 — string/attribute
 - `Runtime snapshot does not match the hosted session identity` — src\hosted\hostedService.js:554 — string/attribute
 - `Runtime snapshot does not match the protocol version` — src\runtime\runtimeMachine.js:368 — string/attribute
-- `Runtime snapshot event sequence {0} does not match ingested sequence {1}` — src\hosted\hostedService.js:555 — template
+- `Runtime snapshot event sequence {0} does not match ingested sequence {1}` — src\hosted\hostedService.js:555, src\i18nMessage.js:81 — string/attribute, template
 - `Runtime state belongs to a different hosted session` — src\hosted\hostedRuntimeSync.js:38 — string/attribute
-- `Runtime state sequence {0} is ahead of hosted events {1}` — src\hosted\hostedRuntimeSync.js:39 — template
-- `Runtime state sync {0} was already used with different content` — src\hosted\hostedService.js:549 — template
+- `Runtime state sequence {0} is ahead of hosted events {1}` — src\hosted\hostedRuntimeSync.js:39, src\i18nMessage.js:43 — string/attribute, template
+- `Runtime state sync {0} was already used with different content` — src\hosted\hostedService.js:549, src\i18nMessage.js:80 — string/attribute, template
 - `Runtime state synchronization requires a sync ID` — src\hosted\hostedService.js:545 — string/attribute
 - `Runtime variables, outputs and flow state` — src\GraphRuntimeRunnerPage.jsx:667 — string/attribute
 - `SAM block` — src\constants.js:34 — string/attribute
 - `Same computer clock` — src\app\sessionSetup.jsx:172 — string/attribute
 - `Sampling rate (Hz)` — src\app\sessionSetup.jsx:177 — string/attribute
+- `Save & Open` — src\App.jsx:185 — string/attribute
 - `Save failed` — src\App.jsx:169, src\GraphRuntimeRunnerPage.jsx:588, src\SessionManager.jsx:88 — string/attribute
 - `Save flow` — src\FlowWorkspaceOverlay.jsx:117 — string/attribute
 - `Save needs attention` — src\RuntimeRunnerPage.jsx:442 — string/attribute
@@ -2888,6 +2903,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Select a step to edit. Add components from the left panel.` — src\composer\Sequence.jsx:9 — string/attribute
 - `Select a step, then click a component on the left to add the next step.` — src\TaskGuide.jsx:20 — string/attribute
 - `Select a video node or image node first.` — src\core\sharedNodeEdits.js:43 — string/attribute
+- `Select a writable data folder before formal collection.` — src\App.jsx:378 — string/attribute
 - `Select all` — src\composer\StimulusPoolEditor.jsx:70, src\flowCanvas\CanvasContextMenu.jsx:28, src\flowCanvas\ShortcutsModal.jsx:2 — JSX text, string/attribute
 - `Select an experiment` — src\ProtocolBioDBConfig.jsx:71 — string/attribute
 - `Select an experiment and participant to see recordings.` — src\AdminMonitorPage.jsx:82 — string/attribute
@@ -2917,13 +2933,13 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Server synchronization` — src\GraphRuntimeRunnerPage.jsx:628 — string/attribute
 - `Server synchronization needs attention: {name}` — src\GraphRuntimeRunnerPage.jsx:628 — string/attribute
 - `service idempotency` — src\hosted\hostedStateStore.js:137 — string/attribute
-- `Session {0} event count does not match stored events` — src\hosted\hostedService.js:75 — template
-- `Session {0} event sequence is not contiguous at {1}` — src\hosted\hostedService.js:78 — template
-- `Session {0} has a duplicate or missing event ID at {1}` — src\hosted\hostedService.js:79 — template
-- `session {0} idempotency` — src\hosted\hostedStateStore.js:122 — template
-- `Session {0} snapshot sequence does not match stored events` — src\hosted\hostedService.js:82 — template
+- `Session {0} event count does not match stored events` — src\hosted\hostedService.js:75, src\i18nMessage.js:48 — string/attribute, template
+- `Session {0} event sequence is not contiguous at {1}` — src\hosted\hostedService.js:78, src\i18nMessage.js:49 — string/attribute, template
+- `Session {0} has a duplicate or missing event ID at {1}` — src\hosted\hostedService.js:79, src\i18nMessage.js:50 — string/attribute, template
+- `session {0} idempotency` — src\hosted\hostedStateStore.js:122, src\i18nMessage.js:110 — string/attribute, template
+- `Session {0} snapshot sequence does not match stored events` — src\hosted\hostedService.js:82, src\i18nMessage.js:51 — string/attribute, template
 - `SESSION COMPLETE` — src\GraphRuntimeRunnerPage.jsx:607, src\RuntimeRunnerPage.jsx:434 — string/attribute
-- `Session completion {0} was already used with a different outcome` — src\hosted\hostedService.js:580 — template
+- `Session completion {0} was already used with a different outcome` — src\hosted\hostedService.js:580, src\i18nMessage.js:83 — string/attribute, template
 - `Session completion requires a completion ID` — src\hosted\hostedService.js:570 — string/attribute
 - `SESSION DATA` — src\SessionManager.jsx:244 — JSX text
 - `Session data is saved, but the recovery checkpoint could not be removed:` — src\GraphRuntimeRunnerPage.jsx:607, src\GraphRuntimeRunnerPage.jsx:611 — string/attribute
@@ -2987,8 +3003,10 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Snapshot renamed` — src\composer\useComposerState.js:524 — string/attribute
 - `Soft Lavender` — src\theme.js:128 — string/attribute
 - `Soft Mint` — src\theme.js:182 — string/attribute
-- `Source node {0} does not exist` — src\core\graphCommands.js:77 — template
-- `Source port {0} does not exist` — src\core\validateProtocolGraph.js:109 — template
+- `Some uploaded resources are unavailable or changed in this browser: {0} Import as an editable draft and reassign those files?` — src\i18nMessage.js:426 — string/attribute
+- `Some uploaded resources are unavailable or changed in this browser: {n} Import as an editable draft and reassign those files?` — src\Dashboard.jsx:84 — string/attribute
+- `Source node {0} does not exist` — src\core\graphCommands.js:77, src\i18nMessage.js:177 — string/attribute, template
+- `Source port {0} does not exist` — src\core\validateProtocolGraph.js:109, src\i18nMessage.js:233 — string/attribute, template
 - `Source URL` — src\app\legacyBuilder.jsx:373, src\composer\NodeInspector.jsx:66, src\flowCanvas\NodePreviewModal.jsx:112, src\participantUi\UiPropertyEditor.jsx:14 — JSX text, string/attribute
 - `SPACE · Go` — src\CognitiveTaskRunner.jsx:125 — string/attribute
 - `Standard layout` — src\participantUi\UiPropertyEditor.jsx:14 — string/attribute
@@ -3025,10 +3043,10 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Stimulus media` — src\readiness.js:82 — string/attribute
 - `Stimulus pool` — src\composer\NodeInspector.jsx:173, src\core\freezeProtocolGraph.js:66, src\core\freezeProtocolGraph.js:69, src\core\stimulusRandomization.js:159 — string/attribute
 - `Stimulus pool and Media node types do not match` — src\composer\toolbox.js:104 — string/attribute
-- `Stimulus pool group {0} must use the same asset selection on every media node` — src\core\freezeProtocolGraph.js:204 — template
-- `Stimulus pool group {0} must use the same supported randomization mode on every media node` — src\core\freezeProtocolGraph.js:195 — template
-- `Stimulus pool group {0} needs at least {1} assets for no-replacement assignment` — src\core\freezeProtocolGraph.js:205 — template
-- `Stimulus pool group {0}: {1}` — src\core\freezeProtocolGraph.js:200 — template
+- `Stimulus pool group {0} must use the same asset selection on every media node` — src\core\freezeProtocolGraph.js:204, src\i18nMessage.js:172 — string/attribute, template
+- `Stimulus pool group {0} must use the same supported randomization mode on every media node` — src\core\freezeProtocolGraph.js:195, src\i18nMessage.js:170 — string/attribute, template
+- `Stimulus pool group {0} needs at least {1} assets for no-replacement assignment` — src\core\freezeProtocolGraph.js:205, src\i18nMessage.js:173 — string/attribute, template
+- `Stimulus pool group {0}: {1}` — src\core\freezeProtocolGraph.js:200, src\i18nMessage.js:171 — string/attribute, template
 - `Stimulus pool ID is missing or duplicated` — src\composer\toolbox.js:98 — string/attribute
 - `Stimulus pool media asset is missing` — src\composer\toolbox.js:103 — string/attribute
 - `Stimulus pool media type is invalid` — src\composer\toolbox.js:100 — string/attribute
@@ -3051,31 +3069,31 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Stream UUID` — src\PhysioDBUpload.jsx:58 — string/attribute
 - `structuredClone not available — data operations may fail` — src\RuntimeRunnerPage.jsx:23 — string/attribute
 - `Style must be an object` — src\core\participantUi.js:167 — string/attribute
-- `Style value for {0} must be a literal or a single $token reference` — src\core\participantUi.js:174, src\core\participantUi.js:176 — template
-- `Subflow {0} needs at least one member exit node` — src\core\validateProtocolGraph.js:142 — template
-- `Subflow {0} needs one entry node from its members` — src\core\validateProtocolGraph.js:141 — template
+- `Style value for {0} must be a literal or a single $token reference` — src\core\participantUi.js:174, src\core\participantUi.js:176, src\i18nMessage.js:199 — string/attribute, template
+- `Subflow {0} needs at least one member exit node` — src\core\validateProtocolGraph.js:142, src\i18nMessage.js:243 — string/attribute, template
+- `Subflow {0} needs one entry node from its members` — src\core\validateProtocolGraph.js:141, src\i18nMessage.js:242 — string/attribute, template
 - `Subflow boundaries must be complete before publishing` — src\core\subflowCommands.js:34 — string/attribute
 - `Subflow entry node is invalid` — src\composer\toolbox.js:86 — string/attribute
 - `Subflow exit node is invalid` — src\composer\toolbox.js:87 — string/attribute
-- `Subflow mapping {0} has no parameter` — src\core\validateProtocolGraph.js:206 — template
-- `Subflow parameter {0} ({1}) cannot map to {2} ({3})` — src\core\subflowCommands.js:22, src\core\validateProtocolGraph.js:203 — template
-- `Subflow parameter {0} ({1}) does not match {2} ({3})` — src\core\validateProtocolGraph.js:159 — template
-- `Subflow parameter {0} must use a {1} data port` — src\core\validateProtocolGraph.js:158 — template
-- `Subflow parameter {0} needs a declared variable mapping` — src\core\validateProtocolGraph.js:202 — template
-- `Subflow parameter {0} needs a member {1} endpoint` — src\core\validateProtocolGraph.js:154 — template
-- `Subflow parameter {0} needs a member endpoint before publishing` — src\core\subflowCommands.js:37 — template
-- `Subflow parameter {0} needs a variable mapping` — src\core\subflowCommands.js:18 — template
-- `Subflow parameter {0} references unknown variable {1}` — src\core\subflowCommands.js:20 — template
+- `Subflow mapping {0} has no parameter` — src\core\validateProtocolGraph.js:206, src\i18nMessage.js:257 — string/attribute, template
+- `Subflow parameter {0} ({1}) cannot map to {2} ({3})` — src\core\subflowCommands.js:22, src\core\validateProtocolGraph.js:203, src\i18nMessage.js:210 — string/attribute, template
+- `Subflow parameter {0} ({1}) does not match {2} ({3})` — src\core\validateProtocolGraph.js:159, src\i18nMessage.js:249 — string/attribute, template
+- `Subflow parameter {0} must use a {1} data port` — src\core\validateProtocolGraph.js:158, src\i18nMessage.js:248 — string/attribute, template
+- `Subflow parameter {0} needs a declared variable mapping` — src\core\validateProtocolGraph.js:202, src\i18nMessage.js:256 — string/attribute, template
+- `Subflow parameter {0} needs a member {1} endpoint` — src\core\validateProtocolGraph.js:154, src\i18nMessage.js:247 — string/attribute, template
+- `Subflow parameter {0} needs a member endpoint before publishing` — src\core\subflowCommands.js:37, src\i18nMessage.js:211 — string/attribute, template
+- `Subflow parameter {0} needs a variable mapping` — src\core\subflowCommands.js:18, src\i18nMessage.js:208 — string/attribute, template
+- `Subflow parameter {0} references unknown variable {1}` — src\core\subflowCommands.js:20, src\i18nMessage.js:209 — string/attribute, template
 - `Subflow parameter mapping is missing` — src\composer\toolbox.js:83 — string/attribute
 - `Subflow parameter mapping types do not match` — src\composer\toolbox.js:84 — string/attribute
 - `Subflow parameter needs a valid name` — src\core\validateProtocolGraph.js:146 — string/attribute
-- `Subflow template {0} already exists` — src\core\subflowCommands.js:41 — template
-- `Subflow template {0} does not exist` — src\core\subflowCommands.js:61 — template
-- `Subflow template {0} has {1} instance(s)` — src\core\subflowCommands.js:116 — template
-- `Subflow template {0} has an external edge` — src\core\validateProtocolGraph.js:221 — template
-- `Subflow template {0} has an invalid entry` — src\core\validateProtocolGraph.js:218 — template
-- `Subflow template {0} has invalid exits` — src\core\validateProtocolGraph.js:219 — template
-- `Subflow template {0} has no nodes` — src\core\validateProtocolGraph.js:217 — template
+- `Subflow template {0} already exists` — src\core\subflowCommands.js:41, src\i18nMessage.js:212 — string/attribute, template
+- `Subflow template {0} does not exist` — src\core\subflowCommands.js:61, src\i18nMessage.js:213 — string/attribute, template
+- `Subflow template {0} has {1} instance(s)` — src\core\subflowCommands.js:116, src\i18nMessage.js:217 — string/attribute, template
+- `Subflow template {0} has an external edge` — src\core\validateProtocolGraph.js:221, src\i18nMessage.js:261 — string/attribute, template
+- `Subflow template {0} has an invalid entry` — src\core\validateProtocolGraph.js:218, src\i18nMessage.js:259 — string/attribute, template
+- `Subflow template {0} has invalid exits` — src\core\validateProtocolGraph.js:219, src\i18nMessage.js:260 — string/attribute, template
+- `Subflow template {0} has no nodes` — src\core\validateProtocolGraph.js:217, src\i18nMessage.js:258 — string/attribute, template
 - `Subflow template IDs must be present and unique` — src\core\validateProtocolGraph.js:213 — string/attribute
 - `Subflow template is empty` — src\composer\toolbox.js:85 — string/attribute
 - `Submit response` — src\QuestionnaireForm.jsx:211, src\core\participantUi.js:88, src\legacy\migrateProtocolV1.js:109 — string/attribute
@@ -3087,15 +3105,15 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Syncing hosted session…` — src\GraphRuntimeRunnerPage.jsx:607 — string/attribute
 - `Synthetic signal · real database` — src\PhysioDBTestResult.jsx:27 — string/attribute
 - `System UI (default)` — src\ThemeSettings.jsx:79 — string/attribute
-- `Target node {0} does not exist` — src\core\graphCommands.js:78 — template
+- `Target node {0} does not exist` — src\core\graphCommands.js:78, src\i18nMessage.js:178 — string/attribute, template
 - `Target node IDs must be an array.` — src\core\sharedNodeEdits.js:31 — string/attribute
-- `Target parent {0} not found` — src\core\participantUi.js:254 — template
-- `Target port {0} does not exist` — src\core\validateProtocolGraph.js:110 — template
+- `Target parent {0} not found` — src\core\participantUi.js:254, src\i18nMessage.js:203 — string/attribute, template
+- `Target port {0} does not exist` — src\core\validateProtocolGraph.js:110, src\i18nMessage.js:234 — string/attribute, template
 - `Task complete` — src\CognitiveTaskRunner.jsx:119 — string/attribute
 - `Task has no trials.` — src\CognitiveTaskRunner.jsx:117 — string/attribute
 - `Technical information` — src\ParticipantUiBuilder.jsx:199, src\ParticipantUiBuilder.jsx:276, src\composer\Inspector.jsx:37, src\composer\NodeInspector.jsx:217 — string/attribute
-- `Template parameter {0} has an invalid {1}` — src\core\validateProtocolGraph.js:233 — template
-- `Template parameter {0} has an invalid contract` — src\core\validateProtocolGraph.js:228 — template
+- `Template parameter {0} has an invalid {1}` — src\core\validateProtocolGraph.js:233, src\i18nMessage.js:263 — string/attribute, template
+- `Template parameter {0} has an invalid contract` — src\core\validateProtocolGraph.js:228, src\i18nMessage.js:262 — string/attribute, template
 - `Template parameter names must be valid and unique` — src\core\validateProtocolGraph.js:226 — string/attribute
 - `Test connection` — src\BioDBSettings.jsx:64 — string/attribute
 - `Test navigation is only permitted in preview sessions` — src\data\graphIntegrity.js:35 — string/attribute
@@ -3114,13 +3132,15 @@ Generated: 2026-10-25T18:01:01.989Z
 - `The complete bundle includes raw events, responses, derived analysis windows, protocol snapshot, integrity report, and a data dictionary.` — src\SessionManager.jsx:330 — string/attribute
 - `The complete bundle includes raw events, responses, device samples, protocol and runtime snapshots, a quality report, data dictionaries and BIDS event files.` — src\SessionManager.jsx:330 — string/attribute
 - `The complete event history and answers are stored in the active local storage backend, separate from the lightweight dashboard index.` — src\SessionManager.jsx:285 — JSX text
+- `The completed session was saved, but the dashboard could not refresh its session list.` — src\App.jsx:386 — string/attribute
 - `The condition can end repetition early. Maximum iterations is the upper limit.` — src\composer\NodeInspector.jsx:161 — string/attribute
 - `The confirmation and note are written into the event log for audit and device-alignment records.` — src\Inspector.jsx:269 — string/attribute
 - `The experiment has ended. This monitor remains open for review.` — src\OperatorMonitorPage.jsx:43 — string/attribute
 - `The groups must form one continuous sequence with no intervening steps` — src\core\groupSequence.js:19 — string/attribute
+- `The new protocol was not saved within 12 seconds. Nothing was created. Check the data folder in Data & settings, then try again.` — src\App.jsx:232 — string/attribute
 - `The operator needs to check data saving. Please keep this window open.` — src\GraphRuntimeRunnerPage.jsx:603 — string/attribute
 - `The participant only sees the experiment and pause message.` — src\OperatorMonitorPage.jsx:38 — string/attribute
-- `The PF session was archived, but the BioDB leg failed: {0}` — src\SessionManager.jsx:193 — template
+- `The PF session was archived, but the BioDB leg failed: {0}` — src\SessionManager.jsx:193, src\i18nMessage.js:300 — string/attribute, template
 - `The PF session was exported, but BioDB returned no samples for this window. If you pushed it just now, wait a few seconds and export again.` — src\SessionManager.jsx:192 — string/attribute
 - `The previous page no longer exists.` — src\runtime\testNavigation.js:32 — string/attribute
 - `The protocol could not be exported. Please try again.` — src\App.jsx:121 — string/attribute
@@ -3135,8 +3155,8 @@ Generated: 2026-10-25T18:01:01.989Z
 - `The Web ZIP is lightweight, but index.html must be served by the included start script because modern browsers block ES modules from file:// pages.` — src\constants.js:195 — string/attribute
 - `Theme must be an object` — src\core\participantUi.js:150 — string/attribute
 - `THEME SETTINGS` — src\ThemeSettings.jsx:41 — string/attribute
-- `Theme token {0} must be a non-empty string` — src\core\participantUi.js:153 — template
-- `Theme token name {0} is unsafe` — src\core\participantUi.js:154 — template
+- `Theme token {0} must be a non-empty string` — src\core\participantUi.js:153, src\i18nMessage.js:191 — string/attribute, template
+- `Theme token name {0} is unsafe` — src\core\participantUi.js:154, src\i18nMessage.js:192 — string/attribute, template
 - `Then add trials and steps inside it.` — src\PreRunChecklist.jsx:110 — string/attribute
 - `There is no previous page.` — src\runtime\testNavigation.js:21 — string/attribute
 - `These out-of-bounds results come from the last edit. Locate returns to the editor so you can fix them.` — src\participantUi\ScreenChecks.jsx:13 — string/attribute
@@ -3192,47 +3212,47 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Two equally sized stimulus areas.` — src\participantUi\screenPresets.js:6 — string/attribute
 - `Type participant ID to confirm` — src\SessionManager.jsx:228 — string/attribute
 - `Typed values available to conditions and participant UI bindings.` — src\composer\Catalogs.jsx:383 — string/attribute
-- `UI element {0} not found` — src\core\participantUi.js:252 — template
+- `UI element {0} not found` — src\core\participantUi.js:252, src\i18nMessage.js:202 — string/attribute, template
 - `UI element ID is required` — src\core\participantUi.js:161 — string/attribute
 - `Undo (⌘Z)` — src\flowCanvas\CanvasToolbar.jsx:17 — string/attribute
 - `Undo (Ctrl+Z)` — src\ParticipantUiBuilder.jsx:101 — string/attribute
 - `Unexpected participant group execution plan` — src\hosted\participantBootstrap.js:154 — string/attribute
 - `UNFINISHED SESSION` — src\app\sessionSetup.jsx:17 — string/attribute
 - `Unknown bundle` — src\composer\Catalogs.jsx:268 — string/attribute
-- `Unknown component {0}@{1}` — src\core\validateProtocolGraph.js:42, src\runtime\runtimeMachine.js:151 — template
+- `Unknown component {0}@{1}` — src\core\validateProtocolGraph.js:42, src\i18nMessage.js:220, src\runtime\runtimeMachine.js:151 — string/attribute, template
 - `Unknown date` — src\Dashboard.jsx:176 — string/attribute
 - `unknown error` — src\data\graphIntegrity.js:26, src\integrity.js:29 — string/attribute
-- `Unknown event type {0}` — src\data\eventSchemaRegistry.js:51 — template
-- `Unknown execution job {0}` — src\deployment\deploymentBundle.js:164, src\deployment\deploymentBundle.js:169 — template
-- `Unknown group: {0}` — src\core\groupSequence.js:11 — template
-- `Unknown hosted deployment {0}` — src\hosted\hostedService.js:189, src\hosted\hostedService.js:476, src\hosted\hostedService.js:494 — template
-- `Unknown hosted launch link {0}` — src\hosted\hostedService.js:454 — template
+- `Unknown event type {0}` — src\data\eventSchemaRegistry.js:51, src\i18nMessage.js:125 — string/attribute, template
+- `Unknown execution job {0}` — src\deployment\deploymentBundle.js:164, src\deployment\deploymentBundle.js:169, src\i18nMessage.js:124 — string/attribute, template
+- `Unknown group: {0}` — src\core\groupSequence.js:11, src\i18nMessage.js:184 — string/attribute, template
+- `Unknown hosted deployment {0}` — src\hosted\hostedService.js:189, src\hosted\hostedService.js:476, src\hosted\hostedService.js:494, src\i18nMessage.js:56 — string/attribute, template
+- `Unknown hosted launch link {0}` — src\hosted\hostedService.js:454, src\i18nMessage.js:67 — string/attribute, template
 - `Unknown hosted launch token` — src\hosted\hostedService.js:467 — string/attribute
-- `Unknown hosted session {0}` — src\hosted\hostedService.js:196, src\hosted\hostedService.js:567, src\hosted\hostedService.js:569 — template
+- `Unknown hosted session {0}` — src\hosted\hostedService.js:196, src\hosted\hostedService.js:567, src\hosted\hostedService.js:569, src\i18nMessage.js:57 — string/attribute, template
 - `Unknown participant` — src\Analytics.jsx:113 — string/attribute
-- `Unknown participant UI element {0}` — src\core\participantUi.js:44 — template
+- `Unknown participant UI element {0}` — src\core\participantUi.js:44, src\i18nMessage.js:190 — string/attribute, template
 - `Unknown provider` — src\composer\Catalogs.jsx:268 — string/attribute
-- `Unknown style key {0}` — src\core\participantUi.js:170 — template
-- `Unknown style token {0}` — src\core\participantUi.js:172 — template
-- `Unknown theme token {0}` — src\core\participantUi.js:155 — template
-- `Unknown UI action {0}` — src\core\participantUi.js:190 — template
-- `Unknown UI element {0}` — src\core\participantUi.js:164 — template
+- `Unknown style key {0}` — src\core\participantUi.js:170, src\i18nMessage.js:197 — string/attribute, template
+- `Unknown style token {0}` — src\core\participantUi.js:172, src\i18nMessage.js:198 — string/attribute, template
+- `Unknown theme token {0}` — src\core\participantUi.js:155, src\i18nMessage.js:193 — string/attribute, template
+- `Unknown UI action {0}` — src\core\participantUi.js:190, src\i18nMessage.js:201 — string/attribute, template
+- `Unknown UI element {0}` — src\core\participantUi.js:164, src\i18nMessage.js:195 — string/attribute, template
 - `Unlock element` — src\ParticipantUiBuilder.jsx:224 — string/attribute
 - `Unsaved changes` — src\App.jsx:141, src\App.jsx:183, src\ComposerV2.jsx:102 — string/attribute
-- `Unsupported change-set schema {0}` — src\collaboration\changeSets.js:98 — template
-- `Unsupported deployment bundle version {0}` — src\deployment\deploymentBundle.js:91 — template
+- `Unsupported change-set schema {0}` — src\collaboration\changeSets.js:98, src\i18nMessage.js:274 — string/attribute, template
+- `Unsupported deployment bundle version {0}` — src\deployment\deploymentBundle.js:91, src\i18nMessage.js:120 — string/attribute, template
 - `Unsupported event schema version` — src\data\eventSchemaRegistry.js:45 — string/attribute
-- `Unsupported execution provider contract {0}` — src\deployment\deploymentBundle.js:120 — template
-- `Unsupported hosted role {0}` — src\hosted\hostedService.js:122 — template
-- `Unsupported hosted session outcome {0}` — src\hosted\hostedService.js:572 — template
-- `Unsupported hosted state version {0}` — src\hosted\hostedService.js:150, src\hosted\hostedStateStore.js:40 — template
+- `Unsupported execution provider contract {0}` — src\deployment\deploymentBundle.js:120, src\i18nMessage.js:121 — string/attribute, template
+- `Unsupported hosted role {0}` — src\hosted\hostedService.js:122, src\i18nMessage.js:53 — string/attribute, template
+- `Unsupported hosted session outcome {0}` — src\hosted\hostedService.js:572, src\i18nMessage.js:82 — string/attribute, template
+- `Unsupported hosted state version {0}` — src\hosted\hostedService.js:150, src\hosted\hostedStateStore.js:40, src\i18nMessage.js:54 — string/attribute, template
 - `Unsupported or incomplete group execution snapshot` — src\core\groupSequence.js:60 — string/attribute
-- `Unsupported participant bootstrap version {0}` — src\hosted\participantBootstrap.js:140 — template
+- `Unsupported participant bootstrap version {0}` — src\hosted\participantBootstrap.js:140, src\i18nMessage.js:112 — string/attribute, template
 - `Unsupported Participant UI schema version` — src\core\participantUi.js:148 — string/attribute
 - `Unsupported schema version` — src\domain.js:21 — string/attribute
-- `Unsupported schema version {0}` — src\core\validateProtocolGraph.js:24 — template
-- `Unsupported variable scope {0}` — src\core\variableCommands.js:21 — template
-- `Unsupported variable type {0}` — src\core\variableCommands.js:20 — template
+- `Unsupported schema version {0}` — src\core\validateProtocolGraph.js:24, src\i18nMessage.js:218 — string/attribute, template
+- `Unsupported variable scope {0}` — src\core\variableCommands.js:21, src\i18nMessage.js:270 — string/attribute, template
+- `Unsupported variable type {0}` — src\core\variableCommands.js:20, src\i18nMessage.js:269 — string/attribute, template
 - `Until rule` — src\core\componentRegistry.js:362, src\core\componentRegistry.js:363 — string/attribute
 - `Until rule operator` — src\core\componentRegistry.js:362 — string/attribute
 - `Until rule value` — src\core\componentRegistry.js:363 — string/attribute
@@ -3256,6 +3276,7 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Use Sessions and Analytics to inspect integrity, responses, analysis windows, markers, and timing.` — src\constants.js:188 — string/attribute
 - `Use the available installer for your platform. The current development changes are separate from the published beta.6 installer.` — src\GuidePanel.jsx:112 — string/attribute
 - `Use the dashboard checklist to confirm structure, content, media, analysis windows, frozen version, pilot run, and local storage.` — src\constants.js:185 — string/attribute
+- `Use the desktop app or select a local folder before formal collection.` — src\readiness.js:120 — string/attribute
 - `Use the desktop build for the easiest handoff. It writes data to a normal local folder, so lab operators can back it up, inspect it, and move it without relying on browser cache.` — src\GuidePanel.jsx:99 — string/attribute
 - `Use the flow graph to edit branches or loops.` — src\composer\sequenceModel.js:26 — string/attribute
 - `Use your PF server access key to connect sensors and check live signals.` — src\AdminMonitorPage.jsx:77 — string/attribute
@@ -3264,15 +3285,17 @@ Generated: 2026-10-25T18:01:01.989Z
 - `User guide` — src\TaskGuide.jsx:12, src\TaskGuide.jsx:5 — string/attribute
 - `User ID` — src\BioDBSettings.jsx:53 — string/attribute
 - `user_id from BioDB admin` — src\BioDBSettings.jsx:55 — string/attribute
+- `Using local folder: {0}` — src\i18nMessage.js:427 — string/attribute
+- `Using local folder: {n}` — src\App.jsx:343 — string/attribute
 - `Using shared resource; local settings below act as overrides.` — src\MediaSettings.jsx:30 — string/attribute
 - `Valid samples` — src\PhysioDBAnalysis.jsx:75 — string/attribute
 - `Validate and freeze` — src\constants.js:166 — string/attribute
 - `value | label | key` — src\Inspector.jsx:194, src\app\legacyBuilder.jsx:335 — JSX text, string/attribute
 - `Value switch` — src\core\componentRegistry.js:337 — string/attribute
-- `Variable {0} ({1}) cannot bind to {2} ({3})` — src\core\validateProtocolGraph.js:248 — template
-- `Variable {0} already exists` — src\core\variableCommands.js:34, src\core\variableCommands.js:44 — template
-- `Variable {0} does not exist` — src\core\variableCommands.js:42 — template
-- `Variable {0} is still used by {1} binding(s)` — src\core\variableCommands.js:77 — template
+- `Variable {0} ({1}) cannot bind to {2} ({3})` — src\core\validateProtocolGraph.js:248, src\i18nMessage.js:265 — string/attribute, template
+- `Variable {0} already exists` — src\core\variableCommands.js:34, src\core\variableCommands.js:44, src\i18nMessage.js:271 — string/attribute, template
+- `Variable {0} does not exist` — src\core\variableCommands.js:42, src\i18nMessage.js:272 — string/attribute, template
+- `Variable {0} is still used by {1} binding(s)` — src\core\variableCommands.js:77, src\i18nMessage.js:273 — string/attribute, template
 - `Variable and port types do not match` — src\composer\toolbox.js:74 — string/attribute
 - `Variable name` — src\ParticipantUiBuilder.jsx:242 — string/attribute
 - `Variable name is required` — src\composer\toolbox.js:75, src\core\validateProtocolGraph.js:188 — string/attribute
@@ -3288,8 +3311,10 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Verify test run with PhysioDB` — src\app\sessionSetup.jsx:114 — string/attribute
 - `Verify the setup, then continue.` — src\core\participantUi.js:125 — string/attribute
 - `Verify viewing distance and screen dimensions before continuing.` — src\core\participantUi.js:109 — string/attribute
-- `Version {0}` — src\core\protocolSelectors.js:29, src\core\protocolSelectors.js:71, src\domain.js:116, src\legacy\migrateProtocolV1.js:207 — template
+- `Version {0}` — src\core\protocolSelectors.js:29, src\core\protocolSelectors.js:71, src\domain.js:116, src\i18nMessage.js:308, src\legacy\migrateProtocolV1.js:207 — string/attribute, template
 - `Version history` — src\Dashboard.jsx:183, src\Dashboard.jsx:188 — string/attribute
+- `Version removed; recovery is available` — src\App.jsx:284 — string/attribute
+- `Version restored` — src\App.jsx:271 — string/attribute
 - `Versioned adapters expose typed I/O channels with explicit connect/read/write permissions and provenance events.` — src\composer\Catalogs.jsx:348 — string/attribute
 - `View raw message` — src\PreRunChecklist.jsx:176 — JSX text
 - `Viewing distance (cm)` — src\core\componentRegistry.js:264 — string/attribute
@@ -3320,9 +3345,12 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Width (cm)` — src\composer\Catalogs.jsx:417 — string/attribute
 - `Width (px)` — src\composer\Catalogs.jsx:416 — string/attribute
 - `Window label` — src\composer\NodeInspector.jsx:157 — string/attribute
-- `Workspace deployment asset {0} requires a SHA-256 checksum` — src\deployment\deploymentBundle.js:107, src\deployment\deploymentBundle.js:56 — template
+- `Workspace deployment asset {0} requires a SHA-256 checksum` — src\deployment\deploymentBundle.js:107, src\deployment\deploymentBundle.js:56, src\i18nMessage.js:119 — string/attribute, template
+- `WORKSPACE TOOLS` — src\Dashboard.jsx:139 — string/attribute
 - `Y · Yellow` — src\CognitiveTaskRunner.jsx:8 — string/attribute
 - `yes | Yes | 1 no | No | 2` — src\Inspector.jsx:195, src\app\legacyBuilder.jsx:335 — string/attribute
+- `You have unsaved changes. Discard them and return to projects?` — src\App.jsx:142 — string/attribute
+- `You have unsaved changes. Save before opening another protocol?` — src\App.jsx:184 — string/attribute
 - `Your experiment is finished. Please contact the operator.` — src\GraphRuntimeRunnerPage.jsx:603 — string/attribute
 - `YouTube embed` — src\MediaSettings.jsx:37, src\ResourceLibrary.jsx:47, src\app\legacyBuilder.jsx:366 — JSX text, string/attribute
 - `YouTube preview` — src\MediaSettings.jsx:88 — string/attribute
@@ -3331,9 +3359,5 @@ Generated: 2026-10-25T18:01:01.989Z
 - `Zoom out` — src\FlowCanvas.jsx:503, src\composer\Canvas.jsx:35 — string/attribute
 - `Zoom out (Ctrl+wheel)` — src\ParticipantUiBuilder.jsx:106 — string/attribute
 - `Zoom presets` — src\ParticipantUiBuilder.jsx:110 — string/attribute
-- `回答が記録されました` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
-- `回答を送信` — src\QuestionnaireForm.jsx:211 — string/attribute
-- `回答已记录` — src\QuestionnaireForm.jsx:5, src\QuestionnaireFormV2.jsx:9 — string/attribute
-- `次へ` — src\QuestionnaireFormV2.jsx:15 — string/attribute
 - `中文` — src\Inspector.jsx:291, src\app\legacyBuilder.jsx:326, src\app\sessionSetup.jsx:167, src\app\sessionSetup.jsx:94, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59 — string/attribute
 - `日本語` — src\Inspector.jsx:291, src\app\legacyBuilder.jsx:327, src\app\sessionSetup.jsx:167, src\app\sessionSetup.jsx:94, src\core\questionnaireModel.js:5, src\flowCanvas\NodePreviewModal.jsx:59 — string/attribute

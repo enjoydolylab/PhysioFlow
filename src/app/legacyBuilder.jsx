@@ -43,9 +43,9 @@ export function Builder({ value, onChange, onSave, onBack, onRun, undo, redo, ca
 
   const confirmRemove = (bi, ti, si) => {
     let label = '';
-    if (si !== undefined) label = `Delete step ${si + 1} ("${p.blocks[bi].trials[ti].steps[si].name}")?`;
-    else if (ti !== undefined) label = `Delete trial ${ti + 1} ("${p.blocks[bi].trials[ti].name}") and all its steps?`;
-    else label = `Delete block ${bi + 1} ("${p.blocks[bi].name}") and all its contents?`;
+    if (si !== undefined) label = tr("Delete step {n} (\"{n1}\")?", { n: si + 1, n1: p.blocks[bi].trials[ti].steps[si].name });
+    else if (ti !== undefined) label = tr("Delete trial {n} (\"{n1}\") and all its steps?", { n: ti + 1, n1: p.blocks[bi].trials[ti].name });
+    else label = tr("Delete block {n} (\"{n1}\") and all its contents?", { n: bi + 1, n1: p.blocks[bi].name });
     setDeleteConfirm({
       title: tr('Confirm delete'),
       message: tr(label),
@@ -309,8 +309,8 @@ function StepRow({ s, set, setMany, remove, locked, blockIndex: _bi, trialIndex:
           <option value="manual">{tr("Manual continue")}</option>
         </select>
       </label>
-      {s.duration_mode === tr('fixed') && <label>{tr("Duration (ms)")}<input type="number" min="0" value={s.planned_duration_ms} disabled={locked} onChange={e => set('planned_duration_ms', Number(e.target.value))} aria-label={tr("Duration in milliseconds")} /></label>}
-      {['fixation','rest','timer'].includes(s.type) && s.duration_mode === tr('fixed') && <label><input type="checkbox" checked={s.show_countdown_ring !== false} disabled={locked} onChange={e => set('show_countdown_ring', e.target.checked)} /> {tr("Countdown ring")}</label>}
+      {s.duration_mode === 'fixed' && <label>{tr("Duration (ms)")}<input type="number" min="0" value={s.planned_duration_ms} disabled={locked} onChange={e => set('planned_duration_ms', Number(e.target.value))} aria-label={tr("Duration in milliseconds")} /></label>}
+      {['fixation','rest','timer'].includes(s.type) && s.duration_mode === 'fixed' && <label><input type="checkbox" checked={s.show_countdown_ring !== false} disabled={locked} onChange={e => set('show_countdown_ring', e.target.checked)} /> {tr("Countdown ring")}</label>}
       <label>{tr("Start")}
         <select value={s.start_mode || 'auto'} disabled={locked} onChange={e => set('start_mode', e.target.value)}>
           <option value="auto">{tr("Automatic")}</option>
@@ -436,7 +436,7 @@ function TotalDuration({ protocol: p }) {
   const mins = Math.round(total / 60000);
   const secs = Math.round((total % 60000) / 1000);
   return <p className="ok" style={{ marginTop: '.5rem', fontSize: '.72rem' }}>
-    {tr("⏱ Estimated minimum:")} {mins > 0 ? tr(`${mins}m`) + ' ' : ''}{secs}s
+    {tr("⏱ Estimated minimum:")} {mins > 0 ? tr("{n}m", { n: mins }) + ' ' : ''}{secs}s
     <br /><small>{tr("(fixed-duration steps only; media & manual steps extend runtime)")}</small>
   </p>;
 }

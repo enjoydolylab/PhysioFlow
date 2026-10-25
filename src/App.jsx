@@ -138,9 +138,9 @@ export default function App() {
   const handleBackFromBuilder = useCallback(() => {
     if (hasUnsaved) {
       setDeleteConfirm({
-        title: 'Unsaved changes',
-        message: 'You have unsaved changes. Discard them and return to projects?',
-        confirmLabel: 'Discard & Leave',
+        title: t("Unsaved changes"),
+        message: t("You have unsaved changes. Discard them and return to projects?"),
+        confirmLabel: t("Discard & Leave"),
         danger: true,
         onConfirm: () => { setCurrent(null); setView('home'); setHasUnsaved(false); setUndoStack([]); setRedoStack([]); setDeleteConfirm(null); },
         onCancel: () => setDeleteConfirm(null),
@@ -148,7 +148,7 @@ export default function App() {
     } else {
       setView('home');
     }
-  }, [hasUnsaved, setUndoStack, setRedoStack]);
+  }, [hasUnsaved, setUndoStack, setRedoStack, t]);
 
   // Keyboard shortcuts — refs to avoid stale closures
   const viewRef = useRef(view);
@@ -166,10 +166,10 @@ export default function App() {
 
   const showProtocolSaveError = useCallback(error => {
     setAlert({
-      title: 'Save failed',
-      message: error?.message || 'Could not write protocol data to the active storage location. Check local folder permission, storage quota, or export the protocol before continuing.',
+      title: t("Save failed"),
+      message: t(error?.message) || t("Could not write protocol data to the active storage location. Check local folder permission, storage quota, or export the protocol before continuing."),
     });
-  }, []);
+  }, [t]);
 
   const persist = useCallback(async items => {
     await saveProtocols(items);
@@ -180,9 +180,9 @@ export default function App() {
   const open = value => {
     if (current && hasUnsaved && view === 'builder') {
       setDeleteConfirm({
-        title: 'Unsaved changes',
-        message: 'You have unsaved changes. Save before opening another protocol?',
-        confirmLabel: 'Save & Open',
+        title: t("Unsaved changes"),
+        message: t("You have unsaved changes. Save before opening another protocol?"),
+        confirmLabel: t("Save & Open"),
         danger: false,
         onConfirm: async () => {
           if (!await handleSave(current)) return;
@@ -219,9 +219,9 @@ export default function App() {
     setSaveAnim(true);
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => setSaveAnim(false), 1500);
-    showToast('Protocol saved');
+    showToast(t("Protocol saved"));
     return true;
-  }, [persist, protocols, showProtocolSaveError]);
+  }, [persist, protocols, showProtocolSaveError, t]);
 
   // A write that never settles used to look like a dead button: no dialog, no
   // toast, no new project. Turn silence into a message that says what to check.
@@ -247,16 +247,16 @@ export default function App() {
 
   const archive = value => {
     setDeleteConfirm({
-      title: 'Archive project?',
-      message: `Archive project "${protocolNameOf(value)}" and all of its versions?`,
-      confirmLabel: 'Archive',
+      title: t("Archive project?"),
+      message: t("Archive project \"{n}\" and all of its versions?", { n: protocolNameOf(value) }),
+      confirmLabel: t("Archive"),
       danger: false,
       onConfirm: async () => {
         const archivedAt = new Date().toISOString();
         try {
           await persist(protocols.map(item => projectIdOf(item) === projectIdOf(value) ? archiveProtocol(item, archivedAt) : item));
           setDeleteConfirm(null);
-          showToast('Project archived');
+          showToast(t("Project archived"));
         } catch (error) {
           showProtocolSaveError(error);
         }
@@ -268,20 +268,20 @@ export default function App() {
   const restoreVersion = async value => {
     try {
       await persist(protocols.map(item => protocolIdOf(item) === protocolIdOf(value) ? archiveProtocol(item, null) : item));
-      showToast('Version restored');
+      showToast(t("Version restored"));
     } catch (error) { showProtocolSaveError(error); }
   };
 
   const removeVersion = value => setDeleteConfirm({
-    title: 'Remove this version?',
-    message: `Move "${protocolNameOf(value)}" v${protocolVersionOf(value)} to the recovery area? Other versions and session data will remain. You can restore it from Removed / archived versions.`,
-    confirmLabel: 'Remove version',
+    title: t("Remove this version?"),
+    message: t("Move \"{n}\" v{n1} to the recovery area? Other versions and session data will remain. You can restore it from Removed / archived versions.", { n: protocolNameOf(value), n1: protocolVersionOf(value) }),
+    confirmLabel: t("Remove version"),
     danger: false,
     onConfirm: async () => {
       try {
         await persist(protocols.map(item => protocolIdOf(item) === protocolIdOf(value) ? archiveProtocol(item) : item));
         setDeleteConfirm(null);
-        showToast('Version removed; recovery is available');
+        showToast(t("Version removed; recovery is available"));
       } catch (error) { showProtocolSaveError(error); }
     },
     onCancel: () => setDeleteConfirm(null),
@@ -289,8 +289,8 @@ export default function App() {
 
   const renameProject = value => {
     setPrompt({
-      title: 'Rename project',
-      message: `Enter a new name for "${protocolNameOf(value)}"`,
+      title: t("Rename project"),
+      message: t("Enter a new name for \"{n}\"", { n: protocolNameOf(value) }),
       placeholder: 'Project name',
       defaultValue: protocolNameOf(value),
       onSubmit: async name => {
@@ -320,9 +320,9 @@ export default function App() {
     try {
       const { protocol: migrated, report } = migrateLegacyProtocolV1(value, { idFactory: createId });
       await addAndOpen(migrated);
-      setAlert({ title: 'Migration complete', message: `${report.counts.steps} steps inspected · ${report.coverage.mappedPercent}% mapped to native V2 components · ${report.issues.length} review item(s). The migrated version remains a safe editable draft until reviewed.` });
+      setAlert({ title: t("Migration complete"), message: t("{n} steps inspected · {n1}% mapped to native V2 components · {n2} review item(s). The migrated version remains a safe editable draft until reviewed.", { n: report.counts.steps, n1: report.coverage.mappedPercent, n2: report.issues.length }) });
     } catch (error) {
-      setAlert({ title: 'Migration failed', message: error.message });
+      setAlert({ title: t("Migration failed"), message: t(error.message) });
     }
   };
 
@@ -340,9 +340,9 @@ export default function App() {
       setRecoverable(r);
       setStorageInfo(info);
       lastSaved.current = clone(p);
-      showToast(`Using local folder: ${info.name}`);
+      showToast(t("Using local folder: {n}", { n: info.name }));
     } catch (error) {
-      setAlert({ title: 'Local folder unavailable', message: error.message || 'Could not choose a local data folder. Use Chrome or Edge, then try again.' });
+      setAlert({ title: t("Local folder unavailable"), message: t(error.message) || t("Could not choose a local data folder. Use Chrome or Edge, then try again.") });
     }
   };
 
@@ -350,7 +350,7 @@ export default function App() {
     try {
       await openDataDirectory();
     } catch (error) {
-      setAlert({ title: 'Could not open folder', message: error.message || 'Open the data folder from your file manager.' });
+      setAlert({ title: t("Could not open folder"), message: t(error.message) || t("Open the data folder from your file manager.") });
     }
   };
 
@@ -383,11 +383,11 @@ export default function App() {
     try {
       setSessions(await loadSessions());
     } catch (error) {
-      setAlert({ title: 'Session list unavailable', message: error.message || 'The completed session was saved, but the dashboard could not refresh its session list.' });
+      setAlert({ title: t("Session list unavailable"), message: t(error.message) || t("The completed session was saved, but the dashboard could not refresh its session list.") });
     } finally {
       setView('home');
     }
-  }, []);
+  }, [t]);
 
 
   if (view === 'builder' && current) {
@@ -418,7 +418,7 @@ export default function App() {
               const frozen = await freezeProtocolGraph(current, createProjectComponentRegistry(current));
               setCurrent(frozen);
               if (await handleSave(frozen)) showToast('Protocol Graph frozen');
-            } catch (error) { setAlert({ title: 'Cannot freeze', message: error.message }); }
+            } catch (error) { setAlert({ title: 'Cannot freeze', message: t(error.message) }); }
           }}
           onCreateDraft={() => addAndOpen(createNextGraphProtocolVersion(current, { existingProtocols: protocols }))}
           onHostedRun={({ client, session, protocol: hostedProtocol, resources, groupExecutionSnapshot }) => {
@@ -549,7 +549,7 @@ export default function App() {
         try {
           await ensureFormalStorage(session);
           setRun({ protocol: run, session }); setView('runner');
-        } catch (error) { setAlert({ title: 'Cannot start session', message: error.message }); }
+        } catch (error) { setAlert({ title: 'Cannot start session', message: t(error.message) }); }
       }}
       storageInfo={storageInfo}
       onChooseDataDirectory={chooseDataDirectory}
@@ -603,9 +603,9 @@ export default function App() {
       onResume={() => { setRun({ protocol: recoverable.protocol, session: recoverable.session, restore: recoverable }); setView('runner'); }}
       onDiscard={() => {
         setDeleteConfirm({
-          title: 'Discard recovery?',
+          title: t("Discard recovery?"),
           message: 'Discard this unfinished Session and its recovery snapshot?',
-          confirmLabel: 'Discard',
+          confirmLabel: t("Discard"),
           danger: true,
           onConfirm: () => { clearCurrentRun(); setRecoverable(null); setDeleteConfirm(null); },
           onCancel: () => setDeleteConfirm(null),

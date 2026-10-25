@@ -401,3 +401,32 @@ messageTemplates.push([new RegExp("^(.*?) / Response option (.*?): «Label» is 
 messageTemplates.push([new RegExp("^(.*?): duplicate response key \"(.*?)\"$", 's'), "{0}: duplicate response key \"{1}\""]);
 
 messageTemplates.sort((a, b) => b[1].replace(/\{\d+\}/g, '').length - a[1].replace(/\{\d+\}/g, '').length);
+
+// E3 display-only diagnostics; model values remain English.
+messageTemplates.push([new RegExp("^(.*?)\\s+analysis\\s+window\\(s\\)\\s+will\\s+be\\s+exported\\.$", "s"), "{0} analysis window(s) will be exported."]);
+messageTemplates.push([new RegExp("^(.*?)\\s+blocked\\s+·\\s+fix\\s+before\\s+formal\\s+collection$", "s"), "{0} blocked · fix before formal collection"]);
+messageTemplates.push([new RegExp("^(.*?)\\s+blocking\\s+issue\\(s\\)\\.$", "s"), "{0} blocking issue(s)."]);
+messageTemplates.push([new RegExp("^(.*?)\\s+blocks,\\s+(.*?)\\s+trials,\\s+(.*?)\\s+steps\\.$", "s"), "{0} blocks, {1} trials, {2} steps."]);
+messageTemplates.push([new RegExp("^(.*?)\\s+nodes,\\s+(.*?)\\s+connections\\.$", "s"), "{0} nodes, {1} connections."]);
+messageTemplates.push([new RegExp("^(.*?)\\s+optional\\s+warning\\(s\\)\\.$", "s"), "{0} optional warning(s)."]);
+messageTemplates.push([new RegExp("^(.*?)\\s+preview,\\s+(.*?)\\s+formal\\s+completed\\s+session\\(s\\)\\.$", "s"), "{0} preview, {1} formal completed session(s)."]);
+messageTemplates.push([new RegExp("^(.*?)\\s+ready\\s+·\\s+(.*?)\\s+sessions\\s+recorded$", "s"), "{0} ready · {1} sessions recorded"]);
+messageTemplates.push([new RegExp("^(.*?)\\s+step\\s+content\\s+error\\(s\\)\\.$", "s"), "{0} step content error(s)."]);
+messageTemplates.push([new RegExp("^(.*?)\\s+steps\\s+inspected\\s+·\\s+(.*?)%\\s+mapped\\s+to\\s+native\\s+V2\\s+components\\s+·\\s+(.*?)\\s+review\\s+item\\(s\\)\\.\\s+The\\s+migrated\\s+version\\s+remains\\s+a\\s+safe\\s+editable\\s+draft\\s+until\\s+reviewed\\.$", "s"), "{0} steps inspected · {1}% mapped to native V2 components · {2} review item(s). The migrated version remains a safe editable draft until reviewed."]);
+messageTemplates.push([new RegExp("^(.*?)/(.*?)\\s+media\\s+step\\(s\\)\\s+have\\s+sources\\.$", "s"), "{0}/{1} media step(s) have sources."]);
+messageTemplates.push([new RegExp("^A\\s+project\\s+with\\s+this\\s+project_id\\s+already\\s+exists\\.\\s+Differences\\s+from\\s+latest\\s+version:\\s+(.*?)\\s+Choose\\s+how\\s+to\\s+import,\\s+or\\s+cancel\\s+without\\s+making\\s+changes\\.$", "s"), "A project with this project_id already exists. Differences from latest version: {0} Choose how to import, or cancel without making changes."]);
+messageTemplates.push([new RegExp("^Archive\\s+project\\s+\"(.*?)\"\\s+and\\s+all\\s+of\\s+its\\s+versions\\?$", "s"), "Archive project \"{0}\" and all of its versions?"]);
+messageTemplates.push([new RegExp("^Enter\\s+a\\s+new\\s+name\\s+for\\s+\"(.*?)\"$", "s"), "Enter a new name for \"{0}\""]);
+messageTemplates.push([new RegExp("^Folder:\\s+(.*?)$", "s"), "Folder: {0}"]);
+messageTemplates.push([new RegExp("^Frozen\\s+Protocol\\s+Graph\\s+hash\\s+mismatch\\.\\s+Expected\\s+(.*?)\\s+Actual\\s+(.*?)$", "s"), "Frozen Protocol Graph hash mismatch. Expected {0} Actual {1}"]);
+messageTemplates.push([new RegExp("^Frozen\\s+protocol\\s+hash\\s+mismatch\\.\\s+Expected\\s+(.*?)\\s+Actual\\s+(.*?)$", "s"), "Frozen protocol hash mismatch. Expected {0} Actual {1}"]);
+messageTemplates.push([new RegExp("^Hash\\s+(.*?)\\.\\.\\.$", "s"), "Hash {0}..."]);
+messageTemplates.push([new RegExp("^Missing\\s+required\\s+asset\\s+(.*?)$", "s"), "Missing required asset {0}"]);
+messageTemplates.push([new RegExp("^Move\\s+\"(.*?)\"\\s+v(.*?)\\s+to\\s+the\\s+recovery\\s+area\\?\\s+Other\\s+versions\\s+and\\s+session\\s+data\\s+will\\s+remain\\.\\s+You\\s+can\\s+restore\\s+it\\s+from\\s+Removed\\s+/\\s+archived\\s+versions\\.$", "s"), "Move \"{0}\" v{1} to the recovery area? Other versions and session data will remain. You can restore it from Removed / archived versions."]);
+messageTemplates.push([new RegExp("^Some\\s+uploaded\\s+resources\\s+are\\s+unavailable\\s+or\\s+changed\\s+in\\s+this\\s+browser:\\s+(.*?)\\s+Import\\s+as\\s+an\\s+editable\\s+draft\\s+and\\s+reassign\\s+those\\s+files\\?$", "s"), "Some uploaded resources are unavailable or changed in this browser: {0} Import as an editable draft and reassign those files?"]);
+messageTemplates.push([new RegExp("^Using\\s+local\\s+folder:\\s+(.*?)$", "s"), "Using local folder: {0}"]);
+
+// Interpolate after translation; zero and empty values are intentional.
+export function interpolateMessage(message, values) {
+  return values && typeof message === "string" ? message.replace(/\{(\w+)\}/g, (token, name) => values[name] ?? token) : message;
+}

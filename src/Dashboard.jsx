@@ -68,20 +68,20 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
       if (!graphCandidate && candidate.status === 'frozen') {
         if (!candidate.config_hash) throw new Error('Frozen protocol has no config_hash.');
         const actualHash = await hashProtocol(candidate);
-        if (actualHash !== candidate.config_hash) throw new Error(`Frozen protocol hash mismatch.\nExpected ${candidate.config_hash}\nActual ${actualHash}`);
+        if (actualHash !== candidate.config_hash) throw new Error(t("Frozen protocol hash mismatch.\nExpected {n}\nActual {n1}", { n: candidate.config_hash, n1: actualHash }));
       }
       if (graphCandidate && protocolStatusOf(candidate) === 'frozen') {
         if (!candidate.freeze?.configHash) throw new Error('Frozen Protocol Graph has no config hash.');
         const actualHash = await hashProtocolGraph(candidate);
-        if (actualHash !== candidate.freeze.configHash) throw new Error(`Frozen Protocol Graph hash mismatch.\nExpected ${candidate.freeze.configHash}\nActual ${actualHash}`);
+        if (actualHash !== candidate.freeze.configHash) throw new Error(t("Frozen Protocol Graph hash mismatch.\nExpected {n}\nActual {n1}", { n: candidate.freeze.configHash, n1: actualHash }));
       }
       const assets = graphCandidate
-        ? { valid: !(candidate.assets || []).some(asset => asset.required && !asset.sourceUrl && !asset.assetId), issues: (candidate.assets || []).filter(asset => asset.required && !asset.sourceUrl && !asset.assetId).map(asset => ({ message: `Missing required asset ${asset.name || asset.id}` })) }
+        ? { valid: !(candidate.assets || []).some(asset => asset.required && !asset.sourceUrl && !asset.assetId), issues: (candidate.assets || []).filter(asset => asset.required && !asset.sourceUrl && !asset.assetId).map(asset => ({ message: t("Missing required asset {n}", { n: asset.name || asset.id }) })) }
         : await verifyProtocolAssets(candidate);
       let forceDraft = false;
       if (!assets.valid) {
         const proceed = await new Promise(resolve => {
-          setConfirm({ title: 'Missing assets', message: `Some uploaded resources are unavailable or changed in this browser:\n\n${assets.issues.map(i => `• ${i.message}`).join('\n')}\n\nImport as an editable draft and reassign those files?`, confirmLabel: 'Import as draft', danger: false, onConfirm: () => { setConfirm(null); resolve(true); }, onCancel: () => { setConfirm(null); resolve(false); } });
+          setConfirm({ title: t("Missing assets"), message: t("Some uploaded resources are unavailable or changed in this browser:\n\n{n}\n\nImport as an editable draft and reassign those files?", { n: assets.issues.map(i => `• ${i.message}`).join('\n') }), confirmLabel: t("Import as draft"), danger: false, onConfirm: () => { setConfirm(null); resolve(true); }, onCancel: () => { setConfirm(null); resolve(false); } });
         });
         if (!proceed) return;
         forceDraft = true;
@@ -93,7 +93,7 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
           ? protocolGraphDiff(related[0], candidate)
           : protocolDiff(related[0], candidate);
         const asVersion = await new Promise(resolve => {
-          setConfirm({ title: 'Existing project', message: `A project with this project_id already exists.\n\nDifferences from latest version:\n${comparison.identical ? 'No content differences' : comparison.changes.join('\n') || 'Detailed configuration changed'}\n\nChoose how to import, or cancel without making changes.`, confirmLabel: 'Import as version', secondaryLabel: 'Import as new project', danger: false, onConfirm: () => { setConfirm(null); resolve(true); }, onSecondary: () => { setConfirm(null); resolve(false); }, onCancel: () => { setConfirm(null); resolve(null); } });
+          setConfirm({ title: t("Existing project"), message: t("A project with this project_id already exists.\n\nDifferences from latest version:\n{n}\n\nChoose how to import, or cancel without making changes.", { n: comparison.identical ? t("No content differences") : comparison.changes.join('\n') || t("Detailed configuration changed") }), confirmLabel: t("Import as version"), secondaryLabel: t("Import as new project"), danger: false, onConfirm: () => { setConfirm(null); resolve(true); }, onSecondary: () => { setConfirm(null); resolve(false); }, onCancel: () => { setConfirm(null); resolve(null); } });
         });
         if (asVersion === null) return;
         if (asVersion) {
@@ -114,7 +114,7 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
       }
       onImport(imported);
     } catch (error) {
-      setAlert({ title: 'Import failed', message: error.message });
+      setAlert({ title: t("Import failed"), message: t(error.message) });
     }
   };
 
@@ -135,12 +135,12 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
     <input ref={input} hidden type="file" accept="application/json,.json" onChange={ev => { const file = ev.target.files?.[0]; if (file) importFile(file); ev.target.value = ''; }} />
     <ProjectList projects={projects} protocols={protocols} sessions={sessions} storageInfo={storageInfo} search={projectSearch} onOpen={onOpen} onRun={onRun} onNextVersion={onNextVersion} onDuplicate={onDuplicate} onArchive={onArchive} onRemoveVersion={onRemoveVersion} onRestoreVersion={onRestoreVersion} onRenameProject={onRenameProject} onMigrate={onMigrate} />
     </>}
-    {page === 'sessions' && <section className="workspace-sessions"><div className="workspace-page-title"><span className="eyebrow">RESEARCH RECORDS</span><h1>{t('Experiment records')}</h1><p>{t('Review saved data, verify database results, and analyze this session.')}</p></div><Suspense fallback={<p>{t('Loading sessions...')}</p>}><SessionManager embedded initialSessionId={initialSessionId} onClose={() => setPage('projects')} onAnalyze={onAnalytics} /></Suspense></section>}
-    {page === 'tools' && <section className="workspace-tools"><div className="workspace-page-title"><span className="eyebrow">WORKSPACE TOOLS</span><h1>{t('Settings')}</h1><p>Keep storage, analysis and integrations in one place.</p></div>    <section className={`status-bar ${statusTone}`}>
+    {page === 'sessions' && <section className="workspace-sessions"><div className="workspace-page-title"><span className="eyebrow">{t("RESEARCH RECORDS")}</span><h1>{t('Experiment records')}</h1><p>{t('Review saved data, verify database results, and analyze this session.')}</p></div><Suspense fallback={<p>{t('Loading sessions...')}</p>}><SessionManager embedded initialSessionId={initialSessionId} onClose={() => setPage('projects')} onAnalyze={onAnalytics} /></Suspense></section>}
+    {page === 'tools' && <section className="workspace-tools"><div className="workspace-page-title"><span className="eyebrow">{t("WORKSPACE TOOLS")}</span><h1>{t('Settings')}</h1><p>{t("Keep storage, analysis and integrations in one place.")}</p></div>    <section className={`status-bar ${statusTone}`}>
       <span className="status-dot" />
       <div className="status-text">
         <b>{storageInfo?.selected ? storageInfo.name : storageInfo?.supported ? 'Choose a local data folder' : 'Formal storage needs Chrome, Edge, or the desktop app'}</b>
-        <span>{workspaceReadiness.blocked ? `${workspaceReadiness.blocked} blocked · fix before formal collection` : storageInfo?.selected ? `${workspaceReadiness.ready} ready · ${sessions.length} sessions recorded` : 'Data files stay in a folder you can back up and move.'}</span>
+        <span>{workspaceReadiness.blocked ? t("{n} blocked · fix before formal collection", { n: workspaceReadiness.blocked }) : storageInfo?.selected ? t("{n} ready · {n1} sessions recorded", { n: workspaceReadiness.ready, n1: sessions.length }) : 'Data files stay in a folder you can back up and move.'}</span>
       </div>
       <div className="status-actions">
         {storageInfo?.selected && storageInfo?.data_dir && <button className="hint" onClick={onOpenDataFolder}>Open folder</button>}
@@ -149,7 +149,7 @@ export default function Dashboard({ initialPage = 'projects', initialSessionId =
       </div>
     </section>
 
-<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>01 / ANALYSIS</span><b>Analytics ↗</b><p>Explore results and compare recorded sessions.</p></button>}<button onClick={() => setDataOpen(true)}><span>02 / DATA</span><b>Browse data ↗</b><p>Open your data viewer and inspect saved signals.</p></button><details><summary>Legacy BioDB connection</summary><button onClick={() => setBioDBOpen(true)}>BioDB settings ↗</button><p>For the older JWT server.</p></details></div></section>}
+<div className="workspace-tool-grid">{onAnalytics && <button onClick={onAnalytics}><span>{t("01 / ANALYSIS")}</span><b>{t("Analytics ↗")}</b><p>{t("Explore results and compare recorded sessions.")}</p></button>}<button onClick={() => setDataOpen(true)}><span>{t("02 / DATA")}</span><b>{t("Browse data ↗")}</b><p>{t("Open your data viewer and inspect saved signals.")}</p></button><details><summary>Legacy BioDB connection</summary><button onClick={() => setBioDBOpen(true)}>{t("BioDB settings ↗")}</button><p>{t("For the older JWT server.")}</p></details></div></section>}
     {confirmState && <ConfirmDialog {...confirmState} />}
     {alertState && <AlertDialog {...alertState} onClose={() => setAlert(null)} />}
   </WorkspaceShell>;

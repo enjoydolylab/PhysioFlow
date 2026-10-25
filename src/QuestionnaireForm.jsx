@@ -1,8 +1,8 @@
+import { translate } from './i18n.jsx';
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { buildExternalFormUrl } from './externalForms.js';
 import SamFigure from './SamFigure.jsx';
 
-const MSG = { zh: '回答已记录', ja: '回答が記録されました', en: 'Responses recorded' };
 const BACK_LABEL = { zh: '← 上一题', ja: '← 前の問題', en: '← Previous' };
 
 export default function QuestionnaireForm({ questionnaire, step = {}, session = {}, language = 'en', onSubmit, onExternalEvent }) {
@@ -166,7 +166,7 @@ export default function QuestionnaireForm({ questionnaire, step = {}, session = 
   if (submitted) {
     const score = calculateScore();
     return <div className="submitted-state" role="status">
-      <span>✓</span><p>{MSG[language] || MSG.en}</p>
+      <span>✓</span><p>{translate('Response recorded', language)}</p>
       {score.total > 0 && <small>得分: {score.correct}/{score.total} ({score.pct}%)</small>}
     </div>;
   }
@@ -208,7 +208,7 @@ export default function QuestionnaireForm({ questionnaire, step = {}, session = 
           </button>
         ) : (
           <button className="primary q-submit-btn" type="submit">
-            {language === 'zh' ? '提交回答' : language === 'ja' ? '回答を送信' : 'Submit response'}
+            {translate('Submit response', language)}
           </button>
         )}
       </div>
