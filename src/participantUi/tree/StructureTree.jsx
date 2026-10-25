@@ -1,9 +1,11 @@
+import { useBuilderT } from '../useBuilderT.js';
 import { createUiElement, insertUiElement, moveUiElement } from '../../core/index.js';
 import { CONTAINERS, defaults } from '../constants.js';
 import { elementLabel, findInTree } from '../tree.js';
 import { UiIcon } from '../UiIcon.jsx';
 
 export function StructureTree({ s }) {
+  const t = useBuilderT();
   const { elements, isHidden, dragOver, setDragOver, normalized, selectedId, collapsed, toggleCollapse, selectElement, commit, setCollapsed, setSelectedId } = s;
   return <div className="ui-tree">
     {elements.filter(entry => !isHidden(entry)).map(entry => {
@@ -66,9 +68,9 @@ export function StructureTree({ s }) {
             ? <span className="ui-tree-toggle" onClick={event => { event.stopPropagation(); toggleCollapse(element.id); }}>{collapsed.has(element.id) ? '▸' : '▾'}</span>
             : <span className="ui-tree-toggle is-empty" />}
           <UiIcon name={element.type} />
-          <span>{element.type}</span><small>{elementLabel(element)}</small>
+          <span>{t(element.type)}</span><small>{elementLabel(element)}</small>
         </button>
-        {element.id !== normalized.root.id && <button type="button" aria-label={(element.props?.locked ? 'Unlock ' : 'Lock ') + element.type} onClick={() => s.updateProp(element.id, 'locked', !element.props?.locked)}>{element.props?.locked ? 'Unlock' : 'Lock'}</button>}
+        {element.id !== normalized.root.id && <button type="button" aria-label={(element.props?.locked ? 'Unlock ' : 'Lock ') + element.type} onClick={() => s.updateProp(element.id, 'locked', !element.props?.locked)}>{t(element.props?.locked ? 'Unlock' : 'Lock')}</button>}
       </div>;
     })}
   </div>;

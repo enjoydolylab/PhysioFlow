@@ -5,19 +5,22 @@ import { validationIssueMessage } from './toolbox.js';
 import RepeatSequenceEditor from './RepeatSequenceEditor.jsx';
 import GroupSequenceEditor from './GroupSequenceEditor.jsx';
 
-export default function Inspector({ s, resources }) {
+export default function Inspector({ s, resources, nodeOnly = false, onEditParticipantUi }) {
   const {
     t, language, locked, editorMode, migrationReviewRequired,
     protocol, registry, selectedNode, selectedEdge,
     validation, showAllValidation, setShowAllValidation,
     dataOutputOptions, updateSelected, deleteSelection, duplicateSelection,
-    setSelectedNodeId, setPreviewNodeId, setPreviewEdit, actions,
+    setSelectedNodeId, setPreviewNodeId, actions,
   } = s;
   return <aside className="composer-inspector">
+    {!nodeOnly && <>
     <h2>{t('Inspector')}</h2>
     <GroupSequenceEditor protocol={protocol} locked={locked} onChange={next => s.commit(next)} />
     {migrationReviewRequired && <div className="migration-review-warning"><b>{t('Migration review required')}</b><span>{t('Review {n} migration issues before freezing this draft.').replace('{n}', unreviewedMigrationIssues(protocol).length)}</span></div>}
-    {selectedNode && <fieldset disabled={locked} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}><NodeInspector deviceConnectors={protocol.deviceConnectors || []} node={selectedNode} definition={registry.get(selectedNode.component.type, selectedNode.component.version)} variables={protocol.variables || []} groups={protocol.graph.groups || []} mode={editorMode} onUpdate={updateSelected} onAssignGroup={actions.assignNodeToGroup} questionnaireLibrary={protocol.questionnaireLibrary || []} onLibraryChange={actions.updateLibrary} assets={protocol.assets || []} resources={resources} stimulusPools={protocol.stimulusPools || []} dataOutputOptions={dataOutputOptions} onCreateGroup={actions.createGroupFromSelection} onCreateStimulusPool={actions.createStimulusPool} onEditParticipantUi={() => { setPreviewNodeId(selectedNode.id); setPreviewEdit(true); }} /></fieldset>}
+    </>}
+    {selectedNode && <fieldset disabled={locked} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}><NodeInspector deviceConnectors={protocol.deviceConnectors || []} node={selectedNode} definition={registry.get(selectedNode.component.type, selectedNode.component.version)} variables={protocol.variables || []} groups={protocol.graph.groups || []} mode={editorMode} onUpdate={updateSelected} onAssignGroup={actions.assignNodeToGroup} questionnaireLibrary={protocol.questionnaireLibrary || []} onLibraryChange={actions.updateLibrary} assets={protocol.assets || []} resources={resources} stimulusPools={protocol.stimulusPools || []} dataOutputOptions={dataOutputOptions} onCreateGroup={actions.createGroupFromSelection} onCreateStimulusPool={actions.createStimulusPool} onEditParticipantUi={onEditParticipantUi || (() => setPreviewNodeId(selectedNode.id))} /></fieldset>}
+    {!nodeOnly && <>
     {!locked && selectedNode && <GroupBatchEditor key={`batch:${selectedNode.id}`} protocol={protocol} node={selectedNode} onApply={result => { s.commit(result.protocol); s.setMessage(t('Updated {n} nodes in this group').replace('{n}', result.count)); }} />}
     {selectedEdge && <div className="inspector-card"><b>{t(selectedEdge.kind)} {t('connection')}</b><code>{selectedEdge.source.portId} → {selectedEdge.target.portId}</code><button className="danger" disabled={locked} onClick={deleteSelection}>{t('Delete connection')}</button></div>}
     {!selectedNode && !selectedEdge && <p>{t('Select a node or connection to configure it.')}</p>}
@@ -35,6 +38,6 @@ export default function Inspector({ s, resources }) {
           {allIssues.length > 8 && <button className="composer-validation-more" onClick={() => setShowAllValidation(show => !show)}>{showAllValidation ? `− ${t('Show fewer')}` : `+ ${t('Show all')} (${allIssues.length})`}</button>}
         </>;
       })()}
-    </section>
+    </section>    </>}
   </aside>;
 }

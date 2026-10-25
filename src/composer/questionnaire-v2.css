@@ -432,3 +432,8 @@
  .composer-header .composer-mode-switch { order:3; margin-left:0; }
  .composer-v2 .composer-header .header-tools { order:4; }
 }
+
+.node-editor-body { flex: 1; min-height: 0; overflow: auto; }
+.node-editor-body > .composer-inspector { width: min(900px, 100%); margin: auto; border: 0; }
+.node-editor-screen { border: 0; padding: 0; margin: 0; min-width: 0; }
+.node-editor-header [role="tab"][aria-selected="true"] { background: var(--green, #197453); color: white; }

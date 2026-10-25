@@ -44,7 +44,7 @@ export function useComposerState({ protocol, onChange }) {
   const [codeOriginal, setCodeOriginal] = useState('');
   const [codeError, setCodeError] = useState('');
   const [previewNodeId, setPreviewNodeId] = useState(null);
-  const [previewEdit, setPreviewEdit] = useState(false);
+
   const [selectedIds, setSelectedIds] = useState(() => new Set());
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -549,7 +549,7 @@ export function useComposerState({ protocol, onChange }) {
       }
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-      if ((previewEdit && previewNode?.config?.ui) || (editorMode !== 'quick' && selectedNode?.config?.ui)) return;
+      if (previewNode || (editorMode !== 'quick' && selectedNode?.config?.ui)) return;
       if (event.metaKey || event.ctrlKey) {
         const key = event.key.toLowerCase();
         if (key === 'c') { copySelection(); }
@@ -575,7 +575,7 @@ export function useComposerState({ protocol, onChange }) {
       } else if (event.key === 'Enter' && !selectedEdge && selectedSet().size === 1) {
         const only = [...selectedSet()][0];
         const node = protocol.graph.nodes.find(item => item.id === only);
-        if (node?.config?.ui) { event.preventDefault(); setPreviewNodeId(node.id); setPreviewEdit(true); }
+        if (node?.config?.ui) { event.preventDefault(); setPreviewNodeId(node.id); }
       } else if (event.key.startsWith('Arrow')) {
         const set = selectedSet();
         if (!set.size) return;
@@ -604,7 +604,7 @@ export function useComposerState({ protocol, onChange }) {
     pendingPort, setPendingPort, showAllValidation, setShowAllValidation,
     message, setMessage, editorMode, setEditorMode, codeView, setCodeView,
     codeText, setCodeText, codeError, setCodeError,
-    previewNodeId, setPreviewNodeId, previewEdit, setPreviewEdit,
+    previewNodeId, setPreviewNodeId,
     selectedIds, setSelectedIds, zoom, setZoom, pan, setPan,
     marquee, setMarquee, snapEnabled, setSnapEnabled,
     searchQuery, setSearchQuery, snapshotsOpen, setSnapshotsOpen,

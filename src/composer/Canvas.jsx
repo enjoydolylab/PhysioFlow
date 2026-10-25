@@ -14,7 +14,7 @@ export default function Canvas({ s }) {
     nodeLabelById, pendingWire, guides, suppressWireClickRef,
     onCanvasWheel, onCanvasPointerDown, viewportPoint, addNodeAt,
     startDrag, dragNode, endDrag, selectNode, startWire, selectPort,
-    setPreviewNodeId, setPreviewEdit,
+    setPreviewNodeId,
   } = s;
   return <section className="composer-canvas-wrap">
     <div className="composer-canvas-toolbar">
@@ -73,7 +73,7 @@ export default function Canvas({ s }) {
         </svg>
         {protocol.graph.nodes.map(node => {
           const definition = registry.get(node.component.type, node.component.version);
-          return <article key={node.id} data-node-id={node.id} className={`composer-node ${selectedIds.has(node.id) ? 'selected' : ''}`} style={{ left: node.layout.x, top: node.layout.y }} onClick={event => selectNode(node, event)} onDoubleClick={() => { setPreviewNodeId(node.id); setPreviewEdit(true); }} onPointerDown={event => startDrag(event, node)} onPointerMove={dragNode} onPointerUp={endDrag}>
+          return <article key={node.id} data-node-id={node.id} className={`composer-node ${selectedIds.has(node.id) ? 'selected' : ''}`} style={{ left: node.layout.x, top: node.layout.y }} onClick={event => selectNode(node, event)} onDoubleClick={() => { setPreviewNodeId(node.id); }} onPointerDown={event => startDrag(event, node)} onPointerMove={dragNode} onPointerUp={endDrag}>
             <span className="node-category">{t(definition?.category)}</span>
             <b>{nodeDisplayLabel(node, language)}</b>
             {editorMode === 'advanced' && <small>{node.component.type}</small>}
