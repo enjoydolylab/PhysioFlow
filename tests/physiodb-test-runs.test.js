@@ -30,6 +30,47 @@ function db() {
 }
 const actor = { actorId: 'operator', tenantId: 'lab' }, session = { sessionId: 'test-session', protocolId: 'protocol', protocolVersion: 1 };
 const payload = () => buildTestRunPayload({ events: [{ eventId: 'e1', eventType: 'component_entered', timestampEpochMs: Date.parse('2026-10-07T00:00:00Z'), payload: { label: 'test' } }], deviceEvents: [], protocol: {}, startedAt: '2026-10-07T00:00:00Z' });
+test('prepare sends participant code and unchanged metadata without name or email', async t => {
+  const dir = await mkdtemp(join(tmpdir(), 'pf-test-participant-')); t.after(() => rm(dir, { recursive: true, force: true }));
+  const fake = db();
+  let participantArgs;
+  const bridge = async (actor, op, args) => {
+    if (op === 'createParticipant') participantArgs = args;
+    return fake.bridge(actor, op, args);
+  };
+  const api = await createPhysioDBTestRuns({ filePath: join(dir, 'journal.json'), bridge });
+  const ready = await api.prepare(actor, session);
+  assert.equal(ready.status, 'ready');
+  assert.deepEqual(participantArgs, {
+    researchId: ready.researchId,
+    participant: {
+      code: `PF-TEST-${ready.runId}`,
+      metadata: { physioflow_test: true, runId: ready.runId, protocolId: session.protocolId, protocolVersion: session.protocolVersion },
+    },
+  });
+  assert.equal(Object.hasOwn(participantArgs.participant, 'name'), false);
+  assert.equal(Object.hasOwn(participantArgs.participant, 'email'), false);
+  assert.ok(participantArgs.participant.code.length <= 200);
+});
+
+test('participant response lost after commit is reconciled by code after restart', async t => {
+  const dir = await mkdtemp(join(tmpdir(), 'pf-test-participant-recover-')); t.after(() => rm(dir, { recursive: true, force: true }));
+  const fake = db();
+  const options = { filePath: join(dir, 'journal.json'), bridge: async (actor, op, args) => {
+    const result = await fake.bridge(actor, op, args);
+    if (op === 'createParticipant') throw new Error('Participant response lost after commit');
+    return result;
+  } };
+  const api = await createPhysioDBTestRuns(options);
+  await assert.rejects(api.prepare(actor, session), /Participant response lost/);
+  const restored = await createPhysioDBTestRuns(options);
+  assert.equal((await restored.prepare(actor, session)).status, 'ready');
+  assert.equal(fake.calls.filter(op => op === 'createParticipant').length, 1);
+  const verified = await restored.complete(actor, { sessionId: session.sessionId, payload: payload() });
+  assert.equal(verified.status, 'verified');
+  assert.equal(verified.report.streams[0].matched, true);
+});
+
 test('isolated real-DB test pipeline verifies values, counts and runtime events and is idempotent', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'pf-test-db-')); t.after(() => rm(dir, { recursive: true, force: true }));
   const fake = db(), options = { filePath: join(dir, 'journal.json'), bridge: fake.bridge };
@@ -37,6 +78,7 @@ test('isolated real-DB test pipeline verifies values, counts and runtime events 
   await api.prepare(actor, session);
   const report = await api.complete(actor, { sessionId: session.sessionId, payload: payload() });
   assert.equal(report.status, 'verified'); assert.equal(report.report.streams[0].actual, 500); assert.equal(report.report.eventsMatched, true);
+  assert.equal(report.report.streams[0].matched, true);
   const restored = await createPhysioDBTestRuns(options);
   await restored.prepare(actor, session); await restored.complete(actor, { sessionId: session.sessionId, payload: payload() });
   for (const op of ['createResearch', 'createExperiment', 'createParticipant', 'createStream', 'appendSamples', 'createEvent']) assert.equal(fake.calls.filter(c => c === op).length, 1, `${op} must not repeat`);
