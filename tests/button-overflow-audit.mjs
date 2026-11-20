@@ -205,7 +205,7 @@ const report = [];
 try {
   await send('Page.enable');
   await send('Runtime.enable');
-  await waitFor(`!!document.querySelector('nav[aria-label="Workspace navigation"]')`, 'workspace (loads the app stylesheets)');
+  await waitFor(`!!document.querySelector('.workspace-sidebar nav')`, 'workspace (loads the app stylesheets)');
 
   // Park the app behind the audit host so the components under test own the viewport.
   await evaluate(`(async () => {
@@ -228,7 +228,11 @@ try {
     host.style.cssText = 'position:fixed;inset:0;background:#eef1f5;z-index:99999;overflow-x:clip;overflow-y:auto';
     document.body.append(host);
     window.__auditHost = host;
-    const root = createRoot(host);
+    // Components translate their copy through the app's LanguageProvider, so every
+    // case renders inside one (the questionnaire still takes its own language prop).
+    const { LanguageProvider } = await import('/src/i18n.jsx');
+    const reactRoot = createRoot(host);
+    const root = { render: element => reactRoot.render(element == null ? null : React.createElement(LanguageProvider, null, element)) };
     const frame = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     window.__renderAuditCase = async (id, advance = 0) => {
       // Unmount first: re-rendering the same component type preserves its state,

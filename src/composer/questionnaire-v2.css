@@ -430,10 +430,14 @@
 .composer-header .composer-mode-switch { flex-shrink:0; border:0; border-inline:1px solid var(--border); border-radius:0; background:transparent; }
 .composer-header .composer-mode-switch button.active { background:transparent; color:var(--text); box-shadow:none; border-radius:0; border-bottom:2px solid currentColor; }
 .composer-header button, .composer-header summary { white-space:nowrap; }
-@media (max-width:900px) {
+/* Wrap below 1000px: the translated mode labels and actions no longer fit one row
+   (Japanese overflowed up to ~920px, English with unsaved changes near 911px). */
+@media (max-width:1000px) {
  .composer-v2 > .composer-header { flex-wrap:wrap; }
  .composer-header .composer-mode-switch { order:3; margin-left:0; }
- .composer-v2 .composer-header .header-tools { order:4; }
+ .composer-v2 .composer-header .header-tools { order:4; flex-wrap:wrap; flex-shrink:1; min-width:0; max-width:100%; row-gap:6px; }
+ /* An open "More actions" menu takes its own row so its static panel gets the full width. */
+ .composer-header .composer-more[open] { flex-basis:100%; }
 }
 
 .node-editor-body { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
@@ -451,6 +455,12 @@
 .ui-canvas-column > .ui-canvas-wrap { flex: 1; min-height: 420px; }
 .node-editor-fullscreen .ui-element-library, .node-editor-fullscreen .ui-inspector { min-height: 0; max-height: none; overflow: auto; }
 .node-editor-fullscreen .ui-canvas-wrap { min-height: 0; overflow: auto; }
+/* The workspace columns above are declared after the narrow container query, so
+   restore the stacked single-column layout for the full-screen editor here. */
+@container (max-width: 760px) {
+  .node-editor-fullscreen .ui-canvas-layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(320px, auto) auto; }
+  .node-editor-fullscreen .ui-element-library, .node-editor-fullscreen .ui-inspector { max-height: 220px; }
+}
 .ui-canvas-footer { flex: 0 0 auto; max-height: 130px; overflow: auto; font-size: .65rem; }
 .ui-canvas-footer .ui-screen-checks { padding: 4px 0; }
 .ui-canvas-footer .ui-layout-notice { margin: 3px 0; }

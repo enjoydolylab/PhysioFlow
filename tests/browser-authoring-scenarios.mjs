@@ -9,6 +9,11 @@ export async function verifyAuthoringScenarios(evaluate, waitFor, capture, send)
     const { default: Generator } = await import('/src/composer/TrialGenerator.jsx');
     const container = document.createElement('div'); container.id = 'authoring-regression'; document.body.append(container);
     window.authoringRoot = createRoot(container, { onUncaughtError: error => { container.textContent = error.stack || String(error); } });
+    // Authoring components translate their copy through the app's LanguageProvider;
+    // every scenario below renders through this root, so wrap it once here.
+    const { LanguageProvider } = await import('/src/i18n.jsx');
+    const renderPlain = window.authoringRoot.render.bind(window.authoringRoot);
+    window.authoringRoot.render = element => renderPlain(React.createElement(LanguageProvider, null, element));
     window.authoringState = { options: 'yes=Yes,key=f', config: { taskKind: 'stroop', seed: 7, trials: [] } };
     const render = () => window.authoringRoot.render(React.createElement('div', null,
       React.createElement(Options, { value: window.authoringState.options, onChange: options => { window.authoringState.options = options; render(); } }),

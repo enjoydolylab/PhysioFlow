@@ -145,7 +145,7 @@ const resetWorkspace = async () => {
     new Promise(resolve => { const request = indexedDB.deleteDatabase('physioflow-assets-v1'); request.onsuccess = request.onerror = request.onblocked = () => resolve(); }),
     new Promise(resolve => { const request = indexedDB.deleteDatabase('physioflow-workspace-v1'); request.onsuccess = request.onerror = request.onblocked = () => resolve(); }),
   ]).then(() => { localStorage.clear(); localStorage.setItem('physioflow.onboarding-v1', '1'); localStorage.setItem('physioflow.ui-language', 'en'); location.reload(); })`);
-  await waitFor(`Boolean(document.querySelector('.workspace-intro'))`, 'dashboard');
+  await waitFor(`Boolean(document.querySelector('.dashboard-redesign .project-list'))`, 'dashboard');
 };
 const seedProtocol = async (name, frozen) => {
   await evaluate(`(async () => {
@@ -176,11 +176,14 @@ await navigateTo(appUrl);
 try {
 await resetWorkspace();
 await seedProtocol('E2E formal storage gate', true);
-// The project card reports readiness as a pill; a frozen protocol with no local
-// data folder selected is "blocked" (shown as "Needs setup").
-assert.equal(await evaluate(`document.querySelector('.readiness-pill')?.classList.contains('blocked') === true`), true);
+// The project row reports its stage; a frozen protocol with no local data folder
+// selected is not ready to run — it stays "preparing" and names the blocking reason.
+assert.equal(await evaluate(`(() => {
+  const state = document.querySelector('.project-row .project-state');
+  return Boolean(state && state.textContent.trim().startsWith('preparing') && state.querySelector('small'));
+})()`), true);
 await new Promise(resolve => setTimeout(resolve, 300));
-await clickText('Run latest');
+await clickText('Prepare collection', '.project-row-actions button');
 await waitFor(`document.body.textContent.includes('Choose a local data folder')`, 'formal storage gate');
 assert.equal(await evaluate(`document.body.textContent.includes('Formal collection must be written to a local folder you choose')`), true);
 assert.equal(await evaluate(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Continue to session setup'))`), false);
@@ -188,7 +191,7 @@ assert.equal(await evaluate(`[...document.querySelectorAll('button')].some(butto
 await resetWorkspace();
 await seedProtocol('E2E preview fallback', false);
 await new Promise(resolve => setTimeout(resolve, 300));
-await clickText('Edit draft');
+await clickText('Edit', '.project-row-actions button.primary');
 await waitFor(`document.body.textContent.includes('Save flow')`, 'visual editor');
 await clickText('Run');
 await waitFor(`document.body.textContent.includes('SESSION SETUP')`, 'session setup');
@@ -209,9 +212,9 @@ await waitFor(
 );
 await clickText('Return to projects');
 // The workspace landing page lists projects; recorded sessions live behind the
-// sidebar's "Sessions" entry, which is where the participant id is shown.
-await waitFor(`!!document.querySelector('.workspace-sidebar nav button')`, 'workspace navigation');
-await evaluate(`[...document.querySelectorAll('.workspace-sidebar nav button')].find(button => button.textContent.includes('Sessions')).click()`);
+// sidebar's records entry (/?page=sessions), which is where the participant id is shown.
+await waitFor(`!!document.querySelector('.workspace-sidebar nav a[href="/?page=sessions"]')`, 'workspace navigation');
+await evaluate(`document.querySelector('.workspace-sidebar nav a[href="/?page=sessions"]').click()`);
 await waitFor(`document.body.textContent.includes('E2E-PREVIEW')`, 'saved preview session summary', 10000);
 
 const sessionIndex = await evaluate(`JSON.parse(localStorage.getItem('physioflow.sessions.v2') || '[]')`);

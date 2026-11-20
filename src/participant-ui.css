@@ -153,6 +153,13 @@
 .response-runner.result h1 { margin: 0; }
 .response-runner.result .response-pressed { font-size: 1.15rem; }
 .response-runner.result small { color: var(--muted); }
+/* Landscape phones / short windows: keep the prompt and every response option on
+   one screen so the participant never has to scroll to find an answer. */
+@media (max-height: 420px) {
+  .response-runner { gap: 10px; }
+  .response-runner .response-stimulus { font-size: 1.35rem; }
+  .response-runner .response-options button { min-height: 48px; }
+}
 
 
 .participant-only .graph-participant { min-height: 100vh; min-height: 100dvh; }

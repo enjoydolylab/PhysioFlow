@@ -32,9 +32,13 @@ export async function verifyCanvasWorkflow(evaluate, waitFor, capture, send) {
   await waitFor(`workflowSchema.root.props.screenWidth === 1024`, 'screen size saved');
   assert.deepEqual(await evaluate(`(()=>{const el=document.querySelector('#authoring-regression .ui-canvas-device');return [el.offsetWidth,el.offsetHeight];})()`), [1024,768]);
   await evaluate(`document.querySelector('#authoring-regression .ui-canvas-root .participant-ui-screen').click()`);
-  await waitFor(`!!document.querySelector('#authoring-regression select[aria-label="Layout mode"]')`, 'container selected');
-  await evaluate(`workflowSelect('Layout mode','free')`);
+  // The screen container's inspector: layout-group fields plus the root hint.
+  await waitFor(`document.querySelector('#authoring-regression .ui-content-fields b')?.textContent === 'Layout group' && !!document.querySelector('#authoring-regression .ui-inspector-empty')`, 'container selected');
+  // Layout mode is switched explicitly from the toolbar's canvas editing mode group
+  // (the per-container select was removed from the inspector).
+  await evaluate(`document.querySelector('#authoring-regression .ui-device-switch[role="group"] button:first-child').click()`);
   await waitFor(`workflowSchema.root.props.free === true`, 'explicit free mode');
+  await waitFor(`document.querySelector('#authoring-regression .ui-device-switch[role="group"] button:first-child').getAttribute('aria-pressed') === 'true' && document.querySelector('#authoring-regression .ui-mode-badge')?.classList.contains('free')`, 'free mode shown in toolbar and inspector');
   await evaluate(`document.querySelector('#authoring-regression .ui-canvas-root [data-ui-id="A"]').click()`);
   await waitFor(`document.querySelector('#authoring-regression .ui-canvas-root [data-ui-id="A"]').classList.contains('selected')`, 'A selected before additive selection');
   await evaluate(`document.querySelector('#authoring-regression .ui-canvas-root [data-ui-id="B"]').dispatchEvent(new MouseEvent('click',{bubbles:true,shiftKey:true}))`);
