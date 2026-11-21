@@ -80,7 +80,10 @@ export async function layoutAcceptance({ send, evaluate, waitFor }) {
   for (const [width,height] of [[2560,1440],[1920,1080],[1366,768],[1093,614],[911,512],[768,540],[640,480],[375,667]]) {
     await send('Emulation.setDeviceMetricsOverride', {width,height,deviceScaleFactor:1,mobile:false});
     await evaluate(`new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))`);
-    const bad = await evaluate(`(() => [...document.querySelectorAll('.composer-header button')].filter(el=>{const r=el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth+1 || r.bottom>innerHeight || r.width<10;}).map(el=>el.textContent))()`);
+    // Items inside the closed "More actions" <details> are not rendered; Chrome
+    // keeps their last layout rects, so measure only controls that are visible.
+    // The opened menu is swept separately ("Composer expanded actions").
+    const bad = await evaluate(`(() => [...document.querySelectorAll('.composer-header button')].filter(el=>el.checkVisibility({checkOpacity:true, checkVisibilityCSS:true})).filter(el=>{const r=el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth+1 || r.bottom>innerHeight || r.width<10;}).map(el=>el.textContent))()`);
     if (bad.length) headerFailures.push({width,height,buttons:bad});
   }
   assert.deepEqual(headerFailures, [], 'Main Composer toolbar must fit the viewport');
@@ -90,6 +93,9 @@ export async function layoutAcceptance({ send, evaluate, waitFor }) {
     const Builder = (await import('/src/ParticipantUiBuilder.jsx')).default;
     const { CodeView } = await import('/src/composer/NodeInspector.jsx');
     const core = await import('/src/core/participantUi.js');
+    // Editor components translate their copy through the app's LanguageProvider.
+    const { LanguageProvider } = await import('/src/i18n.jsx');
+    window.layoutProvide = element => React.createElement(LanguageProvider, null, element);
     window.layoutHost = document.createElement('div');
     layoutHost.style.cssText = 'position:fixed;inset:0;background:white;z-index:9999;overflow:auto';
     document.body.append(layoutHost);
@@ -97,7 +103,7 @@ export async function layoutAcceptance({ send, evaluate, waitFor }) {
     window.renderLayoutCase = (mode) => {
       const child = mode === 'code' ? React.createElement(CodeView, {text:'{}', onChange:()=>{},onApply:()=>{},onFormat:()=>{},onClose:()=>{}})
         : React.createElement(Builder, {schema:core.participantUiTemplate('instruction'), onChange:()=>{}});
-      layoutRoot.render(React.createElement('div', {className:mode === 'full' ? 'node-editor-fullscreen' : '', style:mode === 'embedded' ? {width:300,maxWidth:'100%'} : {}}, child));
+      layoutRoot.render(layoutProvide(React.createElement('div', {className:mode === 'full' ? 'node-editor-fullscreen' : '', style:mode === 'embedded' ? {width:300,maxWidth:'100%'} : {}}, child)));
     };
   })()`);
   const failures = [];
@@ -128,7 +134,7 @@ export async function layoutAcceptance({ send, evaluate, waitFor }) {
       createUiElement('Html',{props:{html:'<p>Custom content</p>',x:0,y:200,width:240,height:90}})
     ]});
     window.acceptedSubmission = false;
-    layoutRoot.render(React.createElement(Renderer,{schema,onSubmit:()=>{window.acceptedSubmission=true;}}));
+    layoutRoot.render(layoutProvide(React.createElement(Renderer,{schema,onSubmit:()=>{window.acceptedSubmission=true;}})));
   })()`);
   await waitFor(`!!layoutHost.querySelector('.participant-ui-button')`, 'free layout render');
   const dimensions = await evaluate(`(() => {

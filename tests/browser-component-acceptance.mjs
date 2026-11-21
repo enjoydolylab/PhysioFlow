@@ -10,9 +10,10 @@ export async function verifyComponentAcceptance(evaluate, waitFor) {
     const {default:Renderer}=await import('/src/ParticipantRenderer.jsx');
     const {default:Questionnaire}=await import('/src/QuestionnaireFormV2.jsx');
     const {default:Media}=await import('/src/ParticipantMedia.jsx');
+    const {LanguageProvider}=await import('/src/i18n.jsx');
     const host=document.createElement('div');host.id='component-acceptance';document.body.append(host);
     window.acceptanceRoot=createRoot(host);
-    window.acceptanceMount=(kind,props)=>{window.acceptanceValue=null;acceptanceRoot.render(React.createElement(kind==='ui'?Renderer:kind==='questionnaire'?Questionnaire:Media,{key:crypto.randomUUID(),...props,onSubmit:(...result)=>window.acceptanceValue=result}));};
+    window.acceptanceMount=(kind,props)=>{window.acceptanceValue=null;acceptanceRoot.render(React.createElement(LanguageProvider,null,React.createElement(kind==='ui'?Renderer:kind==='questionnaire'?Questionnaire:Media,{key:crypto.randomUUID(),...props,onSubmit:(...result)=>window.acceptanceValue=result})));};
     window.acceptanceInput=(selector,value)=>{const el=host.querySelector(selector);const proto=el.tagName==='TEXTAREA'?HTMLTextAreaElement.prototype:HTMLInputElement.prototype;Object.getOwnPropertyDescriptor(proto,'value').set.call(el,value);el.dispatchEvent(new Event('input',{bubbles:true}));};
     window.acceptanceClick=text=>{const button=[...host.querySelectorAll('button')].find(b=>b.textContent.trim()===text);if(!button)throw Error('Missing '+text);button.click();};
     window.acceptanceSchema=core.createParticipantScreen({children:[core.createUiElement('Input',{props:{name:'n',label:'Number',inputType:'number',required:true,min:0,max:10}}),core.createUiElement('Input',{props:{name:'r',label:'Rating',inputType:'rating',required:true,min:0,max:2}}),core.createUiElement('Button',{props:{label:'Submit'},actions:[{event:'click',action:'submit'}]})]});
@@ -98,10 +99,11 @@ export async function verifyComponentAcceptance(evaluate, waitFor) {
   await evaluate(`(async()=>{
     const React=(await import('/node_modules/.vite/deps/react.js')).default;
     const {default:Builder}=await import('/src/ParticipantUiBuilder.jsx');
+    const {LanguageProvider}=await import('/src/i18n.jsx');
     const {createParticipantScreen}=await import('/src/core/index.js');
     window.acceptanceSchema=createParticipantScreen({children:[]});
     window.acceptanceElements=()=>{const list=[];const visit=n=>{list.push(n);(n.children||[]).forEach(visit)};visit(acceptanceSchema.root);return list;};
-    const render=()=>acceptanceRoot.render(React.createElement(Builder,{key:'all-elements',schema:acceptanceSchema,onChange:next=>{window.acceptanceSchema=next;render();}}));render();
+    const render=()=>acceptanceRoot.render(React.createElement(LanguageProvider,null,React.createElement(Builder,{key:'all-elements',schema:acceptanceSchema,onChange:next=>{window.acceptanceSchema=next;render();}})));render();
   })()`);
   await waitFor(`!!document.querySelector('#component-acceptance .ui-library-block')`,'element palette mounted');
   for (const type of ['Text','Media','Html','Input','Button','Progress','Layout','Divider','Rectangle','Ellipse']) {

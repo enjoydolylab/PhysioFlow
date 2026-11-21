@@ -29,7 +29,7 @@ export function GroupCatalog({ registry: componentRegistry, groups, nodes, locke
         const kind = event.target.value;
         onUpdate(group.id, kind === 'subflow' ? { kind, entryNodeId: group.entryNodeId || group.nodeIds[0], exitNodeIds: group.exitNodeIds?.length ? group.exitNodeIds : [group.nodeIds.at(-1)] } : { kind, entryNodeId: null, exitNodeIds: [] });
       }}><option value="container">{t("container")}</option><option value="subflow">{t("subflow")}</option></select>
-    <small>{group.nodeIds.length}{t("node(s) ·")}{group.kind}</small>
+    <small>{group.nodeIds.length} {t("node(s) ·")} {group.kind}</small>
     {group.kind === 'subflow' && <div className="subflow-settings">
     <label>{t("Entry")}<select disabled={locked} aria-label={tDisplay("{0} subflow entry", [group.name])} value={group.entryNodeId || ''} onChange={event => onUpdate(group.id, { entryNodeId: event.target.value })}>{group.nodeIds.map(nodeId => <option key={nodeId} value={nodeId}>{nodes.some(node => node.id === nodeId) ? nodeDisplayLabel(nodes.find(node => node.id === nodeId), language) : nodeId}</option>)}</select></label>
     <fieldset className="subflow-exits"><legend>{t("Exits")}</legend>{group.nodeIds.map(nodeId => <label key={nodeId}><input disabled={locked} type="checkbox" checked={(group.exitNodeIds || []).includes(nodeId)} onChange={event => onUpdate(group.id, { exitNodeIds: event.target.checked ? [...(group.exitNodeIds || []), nodeId] : (group.exitNodeIds || []).filter(id => id !== nodeId) })} />{nodes.some(node => node.id === nodeId) ? nodeDisplayLabel(nodes.find(node => node.id === nodeId), language) : nodeId}</label>)}</fieldset>
@@ -76,7 +76,7 @@ export function SubflowTemplateCatalog({ templates, variables, locked, onInstant
       const resolvedMappings = Object.fromEntries((template.parameters || []).map(parameter => [parameter.name, currentMappings[parameter.name] || compatible(parameter)[0]?.name || '']));
       const ready = (template.parameters || []).every(parameter => resolvedMappings[parameter.name]);
       return <article key={template.id}>
-    <div><b>{template.name}</b><small>v{template.version} · {template.nodes.length}{t("nodes")}</small></div>
+    <div><b>{template.name}</b><small>v{template.version} · {template.nodes.length} {t("nodes")}</small></div>
     {(template.parameters || []).map(parameter => <label key={parameter.name}>{parameter.direction}
     {parameter.name}<select disabled={locked} aria-label={tDisplay("{0} {1} variable mapping", [template.name, parameter.name])} value={resolvedMappings[parameter.name]} onChange={event => setMappings(current => ({ ...current, [template.id]: { ...(current[template.id] || {}), [parameter.name]: event.target.value } }))}><option value="">{t("Select variable")}</option>{compatible(parameter).map(variable => <option key={variable.name}>{variable.name}</option>)}</select></label>)}
     {!ready && Boolean(template.parameters?.length) && <small>{t("Add compatible protocol variables before instantiating.")}</small>}
@@ -140,15 +140,15 @@ export function CollaborationCatalog({ protocol, baseline, locked, onSetBaseline
     {preview?.error && <small className="package-error">{t(preview.error)}</small>}
     {pending && !preview?.error && <article className="collaboration-preview">
     <b>{pending.summary || pending.id}</b>
-    <small>{pending.author?.name || pending.author?.id} · {pending.operations?.length || 0}{t("operation(s)")}</small>
-    <small>{preview.appliedOperations}{t("ready ·")}{preview.alreadyAppliedOperations}{t("already applied ·")}{preview.unresolved}{t("conflict(s)")}</small>
+    <small>{pending.author?.name || pending.author?.id} · {pending.operations?.length || 0} {t("operation(s)")}</small>
+    <small>{preview.appliedOperations} {t("ready ·")} {preview.alreadyAppliedOperations} {t("already applied ·")} {preview.unresolved} {t("conflict(s)")}</small>
     {preview.conflicts.map(conflict => <label key={conflict.operationId} className="collaboration-conflict">
-    <span><b>{conflict.target}{conflict.entityKey ? ` · ${conflict.entityKey}` : ''}</b><small>{conflict.path.join('.') || '(whole entity)'}</small><small>{t("Local:")}{snapshotLabel(conflict.local)}</small><small>{t("Incoming:")}{snapshotLabel(conflict.incoming)}</small></span>
+    <span><b>{conflict.target}{conflict.entityKey ? ` · ${conflict.entityKey}` : ''}</b><small>{conflict.path.join('.') || '(whole entity)'}</small><small>{t("Local:")} {snapshotLabel(conflict.local)}</small><small>{t("Incoming:")} {snapshotLabel(conflict.incoming)}</small></span>
     <select aria-label={tDisplay("{0} conflict resolution", [conflict.operationId])} value={resolutions[conflict.operationId] || ''} onChange={event => setResolutions(current => ({ ...current, [conflict.operationId]: event.target.value }))}><option value="">{t("Resolve…")}</option><option value="local">{t("Keep local")}</option><option value="incoming">{t("Use incoming")}</option></select>
     </label>)}
     <div><button disabled={locked || preview.unresolved > 0} onClick={() => { onApply(preview.protocol); setPending(null); setResolutions({}); }}>{t("Apply change set")}</button><button onClick={() => { setPending(null); setResolutions({}); }}>{t("Cancel")}</button></div>
     </article>}
-    <details><summary>{t("Applied history (")}{history.length})</summary>{history.map(item => <small key={`${item.changeSetId}:${item.appliedAt}`}>{item.changeSetId} · {item.author?.name || item.author?.id} · {item.appliedOperations}{t("applied ·")}{item.appliedAt}</small>)}</details>
+    <details><summary>{t("Applied history (")}{history.length})</summary>{history.map(item => <small key={`${item.changeSetId}:${item.appliedAt}`}>{item.changeSetId} · {item.author?.name || item.author?.id} · {item.appliedOperations} {t("applied ·")} {item.appliedAt}</small>)}</details>
     </section>;
 }
 
@@ -273,14 +273,14 @@ export function DeploymentCatalog({ protocol, onHostedRun, onMessage }) {
     {inspection.result.errors.map(item => <small key={item}>{item}</small>)}
     </article>}
     {hostedDeployment && <article className="deployment-valid">
-    <b>{t("Hosted sandbox ·")}{hostedDeployment.status}</b>
-    <small>{hostedDeployment.deploymentId}{t("· revision")}{hostedDeployment.revision} · {hostedDeployment.sessionCount}/{hostedDeployment.maximumSessions ?? '∞'}{t("sessions")}</small>
+    <b>{t("Hosted sandbox ·")} {hostedDeployment.status}</b>
+    <small>{hostedDeployment.deploymentId} {t("· revision")} {hostedDeployment.revision} · {hostedDeployment.sessionCount}/{hostedDeployment.maximumSessions ?? '∞'} {t("sessions")}</small>
     <label>{t("Participant ID")}<input value={participantId} onChange={event => setParticipantId(event.target.value)} /></label>
     <button disabled={hostedDeployment.status !== 'ready'} onClick={createSandboxSession}>{t("Create sandbox session")}</button>
     <button disabled={hostedDeployment.status !== 'ready' || Boolean(launchLink)} onClick={createSandboxLaunchLink}>{t("Create one-use launch token")}</button>
-    {launchLink && <><small>{t("Launch")}{launchLink.launchLinkId} · {launchLink.status} · {launchLink.useCount}/{launchLink.maximumUses}{t("uses")}</small><code>{launchLink.launchToken}</code><button disabled={launchLink.status !== 'active' || launchLink.useCount >= launchLink.maximumUses} onClick={redeemSandboxLaunchLink}>{t("Redeem launch token")}</button><button disabled={launchLink.status !== 'active'} onClick={revokeSandboxLaunchLink}>{t("Revoke launch token")}</button></>}
+    {launchLink && <><small>{t("Launch")} {launchLink.launchLinkId} · {launchLink.status} · {launchLink.useCount}/{launchLink.maximumUses} {t("uses")}</small><code>{launchLink.launchToken}</code><button disabled={launchLink.status !== 'active' || launchLink.useCount >= launchLink.maximumUses} onClick={redeemSandboxLaunchLink}>{t("Redeem launch token")}</button><button disabled={launchLink.status !== 'active'} onClick={revokeSandboxLaunchLink}>{t("Revoke launch token")}</button></>}
     <button disabled={hostedDeployment.status === 'deactivated'} onClick={deactivateSandbox}>{t("Deactivate deployment")}</button>
-    {hostedSession && <><small>{t("Session")}{hostedSession.sessionId} · {hostedSession.status}{t("· revision")}{hostedSession.revision}</small>{hostedBootstrap && <small>{t("Bootstrap verified ·")}{hostedBootstrap.resources.filter(item => item.status === 'ready').length}/{hostedBootstrap.resources.length}{t("resources ready")}</small>}<button disabled={!hostedBootstrap} onClick={() => {
+    {hostedSession && <><small>{t("Session")} {hostedSession.sessionId} · {hostedSession.status} {t("· revision")} {hostedSession.revision}</small>{hostedBootstrap && <small>{t("Bootstrap verified ·")} {hostedBootstrap.resources.filter(item => item.status === 'ready').length}/{hostedBootstrap.resources.length} {t("resources ready")}</small>}<button disabled={!hostedBootstrap} onClick={() => {
         const session = structuredClone(hostedSession);
         delete session.participantAccessToken;
         onHostedRun?.({ client: participantClientRef.current, session, protocol: hostedBootstrap.protocol, resources: hostedBootstrap.resources, groupExecutionSnapshot: hostedBootstrap.groupExecutionSnapshot });
@@ -323,7 +323,7 @@ export function ComponentPackageCatalog({ packages, locked, onInstallExample, on
     <div><button disabled={permissions.some(permission => !approved.includes(permission))} onClick={() => { onImport(pending); setPending(null); setApproved([]); }}>{t("Approve and install")}</button><button onClick={() => setPending(null)}>{t("Cancel")}</button></div>
     </article>}
     {packages.map(componentPackage => <article key={`${componentPackage.packageId}@${componentPackage.version}`}>
-    <div><b>{componentPackage.name}</b><small>{componentPackage.packageId}@{componentPackage.version} · {componentPackage.components.length}{t("component(s)")}</small></div>
+    <div><b>{componentPackage.name}</b><small>{componentPackage.packageId}@{componentPackage.version} · {componentPackage.components.length} {t("component(s)")}</small></div>
     <small>{componentPackage.permissions?.length ? tDisplay("Permissions: {0}", [componentPackage.permissions.join(', ')]) : t("No permissions")}</small>
     <button disabled={locked} onClick={() => onRemove(componentPackage.packageId, componentPackage.version)}>{t("Uninstall")}</button>
     </article>)}
@@ -363,7 +363,7 @@ export function DeviceConnectorCatalog({ connectors, locked, onInstallExample, o
     {connectors.map(connector => <article key={`${connector.connectorId}@${connector.version}`}>
     <div><b>{connector.name}</b><small>{connector.connectorId}@{connector.version} · {connector.transport}</small></div>
     <small>{(connector.channels || []).map(channel => `${channel.direction} ${channel.id}:${channel.dataType}${channel.unit ? ` (${channel.unit})` : ''}`).join(' · ') || t('No channels')}</small>
-    <small>{t("Permissions:")}{(connector.approvedPermissions || []).join(', ') || 'none'}</small>
+    <small>{t("Permissions:")} {(connector.approvedPermissions || []).join(', ') || 'none'}</small>
     <button disabled={locked} onClick={() => onRemove(connector.connectorId, connector.version)}>{t("Uninstall")}</button>
     </article>)}
     </section>;

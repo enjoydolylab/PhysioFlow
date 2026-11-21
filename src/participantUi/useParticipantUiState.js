@@ -531,7 +531,8 @@ export function useParticipantUiState({ schema, onChange, defaultTemplate = 'ins
     const node = viewportRef.current;
     if (!node) return;
     autoFitRef.current = true;
-    const frame = requestAnimationFrame(() => fitViewRef.current());
+    // A zoom chosen before this first frame (Reset to 100%, wheel pan) wins over the auto-fit.
+    const frame = requestAnimationFrame(() => { if (autoFitRef.current) fitViewRef.current(); });
     const resize = () => fitViewRef.current();
     window.addEventListener('resize', resize);
     const observer = new window.ResizeObserver(() => { if (autoFitRef.current) fitViewRef.current(); });

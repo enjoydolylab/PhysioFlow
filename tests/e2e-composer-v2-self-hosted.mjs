@@ -104,6 +104,20 @@ const clickText = async text => {
   const clicked = await evaluate(`(() => { const element = [...document.querySelectorAll('button')].find(item => item.textContent.trim().includes(${JSON.stringify(text)}) && !item.disabled); if (!element) return false; element.click(); return true; })()`);
   assert.equal(clicked, true, `Missing enabled button containing ${text}`);
 };
+const clickLabel = async ariaLabel => {
+  const clicked = await evaluate(`(() => { const element = document.querySelector('button[aria-label=${JSON.stringify(ariaLabel)}]:not(:disabled)'); if (!element) return false; element.click(); return true; })()`);
+  assert.equal(clicked, true, `Missing enabled button labelled ${ariaLabel}`);
+};
+// Palette buttons show the localized component label; the type id is only
+// rendered in advanced mode, so address components by their type attribute.
+const clickComponent = async type => {
+  const clicked = await evaluate(`(() => { const element = document.querySelector('.composer-palette button[data-component-type=${JSON.stringify(type)}]:not(:disabled)'); if (!element) return false; element.click(); return true; })()`);
+  assert.equal(clicked, true, `Missing enabled palette component ${type}`);
+};
+const clickNav = async page => {
+  const clicked = await evaluate(`(() => { const element = document.querySelector('.workspace-sidebar nav a[href=${JSON.stringify(page)}]'); if (!element) return false; element.click(); return true; })()`);
+  assert.equal(clicked, true, `Missing workspace navigation link ${page}`);
+};
 const field = async (ariaLabel, value, eventName = 'input') => {
   const changed = await evaluate(`(() => { const element = document.querySelector('[aria-label=${JSON.stringify(ariaLabel)}]'); if (!element) return false; const prototype = element instanceof HTMLSelectElement ? HTMLSelectElement.prototype : element instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype; Object.getOwnPropertyDescriptor(prototype, 'value').set.call(element, ${JSON.stringify(String(value))}); element.dispatchEvent(new Event(${JSON.stringify(eventName)}, { bubbles: true })); element.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
   assert.equal(changed, true, `Missing field ${ariaLabel}`);
@@ -113,14 +127,15 @@ try {
   await send('Page.enable');
   await send('Runtime.enable');
   await send('Page.addScriptToEvaluateOnNewDocument', {source: "localStorage.removeItem('physioflow.onboarding-v1');"});
-  await waitFor(`!!document.querySelector('nav[aria-label="Workspace navigation"]')`, 'workspace');
+  await waitFor(`!!document.querySelector('.workspace-sidebar nav')`, 'workspace');
   await evaluate(`Promise.all(['physioflow-data-v1','physioflow-assets-v1','physioflow-workspace-v1'].map(name => new Promise(resolve => { const request = indexedDB.deleteDatabase(name); request.onsuccess = request.onerror = request.onblocked = () => resolve(); }))).then(() => { localStorage.clear(); localStorage.setItem('physioflow.guide-seen.v1','1'); localStorage.setItem('physioflow.ui-language','en'); location.reload(); })`);
-  await waitFor(`document.body.textContent.includes('Your first study starts here')`, 'clean dashboard');
+  await waitFor(`!!document.querySelector('.dashboard-redesign .project-list .empty') && !document.querySelector('.project-row')`, 'clean dashboard');
   await waitFor(`!!document.querySelector('.welcome-guide')`, 'first-use task introduction');
   await readableLayoutAcceptance({send,evaluate},'.welcome-guide','First-use introduction readable layout');
   await pageControlsAcceptance({send,evaluate},'.welcome-guide button','First-use introduction controls');
   await clickText('Explore the workspace');
-  await clickText('User guide');
+  await waitFor(`!document.querySelector('.welcome-guide')`, 'first-use introduction dismissed');
+  await clickText('Help & documentation');
   await waitFor(`!!document.querySelector('.task-guide')`, 'task-based user guide');
   await clickText('Run and verify');
   assert.ok(await evaluate(`document.querySelector('.task-guide').textContent.includes('Local saving and database verification are separate')`), 'guide distinguishes local saving from database verification');
@@ -129,8 +144,10 @@ try {
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
   await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
   await waitFor(`!document.querySelector('.task-guide')`, 'guide closes with Escape');
-  await clickText('New protocol');
-  await waitFor(`document.body.textContent.includes('Composer V2')`, 'Composer V2');
+  await evaluate(`document.querySelector('.project-new summary').click()`);
+  await waitFor(`document.querySelector('.project-new').open`, 'new project menu opened');
+  await clickText('Blank protocol');
+  await waitFor(`!!document.querySelector('main.composer-v2')`, 'Composer V2');
   await waitFor(`!!document.querySelector('.composer-sequence')`, 'default sequential editor');
   await clickText('Wait');
   const firstStepId = await evaluate(`document.querySelectorAll('.composer-sequence li')[1].dataset.nodeId`);
@@ -144,7 +161,7 @@ try {
   await reachableControlsAcceptance({send,evaluate},'.composer-sequence button','Sequence pointer reachability');
   await evaluate(`document.querySelector('.sequence-actions button[aria-label^="Move down"]:not(:disabled)').click()`);
   await waitFor(`document.querySelectorAll('.composer-sequence li')[1].dataset.nodeId === ${JSON.stringify(sequenceIds[2])}`, 'sequence reordered');
-  await clickText('Undo');
+  await clickLabel('Undo');
   await waitFor(`document.querySelectorAll('.composer-sequence li')[1].dataset.nodeId === ${JSON.stringify(sequenceIds[1])}`, 'sequence reorder undone');
   await clickText('Flow graph');
   await waitFor(`!!document.querySelector('.composer-canvas')`, 'graph shares same protocol');
@@ -155,7 +172,7 @@ try {
   await pageControlsAcceptance({send,evaluate},'.composer-header button','Composer expanded actions');
   await evaluate(`document.querySelector('.composer-more summary').click()`);
   await clickText('Freeze version');
-  await waitFor(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Create editable version'))`, 'frozen protocol version');
+  await waitFor(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Create new version'))`, 'frozen protocol version');
   assert.equal(await evaluate(`Array.from(document.querySelectorAll('.sequence-actions button')).every(button => button.disabled)`), true, 'frozen sequence cannot be reordered');
   await clickText('Advanced');
   await waitFor(`document.body.textContent.includes('Portable deployment')`, 'frozen deployment panel');
@@ -178,7 +195,7 @@ try {
   await readableLayoutAcceptance({send,evaluate},'.pf-completion','Completion readable layout');
   await screenControlsAcceptance({send,evaluate},'Completion controls');
   await clickText('Return to projects');
-  await waitFor(`!!document.querySelector('nav[aria-label="Workspace navigation"]')`, 'workspace after hosted run');
+  await waitFor(`!!document.querySelector('.workspace-sidebar nav')`, 'workspace after hosted run');
   await clickText('New version');
   await waitFor(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Freeze version') && !button.disabled)`, 'editable protocol version');
   await clickText('Design');
@@ -191,7 +208,7 @@ try {
   await field('New variable name', 'score');
   await field('New variable type', 'number', 'change');
   await clickText('Add variable');
-  await clickText('input.rating');
+  await clickComponent('input.rating');
   await waitFor(`[...document.querySelectorAll('button')].some(button => button.textContent.includes('Edit participant screen'))`, 'Rating inspector');
   await clickText('Create group from node');
   await field('Rating group group kind', 'subflow', 'change');
@@ -202,7 +219,7 @@ try {
   await clickText('Create instance');
   await waitFor(`document.body.textContent.includes('Created Rating group instance')`, 'subflow instance');
   assert.equal(await evaluate(`document.querySelectorAll('.composer-node').length`), 6);
-  await clickText('logic.value-switch');
+  await clickComponent('logic.value-switch');
   await waitFor(`document.body.textContent.includes('Match value')`, 'Value switch inspector');
   assert.equal(await evaluate(`[...document.querySelectorAll('.composer-node')].some(node => node.textContent.includes('Value switch'))`), true);
   assert.equal(await evaluate(`document.body.textContent.includes('Match') && document.body.textContent.includes('Default')`), true);
@@ -275,7 +292,7 @@ try {
   await readableLayoutAcceptance({send,evaluate},'.dashboard','Dashboard readable layout (dark)');
   await evaluate(`document.querySelector('.dark-mode-btn').click()`);
   await waitFor(`!document.documentElement.classList.contains('dark-mode')`, 'light theme restored');
-  await clickText('Manage sessions');
+  await clickNav('/?page=sessions');
   await waitFor(`!!document.querySelector('.session-manager')`, 'session manager acceptance');
   await pageControlsAcceptance({send,evaluate},'.session-manager-head button','Session manager primary controls');
   await screenControlsAcceptance({send,evaluate},'Session manager controls');
@@ -291,9 +308,12 @@ try {
   await readableLayoutAcceptance({send,evaluate},'.session-manager','Selected record readable layout');
   await screenControlsAcceptance({send,evaluate},'Selected record controls');
   await clickText('Close');
-  await clickText('Continue editing');
+  // Reopen the project saved above (the JSON round-trip with the long title);
+  // its primary row action opens the draft in the editor.
+  const reopenRecent = `(() => { const row = [...document.querySelectorAll('.project-row')].find(item => item.querySelector('strong')?.textContent.startsWith('長い実験名')); const button = row?.querySelector('.project-row-actions button.primary'); if (!button) return false; button.click(); return true; })()`;
+  await waitFor(reopenRecent, 'recent project listed and reopened');
   await waitFor(`!!document.querySelector('.composer-header')`, 'recent project opened');
-  await clickText('Preview run');
+  await clickText('Run preview');
   await waitFor(`!!document.querySelector('.pf-preparation')`, 'original preparation');
   await readableLayoutAcceptance({send,evaluate},'.pf-preparation','Preparation readable layout');
   await screenControlsAcceptance({send,evaluate},'Preparation controls');
@@ -323,7 +343,8 @@ try {
   assert.ok(await evaluate(`document.querySelector('.pf-completion').textContent.includes('PF_UNIFIED_PREP')`), 'confirmed participant preserved through run');
   await clickText('Return to projects');
   await waitFor(`!!document.querySelector('.dashboard')`, 'workspace after preparation');
-  await clickText('Data & settings');
+  await clickNav('/?page=tools');
+  await waitFor(`!!document.querySelector('.workspace-tool-grid')`, 'workspace settings');
   await clickText('Analytics');
   await waitFor(`!!document.querySelector('.analytics-dashboard')`, 'analytics acceptance');
   await pageControlsAcceptance({send,evaluate},'.analytics-dashboard header button','Analytics primary controls');

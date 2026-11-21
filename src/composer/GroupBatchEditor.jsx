@@ -28,6 +28,6 @@ export default function GroupBatchEditor({ protocol, node, onApply }) {
     <ul>{targets.map(item => <li key={item.id}>{nodeDisplayLabel(item, language)}</li>)}</ul>
     <p>{t(wait ? 'Only the wait duration is copied. Display content is preserved.' : questionnaire ? 'Question IDs remain specific to each target. Only matching questionnaire kinds are included.' : 'Each target keeps its own stimulus, timing and pool.')}{t("Other groups are unchanged. Undo restores the whole batch.")}</p>
     {error && <p role="alert">{t(error)}</p>}
-    <button disabled={!targets.length} onClick={apply}>{t("Apply to")}{targets.length}{t("nodes in this group")}</button>
+    <button disabled={!targets.length} onClick={apply}>{t("Apply to")} {targets.length} {t("nodes in this group")}</button>
     </section>;
 }

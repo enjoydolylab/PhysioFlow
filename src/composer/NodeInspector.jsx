@@ -36,7 +36,7 @@ export function CodeView({ text, error, locked, dirty, onChange, onApply, onForm
     </div>
     {error && <div className="composer-code-error">{error}</div>}
     <div className="composer-code-editor"><pre ref={gutterRef} aria-hidden="true">{lineNumbers}</pre><textarea disabled={locked} value={text} onChange={event => onChange(event.target.value)} onClick={updateCursor} onKeyUp={updateCursor} onScroll={event => { if (gutterRef.current) gutterRef.current.scrollTop = event.currentTarget.scrollTop; }} onKeyDown={event => { if (event.key !== 'Tab') return; event.preventDefault(); const start = event.currentTarget.selectionStart, end = event.currentTarget.selectionEnd; onChange(`${text.slice(0, start)}  ${text.slice(end)}`); requestAnimationFrame(() => { event.target.selectionStart = event.target.selectionEnd = start + 2; }); }} spellCheck={false} aria-label={t("Protocol JSON")} /></div>
-    <small className="composer-code-status">{t("Ln")}{cursor.line}{t(", Col")}{cursor.column} · {text.length.toLocaleString()}{t("characters")}</small>
+    <small className="composer-code-status">{t("Ln")} {cursor.line}{t(", Col")} {cursor.column} · {text.length.toLocaleString()} {t("characters")}</small>
     </div>;
 }
 
@@ -199,7 +199,7 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
     <optgroup label={t("Protocol variables")}>{renderVariableOptions(true)}</optgroup>
     {(dataOutputOptions || []).length > 0 && <optgroup label={t("Node outputs (upstream)")}>{renderOutputOptions()}</optgroup>}
     </select></label>}
-    {node.component.type === 'input.questionnaire' && <><QuestionnaireEditor value={node.config.questionnaire} onChange={questionnaire => onUpdate({ config: { ...node.config, questionnaire } })} library={questionnaireLibrary} onLibraryChange={onLibraryChange} /><details className="questionnaire-live-preview"><summary>{t("Live participant preview ·")}{language.toUpperCase()}</summary><QuestionnaireForm key={`${node.id}:${language}:${JSON.stringify(node.config.questionnaire)}`} questionnaire={node.config.questionnaire} language={language} randomSeed="editor-preview" onSubmit={() => {}} /></details></>}
+    {node.component.type === 'input.questionnaire' && <><QuestionnaireEditor value={node.config.questionnaire} onChange={questionnaire => onUpdate({ config: { ...node.config, questionnaire } })} library={questionnaireLibrary} onLibraryChange={onLibraryChange} /><details className="questionnaire-live-preview"><summary>{t("Live participant preview ·")} {language.toUpperCase()}</summary><QuestionnaireForm key={`${node.id}:${language}:${JSON.stringify(node.config.questionnaire)}`} questionnaire={node.config.questionnaire} language={language} randomSeed="editor-preview" onSubmit={() => {}} /></details></>}
     {node.component.type === 'experiment.cognitive-task' && <TrialGenerator key={node.id + ':' + node.config.taskKind} config={node.config} onChange={config => onUpdate({ config })} />}
     {mode !== 'quick' && node.config && <details className="advanced-fields"><summary>{t("Analysis & recovery")}</summary>
     <label>{t("Analysis role")}<select aria-label={t("Analysis role")} value={node.config.analysisRole || ''} onChange={event => onUpdate({ config: { ...node.config, analysisRole: event.target.value } })}><option value="">{t("none")}</option>{['baseline', 'stimulus', 'recovery', 'task', 'exclude', 'custom'].map(role => <option key={role} value={role}>{t(role)}</option>)}</select></label>
@@ -211,8 +211,8 @@ export function NodeInspector({ node, definition, variables, groups, mode, onUpd
     {mode !== 'quick' && !['core.start', 'core.end'].includes(node.component.type) && <label>{t('Node group')}<select aria-label={t('Node group')} value={currentGroup?.id || ''} onChange={event => onAssignGroup(event.target.value || null)}><option value="">{t('No group')}</option>{groups.map(group => <option key={group.id} value={group.id}>{group.name}</option>)}</select></label>}
     {mode !== 'quick' && !currentGroup && !['core.start', 'core.end'].includes(node.component.type) && <button onClick={onCreateGroup}>{t('Create group from node')}</button>}
     {mode !== 'quick' && definition?.events?.length > 0 && <details className="node-data-note"><summary>{t("Records")}</summary>
-    <small>{t("Events:")}{definition.events.join(', ')}</small>
-    {definition.dataFields?.length > 0 && <small>{t("Data columns:")}{definition.dataFields.join(', ')}</small>}
+    <small>{t("Events:")} {definition.events.join(', ')}</small>
+    {definition.dataFields?.length > 0 && <small>{t("Data columns:")} {definition.dataFields.join(', ')}</small>}
     </details>}
     {<details className="field-group"><summary>{t('Technical information')}</summary><small>{node.component.type}@{node.component.version}</small><small>{t("Node ID:")}<code>{node.id}</code></small><pre>{JSON.stringify(node, null, 2)}</pre></details>}
     </div>;
