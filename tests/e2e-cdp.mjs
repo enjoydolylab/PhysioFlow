@@ -37,7 +37,9 @@ const cleanup = async () => {
   try {
     rmSync(profileDirectory, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
   } catch (cleanupError) {
-    if (cleanupError.code !== 'ENOTEMPTY' && cleanupError.code !== 'EBUSY') throw cleanupError;
+    // Windows keeps a lock on the profile for a moment after Chrome exits, so the
+    // removal answers EPERM/EACCES as well as ENOTEMPTY/EBUSY; none of them fail the run.
+    if (!['ENOTEMPTY', 'EBUSY', 'EPERM', 'EACCES'].includes(cleanupError.code)) throw cleanupError;
     console.warn(`profile directory could not be removed (${cleanupError.code}); it will be reaped by the host.`);
   }
 };
