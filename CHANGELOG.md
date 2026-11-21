@@ -4,6 +4,8 @@ All notable changes to PhysioFlow are documented in this file.
 
 ## [Unreleased]
 
+- Keep the participant UI editor's undo history when a screen changes from outside the builder: a drag could land without a history entry, reset the stack and leave both Undo and Redo disabled with nothing explaining why.
+- Restore the spaces the i18n pass dropped between a label and its value, so `Local:`, `Incoming:`, `Permissions:`, `Events:`, `Data columns:`, `Ln 3, Col 7`, `12 characters`, `Option 2`, `Apply to 2 nodes in this group` and the node/operation/component counts read as words instead of run-together tokens.
 - Make the node editor a workspace: the dialog no longer scrolls as one block, the stage fills the leftover height and fits on open/resize, the screen tab keeps one layout switch, Escape closes it, and the right panel explains itself when nothing is selected.
 - Speak Japanese in the composer: a display-only label layer covers every component, field, help text and option list (the registry, option values and authored content stay untouched), type ids appear only in advanced mode, and the migration notice no longer claims review is required when there is nothing to review.
 - Give the composer header one row and one primary action (Save while dirty, otherwise Preview run), keep undo/redo beside the canvas, move freeze/export/guide into a menu, hide component versions and raw issue codes behind 技術情報, and let the database page refresh its research list without losing the current selection.
