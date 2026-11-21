@@ -76,7 +76,7 @@ export function SubflowTemplateCatalog({ templates, variables, locked, onInstant
       const resolvedMappings = Object.fromEntries((template.parameters || []).map(parameter => [parameter.name, currentMappings[parameter.name] || compatible(parameter)[0]?.name || '']));
       const ready = (template.parameters || []).every(parameter => resolvedMappings[parameter.name]);
       return <article key={template.id}>
-    <div><b>{template.name}</b><small>v{template.version} · {template.nodes.length}{t("nodes")}</small></div>
+    <div><b>{template.name}</b><small>v{template.version} · {template.nodes.length} {t("nodes")}</small></div>
     {(template.parameters || []).map(parameter => <label key={parameter.name}>{parameter.direction}
     {parameter.name}<select disabled={locked} aria-label={tDisplay("{0} {1} variable mapping", [template.name, parameter.name])} value={resolvedMappings[parameter.name]} onChange={event => setMappings(current => ({ ...current, [template.id]: { ...(current[template.id] || {}), [parameter.name]: event.target.value } }))}><option value="">{t("Select variable")}</option>{compatible(parameter).map(variable => <option key={variable.name}>{variable.name}</option>)}</select></label>)}
     {!ready && Boolean(template.parameters?.length) && <small>{t("Add compatible protocol variables before instantiating.")}</small>}
@@ -140,15 +140,15 @@ export function CollaborationCatalog({ protocol, baseline, locked, onSetBaseline
     {preview?.error && <small className="package-error">{t(preview.error)}</small>}
     {pending && !preview?.error && <article className="collaboration-preview">
     <b>{pending.summary || pending.id}</b>
-    <small>{pending.author?.name || pending.author?.id} · {pending.operations?.length || 0}{t("operation(s)")}</small>
+    <small>{pending.author?.name || pending.author?.id} · {pending.operations?.length || 0} {t("operation(s)")}</small>
     <small>{preview.appliedOperations} {t("ready ·")} {preview.alreadyAppliedOperations} {t("already applied ·")} {preview.unresolved} {t("conflict(s)")}</small>
     {preview.conflicts.map(conflict => <label key={conflict.operationId} className="collaboration-conflict">
-    <span><b>{conflict.target}{conflict.entityKey ? ` · ${conflict.entityKey}` : ''}</b><small>{conflict.path.join('.') || '(whole entity)'}</small><small>{t("Local:")}{snapshotLabel(conflict.local)}</small><small>{t("Incoming:")}{snapshotLabel(conflict.incoming)}</small></span>
+    <span><b>{conflict.target}{conflict.entityKey ? ` · ${conflict.entityKey}` : ''}</b><small>{conflict.path.join('.') || '(whole entity)'}</small><small>{t("Local:")} {snapshotLabel(conflict.local)}</small><small>{t("Incoming:")} {snapshotLabel(conflict.incoming)}</small></span>
     <select aria-label={tDisplay("{0} conflict resolution", [conflict.operationId])} value={resolutions[conflict.operationId] || ''} onChange={event => setResolutions(current => ({ ...current, [conflict.operationId]: event.target.value }))}><option value="">{t("Resolve…")}</option><option value="local">{t("Keep local")}</option><option value="incoming">{t("Use incoming")}</option></select>
     </label>)}
     <div><button disabled={locked || preview.unresolved > 0} onClick={() => { onApply(preview.protocol); setPending(null); setResolutions({}); }}>{t("Apply change set")}</button><button onClick={() => { setPending(null); setResolutions({}); }}>{t("Cancel")}</button></div>
     </article>}
-    <details><summary>{t("Applied history (")}{history.length})</summary>{history.map(item => <small key={`${item.changeSetId}:${item.appliedAt}`}>{item.changeSetId} · {item.author?.name || item.author?.id} · {item.appliedOperations}{t("applied ·")}{item.appliedAt}</small>)}</details>
+    <details><summary>{t("Applied history (")}{history.length})</summary>{history.map(item => <small key={`${item.changeSetId}:${item.appliedAt}`}>{item.changeSetId} · {item.author?.name || item.author?.id} · {item.appliedOperations} {t("applied ·")} {item.appliedAt}</small>)}</details>
     </section>;
 }
 
@@ -323,7 +323,7 @@ export function ComponentPackageCatalog({ packages, locked, onInstallExample, on
     <div><button disabled={permissions.some(permission => !approved.includes(permission))} onClick={() => { onImport(pending); setPending(null); setApproved([]); }}>{t("Approve and install")}</button><button onClick={() => setPending(null)}>{t("Cancel")}</button></div>
     </article>}
     {packages.map(componentPackage => <article key={`${componentPackage.packageId}@${componentPackage.version}`}>
-    <div><b>{componentPackage.name}</b><small>{componentPackage.packageId}@{componentPackage.version} · {componentPackage.components.length}{t("component(s)")}</small></div>
+    <div><b>{componentPackage.name}</b><small>{componentPackage.packageId}@{componentPackage.version} · {componentPackage.components.length} {t("component(s)")}</small></div>
     <small>{componentPackage.permissions?.length ? tDisplay("Permissions: {0}", [componentPackage.permissions.join(', ')]) : t("No permissions")}</small>
     <button disabled={locked} onClick={() => onRemove(componentPackage.packageId, componentPackage.version)}>{t("Uninstall")}</button>
     </article>)}
@@ -363,7 +363,7 @@ export function DeviceConnectorCatalog({ connectors, locked, onInstallExample, o
     {connectors.map(connector => <article key={`${connector.connectorId}@${connector.version}`}>
     <div><b>{connector.name}</b><small>{connector.connectorId}@{connector.version} · {connector.transport}</small></div>
     <small>{(connector.channels || []).map(channel => `${channel.direction} ${channel.id}:${channel.dataType}${channel.unit ? ` (${channel.unit})` : ''}`).join(' · ') || t('No channels')}</small>
-    <small>{t("Permissions:")}{(connector.approvedPermissions || []).join(', ') || 'none'}</small>
+    <small>{t("Permissions:")} {(connector.approvedPermissions || []).join(', ') || 'none'}</small>
     <button disabled={locked} onClick={() => onRemove(connector.connectorId, connector.version)}>{t("Uninstall")}</button>
     </article>)}
     </section>;
